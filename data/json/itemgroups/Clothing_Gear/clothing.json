@@ -4557,10 +4557,10 @@
       { "group": "accesories_personal_womens_child", "prob": 380 },
       { "item": "ring_engagement", "prob": 5 },
       { "item": "ring_purity", "prob": 10 },
-      { "item": "gold_lip_ring_loop", "prob": 3 },
+      { "item": "gold_lip_ring_loop", "prob": 2 },
       { "item": "silver_lip_ring_stud", "prob": 3 },
       { "item": "silver_lip_ring_loop", "prob": 3 },
-      { "item": "gold_lip_ring_stud", "prob": 3 }
+      { "item": "gold_lip_ring_stud", "prob": 2 }
     ]
   },
   {
