@@ -52,7 +52,7 @@ class client
         std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
 #endif
     public:
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
         client();
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
@@ -66,7 +66,7 @@ class client
         void end_frame();
         void process_input( void *input );
         void process_cata_input( const input_event &event );
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
         void upload_color_pair( int p, int f, int b );
         void set_alloced_pair_count( short count );
 #else
@@ -129,7 +129,7 @@ class window
         void draw_filter( const input_context &ctxt, bool filtering_active );
 };
 
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
 void init_pair( int p, int f, int b );
 void load_colors();
 #endif
