@@ -7,7 +7,9 @@
 class nc_color;
 struct input_event;
 
-#if defined(WIN32) || defined(TILES)
+#if defined(IMTUI) || !(defined(WIN32) || defined(TILES))
+#   define TUI
+#endif
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "color_loader.h"
