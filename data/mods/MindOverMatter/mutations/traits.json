@@ -187,12 +187,42 @@
     "id": "PSI_EXTENDED_CHANNELING_ON",
     "name": { "str": "Extended Channeling" },
     "points": 0,
-    "description": "You are taking more time and care in channeling your powers.  It takes 25x as long to evoke them, but your Focus has no effect on their chance of success.",
+    "description": "You are taking more time and care in channeling your powers.  It takes 25x as long to evoke them, but it is much easier to activate them and you are less likely to gain Nether Attunement while doing so.",
     "active": true,
     "valid": false,
     "transform": {
       "target": "PSI_EXTENDED_CHANNELING",
       "msg_transform": "Your return to channeling your powers as fast as you can.",
+      "active": false,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_TORRENTIAL_CHANNELING",
+    "name": { "str": "Restrained Channeling" },
+    "points": 0,
+    "description": "You are channeling your powers with a normal amount of control.",
+    "active": true,
+    "valid": false,
+    "transform": {
+      "target": "PSI_TORRENTIAL_CHANNELING_ON",
+      "msg_transform": "You begin drawing deeply on the Nether.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_TORRENTIAL_CHANNELING_ON",
+    "name": { "str": "Torrential Channeling" },
+    "points": 0,
+    "description": "You are drawing deeply on the Nether as you channel your powers.  This makes them stronger but less predictable.",
+    "active": true,
+    "valid": false,
+    "transform": {
+      "target": "PSI_TORRENTIAL_CHANNELING",
+      "msg_transform": "Your rein in your use of your powers.",
       "active": false,
       "moves": 0
     }
