@@ -4575,7 +4575,7 @@
       { "item": "pearl_collar", "prob": 5 },
       { "item": "jade_brooch", "prob": 5 }
       { "item": "gold_anklet", "prob": 30 },
-      { "item": "silver_anklet", "prob": 50 },
+      { "item": "silver_anklet", "prob": 50 }
     ]
   },
   {
