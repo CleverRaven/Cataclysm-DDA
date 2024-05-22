@@ -1100,6 +1100,10 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
+    if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0, false ),
                 return_true<item> ) ) {
