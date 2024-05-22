@@ -262,6 +262,10 @@
       [ "platinum_locket", 1 ],
       [ "gold_anklet", 1 ],
       [ "silver_anklet", 2 ],
+      [ "gold_lip_ring_loop", 1 ],
+      [ "gold_lip_ring_stud", 1 ],
+      [ "silver_lip_ring_loop", 2 ],
+      [ "silver_lip_ring_stud", 2 ],
       { "group": "mags_pawnshop", "prob": 300 }
     ]
   },
