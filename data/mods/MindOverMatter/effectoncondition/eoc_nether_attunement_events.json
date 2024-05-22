@@ -207,6 +207,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_active",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+      ]
+    },
+    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "+=", "rand(3)" ] } ]
+  },
+  }
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NETHER_CONDUIT_VALUE_DECREASER",
     "recurrence": [ "3 seconds", "15 seconds" ],
     "global": true,
