@@ -20,7 +20,7 @@
         "   ---$.$----..f-_---7.q-l....!....,..--hc_     ",
         "   #.#.,.-OP-E...,.....q-l....-6f4....f----     ",
         "   ---$$.!,i-LL..qq---I---...-----fL.fE--       ",
-        "     ---W-T----II--- -_- --!--   -__-__-        ",
+        "     ---w-T----II--- -_- --!--   -__-__-        ",
         "       -_-_-  -__-   ññññññ      ñññññññ        ",
         "       ñññññññññññ                              ",
         "                                                ",
@@ -50,7 +50,8 @@
         "B": "f_bookcase",
         "T": "f_habitat_bathroom",
         "S": "f_atmospheric_control",
-        "i": "f_water_heater"
+        "i": "f_water_heater",
+        "w": "f_habitat_storage_board"
       },
       "liquids": { "i": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_item": [ { "item": "television", "repeat": 1, "x": 10, "y": 10 } ],
@@ -61,7 +62,8 @@
         "G": { "item": "afs_civilian_armory", "chance": 80, "repeat": [ 1, 3 ] },
         "I": { "item": "afs_crate_civ_rand" },
         "B": { "item": "homebooks", "repeat": [ 2, 3 ] },
-        "F": { "item": "afs_old_food_storage", "chance": 60 }
+        "F": { "item": "afs_old_food_storage", "chance": 60 },
+        "w": { "item": "afs_colonist_outfit", "chance": 60 }
       },
       "place_monster": [
         { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 7, 23 ], "y": [ 7, 13 ], "pack_size": [ 1, 4 ], "chance": 40 },
