@@ -124,6 +124,13 @@ static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const ammo_effect_str_id ammo_effect_id_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_id_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_id_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_id_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_id_MATCHHEAD( "MATCHHEAD" );
+static const ammo_effect_str_id ammo_effect_id_RECYCLED( "RECYCLED" );
+
 static const attack_vector_id attack_vector_vector_null( "vector_null" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
@@ -3046,30 +3053,31 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> fx;
-    if( ammo.ammo_effects.count( "RECYCLED" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_id_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( "MATCHHEAD" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_id_MATCHHEAD ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>matchhead powder</bad>, and will quickly "
                "clog and rust most guns like blackpowder, but will also rarely cause the gun damage from pressure spikes." ) );
-    } else if( ammo.ammo_effects.count( "BLACKPOWDER" ) &&
+    } else if( ammo.ammo_effects.count( ammo_effect_id_BLACKPOWDER ) &&
                parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
-    if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
+    if( ammo.ammo_effects.count( ammo_effect_id_NEVER_MISFIRES ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        for( const std::string &effect : ammo.ammo_effects ) {
-            if( string_starts_with( effect, "RECOVER_" ) ) {
+        for( const ammo_effect_str_id &effect : ammo.ammo_effects ) {
+            const std::string eff_str = effect.str();
+            if( string_starts_with( eff_str, "RECOVER_" ) ) {
                 ret_val<int> try_recover_chance =
-                    try_parse_integer<int>( effect.substr( 8 ), false );
+                    try_parse_integer<int>( eff_str.substr( 8 ), false );
                 if( !try_recover_chance.success() ) {
                     debugmsg( "Error parsing ammo RECOVER_ denominator: %s",
                               try_recover_chance.str() );
@@ -3091,7 +3099,8 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             }
         }
     }
-    if( ( ammo.ammo_effects.count( "INCENDIARY" ) || ammo.ammo_effects.count( "IGNITE" ) ) &&
+    if( ( ammo.ammo_effects.count( ammo_effect_id_INCENDIARY ) ||
+          ammo.ammo_effects.count( ammo_effect_id_IGNITE ) ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>may start fires</neutral>." ) );
     }
@@ -11208,13 +11217,13 @@ itype_id item::common_ammo_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::set<std::string> item::ammo_effects( bool with_ammo ) const
+std::set<ammo_effect_str_id> item::ammo_effects( bool with_ammo ) const
 {
     if( !is_gun() ) {
-        return std::set<std::string>();
+        return std::set<ammo_effect_str_id>();
     }
 
-    std::set<std::string> res = type->gun->ammo_effects;
+    std::set<ammo_effect_str_id> res = type->gun->ammo_effects;
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }

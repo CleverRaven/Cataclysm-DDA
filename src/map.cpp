@@ -109,6 +109,12 @@
 #include "sdltiles.h"
 #endif
 
+static const ammo_effect_str_id ammo_effect_id_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_id_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_id_LASER( "LASER" );
+static const ammo_effect_str_id ammo_effect_id_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_id_PLASMA( "PLASMA" );
+
 static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
@@ -4548,9 +4554,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
 
     const auto &ammo_effects = proj.proj_effects;
-    const bool incendiary = ammo_effects.count( "INCENDIARY" );
-    const bool ignite = ammo_effects.count( "IGNITE" );
-    const bool laser = ammo_effects.count( "LASER" );
+    const bool incendiary = ammo_effects.count( ammo_effect_id_INCENDIARY );
+    const bool ignite = ammo_effects.count( ammo_effect_id_IGNITE );
+    const bool laser = ammo_effects.count( ammo_effect_id_LASER );
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( *this, vp->part_index(), dam, main_damage_type, hit_items );
@@ -4620,7 +4626,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     dam = std::max( 0.0f, dam );
 
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( ammo_effects.count( ae.id.str() ) > 0 ) {
+        if( ammo_effects.count( ae.id ) > 0 ) {
             if( x_in_y( ae.trail_chance, 100 ) ) {
                 add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
             }
@@ -4660,11 +4666,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
     std::string damage_message;
-    if( ammo_effects.count( "LASER" ) ) {
+    if( ammo_effects.count( ammo_effect_id_LASER ) ) {
         damage_message = _( "laser beam" );
-    } else if( ammo_effects.count( "LIGHTNING" ) ) {
+    } else if( ammo_effects.count( ammo_effect_id_LIGHTNING ) ) {
         damage_message = _( "bolt of electricity" );
-    } else if( ammo_effects.count( "PLASMA" ) ) {
+    } else if( ammo_effects.count( ammo_effect_id_PLASMA ) ) {
         damage_message = _( "bolt of plasma" );
     } else {
         damage_message = _( "flying projectile" );

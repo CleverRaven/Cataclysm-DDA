@@ -67,6 +67,8 @@ static const skill_id skill_spellcraft( "spellcraft" );
 
 static const trait_id trait_NONE( "NONE" );
 
+static const ammo_effect_str_id ammo_effect_id_MAGIC( "MAGIC" );
+
 static std::string target_to_string( spell_target data )
 {
     switch( data ) {
@@ -1808,7 +1810,7 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
     projectile bolt;
     bolt.speed = 10000;
     bolt.impact = get_damage_instance( caster );
-    bolt.proj_effects.emplace( "MAGIC" );
+    bolt.proj_effects.emplace( ammo_effect_id_MAGIC );
 
     dealt_projectile_attack atk;
     atk.end_point = target;
