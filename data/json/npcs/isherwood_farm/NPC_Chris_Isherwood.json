@@ -671,7 +671,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb",
-    "dynamic_line": "* looks thoughtful for a moment, then becomes a bit nervous.  \"Wait, wont't that run the risk of injuring Barry, or possibly collapsing the tower?  I don't want him hurt during this, or anyone else if this bomb sends back a bunch of shrapnel.  What do you think about it?\"",
+    "dynamic_line": "* looks thoughtful for a moment, then becomes a bit nervous.  \"Wait, won't that run the risk of injuring Barry, or possibly collapsing the tower?  I don't want him hurt during this, or anyone else if this bomb sends back a bunch of shrapnel.  What do you think about it?\"",
     "responses": [
       {
         "text": "Don't worry, I know what I'm doing.  I've taken a look at these sorts of towers before, and I know that the structure itself is pretty solid.  If we tune it right, then the tower won't fall over.",
@@ -684,7 +684,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb_Luke",
-    "dynamic_line": "Well, I trust you on this.  If you need a good hand with chemistry, go see Luke about it.  He knows a lot, you'd be suprised.  \" He pauses for a momnet, and thinks as if trying to recall something. \"  Luke should be over in the old outbuilding near the dairy, that's on the other end of the property.",
+    "dynamic_line": "Well, I trust you on this.  If you need a good hand with chemistry, go see Luke about it.  He knows a lot, you'd be surprised.  \" He pauses for a moment, and thinks as if trying to recall something.  \"Luke should be over in the old outbuilding near the dairy, that's on the other end of the property.",
     "responses": [
       {
         "text": "That sounds great, I'll go talk to him about it.  Let's talk about something else first, though.",
