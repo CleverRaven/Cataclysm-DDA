@@ -4349,7 +4349,7 @@
     "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
   },
   {
-    id": "gold_lip_ring_loop",
+    "id": "gold_lip_ring_loop",
     "type": "ARMOR",
     "name": { "str": "gold lip ring loop" },
     "description": "An expensive gold lip ring loop.",
@@ -4371,7 +4371,7 @@
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
-    id": "gold_lip_ring_stud",
+    "id": "gold_lip_ring_stud",
     "type": "ARMOR",
     "name": { "str": "gold lip ring stud" },
     "description": "An expensive gold lip ring stud.",
@@ -4393,7 +4393,7 @@
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
-    id": "silver_lip_ring_loop",
+    "id": "silver_lip_ring_loop",
     "type": "ARMOR",
     "name": { "str": "silver lip ring loop" },
     "description": "An expensive silver lip ring loop.",
@@ -4415,7 +4415,7 @@
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
-    id": "silver_lip_ring_stud",
+    "id": "silver_lip_ring_stud",
     "type": "ARMOR",
     "name": { "str": "silver lip ring stud" },
     "description": "An expensive silver lip ring stud.",
@@ -4516,7 +4516,7 @@
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
-    id": "silver_toe_ring",
+    "id": "silver_toe_ring",
     "type": "ARMOR",
     "name": { "str": "silver toe ring" },
     "description": "An expensive silver toe ring.",
