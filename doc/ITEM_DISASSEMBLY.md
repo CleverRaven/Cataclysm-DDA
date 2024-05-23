@@ -70,6 +70,7 @@ Things to note:
 - ``copy-from`` support for uncraft recipes is extremely limited and it is best to avoid it where possible
 - for the purposes of keeping things easy to find, future uncraft recipes should be included inside the ``uncraft`` folder inside of ``data/json``
 - uncraft recipes do not support component lists, the syntax shown below does **NOT** work - only the first item read by the game has any effect
+- it is technically possible to define proficencies for uncraft recipes, but they currently have no effect
 ```json
 "components": [ [ [ "burnt_out_bionic", 1 ], [ "scrap", 1 ] ] ],
 ```
