@@ -233,7 +233,7 @@
       { "item": "chopsticks", "prob": 2 },
       { "item": "office_holepunch", "prob": 2, "count": [ 1, 3 ] },
       { "item": "nuts_bolts", "prob": 50, "charges": [ 3, 12 ] },
-      { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" }
+      { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" },
       { "item": "bat_anklet", "prob": 10 },
       { "item": "flower_anklet", "prob": 10 },
       { "item": "woven_anklet", "prob": 10 },
