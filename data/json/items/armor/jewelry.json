@@ -4439,7 +4439,7 @@
   {
     "id": "gold_nose_ring_loop",
     "type": "ARMOR",
-    "name": { "str": "gold nose ring loop", "str_pl: "gold nose ring loops" },
+    "name": { "str": "gold nose ring loop" },
     "description": "An expensive gold nose ring loop.",
     "weight": "18 mg",
     "volume": "1 ml",
@@ -4453,7 +4453,7 @@
   {
     "id": "gold_nose_ring_stud",
     "type": "ARMOR",
-    "name": { "str": "gold nose ring stud", "str_pl: "gold nose ring studs" },
+    "name": { "str": "gold nose ring stud" },
     "description": "An expensive gold nose ring stud.",
     "weight": "18 mg",
     "volume": "1 ml",
@@ -4467,7 +4467,7 @@
   {
     "id": "silver_nose_ring_loop",
     "type": "ARMOR",
-    "name": { "str": "silver nose ring loop", "str_pl: "silver nose ring loops" },
+    "name": { "str": "silver nose ring loop" },
     "description": "An expensive silver nose ring loop.",
     "weight": "18 mg",
     "volume": "1 ml",
@@ -4481,7 +4481,7 @@
   {
     "id": "silver_nose_ring_stud",
     "type": "ARMOR",
-    "name": { "str": "silver nose ring stud", "str_pl: "silver nose ring studs" },
+    "name": { "str": "silver nose ring stud" },
     "description": "An expensive silver nose ring stud.",
     "weight": "18 mg",
     "volume": "1 ml",
