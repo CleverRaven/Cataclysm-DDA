@@ -1252,9 +1252,10 @@ float spell::spell_fail( const Character &guy ) const
                                          ( 1.5 );
     float psi_effective_skill = 0;
     if( is_psi ) {
-        const float psi_effective_skill_initial = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
-            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
-            
+        const float psi_effective_skill_initial = 2 * ( ( guy.get_skill_level(
+                    skill() ) * 2 ) - get_difficulty(
+                    guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
+
         if( !guy.has_proficiency( proficiency_prof_concentration_basic ) ) {
             psi_effective_skill = clamp(psi_effective_skill_initial, static_cast<float>(0), static_cast<float>(24));
         } else if( guy.has_proficiency( proficiency_prof_concentration_basic ) && !guy.has_proficiency( proficiency_prof_concentration_intermediate ) ) {
