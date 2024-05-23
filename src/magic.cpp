@@ -59,7 +59,8 @@ static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const proficiency_id proficiency_prof_concentration_basic( "prof_concentration_basic" );
-static const proficiency_id proficiency_prof_concentration_intermediate( "prof_concentration_intermediate" );
+static const proficiency_id
+proficiency_prof_concentration_intermediate( "prof_concentration_intermediate" );
 static const proficiency_id proficiency_prof_concentration_master( "prof_concentration_master" );
 
 static const skill_id skill_spellcraft( "spellcraft" );
