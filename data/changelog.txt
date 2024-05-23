@@ -120,7 +120,6 @@ Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
 The player can swap between defined outfits with the 'set of clothes' item
-Limbify consumption times
 
 
 ## Content:
@@ -247,9 +246,7 @@ Fridges and freezers. What do you mean 'we already have some'?
 New portal monsters: unviable life forms
 Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
 Adds a new  globally unique special to spawn in the ocean : an Oil Platform !
-Added tarot cards as a variant of playing cards and added Ouija board as a playable board game.
 Overhaul and flesh out Barry Isherwood's rescue mission
-Adds the last remaining natural frog species native to New England.
 Prepper Militia Community
 
 
@@ -314,8 +311,6 @@ Adding spell name to the casting... widget
 Adding Classless as a supernatural category
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
-Don't show gun without default ammo defined as an option in reload ui
-Rename cover ---> concealment
 
 
 
@@ -707,9 +702,7 @@ AIM: Now moving all items will not move favourite items, if other items are pres
 Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
 Fixed issue where Android gesture inputs were not recognized by ImGui windows
 Fixed arrows disappearing when unwielded
-The old wool staple recipe resulted in mass and yarn duplication. We respect the law of conservation of energy here. 
 Fix for massive slowdown when NPC crafting speed drops below 0.0
-Removes MP18, PLR 16, OA 93, M231, Mossberg Brownie
 Pseudo terrain appearing in fields when using mods is fixed (won't affect existing fields)
 
 
@@ -795,7 +788,6 @@ Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
-Adjust how `open_container` affects `Character::dispose_item`
 
 
 ## Build:
