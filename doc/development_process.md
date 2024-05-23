@@ -2,7 +2,7 @@
 
 **A guide for new and prospective contributors, or just for people curious about how the devs understand the project to work.**
 
-This guide is intended to describe how the Cataclysm: Dark Days Ahead project is organized, and hopefully in the process, clear up common rumours and misconceptions about how it all works.  In this document the term "we" is intended to mean "Cleverraven as an organization", and does not necessarily reflect the individual opinions of anyone in Cleverraven, as individuals are welcome to disagree with the team stance.
+This guide is intended to describe how the Cataclysm: Dark Days Ahead project is managed by the development team, and hopefully in the process, clear up common rumours and misconceptions about how it all works.  In this document the term "we" is intended to mean "Cleverraven as an organization", and does not necessarily reflect the individual opinions of anyone in Cleverraven, as individuals are welcome to disagree with the team stance.
 
 This document assumes you have a basic understanding how GitHub works.  Please see the [guide for new contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) for more info there.  You might also find helpful information in the [Frequently Made Suggestions doc](https://docs.cataclysmdda.org/FREQUENTLY_MADE_SUGGESTIONS.html), which talks about some of the common ideas we hear for the project and offers reasons about why they might not have been added yet.  [This guide from GitHub](https://opensource.guide/how-to-contribute/#anatomy-of-an-open-source-project) also gives a decent run-down of the basic structure of any open source project.
 
