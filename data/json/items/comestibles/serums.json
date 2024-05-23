@@ -1,0 +1,27 @@
+[
+  {
+    "id": "myopia_contacts_weekly",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str_sp": "unknown liquid" },
+    "description": "White, semi-transparent liquid of unknown origin.",
+    "weight": "21 ml",
+    "volume": "25 ml",
+    "material": [ "null" ],
+    "symbol": "[",
+    "color": "white",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Inject",
+        "description": "Inject the liquid.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_RUN_SERUM_REGEN",
+            "effect": { "run_eoc_with": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_REGEN" } }
+          }
+        ]
+      }
+    ]
+  }
+]
