@@ -166,7 +166,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -183,7 +183,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
