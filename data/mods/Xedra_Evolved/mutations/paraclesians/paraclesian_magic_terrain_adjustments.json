@@ -176,5 +176,35 @@
       ]
     },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_ADJUSTMENT_IN_FIRE",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "u_is_in_field": "fd_fire" }, { "u_has_trait": "SALAMANDER" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_ADJUSTMENT_IN_HEAT",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_in_field": "fd_hot_air1" },
+            { "u_is_in_field": "fd_hot_air2" },
+            { "u_is_in_field": "fd_hot_air3" },
+            { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
+            { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
+          ]
+        },
+        { "u_has_trait": "SALAMANDER" }
+      ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "-2" ] } ]
   }
 ]
