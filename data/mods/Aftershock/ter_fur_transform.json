@@ -14,5 +14,15 @@
     "type": "ter_furn_transform",
     "id": "engine_overload_transform",
     "terrain": [ { "result": [ "t_afs_gun_ship_engine_console_burnt" ], "valid_terrain": [ "t_afs_gun_ship_engine_console" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_lights_on",
+    "terrain": [ { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_lights_off",
+    "terrain": [ { "result": "t_metal_floor_olight_inactive", "valid_terrain": [ "t_metal_floor_olight" ] } ]
   }
 ]

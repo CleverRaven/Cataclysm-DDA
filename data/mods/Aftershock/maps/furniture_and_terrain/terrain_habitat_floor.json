@@ -24,5 +24,30 @@
         { "item": "rebar", "count": [ 0, 4 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight_inactive",
+    "name": "metal floor, with inactive overhead light",
+    "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls, with a still-functioning inactive light attached to the ceiling above.",
+    "looks_like": "t_metal_floor_olight",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connect_groups": "METALFLOOR",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_metal_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   }
 ]
