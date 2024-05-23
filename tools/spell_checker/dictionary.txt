@@ -5668,6 +5668,7 @@ spacebar
 Spaceborn
 spacefaring
 spacetime
+spadefoot
 spadelike
 spalling
 Spanish

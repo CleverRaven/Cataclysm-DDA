@@ -69,6 +69,7 @@
     "move_cost_mod": 0,
     "required_str": 4,
     "coverage": 60,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",

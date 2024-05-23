@@ -3161,6 +3161,14 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "360 m",
+    "book_learn": [
+      [ "textbook_fabrication", 4 ],
+      [ "textbook_weapeast", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_armeast", 5 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
+    ],
     "components": [
       [ [ "propane_lantern", 3 ], [ "propane_cooker", 2 ] ],
       [ [ "pilot_light", 1 ] ],

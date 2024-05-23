@@ -296,6 +296,16 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
     return multiplier;
 }
 
+float Character::workbench_crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint_bub_ms> &loc )const
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    return Character::workbench_crafting_speed_multiplier( craft, tmp );
+}
+
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
 
@@ -384,6 +394,18 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
 
     return total_multi;
+}
+
+float Character::crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint_bub_ms> &loc, bool use_cached_workbench_multiplier,
+        float cached_workbench_multiplier ) const
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    return Character::crafting_speed_multiplier( craft, tmp, use_cached_workbench_multiplier,
+            cached_workbench_multiplier );
 }
 
 bool Character::has_morale_to_craft() const
@@ -1548,6 +1570,15 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
             debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
         }
     }
+}
+
+void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms> &loc )
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    Character::complete_craft( craft, tmp );
 }
 
 bool Character::can_continue_craft( item &craft )

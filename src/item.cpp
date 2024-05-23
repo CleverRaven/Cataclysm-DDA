@@ -8966,9 +8966,10 @@ int item::repairable_levels() const
            : damage() > degradation(); // partial level of damage can still be repaired
 }
 
-item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
+item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+        double enchant_multiplier )
 {
-    if( has_flag( flag_UNBREAKABLE ) ) {
+    if( has_flag( flag_UNBREAKABLE ) || enchant_multiplier <= 0.0f ) {
         return armor_status::UNDAMAGED;
     }
 
@@ -8979,8 +8980,9 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         return armor_status::UNDAMAGED;
     }
     // Fragile items take damage if the block more than 15% of their armor value
-    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > 0.15f ) {
-        return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
+        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+               armor_status::DAMAGED;
     }
 
     // Scale chance of article taking damage based on the number of parts it covers.
@@ -8995,7 +8997,8 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const float post_mitigated_dmg = du.amount;
     // more gradual damage chance calc
-    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    const float damaged_chance = ( 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1 ) *
+                                 enchant_multiplier;
     if( post_mitigated_dmg > armors_own_resist ) {
         // handle overflow, if you take a lot of damage your armor should be damaged
         if( damaged_chance >= 1 ) {
@@ -9012,11 +9015,16 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+           armor_status::DAMAGED;
 }
 
-item::armor_status item::damage_armor_transforms( damage_unit &du ) const
+item::armor_status item::damage_armor_transforms( damage_unit &du, double enchant_multiplier ) const
 {
+    if( enchant_multiplier <= 0.0f ) {
+        return armor_status::UNDAMAGED;
+    }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = resist( du.type, true );
 
@@ -9028,7 +9036,7 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
 
     // plates are rated to survive 3 shots at the caliber they protect
     // linearly scale off the scale value to find the chance it breaks
-    float break_chance = 33.3f * ( du.amount / armors_own_resist );
+    float break_chance = 33.3f * ( du.amount / armors_own_resist ) * enchant_multiplier;
 
     float roll_to_break = rng_float( 0.0, 100.0 );
 
@@ -10979,6 +10987,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty = units::to_kilojoule( wanted_energy );
     }
     return wanted_qty - qty;
+}
+
+int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
+{
+    return item::ammo_consume( qty, pos.raw(), carrier );
 }
 
 units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
@@ -14012,9 +14025,10 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
-    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
-    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + get_var( "dirt", 0 ) / 2000 );
+    // Rust is deterministic. At a total modifier of 1 (the max): 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level. At minimum dirt, the modifier is 0.3x the speed of the above mentioned figures.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + std::min( 0.3 + get_var( "dirt", 0 ) / 200,
+             1.0 ) );
     double time_mult = 1.0 + ( 4.0 * static_cast<double>( damage() ) ) / static_cast<double>
                        ( max_damage() );
     if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 * time_mult ) {

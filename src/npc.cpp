@@ -152,7 +152,6 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_KILLER( "KILLER" );
-static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -1744,7 +1743,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     std::string formatted_line = line;
     Character &player_character = get_player_character();
     parse_tags( formatted_line, player_character, *this );
-    if( has_trait( trait_MUTE ) ) {
+    if( is_mute() ) {
         return;
     }
 
@@ -3236,6 +3235,11 @@ bool npc::invoke_item( item *used, const tripoint &pt, int )
     return false;
 }
 
+bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+{
+    return npc::invoke_item( used, pt.raw(), pre_obtain_moves );
+}
+
 bool npc::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
@@ -3353,8 +3357,14 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
 
     for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
-        if( sees_dangerous_field( p ) || ( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) &&
-                                           !move_in_vehicle( const_cast<npc *>( this ), p ) ) ) {
+        if( sees_dangerous_field( p ) ) {
+            ret.insert( p );
+        }
+    }
+
+    // Why is this in path avoid if they can't move there at all?
+    for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
+        if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
             ret.insert( p );
         }
     }

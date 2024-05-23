@@ -842,7 +842,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
-        hacksaw_activity_actor act{tripoint_zero, torch};
+        hacksaw_activity_actor act{tripoint_bub_ms( tripoint_zero ), torch};
         act.testing = true;
         dummy.assign_activity( act );
     };
@@ -1729,7 +1729,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( shave_activity_actor() ); },
     //player_activity( shearing_activity_actor( north ) ),
     [] { return player_activity( stash_activity_actor() ); },
-    [] { return player_activity( tent_deconstruct_activity_actor( 1, 1, get_avatar().pos(), itype_tent_kit ) ); },
+    [] { return player_activity( tent_deconstruct_activity_actor( 1, 1, get_avatar().pos_bub(), itype_tent_kit ) ); },
     //player_activity( tent_placement_activity_actor() ),
     [] { return player_activity( try_sleep_activity_actor( time_duration::from_hours( 1 ) ) ); },
     [] { return player_activity( unload_activity_actor( 1, item_location() ) ); },

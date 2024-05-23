@@ -4893,6 +4893,14 @@
   },
   {
     "type": "effect_type",
+    "id": "mute",
+    "show_in_info": true,
+    "name": [ "Mute" ],
+    "desc": [ "You can't talk." ],
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "social_satisfied",
     "name": [ "Good Company" ],
     "desc": [ "It feels good to spend time around others." ],

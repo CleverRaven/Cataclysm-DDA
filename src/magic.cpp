@@ -1100,6 +1100,10 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
+    if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0, false ),
                 return_true<item> ) ) {
@@ -1949,6 +1953,10 @@ void known_magic::deserialize( const JsonObject &data )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
+        if( !sp.is_valid() ) {
+            DebugLog( D_WARNING, D_MAIN ) << "Tried to load bad spell: " << sp.c_str();
+            continue;
+        }
         if( knows_spell( sp ) ) {
             spellbook[sp].set_exp( xp );
         } else {
@@ -2118,6 +2126,8 @@ spell &known_magic::get_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
         debugmsg( "ERROR: Tried to get unknown spell" );
+        static spell null_spell_reference( spell_id::NULL_ID() );
+        return null_spell_reference; // Don't make up new spells in our spellbook
     }
     spell &temp_spell = spellbook[ sp ];
     return temp_spell;
