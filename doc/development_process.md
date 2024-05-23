@@ -1,6 +1,6 @@
 # The DDA Development Process
 
-**A guide for new and prospective contributors, or just for people curious about how the devs understand things.**
+**A guide for new and prospective contributors, or just for people curious about how the devs understand the project to work.**
 
 This guide is intended to describe how the Cataclysm: Dark Days Ahead project is organized, and hopefully in the process, clear up common rumours and misconceptions about how it all works.  In this document the term "we" is intended to mean "Cleverraven as an organization", and does not necessarily reflect the individual opinions of anyone in Cleverraven, as individuals are welcome to disagree with the team stance.
 
