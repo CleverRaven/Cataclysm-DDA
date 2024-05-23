@@ -4560,7 +4560,11 @@
       { "item": "gold_lip_ring_loop", "prob": 2 },
       { "item": "silver_lip_ring_stud", "prob": 3 },
       { "item": "silver_lip_ring_loop", "prob": 3 },
-      { "item": "gold_lip_ring_stud", "prob": 2 }
+      { "item": "gold_lip_ring_stud", "prob": 2 },
+      { "item": "gold_nose_ring_loop", "prob": 2 },
+      { "item": "gold_nose_ring_stud", "prob": 2 },
+      { "item": "silver_nose_ring_loop", "prob": 3 },
+      { "item": "silver_nose_ring_stud", "prob": 3 }
     ]
   },
   {
