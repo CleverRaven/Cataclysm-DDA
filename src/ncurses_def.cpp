@@ -22,7 +22,6 @@
 #include <cstdint>
 #include <cstring>
 #include <iosfwd>
-#include <langinfo.h>
 #include <memory>
 #include <stdexcept>
 
@@ -35,6 +34,12 @@
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
+
+#if defined(_WIN32)
+#include <windows.h>
+#else
+#include <langinfo.h>
+#endif
 
 std::unique_ptr<cataimgui::client> imclient;
 
@@ -576,7 +581,11 @@ void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding
     // and show a warning if it doesn't
+#if defined(_WIN32)
+    if( CP_UTF8 != GetConsoleOutputCP() ) {
+#else
     if( std::strcmp( nl_langinfo( CODESET ), "UTF-8" ) != 0 ) {
+#endif
         // do not use ui_adaptor here to avoid re-entry
         int key = ERR;
         do {
