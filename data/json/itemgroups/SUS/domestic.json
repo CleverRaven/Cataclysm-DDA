@@ -304,7 +304,7 @@
       { "item": "bead_necklace", "count": [ 5, 9 ], "prob": 5 },
       { "item": "old_key", "prob": 5, "count": [ 1, 12 ] },
       { "item": "office_letter_opener", "prob": 5 },
-      { "item": "glowstick_dead", "prob": 5 }
+      { "item": "glowstick_dead", "prob": 5 },
       { "item": "bat_anklet", "prob": 10 },
       { "item": "flower_anklet", "prob": 10 },
       { "item": "woven_anklet", "prob": 10 }
