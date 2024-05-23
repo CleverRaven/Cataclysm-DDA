@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_ELEMENTAL_MAGIC_ADJUSTMENT",
+    "id": "EOC_ARVORE_ELEMENTAL_MAGIC_ADJUSTMENT_IN_THE_WILDERNESS",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
@@ -94,11 +94,65 @@
         { "u_has_trait": "ARVORE" }
       ]
     },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' )", "=", "-1" ] } ]
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' )", "=", "-2" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT",
+    "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_IN_CIVILIZATION",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "target_var": { "context_val": "homullus_location" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_IN_CIVILIZATION_2",
+            "//": "This EoC is required because map_in_city cannot check talker location directly.",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "evac_center_13", "range": 3 },
+                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+                { "u_near_om_location": "ranch_camp_41", "range": 3 },
+                { "u_near_om_location": "godco_5", "range": 3 },
+                { "u_at_om_location": "FACTION_CAMP_ANY" },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+              ]
+            },
+            "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "-2" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_NEARBY_PEOPLE",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "math": [
+        "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_archaeologist', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both'))",
+        ">=",
+        "10"
+      ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "u_has_trait": "IERDE" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_ON_DIRT_OR_STONE",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
@@ -122,13 +176,5 @@
       ]
     },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "-2" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERGROUND",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "u_has_trait": "IERDE" } ] },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "-1" ] } ]
   }
 ]
