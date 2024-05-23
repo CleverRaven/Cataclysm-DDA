@@ -89,21 +89,11 @@ Things to note:
 - While unlike with uncraft recipes it is impossible to transmute materials through those, it is very easy to make nonsensical disassemblies through this method when it comes to required tools
 
 ## Salvaging / Cutting Up
-This process is entirely hardcoded, and is impossible to edit through JSON by any means. The only way to make an item that's normally salvageable not-salvageable is by either editing its material or adding the ``NO_SALVAGE`` flag.
+This process is largely hardcoded, with the JSON side only consisting of defining whether a specific material is salvageable, and possible per-item salvaging disabling through flags. The only way to make an item that's normally salvageable not-salvageable is by either editing its material or adding the ``NO_SALVAGE`` flag.
 
-To salvage an item with **at least one material listed in the sourcecode** you must have a tool with the ``CUTTING`` quality. This process can only grant a singular type of resource (per material), with the amount calculated from the item's weight. How long the process takes is calculated from the item's size as well.
+To salvage an item with **at least one salvageable material** you must have a tool with the ``CUTTING`` quality. This process can only grant a singular type of resource (per material), with the amount calculated from the item's weight. How long the process takes is calculated from the item's size as well.
 
-The following materials can be salvaged:
-
-| Material                                                                                         | Resource obtained from salvaging
-|---                                                                                               |---
-| `KEVLAR`, `LEATHER`, `COTTON`, `CANVAS`, `DENIM`, `SYNTHETIC FABRIC`, `LYCRA`, `FUR`, `FAUX FUR` | Patch of the fabric corresponding to the material being salvaged
-| `PLASTIC`                                                                                        | Plastic chunk
-| `RUBBER`                                                                                         | Chunk of rubber
-| `PAPER`                                                                                          | Paper
-| `CARDBOARD`                                                                                      | Piece of cardboard
-| `WOOD`                                                                                           | Splintered wood
-| `BONE`                                                                                           | Bone skewer
+Any material with a ``salvaged_into`` field defined is considered salvageable.
 
 Things to note:
 - A tool with 1 ``CUTTING`` quality is enough to salvage any item which is at least partially the listed material. As such, items that should require more powerful tools should be given the ``NO_SALVAGE`` flag
