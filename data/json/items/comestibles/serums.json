@@ -1,13 +1,16 @@
 [
   {
-    "id": "myopia_contacts_weekly",
-    "type": "GENERIC",
+    "id": "serum_regen",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
     "category": "drugs",
     "name": { "str_sp": "unknown liquid" },
     "description": "White, semi-transparent liquid of unknown origin.",
-    "weight": "21 ml",
-    "volume": "25 ml",
-    "material": [ "null" ],
+    "weight": "7 g",
+    "volume": "10 ml",
+    "charges": 1,
+    "phase": "liquid",
+    "material": [ "alien_liquid" ],
     "symbol": "[",
     "color": "white",
     "use_action": [
