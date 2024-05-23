@@ -14,7 +14,7 @@ At its core, CDDA is a survival simulation game.  [The design doc outlines what 
 
 This section is going to be super long, and you're welcome to read it all if you like, but here's the most important TL;DR points:
 
-1.  It's quite rare for a simple, reasonable contribution to be rejected or reverted.  For larger projects, you might want to get more experience with the project or clear it with a developer first.
+1.  Most simple, reasonable contributions get accepted.  For larger projects, you might want to get more experience with the project or clear it with a developer first.
 2.  If it sounds like your small job is being turned into a big unmanageable job, check if the ideas being thrown around are things *you* have to do, or just people getting excited.  Usually it's just excitement, it means you have a cool idea but not that you need to do a bunch more stuff.
 3.  If you're getting negative feedback or being told you have to do something a certain way, make sure it's someone with authority before you start feeling discouraged.
 4.  Please don't take it personally if a developer gives you a short, gruff answer.  Tone doesn't convey well in text, but the intent is to be completely clear and matter-of-fact, not to be unkind.
