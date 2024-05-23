@@ -297,8 +297,8 @@
             "id": "EOC_PSI_EXTENDED_CHANNELING_ON_2",
             "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
             "effect": [
+              { "u_deactivate_trait": "PSI_TORRENTIAL_CHANNELING" },
               { "u_add_trait": "PSI_EXTENDED_CHANNELING_active" },
-              { "u_activate_trait": "PSI_TORRENTIAL_CHANNELING" },
               { "u_message": "You begin to take more care in channeling your powers.", "type": "good" }
             ],
             "false_effect": [
@@ -325,8 +325,8 @@
             "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON_2",
             "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
             "effect": [
+              { "u_deactivate_trait": "PSI_EXTENDED_CHANNELING" },
               { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" },
-              { "u_activate_trait": "PSI_EXTENDED_CHANNELING" },
               { "u_message": "You begin drawing deeply on the Nether.", "type": "good" }
             ],
             "false_effect": [

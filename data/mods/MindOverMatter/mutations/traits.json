@@ -185,16 +185,15 @@
     "name": { "str": "Extended Channeling Active" },
     "points": 0,
     "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
-    "active": true,
     "valid": false,
-    "player_disply": false
+    "player_display": false
   },
   {
     "type": "mutation",
     "id": "PSI_TORRENTIAL_CHANNELING",
     "name": { "str": "Torrential Channeling" },
     "points": 0,
-    "description": "You can draw deeply on the Nether, increasing the strength of your powers making making them harder to initiate and control.",
+    "description": "You can draw deeply on the Nether, increasing the strength of your powers but making making them harder to initiate and control.",
     "active": true,
     "activated_is_setup": true,
     "valid": false,
@@ -207,8 +206,7 @@
     "name": { "str": "Torrential Channeling Active" },
     "points": 0,
     "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
-    "active": true,
     "valid": false,
-    "player_disply": false
+    "player_display": false
   }
 ]
