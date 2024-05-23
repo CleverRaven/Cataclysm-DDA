@@ -294,7 +294,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_PSI_EXTENDED_CHANNELING_ON_2"
+            "id": "EOC_PSI_EXTENDED_CHANNELING_ON_2",
             "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
             "effect": [
               { "u_add_trait": "PSI_EXTENDED_CHANNELING_active" },
@@ -307,7 +307,7 @@
             ]
           }
         ]
-      }    
+      }
     ],
     "false_effect": [
       { "u_lose_trait": "PSI_EXTENDED_CHANNELING_active" },
@@ -322,7 +322,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON_2"
+            "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON_2",
             "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
             "effect": [
               { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" },
@@ -335,7 +335,7 @@
             ]
           }
         ]
-      }    
+      }
     ],
     "false_effect": [
       { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" },
