@@ -115,11 +115,7 @@
     "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
     "//1": "No heavier than 21 kg.",
     "//2": "This group always has a chance of being the result, regardless of mission type.",
-    "monsters": [
-      { "monster": "mon_coelophysis", "weight": 3 },
-      { "monster": "mon_velociraptor", "weight": 3 },
-      { "monster": "mon_dromaeosaurus", "weight": 3 }
-    ]
+    "monsters": [ { "monster": "mon_coelophysis", "weight": 3 }, { "monster": "mon_dromaeosaurus", "weight": 3 } ]
   },
   {
     "type": "monstergroup",
