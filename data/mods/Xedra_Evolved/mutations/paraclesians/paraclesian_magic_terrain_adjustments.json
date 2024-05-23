@@ -206,5 +206,21 @@
       ]
     },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_ELEMENTAL_MAGIC_ADJUSTMENT_UP_HIGH",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "3" ] }, { "u_has_trait": "SYLPH" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_ELEMENTAL_MAGIC_ADJUSTMENT_UNDER_THE_SKY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "-2" ] } ]
   }
 ]
