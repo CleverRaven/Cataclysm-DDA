@@ -2001,19 +2001,12 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
     "vitamins": [ [ "calcium", "423 mg" ], [ "iron", "8 mg" ] ]
-  }
+  },
   {
     "id": "scrapple",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "scrapple" },
-    "conditional_names": [
-    {
-      "type": "VITAMIN",
-      "condition": "human_flesh_vitamin",
-      "name": "screeple"
-    },
-    ],
     "symbol": "%",
     "looks_like": "offal_cooked",
     "description": "A dry mush of meat scraps and grain, sliced and pan-fried; better than it sounds and looks. A staple food of the Mid-Atlantic United States.",
@@ -2029,6 +2022,5 @@
     "quench": -8,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 8 ] ]
-  },
-
+  }
 ]
