@@ -244,7 +244,9 @@
       { "item": "gold_nose_ring_loop", "prob": 5 },
       { "item": "gold_nose_ring_stud", "prob": 5 },
       { "item": "silver_nose_ring_loop", "prob": 6 },
-      { "item": "silver_nose_ring_stud", "prob": 6 }
+      { "item": "silver_nose_ring_stud", "prob": 6 },
+      { "item": "gold_toe_ring", "prob": 5 },
+      { "item": "silver_toe_ring", "prob": 6 }
     ]
   },
   {
