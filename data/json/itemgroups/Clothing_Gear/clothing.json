@@ -4581,7 +4581,7 @@
       { "item": "platinum_hairpin", "prob": 10 },
       { "item": "barrette", "prob": 60 },
       { "item": "pearl_collar", "prob": 5 },
-      { "item": "jade_brooch", "prob": 5 }
+      { "item": "jade_brooch", "prob": 5 },
       { "item": "gold_anklet", "prob": 30 },
       { "item": "silver_anklet", "prob": 50 },
       { "item": "gold_toe_ring", "prob": 30 },
