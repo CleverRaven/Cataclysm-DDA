@@ -226,7 +226,7 @@
         { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
       ]
     },
-    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2 + (u_nether_conduit_repeated_channeling_value / 4 ) )" ] } ]
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ] } ]
   },
   {
     "type": "effect_on_condition",
