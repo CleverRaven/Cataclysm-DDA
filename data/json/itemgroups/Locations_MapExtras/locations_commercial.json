@@ -266,6 +266,10 @@
       [ "gold_lip_ring_stud", 1 ],
       [ "silver_lip_ring_loop", 2 ],
       [ "silver_lip_ring_stud", 2 ],
+      [ "gold_nose_ring_loop", 1 ],
+      [ "gold_nose_ring_stud", 1 ],
+      [ "silver_nose_ring_loop", 2 ],
+      [ "silver_nose_ring_stud", 2 ],
       { "group": "mags_pawnshop", "prob": 300 }
     ]
   },
