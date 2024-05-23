@@ -318,6 +318,10 @@ class Creature : public viewer
             return get_location().z();
         }
         void setpos( const tripoint &p );
+        /** Checks if the creature fits into a given tile. Set the boolean argument to true if the creature would barely fit. */
+        bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const;
+        /** Helper overload for when the boolean is discardable */
+        bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const;
         /** Moves the creature to the given location and calls the on_move() handler. */
         void move_to( const tripoint_abs_ms &loc );
 
