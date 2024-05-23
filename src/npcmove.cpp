@@ -119,6 +119,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
@@ -403,7 +404,7 @@ bool npc::could_move_onto( const tripoint &p ) const
     if( !here.passable( p ) ) {
         return false;
     }
-    if( !move_in_vehicle( const_cast<npc *>( this ), p ) ) {
+    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
         return false;
     }
 
@@ -2898,7 +2899,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
-    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( this, p ) ) {
+    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
         auto other_points = here.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
@@ -3141,6 +3142,17 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
+
+        bool cramped = false;
+        if( !can_move_to_vehicle_tile( here.getglobal( p ), cramped ) ) {
+            debugmsg( "NPC %s somehow moved to a too-cramped vehicle tile", disp_name() );
+        } else if( cramped ) { //set by above call to Creature::can_move_to_vehicle_tile
+            if( !has_effect( effect_cramped_space ) ) {
+                add_msg_if_player_sees( *this, m_warning,
+                                        string_format( _( "%s has to really cram their huge body to fit." ), disp_name() ) );
+            }
+            add_effect( effect_cramped_space, 2_turns, true );
+        }
     }
 }
 

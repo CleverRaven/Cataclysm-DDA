@@ -1953,6 +1953,10 @@ void known_magic::deserialize( const JsonObject &data )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
+        if( !sp.is_valid() ) {
+            DebugLog( D_WARNING, D_MAIN ) << "Tried to load bad spell: " << sp.c_str();
+            continue;
+        }
         if( knows_spell( sp ) ) {
             spellbook[sp].set_exp( xp );
         } else {
