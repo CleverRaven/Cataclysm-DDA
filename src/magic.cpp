@@ -1257,11 +1257,16 @@ float spell::spell_fail( const Character &guy ) const
                     guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
 
         if( !guy.has_proficiency( proficiency_prof_concentration_basic ) ) {
-            psi_effective_skill = clamp(psi_effective_skill_initial, static_cast<float>(0), static_cast<float>(24));
-        } else if( guy.has_proficiency( proficiency_prof_concentration_basic ) && !guy.has_proficiency( proficiency_prof_concentration_intermediate ) ) {
-            psi_effective_skill = clamp(psi_effective_skill_initial, static_cast<float>(0), static_cast<float>(31));
-        } else if( guy.has_proficiency( proficiency_prof_concentration_intermediate ) &&  !guy.has_proficiency( proficiency_prof_concentration_master) ) {
-            psi_effective_skill = clamp(psi_effective_skill_initial, static_cast<float>(0), static_cast<float>(37));
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 24 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_basic ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_intermediate ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 31 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_intermediate ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_master ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 37 ) );
         } else {
             psi_effective_skill = clamp(psi_effective_skill_initial, static_cast<float>(0), static_cast<float>(45));
         }
