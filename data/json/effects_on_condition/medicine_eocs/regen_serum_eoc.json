@@ -72,11 +72,19 @@
         "values": [
           {
             "value": "CARDIO_MULTIPLIER",
-            "multiply": { "math": [ "-1 * clamp( get_calories_daily('type':'gained') / get_calories_daily('type':'spent'), 0, 0.6 )" ] }
+            "multiply": {
+              "math": [
+                "-1 * clamp( get_calories_daily('type':'ingested', 'day':'1') / get_calories_daily('type':'spent', 'day':'1'), 0, 0.6 )"
+              ]
+            }
           },
           {
             "value": "STRENGTH",
-            "multiply": { "math": [ "-1 * clamp( get_calories_daily('type':'gained') / get_calories_daily('type':'spent'), 0, 0.6 )" ] }
+            "multiply": {
+              "math": [
+                "-1 * clamp( get_calories_daily('type':'ingested', 'day':'1') / get_calories_daily('type':'spent', 'day':'1'), 0, 0.6 )"
+              ]
+            }
           }
         ]
       }
