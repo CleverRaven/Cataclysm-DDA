@@ -133,10 +133,12 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmw_2_common_pottery",
     "method": "json",
-    "object": { "set": [
-    { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18, "z": 0 },
-    { "point": "furniture", "id": "f_chimney", "x": 1, "y": 18, "z": 1 }
-    ] }
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 1, "y": 18, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
