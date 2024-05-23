@@ -103,6 +103,7 @@ To clear up a few common rumours that circulate in certain channels:
 - Over the years we've lost a lot of developers.  The reason is not as dramatic as you might think: by and large, people get bored and move on to other places.  The number of major fallings-out can be counted on one hand, in over a decade of development.
 - We didn't start a developer discord because of some secret community drama.  We just needed a place we could moderate for a focused discussion.  Community drama followed shortly afterwards, but not for related reasons.
 - That's also the same reason we started a developer-focused subreddit: we wanted a place where we could keep the discussion focused just on game dev and projects related to it, rather than fun and memes.  It wasn't closed because of any internal strife, it was closed because we all used apps to moderate it, and reddit shut down 3rd party apps.  Nothing particularly exciting.
+- We don't have any animosity to the other major forks of the game.  Mostly, we are glad they exist, even though we know how some of them talk about us.  It's our opinion that it's a *good thing* if someone doesn't like our way of managing the project and so has a different place to go instead of feeling bitter about how we run our hobby project.
 
 #### Why did Kevin do this to me?
 
