@@ -222,5 +222,62 @@
     "required_event": "opens_spellbook",
     "condition": { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_ADJUSTMENT_NEAR_WATER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_water_pool" },
+            { "u_is_on_terrain": "t_water_pool_outdoors" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_pool_shallow" },
+            { "u_is_on_terrain": "t_water_pool_shallow_outdoors" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" },
+            { "u_near_om_location": "generic_river_bank", "range": 1 },
+            { "u_near_om_location": "generic_river", "range": 1 },
+            { "u_near_om_location": "river_center", "range": 1 },
+            { "u_near_om_location": "river", "range": 1 },
+            { "u_near_om_location": "river_c_not_ne", "range": 1 },
+            { "u_near_om_location": "river_c_not_nw", "range": 1 },
+            { "u_near_om_location": "river_c_not_se", "range": 1 },
+            { "u_near_om_location": "river_c_not_sw", "range": 1 },
+            { "u_near_om_location": "river_ne", "range": 1 },
+            { "u_near_om_location": "river_se", "range": 1 },
+            { "u_near_om_location": "river_sw", "range": 1 },
+            { "u_near_om_location": "river_nw", "range": 1 },
+            { "u_near_om_location": "lake_shore", "range": 1 },
+            { "u_near_om_location": "lake_surface", "range": 1 }
+          ]
+        },
+        { "u_has_trait": "UNDINE" }
+      ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERWATER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ "u_is_underwater", { "u_has_trait": "UNDINE" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "-2" ] } ]
   }
 ]
