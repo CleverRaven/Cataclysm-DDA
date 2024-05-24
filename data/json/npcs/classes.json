@@ -636,6 +636,41 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_CYBORG_RESCUE",
+    "name": { "str": "Cyborg" },
+    "job_description": "I'm Transhuman above and beyond'.",
+    "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ],
+    "common": false,
+    "worn_override": "NC_ANCILLA_GRUNT_worn",
+    "carry_override": "NC_ANCILLA_GRUNT_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "bionics": [
+      { "id": "bio_voice", "chance": 100 },
+      { "id": "bio_armor_head", "chance": 100 },
+      { "id": "bio_armor_torso", "chance": 100 },
+      { "id": "bio_armor_arms", "chance": 100 },
+      { "id": "bio_armor_legs", "chance": 100 },
+      { "id": "bio_armor_eyes", "chance": 100 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_metabolics", "chance": 14},
+      { "id": "bio_nanobots", "chance": 8 },
+      { "id": "bio_painkiller", "chance": 16 },
+      { "id": "bio_power_storage_mkII", "chance": 90 },
+      { "id": "bio_probability_travel", "chance": 1 },
+      { "id": "bio_synlungs", "chance": 5 },
+      { "id": "bio_jointservo", "chance": 18 },
+      { "id": "bio_digestion", "chance": 23 },
+      { "id": "bio_razors", "chance": 33 },
+      { "id": "bio_claws", "chance": 33 },
+      { "id": "bio_blade", "chance": 33 },
+      { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_CITY_COP",
     "name": { "str": "Former Cop" },
     "job_description": "I used to be a police officer, but I'm just a survivor now.",
