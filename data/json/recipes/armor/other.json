@@ -41,6 +41,7 @@
   },
   {
     "result": "blanket",
+    "variant": "blanket_makeshift",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
