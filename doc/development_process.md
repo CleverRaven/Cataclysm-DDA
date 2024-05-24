@@ -6,11 +6,36 @@ This guide is intended to describe how the Cataclysm: Dark Days Ahead project is
 
 This document assumes you have a basic understanding how GitHub works.  Please see the [guide for new contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors) for more info there.  You might also find helpful information in the [Frequently Made Suggestions doc](https://docs.cataclysmdda.org/FREQUENTLY_MADE_SUGGESTIONS.html), which talks about some of the common ideas we hear for the project and offers reasons about why they might not have been added yet.  [This guide from GitHub](https://opensource.guide/how-to-contribute/#anatomy-of-an-open-source-project) also gives a decent run-down of the basic structure of any open source project.
 
+## Table of Contents
+
+* [The basic concept](#The-basic-concept)
+* [The structure of the project](#The-structure-of-the-project)
+* * [Experimental/Stable](#experimentalstable)
+* * * [Why this format?](#Why-this-format)
+* * [Mainline, in-repo mods, third party mods, and forks](#mainline-in-repo-mods-third-party-mods-and-forks)
+* * [Project roles](#Project-roles)
+* [FAQ for prospective contributors](#FAQ-for-prospective-contributors)
+* * [How can I make sure my contribution will be accepted?](#How-can-I-make-sure-my-contribution-will-be-accepted)
+* * * [What if different people have different opinions of my idea?](#What-if-different-people-have-different-opinions-of-my-idea)
+* * * [How do I deal with a ton of comments and suggestions to my idea?](#How-do-I-deal-with-a-ton-of-comments-and-suggestions-to-my-idea)
+* * * [Do a lot of things get merged to the project, then reverted?](#Do-a-lot-of-things-get-merged-to-the-project-then-reverted)
+* * * [Am I allowed to do what I want with an existing NPC/faction/feature?](#Am-I-allowed-to-do-what-I-want-with-an-existing-NPCfactionfeature)
+* * [Is the Discord strict?](#Is-the-Discord-strict)
+* * [How does player feedback affect the project's development?](#How-does-player-feedback-affect-the-projects-development)
+* * * [Do we care about the players?](#Do-we-care-about-the-players)
+* [Supplemental Material](#Supplemental-Material)
+* * [A Very Brief History of DDA](#A-Very-Brief-History-of-DDA)
+* * * [Why did Kevin do this to me?](#Why-did-Kevin-do-this-to-me)
+* * [Realism as a design goal](#Realism-as-a-design-goal)
+* * [Why did X system get worked on while the more important Y system didn't](#Why-did-X-system-get-worked-on-while-the-more-important-Y-system-didnt)
+* * * [Why did X system get implemented with Y, but not Z](#Why-did-X-system-get-implemented-with-Y-but-not-Z)
+* [The Bottom Line](#The-Bottom-Line)
+
 ## The basic concept 
 
 At its core, CDDA is a survival simulation game.  [The design doc outlines what we mean by this](https://docs.cataclysmdda.org/Lore/design-doc.html).  The project is led by Kevin Granade, who owns the CleverRaven group that runs this branch of the code. As lead developer, Kevin's main job in the project is to be the *last word* if one is needed.  Most of the time, we don't need his final arbitration to know if something is going to fit or not[^code].
 
-## The structure of the project itself
+## The structure of the project
 
 ### Experimental/Stable
 
@@ -23,7 +48,8 @@ On the other hand, in the experimental branch, we allow things to get broken.  W
 - Once we're sure the feedback is about something actually happening, we check if it's intended behaviour or not.  If not, we start looking for solutions.  If it's an outright bug, we try to fix it.  If it's an unintended consequence of complex systems interacting, often the solution is to think about how the mechanic should work in real life.[^bows]
 - If the behaviour is intended, we consider why people are frustrated by it.  Is player-end feedback a problem?  Is the UI creating tedium?  This is an area where things can languish for a while, but it doesn't mean we don't care, it's just that these problems are hard to fix, and often take different skills than the original addition.  This is also where the experimental/stable thing becomes relevant.  For example, on a few occasions, we've patched the behaviour out and then put it back in after stable.  This is to preserve gameplay for the people playing the curated, stable version of the game, while also continuing to work on the features we want to include.
 
-#### Why this format?  Why not finish things before putting them in a public experimental release, or revert them if they're broken?
+#### Why this format?
+**Why not finish things before putting them in a public experimental release, or revert them if they're broken?**
 
 Various forms of this sentiment are really common, and there are dozens of different good reasons.  Let's look at just one, because it's possibly the most important and also the most difficult to see unless you really study how development works in the long term.
 
@@ -51,16 +77,16 @@ This is a quick summary of the different terms we use for different groups withi
 * **Core contributors** is another vague term that we use sometimes, meaning "the developers, the collaborators, and a bunch of the contributors that have been around a lot".
 * **Players** are the people whose lives we try to ruin, who somehow keep coming back for more.  What is their deal?  We may never know.
 
-## Helpful tips for prospective contributors
+## FAQ for prospective contributors
 
-This section is going to be super long, and you're welcome to read it all if you like, but here's the most important TL;DR points:
+This is built from concerns we've heard from other new contributors to the project, things they wish they'd understood when starting out.  Here's the most important TL;DR points:
 
 1.  Most simple, reasonable contributions get accepted.  For larger projects, you might want to get more experience with the project or clear it with a developer first.
 2.  If it sounds like your small job is being turned into a big unmanageable job, check if the ideas being thrown around are things *you* have to do, or just people getting excited.  Usually it's just excitement, it means you have a cool idea but not that you need to do a bunch more stuff.
 3.  If you're getting negative feedback or being told you have to do something a certain way, make sure it's someone with authority before you start feeling discouraged.
 4.  Please don't take it personally if you receive a short, direct response on a PR or issue.  Tone doesn't convey well in text, but the intent is to be completely clear and matter-of-fact, not to be unkind.
 
-### What if my contributions aren't accepted?
+### How can I make sure my contribution will be accepted?
 
 If what you're doing is simple, chances are you don't need to worry.  If you're new to the project and have big ideas for what you want to add, though, we strongly recommend you first discuss these with someone more experienced in the project.  There are three good ways to do that: create an Issue post on GitHub, chat in [the developer discord](https://discord.gg/hqWgHC8TKY) in the Development or CDDA-Discussion channel, or post in [the discourse forum](https://discourse.cataclysmdda.org/)[^discourse] about your ideas.  The larger the project you plan to add, the more important it is to check in first.  That isn't to say big things can't get in without prior approval - it happens all the time - but it's always a bigger risk, especially if you're new to the project.
 
@@ -86,13 +112,13 @@ This can happen for a few reasons.  If you're not sure which applies to you, fee
 
 An issue we run into occasionally is that our responses can be short and straightforward, which can rub people the wrong way.  The intent is to be matter-of-fact and completely clear, not unkind.  We have found that if we try to be *too gentle*, we leave room for confusion: people continue working on a thing that will never be OK to add, and wind up wasting more of their effort, which is a really bad outcome and definitely not more kind in the long run.  Remember that, first, text doesn't convey tone well; and second, we don't want to make it seem open to debate if it isn't.  However, we can guarantee that nobody wants you to feel badly for having ideas and excitement about the game.[^ajoke]
 
-#### I've heard a lot of things get merged to the project, then reverted.
+#### Do a lot of things get merged to the project, then reverted?
 
 This is a thing that happens sometimes; because it's a rare and significant event, it often gets a bit of publicity and seems like something that happens more.  At time of writing there have been roughly 1-2 reversions per month in the last year, which is around 0.2% of the PRs merged.  Most of these are reverted for infrastructure reasons, and added back as soon as possible.  It's very important to understand that on our end, **we consider reversions a failure of the dev team** to adequately review submissions.  They mean that we messed up and we're fixing it as best we can.
 
 The best way to protect yourself from getting something reverted, or rejected before merge, is to (1) discuss your project, especially with developers, and make sure it's appropriate, (2) [get someone to review your PR before it's merged]([https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/reviewing_PR_guide.md](https://docs.cataclysmdda.org/reviewing_PR_guide.html)), and (3) keep your changes to individually small PRs where they can be properly reviewed and studied before being added.  However, remember that *by far* most PRs are not reverted nor rejected.
 
-#### I've started a PR and now I'm getting a ton of requested changes.
+#### How do I deal with a ton of comments and suggestions to my idea?
 
 If you're feeling overwhelmed by the amount of work being piled on you, first, we recommend making sure the suggestions are coming from someone with some authority on the matter.  When in doubt, these issues are easiest to sort out on Discord, where it's easier to tell who has some authority with CleverRaven.  On GitHub, it can be tougher to tell who's in charge; this is just a fundamental flaw with how the site works, and there's no easy way around it.  We're doing our best to make sure that more senior project members get a user badge, like this:
 ![image](https://github.com/I-am-Erk/Cataclysm-DDA/assets/45136638/6106b80f-274e-43c7-a937-58f601f035e6)  
@@ -100,7 +126,13 @@ A "member" badge means this person has permissions with CleverRaven and so has a
 
 If the requested changes are coming from a trusted source, and it's more than you feel you can handle, it's all right to say as much.  Just as mentioned above, **this may be the result of enthusiasm**, and we might not mean that *you* have to do whatever is being suggested.  Other times, it's simply that the thing you're trying to do is not going to be as easy as it looked.  In that case, we'd generally prefer you to do it if you can, but it's all right to decide that we're asking for too much, and to step away from the PR.  These problems can *usually* be avoided with a well-discussed Issue post or Discord conversation, but there's no way to guarantee that the right eyes are going to see your thread in time.  If you're extremely averse to having this happen, the most surefire way to avoid it is to be patient and make sure you've got the go-ahead from a developer before beginning, but we want to emphasize that *most of the time, this doesn't happen*.  Chances are whatever you want to add is just fine and you don't need to be too stressed about getting a green light.  The bigger your contribution is, the more important it becomes to get clearance.
 
-#### You keep suggesting the discord, but I've heard it's really strict.
+#### Am I allowed to do what I want with an existing NPC/faction/feature?
+
+When something gets added to the project, as soon as the PR goes out into the world, the traditional sense of "ownership" is relinquished and it becomes a collaborative creation effort.  The person putting in the most effort is a sort of director for that content, but a lot of the time they finish their plans and there's plenty of room for more work to go in.  If you'd like to make drastic changes, you should first get an idea whether or not someone is actively working on the thing you plan to change.  For most of the content in the game, this is *not* the case, and we'd love someone to step up.[^npcs]  Probably the best place to find out about this is in the narrative-dev channel on Discord, since the main concern is making sure your new ideas won't conflict with the long term plans being worked on.
+
+As a general rule, in fact, we would prefer it if new contributors would feel welcome to alter and improve on the existing NPCs in game before adding a bunch of new ones![^erkaside]  We have too many unfinished NPCs and quest lines as it is.  Don't let this stop you from adding a brand new NPC, but definitely don't feel held back by not knowing who "owns" an existing bit of the game.
+
+### Is the Discord strict?
 
 We don't think so, but obviously we're biased.  First, make sure you're looking at [the developer discord](https://discord.gg/hqWgHC8TKY) and not the fan discord or the old one that was subjected to a nazi takeover (seriously).
 
@@ -108,12 +140,6 @@ If you're on the developer discord to talk about development, it's very difficul
 ), where the rules are much more lax.  It's still fine to chat on the developer discord, but we intentionally run it mainly for very focused discussion of the game, it's not the place to go for memes about cargo socks.  It *is* the place to go to see the devs talking like normal people instead of giving dry technical responses on GH.
 
 If someone is telling you they got banned from "devcord" for nothing at all without warning, there's a story they aren't telling you.  This just isn't a thing that happens.  Our ban records are public.
-
-### I'd like to change an existing feature/npc/faction but I don't know who owns it to ask about it
-
-When something gets added to the project, as soon as the PR goes out into the world, the traditional sense of "ownership" is relinquished and it becomes a collaborative creation effort.  The person putting in the most effort is a sort of director for that content, but a lot of the time they finish their plans and there's plenty of room for more work to go in.  If you'd like to make drastic changes, you should first get an idea whether or not someone is actively working on the thing you plan to change.  For most of the content in the game, this is *not* the case, and we'd love someone to step up.[^npcs]  Probably the best place to find out about this is in the narrative-dev channel on Discord, since the main concern is making sure your new ideas won't conflict with the long term plans being worked on.
-
-As a general rule, in fact, we would prefer it if new contributors would feel welcome to alter and improve on the existing NPCs in game before adding a bunch of new ones![^erkaside]  We have too many unfinished NPCs and quest lines as it is.  Don't let this stop you from adding a brand new NPC, but definitely don't feel held back by not knowing who "owns" an existing bit of the game.
 
 ### How does player feedback affect the project's development?
 
@@ -181,6 +207,9 @@ This is a subset to the question above.  The answer is, because the person imple
 Did you actually read all that, or just scroll down?  Massive kudos if you read it.
 
 In the end, we hope you'll share our passion for this project and decide to come join us in contributing to it, and we hope that you find this document helpful in clearing up various odd misconceptions about how development works that have gathered over all the years of project management.
+
+---
+**Footnotes**
 
 [^code]: Kevin is also much more likely to have strong opinions about code maintainability and architecture than he is about lore stuff, as a general rule.
 [^whytheory]: There's a tendency for theory crafting to be louder than playtests, and we've had some pretty severe lost work hours when devs have tried to solve a problem that turned out to not actually be happening in game.
