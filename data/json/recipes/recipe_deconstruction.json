@@ -5686,14 +5686,14 @@
     "components": [ [ [ "silver_small", 1 ] ] ]
   },
   {
-    "result": "bat_charm_anklet",
+    "result": "bat_anklet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 s",
     "components": [ [ [ "plastic_chunk", 1] ], [ [ "string_6", 1 ] ] ] 
   },
 {
-    "result": "flower_charm_anklet",
+    "result": "flower_anklet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 s",
