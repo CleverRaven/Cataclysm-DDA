@@ -343,6 +343,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "propane_lantern",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 3 ] ],
+    "difficulty": 6,
+    "time": "2 h",
+    "book_learn": [ [ "textbook_fabrication", 6 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "components": [ [ [ "scrap", 2 ] ], [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 4 ] ], [ [ "pilot_light", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
     "result": "headlight_reinforced",
     "category": "CC_OTHER",
