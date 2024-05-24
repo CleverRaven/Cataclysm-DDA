@@ -4288,7 +4288,7 @@
     "volume": "10 ml",
     "price": "2 USD",
     "price_postapoc": "2 cent",
-    "material": [ "plastic",  "cotton"  ],
+    "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "color": "red",
     "sided": true,
