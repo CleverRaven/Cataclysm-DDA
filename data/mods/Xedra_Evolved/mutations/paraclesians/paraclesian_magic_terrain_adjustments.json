@@ -231,7 +231,7 @@
             { "not": { "u_near_om_location": "road", "range": 1 } }
           ]
         },
-        { "u_has_trait": "ARVORE" }
+        { "u_has_trait": "HOMULLUS" }
       ]
     },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "3" ] } ]
