@@ -4448,7 +4448,7 @@
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_nose_ring_stud",
@@ -4462,7 +4462,7 @@
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_nose_ring_loop",
@@ -4476,7 +4476,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_nose_ring_stud",
@@ -4490,7 +4490,7 @@
     "material": [ "silver" ],
     "symbol": ".",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_toe_ring",
