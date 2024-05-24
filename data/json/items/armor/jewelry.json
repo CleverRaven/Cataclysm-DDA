@@ -4360,13 +4360,6 @@
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 0,
-        "covers": [ "head" ]
-      }
-    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -4381,13 +4374,6 @@
     "material": [ "gold" ],
     "symbol": ".",
     "color": "yellow",
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 0,
-        "covers": [ "head" ]
-      }
-    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -4402,13 +4388,6 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 0,
-        "covers": [ "head" ]
-      }
-    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -4423,13 +4402,6 @@
     "material": [ "silver" ],
     "symbol": ".",
     "color": "light_gray",
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 0,
-        "covers": [ "head" ]
-      }
-    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
