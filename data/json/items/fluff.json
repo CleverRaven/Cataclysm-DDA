@@ -1859,7 +1859,7 @@
     "name": { "str": "butterfly net" },
     "description": "A piece of canvas stretched over a stick.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
     "copy-from": "butterfly_net_collapsible_extended",
-    "weight": "247 g",
+    "weight": "376 g",
     "volume": "865 ml",
     "color": "brown",
     "material": [ { "type": "wood", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
