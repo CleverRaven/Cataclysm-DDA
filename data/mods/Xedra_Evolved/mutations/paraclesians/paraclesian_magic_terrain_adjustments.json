@@ -113,7 +113,9 @@
                 { "not": { "u_is_on_terrain": "t_floor" } },
                 { "not": { "u_is_on_terrain": "t_wood_stairs_down" } },
                 { "not": { "u_is_on_terrain": "t_wood_stairs_up" } },
-                { "not": { "u_is_on_terrain": "t_door_o" } }
+                { "not": { "u_is_on_terrain": "t_door_o" } },
+                { "not": { "u_is_on_terrain": "t_dirt_underground" } },
+                { "not": { "u_is_on_terrain": "t_dirtfloor_thatchroof" } }
               ]
             },
             {
@@ -124,7 +126,9 @@
                     { "u_is_on_terrain": "t_floor" },
                     { "u_is_on_terrain": "t_wood_stairs_down" },
                     { "u_is_on_terrain": "t_wood_stairs_up" },
-                    { "u_is_on_terrain": "t_door_o" }
+                    { "u_is_on_terrain": "t_door_o" },
+                    { "u_is_on_terrain": "t_dirt_underground" },
+                    { "u_is_on_terrain": "t_dirtfloor_thatchroof" }
                   ]
                 },
                 {
@@ -353,7 +357,7 @@
     "id": "EOC_SYLPH_ELEMENTAL_MAGIC_PENALTY_UNDERGROUND",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "u_has_trait": "SYLPH" } ] },
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "3" ] } ]
   },
   {
