@@ -187,7 +187,7 @@
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete"
       },
       {
-        "text": "Fast, can you help this lad.",
+        "text": "Fast, can you help this lad?",
         "condition": {
           "and": [
             { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
@@ -422,8 +422,8 @@
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Nay mate still operating",
-      "str": "Nay mate still operating"
+      "//~": "Nay, mate, still operating",
+      "str": "Nay, mate, still operating"
     },
     "responses": [
       { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -434,12 +434,12 @@
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Give me a second i'll bring them here",
-      "str": "Give me a second i'll bring them here"
+      "//~": "Give me a second, and I'll bring them here.",
+      "str": "Give me a second, and I'll bring them here."
     },
     "responses": [
       {
-        "text": "Of course it is time for us to talk",
+        "text": "Of course, it is time for us to talk.",
         "condition": {
           "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type","value": "yank_out_all_bionics_from_prototype"
         },
@@ -587,13 +587,13 @@
             "outdoor_only": false,
             "min_radius": 1,
             "max_radius": 3,
-            "spawn_message": "Rubic leads to you a person."
+            "spawn_message": "Rubic leads a person to you."
           }
         ],
         "topic": "TALK_DONE"
       },
       {
-        "text": "Of course it is time for us to talk",
+        "text": "Of course, it is time for us to talk.",
         "condition": {
           "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype"
         },
@@ -606,13 +606,13 @@
             "outdoor_only": false,
             "min_radius": 1,
             "max_radius": 3,
-            "spawn_message": "Rubic leads to you a person."
+            "spawn_message": "Rubic leads a person to you."
           }
         ],
         "topic": "TALK_DONE"
       },
       {
-        "text": "Of course it is time for us to talk",
+        "text": "Of course, it is time for us to talk.",
         "condition": {
           "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "reverse_cybernization_prototype"
         },
@@ -625,13 +625,13 @@
             "outdoor_only": false,
             "min_radius": 1,
             "max_radius": 3,
-            "spawn_message": "A rough-looking person steps out of hiding and begins rapidly approaching you."
+            "spawn_message": "Rubic leads a person to you."
           }
         ],
         "topic": "TALK_DONE"
       },
       {
-        "text": "Let see what I got",
+        "text": "Let's see what I get.",
         "condition": {
           "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg"
         },
@@ -803,17 +803,17 @@
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Let me see.  Will do what I can for a coin",
+      "//~": "Let me see.  Will do what I can for a coin.",
       "str": "Aye, let' me pull gogle on.  Wi'll di ull possible fo' shiny?"
     },
     "responses": [
       {
-        "text": "[Prototype Cyborg] Can you help this guy they look like they have lost their mind?",
+        "text": "[Prototype Cyborg] Can you help this guy look like they have lost their mind?",
         "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue"
       },
       {
-        "text": "[Broken Cyborg] Can you save my buddy they look a bit rough around the edges but he still didn't flatline?",
+        "text": "[Broken Cyborg] Can you save my buddy who look a bit rough around the edges, but he still didn't flatline?",
         "condition": { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Broken_Cyborg_Rescue"
       },
@@ -829,7 +829,7 @@
     },
     "responses": [
       {
-        "text": "[300$] Take everything from him and if there is something usefull put it aside for me.",
+        "text": "[$300] Take everything from him and if there is something useful, put it aside for me.",
         "condition": { "u_are_owed": 30000 },
         "effect": [
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
@@ -841,7 +841,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
-        "text": "[200$] Just remove broken bits so they can control themselves",
+        "text": "[200$] Just remove broken bits so they can control themselves.",
         "condition": { "u_are_owed": 20000 },
         "effect": [
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
@@ -853,7 +853,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
-        "text": "[95$] Pull everything out, you can keep what works, just bring my buddy back.",
+        "text": "[95$] Pull everything out, you can keep what works.  Just bring my buddy back.",
         "condition": { "u_are_owed": 9500 },
         "effect": [
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true},
@@ -882,7 +882,7 @@
     },
     "responses": [
       {
-        "text": "[200$] Pull out CBM if he can't use them I can'",
+        "text": "[200$] Pull out CBM if he can't use it, I can.",
         "condition": { "u_are_owed": 20000 },
         "effect": [
           { "u_consume_item": "bot_prototype_cyborg","count": 1,"popup": true},
@@ -894,7 +894,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
-        "text": "[25$] Pull everything out, you can keep what works, He deserves a burial.",
+        "text": "[25$] Pull everything out, you can keep what works.  He deserves a burial.",
         "condition": { "u_are_owed": 2500 },
         "effect": [
           { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },

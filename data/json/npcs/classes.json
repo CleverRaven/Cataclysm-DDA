@@ -638,7 +638,7 @@
     "type": "npc_class",
     "id": "NC_CYBORG_RESCUE",
     "name": { "str": "Cyborg" },
-    "job_description": "I'm Transhuman above and beyond'.",
+    "job_description": "I'm transhuman above and beyond.",
     "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
