@@ -4456,7 +4456,7 @@
     "price": "250 USD",
     "price_postapoc": "25 cent",
     "material": [ "gold" ],
-    "symbol": "o",
+    "symbol": ".",
     "color": "yellow",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
