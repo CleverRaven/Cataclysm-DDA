@@ -5692,7 +5692,7 @@
     "time": "5 s",
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_6", 1 ] ] ]
   },
-{
+  {
     "result": "flower_anklet",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
