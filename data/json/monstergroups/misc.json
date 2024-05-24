@@ -556,5 +556,11 @@
       { "monster": "mon_moose", "weight": 1 },
       { "monster": "mon_pig", "weight": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DEBUG_EXACTLY_ONE",
+    "//": "Hardcoded reference in debug() (debug_menu.cpp). Used for debugging, duh.",
+    "monsters": [ { "monster": "mon_zombie", "weight": 1, "cost_multiplier": 1, "pack_size": [ 1, 1 ] } ]
   }
 ]
