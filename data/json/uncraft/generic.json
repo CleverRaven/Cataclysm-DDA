@@ -758,5 +758,13 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "plastic_sheet", 4 ] ] ]
+  },
+  {
+    "result": "butterfly_net_makeshift",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "splinter", 2 ] ], [ [ "sheet_canvas", 1 ] ] ]
   }
 ]
