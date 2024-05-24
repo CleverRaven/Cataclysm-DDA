@@ -192,7 +192,8 @@
           "and": [
             { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
             { "not": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" } },
-            { "or": [
+            {
+              "or": [
                 { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
                 { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1} }
               ]
