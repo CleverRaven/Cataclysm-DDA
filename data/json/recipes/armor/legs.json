@@ -874,25 +874,25 @@
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "cordage_short", 1 ], [ "tailoring_cotton_patchwork", 2 ] ]
+    "using": [ [ "cordage_short", 1 ], [ "tailoring_cotton_patchwork_simple", 2 ] ]
   },
   {
     "result": "loincloth_fur",
     "type": "recipe",
     "copy-from": "loincloth",
-    "using": [ [ "cordage_short", 1 ], [ "tailoring_fur_patchwork", 2 ] ]
+    "using": [ [ "cordage_short", 1 ], [ "tailoring_fur_patchwork_simple", 2 ] ]
   },
   {
     "result": "loincloth_leather",
     "type": "recipe",
     "copy-from": "loincloth",
-    "using": [ [ "cordage_short", 1 ], [ "tailoring_leather_patchwork", 2 ] ]
+    "using": [ [ "cordage_short", 1 ], [ "tailoring_leather_patchwork_simple", 2 ] ]
   },
   {
     "result": "loincloth_wool",
     "type": "recipe",
     "copy-from": "loincloth",
-    "using": [ [ "cordage_short", 1 ], [ "tailoring_felt_patchwork", 2 ] ]
+    "using": [ [ "cordage_short", 1 ], [ "tailoring_felt_patchwork_simple", 2 ] ]
   },
   {
     "result": "long_underpants",
