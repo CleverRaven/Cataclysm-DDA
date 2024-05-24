@@ -58,6 +58,11 @@ static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
+static const proficiency_id proficiency_prof_concentration_basic( "prof_concentration_basic" );
+static const proficiency_id
+proficiency_prof_concentration_intermediate( "prof_concentration_intermediate" );
+static const proficiency_id proficiency_prof_concentration_master( "prof_concentration_master" );
+
 static const skill_id skill_spellcraft( "spellcraft" );
 
 static const trait_id trait_NONE( "NONE" );
@@ -1245,9 +1250,28 @@ float spell::spell_fail( const Character &guy ) const
     const float two_thirds_power_level = static_cast<float>( get_effective_level() ) /
                                          static_cast<float>
                                          ( 1.5 );
+    float psi_effective_skill = 0;
+    if( is_psi ) {
+        const float psi_effective_skill_initial = 2 * ( ( guy.get_skill_level(
+                    skill() ) * 2 ) - get_difficulty(
+                    guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
 
-    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
-            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
+        if( !guy.has_proficiency( proficiency_prof_concentration_basic ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 24 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_basic ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_intermediate ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 31 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_intermediate ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_master ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 37 ) );
+        } else {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 45 ) );
+        }
+    }
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
         return 0.0f;
