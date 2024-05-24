@@ -2446,7 +2446,7 @@ class Character : public Creature, public visitable
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
-        void set_skills_from_hobbies();
+        void set_skills_from_hobbies( bool no_override = false );
 
         void set_bionics_from_hobbies();
 
@@ -2455,7 +2455,8 @@ class Character : public Creature, public visitable
         float get_proficiency_practice( const proficiency_id &prof ) const;
         time_duration get_proficiency_practiced_time( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
-        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
+        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false,
+                              bool recursive = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const std::optional<time_duration> &max = std::nullopt );
