@@ -5697,7 +5697,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 s",
-    "components": [ [ [ "plastic_chunk", 1] ], [ [ "string_6", 1 ] ] ] 
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_6", 1 ] ] ]
   },
   {
     "result": "woven_anklet",
