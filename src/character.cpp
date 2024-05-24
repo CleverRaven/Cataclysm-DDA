@@ -11070,7 +11070,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    bool cramped = has_effect( effect_cramped_space );
+    bool cramped = false;
     // return is intentionally discarded, sets cramped if appropriate
     can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
     if( cramped ) {
@@ -11078,6 +11078,8 @@ void Character::process_effects()
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
         }
+    } else {
+        remove_effect( effect_cramped_space );
     }
 
     Creature::process_effects();
