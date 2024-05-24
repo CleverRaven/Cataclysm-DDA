@@ -642,6 +642,8 @@ class inventory_selector
         bool empty() const;
         /** @return true when there are enabled entries to select. */
         bool has_available_choices() const;
+        uint64_t item_entry_count() const;
+        drop_location get_only_choice() const;
 
         /** Apply filter string to all columns */
         void set_filter( const std::string &str );
@@ -783,6 +785,7 @@ class inventory_selector
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         point _fixed_origin{ -1, -1 }, _fixed_size{ -1, -1 };
         bool _categorize_map_items = false;
+        bool force_single_column = false;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -943,6 +946,20 @@ class container_inventory_selector : public inventory_pick_selector
 
     private:
         item_location loc;
+};
+
+std::vector<item_location> get_possible_reload_targets( const item_location &target );
+class ammo_inventory_selector : public inventory_selector
+{
+    public:
+        explicit ammo_inventory_selector( Character &you, const item_location &reload_loc,
+                                          const inventory_selector_preset &preset = default_preset );
+
+        drop_location execute();
+        void set_all_entries_chosen_count();
+    private:
+        void mod_chosen_count( inventory_entry &entry, int val );
+        const item_location reload_loc;
 };
 
 class inventory_multiselector : public inventory_selector
