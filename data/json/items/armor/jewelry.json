@@ -4445,7 +4445,7 @@
     "volume": "1 ml",
     "price": "150 USD",
     "price_postapoc": "15 cent",
-    "material": [ "gold" ]
+    "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
@@ -4459,7 +4459,7 @@
     "volume": "1 ml",
     "price": "250 USD",
     "price_postapoc": "25 cent",
-    "material": [ "gold" ]
+    "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
@@ -4473,7 +4473,7 @@
     "volume": "1 ml",
     "price": "150 USD",
     "price_postapoc": "15 cent",
-    "material": [ "silver" ]
+    "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
@@ -4487,7 +4487,7 @@
     "volume": "1 ml",
     "price": "150 USD",
     "price_postapoc": "15 cent",
-    "material": [ "silver" ]
+    "material": [ "silver" ],
     "symbol": ".",
     "color": "light_gray",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
