@@ -5690,7 +5690,6 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1] ], [ [ "string_6", 1 ] ] ] 
   },
 {
@@ -5698,7 +5697,6 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "5 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1] ], [ [ "string_6", 1 ] ] ] 
   },
   {
