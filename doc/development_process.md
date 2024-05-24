@@ -8,8 +8,7 @@ This document assumes you have a basic understanding how GitHub works.  Please s
 
 ## Table of Contents
 
-* [The basic concept](#The-basic-concept)
-* [The structure of the project](#The-structure-of-the-project)
+* [The basic structure](#The-basic-structure)
 * * [Experimental/Stable](#experimentalstable)
 * * * [Why this format?](#Why-this-format)
 * * [Mainline, in-repo mods, third party mods, and forks](#mainline-in-repo-mods-third-party-mods-and-forks)
@@ -35,8 +34,6 @@ This document assumes you have a basic understanding how GitHub works.  Please s
 
 At its core, CDDA is a survival simulation game.  [The design doc outlines what we mean by this](./Lore/design-doc.md).  The project is led by Kevin Granade, who owns CleverRaven and therefore this fork of the code.  As lead developer, Kevin's main job in the project is to be the *last word* if one is needed.  Most of the time, we don't need his final arbitration to know if something is going to fit or not.[^code]  The rest of the project's structure is organized chaos, and understanding it is daunting at first.
 
-## The structure of the project
-
 ### Experimental/Stable
 
 One of the most important concepts to understand in our project is the **experimental/stable branch** system.
@@ -49,7 +46,7 @@ On the other hand, in the experimental branch, we allow things to get broken.  W
 - If the behaviour is intended, we consider why people are frustrated by it.  Is player-end feedback a problem?  Is the UI creating tedium?  This is an area where things can languish for a while, but **it doesn't mean we don't care**, it's just that these problems are hard to fix, and often take different skills than the original addition.  This is also where the experimental/stable thing becomes relevant.  For example, on a few occasions, we've patched the behaviour out and then put it back in after stable.  This is to preserve gameplay for the people playing the curated, stable version of the game, while also continuing to work on the features we want to include.
 
 #### Why this format?
-**Why not finish things before putting them in a public experimental release, or revert them if they're broken?**
+Or, **Why not finish things before putting them in a public experimental release, or revert them if they're broken?**
 
 There are dozens of different good reasons.  Let's look at just one, because it's possibly the most important and also the most difficult to see unless you really examine development over the long term.
 
@@ -65,13 +62,13 @@ Cataclysm: DDA is one version of the 'Cataclysm' source code.  There are many ot
 
 ### Project roles
 
-This is a quick summary of the different terms we use for different groups within the project.  Almost all of these terms are quite fuzzy and imprecise.  Unfortunately, this can be a bit confusing.
+This is a quick summary of the different terms we use for different groups within the project.  Almost all of these terms are quite fuzzy and imprecise.
 
-* **CleverRaven** is the github organization that owns this fork of CDDA.  That might sound precise, but it's actually a little hard to define who is or is not part of CleverRaven and whether or not they have any official stance in what CleverRaven does.  Not all CleverRaven members are lead developers with merge permissions.  However, anyone who is a member of CleverRaven has some official trust and experience with the project.
+* **CleverRaven** is the github organization that owns this fork of CDDA.  That might sound precise, but it's actually a little hard to define who is or is not part of CleverRaven and whether or not they have any official authority.  Not all CleverRaven members are lead developers with merge permissions, but anyone who is a member of CleverRaven has some trust and experience with the project.
 * The **Project Lead** is Kevin Granade.  He mainly serves as the final voice in what can go into the project, and arbitrates disputes between other members of the team.
 * **Senior developers** have merge permissions with CleverRaven and have been around a long time.  This is a very fuzzy role, none of us know exactly what makes a person a "senior" developer versus any other kind of "developer".  It just kind of happens, usually because they're doing leadership things and not being told to stop.[^erk]  Some of the senior devs have gold names on Discord, but because we love confusion, most do not.
-* **Developers** are members of CleverRaven with merge permissions, aka "mergers".  These folks are trusted enough to be allowed the very dangerous ability to merge to the main project line.  They are the main workforce of the game's management team.  Developers usually have green or gold names on Discord, although some are magenta moderators.
-* **Collaborators** are contributors that have been around a while, and shown that they "get" the direction of the project.  We mark their names blue on discord to indicate this; the purpose of the role is to help newer users to identify if the feedback they're getting is from a fellow new person, or from someone with a bit more experience.  Collaborators don't speak for CleverRaven necessarily, but most of the time they know what they're talking about.
+* **Developers** are members of CleverRaven with merge permissions, aka "mergers".  These folks are trusted enough to be allowed to merge to the main project branch.  They are the main workforce of the game's management team.  Developers usually have green or gold names on Discord.
+* **Collaborators** are contributors that have been around a while, and shown that they "get" the direction of the project.  We mark their names blue on Discord to indicate this; the purpose of the role is to help newer users to identify if the feedback they're getting is from a fellow new person, or from someone with a bit more experience.  Collaborators don't speak for CleverRaven necessarily, but most of the time they know what they're talking about.
 * **The dev team** is a vague term that means, roughly, "the developers and sometimes the collaborators too".
 * **Contributors** are people who have added something to the game, anything.  Code, art, translations, writing, are all included.  While this is the most numerous group, we also think it's the most important one.  Everyone from Kevin onward is a contributor.  Contributors have purple names on Discord.
 * **Core contributors** is another vague term that we use sometimes, meaning "the developers, the collaborators, and a bunch of the contributors that have been around a lot".
