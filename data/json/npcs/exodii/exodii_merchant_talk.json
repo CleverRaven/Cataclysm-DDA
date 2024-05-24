@@ -195,7 +195,7 @@
             {
               "or": [
                 { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
-                { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1} }
+                { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } }
               ]
             }
           ]
@@ -422,10 +422,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing",
     "type": "talk_topic",
-    "dynamic_line": {
-      "//~": "Nay, mate, still operating",
-      "str": "Nay, mate, still operating"
-    },
+    "dynamic_line": { "//~": "Nay, mate, still operating", "str": "Nay, mate, still operating" },
     "responses": [
       { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Ok.  See you later then.", "topic": "TALK_DONE" }
@@ -434,16 +431,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
     "type": "talk_topic",
-    "dynamic_line": {
-      "//~": "Give me a second, and I'll bring them here.",
-      "str": "Give me a second, and I'll bring them here."
-    },
+    "dynamic_line": { "//~": "Give me a second, and I'll bring them here.", "str": "Give me a second, and I'll bring them here." },
     "responses": [
       {
         "text": "Of course, it is time for us to talk.",
-        "condition": {
-          "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type","value": "yank_out_all_bionics_from_prototype"
-        },
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "yank_out_all_bionics_from_prototype" },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -582,6 +574,20 @@
             },
             "then": { "u_spawn_item": "bio_synlungs" }
           },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_nanobots" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_arms" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 6 } }, "then": { "u_spawn_item": "bio_armor_eyes" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_head" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_legs" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 3 } }, "then": { "u_spawn_item": "bio_armor_torso" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_carbon" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_climate" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 9 } }, "then": { "u_spawn_item": "bio_digestion" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 8 } }, "then": { "u_spawn_item": "bio_flashlight" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_gills" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_leukocyte" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_metabolics" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 15 } }, "then": { "u_spawn_item": "bio_synlungs" } },
           {
             "u_spawn_npc": "BEM_prototype_cyborg_with_yonked_bionics",
             "real_count": 1,
@@ -595,9 +601,7 @@
       },
       {
         "text": "Of course, it is time for us to talk.",
-        "condition": {
-          "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype"
-        },
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype" },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -614,9 +618,7 @@
       },
       {
         "text": "Of course, it is time for us to talk.",
-        "condition": {
-          "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "reverse_cybernization_prototype"
-        },
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "reverse_cybernization_prototype" },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -633,156 +635,35 @@
       },
       {
         "text": "Let's see what I get.",
-        "condition": {
-          "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg"
-        },
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg" },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
           { "u_spawn_item": "ruined_chunks", "count": 20 },
           {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "then": { "u_spawn_item": "bio_power_storage", "count":2 }
+            "if": { "x_in_y_chance": { "x": 1, "y": 1 } },
+            "then": { "u_spawn_item": "bio_power_storage", "count": 2 }
           },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 20
-              }
-            },
-            "then": { "u_spawn_item": "bio_nanobots" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 4
-              }
-            },
-            "then": { "u_spawn_item": "bio_armor_arms" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 6
-              }
-            },
-            "then": { "u_spawn_item": "bio_armor_eyes" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 4
-              }
-            },
-            "then": { "u_spawn_item": "bio_armor_head" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 4
-              }
-            },
-            "then": { "u_spawn_item": "bio_armor_legs" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 3
-              }
-            },
-            "then": { "u_spawn_item": "bio_armor_torso" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 10
-              }
-            },
-            "then": { "u_spawn_item": "bio_carbon" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 10
-              }
-            },
-            "then": { "u_spawn_item": "bio_climate" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 9
-              }
-            },
-            "then": { "u_spawn_item": "bio_digestion" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 8
-              }
-            },
-            "then": { "u_spawn_item": "bio_flashlight" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 20
-              }
-            },
-            "then": { "u_spawn_item": "bio_gills" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 20
-              }
-            },
-            "then": { "u_spawn_item": "bio_leukocyte" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 20
-              }
-            },
-            "then": { "u_spawn_item": "bio_metabolics" }
-          },
-          {
-            "if": {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 15
-              }
-            },
-            "then": { "u_spawn_item": "bio_synlungs" }
-          }
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_nanobots" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_arms" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 6 } }, "then": { "u_spawn_item": "bio_armor_eyes" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_head" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_legs" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 3 } }, "then": { "u_spawn_item": "bio_armor_torso" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_carbon" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_climate" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 9 } }, "then": { "u_spawn_item": "bio_digestion" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 8 } }, "then": { "u_spawn_item": "bio_flashlight" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_gills" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_leukocyte" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_metabolics" } },
+          { "if": { "x_in_y_chance": { "x": 1, "y": 15 } }, "then": { "u_spawn_item": "bio_synlungs" } }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "It is time to put this body to rest.",
-        "condition": {
-          "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg"
-        },
+        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg" },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -790,14 +671,8 @@
         ],
         "topic": "TALK_DONE"
       },
-      {
-        "text": "Never mind, I want to ask you something.",
-        "topic": "TALK_EXODII_MERCHANT_Talk"
-      },
-      {
-        "text": "Actually, forget it.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Actually, forget it.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -837,7 +712,10 @@
           { "u_spend_cash": 30000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
           { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
-          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "yank_out_all_bionics_from_prototype" }
+          {
+            "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
+            "value": "yank_out_all_bionics_from_prototype"
+          }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
@@ -857,18 +735,21 @@
         "text": "[95$] Pull everything out, you can keep what works.  Just bring my buddy back.",
         "condition": { "u_are_owed": 9500 },
         "effect": [
-          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true},
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 9500 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
           { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
-          { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "reverse_cybernization_prototype" }
+          {
+            "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type",
+            "value": "reverse_cybernization_prototype"
+          }
         ],
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
         "text": "They are all yours.  [Adds 200$]",
         "effect": [ { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true }, { "u_spend_cash": -20000 } ],
-        "condition": {"u_has_items": {"item": "bot_prototype_cyborg","count": 1}},
+        "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
         "topic": "TALK_DONE"
       },
       { "text": "Actually, forget it's not my problem.", "topic": "TALK_DONE" }
@@ -886,7 +767,7 @@
         "text": "[200$] Pull out CBM if he can't use it, I can.",
         "condition": { "u_are_owed": 20000 },
         "effect": [
-          { "u_consume_item": "bot_prototype_cyborg","count": 1,"popup": true},
+          { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true },
           { "u_spend_cash": 20000 },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" },
           { "math": [ "u_timer_exodii_cybor_rescue_operating", "=", "time('now')" ] },
@@ -909,7 +790,7 @@
       {
         "text": "They are all yours.  [Adds 150$]",
         "effect": [ { "u_consume_item": "bot_prototype_cyborg", "count": 1, "popup": true }, { "u_spend_cash": -15000 } ],
-        "condition": {"u_has_items": {"item": "bot_prototype_cyborg","count": 1}},
+        "condition": { "u_has_items": { "item": "bot_prototype_cyborg", "count": 1 } },
         "topic": "TALK_DONE"
       },
       { "text": "Actually, forget it's not my problem.", "topic": "TALK_DONE" }
