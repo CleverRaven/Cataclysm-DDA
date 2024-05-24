@@ -4364,8 +4364,7 @@
       {
         "encumbrance": 0,
         "coverage": 0,
-        "covers": [ "head" ],
-        "specifically_covers": [ "mouth" ]
+        "covers": [ "head" ]
       }
     ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
@@ -4386,8 +4385,7 @@
       {
         "encumbrance": 0,
         "coverage": 0,
-        "covers": [ "head" ],
-        "specifically_covers": [ "mouth" ]
+        "covers": [ "head" ]
       }
     ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
@@ -4408,8 +4406,7 @@
       {
         "encumbrance": 0,
         "coverage": 0,
-        "covers": [ "head" ],
-        "specifically_covers": [ "mouth" ]
+        "covers": [ "head" ]
       }
     ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
@@ -4430,8 +4427,7 @@
       {
         "encumbrance": 0,
         "coverage": 0,
-        "covers": [ "head" ],
-        "specifically_covers": [ "mouth" ]
+        "covers": [ "head" ]
       }
     ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
