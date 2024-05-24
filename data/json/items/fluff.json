@@ -1861,9 +1861,14 @@
     "copy-from": "butterfly_net_collapsible_extended",
     "weight": "376 g",
     "volume": "865 ml",
+    "longest_side": "92 cm",
     "color": "brown",
+    "symbol": "P",
     "material": [ { "type": "wood", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
     "price_postapoc": "5 cent",
-    "use_action": {  }
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 }
   }
 ]
