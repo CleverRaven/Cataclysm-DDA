@@ -2,8 +2,6 @@
   {
     "type": "test_data",
     "overmap_terrain_coverage_whitelist": [
-      "ants_lab",
-      "ants_lab_stairs",
       "bandit_drug_lab",
       "bunker_shop_b",
       "bunker_shop_g",
@@ -17,9 +15,6 @@
       "deserter_city_office_roof",
       "deserter_city_office_roofb",
       "deserter_city_park",
-      "ice_lab",
-      "ice_lab_core",
-      "ice_lab_finale",
       "karting_0_0_0",
       "karting_0_0_1",
       "karting_0_0_2",
