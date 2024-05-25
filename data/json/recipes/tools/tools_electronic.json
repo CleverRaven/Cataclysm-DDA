@@ -845,7 +845,12 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ]
     ],
-    "components": [ [ [ "glass_shard", 8 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "element", 1 ], [ "crude_heating_element", 1 ] ], [ [ "cable", 10 ] ] ]
+    "components": [
+      [ [ "glass_shard", 8 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "element", 1 ], [ "crude_heating_element", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
