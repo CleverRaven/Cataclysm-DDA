@@ -4456,7 +4456,7 @@
     "type": "mutation",
     "id": "EATPOISON",
     "name": { "str": "Intestinal Fortitude" },
-    "points": 3,
+    "points": 2,
     "description": "Your guts have developed the ability to handle the toxic elements of mutated flesh.  Mostly.",
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "EATDEAD" ],
