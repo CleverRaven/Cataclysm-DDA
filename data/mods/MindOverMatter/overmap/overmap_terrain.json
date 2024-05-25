@@ -272,6 +272,23 @@
       "phavan_office_skyscraper_lab_upper_sw",
       "phavan_office_skyscraper_lab_upper_se"
     ],
+    "name": "PHAVIAN lab",
     "copy-from": "generic_office_skyscraper"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "phavian_hospital_basement_nw",
+      "phavian_hospital_basement_ne",
+      "phavian_hospital_basement_sw",
+      "phavian_hospital_basement_se"
+    ],
+    "copy-from": "generic_hospital"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "phavian_hospital_transition_tunnel" ],
+    "name": "PHAVIAN lab",
+    "copy-from": "microlab_generic"
   }
 ]

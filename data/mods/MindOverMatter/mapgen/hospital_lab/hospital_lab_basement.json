@@ -1,10 +1,10 @@
 [
-   {
+  {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ 
+    "om_terrain": [
       [ "phavian_hospital_basement_nw", "phavian_hospital_basement_ne" ],
-      [ "phavian_hospital_basement_sw", "phavian_hospital_basement_se" ] 
+      [ "phavian_hospital_basement_sw", "phavian_hospital_basement_se" ]
     ],
     "weight": 250,
     "object": {
@@ -47,11 +47,11 @@
         "#||o*o||ooo||ooo|          +   +    9A  aA  #...",
         "#               |+|+|+|    |+|+|            #...",
         "#ON65NNOO265NN65|T|T|T|LuuL|W|W|NN0NN0 nOOnz#...",
-        "######################################/######...",
+        "##############################/##############...",
+        ".............................#      ;  Ŧ#.......",
+        ".............................#######˽# ##.......",
         ".....................................# #........",
-        ".....................................# #........",
-        ".....................................# #........",
-        "....................................##;˽#.......",
+        "....................................##+##.......",
         "....................................#S H#.......",
         "....................................#R H#.......",
         "....................................##+##.......",
@@ -61,6 +61,7 @@
       ],
       "palettes": [ "hospital_2" ],
       "terrain": {
+        "Ŧ": "t_linoleum_white",
         ".": "t_soil",
         "°": "t_wall_metal",
         ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
@@ -118,7 +119,8 @@
         "^": { "monster": "mon_civilian_icu", "chance": 10 },
         "ւ": { "monster": "mon_civilian_icu", "chance": 10 },
         "Г": { "monster": "mon_civilian_icu", "chance": 10 },
-        "Я": { "monster": "mon_civilian_icu", "chance": 10 }
+        "Я": { "monster": "mon_civilian_icu", "chance": 10 },
+        "Ŧ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } }
       },
       "place_monsters": [
         { "monster": "GROUP_HOSPITAL", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 },
