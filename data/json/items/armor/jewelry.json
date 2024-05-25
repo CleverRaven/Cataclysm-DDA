@@ -4444,7 +4444,6 @@
       { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str_sp": "Wolf's Voice" } },
       { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str_sp": "Cooper's Touch" } },
       { "type": "COMPONENT_ID", "condition": "30carbine_casing", "name": { "str_sp": "Paratrooper's" } },
-      { "type": "COMPONENT_ID", "condition": "308_casing", "name": { "str_sp": "Marksman's" } },
       { "type": "COMPONENT_ID", "condition": "123ln_casing", "name": { "str_sp": "Illegal Alien" } },
       { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
       { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },

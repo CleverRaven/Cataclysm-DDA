@@ -148,7 +148,7 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "762_51_casing", 1 ], [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
+    "components": [ [ [ "762_51_casing", 1 ], [ "3006_casing", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -301,7 +301,7 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ] ] ],
-    "components": [ [ [ "762_51_casing", 1 ], [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
+    "components": [ [ [ "762_51_casing", 1 ], [ "3006_casing", 1 ] ] ]
   },
   {
     "type": "recipe",

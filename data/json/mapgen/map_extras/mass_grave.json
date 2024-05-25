@@ -2,7 +2,7 @@
   {
     "id": "mass_grave_casings",
     "type": "item_group",
-    "items": [ [ "223_casing", 60 ], [ "308_casing", 20 ], [ "shot_hull", 20 ] ]
+    "items": [ [ "223_casing", 60 ], [ "762_51_casing", 20 ], [ "shot_hull", 20 ] ]
   },
   {
     "type": "mapgen",

@@ -23,12 +23,6 @@
     "components": [ [ [ "303_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
   },
   {
-    "id": "ammo_308",
-    "type": "requirement",
-    "//": "Components required for 308 ammo",
-    "components": [ [ [ "308_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
-  },
-  {
     "id": "ammo_762_51",
     "type": "requirement",
     "//": "Components required for 762x51 ammo",
@@ -173,7 +167,6 @@
     "//": "References needed for boltfaces and magazines using .308 or derivatives",
     "tools": [
       [
-        [ "308_casing", -1 ],
         [ "308", -1 ],
         [ "762_51", -1 ],
         [ "762_51_incendiary", -1 ],
@@ -351,7 +344,6 @@
         [ "270win_casing", 1 ],
         [ "3006_casing", 1 ],
         [ "303_casing", 1 ],
-        [ "308_casing", 1 ],
         [ "300blk_casing", 1 ],
         [ "30carbine_casing", 1 ],
         [ "300_casing", 1 ],

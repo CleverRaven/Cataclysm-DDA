@@ -1403,5 +1403,10 @@
     "id": "moss_brownie",
     "type": "MIGRATION",
     "replace": "ruger_lcr_22"
+  },
+  {
+    "id": "308_casing",
+    "type": "MIGRATION",
+    "replace": "762_51_casing"
   }
 ]

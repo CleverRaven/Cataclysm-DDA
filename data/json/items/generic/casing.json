@@ -111,16 +111,6 @@
     "volume": "10ml"
   },
   {
-    "id": "308_casing",
-    "copy-from": "casing",
-    "looks_like": "223_casing",
-    "type": "GENERIC",
-    "name": { "str": ".308 casing" },
-    "description": "An empty casing from a .308 round.",
-    "weight": "6 g",
-    "volume": "9ml"
-  },
-  {
     "id": "762_51_casing",
     "copy-from": "casing",
     "looks_like": "223_casing",
