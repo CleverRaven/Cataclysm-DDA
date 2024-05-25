@@ -6,7 +6,7 @@
     "sym": "<",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,7 +15,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -24,7 +24,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -33,7 +33,7 @@
     "sym": "_",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -51,7 +51,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -60,6 +60,6 @@
     "sym": "=",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   }
 ]
