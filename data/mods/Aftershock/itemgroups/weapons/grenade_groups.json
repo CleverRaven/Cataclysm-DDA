@@ -4,10 +4,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "afs_electroshock_grenade_1", "count-min": 1, "count-max": 3 },
-      { "item": "grenade_cryo", "count-min": 1, "count-max": 3 },
-      { "item": "scrambler", "count-min": 1, "count-max": 3 },
-      { "item": "grenade_emp", "count-min": 1, "count-max": 3 }
+      { "item": "afs_electroshock_grenade_1", "count": [ 1, 3 ] },
+      { "item": "grenade_cryo", "count": [ 1, 3 ] },
+      { "item": "grenade", "count": [ 1, 3 ] },
+      { "item": "afs_HE_grenade", "count": [ 1, 3 ] },
+      { "item": "afs_toxic_grenade", "count": [ 1, 3 ] },
+      { "item": "grenade_inc", "count": [ 1, 3 ] },
+      { "item": "smokebomb", "count": [ 1, 3 ] },
+      { "item": "scrambler", "count": [ 1, 3 ] },
+      { "item": "grenade_emp", "count": [ 1, 3 ] }
     ]
   }
 ]

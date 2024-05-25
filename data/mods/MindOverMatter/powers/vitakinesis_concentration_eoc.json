@@ -7,7 +7,6 @@
       { "u_message": "You feel a warmth throughout your entire body.", "type": "good" },
       { "u_add_effect": "effect_vitakin_slow_bleeding", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_VITAKIN_SLOW_BLEEDING_SWITCHER" ] },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
         "queue_eocs": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
         "time_in_future": [
@@ -33,7 +32,7 @@
       "switch": { "math": [ "u_spell_level('vita_slow_bleeding')" ] },
       "cases": [
         { "case": 0, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_01", "duration": "PERMANENT" } },
-        { "case": 8, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_01", "duration": "PERMANENT" } },
+        { "case": 8, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_02", "duration": "PERMANENT" } },
         { "case": 16, "effect": { "u_add_effect": "effect_vitakin_slow_bleeding_03", "duration": "PERMANENT" } }
       ]
     }
@@ -55,8 +54,9 @@
     "id": "EOC_VITAKIN_SLOW_BLEEDING_DRAIN",
     "condition": { "u_has_effect": "effect_vitakin_slow_bleeding" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('vita_slow_bleeding')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -85,7 +85,6 @@
       { "u_message": "Your skin prickles and you feel like you're bursting with energy.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_vita_health", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
         "queue_eocs": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
         "time_in_future": [
@@ -115,8 +114,9 @@
     "id": "EOC_VITAKIN_HEALTH_POWER_DRAIN",
     "condition": { "u_has_effect": "effect_vita_health" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('vita_health_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -145,7 +145,6 @@
       { "u_message": "No disease is going to keep you down.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_vita_cure_disease", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
       {
         "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
         "time_in_future": [
@@ -182,8 +181,9 @@
     "id": "EOC_VITAKIN_CURE_DISEASE_DRAIN",
     "condition": { "u_has_effect": "effect_vita_cure_disease" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
       { "math": [ "u_spell_exp('vita_cure_disease')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -212,7 +212,6 @@
       { "u_message": "You feel a sudden sensation of fatigue and your wounds itch.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_vita_super_heal", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_nine", "hit_self": true } },
       {
         "queue_eocs": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
         "time_in_future": [
@@ -245,8 +244,9 @@
     "id": "EOC_VITAKIN_SUPER_HEAL_DRAIN",
     "condition": { "u_has_effect": "effect_vita_super_heal" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_nine", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(9)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "9" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(9)" ] },
       { "math": [ "u_spell_exp('vita_super_heal')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -274,9 +274,8 @@
     "effect": [
       { "u_message": "You prepare yourself to return from near-death.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
-      { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_calories()" ] },
       { "u_add_effect": "effect_vita_return_from_death", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_ten", "hit_self": true } },
       {
         "queue_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
         "time_in_future": [
@@ -315,9 +314,10 @@
     "id": "EOC_VITAKIN_RETURN_FROM_DEATH_DRAIN",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_ten", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(10)" ] },
-      { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "10" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(10)" ] },
+      { "math": [ "u_vitakin_return_from_death_kcal", "=", "u_calories()" ] },
       { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

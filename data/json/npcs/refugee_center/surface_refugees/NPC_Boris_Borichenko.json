@@ -86,9 +86,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1"
@@ -98,9 +96,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            },
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
             { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "2" ] }
           ]
         },
@@ -111,9 +107,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            },
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
             { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "3" ] }
           ]
         },
@@ -124,9 +118,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            },
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
             { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "==", "4" ] }
           ]
         },
@@ -135,29 +127,29 @@
       {
         "text": "Is there anything I can help you out with?",
         "topic": "TALK_REFUGEE_Boris_Work1",
-        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" } }
       },
       {
         "text": "Got anything else I can help out with?",
         "topic": "TALK_MISSION_LIST",
         "condition": {
           "and": [
-            { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
-            { "not": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" } }
+            { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" },
+            { "not": { "u_has_var": "mission_completed_Boris_mission_3", "value": "yes" } }
           ]
         }
       },
       {
         "text": "So, have you had a chance to get that laptop working and look at it yet?",
         "topic": "TALK_REFUGEE_Boris_ReadLaptop1",
-        "condition": { "u_has_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" }
+        "condition": { "u_has_var": "mission_completed_Boris_mission_3", "value": "yes" }
       },
       {
         "text": "Now that you've got your tools and shop set up, do you think you could teach me a thing or two about construction?",
         "topic": "TALK_REFUGEE_Boris_Teach",
         "condition": {
           "and": [
-            { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+            { "u_has_var": "mission_completed_Boris_mission_2", "value": "yes" },
             { "math": [ "time_since(n_timer_flag_Boris_teach)", ">", "time('1 d')" ] }
           ]
         }
@@ -173,7 +165,7 @@
     "dynamic_line": "Ah, another new face.  Hello.  I am Boris.",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Boris_Borichenko", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Boris_1a" }
       ]
     },
@@ -258,22 +250,22 @@
       {
         "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
         "topic": "TALK_REFUGEE_Boris_Work1",
-        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" } }
       },
       {
         "text": "Could you teach me something about carpentry?",
         "topic": "TALK_REFUGEE_Boris_NoTeach",
-        "condition": { "not": { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_2", "value": "yes" } }
       },
       {
         "text": "Could you teach me something about carpentry?",
         "topic": "TALK_REFUGEE_Boris_Teach",
-        "condition": { "u_has_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" }
+        "condition": { "u_has_var": "mission_completed_Boris_mission_2", "value": "yes" }
       },
       {
         "text": "Now that things are cleaned up in the back, is there anything holding you back from working?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" }
+        "condition": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -346,9 +338,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Work1",
     "dynamic_line": {
-      "u_has_var": "FMShopkeep_Mission1",
-      "type": "mission",
-      "context": "flag",
+      "u_has_var": "mission_flag_FMShopkeep_Mission1",
       "value": "yes",
       "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw… if… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
       "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
@@ -356,7 +346,7 @@
     "responses": [
       {
         "text": "What do you need to get things cleaned up?  Can I help?",
-        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
         "topic": "TALK_REFUGEE_Boris_Work2"
       },
       { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
@@ -379,12 +369,12 @@
     "responses": [
       {
         "text": "Is there anything I can do to help?",
-        "condition": { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" } },
         "topic": "TALK_REFUGEE_Boris_Work1"
       },
       {
         "text": "Is there anything more I can do to help?",
-        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+        "condition": { "u_has_var": "mission_completed_Boris_mission_1", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -412,18 +402,14 @@
       "concatenate": [
         "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
         {
-          "u_has_var": "Boris_mission_1",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_1",
           "value": "yes",
           "yes": ", but it is a bit better since we cleaned up our dead",
           "no": ", woken by zombies in the night"
         },
         ".  To me, though, that is all just a drop in the bucket",
         {
-          "u_has_var": "Boris_mission_3",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_3",
           "value": "yes",
           "yes": ".  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
           "no": ".  I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
@@ -483,7 +469,7 @@
       "effect": [
         { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
         { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "300 minutes" },
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" }
       ]
     }
   },
@@ -499,7 +485,7 @@
       "effect": [
         { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "2" ] },
         { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "240 minutes" },
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" }
       ]
     }
   },
@@ -514,7 +500,7 @@
     "speaker_effect": {
       "effect": [
         { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" }
       ]
     }
   },
@@ -543,7 +529,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_add_var": "mission_completed_Boris_mission_1", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] },
         { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
@@ -576,7 +562,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Boris_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_add_var": "mission_completed_Boris_mission_2", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     },
@@ -616,7 +602,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Boris_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_add_var": "mission_completed_Boris_mission_3", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     }

@@ -20,34 +20,6 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_bugout",
-    "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "place_nested": [ { "chunks": [ [ "nested_bugout_bag", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
-    }
+    "object": { "place_nested": [ { "chunks": [ [ "nested_bugout_bag", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   }
 ]

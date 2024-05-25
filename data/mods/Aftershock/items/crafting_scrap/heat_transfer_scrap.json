@@ -22,8 +22,8 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "price": 5000,
-    "price_postapoc": 10000,
+    "price": "50 USD",
+    "price_postapoc": "100 USD",
     "quench": -120,
     "healthy": -60,
     "fun": -40
@@ -48,7 +48,7 @@
     "type": "GENERIC",
     "id": "afs_heat_5",
     "copy-from": "afs_scrap_5",
-    "name": { "str": "maxwellian entropic chirality generator" },
+    "name": { "str": "Maxwellian entropic chirality generator" },
     "description": "A nondescript square piece of metal about the size of a computer chip.  One side is cold to the touch, while the other is uncomfortably hot.  Hermetically sealed and devoid of any identifying feature, this peculiar device gives off an unexplainable, sinister aura.",
     "looks_like": "scrap"
   },
@@ -60,8 +60,8 @@
     "name": { "str": "salvaged coolant system" },
     "description": "Rusty fluid reservoirs and decomposing high-pressure tubing containing still usable supercritical coolant.  You could disassemble it to separate the liquid coolant from the rest of the scrap.",
     "looks_like": "scrap",
-    "price": 1,
-    "price_postapoc": 1,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "weight": "4500 g",
     "volume": "3200 ml"
   }

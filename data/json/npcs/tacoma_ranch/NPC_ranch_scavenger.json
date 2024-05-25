@@ -22,15 +22,11 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "scavenger_hospital_raid_started", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
+            { "not": { "u_has_var": "mission_tacoma_ranch_scavenger_hospital_raid_started", "value": "yes" } }
           ]
         },
-        "effect": [ { "u_add_var": "scavenger_hospital_raid", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "u_add_var": "mission_tacoma_ranch_scavenger_hospital_raid", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },

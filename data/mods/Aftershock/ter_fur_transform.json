@@ -1,0 +1,28 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "transform_gratings",
+    "terrain": [
+      {
+        "result": "t_prison_grate_r",
+        "valid_terrain": [ "t_prison_grate" ],
+        "message": "The grating retracts into the floor and ceiling."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "engine_overload_transform",
+    "terrain": [ { "result": [ "t_afs_gun_ship_engine_console_burnt" ], "valid_terrain": [ "t_afs_gun_ship_engine_console" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_lights_on",
+    "terrain": [ { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_lights_off",
+    "terrain": [ { "result": "t_metal_floor_olight_inactive", "valid_terrain": [ "t_metal_floor_olight" ] } ]
+  }
+]

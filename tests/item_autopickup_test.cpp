@@ -212,12 +212,12 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
         REQUIRE( here.i_at( ground ).empty() );
 
         // add random items to the tile on the ground
-        here.add_item( ground, item( itype_marble, calendar::turn, 10 ) );
-        here.add_item( ground, item( itype_pebble, calendar::turn, 15 ) );
+        here.add_item( ground, item( itype_marble, calendar::turn ) );
+        here.add_item( ground, item( itype_pebble, calendar::turn ) );
 
-        // codeine (20)(WL)
+        // codeine (WL)
         WHEN( "there is an item on the ground whitelisted in auto-pickup rules" ) {
-            unique_item item_codeine = unique_item( itype_codeine, 20 );
+            unique_item item_codeine = unique_item( itype_codeine );
             REQUIRE( item_codeine.spawn_item( ground ) );
             add_autopickup_rule( item_codeine.get(), true );
 
@@ -226,9 +226,9 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
                 expect_to_find( backpack, { &item_codeine } );
             }
         }
-        // plastic prescription bottle > (WL)aspirin (12)
+        // plastic prescription bottle > (WL)aspirin
         WHEN( "there is a container on the ground containing only items whitelisted in auto-pickup rules" ) {
-            unique_item item_aspirin = unique_item( itype_aspirin, 12 );
+            unique_item item_aspirin = unique_item( itype_aspirin );
             unique_item item_prescription_bottle = unique_item(
             itype_bottle_plastic_pill_prescription, {
                 &item_aspirin
@@ -244,10 +244,10 @@ TEST_CASE( "auto_pickup_should_recognize_container_content", "[autopickup][item]
                 } );
             }
         }
-        // plastic bag > paper (5), paper wrapper (WL) > chocolate candy (3)
+        // plastic bag > paper, paper wrapper (WL) > chocolate candy
         WHEN( "there is a container on the ground with a deeply nested item whitelisted in auto-pickup rules" ) {
-            const unique_item item_paper = unique_item( itype_paper, 5 );
-            const unique_item item_chocolate_candy = unique_item( itype_candy2, 3 );
+            const unique_item item_paper = unique_item( itype_paper );
+            const unique_item item_chocolate_candy = unique_item( itype_candy2 );
             const unique_item item_paper_wrapper = unique_item( itype_wrapper, {
                 &item_chocolate_candy
             } );
@@ -387,8 +387,8 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
     // small tin can (sealed) > canned tuna fish (WL), canned meat
     WHEN( "there is a sealed container on the ground containing items whitelisted in auto-pickup rules" ) {
         item item_medium_tin_can = item( itype_can_medium );
-        unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
-        unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
+        unique_item item_canned_tuna = unique_item( itype_can_tuna, true );
+        unique_item item_canned_meat = unique_item( itype_meat_canned, true );
 
         // insert items inside can and seal it
         item_medium_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
@@ -410,8 +410,8 @@ TEST_CASE( "auto_pickup_should_consider_item_rigidness_and_seal", "[autopickup][
     WHEN( "there is a sealed container on the ground containing no whitelisted items" ) {
         item item_medium_tin_can = item( itype_can_medium );
         item item_bottle_plastic = item( itype_bottle_plastic );
-        unique_item item_canned_tuna = unique_item( itype_can_tuna, 1, true );
-        unique_item item_canned_meat = unique_item( itype_meat_canned, 1, true );
+        unique_item item_canned_tuna = unique_item( itype_can_tuna, true );
+        unique_item item_canned_meat = unique_item( itype_meat_canned, true );
 
         // insert items inside can and seal it
         item_medium_tin_can.force_insert_item( *item_canned_tuna.get(), pocket_type_container );
@@ -447,15 +447,16 @@ TEST_CASE( "auto_pickup_should_respect_volume_and_weight_limits", "[autopickup][
     item &backpack = *backpack_iter;
     REQUIRE( they.has_item( backpack ) );
 
-    // backpack > lump of steel (5)(WL), cigrarette (3)(WL), paper (10)(WL)
+    // backpack > lump of steel (WL), cigrarette (WL), paper (WL)
     GIVEN( "there is a container with some items that exceed volume or weight limit" ) {
         options_manager &options = get_options();
         options_manager::cOpt &ap_weight_limit = options.get_option( "AUTO_PICKUP_WEIGHT_LIMIT" );
         options_manager::cOpt &ap_volume_limit = options.get_option( "AUTO_PICKUP_VOLUME_LIMIT" );
 
+        // Note: This relies on charge-spawning behavior for steel lumps
         unique_item item_lump_of_steel = unique_item( itype_steel_lump, 5 );
-        unique_item item_cigarette = unique_item( itype_cig, 3 );
-        unique_item item_paper = unique_item( itype_paper, 10 );
+        unique_item item_cigarette = unique_item( itype_cig );
+        unique_item item_paper = unique_item( itype_paper );
         unique_item item_backpack = unique_item( itype_backpack, {
             &item_lump_of_steel, &item_cigarette, &item_paper
         } );
@@ -524,7 +525,7 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
     REQUIRE( they.has_item( backpack ) );
 
     // candy cigarette(WL)
-    // pack(WL) > cigarette (2)(WL), rolling paper (10)(WL)
+    // pack(WL) > cigarette (WL), rolling paper (WL)
     GIVEN( "there is a container with some items and an item outside it on the ground" ) {
         options_manager::cOpt &autopickup_owned = get_options().get_option( "AUTO_PICKUP_OWNED" );
         // make sure the autopickup owned option is disabled
@@ -532,8 +533,8 @@ TEST_CASE( "auto_pickup_should_consider_item_ownership", "[autopickup][item]" )
             autopickup_owned.setValue( "false" );
         }
         unique_item item_candy_cigarette = unique_item( itype_candycigarette );
-        unique_item item_cigarette = unique_item( itype_cig, 2 );
-        unique_item item_rolling_paper = unique_item( itype_rolling_paper, 10 );
+        unique_item item_cigarette = unique_item( itype_cig );
+        unique_item item_rolling_paper = unique_item( itype_rolling_paper );
         unique_item item_pack = unique_item( itype_box_cigarette, {
             &item_cigarette, &item_rolling_paper
         } );
@@ -601,8 +602,8 @@ TEST_CASE( "auto_pickup_should_not_implicitly_pickup_corpses", "[autopickup][ite
                 expect_to_find( *body_bag, {} );
             }
             WHEN( "the corpse contains whitelisted items" ) {
-                unique_item item_cigarette = unique_item( itype_cig, 5 );
-                unique_item item_rolling_paper = unique_item( itype_rolling_paper, 10 );
+                unique_item item_cigarette = unique_item( itype_cig );
+                unique_item item_rolling_paper = unique_item( itype_rolling_paper );
 
                 item *found = item_corpse.find_on_ground( ground );
                 found->force_insert_item( *item_cigarette.get(), pocket_type_container );

@@ -119,6 +119,64 @@
   },
   {
     "type": "SPELL",
+    "id": "fragile_frog_leap",
+    "name": { "str": "Fragile Frog Leap" },
+    "description": "Cast after a burned frog monster leaps; causes self harm and creates a smoke cloud.",
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 0,
+    "message": "",
+    "min_damage": 10,
+    "max_damage": 15,
+    "damage_type": "cut",
+    "valid_targets": [ "self", "hostile", "ground" ],
+    "shape": "blast",
+    "field_id": "fd_smoke",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "effect": "attack",
+    "min_range": 1,
+    "max_range": 1,
+    "extra_effects": [ { "id": "fragile_no_more", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "dusty_frog_leap",
+    "name": { "str": "Dusty Frog Leap" },
+    "description": "Cast after a burned frog monster leaps; causes self harm and creates a smoke plume.",
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 0,
+    "message": "",
+    "min_damage": 5,
+    "max_damage": 10,
+    "damage_type": "cut",
+    "valid_targets": [ "self", "hostile", "ground" ],
+    "shape": "blast",
+    "field_id": "fd_smoke",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "effect": "attack",
+    "min_range": 1,
+    "max_range": 1,
+    "extra_effects": [ { "id": "fragile_no_more", "hit_self": true } ]
+  },
+  {
+    "id": "fragile_no_more",
+    "type": "SPELL",
+    "name": "Fragile No More",
+    "description": "removes conditional effect for burned frogs crumble after leaping.",
+    "valid_targets": [ "self" ],
+    "effect": "remove_effect",
+    "effect_str": "fragile_frog",
+    "shape": "blast"
+  },
+  {
+    "type": "SPELL",
     "id": "small_raptor_spawn",
     "name": { "str": "Summon Raptors" },
     "description": "Summons a few zombiespawn raptors.",
@@ -126,9 +184,8 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 2,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "base_casting_time": 500,
+    "min_aoe": 4,
+    "max_aoe": 4,
     "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
     "shape": "blast",
     "effect": "summon",
@@ -145,7 +202,6 @@
     "max_damage": 6,
     "min_aoe": 4,
     "max_aoe": 4,
-    "base_casting_time": 500,
     "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
     "shape": "blast",
     "effect": "summon",
@@ -160,10 +216,9 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 1,
-    "min_aoe": 2,
-    "max_aoe": 2,
+    "min_aoe": 4,
+    "max_aoe": 4,
     "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
-    "base_casting_time": 200,
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor"
@@ -177,9 +232,8 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 1,
-    "min_aoe": 3,
-    "max_aoe": 3,
-    "base_casting_time": 100,
+    "min_aoe": 4,
+    "max_aoe": 4,
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor"
@@ -193,9 +247,8 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 2,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "base_casting_time": 500,
+    "min_aoe": 4,
+    "max_aoe": 4,
     "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
     "shape": "blast",
     "effect": "summon",
@@ -210,10 +263,9 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 1,
-    "min_aoe": 2,
-    "max_aoe": 2,
+    "min_aoe": 4,
+    "max_aoe": 4,
     "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
-    "base_casting_time": 250,
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_fungal_raptor"
@@ -227,9 +279,8 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 2,
-    "min_aoe": 2,
-    "max_aoe": 2,
-    "base_casting_time": 500,
+    "min_aoe": 4,
+    "max_aoe": 4,
     "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
     "shape": "blast",
     "effect": "summon",
@@ -240,13 +291,28 @@
     "id": "spawning_zombie_die",
     "name": { "str": "Spawning Zombie Die" },
     "description": "For zombies that are spawning something and die in the process.",
-    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
-    "min_damage": 250,
-    "max_damage": 250,
-    "damage_type": "cut",
-    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "EXTRA_EFFECTS_FIRST" ],
+    "min_damage": 2000,
+    "max_damage": 2000,
+    "damage_type": "pure",
+    "valid_targets": [ "self" ],
+    "extra_effects": [ { "id": "soft_squelch", "hit_self": true } ],
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "type": "SPELL",
+    "id": "soft_squelch",
+    "name": { "str": "Soft Squelch" },
+    "description": "Noise, emitted by the monster when it explode with gore.",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 6,
+    "max_damage": 16,
+    "sound_type": "combat",
+    "sound_description": "a loud tearing!",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "noise"
   },
   {
     "type": "SPELL",
@@ -578,7 +644,7 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + ps_str + 20, 1200)" ] },
+      { "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
       { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
       { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
@@ -666,6 +732,22 @@
     "type": "ter_furn_transform",
     "id": "portal_cage_revert_transform",
     "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
+  },
+  {
+    "id": "skunk_squirt",
+    "type": "SPELL",
+    "name": { "str": "Skunk Spray" },
+    "description": "Skunk spray defense mechanism.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_range": 4,
+    "max_range": 4,
+    "//": "Duration is 3-5 hours, can't seem to write it in hours, had to write it in moves which is terrible",
+    "min_duration": 1080000,
+    "max_duration": 1800000,
+    "flags": [ "RANDOM_DURATION" ],
+    "effect_str": "skunk_spray"
   },
   {
     "id": "boomer_claymore_initial",
@@ -797,7 +879,9 @@
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            {
+              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
+            },
             { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
@@ -805,7 +889,9 @@
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            {
+              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
+            },
             { "math": [ "portal_dungeon_reflect_strength", "++" ] }
           ]
         },
@@ -1168,6 +1254,31 @@
     "effect": [
       { "u_add_effect": "tindrift", "duration": "1 s" },
       { "u_message": "Your sight darkens as the visions overtake you!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "veiled_butterfly_irradiate",
+    "name": { "str": "Irradiate Player" },
+    "description": "Adds minor radiation to player.",
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_veiled_butterfly_irradiate",
+    "valid_targets": [ "hostile" ],
+    "base_casting_time": 200,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 1,
+    "max_range": 5,
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_veiled_butterfly_irradiate",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "The veiled butterfly's wings move in odd ways and a strange glow envelops you!", "type": "bad" },
+      { "math": [ "u_val('rad')", "+=", "20" ] }
     ]
   }
 ]

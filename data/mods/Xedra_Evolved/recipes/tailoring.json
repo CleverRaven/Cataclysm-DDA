@@ -132,17 +132,22 @@
     "result": "sleeveless_trenchcoat_glimmer_fur",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "id_suffix": "from_trenchcoat_glimmer_fur",
+    "id_suffix": "from_scratch",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
-    "time": "6 m",
+    "time": "7 h 5 m",
+    "reversible": true,
     "autolearn": true,
-    "byproducts": [ [ "fur", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "trenchcoat_fur", 1 ] ] ]
+    "using": [ [ "tailoring_glimmer_fur", 10 ], [ "fastener_large", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_aelfen_tailoring" },
+      { "proficiency": "prof_furriery" }
+    ]
   },
   {
     "result": "trenchcoat_glimmer_fur",

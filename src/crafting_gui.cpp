@@ -7,9 +7,13 @@
 #include <functional>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <optional>
 #include <set>
+#include <sstream>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -17,18 +21,27 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
 #include "color.h"
 #include "crafting.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
 #include "options.h"
@@ -41,6 +54,8 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -49,8 +64,10 @@
 
 static const limb_score_id limb_score_manip( "manip" );
 
+static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
+static const std::string flag_NO_MANIP( "NO_MANIP" );
 
 enum TAB_MODE {
     NORMAL,
@@ -1156,19 +1173,13 @@ static void nested_toggle( recipe_id rec, bool &recalc, bool &keepline )
 static bool selection_ok( const std::vector<const recipe *> &list, const int current_line,
                           const bool nested_acceptable )
 {
-    std::string error_message;
     if( list.empty() ) {
-        error_message = _( "Nothing selected!" );
+        popup( _( "Nothing selected!" ) );
     } else if( list[current_line]->is_nested() && !nested_acceptable ) {
-        error_message = _( "Select a recipe within this group" );
+        popup( _( "Select a recipe within this group" ) );
     } else {
         return true;
     }
-
-    query_popup()
-    .message( "%s", error_message )
-    .option( "QUIT" )
-    .query();
     return false;
 }
 
@@ -1297,17 +1308,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     int last_line = -1;
     bool just_toggled_unread = false;
 
-    const inventory &crafting_inv = crafter->crafting_inventory();
     const std::vector<Character *> crafting_group = crafter->get_crafting_group();
     int crafter_i = find( crafting_group.begin(), crafting_group.end(),
                           crafter ) - crafting_group.begin();
 
     // Get everyone's recipes
-    recipe_subset assemble_available_recipes;;
-    for( const Character *guy : crafting_group ) {
-        assemble_available_recipes.include( guy->get_available_recipes( crafting_inv ) );
-    }
-    const recipe_subset &available_recipes = assemble_available_recipes;
+    const recipe_subset &available_recipes = crafter->get_group_available_recipes();
     std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
     // next line also inserts empty cache for crafter->getID()
     std::map<const recipe *, availability> *availability_cache =
@@ -1804,18 +1810,18 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             line = -1;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() || ( ( !available[line].can_craft ||
-                                         !available[line].crafter_has_primary_skill )
-                                       && !current[line]->is_nested() ) ) {
-                query_popup()
-                .message( "%s", _( "Crafter can't craft that!" ) )
-                .option( "QUIT" )
-                .query();
+            if( available.empty() ) {
+                popup( _( "Nothing selected!" ) );
             } else if( current[line]->is_nested() ) {
                 nested_toggle( current[line]->ident(), recalc, keepline );
+            } else if( !available[line].can_craft ||
+                       !available[line].crafter_has_primary_skill ) {
+                popup( _( "Crafter can't craft that!" ) );
             } else if( !crafter->check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
+            } else if( crafter->lighting_craft_speed_multiplier( *current[line] ) <= 0.0f ) {
+                popup( _( "Crafter can't see!" ) );
             } else {
                 chosen = current[line];
                 batch_size_out = batch ? line + 1 : 1;
@@ -2060,6 +2066,9 @@ int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_
             if( !avail.has_proficiencies ) {  // this is required proficiency
                 reasons.emplace_back( _( "proficiency" ) );
             }
+            if( chara->lighting_craft_speed_multiplier( *rec ) <= 0.0f ) {
+                reasons.emplace_back( _( "light" ) );
+            }
             std::string dummy;
             if( chara->is_npc() && !rec->npc_can_craft( dummy ) ) {
                 reasons.emplace_back( _( "is NPC" ) );
@@ -2069,7 +2078,7 @@ int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_
                 // *INDENT-OFF* readable ternary operator
                 rec->is_nested()
                     ? colorize( "-", c_yellow )
-                    : avail.can_craft && avail.crafter_has_primary_skill
+                    : reasons.empty()
                         ? colorize( _( "yes" ), c_green )
                         : colorize( _( "no" ), c_red ) );
                 // *INDENT-ON* readable ternary operator
@@ -2271,7 +2280,10 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int limb_modifier = crafter.get_limb_score( limb_score_manip ) * 100;
+        int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
+                                limb_score_manip ) * 100;
+        int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
+                         1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
 
         std::stringstream modifiers_list;
         if( morale_modifier < 100 ) {
@@ -2288,6 +2300,12 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
                 modifiers_list << ", ";
             }
             modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        }
+        if( pain_multi < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "pain" ) << " " << pain_multi << "%";
         }
 
         right_print( w, 0, 1, i_yellow,

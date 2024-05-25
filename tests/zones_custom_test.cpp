@@ -1,5 +1,6 @@
 #include "cata_catch.h"
 #include "clzones.h"
+#include "map.h"
 #include "map_helpers.h"
 
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );

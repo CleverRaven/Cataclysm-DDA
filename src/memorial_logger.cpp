@@ -1143,6 +1143,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
+        case event_type::character_butchered_corpse:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

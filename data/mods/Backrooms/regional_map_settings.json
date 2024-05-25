@@ -30,6 +30,7 @@
       "terrain": {
         "t_region_groundcover": { "t_carpet_backrooms": 500, "t_carpet_backrooms_light": 1 },
         "t_region_shrub": { "t_backroom_wall": 1, "t_carpet_backrooms_light": 1 },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_groundcover_urban": { "t_carpet_backrooms": 2 },
         "t_region_groundcover_forest": { "t_carpet_backrooms": 1 },
         "t_region_groundcover_swamp": { "t_carpet_backrooms": 1 },
@@ -64,6 +65,14 @@
       "noise_threshold_swamp_isolated": 1.0,
       "river_floodplain_buffer_distance_min": 0,
       "river_floodplain_buffer_distance_max": 0
+    },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
     },
     "forest_mapgen_settings": {
       "forest": {

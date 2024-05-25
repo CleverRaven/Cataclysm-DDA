@@ -1,8 +1,8 @@
 #include "damage.h"
 
 #include <algorithm>
-#include <cstdlib>
 #include <map>
+#include <memory>
 #include <numeric>
 #include <string>
 #include <utility>
@@ -10,15 +10,21 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "creature.h"
-#include "effect_on_condition.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "item.h"
 #include "json.h"
+#include "json_error.h"
 #include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
-#include "translations.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "units.h"
 
 static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;

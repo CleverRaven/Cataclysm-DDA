@@ -852,10 +852,12 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
     return std::pair<field, tripoint> {field_removed, field_position};
 }
 
-static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint> &fd_fatigue_field,
+static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint>
+        &fd_fatigue_field,
         Creature &caster )
 {
-    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( fd_fatigue_field ) ) {
+    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
+         ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint &field_position = std::get<1>( fd_fatigue_field );
@@ -1136,9 +1138,9 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         you->magic->mod_mana( *you, healing );
     } else if( energy_source == "STAMINA" ) {
         you->mod_stamina( healing );
-    } else if( energy_source == "FATIGUE" ) {
-        // fatigue is backwards
-        you->mod_fatigue( -healing );
+    } else if( energy_source == "SLEEPINESS" ) {
+        // sleepiness is backwards
+        you->mod_sleepiness( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
             you->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( healing ) ) );
@@ -1365,7 +1367,7 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
             continue;
         }
         sp.make_sound( potential_target, caster );
-        critter->moves += sp.damage( caster );
+        critter->mod_moves( sp.damage( caster ) );
     }
 }
 
@@ -1518,10 +1520,10 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         std::string msg;
         game_message_type msgtype = m_bad; // default guilt message type
         std::map<int, std::string> guilt_thresholds;
-        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel guilty for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel awful about killing %s." );
         guilt_thresholds[ ceil( max_kills * 0.5 ) ] = _( "You feel remorse for killing %s." );
-        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You regret killing %s." );
-        guilt_thresholds[max_kills] = _( "You feel ashamed for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You feel guilty for killing %s." );
+        guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
@@ -1676,7 +1678,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
-    const int cur_moves = caster.moves;
+    const int cur_moves = caster.get_moves();
     creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
@@ -1697,7 +1699,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         // we want the last tripoint in the actually reached trajectory
         --walk_point;
     }
-    caster.moves = cur_moves;
+    caster.set_moves( cur_moves );
 
     tripoint far_target;
     calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
@@ -1742,7 +1744,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             int caster_total_hp = 0;
             int unbroken_parts = 0;
             for( const bodypart_id &part : caster.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                const int cur_part_hp = caster.as_character()->get_part_hp_cur( part );
+                const int cur_part_hp = caster.get_part_hp_cur( part );
                 if( cur_part_hp != 0 ) {
                     caster_total_hp += cur_part_hp;
                     unbroken_parts++;
@@ -1759,14 +1761,13 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
                 int parts_checked = 0;
 
                 for( const bodypart_id &part : caster.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                    Character &char_caster = *caster.as_character();
-                    const int cur_part_hp = char_caster.get_part_hp_cur( part );
+                    const int cur_part_hp = caster.get_part_hp_cur( part );
                     if( cur_part_hp > std::ceil( damage_per_part ) ) {
                         const int rolled_dam = roll_remainder( damage_per_part );
-                        char_caster.mod_part_hp_cur( part, -rolled_dam );
+                        caster.mod_part_hp_cur( part, -rolled_dam );
                         overflow -= rolled_dam;
                     } else {
-                        char_caster.mod_part_hp_cur( part, -( cur_part_hp - 1 ) );
+                        caster.mod_part_hp_cur( part, -( cur_part_hp - 1 ) );
                         overflow -= cur_part_hp - 1;
                         damage_per_part = static_cast<float>( overflow ) /
                                           static_cast<float>( unbroken_parts - parts_checked );

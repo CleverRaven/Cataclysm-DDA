@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
+    "age": 67,
+    "height": 153,
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -131,17 +133,14 @@
       {
         "text": "Hi, nice farm you have here.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK1",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, Jack suggested I stop by and say hello.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK3",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
       },
       {
         "text": "Can I do anything for you?",
@@ -216,12 +215,12 @@
       {
         "text": "I'd like to ask you something else…",
         "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       }
     ]
   },
@@ -371,7 +370,7 @@
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_spawn_item": "isherwood_herbal_remedies", "count": 1 },
-        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_claire_missions", "value": "yes" }
       ]
     },
     "dialogue": {

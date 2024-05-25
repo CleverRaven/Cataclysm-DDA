@@ -14,8 +14,8 @@
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -72,8 +72,8 @@
     "difficulty": 9,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -137,8 +137,8 @@
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -207,8 +207,8 @@
     "difficulty": 9,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -294,8 +294,8 @@
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -372,8 +372,8 @@
     "difficulty": 9,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",

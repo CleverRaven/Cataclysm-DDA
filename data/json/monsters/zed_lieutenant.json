@@ -105,7 +105,7 @@
     "name": { "str": "Life Drain" },
     "description": "When even the grass rises against you, what hope do you have?",
     "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "hostile" ],
+    "valid_targets": [ "hostile" ],
     "shape": "blast",
     "min_accuracy": 20,
     "max_accuracy": 20,
@@ -165,6 +165,7 @@
         "outdoor_only": true,
         "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
+        "temporary_drop_items": true,
         "target_var": { "global_val": "drain_terrain" }
       },
       { "u_message": "The air rings out with a piercing shriek!", "type": "warning" }
@@ -394,7 +395,13 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
     "effect": [
-      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
+      {
+        "u_message": "You shiver as the night closes in…",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
     ]
   },
   {
@@ -491,7 +498,7 @@
     "category": "Shadow_Warnings_Snippets_early",
     "text": [
       "Even out here you can still see the burning cities lighting up the horizon.  What scares you most is not the gunshots you sometimes hear in the far distance, but the idea of what people keep shooting at.  Tonight you hear automatic gunfire winding down into single shots.\n\nJust what could make them shoot that much, all the way out here?",
-      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizeable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here."
+      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here."
     ]
   },
   {

@@ -3,14 +3,16 @@
     "type": "npc",
     "id": "isherwood_barry",
     "//": "A naked prisoner, from the isherwood faction trapped in a horrifying cage, watching horrible things happen.",
+    "//2": "Uncle of Eddie and Carlos; uncle-in-law of Jesse.  Great-uncle of Lisa, Chris, and Luke.  Son of Claire and Jack.",
     "class": "NC_ISHERWOOD_BARRY",
     "name_unique": "Barry Isherwood",
     "gender": "male",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_BARRY",
+    "chat": "TALK_ISHERWOOD_BARRY_RESCUE",
     "mission_offered": "MISSION_ISHERWOOD_BARRY_1",
-    "faction": "isherwood_family"
+    "faction": "isherwood_family",
+    "death_eocs": [ "EOC_BARRY_ISHERWOOD_DIE" ]
   },
   {
     "type": "npc_class",
@@ -37,35 +39,211 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_BARRY",
-    "dynamic_line": {
-      "u_has_var": "u_saved_barry",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "no": "I can't believe my eyes.  Please get me outta here…",
-      "yes": "Hey, <name_g>."
-    },
+    "id": "TALK_ISHERWOOD_BARRY_RESCUE",
+    "dynamic_line": "*crouches on the bottom of his cell, shivering, then looks up as you approach.  He blinks a few times, then stands up.  He's totally nude, and his tanned body is covered in tiny, precise-looking scars of varying ages.  \"I can't believe my eyes.  Please get me outta here…\"",
+    "responses": [
+      { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID" },
+      {
+        "text": "I'm Luke Skywalker, I'm here to rescue you.",
+        "effect": { "u_add_var": "too_short_to_be_a_stormtrooper", "value": "unclear" },
+        "topic": "TALK_ISHERWOOD_BARRY_BADJOKE"
+      },
+      { "text": "You just hold tight here for a second.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_BADJOKE",
+    "dynamic_line": "What?\"  The naked, traumatized man stares at you blankly, as though he'd never seen Star Wars, which is clearly ridiculous.  \"Rescue me?  Yes, oh please yes!",
+    "responses": [
+      { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID" },
+      {
+        "text": "Let's go.",
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Hang on.  I've got questions.", "topic": "TALK_ISHERWOOD_BARRY_ID2" },
+      { "text": "Just hold on a little longer, okay?", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_ID",
+    "dynamic_line": "*gulps.  \"I sure as hell am.  Did my family send you?  Please, we gotta go.  There are more of those things.  They're everywhere.\"",
     "responses": [
       {
-        "text": "I've come to take you home, let's go.",
-        "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_MISSION_OFFER",
-        "effect": "follow"
+        "text": "Yeah, they did.  let's go.",
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Hang on.  I've got questions.", "topic": "TALK_ISHERWOOD_BARRY_ID2" },
+      { "text": "Just hold on a little longer, okay?", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_ID2",
+    "dynamic_line": "*switches, abruptly, to pure white-hot rage.  \"DOES THIS LOOK LIKE A TIME FOR FUCKING QUESTIONS?\"  He stops, shaking, and returns to how he was before.  \"I'm sorry.  I'm so sorry.  Oh god, I'm sorry.  I need to get out of here.\"",
+    "responses": [
+      {
+        "text": "Okay, me too.  Let's go.",
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "All right, we're leaving, but you better not test me again.",
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Pff.  If you're gonna treat me like that, you can stay here.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_Escaping",
+    "dynamic_line": "Let's get back to the farm, as fast as possible.",
+    "responses": [ { "text": "Okay.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_ISHERWOOD_BARRY", "TALK_ISHERWOOD_BARRY_askback" ],
+    "responses": [
+      {
+        "text": "Sorry about the Luke Skywalker joke.",
+        "topic": "TALK_ISHERWOOD_BARRY_Skywalker",
+        "condition": { "u_has_var": "too_short_to_be_a_stormtrooper", "value": "unclear" }
       },
       {
         "text": "Hey buddy, feel like talking about what you saw in that tower?",
-        "topic": "TALK_ISHERWOOD_BARRY_TOWER",
-        "condition": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_no",
+        "condition": { "math": [ "u_timer_barry_rescue", "<", "time('5 d')" ] }
+      },
+      {
+        "text": "Hey buddy, feel like talking about what you saw in that tower?",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh1",
+        "condition": { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
+      },
+      {
+        "text": "Maybe let's talk about you a little bit.  What's your role in this family?",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_family1",
+        "condition": { "math": [ "barry_PTSD_freakouts", ">=", "1" ] }
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_BARRY_TOWER",
+    "id": "TALK_ISHERWOOD_BARRY",
+    "dynamic_line": {
+      "concatenate": [
+        "*lights up as you approach, but also looks wary.  \"",
+        {
+          "u_has_var": "too_short_to_be_a_stormtrooper",
+          "value": "unclear",
+          "yes": "Hey, Jedi.\"",
+          "no": "Hey, <name_g>.\""
+        }
+      ]
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_askback",
+    "dynamic_line": "*nods.  \"Of course, what'd you want to ask?\""
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_no",
     "dynamic_line": "Yeah, I think we need to talk about it, but I'm not ready yet.  Let me reclaim my life for a while.",
     "responses": [ { "text": "Sounds good, Barry.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_Skywalker",
+    "dynamic_line": "*laughs.  \"It was terrible timing, but I have to admit, you don't see many situations that perfect for that reference.  Sorry I didn't get it at the time.\"",
+    "responses": [
+      { "text": "Can I ask you some questions?", "topic": "TALK_ISHERWOOD_BARRY_askback" },
+      { "text": "Well, I should head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh1",
+    "dynamic_line": "It's still a bit fresh, but okay.  Yeah.  Let me sit down first.\"  Barry takes a seat, his hands shaking even at the prospect of discussing the tower and the things he saw.  \"What should we talk about?",
+    "responses": [
+      { "text": "What happened to you in there?", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh2" },
+      { "text": "On second thought, I think you should recover more.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh2",
+    "dynamic_line": "*shivers, though the room is warm, and moves his mouth wordlessly for a few seconds.  \"It's hard to remember details.  The air in that place messes with your brain, makes it all feel like some kind of dream.  Makes it so you can't fight back.  Not that I could have anyway.\"  He stares into space for a moment, then swallows hard.  \"They cut into me, over and over.  I don't think they took anything out.  They just opened me up, poked around.  I was awake for all of it, as awake as for anything else.  Sometimes I felt pain, other times they did something to me so I could feel it but it didn't hurt.  There were big, pale ones that did the cutting.\"  His voice gets increasingly detached as he speaks, and his shaking grows worse.  You're not sure it would be wise for him to go further.",
+    "speaker_effect": { "sentinel": "barry_PTSD1", "effect": { "math": [ "barry_PTSD_freakouts", "+=", "1" ] } },
+    "responses": [
+      { "text": "(Let him continue)", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh3" },
+      { "text": "That's enough for now, Barry.", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh_stop" },
+      { "text": "On second thought, I think you should recover more.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh3",
+    "dynamic_line": "*shudders, looking like he might vomit.  \"What did they want?  Why me?  Every time, they'd put me back together again, seal it up and make it look almost like nothing happened.\"  He yanks up his shirt to show the scars.  \"But I know what happened, it was REAL, goddammit!\"  He drops the shirt, bends forward, and dry heaves for a few seconds.  Wordless, he hides his face in his hands, and stops responding.",
+    "responses": [ { "text": "(Leave)", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh_stop",
+    "dynamic_line": "Yeah.  Yeah.\"  He takes a long, shaky breath.  \"Yeah, you're right.  This isn't going anywhere good.  Claire's been talking about making some dandelion wine,\" he says with a hollow smile.  \"Maybe I'll go see if she needs help.",
+    "responses": [
+      {
+        "text": "How about we change the subject instead?  What's your role in this family?",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_family1"
+      },
+      { "text": "Good idea.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_family1",
+    "dynamic_line": "&He wipes his hand across his face, tension leaving him as he runs his fingers through his hair.  \"Yeah, okay.  To be honest, years ago I was the black sheep.  Moved off the family farm, lived out in Bunyan.  Went to college, thought I'd get a job in computers.\"  He shuffles in his chair, smiling half-heartedly.  \"I did sysadmin stuff for a while, back when the internet was fairly new.  Then my dad died.  Carlos and Jesse had just gotten married, and at the time it looked like they might be getting some land of their own, and Eddie was out finding himself.  My dad and I had never got along, but Jack…\" he stops.  \"Sorry, I don't think you were looking for my life story.  What did you ask, again?\"",
+    "responses": [
+      { "text": "No, go on.", "topic": "TALK_ISHERWOOD_BARRY_TOWER_family2" },
+      { "text": "You're right.  I was asking something different.", "topic": "TALK_ISHERWOOD_BARRY_askback" },
+      { "text": "It's okay, I'm going to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_family2",
+    "dynamic_line": "Fair enough, you asked for it.\"  He stretches his arms out.  \"Jack and I stayed close, even after my old man and I fell out, so when it looked like he was going to be saddled with the entire farm to run, I took a good long look at my life and realized I hated it.  It was never the farm I was trying to get away from, you know?  I packed up my things, quit my job, and came out to help Jack.  Never looked back.\"  He chuckles.  \"Damn hard finding a partner for a guy like me out here though.  I was in a long-term relationship when I left, but that fell apart.  I haven't been too lonely though, I've got my people.",
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_family_story", "value": "yes" } },
+    "responses": [
+      {
+        "text": "[PERCEPTION] Was your choice in partners part of the problem with your father?",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_family3",
+        "condition": { "u_has_perception": 9 }
+      },
+      {
+        "text": "Thanks for taking the time to talk to me.  I had some other questions.",
+        "topic": "TALK_ISHERWOOD_BARRY_askback"
+      },
+      { "text": "Thanks for the story, I'm going to head out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_family3",
+    "dynamic_line": "&His eyebrows shoot up, briefly surprised, then he smiles.  \"You nailed it in one.  Yeah, we're talking about a rural farmer in the nineties, here.  My dad never understood me, even before he knew, and he did find out, although I tried to keep the closet door closed.  Jack, though, he always saw me for me.  Never let it change our relationship.  That's real love, and that's what made me come back when he needed me.  Meanwhile, the man I thought I'd marry, back in Bunyan, he couldn't be assed even to come out and see the family farm, let alone think about moving here.  He was dead weight, and I've never doubted that decision.\"  He shrugs.  \"There's folks like me wherever you go, I've had a few relationships since then.  Just nothing that stuck, and I'm okay with that.  If nothing else, it proved what I already knew: aside from my old man, none of my family treated me or them any different for it.  They're good people.\"",
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_is_gay", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Thanks for taking the time to talk to me.  I had some other questions.",
+        "topic": "TALK_ISHERWOOD_BARRY_askback"
+      },
+      { "text": "Thanks for the story, I'm going to head out.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "MISSION_ISHERWOOD_BARRY_1",
@@ -76,14 +254,21 @@
     "value": 20000,
     "destination": "dairy_farm_isherwood_W",
     "start": {
-      "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
+      "effect": [
+        { "u_add_var": "u_saved_barry_isherwood", "value": "in-progress" },
+        { "npc_first_topic": "TALK_ISHERWOOD_BARRY_Escaping" }
+      ],
       "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
       "effect": [
         "leave",
-        { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
+        { "npc_add_var": "barry_isherwood_saved", "value": "yes" },
+        { "math": [ "barry_PTSD_freakouts", "=", "0" ] },
+        { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
+        { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
         { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 }
       ]
     },

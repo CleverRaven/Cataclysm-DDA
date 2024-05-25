@@ -6,87 +6,20 @@
     "color": "brown",
     "travel_cost_type": "dirt_road",
     "see_cost": 2,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road",
-    "copy-from": "generic_rural_road",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_3way",
-    "copy-from": "generic_rural_road",
-    "sym": "┬",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_turn",
-    "copy-from": "generic_rural_road",
-    "sym": "┐"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_turn1",
-    "copy-from": "generic_rural_road",
-    "sym": "┌"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_forest",
-    "copy-from": "generic_rural_road",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_turn_forest",
-    "copy-from": "generic_rural_road",
-    "sym": "┐"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_turn1_forest",
-    "copy-from": "generic_rural_road",
-    "sym": "┌"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rural_road_3way_forest",
-    "copy-from": "generic_rural_road",
-    "sym": "┬"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_dirt_road",
-    "copy-from": "generic_rural_road",
-    "name": "dirt road",
+    "mondensity": 2,
     "extras": "agricultural"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking", "cabin_liam_driveway" ],
-    "copy-from": "generic_dirt_road",
+    "id": [ "rural_road", "rural_road_forest" ],
+    "copy-from": "generic_rural_road",
+    "extend": { "flags": [ "LINEAR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_farm_parking",
+    "copy-from": "generic_rural_road",
     "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "dirt_road_3way", "dirt_road_3way_forest" ],
-    "copy-from": "generic_dirt_road",
-    "sym": "┬"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "dirt_road_turn", "dirt_road_turn_forest" ],
-    "copy-from": "generic_dirt_road",
-    "sym": "┐"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirt_road_4way",
-    "copy-from": "generic_dirt_road",
-    "sym": "┼"
   },
   {
     "type": "overmap_terrain",

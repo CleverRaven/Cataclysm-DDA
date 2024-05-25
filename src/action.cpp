@@ -10,7 +10,7 @@
 #include <utility>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
@@ -18,9 +18,12 @@
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -253,6 +256,8 @@ std::string action_ident( action_id act )
             return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
+        case ACTION_SELECT_DEFAULT_AMMO:
+            return "select_default_ammo";
         case ACTION_UNLOAD_CONTAINER:
             return "unload_container";
         case ACTION_DROP:
@@ -643,7 +648,7 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
-    if( p.z + movez < -OVERMAP_DEPTH || p.z + movez >= OVERMAP_HEIGHT ) {
+    if( p.z + movez < -OVERMAP_DEPTH || p.z + movez > OVERMAP_HEIGHT ) {
         return false;
     }
     Character &player_character = get_player_character();
@@ -963,6 +968,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RELOAD_WIELDED );
             REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
+            REGISTER_ACTION( ACTION_SELECT_DEFAULT_AMMO );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
@@ -1049,9 +1055,13 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    const auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.emplace_back( name, true, hotkey_for_action( name, /*maximum_modifier_count=*/1 ),
-                              ctxt.get_action_name( action_ident( name ) ) );
+    const auto REGISTER_ACTION = [&]( action_id name, std::optional<char> kb = std::nullopt ) {
+        std::optional<input_event> hotkey = hotkey_for_action( name, /*maximum_modifier_count=*/1 );
+        if( hotkey.has_value() || !kb.has_value() ) {
+            entries.emplace_back( name, true, hotkey, ctxt.get_action_name( action_ident( name ) ) );
+        } else {
+            entries.emplace_back( name, true, kb.value(), ctxt.get_action_name( action_ident( name ) ) );
+        }
     };
 
     REGISTER_ACTION( ACTION_HELP );
@@ -1071,7 +1081,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
-    REGISTER_ACTION( ACTION_DEBUG );
+    REGISTER_ACTION( ACTION_DEBUG, 'd' );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );
@@ -1088,52 +1098,23 @@ action_id handle_main_menu()
 
 std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
-    ctxt.set_iso( true );
-    ctxt.register_directions();
-    ctxt.register_action( "pause" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    if( allow_vertical ) {
-        ctxt.register_action( "LEVEL_UP" );
-        ctxt.register_action( "LEVEL_DOWN" );
+    std::optional<tripoint_rel_ms> ret = choose_direction_rel_ms( message, allow_vertical );
+    if( ret.has_value() ) {
+        return ret->raw();
+    } else {
+        return std::nullopt;
     }
-
-    static_popup popup;
-    //~ %s: "Close where?" "Pry where?" etc.
-    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
-
-    temp_hide_advanced_inv();
-    std::string action;
-    do {
-        ui_manager::redraw();
-        action = ctxt.handle_input();
-        if( std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            FacingDirection &facing = get_player_character().facing;
-            // Make player's sprite face left/right if interacting with something to the left or right
-            if( vec->x > 0 ) {
-                facing = FacingDirection::RIGHT;
-            } else if( vec->x < 0 ) {
-                facing = FacingDirection::LEFT;
-            }
-            return vec;
-        } else if( action == "pause" ) {
-            return tripoint_zero;
-        } else if( action == "LEVEL_UP" ) {
-            return tripoint_above;
-        } else if( action == "LEVEL_DOWN" ) {
-            return tripoint_below;
-        }
-    } while( action != "QUIT" );
-
-    add_msg( _( "Never mind." ) );
-    return std::nullopt;
 }
 
 std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        const bool allow_vertical )
+        const bool allow_vertical, const bool allow_mouse, const int timeout,
+        const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb )
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
+    if( timeout >= 0 ) {
+        ctxt.set_timeout( timeout );
+    }
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
@@ -1143,13 +1124,22 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
+    if( allow_mouse ) {
+        ctxt.register_action( "COORDINATE" );
+        ctxt.register_action( "MOUSE_MOVE" );
+        ctxt.register_action( "SELECT" );
+    }
 
     static_popup popup;
-    //~ %s: "Close where?" "Pry where?" etc.
-    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
+    popup.message( allow_mouse
+                   //~ %s: "Close where?" "Pry where?" etc.
+                   ? _( "%s (Direction button or mouse)" )
+                   //~ %s: "Close where?" "Pry where?" etc.
+                   : _( "%s (Direction button)" ), message ).on_top( true );
 
     temp_hide_advanced_inv();
     std::string action;
+    bool done = false;
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
@@ -1168,8 +1158,20 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
             return tripoint_rel_ms( tripoint_above );
         } else if( action == "LEVEL_DOWN" ) {
             return tripoint_rel_ms( tripoint_below );
+        } else if( action == "QUIT" ) {
+            done = true;
         }
-    } while( action != "QUIT" );
+        if( !done && action_cb ) {
+            const std::pair<bool, std::optional<tripoint_rel_ms>> ret = action_cb( ctxt, action );
+            done = ret.first;
+            if( done && ret.second.has_value()
+                && ret.second->x() <= 1 && ret.second->x() >= -1
+                && ret.second->y() <= 1 && ret.second->y() >= -1 && ( allow_vertical
+                        ? ret.second->z() <= 1 && ret.second->z() >= -1 : ret.second->z() == 0 ) ) {
+                return ret.second;
+            }
+        }
+    } while( !done );
 
     add_msg( _( "Never mind." ) );
     return std::nullopt;
@@ -1183,15 +1185,45 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
         bool allow_vertical )
 {
-    const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + pos : dir;
+    const std::optional<tripoint_bub_ms> dir = choose_adjacent(
+                tripoint_bub_ms( pos ), message, allow_vertical );
+    if( dir.has_value() ) {
+        return dir->raw();
+    } else {
+        return std::nullopt;
+    }
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
-        const std::string &message,
-        bool allow_vertical )
+        const std::string &message, bool allow_vertical, int timeout,
+        const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb )
 {
-    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( message, allow_vertical );
+    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+                message, allow_vertical, /*allow_mouse=*/true, timeout,
+    [&]( const input_context & ctxt, const std::string & action ) {
+        if( action == "SELECT" ) {
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates(
+                        g->w_terrain, g->ter_view_p.xy(), true );
+            if( mouse_pos ) {
+                const tripoint_rel_ms vec = tripoint_bub_ms( *mouse_pos ) - pos;
+                if( vec.x() >= -1 && vec.x() <= 1
+                    && vec.y() >= -1 && vec.y() <= 1
+                    && ( allow_vertical ? vec.z() >= -1 && vec.y() <= 1 : vec.z() == 0 ) ) {
+                    return std::pair<bool, std::optional<tripoint_rel_ms>>( true, vec );
+                }
+            }
+        }
+        if( action_cb ) {
+            const std::pair<bool, std::optional<tripoint_bub_ms>> ret = action_cb( ctxt, action );
+            if( ret.second.has_value() ) {
+                return std::pair<bool, std::optional<tripoint_rel_ms>>( ret.first, *ret.second - pos );
+            } else {
+                return std::pair<bool, std::optional<tripoint_rel_ms>>( ret.first, std::nullopt );
+            }
+        }
+        return std::pair<bool, std::optional<tripoint_rel_ms>>( false, std::nullopt );
+    } );
     if( dir ) {
         return pos + *dir;
     } else {

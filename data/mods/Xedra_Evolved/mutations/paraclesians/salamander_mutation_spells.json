@@ -57,7 +57,7 @@
     "id": "salamander_aoe_explosion",
     "type": "SPELL",
     "name": "Salamander AoE Explosion",
-    "description": "This is the aoe used by some other Salamander spells.  It's a bug if you have it directly.",
+    "description": "This is the AoE used by some other Salamander spells.  It's a bug if you have it directly.",
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "skill": "deduction",

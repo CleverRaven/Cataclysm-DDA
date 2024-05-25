@@ -3,12 +3,12 @@
 #define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include <array>
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "item_location.h"
 #include "point.h"
-#include "units.h" // IWYU pragma: keep
+#include "units.h"
 
 enum aim_location : char {
     AIM_INVENTORY = 0,
@@ -27,12 +27,13 @@ enum aim_location : char {
     AIM_PARENT,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
+    // cannot be selected, destination for when wearing item fails but item can be WIELDed
+    AIM_WIELD,
     // only useful for AIM_ALL
     AIM_AROUND_BEGIN = AIM_SOUTHWEST,
     AIM_AROUND_END = AIM_NORTHEAST
 };
 
-class advanced_inv_listitem;
 class item;
 class vehicle;
 class vehicle_stack;

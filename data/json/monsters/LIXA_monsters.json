@@ -55,7 +55,7 @@
     "type": "SPELL",
     "id": "LIXA_spawn_copy",
     "name": { "str": "Summon Eigenspectre Copy" },
-    "description": "Ripping off the hounds of tindalos!",
+    "description": "Ripping off the hounds of Tindalos!",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
@@ -65,7 +65,7 @@
     "base_casting_time": 100,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "LIXA_eigenspectre_3_echo"
+    "effect_str": "mon_eigenspectre_3_echo"
   },
   {
     "id": "LIXA_vector_volley",
@@ -129,7 +129,7 @@
     "effect_str": "EOC_LIXA_unfold_return"
   },
   {
-    "id": "LIXA_eigenspectre_1",
+    "id": "mon_eigenspectre_1",
     "type": "MONSTER",
     "name": { "str": "eigenspectre" },
     "description": "This is the opposite of a human silhouette; every facet of every detail on display, with no shape to make sense of them.  You can see both sides of an ID badge on a white labcoat.  You can see every muscle and nerve in eyes blown wide with horror.",
@@ -159,7 +159,7 @@
     "armor": { "electric": 1 }
   },
   {
-    "id": "LIXA_eigenspectre_2",
+    "id": "mon_eigenspectre_2",
     "type": "MONSTER",
     "name": { "str": "photonic eigenspectre" },
     "description": "The endless details of this figure are mercifully obscured by the viscous light coursing 'through' it.  It cannot contain anything, but the smears of light follow the shapes of stomach and intestines, and are splattered across what must be the lips and chin.",
@@ -214,10 +214,10 @@
     "armor": { "electric": 1 }
   },
   {
-    "id": "LIXA_eigenspectre_3",
+    "id": "mon_eigenspectre_3",
     "type": "MONSTER",
     "name": { "str": "shifting eigenspectre" },
-    "description": "This distorted figure is a kaliadescope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
+    "description": "This distorted figure is a kaleidoscope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
@@ -252,10 +252,10 @@
     "armor": { "electric": 1 }
   },
   {
-    "id": "LIXA_eigenspectre_3_echo",
+    "id": "mon_eigenspectre_3_echo",
     "type": "MONSTER",
     "name": { "str": "shifting eigenspectre" },
-    "description": "This distorted figure is a kaliadescope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
+    "description": "This distorted figure is a kaleidoscope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
@@ -291,7 +291,7 @@
     "armor": { "electric": 1 }
   },
   {
-    "id": "LIXA_eigenspectre_4",
+    "id": "mon_eigenspectre_4",
     "type": "MONSTER",
     "name": { "str": "titanic eigenspectre" },
     "description": "There is somehow more of this figure than the others.  Every side of every surface is on display, but each of those seems like the thin edge of a larger shape.  There is an eternity here, where a scientist used to be.",
@@ -326,7 +326,7 @@
     "armor": { "electric": 1 }
   },
   {
-    "id": "LIXA_living_vector",
+    "id": "mon_living_vector",
     "type": "MONSTER",
     "name": { "str": "unfolded impossibility", "str_pl": "unfolded impossibilities" },
     "description": "This is the entirety of the infinite chamber you are in, which perfectly contains itself.  If you look very closely, you might see yourself looking back.  You are sure that at any other time, seeing this would crack your brain like an eggshell.  But you understand it just fine right now.  And you can see it breathing.",
@@ -360,7 +360,7 @@
         "type": "spell",
         "id": "LIXA_reshuffle_cone",
         "spell_data": { "id": "LIXA_reshuffle_cone", "min_level": 1 },
-        "monster_message": "The %s rearranges the parts of itself you occupy, dialating them around you.",
+        "monster_message": "The %s rearranges the parts of itself you occupy, dilating them around you.",
         "cooldown": 20
       }
     ],

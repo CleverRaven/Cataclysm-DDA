@@ -86,9 +86,9 @@ map_extra_pointer get_function( const map_extra_id &name );
 FunctionMap all_functions();
 std::vector<map_extra_id> get_all_function_names();
 
-void apply_function( const map_extra_id &, map &, const tripoint_abs_sm & );
-void apply_function( const map_extra_id &, tinymap &,
-                     const tripoint_abs_sm & ); // TODO: Convert to tripoint_abs_omt
+void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_sub );
+void apply_function( const map_extra_id &id, tinymap &m,
+                     const tripoint_abs_omt &abs_omt );
 
 void load( const JsonObject &jo, const std::string &src );
 void check_consistency();

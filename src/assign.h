@@ -2,20 +2,24 @@
 #ifndef CATA_SRC_ASSIGN_H
 #define CATA_SRC_ASSIGN_H
 
-#include <algorithm>
-#include <map>
+#include <iterator>
+#include <limits>
+#include <optional>
 #include <set>
-#include <sstream>
 #include <string>
-#include <vector>
+#include <string_view>
+#include <type_traits>
+#include <utility>
 
 #include "calendar.h"
-#include "color.h"
 #include "damage.h"
-#include "debug.h"
 #include "flat_set.h"
-#include "json.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "type_id.h"
 #include "units.h"
+
+class nc_color;
 
 namespace detail
 {
@@ -231,8 +235,6 @@ bool assign( const JsonObject &jo, std::string_view name, units::power &val,
 
 bool assign( const JsonObject &jo, const std::string &name, nc_color &val,
              bool strict = false );
-
-class time_duration;
 
 template<typename T>
 inline

@@ -238,9 +238,9 @@
         "condition": { "npc_need": "hunger", "amount": 75 }
       },
       {
-        "text": "This is a npc fatigue test response.",
+        "text": "This is a npc sleepiness test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_need": "fatigue", "level": "DEAD_TIRED" }
+        "condition": { "npc_need": "sleepiness", "level": "DEAD_TIRED" }
       }
     ]
   },
@@ -627,26 +627,26 @@
       {
         "text": "This is a u_add_var test response.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "test", "type": "test", "context": "var_test", "value": "beer" },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
+        "effect": { "u_add_var": "test_var_test_test", "value": "beer" },
+        "condition": { "not": { "u_has_var": "test_var_test_test", "value": "beer" } }
       },
       {
         "text": "This is a npc_add_var test response.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
+        "effect": { "npc_add_var": "test_var_test_test", "value": "reeb" },
+        "condition": { "not": { "u_has_var": "test_var_test_test", "value": "beer" } }
       },
       {
         "text": "This is a u_has_var, u_remove_var test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" },
-        "effect": { "u_lose_var": "test", "type": "test", "context": "var_test" }
+        "condition": { "u_has_var": "test_var_test_test", "value": "beer" },
+        "effect": { "u_lose_var": "test_var_test_test" }
       },
       {
         "text": "This is a npc_has_var, npc_remove_var test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
-        "effect": { "npc_lose_var": "test", "type": "test", "context": "var_test" }
+        "condition": { "npc_has_var": "test_var_test_test", "value": "reeb" },
+        "effect": { "npc_lose_var": "test_var_test_test" }
       }
     ]
   },
@@ -1023,12 +1023,7 @@
       {
         "text": "Stored kcal is 118'169.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('stored_kcal')", "==", "118169" ] }
-      },
-      {
-        "text": "Stored kcal is at 100% of healthy.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "round( u_val('stored_kcal_percentage') )", "==", "100" ] }
+        "condition": { "math": [ "u_calories()", "==", "118169" ] }
       },
       {
         "text": "Has 3 glass bottles.",
@@ -1177,16 +1172,7 @@
         "effect": { "math": [ "u_val('mana_percentage')", "=", "25" ] }
       },
       { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst')", "=", "22" ] } },
-      {
-        "text": "Sets stored_kcal to 23.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('stored_kcal')", "=", "23" ] }
-      },
-      {
-        "text": "Sets stored_kcal_percentage to 50.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "u_val('stored_kcal_percentage')", "=", "50" ] }
-      },
+      { "text": "Sets calories to 23.", "topic": "TALK_DONE", "effect": { "math": [ "u_calories()", "=", "23" ] } },
       {
         "text": "Sets pew pew's level to -1.",
         "topic": "TALK_DONE",
@@ -1210,17 +1196,22 @@
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('12h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "-1" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "-1" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('24h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('24h')" ] }
+      },
+      {
+        "text": "Learns Test Proficiency for 1h",
+        "topic": "TALK_DONE",
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "+=", "time('1h')" ] }
       }
     ]
   },

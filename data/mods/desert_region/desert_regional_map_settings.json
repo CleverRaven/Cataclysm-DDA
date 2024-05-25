@@ -42,6 +42,7 @@
         "t_region_grass": { "t_grass_fake": 10 },
         "t_region_soil": { "t_searth": 10 },
         "t_region_shrub": { "t_shrub_dead": 1, "t_cactus_cholla": 1 },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_shrub_fruit": { "t_cactus_cholla": 1 },
         "t_region_shrub_decorative": { "t_shrub_dead": 1, "t_cactus_cholla": 1 },
         "t_region_tree": { "t_tree_dead": 1 },
@@ -88,6 +89,14 @@
       "noise_threshold_swamp_isolated": 1.0,
       "river_floodplain_buffer_distance_min": 3,
       "river_floodplain_buffer_distance_max": 15
+    },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
     },
     "forest_mapgen_settings": {
       "forest": {

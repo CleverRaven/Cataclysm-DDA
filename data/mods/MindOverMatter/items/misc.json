@@ -7,8 +7,8 @@
     "description": "A deck of Zener cards, used pre-Cataclysm to test for psychic ability.",
     "weight": "23 g",
     "volume": "29 ml",
-    "price": 1314,
-    "price_postapoc": 2,
+    "price": "13 USD 14 cent",
+    "price_postapoc": "2 cent",
     "material": [ "cardboard" ],
     "symbol": ",",
     "color": "magenta",
@@ -55,5 +55,14 @@
     ],
     "symbol": "[",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "body_astral_projection",
+    "copy-from": "corpse",
+    "name": { "str_sp": "your body" },
+    "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   }
 ]

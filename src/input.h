@@ -271,7 +271,7 @@ class input_manager
         void wait_for_any_key();
 
         /**
-         * Sets global input polling timeout as appropriate for the current interface system.
+         * Sets global input polling timeout in milliseconds as appropriate for the current interface system.
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */

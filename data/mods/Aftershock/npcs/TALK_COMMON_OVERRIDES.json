@@ -1,0 +1,27 @@
+{
+  "id": [
+    "TALK_FRIEND",
+    "TALK_GIVE_ITEM",
+    "TALK_USE_ITEM",
+    "TALK_RADIO"
+  ],
+  "type": "talk_topic",
+  "dynamic_line": {
+    "is_by_radio": " *pshhhttt* I'm reading you boss, over.",
+    "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
+  },
+  "responses": [
+    {
+      "text": "Switch to controlling this follower",
+      "condition": { "u_has_trait": "AFS_LEADERSHIP" },
+      "effect": [ { "math": [ "afs_leadership_act", "=", "1" ] }, "take_control" ],
+      "topic": "TALK_DONE"
+    },
+    {
+      "text": "Switch to controlling your party leader.",
+      "condition": { "npc_has_trait": "AFS_LEADERSHIP" },
+      "effect": [ { "math": [ "afs_leadership_act", "=", "0" ] }, "take_control" ],
+      "topic": "TALK_DONE"
+    }
+  ]
+}

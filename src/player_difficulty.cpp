@@ -66,7 +66,7 @@ void player_difficulty::reset_npc( Character &dummy )
     dummy.clear_vitamins();
 
     // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, fatigue and such to zero
+    // and sets hunger, thirst, sleepiness and such to zero
     dummy.environmental_revert_effect();
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
@@ -379,11 +379,22 @@ std::string player_difficulty::difficulty_to_string( const avatar &u ) const
     std::string combat = get_combat_difficulty( n );
     std::string defense = get_defense_difficulty( n );
 
-    return string_format( "%s |  %s: %s  %s: %s  %s: %s  %s: %s  %s: %s",
-                          _( "Summary" ),
-                          _( "Lifestyle" ), genetics,
-                          _( "Knowledge" ), expertise,
-                          _( "Offense" ), combat,
-                          _( "Defense" ), defense,
-                          _( "Social" ), socials );
+    if( get_option<bool>( "SCREEN_READER_MODE" ) ) {
+        // Put value before label to ensure the screen reader reads the label when the value changes
+        return string_format( "%s | %s %s, %s %s, %s %s, %s %s, %s %s",
+                              _( "Summary" ),
+                              genetics, _( "Lifestyle" ),
+                              expertise, _( "Knowledge" ),
+                              combat, _( "Offense" ),
+                              defense, _( "Defense" ),
+                              socials, _( "Social" ) );
+    } else {
+        return string_format( "%s |  %s: %s  %s: %s  %s: %s  %s: %s  %s: %s",
+                              _( "Summary" ),
+                              _( "Lifestyle" ), genetics,
+                              _( "Knowledge" ), expertise,
+                              _( "Offense" ), combat,
+                              _( "Defense" ), defense,
+                              _( "Social" ), socials );
+    }
 }

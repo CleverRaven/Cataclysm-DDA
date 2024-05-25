@@ -9,6 +9,7 @@
     "move_cost": 2,
     "light_emitted": 120,
     "looks_like": "t_carpet_green",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 4,
@@ -32,6 +33,7 @@
     "color": "light_gray",
     "move_cost": 3,
     "coverage": 50,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE", "UNSTABLE", "INDOORS" ],
     "bash": {
       "str_min": 30,
@@ -46,13 +48,15 @@
   {
     "type": "terrain",
     "id": "t_LIXA_portal_pulse",
-    "name": "spacial compressor",
+    "name": "spatial compressor",
     "description": "A dizzyingly complex series of devices and readouts is on the outside of this machine's casing.  You imagine the inside would be incomprehensible.",
     "symbol": "{",
     "color": "light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": [ "WALL", "INDOORFLOOR" ],
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -86,6 +90,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": [ "WALL", "INDOORFLOOR" ],
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": { "str_min": 5, "str_max": 15, "explosive": 10, "ter_set": "t_LIXA_thconc_floor", "sound_fail": "clang!" },
     "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 20, 30 ] }
@@ -100,11 +106,12 @@
     "color": "light_gray",
     "move_cost": 3,
     "coverage": 50,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 7,
       "str_max": 17,
-      "sound": "geometry crackling!",
+      "sound": "a hollow pop, followed by a sickly wet squelching as congealed light slowly leaks out of the tube.",
       "sound_fail": "nothing.",
       "ter_set": "t_LIXA_unfolded_tube_broken"
     },
@@ -121,6 +128,7 @@
     "light_emitted": 120,
     "move_cost": 2,
     "coverage": 50,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "emissions": [ "emit_congealed_light" ]
   },
@@ -135,7 +143,7 @@
     "move_cost": 2,
     "roof": "t_concrete_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
-    "connect_groups": "CONCRETE",
+    "connect_groups": [ "CONCRETE", "INDOORFLOOR" ],
     "connects_to": "CONCRETE"
   },
   {
@@ -149,6 +157,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -162,7 +172,9 @@
     "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "INDOORS" ],
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD" ],
@@ -193,7 +205,9 @@
     "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD_2" ],
@@ -224,7 +238,9 @@
     "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD_3" ],
@@ -248,14 +264,16 @@
     "type": "terrain",
     "id": "t_card_LIXA_mil",
     "name": "card reader",
-    "description": "A smartcard reader.  Ii is a forbidding black, with no symbols of any sort to identify it.",
+    "description": "A smartcard reader.  It is a forbidding black, with no symbols of any sort to identify it.",
     "//": "Science",
     "symbol": "6",
     "color": "dark_gray",
     "looks_like": "t_card_military",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_MILITARY_CARD" ],
@@ -279,7 +297,7 @@
     "type": "terrain",
     "id": "t_LIXA_laser",
     "name": "precision laser emitter",
-    "description": "A huge casing for a device that generates and focuses a laser of incredible wavelength purity and precision.",
+    "description": "A huge casing for a device that generates and focuses a laser of an incredibly precise wavelength.",
     "symbol": "$",
     "color": "yellow",
     "looks_like": "t_machinery_electronic",
@@ -347,7 +365,7 @@
     "type": "furniture",
     "id": "f_lixa_whiteboard",
     "name": "whiteboard",
-    "description": "A wide space of whiteboard, for writing on with washable markers.  No one has washed it in a long time, though; it is covered in dense scrawls of equations and waveform diagarams.",
+    "description": "A wide space of whiteboard, for writing on with washable markers.  No one has washed it in a long time, though; it is covered in dense scrawls of equations and waveform diagrams.",
     "symbol": "6",
     "color": "blue",
     "looks_like": "f_bulletin",

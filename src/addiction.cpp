@@ -1,21 +1,30 @@
 #include "addiction.h"
 
 #include <algorithm>
-#include <cstdlib>
+#include <functional>
 #include <map>
+#include <memory>
+#include <optional>
+#include <set>
 #include <string>
 #include <utility>
 
 #include "calendar.h"
 #include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
 #include "morale_types.h"
 #include "rng.h"
+#include "talker.h"
 #include "text_snippets.h"
-#include "translations.h"
 
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_shakes( "shakes" );
@@ -173,7 +182,7 @@ static bool nicotine_effect( Character &u, addiction &add )
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
         u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
         if( one_in( 800 - 50 * in ) ) {
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
         if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
             u.mod_stim( -1 );
@@ -292,7 +301,7 @@ static bool amphetamine_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_amphetamine_paralysis_asleep" : "addict_amphetamine_paralysis_awake";
         u.add_msg_if_player( m_warning,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.moves -= ( u.in_sleep_state() ? 6000 : 300 );
+        u.mod_moves( -( u.in_sleep_state() ? 6000 : 300 ) );
         u.wake_up();
         ret = true;
     } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {

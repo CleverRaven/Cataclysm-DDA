@@ -30,6 +30,11 @@
 #include "translations.h"
 #include "units.h"
 
+static const furn_str_id furn_f_bed( "f_bed" );
+static const furn_str_id furn_f_console( "f_console" );
+static const furn_str_id furn_f_console_broken( "f_console_broken" );
+static const furn_str_id furn_f_dresser( "f_dresser" );
+
 static const itype_id itype_software_hacking( "software_hacking" );
 static const itype_id itype_software_math( "software_math" );
 static const itype_id itype_software_medical( "software_medical" );
@@ -37,6 +42,9 @@ static const itype_id itype_software_useless( "software_useless" );
 
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
+
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -87,11 +95,12 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     std::vector<tripoint> potential;
     std::vector<tripoint> last_resort;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.furn( p ) == f_console_broken ) {
+        if( compmap.furn( p ) == furn_f_console_broken ) {
             broken.emplace_back( p );
-        } else if( broken.empty() && compmap.ter( p ) == t_floor && compmap.furn( p ) == f_null ) {
+        } else if( broken.empty() && compmap.ter( p ) == ter_t_floor &&
+                   compmap.furn( p ) == furn_str_id::NULL_ID() ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.furn( p2 ) == f_bed || compmap.furn( p2 ) == f_dresser ) {
+                if( compmap.furn( p2 ) == furn_f_bed || compmap.furn( p2 ) == furn_f_dresser ) {
                     potential.emplace_back( p );
                     break;
                 }
@@ -111,7 +120,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
                 }
             }
         } else if( broken.empty() && potential.empty() && p.x >= rng_x_min && p.x <= rng_x_max
-                   && p.y >= rng_y_min && p.y <= rng_y_max && compmap.furn( p ) != f_console ) {
+                   && p.y >= rng_y_min && p.y <= rng_y_max && compmap.furn( p ) != furn_f_console ) {
             last_resort.emplace_back( p );
         }
     }
@@ -163,7 +172,7 @@ void mission_start::place_npc_software( mission *miss )
     overmap_buffer.reveal( place, 6 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
+    compmap.load( place, false );
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place );
@@ -173,7 +182,7 @@ void mission_start::place_npc_software( mission *miss )
     }
 
     compmap.i_clear( comppoint );
-    compmap.furn_set( comppoint, f_console );
+    compmap.furn_set( comppoint, furn_f_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
                         dev->get_name() ), 0 );
     tmpcomp->set_mission( miss->get_id() );
@@ -205,12 +214,12 @@ void mission_start::place_deposit_box( mission *miss )
     overmap_buffer.reveal( site, 2 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( site ), false );
+    compmap.load( site, false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.ter( p ) == t_floor ) {
+        if( compmap.ter( p ) == ter_t_floor ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.ter( p2 ) == t_wall_metal ) {
+                if( compmap.ter( p2 ) == ter_t_wall_metal ) {
                     valid.push_back( p );
                     break;
                 }
@@ -340,7 +349,7 @@ void static create_lab_consoles(
                                         otype, -1, miss, false, 4, place );
 
         tinymap compmap;
-        compmap.load( project_to<coords::sm>( om_place ), false );
+        compmap.load( om_place, false );
 
         tripoint comppoint = find_potential_computer_point( compmap );
 

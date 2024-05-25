@@ -10,8 +10,10 @@
 
 #include "bodypart.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -33,6 +35,7 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
+#include "weighted_list.h"
 
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
@@ -49,13 +52,53 @@ static const skill_id skill_unarmed( "unarmed" );
 
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
 
+
 namespace
 {
 generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
+generic_factory<attack_vector> attack_vector_factory( "attack vector" );
 } // namespace
+
+/** @relates string_id */
+template<>
+const attack_vector &string_id<attack_vector>::obj() const
+{
+    return attack_vector_factory.obj( *this );
+}
+
+template<>
+bool attack_vector_id::is_valid() const
+{
+    return attack_vector_factory.is_valid( *this );
+}
+
+void attack_vector::load_attack_vectors( const JsonObject &jo, const std::string &src )
+{
+    attack_vector_factory.load( jo, src );
+}
+
+void attack_vector::reset()
+{
+    attack_vector_factory.reset();
+}
+
+void attack_vector::load( const JsonObject &jo, const std::string_view )
+{
+    mandatory( jo, was_loaded, "id", id );
+    optional( jo, was_loaded, "weapon", weapon, false );
+    optional( jo, was_loaded, "limbs", limbs );
+    optional( jo, was_loaded, "strict_limb_definition", strict_limb_definition, false );
+    optional( jo, was_loaded, "contact_area", contact_area );
+    optional( jo, was_loaded, "limb_req", limb_req );
+    optional( jo, was_loaded, "armor_bonus", armor_bonus, true );
+    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+    optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit, 10 );
+    optional( jo, was_loaded, "required_limb_flags", required_limb_flags );
+    optional( jo, was_loaded, "forbidden_limb_flags", forbidden_limb_flags );
+}
 
 template<>
 const weapon_category &weapon_category_id::obj() const
@@ -83,6 +126,21 @@ void weapon_category::reset()
 void weapon_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "proficiencies", proficiencies_ );
+}
+
+void weapon_category::verify_weapon_categories()
+{
+    weapon_category_factory.check();
+}
+
+void weapon_category::check() const
+{
+    for( const proficiency_id &prof : proficiencies_ ) {
+        if( !prof.is_valid() ) {
+            debugmsg( "Proficiency %s does not exist in weapon category %s", prof.str(), id.str() );
+        }
+    }
 }
 
 const std::vector<weapon_category> &weapon_category::get_all()
@@ -179,7 +237,6 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
-    optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     if( jo.has_string( "weapon_categories_allowed" ) ) {
         weapon_category_id tmp_id;
         mandatory( jo, was_loaded, "weapon_categories_allowed", tmp_id );
@@ -217,8 +274,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
-    optional( jo, was_loaded, "crit_tec_id", crit_tec_id, tec_none );
-    optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
     optional( jo, was_loaded, "reach_ok", reach_ok, false );
@@ -249,9 +304,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
-    optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
-    optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
-
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
         eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
@@ -262,8 +314,21 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         has_condition = true;
     }
 
+    optional( jo, was_loaded, "attack_vectors", attack_vectors );
     reqs.load( jo, src );
     bonuses.load( jo );
+}
+
+void ma_technique::verify_ma_techniques()
+{
+    ma_techniques.check();
+}
+
+void ma_technique::check() const
+{
+    if( attack_vectors.empty() && !dummy && !defensive && !grab_break && !miss_recovery ) {
+        debugmsg( "MA technique %s is missing an attack vector", id.c_str() );
+    }
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
@@ -550,6 +615,33 @@ void finalize_martial_arts()
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
         effect_type::register_ma_buff_effect( new_eff );
     }
+    attack_vector_factory.finalize();
+    for( const attack_vector &vector : attack_vector_factory.get_all() ) {
+        // Check if this vector allows substitutions in the first place
+        if( vector.strict_limb_definition ) {
+            continue;
+        }
+        // Add similar parts
+        // The vector needs both a limb and a contact area, so we can substitute safely
+        std::vector<bodypart_str_id> similar_bp;
+        for( const bodypart_str_id &bp : vector.limbs ) {
+            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+                similar_bp.emplace_back( similar );
+            }
+        }
+        const_cast<attack_vector &>( vector ).limbs.insert( vector.limbs.end(), similar_bp.begin(),
+                similar_bp.end() );
+
+        std::vector<sub_bodypart_str_id> similar_sbp;
+        for( const sub_bodypart_str_id &sbp : vector.contact_area ) {
+            for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+                similar_sbp.emplace_back( similar );
+            }
+        }
+
+        const_cast<attack_vector &>( vector ).contact_area.insert( vector.contact_area.end(),
+                similar_sbp.begin(), similar_sbp.end() );
+    }
 }
 
 std::string martialart_difficulty( const matype_id &mstyle )
@@ -624,10 +716,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
 
     if( !valid_unarmed && !valid_melee ) {
-        return false;
-    }
-
-    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Weapon/technique conflict, attack discarded" );
         return false;
     }
 
@@ -792,17 +881,9 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump += string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) + "\n";
-        if( unarmed_weapons_allowed ) {
-            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) + "\n";
-        }
     } else if( unarmed_allowed ) {
         dump += string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) + "\n";
-        if( unarmed_weapons_allowed ) {
-            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) + "\n";
-        }
     } else if( melee_allowed ) {
         dump += string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) + "\n";
@@ -820,7 +901,6 @@ ma_technique::ma_technique()
 {
     crit_tec = false;
     crit_ok = false;
-    crit_tec_id = tec_none; // if not tec_none, use this tech instead when a crit procs
     defensive = false;
     side_switch = false; // moves the target behind user
     dummy = false;
@@ -1365,39 +1445,182 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
-std::string character_martial_arts::get_valid_attack_vector( const Character &user,
-        const std::vector<std::string> &attack_vectors ) const
+std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
+        character_martial_arts::choose_attack_vector( const Character &user,
+                const matec_id &tech ) const
 {
-    for( auto av : attack_vectors ) {
-        if( can_use_attack_vector( user, av ) ) {
-            return av;
-        }
-    }
-
-    return "NONE";
-}
-
-bool character_martial_arts::can_use_attack_vector( const Character &user,
-        const std::string &av ) const
-{
+    // Use the simple weighted list to handle picking semi-randomly
+    attack_vector_id ret;
+    weighted_float_list<attack_vector_id> list;
+    std::pair<attack_vector_id, sub_bodypart_str_id> return_set;
+    std::vector<std::pair<attack_vector_id, sub_bodypart_str_id>> storage;
+    const std::vector<bodypart_id> anat = user.get_all_body_parts();
+    const bool armed = user.is_armed();
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
-    int arm_r_hp = user.get_part_hp_cur( bodypart_id( "arm_r" ) );
-    int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
-    int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
-    int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
-    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
-    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
-    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
-    bool mouth_ok = ( av == "MOUTH" ) && !user.natural_attack_restricted_on( bodypart_id( "mouth" ) );
-    bool always_ok = av == "HEAD" || av == "TORSO";
-    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
-    bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
-                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
-    bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
-    bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
+    for( const attack_vector_id &vec : tech.obj().attack_vectors ) {
+        add_msg_debug( debugmode::DF_MELEE, "Evaluating vector %s for tech %s", vec.c_str(), tech.c_str() );
+        float weight = 0.0f;
+        // Early break for armed vectors
+        if( vec->weapon && armed && valid_weapon ) {
+            item *weapon = user.get_wielded_item().get_item();
+            // Calculate weapon damage for weighting
+            // Store a dummy sublimb to show we're attacking with a weapon
+            weight = weapon->base_damage_melee().total_damage();
+            list.add_or_replace( vec, weight );
+            storage.emplace_back( vec, sub_body_part_sub_limb_debug );
+            add_msg_debug( debugmode::DF_MELEE, "Weapon %s eligable for attack vector %s with weight %.1f",
+                           weapon->display_name(),
+                           vec.c_str(), weight );
+            continue;
+        }
+        // Check if we have the required limbs
+        bool reqs = true;
+        for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
+            int count = 0;
+            for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
+                if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
+                    count++;
+                }
+            }
+            if( count < req.second ) {
+                add_msg_debug( debugmode::DF_MELEE,
+                               "Limb type requirements: %d matching limbs found from %d req, vector discarded", count,
+                               req.second );
+                reqs = false;
+                break;
+            }
+        }
+        if( !reqs ) {
+            continue;
+        }
 
-    return always_ok || weapon_ok || mouth_ok || arm_ok || arms_ok || legs_ok;
+        // Smilar bodyparts get appended to the vector limb list in the finalization step
+        // So we just need to check if we have a limb, a contact area sublimb and tally up the damages
+        std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;
+        for( const bodypart_str_id &bp : vec->limbs ) {
+            //const bodypart_str_id &bp = bp_id.id();
+            if( std::find( anat.begin(), anat.end(), bp.id() ) != anat.end() ) {
+                add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec.c_str() );
+                // Filter on limb flags early
+                bool allowed = true;
+                for( const json_character_flag &req : vec->required_limb_flags ) {
+                    if( !bp->has_flag( req ) ) {
+                        add_msg_debug( debugmode::DF_MELEE, "Required limb flag %s not found on limb %s, limb discarded",
+                                       req.c_str(),
+                                       bp->name );
+                        allowed = false;
+                        break;
+                    }
+                }
+                for( const json_character_flag &forb : vec->forbidden_limb_flags ) {
+                    if( bp->has_flag( forb ) ) {
+                        add_msg_debug( debugmode::DF_MELEE, "Forbidden limb flag %s found on limb %s, limb discarded",
+                                       forb.c_str(),
+                                       bp->name );
+                        allowed = false;
+                        break;
+                    }
+                }
+                if( !allowed ) {
+                    continue;
+                }
+
+                // TODO: move this from being a special case to the default
+                int bp_hp_cur = bp->main_part == bp ? user.get_part_hp_cur( bp ) : user.get_part_hp_cur(
+                                    bp->main_part );
+                int bp_hp_max = bp->main_part == bp ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
+                                    bp->main_part );
+                if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
+                    user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
+                    sub_bodypart_str_id current_contact;
+                    for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                        if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
+                                       sbp ) != vec->contact_area.end() ) {
+                            current_contact = sbp;
+                            break;
+                        }
+                    }
+
+                    float unarmed_damage = calculate_vector_damage( user, vec, current_contact ).total_damage();
+                    if( unarmed_damage <= 0.0f ) {
+                        // Give extra/damage-less vectors a base chance to be chosen
+                        unarmed_damage = 1.0f;
+                    }
+                    calc_vector.emplace_back( current_contact, unarmed_damage );
+                    add_msg_debug( debugmode::DF_MELEE,
+                                   "Bodypart %s eligable for attack vector %s weight %.1f (contact area %s)",
+                                   bp.c_str(),
+                                   vec.c_str(), unarmed_damage, current_contact->name );
+                }
+            }
+        }
+        if( calc_vector.empty() ) {
+            add_msg_debug( debugmode::DF_MELEE, "Vector %s found no eligable bodyparts, discarding",
+                           vec.c_str() );
+            continue;
+        }
+        // Sort our calc_vector of sublimb/damage pairs
+        std::sort( calc_vector.begin(),
+                   calc_vector.end(), []( const std::pair<sub_bodypart_str_id, float> &a,
+        const std::pair<sub_bodypart_str_id, float> &b ) {
+            return a.second < b.second;
+        } );
+        list.add( vec, calc_vector.rbegin()->second );
+        storage.emplace_back( vec, calc_vector.rbegin()->first );
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Chose contact sublimb %s for vector %s with weight %.1f; %d stored vectors",
+                       calc_vector.rbegin()->first->name, vec.c_str(), calc_vector.rbegin()->second, storage.size() );
+    }
+    if( !list.empty() ) {
+        ret = *list.pick();
+        add_msg_debug( debugmode::DF_MELEE, "Picked vector %s for technique %s", ret.c_str(),
+                       tech.c_str() );
+        // Now find the contact data matching the winning vector
+        for( auto &iterate : storage ) {
+            if( iterate.first == ret ) {
+                return_set = iterate;
+                break;
+            }
+        }
+        return return_set;
+    }
+    return std::nullopt;
+}
+
+damage_instance character_martial_arts::calculate_vector_damage( const Character &user,
+        const attack_vector_id &vec, const sub_bodypart_str_id &contact_area ) const
+{
+    // Calculate unarmed damage for the given sublimb(s)
+    damage_instance ret;
+    // If we got this far the limb is not overencumbered
+    // But do filter on the flag to bring it in line with the actual damage calc
+    if( !user.natural_attack_restricted_on( contact_area->parent ) ) {
+        ret.add( contact_area->parent->unarmed_damage_instance() );
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Unarmed damage of bodypart %s %.1f", contact_area->parent->name,
+                       ret.total_damage() );
+    }
+    if( !user.natural_attack_restricted_on( contact_area ) ) {
+        ret.add( contact_area->unarmed_damage );
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Unarmed damage of subpart %s %.1f, total damage %.1f", contact_area->parent->name,
+                       contact_area->unarmed_damage.total_damage(),
+                       ret.total_damage() );
+    }
+    // Add any bonus from worn armor if the vector allows it
+    if( vec->armor_bonus ) {
+        outfit current_worn = user.worn;
+        item *unarmed_weapon = current_worn.current_unarmed_weapon( contact_area );
+        if( unarmed_weapon != nullptr ) {
+            ret.add( unarmed_weapon->base_damage_melee() );
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Unarmed weapon %s found, melee damage %.1f, new total damage %.1f",
+                           unarmed_weapon->display_name(), unarmed_weapon->base_damage_melee().total_damage(),
+                           ret.total_damage() );
+        }
+    }
+    return ret;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const

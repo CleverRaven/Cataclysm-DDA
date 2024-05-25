@@ -37,8 +37,8 @@
     ],
     "weight": "90 g",
     "volume": "250 ml",
-    "price": 450,
-    "price_postapoc": 1250,
+    "price": "4 USD 50 cent",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
@@ -95,12 +95,17 @@
         "name": { "str": "FM 23-11: 90mm Recoilless Rifle, M67", "str_pl": "copies of FM 23-11: 90mm Recoilless Rifle, M67" },
         "description": "Official U.S. Army manual for using the M67 anti-tank rifle - theory, practice, and essential information.",
         "//": "979-8538902606"
+      },
+      {
+        "id": "manual_launcher_5",
+        "name": { "str": "Jane's Flamethrowers and Firestarters", "str_pl": "copies of Jane's Flamethrowers and Firestarters" },
+        "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge."
       }
     ],
     "weight": "650 g",
     "volume": "919 ml",
-    "price": 2000,
-    "price_postapoc": 2000,
+    "price": "20 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "green",

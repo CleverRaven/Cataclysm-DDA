@@ -4,23 +4,22 @@
 
 #include <cstddef>
 #include <list>
-#include <map>
 #include <memory>
-#include <set>
 #include <unordered_map>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "creature.h"
-#include "memory_fast.h"
-#include "point.h"
 #include "type_id.h"
 
-class game;
 class JsonArray;
 class JsonOut;
+class game;
 class monster;
 class npc;
+struct tripoint;
 
 class creature_tracker
 {

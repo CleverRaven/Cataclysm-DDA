@@ -100,6 +100,19 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_ACID_RESIST_ALLY",
+    "name": { "str": "Caustic Cloak" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Undine gains the ability to weave an enchantment on an ally which will protect them from acid and causes anything who attacks that ally to be splashed with acid themselves.",
+    "prereqs": [ "ACIDIC_MIST" ],
+    "prereqs2": [ "RESIST_ACID" ],
+    "category": [ "UNDINE" ],
+    "spells_learned": [ [ "undine_acid_resist_ally_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,

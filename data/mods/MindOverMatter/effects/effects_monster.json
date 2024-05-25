@@ -1,5 +1,15 @@
 [
   {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [ "ench_nemesis_buff" ]
+  },
+  {
     "type": "effect_type",
     "id": "psi_blind",
     "name": [ "Blind" ],
@@ -87,6 +97,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_hardened_skin",
+    "name": [ "Hardened Skin" ],
+    "desc": [ "You are more resilient than normal." ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -9 }, { "value": "ARMOR_STAB", "add": -4 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ "One Perfect Rock" ],
     "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
@@ -139,6 +161,49 @@
     "max_duration": "5 m",
     "base_mods": { "dodge_mod": [ -2 ] },
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 200 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_pyrokinetic_fire_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to fire." ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_momentum_alteration",
+    "name": [ "Momentum Alteration" ],
+    "desc": [ "You are altering the motion of nearby objects in your favor." ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "multiply": -0.1 },
+          { "value": "ARMOR_BASH", "multiply": -0.1 },
+          { "value": "ARMOR_STAB", "multiply": -0.1 },
+          { "value": "ARMOR_BULLET", "multiply": -0.1 },
+          { "value": "SPEED", "multiply": 0.03 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_inertial_barrier",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -15 },
+          { "value": "ARMOR_BASH", "add": -10 },
+          { "value": "ARMOR_STAB", "add": -20 },
+          { "value": "ARMOR_BULLET", "add": -35 }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

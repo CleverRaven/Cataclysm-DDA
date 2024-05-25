@@ -2,6 +2,7 @@
   {
     "type": "terrain",
     "id": "t_wall",
+    "//": "TODO: Change to copy-from: t_wall extend: flags: FLAMMABLE_HARD delete: flags: FLAMMABLE once #73211 merges",
     "alias": [ "t_wall_h", "t_wall_v" ],
     "name": "wall",
     "description": "The stereotypical wall with wooden support structure filled with insulation and drywalled.  Paint job is the all too common and neutral off-white or cream color, it could use more vibrant paint.",
@@ -10,6 +11,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -42,6 +45,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -75,6 +80,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -108,6 +115,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -141,6 +150,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -174,6 +185,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -206,6 +219,8 @@
     "color": "pink",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -239,6 +254,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -269,7 +286,7 @@
     "color": "red",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "connect_groups": "RAIL",
+    "connect_groups": [ "RAIL", "INDOORFLOOR" ],
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
@@ -292,7 +309,7 @@
     "move_cost": 2,
     "light_emitted": 120,
     "roof": "t_flat_roof",
-    "connect_groups": "RAIL",
+    "connect_groups": [ "RAIL", "INDOORFLOOR" ],
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
@@ -316,7 +333,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "connect_groups": "RAIL",
+    "connect_groups": [ "RAIL", "INDOORFLOOR" ],
     "connects_to": "RAIL",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
@@ -331,7 +348,7 @@
     "looks_like": "t_rock_floor",
     "move_cost": 2,
     "light_emitted": 120,
-    "connect_groups": "RAIL",
+    "connect_groups": [ "RAIL", "INDOORFLOOR" ],
     "connects_to": "RAIL",
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],

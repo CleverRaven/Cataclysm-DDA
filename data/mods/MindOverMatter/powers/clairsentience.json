@@ -124,9 +124,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_clair_weak_point",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DISCERN_WEAKNESS",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -168,7 +167,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_SEE_AURAS_INITIATE",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -225,8 +223,7 @@
     "shape": "blast",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ]
+    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT"
   },
   {
     "id": "clair_sense_rads_outside",
@@ -240,7 +237,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_clair_sense_rads_self",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "min_duration": {
       "math": [
         "( (u_spell_level('clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
@@ -321,7 +317,6 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -444,7 +439,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_clair_perfect_shot",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "min_duration": 1000,
     "max_duration": 1000,
@@ -470,7 +464,6 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "map",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": {
       "math": [
@@ -525,6 +518,61 @@
     }
   },
   {
+    "id": "clair_astral_projection",
+    "type": "SPELL",
+    "name": "[Ψ]Astral Projection",
+    "description": "After a short period of concentration and meditation, cast your spirit forth from your body, wandering the world disembodied.  You will move at the speed of thought but cannot use further powers or interact with the world while your spirit is wandering.  Follow your silver cord to return back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
+    "energy_increment": -125,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "clair_astral_projection_passwall",
+    "type": "SPELL",
+    "name": "[Ψ]Pass Through Wall",
+    "description": "Walls are no barrier to a body of pure spirit.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "TARGET_TELEPORT", "IGNORE_WALLS", "NO_PROJECTILE", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_range": 2,
+    "max_range": 2,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 100
+  },
+  {
+    "id": "clair_astral_projection_return",
+    "type": "SPELL",
+    "name": "[Ψ]Follow the Silver Cord",
+    "description": "Follow the silver cord back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
+    "shape": "blast"
+  },
+  {
     "id": "clair_group_tactics",
     "type": "SPELL",
     "name": "[Ψ]Prescient Tactician (C)",
@@ -577,7 +625,6 @@
     "skill": "metaphysics",
     "effect": "attack",
     "effect_str": "effect_clair_omniscence",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [

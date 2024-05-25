@@ -4,10 +4,6 @@
     "result": "filter_air_makeshift",
     "copy-from": "filter_air_makeshift",
     "autolearn": true,
-    "components": [
-      [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "can_medium", 1 ] ],
-      [ [ "paper", 50 ] ],
-      [ [ "duct_tape", 20 ] ]
-    ]
+    "components": [ [ [ "plastic_bottles_any", 1, "LIST" ], [ "can_medium", 1 ] ], [ [ "paper", 50 ] ], [ [ "duct_tape", 20 ] ] ]
   }
 ]

@@ -3,20 +3,23 @@
 #define CATA_SRC_BIONICS_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
-#include "effect_on_condition.h"
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item.h"
 #include "magic.h"
-#include "translations.h"
+#include "npc.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -38,8 +41,6 @@ struct bionic_data {
     units::energy power_over_time = 0_kJ;
     /** Power cost when the bionic's special effect is triggered */
     units::energy power_trigger = 0_kJ;
-    /** Amount of free energy the bionic generates each turn regardless of activation state*/
-    units::energy power_trickle = 0_kJ;
     /** Power bank size **/
     units::energy capacity = 0_kJ;
 
@@ -104,8 +105,6 @@ struct bionic_data {
     cata::flat_set<json_character_flag> flags;
     cata::flat_set<json_character_flag> active_flags;
     cata::flat_set<json_character_flag> inactive_flags;
-    /**Map of stats and their corresponding bonuses passively granted by a bionic*/
-    std::map<character_stat, int> stat_bonus;
     /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
     /**Amount of damage protection offered by this bionic*/
@@ -150,7 +149,6 @@ struct bionic_data {
     float fuel_efficiency = 0.0f;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
-    float vitamin_absorb_mod = 1.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
     std::optional<float> coverage_power_gen_penalty;
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%

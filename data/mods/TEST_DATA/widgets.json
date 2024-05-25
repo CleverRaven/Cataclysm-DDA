@@ -45,7 +45,7 @@
     ]
   },
   {
-    "id": "test_fatigue_clause_template",
+    "id": "test_sleepiness_clause_template",
     "type": "widget",
     "separator": ": ",
     "style": "clause",
@@ -54,19 +54,19 @@
         "id": "tired",
         "text": "Tired",
         "color": "yellow",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">", "191" ] }, { "math": [ "u_val('fatigue')", "<=", "383" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">", "191" ] }, { "math": [ "u_val('sleepiness')", "<=", "383" ] } ] }
       },
       {
         "id": "dead_tired",
         "text": "Dead Tired",
         "color": "light_red",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">", "383" ] }, { "math": [ "u_val('fatigue')", "<=", "575" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">", "383" ] }, { "math": [ "u_val('sleepiness')", "<=", "575" ] } ] }
       },
       {
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "math": [ "u_val('fatigue')", ">", "575" ] }
+        "condition": { "math": [ "u_val('sleepiness')", ">", "575" ] }
       }
     ]
   },
@@ -912,12 +912,12 @@
     "style": "number"
   },
   {
-    "id": "test_fatigue_clause",
+    "id": "test_sleepiness_clause",
     "type": "widget",
     "separator": ": ",
     "label": "Rest",
     "style": "text",
-    "copy-from": "test_fatigue_clause_template"
+    "copy-from": "test_sleepiness_clause_template"
   },
   {
     "id": "test_hp_head_graph",

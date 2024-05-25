@@ -461,7 +461,7 @@
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "cop_gear" ] },
       { "x": -2, "y": 1, "chance": 3, "magazine": 100, "ammo": 50, "item_groups": [ "cop_weapons" ] },
       { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] },
-      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "longguns_cop_loaded" ] }
+      { "x": -2, "y": 1, "chance": 1, "item_groups": [ "longguns_cop_loaded" ] }
     ]
   },
   {

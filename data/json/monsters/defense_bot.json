@@ -115,7 +115,7 @@
     "id": "mon_secubot_america",
     "type": "MONSTER",
     "name": { "str": "autonomous TALON UGV Liberty Edition" },
-    "description": "A TALON unmanned ground vehicle equipped with a fireworks cannon in place of its usual M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.  This one has been plastered with an american flag decal.",
+    "description": "A TALON unmanned ground vehicle equipped with a fireworks cannon in place of its usual M16A4.  It is a small tracked UGV with an array of motors and sensors covering its weapon mount.  This one has been plastered with an American flag decal.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 20,
@@ -124,12 +124,12 @@
     "hp": 80,
     "speed": 40,
     "material": [ "steel" ],
-    "symbol": "R",
-    "color": "dark_gray",
+    "symbol": "F",
+    "color": "light_gray",
     "aggression": 100,
     "morale": 100,
     "vision_day": 50,
-    "revert_to_itype": "bot_secubot",
+    "revert_to_itype": "bot_secubot_liberty",
     "special_attacks": [
       {
         "type": "gun",
@@ -154,10 +154,62 @@
     "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
+    "id": "mon_secubot_america_refurbished",
+    "type": "MONSTER",
+    "name": {
+      "str": "refurbished autonomous TALON UGV Liberty Edition",
+      "str_pl": "refurbished autonomous TALON UGVs Liberty Edition"
+    },
+    "description": "Once a Talon UGV bot converted to shoot fireworks at trespassers, this has been refurbished and uses it's M16A4 once more.  It still has the American flag decal from it's service as a trespass deterrent.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 20,
+    "volume": "150 L",
+    "weight": "40750 g",
+    "hp": 80,
+    "speed": 40,
+    "material": [ "steel" ],
+    "symbol": "F",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 50,
+    "revert_to_itype": "bot_secubot_liberty",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 150,
+        "gun_type": "modular_m16a4",
+        "ammo_type": "556",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "target_moving_vehicles": true,
+        "laser_lock": false,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "targeting_sound": "\"Proud to be an American.\"",
+        "targeting_volume": 50,
+        "no_ammo_sound": "a chk!"
+      }
+    ],
+    "death_drops": {  },
+    "death_function": {
+      "effect": { "id": "death_smokeburst", "hit_self": true },
+      "message": "Loud rock music blares as the %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
+  },
+  {
     "id": "mon_skitterbot",
     "type": "MONSTER",
     "name": { "str": "skitterbot" },
-    "description": "An insectoid robot the size of a small dog, originally designed to perform routine inspections within industrial sites.  Up-armed with two close-range tazers, it can skate across the ground with great speed.",
+    "description": "An insectoid robot the size of a small dog, originally designed to perform routine inspections within industrial sites.  Up-armed with two close-range tasers, it can skate across the ground with great speed.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "diff": 2,

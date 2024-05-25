@@ -15,7 +15,9 @@
           { "value": "FAT_TO_MAX_HP", "multiply": -0.9 },
           { "value": "HEALTHY_RATE", "multiply": -1 },
           { "value": "SWEAT_MULTIPLIER", "multiply": -1 },
-          { "value": "THIRST", "multiply": -1 }
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -1 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.0 }
         ]
       }
     ],
@@ -51,8 +53,6 @@
     "description": "You are literally made of sugar.",
     "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
     "starting_trait": true,
-    "healing_awake": 0.0,
-    "healing_multiplier": 0.0,
     "anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ],
     "allowed_category": [ "SUGAR" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],

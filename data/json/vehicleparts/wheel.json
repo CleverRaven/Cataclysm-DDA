@@ -221,7 +221,10 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 8, 19 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
     ],
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
     "contact_area": 153,
@@ -287,7 +290,13 @@
     "description": "A small wheel.",
     "damage_modifier": 50,
     "folded_volume": "2250 ml",
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "chunk_rubber", "count": [ 4, 15 ] },
+      { "item": "shredded_rubber", "charges": [ 4, 10 ] }
+    ],
     "rolling_resistance": 1.62,
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
@@ -316,7 +325,10 @@
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 4, 13 ] },
+      { "item": "shredded_rubber", "charges": [ 5, 12 ] }
     ],
     "rolling_resistance": 0.45,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -471,7 +483,10 @@
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 5 ] },
       { "item": "scrap", "count": [ 1, 5 ] },
-      { "item": "plastic_chunk", "count": [ 1, 5 ] }
+      { "item": "plastic_chunk", "count": [ 1, 5 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 3, 12 ] },
+      { "item": "shredded_rubber", "charges": [ 12, 30 ] }
     ],
     "rolling_resistance": 29.0,
     "wheel_offroad_rating": 0.7,
@@ -500,7 +515,10 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 3 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "scrap", "count": [ 1, 3 ] }
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 8, 19 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
     ],
     "rolling_resistance": 1.9,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -524,6 +542,14 @@
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",
     "contact_area": 60,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 9, 25 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
+    ],
     "wheel_offroad_rating": 0.7,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
@@ -541,7 +567,14 @@
     "description": "A small wheel.",
     "damage_modifier": 50,
     "folded_volume": "2250 ml",
-    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "breaks_into": [
+      { "item": "steel_lump" },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "count": [ 1, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 2, 12 ] },
+      { "item": "shredded_rubber", "charges": [ 5, 15 ] }
+    ],
     "rolling_resistance": 1.5,
     "wheel_offroad_rating": 0.3,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
@@ -598,7 +631,10 @@
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 4, 13 ] },
+      { "item": "shredded_rubber", "charges": [ 5, 12 ] }
     ],
     "rolling_resistance": 0.45,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -628,7 +664,10 @@
     "breaks_into": [
       { "item": "steel_lump", "prob": 50 },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 1, 2 ] }
+      { "item": "scrap", "count": [ 1, 2 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 6, 20 ] },
+      { "item": "shredded_rubber", "charges": [ 10, 24 ] }
     ],
     "rolling_resistance": 1.95,
     "wheel_offroad_rating": 0.3,
@@ -658,7 +697,10 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 3 ] },
       { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 3 ] }
+      { "item": "scrap", "count": [ 2, 3 ] },
+      { "item": "rubber_tire_chunk", "count": [ 1, 3 ] },
+      { "item": "chunk_rubber", "count": [ 8, 24 ] },
+      { "item": "shredded_rubber", "charges": [ 8, 20 ] }
     ],
     "rolling_resistance": 0.575,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 4 ], "ROAD": [ 0, 2 ] },
@@ -723,5 +765,42 @@
     "rolling_resistance": 2.05,
     "proportional": { "durability": 2, "damage_modifier": 2 },
     "damage_reduction": { "all": 20 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wheel_mount_concrete_mix",
+    "name": { "str": "concrete mixer wheel mounts" },
+    "categories": [ "movement" ],
+    "location": "axle",
+    "damage_modifier": 80,
+    "folded_volume": "500 ml",
+    "durability": 240,
+    "description": "A set of two small wheel mounts from a concrete mixer.",
+    "item": "wheel_mount_concrete_mix",
+    "flags": [ "WHEEL_MOUNT_CONCRETE_MIX", "NEEDS_JACKING", "NO_INSTALL_HIDDEN" ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 8 ] } ],
+    "damage_reduction": { "all": 10 },
+    "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
+  },
+  {
+    "id": "wheel_set_concrete_mix",
+    "type": "vehicle_part",
+    "name": { "str": "concrete mixer wheels" },
+    "looks_like": "wheel",
+    "item": "wheel_set_concrete_mix",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "durability": 140,
+    "description": "A small wheel.",
+    "damage_modifier": 50,
+    "folded_volume": "5500 ml",
+    "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 6 ] } ],
+    "rolling_resistance": 1.5,
+    "wheel_offroad_rating": 0.3,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 5 ], "ROAD": [ 0, 2 ] },
+    "contact_area": 60,
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_WHEEL_MOUNT_CONCRETE_MIX", "NO_INSTALL_HIDDEN" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   }
 ]

@@ -1,13 +1,18 @@
 #include "event_field_transformations.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <optional>
 #include <set>
 #include <string>
 
+#include "coordinates.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "type_id.h"
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )

@@ -38,6 +38,70 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "TELESTOP" } },
+        { "not": { "u_has_flag": "TELEPORT_IMMUNE" } },
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_TELEPORTER_OUBLIETTE_HANDLING_2" } ],
+    "false_effect": [ { "npc_message": "Your target wavers for a moment, but nothing happens." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING_2",
+    "condition": { "not": "u_is_npc" },
+    "effect": [
+      {
+        "math": [
+          "u_psi_teleporter_damage",
+          "=",
+          "rng(((15 + (n_spell_level('teleport_banish') * 15)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling),((350 + (n_spell_level('teleport_banish') * 35)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling))"
+        ]
+      },
+      { "math": [ "u_health_comparison", "=", "u_hp('ALL')" ] },
+      {
+        "if": { "math": [ "u_psi_teleporter_damage", ">", "u_health_comparison" ] },
+        "then": [
+          { "u_cast_spell": { "id": "teleport_banish_self_target", "message": "" } },
+          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "math": [
+          "u_psi_teleporter_damage",
+          "=",
+          "rng(((15 + (n_spell_level('teleport_banish') * 15)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling),((350 + (n_spell_level('teleport_banish') * 35)) * ( ( n_val('intelligence') + 10) / 20 ) * n_nether_attunement_power_scaling))"
+        ]
+      },
+      {
+        "math": [
+          "u_health_comparison",
+          "=",
+          "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+        ]
+      },
+      {
+        "if": { "math": [ "u_psi_teleporter_damage", ">", "u_health_comparison" ] },
+        "then": [
+          "u_die",
+          { "npc_message": "With a tremendous mental exertion, you hurl your target to another dimension!" },
+          {
+            "u_map_run_item_eocs": "all",
+            "min_radius": 0,
+            "max_radius": 0,
+            "true_eocs": [ { "id": "EOC_TELEPORTER_OUBLIETTE_HANDLING_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_SUMMON",
     "effect": [
       { "u_spawn_monster": "GROUP_NETHER_BREACH", "group": true, "real_count": [ 1, 3 ], "min_radius": 2, "max_radius": 6 }

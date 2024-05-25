@@ -179,7 +179,7 @@
     "valid_targets": [ "self" ],
     "message": "You feel refreshed.",
     "effect": "recover_energy",
-    "effect_str": "FATIGUE",
+    "effect_str": "SLEEPINESS",
     "shape": "blast",
     "base_casting_time": { "math": [ "spell_time(time(' 2 m'))" ] },
     "min_damage": 50,
