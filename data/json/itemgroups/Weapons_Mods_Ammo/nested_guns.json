@@ -2727,5 +2727,13 @@
       { "item": "clip_77mm_arisaka", "prob": 50 },
       { "group": "on_hand_77mm_arisaka" }
     ]
+  },
+  {
+    "id": "nested_taurus_judge",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "taurus_judge", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
   }
 ]
