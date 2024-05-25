@@ -8,7 +8,7 @@
   {
     "type": "recipe",
     "result": "chem_ethanol",
-    "copy-from": "chem_ethanol",
+    "copy-from": "chem_ethanol_slow_distill",
     "id_suffix": "slow_distill",
     "time": "120 m",
     "autolearn": true,

@@ -85,6 +85,7 @@
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" }
     ],
-    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "//": "Custom Innawood recipe"
   }
 ]

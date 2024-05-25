@@ -29,7 +29,8 @@
     "time": "20 m 30 s",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "components": [ [ [ "cable", 20 ] ] ]
+    "components": [ [ [ "cable", 20 ] ] ],
+    "//": "Custom Innawood item"
   },
   {
     "type": "recipe",

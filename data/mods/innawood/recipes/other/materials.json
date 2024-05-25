@@ -1,34 +1,15 @@
 [
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "material_quicklime",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "skills_required": [ "chemistry", 2 ],
-    "difficulty": 3,
-    "time": "1 h",
-    "autolearn": true,
-    "batch_time_factors": [ 75, 4 ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_limestone", 50 ] ] ],
-    "charges": 20
+    "copy-from": "material_quicklime",
+    "autolearn": true
   },
   {
     "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
     "result": "material_cement",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "skills_required": [ "chemistry", 3 ],
-    "difficulty": 4,
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "batch_time_factors": [ 75, 3 ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
-    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ], [ "material_gravel", 50 ] ] ]
+    "copy-from": "material_cement",
+    "autolearn": true
   },
   {
     "type": "recipe",
@@ -38,39 +19,18 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "10 m",
+    "time": "90 m",
     "autolearn": true,
     "batch_time_factors": [ 75, 3 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
+    "//": "Alternative Innawoods recipe that doesn't require a concrete mixer"
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "glass_shard",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "skills_required": [ "chemistry", 4 ],
-    "difficulty": 4,
-    "time": "30 m",
-    "batch_time_factors": [ 35, 2 ],
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
-    "result_mult": 4,
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
-      [ [ "forge", 26 ] ]
-    ],
-    "components": [
-      [ [ "material_sand", 10 ] ],
-      [ [ "ammonia_liquid", 1 ] ],
-      [ [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
-      [ [ "material_quicklime", 2 ], [ "bone_meal_any", 1, "LIST" ] ]
-    ]
+    "copy-from": "glass_shard",
+    "autolearn": true
   },
   {
     "type": "recipe",
@@ -94,28 +54,14 @@
       [ [ "sheet_metal", -1 ], [ "fire_brick", -1 ], [ "anvil", -1 ], [ "anvil_bronze", -1 ], [ "casting_mold", -1 ] ],
       [ [ "forge", 26 ] ]
     ],
-    "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]
+    "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ],
+    "//2": "Alternative Innawoods recipe that doesn't require ammonia"
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "glass_tinted",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "30 m",
-    "autolearn": true,
-    "batch_time_factors": [ 90, 2 ],
-    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "sheet_metal_small", -1 ], [ "sheet_metal", -1 ] ],
-      [ [ "forge", 60 ] ]
-    ],
-    "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
+    "copy-from": "glass_tinted",
+    "autolearn": true
   },
   {
     "result": "sheet_fibercloth",
@@ -130,7 +76,8 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plant_fibre", 5 ] ] ]
+    "components": [ [ [ "plant_fibre", 5 ] ] ],
+    "//": "custom Innawood material"
   },
   {
     "result": "sheet_fibercloth",
@@ -146,77 +93,33 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plant_fibre", 5 ] ] ]
+    "components": [ [ [ "plant_fibre", 5 ] ] ],
+    "//": "custom Innawood material"
   },
   {
     "type": "recipe",
     "result": "lc_steel_lump",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "4 h",
-    "batch_time_factors": [ 90, 2 ],
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ] ]
+    "copy-from": "lc_steel_lump",
+    "autolearn": true
   },
   {
     "type": "recipe",
     "result": "mc_steel_lump",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "6 h",
-    "batch_time_factors": [ 90, 2 ],
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ] ]
+    "copy-from": "mc_steel_lump",
+    "autolearn": true
   },
   {
     "type": "recipe",
     "result": "hc_steel_lump",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "7 h",
-    "batch_time_factors": [ 90, 2 ],
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 90 ], [ "charcoal", 68 ] ] ]
+    "copy-from": "hc_steel_lump",
+    "autolearn": true
   },
   {
     "type": "recipe",
     "result": "steel_lump",
     "id_suffix": "from_other_steel",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "3 h",
-    "batch_time_factors": [ 90, 2 ],
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 200 ] ] ],
-    "components": [
-      [
-        [ "hc_steel_lump", 1 ],
-        [ "hc_steel_chunk", 4 ],
-        [ "mc_steel_lump", 1 ],
-        [ "mc_steel_chunk", 4 ],
-        [ "lc_steel_lump", 1 ],
-        [ "lc_steel_chunk", 4 ]
-      ]
-    ]
+    "copy-from": "steel_lump_from_other_steel",
+    "autolearn": true
   },
   {
     "type": "recipe",
@@ -234,32 +137,14 @@
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ], [ "lye_potassium", 6 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ], [ "lye_potassium", 6 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ],
+    "//2": "custom Innawood recipe"
   },
   {
     "result": "scrap_bronze",
     "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "10 m",
-    "batch_time_factors": [ 90, 4 ],
-    "autolearn": true,
-    "using": [ [ "forging_standard", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [
-        [ "tin", 12 ],
-        [ "aluminum_foil", 371 ],
-        [ "chem_aluminium_powder", 29 ],
-        [ "can_drink", 2 ],
-        [ "scrap_aluminum", 1 ]
-      ],
-      [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
-    ]
+    "copy-from": "scrap_bronze",
+    "autolearn": true
   },
   {
     "type": "recipe",
