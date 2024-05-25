@@ -496,7 +496,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "//": "Name changed to match the non-branded version. Also changed to the SIG 553, as the 552 is discontinued and the 553 is still in production and is identical to the 552.",
+    "//": "Changed from SG 553, which itself was originally the Sig 550, to the civilian legal copy",
     "id": "sig_assault_rifle",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
