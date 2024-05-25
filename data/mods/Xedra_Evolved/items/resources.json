@@ -414,7 +414,7 @@
     "description": "A strange object you brought back from the insides of the Abyssal Hunger."
   },
   {
-    "type": "GENERIC",
+    "type": "AMMO",
     "id": "obsidian_rock",
     "copy-from": "rock",
     "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
