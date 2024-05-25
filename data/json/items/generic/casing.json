@@ -116,7 +116,7 @@
     "looks_like": "223_casing",
     "type": "GENERIC",
     "name": { "str": "7.62x51mm casing" },
-    "description": "An empty casing from a 7.62x51mm M80 round.",
+    "description": "An empty casing from a 7.62x51mm or .308 Winchester round.",
     "weight": "6 g",
     "volume": "9ml"
   },
