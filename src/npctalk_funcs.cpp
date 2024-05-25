@@ -49,6 +49,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -404,6 +405,12 @@ void talk_function::goto_location( npc &p )
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
+        return;
+    }
+    ui::omap::display_npc_path( p.global_omt_location(), p.omt_path );
+    if( !query_yn( _( "Is this path and destination acceptable?" ) ) ) {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
         return;
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
