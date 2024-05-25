@@ -321,6 +321,31 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "bot_secubot_liberty",
+    "type": "TOOL",
+    "name": { "str": "inactive TALON UGV Liberty Edition", "str_pl": "inactive TALON UGVs Liberty Edition" },
+    "description": "This bot has had tubes welded above the original guns that allow it to shoot fireworks in order to blind and stun attackers.  With fireworks being harder to come by then the ammo for the original weapons, the best option would be to convert it back to it's original guns.  It should be easy enough to give it back the use of the original M16A4.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "25 USD",
+    "to_hit": -3,
+    "material": [ "steel" ],
+    "symbol": "F",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_secubot_america_refurbished",
+      "friendly_msg": "The security bot beeps affirmatively and begins scanning for hostiles.",
+      "hostile_msg": "You misprogram the security bot and it trains its gun on you.  RUN!",
+      "difficulty": 6,
+      "moves": 150,
+      "skills": [ "electronics", "computer", "fabrication" ]
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
     "id": "bot_nursebot",
     "type": "TOOL",
     "name": { "str": "inactive nurse bot" },

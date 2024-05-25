@@ -2240,6 +2240,16 @@ drop_locations game_menus::inv::pickup( avatar &you,
     return pick_s.execute();
 }
 
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const std::optional<tripoint_bub_ms> &target, const std::vector<drop_location> &selection )
+{
+    std::optional<tripoint> tmp;
+    if( target.has_value() ) {
+        tmp = target.value().raw();
+    }
+    return game_menus::inv::pickup( you, tmp, selection );
+}
+
 class smokable_selector_preset : public inventory_selector_preset
 {
     public:

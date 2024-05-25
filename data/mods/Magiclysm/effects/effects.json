@@ -77,7 +77,7 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape.",
     "rating": "good",
-    "flags": [ "NIGHT_VISION" ]
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } } ] } ]
   },
   {
     "type": "effect_type",

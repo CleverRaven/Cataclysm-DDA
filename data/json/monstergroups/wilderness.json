@@ -10,7 +10,8 @@
       { "monster": "mon_mutant_experimental", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 }
+      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 },
+      { "monster": "mon_pickerel_frog", "weight": 200, "cost_multiplier": 5, "pack_size": [ 4, 16 ] }
     ]
   },
   {
@@ -256,7 +257,6 @@
     "monsters": [
       { "monster": "mon_zeer", "weight": 4, "cost_multiplier": 10, "pack_size": [ 1, 5 ] },
       { "monster": "mon_zougar", "weight": 2, "cost_multiplier": 10 },
-      { "monster": "mon_zolf", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombear", "weight": 1, "cost_multiplier": 10 },
       { "monster": "mon_zeindeer", "weight": 1, "cost_multiplier": 15, "pack_size": [ 2, 5 ], "event": "christmas" },
       { "monster": "mon_zombie_dog", "weight": 1, "cost_multiplier": 2 },
@@ -629,7 +629,8 @@
     "monsters": [
       { "group": "GROUP_STREAM_SMALL", "weight": 30 },
       { "group": "GROUP_STREAM_BIRDS", "weight": 30 },
-      { "group": "GROUP_STREAM_DOMESTIC", "weight": 2 }
+      { "group": "GROUP_STREAM_DOMESTIC", "weight": 2 },
+      { "group": "GROUP_FROGS_ALL", "weight": 20 }
     ]
   },
   {

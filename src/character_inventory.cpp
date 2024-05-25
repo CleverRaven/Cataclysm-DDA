@@ -628,7 +628,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const

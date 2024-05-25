@@ -97,6 +97,30 @@
   },
   {
     "type": "construction",
+    "id": "constr_place_travel_toilet",
+    "group": "place_travel_toilet",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "toilet_travel", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bullettrailer_toilet",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_folded_travel_toilet",
+    "group": "place_travel_toilet",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "toilet_travel_folded", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bullettrailer_toilet",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_stool",
     "group": "build_stool",
     "category": "FURN",

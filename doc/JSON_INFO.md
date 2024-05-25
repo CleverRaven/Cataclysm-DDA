@@ -1157,7 +1157,7 @@ An array of effects to add whenever the limb in question takes damage. Variables
 ```
 
 ### Limb scores
-Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters. They are defined using the `"limb_score"` type:
+Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters.  Most limb scores affect the character via `character_modifiers`, for further information see there. They are defined using the `"limb_score"` type:
 
 ```json
 {
@@ -1178,6 +1178,8 @@ Here are the currently defined limb scores:
 
 | Limb score id          | Description
 |------                  |------
+| `consume_liquid`       | Speed modifier when consuming liquids.
+| `consume_solid`        | Speed multiplier when consuming solids.
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
@@ -1651,6 +1653,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
   "skills": { "mechanics": 1 }, // skills required to apply fix
   "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "adjust_variables_multiply": { "dirt": ".8" }, // adjusts the variables on the item when fix is applied using MULTIPLICATION
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
@@ -4015,7 +4018,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "airtight": false,                // Default false. If true, can contain gas.
     "ablative": false,                // Default false. If true, this item holds a single ablative plate. Make sure to include a flag_restriction on the type of plate that can be added.
     "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
-    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
+    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is worn by a character or placed into another item.
     "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
     "transparent": false              // Default false. If true, the pocket is transparent, as you can see items inside it afar; in the future this would be used for light also
     "extra_encumbrance": 3,           // Additional encumbrance given to character, if this pocket is used
@@ -4033,7 +4036,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
 
-    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
+    "inherits_flags": true // Items in this pocket pass their flags to the parent item.
   }
 ]
 ```

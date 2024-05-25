@@ -1378,5 +1378,30 @@
     "type": "MIGRATION",
     "replace": "deck_of_cards",
     "variant": "deck_of_cards_makeshift"
+  },
+  {
+    "id": "mp18",
+    "type": "MIGRATION",
+    "replace": "p08"
+  },
+  {
+    "id": "plr16",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "oa93",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "m231pfw",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "moss_brownie",
+    "type": "MIGRATION",
+    "replace": "ruger_lcr_22"
   }
 ]

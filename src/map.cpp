@@ -1392,6 +1392,11 @@ void map::board_vehicle( const tripoint &pos, Character *p )
     }
 }
 
+void map::board_vehicle( const tripoint_bub_ms &pos, Character *p )
+{
+    map::board_vehicle( pos.raw(), p );
+}
+
 void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool dead_passenger )
 {
     // Mark the part as un-occupied regardless of whether there's a live passenger here.
@@ -1748,7 +1753,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         return false;
     }
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        Creature *c = get_creature_tracker().creature_at( getglobal( p ), true );
         if( c ) {
             return false;
         }
@@ -2229,7 +2234,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         return false;
     }
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        Creature *c = get_creature_tracker().creature_at( getglobal( p ), true );
         if( c ) {
             return false;
         }
@@ -2432,6 +2437,11 @@ bool map::is_open_air( const tripoint &p ) const
         return false;
     }
     return current_submap->is_open_air( l );
+}
+
+bool map::is_open_air( const tripoint_bub_ms &p ) const
+{
+    return map::is_open_air( p.raw() );
 }
 
 // Move cost: 3D
@@ -3273,9 +3283,19 @@ bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
     return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
 }
 
+bool map::is_bashable_ter( const tripoint_bub_ms &p, const bool allow_floor ) const
+{
+    return map::is_bashable_ter( p.raw(), allow_floor );
+}
+
 bool map::is_bashable_furn( const tripoint &p ) const
 {
     return has_furn( p ) && furn( p ).obj().bash.str_max != -1;
+}
+
+bool map::is_bashable_furn( const tripoint_bub_ms &p ) const
+{
+    return map::is_bashable_furn( p.raw() );
 }
 
 bool map::is_bashable_ter_furn( const tripoint &p, const bool allow_floor ) const
@@ -3333,7 +3353,7 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
 // End of 3D bashable
 
-void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool items,
+void map::make_rubble( const tripoint_bub_ms &p, const furn_id &rubble_type, const bool items,
                        const ter_id &floor_type, bool overwrite )
 {
     if( overwrite ) {
@@ -3752,7 +3772,7 @@ bool map::mop_spills( const tripoint_bub_ms &p )
     return retval;
 }
 
-int map::collapse_check( const tripoint &p ) const
+int map::collapse_check( const tripoint_bub_ms &p ) const
 {
     const bool collapses = has_flag( ter_furn_flag::TFLAG_COLLAPSES, p );
     const bool supports_roof = has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p );
@@ -3764,11 +3784,11 @@ int map::collapse_check( const tripoint &p ) const
         return 0;
     }
 
-    int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
+    int num_supports = p.z() == OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
-    if( p.z > -OVERMAP_DEPTH ) {
-        const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
-        for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
+    if( p.z() > -OVERMAP_DEPTH ) {
+        const tripoint_bub_ms &pbelow = tripoint_bub_ms( p.xy(), p.z() - 1 );
+        for( const tripoint_bub_ms &tbelow : points_in_radius( pbelow, 1 ) ) {
             if( has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, tbelow ) ) {
                 num_supports += 1;
                 if( has_flag( ter_furn_flag::TFLAG_WALL, tbelow ) ) {
@@ -3781,7 +3801,7 @@ int map::collapse_check( const tripoint &p ) const
         }
     }
 
-    for( const tripoint &t : points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &t : points_in_radius( p, 1 ) ) {
         if( p == t ) {
             continue;
         }
@@ -3808,7 +3828,7 @@ int map::collapse_check( const tripoint &p ) const
 
 // there is still some odd behavior here and there and you can get floating chunks of
 // unsupported floor, but this is much better than it used to be
-void map::collapse_at( const tripoint &p, const bool silent, const bool was_supporting,
+void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool was_supporting,
                        const bool destroy_pos )
 {
     const bool supports = was_supporting || has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p );
@@ -3823,9 +3843,9 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
 
     // If something supporting the roof collapsed, see what else collapses
     if( supports && !still_supports ) {
-        for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &t : points_in_radius( p, 1 ) ) {
             // If z-levels are off, tz == t, so we end up skipping a lot of stuff to avoid bugs.
-            const tripoint &tz = tripoint( t.xy(), t.z + 1 );
+            const tripoint_bub_ms &tz = tripoint_bub_ms( t.xy(), t.z() + 1 );
             // if nothing above us had the chance of collapsing, move on
             if( !one_in( collapse_check( tz ) ) ) {
                 continue;
@@ -4292,7 +4312,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
-        collapse_at( p, params.silent, true, bash->explosive > 0 );
+        collapse_at( tripoint_bub_ms( p ), params.silent, true, bash->explosive > 0 );
     }
 
     params.did_bash = true;
@@ -4416,6 +4436,11 @@ void map::destroy( const tripoint &p, const bool silent )
     }
 }
 
+void map::destroy( const tripoint_bub_ms &p, const bool silent )
+{
+    map::destroy( p.raw(), silent );
+}
+
 void map::destroy_furn( const tripoint &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
@@ -4440,7 +4465,7 @@ void map::batter( const tripoint &p, int power, int tries, const bool silent )
     }
 }
 
-void map::crush( const tripoint &p )
+void map::crush( const tripoint_bub_ms &p )
 {
     creature_tracker &creatures = get_creature_tracker();
     Character *crushed_player = creatures.creature_at<Character>( p );
@@ -5161,6 +5186,13 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     add_item_or_charges( p, new_item );
 }
 
+void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const unsigned quantity,
+                      const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
+                      const std::string &variant, const std::string &faction )
+{
+    map::spawn_item( p.raw(), type_id, quantity, charges, birthday, damlevel, flags, variant, faction );
+}
+
 units::volume map::max_volume( const tripoint &p )
 {
     return i_at( p ).max_volume();
@@ -5192,6 +5224,11 @@ item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflo
     }
 
     return {};
+}
+
+item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow )
+{
+    return map::add_item_ret_loc( pos.raw(), std::move( obj ), overflow );
 }
 
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
@@ -5346,6 +5383,12 @@ item &map::add_item( const tripoint &p, item new_item )
     int copies = 1;
     return add_item( p, std::move( new_item ), copies );
 }
+
+item &map::add_item( const tripoint_bub_ms &p, item new_item )
+{
+    return map::add_item( p.raw(), std::move( new_item ) );
+}
+
 item &map::add_item( const tripoint &p, item new_item, int copies )
 {
     if( item_is_blacklisted( new_item.typeId() ) ) {
@@ -10624,7 +10667,7 @@ static bool is_haulable( const item &it )
     return !it.made_of_from_type( phase_id::LIQUID );
 }
 
-bool map::has_haulable_items( const tripoint &pos )
+bool map::has_haulable_items( const tripoint_bub_ms &pos )
 {
     const map_stack items = i_at( pos );
     for( const item &it : items ) {
@@ -10646,6 +10689,11 @@ std::vector<item_location> map::get_haulable_items( const tripoint &pos )
         }
     }
     return target_items;
+}
+
+std::vector<item_location> map::get_haulable_items( const tripoint_bub_ms &pos )
+{
+    return map::get_haulable_items( pos.raw() );
 }
 
 tripoint_bub_ms drawsq_params::center() const

@@ -3189,7 +3189,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     }
 
     if( !pid.is_valid() ) {
-        data.throw_error_at( "id", "bad vehicle part" );
+        data.throw_error_at( "id", string_format( "bad vehicle part '%s'", pid.str() ) );
     }
     info_ = &pid.obj();
 

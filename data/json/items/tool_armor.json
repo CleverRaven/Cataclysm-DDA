@@ -2988,38 +2988,12 @@
     "color": "dark_gray",
     "use_action": {
       "type": "transform",
-      "menu_text": "Loosen",
+      "menu_text": "Wear as collar",
       "msg": "You adjust your ski mask for less warmth.",
       "target": "mask_ski_loose"
     },
     "symbol": "[",
-    "description": "A warm wool mask that protects the head and face from the cold.  It has a full face opening that can be adjusted to set how much is exposed.",
-    "price": "18 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "wool" ],
-    "volume": "250 ml",
-    "warmth": 45,
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "material_thickness": 1,
-    "environmental_protection": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head", "mouth" ] } ]
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "mask_ski_loose",
-    "name": { "str": "ski mask (open)", "str_pl": "ski masks (open)" },
-    "category": "clothing",
-    "weight": "86 g",
-    "color": "dark_gray",
-    "use_action": {
-      "type": "transform",
-      "menu_text": "Tighten",
-      "msg": "You adjust your ski mask for more warmth.",
-      "target": "mask_ski"
-    },
-    "revert_to": "mask_ski",
-    "symbol": "[",
-    "description": "A warm wool mask that protects the head and face from the cold.  It has a full face opening that can be adjusted to set how much is exposed.",
+    "description": "A warm wool mask that protects the head and face from the cold.  It covers most of your head and mouth, and can be adjusted to hang around your throat instead.",
     "price": "18 USD",
     "price_postapoc": "2 USD 50 cent",
     "material": [ "wool" ],
@@ -3027,8 +3001,48 @@
     "warmth": 25,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "material_thickness": 1,
+    "environmental_protection": 2,
+    "armor": [
+      {
+        "encumbrance": 6,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "//:": "not forehead or nape",
+        "specifically_covers": [ "head_crown", "head_ear_r", "head_ear_l", "head_throat" ]
+      },
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips", "mouth_cheeks", "mouth_chin" ]
+      }
+    ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "mask_ski_loose",
+    "name": { "str": "ski mask (collar)", "str_pl": "ski masks (collar)" },
+    "category": "clothing",
+    "weight": "86 g",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear around head",
+      "msg": "You adjust your ski mask for more warmth.",
+      "target": "mask_ski"
+    },
+    "revert_to": "mask_ski",
+    "symbol": "[",
+    "description": "A warm wool mask that protects the head and face from the cold.  It is wrapped around your throat, and can be adjusted to cover your mouth and more of your head.",
+    "price": "18 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "wool" ],
+    "volume": "250 ml",
+    "warmth": 25,
+    "flags": [ "VARSIZE", "SKINTIGHT", "COLLAR" ],
+    "material_thickness": 1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head", "mouth" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_nape", "head_throat" ] } ]
   },
   {
     "type": "TOOL_ARMOR",

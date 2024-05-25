@@ -477,7 +477,12 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     const butcher_type action = get_butcher_type( act );
     const double progress = static_cast<double>( act->moves_total - act->moves_left ) /
                             act->moves_total;
-    item &corpse_item = *act->targets.back();
+    item_location target = act->targets.back();
+    if( !target || !target->is_corpse() ) {
+        act->set_to_null();
+        return;
+    }
+    item &corpse_item = *target;
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
@@ -2733,6 +2738,11 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
+    }
+    for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
+        const double var_value_multiplier = var_value;
+        const double var_oldvalue = target.get_var( var_name, 0.0 );
+        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
     }
 
     const std::string start_durability = target.durability_indicator( true );

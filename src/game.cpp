@@ -245,6 +245,7 @@ static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
@@ -10724,7 +10725,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
     u.set_underwater( false );
 
-    if( vp_there && !u.move_in_vehicle( static_cast<Creature *>( &u ), dest_loc ) ) {
+    bool cramped = false;
+    if( vp_there && !u.can_move_to_vehicle_tile( get_map().getglobal( dest_loc ), cramped ) ) {
+        add_msg( m_warning, _( "There's not enough room for you to fit there." ) );
         return false;
     }
 
@@ -10941,9 +10944,20 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         start_hauling( oldpos );
     }
 
+    if( cramped ) { // passed by reference, can_move_to_vehicle_tile sets to true if actually cramped
+        add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
+        u.add_effect( effect_cramped_space, 2_turns, true );
+    }
+
     on_move_effects();
 
     return true;
+}
+
+bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
+                      const bool furniture_move )
+{
+    return game::walk_move( dest_loc.raw(), via_ramp, furniture_move );
 }
 
 point game::place_player( const tripoint &dest_loc, bool quick )
@@ -11795,10 +11809,10 @@ void game::water_affect_items( Character &ch ) const
             loc->deactivate();
             // TODO: Maybe different types of wet faults? But I can't think of any.
             // This just means it's still too wet to use.
-            loc->set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            loc->set_fault( faults::random_of_type( "wet" ) ) ;
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+                loc->set_fault( faults::random_of_type( "shorted" ) );
             }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
@@ -12963,6 +12977,11 @@ void game::display_om_pathfinding_progress( size_t /* open_set */, size_t /* kno
     ui_manager::redraw();
     refresh_display();
     inp_mngr.pump_events();
+}
+
+void game::wait_popup_reset()
+{
+    wait_popup.reset();
 }
 
 bool game::display_overlay_state( const action_id action )

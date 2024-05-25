@@ -34,7 +34,7 @@ Format:
   "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
-  "common": false,                                                         // Optional. Whether or not this class can appear via random generation.
+  "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
   "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
@@ -72,6 +72,7 @@ Format:
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
+  "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],         // Optional. Note that prereqs do not need to be defined. NPCs of this class will learn this proficiency *and all pre-requesite proficiencies*.
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]     // Optional
 }
 ```
@@ -1378,6 +1379,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
 | calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
+| get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily()", ">", "1000" ] }`<br/> `{ "math": [ "foo", "=", "get_calories_daily('type':'gained', 'day':'1')" ] }`|
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.

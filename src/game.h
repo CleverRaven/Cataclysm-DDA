@@ -142,7 +142,6 @@ bool cleanup_at_end();
 class game
 {
         friend class editmap;
-        friend class advanced_inventory;
         friend class main_menu;
         friend class exosuit_interact;
         friend achievements_tracker &get_achievements();
@@ -872,7 +871,9 @@ class game
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
         bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
+        // TODO: Get rid of untyped overload
         bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
+        bool walk_move( const tripoint_bub_ms &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -1247,6 +1248,8 @@ class game
 
         std::unique_ptr<static_popup> wait_popup; // NOLINT(cata-serialize)
     public:
+        void wait_popup_reset();
+
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.
          *  (0, 0, 0) if the mouse is not at the edge of the screen,

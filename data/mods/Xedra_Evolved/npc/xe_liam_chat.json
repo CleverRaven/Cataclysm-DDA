@@ -1,0 +1,66 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_Liam_CHAT",
+    "dynamic_line": [
+      "Before things ended did you see any of the interviews with some of the remaining Wampanoag?  They kept saying things about other races coming back to this planet.  That's crazy, right?",
+      "A few nights after I got here, I saw lights in the woods off in the distance.  I don't know why, but I ran back into the house turned off all the lights and closed the blinds.  It was just so eerie!"
+    ],
+    "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ] },
+    "responses": [
+      {
+        "text": "We're always gonna be friends, right?  Even with the apocalypse… changing us?",
+        "topic": "TALK_FRIEND_Liam_CHAT_Friends4ever"
+      },
+      { "text": "What do you miss most about the internet?", "topic": "TALK_FRIEND_Liam_CHAT_Internet" },
+      {
+        "text": "Now that we've got no responsibilities, is there anything you'd like to see or do?",
+        "topic": "TALK_FRIEND_Liam_CHAT_Goals"
+      },
+      {
+        "text": "What do you think the rest of the world is like these days?",
+        "topic": "TALK_FRIEND_Liam_CHAT_World"
+      },
+      { "text": "Do you miss any food from the old days?", "topic": "TALK_FRIEND_Liam_CHAT_Food" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_Liam_CHAT_World",
+    "dynamic_line": [
+      "There could be anything out there.  Remember towards the end before the apocalypse?  I remember tons of weird stuff I heard on the radio.  Like, I heard out past Bunyan there were strange trees and species showing up in the deep woods, stuff no one had ever seen before.  The Border Patrol was going in about 'species previously thought extinct' or something like that.  Didn't make sense to me.  Why the heck was the *Border Patrol* talking about *closing off forests*?  Weird stuff.  I guess that means I don't have a clue what's out there now.",
+      "I still can't decide if our leaders thought Canada was a threat or what?  Why else did they militarize the border patrol up here just as bad it had been on the southern border for decades?",
+      "I remember talking to a friend coming back from Vegas a few years back and he mentioned Border Patrol had those big armored Bear Cub vehicles with a roadblock going into one of the canyons outside of Vegas.  Hundreds of miles from any border.  Weird stuff man, I wonder if it's all connected?"
+    ],
+    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions",
+    "dynamic_line": "My opinion?  Sure, my friend, hit me up, what's eating you?",
+    "responses": [
+      {
+        "text": "Check this out, I found an address of some kind of central refugee management facility.  Should we check it out?  Maybe they'll have answers?",
+        "topic": "TALK_Liam_Opinions_MISSION_DRACO_FAE",
+        "condition": { "u_has_mission": "MISSION_DRACO_FAE" }
+      },
+      {
+        "text": "You thinking what I'm thinking about this mystery dropoff for Smokes?",
+        "topic": "TALK_Liam_Opinions_MISSION_BRING_BOANN_JABBERWOCK_HEART",
+        "condition": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_DRACO_FAE",
+    "dynamic_line": "What does this story remind me of?  Is it, Rip van Winkle?  Didn't he join some party and come home a dozen years later?",
+    "responses": [ { "text": "Maybe we should avoid drinking anything there?", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BRING_BOANN_JABBERWOCK_HEART",
+    "dynamic_line": "Is Lewis Carrol hiding behind a bush over there?  Because if not, this sounds insane and insanely dangerous.  But no one else has even given us a hint about a way off this world of the dead.  Can we really pass this by?",
+    "responses": [ { "text": "It's you and me buddy, to infinity and beyond!", "topic": "TALK_Liam_Opinions" } ]
+  }
+]

@@ -508,6 +508,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "bash": {
       "str_min": 16,

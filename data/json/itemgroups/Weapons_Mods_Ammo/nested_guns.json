@@ -885,14 +885,6 @@
     "entries": [ { "item": "mauser_c96" }, { "group": "on_hand_9mm" } ]
   },
   {
-    "id": "nested_moss_brownie",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "moss_brownie" }, { "group": "on_hand_22" } ]
-  },
-  {
     "id": "nested_p08",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1317,19 +1309,6 @@
       { "item": "ar_pistol", "charges": [ 0, 30 ] },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
-      { "group": "on_hand_223" }
-    ]
-  },
-  {
-    "id": "nested_plr16",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "plr16", "charges": [ 0, 10 ] },
-      { "group": "stanag_10_random" },
-      { "group": "stanag_10_random", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2033,19 +2012,6 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "rifle_flintlock" }, { "group": "on_hand_flintlock" } ]
-  },
-  {
-    "id": "nested_oa93",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "oa93", "charges": [ 0, 30 ] },
-      { "group": "stanag_10_random" },
-      { "group": "stanag_10_random", "prob": 50 },
-      { "group": "on_hand_223" }
-    ]
   },
   {
     "id": "nested_steyr_aug",
