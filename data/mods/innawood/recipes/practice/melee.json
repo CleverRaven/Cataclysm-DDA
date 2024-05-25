@@ -3,6 +3,7 @@
     "type": "practice",
     "id": "prac_cutting_int",
     "copy-from": "prac_cutting_int",
+    "name": "cutting (intermediate)",
     "components": [
       [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -12,6 +13,7 @@
   {
     "type": "practice",
     "id": "prac_bashing_int",
+    "name": "bashing (intermediate)",
     "copy-from": "prac_bashing_int",
     "components": [ [ [ "duct_tape", 50 ], [ "medical_tape", 100 ], [ "paint", 50, "LIST" ], [ "charcoal", 10 ] ], [ [ "scrap", 20 ] ] ]
   },
@@ -19,6 +21,7 @@
     "type": "practice",
     "id": "prac_cutting_int_long_sword",
     "copy-from": "prac_cutting_int_long_sword",
+    "name": "long swords (intermediate)",
     "components": [
       [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -29,6 +32,7 @@
     "type": "practice",
     "id": "prac_cutting_int_great_sword",
     "copy-from": "prac_cutting_int_great_sword",
+    "name": "great swords (intermediate)",
     "components": [
       [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -39,30 +43,35 @@
     "type": "practice",
     "id": "prac_cutting_int_great_axe",
     "copy-from": "prac_cutting_int_great_axe",
+    "name": "great axes (intermediate)",
     "components": [ [ [ "duct_tape", 50 ], [ "medical_tape", 100 ], [ "paint", 50, "LIST" ], [ "charcoal", 10 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "type": "practice",
     "id": "prac_bashing_int_great_hammer",
     "copy-from": "prac_bashing_int_great_hammer",
+    "name": "great hammers (intermediate)",
     "components": [ [ [ "duct_tape", 50 ], [ "medical_tape", 100 ], [ "paint", 50, "LIST" ], [ "charcoal", 10 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "type": "practice",
     "id": "prac_bashing_int_flail",
     "copy-from": "prac_bashing_int_flail",
+    "name": "flails (intermediate)",
     "components": [ [ [ "duct_tape", 50 ], [ "medical_tape", 100 ], [ "paint", 50, "LIST" ], [ "charcoal", 10 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "type": "practice",
     "id": "prac_bashing_int_mace",
     "copy-from": "prac_bashing_int_mace",
+    "name": "maces (intermediate)",
     "components": [ [ [ "duct_tape", 50 ], [ "medical_tape", 100 ], [ "paint", 50, "LIST" ], [ "charcoal", 10 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "type": "practice",
     "id": "prac_cutting_int_med_sword",
     "copy-from": "prac_cutting_int_med_sword",
+    "name": "medium swords (intermediate)",
     "components": [
       [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
@@ -73,6 +82,7 @@
     "type": "practice",
     "id": "prac_cutting_int_short_sword",
     "copy-from": "prac_cutting_int_short_sword",
+    "name": "short swords (intermediate)",
     "components": [
       [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],

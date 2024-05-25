@@ -27,8 +27,8 @@
   {
     "type": "recipe",
     "result": "chem_black_powder",
-    "copy-from": "chem_black_powder_generic",
-    "id_suffix": "generic",
+    "copy-from": "chem_black_powder_sulfurless",
+    "id_suffix": "sulfurless",
     "autolearn": true
   },
   {

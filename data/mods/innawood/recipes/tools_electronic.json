@@ -125,7 +125,6 @@
     "type": "recipe",
     "//": "Not craftable in vanilla",
     "result": "microcentrifuge",
-    "copy-from": "microcentrifuge",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
