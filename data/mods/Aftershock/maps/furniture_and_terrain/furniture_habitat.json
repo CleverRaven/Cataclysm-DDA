@@ -225,7 +225,7 @@
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "id": "eoc_unlock_elock",
+          "id": "EOC_unlock_afs_crate",
           "effect": [
             { "math": [ "_t_delay", "=", "time('20 m')" ] },
             {
