@@ -6988,7 +6988,6 @@
     "type": "mutation",
     "id": "ROT2",
     "name": { "str": "Deterioration" },
-    "points": -7,
     "bodytemp_modifiers": [ -750, -750 ],
     "description": "Your body is very slowly wasting away.",
     "types": [ "HEALING" ],
