@@ -1897,8 +1897,8 @@ void options_manager::add_options_interface()
              true
            );
         add( "UNLOAD_RAS_WEAPON", page_id,
-             to_translation( "Unload your bow etc. after canceling shooting" ),
-             to_translation( "If true, weapons like bow and slingshot will be unloaded when quitting aim ui." ),
+             to_translation( "Unload your bow etc after canceling shooting" ),
+             to_translation( "If true, weapons like bow and slingshot will be unloaded when quitting aim UI." ),
              true
            );
 
