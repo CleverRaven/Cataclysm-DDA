@@ -1311,8 +1311,9 @@ See [Character](#character)
 - ```SOURCE_MEDICINE``` For NPC AI, this location may contain useful medicines for looting.
 - ```SOURCE_LUXURY``` For NPC AI, this location may contain valuable/feel-good items to sell/keep.
 - ```SOURCE_PEOPLE``` For NPC AI, this location may have other survivors.
-- ```RISK_HIGH``` For NPC AI, this location has a high risk associated with it (e.g. labs, superstores, etc.).
-- ```RISK_LOW``` For NPC AI, this location is secluded and remote, and appears to be safe.
+- ```RISK_EXTREME``` For NPC AI, this location is extremely risky to even approach. Location should almost always contain active portals, huge hordes of zombies, or other very lethal enemies. Some examples would labs, superstores, and mi-go structures.
+- ```RISK_HIGH``` For NPC AI, this location is risky to visit. This is the minimum amount of risk for locations inside of a city.
+- ```RISK_LOW``` For NPC AI, this location is specifically a place of safety. Such locations should be fortified, remote, or be controlled by a neutral faction that provides security. This flag should only be applied to specific areas of nearly-guaranteed safety. Wilderness should not receive this flag unless there is some sort of specific shelter (e.g. an uninhabitated cave).
 - ```GENERIC_LOOT``` This is a place that may contain any of the above, but at a lower frequency, usually a house.
 
 
