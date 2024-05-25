@@ -52,8 +52,8 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_heavysnare( "heavysnare" );
-static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_immobilization( "immobilization" );
+static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
@@ -733,7 +733,7 @@ bool trapfunc::snare_species( const tripoint &p, Creature *critter, item * )
             add_msg( m_warning, _( "Your %1$s is caught by a %2$s!" ), critter->get_name(), laid_trap.name() );
         }
         if( !critter->is_avatar() ) {
-            add_msg_if_player_sees( p, "%1$s is caught by a %2$s!", critter->get_name(), laid_trap.name() );
+            add_msg_if_player_sees( p, _( "%1$s is caught by a %2$s!" ), critter->get_name(), laid_trap.name() );
         }
         // Actual effects
         critter->add_effect( effect_immobilization, 10_turns, hit );

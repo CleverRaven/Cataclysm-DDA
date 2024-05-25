@@ -203,8 +203,8 @@
     "difficulty": 3,
     "time": "75 m",
     "flags": [ "SECRET" ],
-    "tools": [ [ [ "paint_brush", -1 ] ] ],
-    "components": [ [ [ "paint", 1, "LIST" ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "mutant_blood", 1 ] ], [ [ "silver_small", 1 ] ] ]
+    "tools": [ [ [ "paint_brush", -1 ] ], [ [ "paint", 1, "LIST" ] ] ],
+    "components": [ [ [ "scrap_dreamdross", 3 ] ], [ [ "mutant_blood", 1 ] ], [ [ "silver_small", 1 ] ] ]
   },
   {
     "type": "recipe",
