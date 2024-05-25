@@ -3,7 +3,11 @@
     "type": "practice",
     "id": "prac_cutting_int",
     "copy-from": "prac_cutting_int",
-    "components": [ [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
+    "components": [
+      [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "paper", 10 ] ]
+    ]
   },
   {
     "type": "practice",
@@ -15,13 +19,21 @@
     "type": "practice",
     "id": "prac_cutting_int_long_sword",
     "copy-from": "prac_cutting_int_long_sword",
-    "components": [ [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
+    "components": [
+      [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "paper", 10 ] ]
+    ]
   },
   {
     "type": "practice",
     "id": "prac_cutting_int_great_sword",
     "copy-from": "prac_cutting_int_great_sword",
-    "components": [ [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
+    "components": [
+      [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "paper", 10 ] ]
+    ]
   },
   {
     "type": "practice",
@@ -51,12 +63,20 @@
     "type": "practice",
     "id": "prac_cutting_int_med_sword",
     "copy-from": "prac_cutting_int_med_sword",
-    "components": [ [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
+    "components": [
+      [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "paper", 10 ] ]
+    ]
   },
   {
     "type": "practice",
     "id": "prac_cutting_int_short_sword",
     "copy-from": "prac_cutting_int_short_sword",
-    "components": [ [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
+    "components": [
+      [ [ "duct_tape", 10 ], [ "medical_tape", 20 ], [ "paint", 10, "LIST" ], [ "charcoal", 2 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "paper", 10 ] ]
+    ]
   }
 ]

@@ -27,7 +27,7 @@
     "type": "recipe",
     "result": "jack_small",
     "copy-from": "jack_small",
-    "autolearn": true,
+    "autolearn": true
   },
   {
     "type": "recipe",

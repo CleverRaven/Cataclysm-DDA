@@ -3,7 +3,7 @@
     "result": "gold_bracelet",
     "type": "recipe",
     "copy-from": "gold_bracelet",
-    "autolearn": true,
+    "autolearn": true
   },
   {
     "result": "copper_bracelet",
