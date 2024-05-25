@@ -2292,7 +2292,7 @@
         "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
-        "description": "The fleshborg launches a bony dart at you!"
+        "description": "The fleshborg launches a bony dart!"
       }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
@@ -2325,7 +2325,7 @@
         "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "require_targeting_player": false,
         "ranges": [ [ 4, 7, "DEFAULT" ] ],
-        "description": "The fleshborg launches a bony dart at you!"
+        "description": "The fleshborg launches a bony dart!"
       }
     ]
   },
