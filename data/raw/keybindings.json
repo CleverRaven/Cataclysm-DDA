@@ -1397,9 +1397,8 @@
     "category": "TARGET",
     "name": "Toggle unload-RAS-weapon",
     "bindings": [
-      { "input_method": "keyboard_char", "key": "-" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" },
-      { "input_method": "keyboard_code", "key": "-" }
+      { "input_method": "keyboard_any", "key": "-" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" }
     ]
   },
   {
