@@ -1,0 +1,61 @@
+[
+  {
+    "id": "ACT_afs_hack",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "hacking",
+    "based_on": "time",
+    "can_resume": false,
+    "completion_eoc": "EOC_finish_afs_hack"
+  },
+  {
+    "id": "EOC_finish_afs_hack",
+    "type": "effect_on_condition",
+    "effect": [ { "u_add_effect": "afs_hack_done", "duration": "3 seconds" }, { "turn_cost": "1 s" } ]
+  },
+  {
+    "type": "jmath_function",
+    "id": "afs_hack_skill",
+    "num_args": 1,
+    "return": "(u_skill('computer') + u_val('intelligence')/3 + u_hack_bonus) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "afs_hack_time_adjust",
+    "num_args": 3,
+    "return": "_0 - _1 * afs_hack_skill(1) < _2 ? _2 : _0 - _1* afs_hack_skill(1)"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_hack_unlock",
+    "condition": { "and": [ { "expects_vars": [ "furn_pos", "difficulty" ] }, { "u_has_effect": "afs_hack_done" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "_EOC_afs_hack_unlock",
+            "condition": { "roll_contested": { "math": [ "afs_hack_skill(1)" ] }, "die_size": 4, "difficulty": { "context_val": "difficulty" } },
+            "effect": [ { "u_transform_radius": 0, "ter_furn_transform": "afs_multi_unlock", "target_var": { "context_val": "furn_pos" } } ],
+            "false_effect": { "u_message": "You fail to override the device." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_start_lock_hack",
+    "condition": { "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty" ] }, { "test_eoc": "EOC_CONDITION_can_hack" } ] },
+    "effect": [
+      { "math": [ "_t_delay", "=", "afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
+      { "u_message": "You connect to the lock controller." },
+      { "u_assign_activity": "ACT_afs_hack", "duration": { "context_val": "t_delay" } },
+      {
+        "queue_eoc_with": "EOC_afs_hack_unlock",
+        "time_in_future": { "context_val": "t_delay" },
+        "variables": { "furn_pos": { "context_val": "furn_pos" }, "difficulty": { "context_val": "difficulty" } }
+      }
+    ],
+    "false_effect": { "u_message": "You need either an electrohack or working computer to attempt a hack.", "popup": true }
+  }
+]
