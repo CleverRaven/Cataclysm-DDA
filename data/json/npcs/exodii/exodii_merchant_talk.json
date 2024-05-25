@@ -439,20 +439,7 @@
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_nanobots" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_arms" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 6 } }, "then": { "u_spawn_item": "bio_armor_eyes" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_head" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_legs" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 3 } }, "then": { "u_spawn_item": "bio_armor_torso" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_carbon" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_climate" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 9 } }, "then": { "u_spawn_item": "bio_digestion" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 8 } }, "then": { "u_spawn_item": "bio_flashlight" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_gills" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_leukocyte" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_metabolics" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 15 } }, "then": { "u_spawn_item": "bio_synlungs" } },
+          { "u_spawn_item": "bionics_pulled_out_prototype", "use_item_group": true },
           {
             "u_spawn_npc": "BEM_prototype_cyborg_with_yonked_bionics",
             "real_count": 1,
@@ -505,24 +492,7 @@
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
           { "u_spawn_item": "ruined_chunks", "count": 20 },
-          {
-            "if": { "x_in_y_chance": { "x": 1, "y": 1 } },
-            "then": { "u_spawn_item": "bio_power_storage", "count": 2 }
-          },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_nanobots" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_arms" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 6 } }, "then": { "u_spawn_item": "bio_armor_eyes" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_head" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 4 } }, "then": { "u_spawn_item": "bio_armor_legs" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 3 } }, "then": { "u_spawn_item": "bio_armor_torso" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_carbon" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 10 } }, "then": { "u_spawn_item": "bio_climate" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 9 } }, "then": { "u_spawn_item": "bio_digestion" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 8 } }, "then": { "u_spawn_item": "bio_flashlight" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_gills" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_leukocyte" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 20 } }, "then": { "u_spawn_item": "bio_metabolics" } },
-          { "if": { "x_in_y_chance": { "x": 1, "y": 15 } }, "then": { "u_spawn_item": "bio_synlungs" } }
+          { "u_spawn_item": "bionics_pulled_out_prototype", "use_item_group": true }
         ],
         "topic": "TALK_DONE"
       },

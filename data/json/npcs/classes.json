@@ -648,7 +648,6 @@
     "carry_override": "NC_ANCILLA_GRUNT_carry",
     "weapon_override": "EMPTY_GROUP",
     "bionics": [
-      { "id": "bio_voice", "chance": 100 },
       { "id": "bio_armor_head", "chance": 100 },
       { "id": "bio_armor_torso", "chance": 100 },
       { "id": "bio_armor_arms", "chance": 100 },
