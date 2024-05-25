@@ -326,8 +326,8 @@
     "id": "bionics_pulled_out_prototype",
     "type": "item_group",
     "items": [
-      { "item": "bio_power_storage", "prob": 100, "count": [1,5] },
-      { "item": "bio_power_storage_mkII", "prob": 8, "count": [1,2] },
+      { "item": "bio_power_storage", "prob": 100, "count": [ 1, 5 ] },
+      { "item": "bio_power_storage_mkII", "prob": 8, "count": [ 1, 2 ] },
       { "item": "bio_armor_arms", "prob": 60, "count": 1 },
       { "item": "bio_armor_eyes", "prob": 60, "count": 1 },
       { "item": "bio_armor_head", "prob": 60, "count": 1 },
@@ -379,7 +379,7 @@
       { "item": "bio_alarm", "prob": 26, "count": 1 },
       { "item": "bio_painkiller", "prob": 12, "count": 1 },
       { "item": "bio_shockwave", "prob": 4, "count": 1 },
-      { "item": "bio_speed", "prob": 6, "count": [1,2] },
+      { "item": "bio_speed", "prob": 6, "count": [ 1, 2 ] },
       { "item": "bio_tools", "prob": 17, "count": 1 },
       { "item": "bio_torsionratchet", "prob": 16, "count": 1 },
       { "item": "bio_jointservo", "prob": 8, "count": 1 }
