@@ -502,7 +502,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SIG civilian rifle" },
-    "description": "A civilian clone of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
+    "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
     "weight": "4100 g",
     "volume": "3146 ml",
     "longest_side": "1020 mm",
