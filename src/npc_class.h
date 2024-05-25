@@ -138,6 +138,8 @@ class npc_class
         const time_duration &get_shop_restock_interval() const;
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
+        bool is_common() const;
+
         void load( const JsonObject &jo, std::string_view src );
 
         static const npc_class_id &from_legacy_int( int i );
