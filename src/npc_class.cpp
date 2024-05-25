@@ -172,6 +172,11 @@ void npc_class::check_consistency()
     }
 }
 
+bool npc_class::is_common() const
+{
+    return common;
+}
+
 static distribution load_distribution( const JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {

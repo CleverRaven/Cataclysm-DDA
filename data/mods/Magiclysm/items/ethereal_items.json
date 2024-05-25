@@ -147,6 +147,7 @@
     "looks_like": "warhammer",
     "material": [ "concentrated_mana" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "copy-from": "warhammer",
     "flags": [
       "NONCONDUCTIVE",
       "BELT_CLIP",

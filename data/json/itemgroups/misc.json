@@ -327,5 +327,30 @@
     "id": "pillbox_any_empty",
     "subtype": "distribution",
     "items": [ "pillbox", "pillbox_large" ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot",
+    "items": [ [ "armor_riot", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "helmet_riot",
+    "items": [ [ "helmet_riot", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot_arm",
+    "items": [ [ "armor_riot_arm", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot_leg",
+    "items": [ [ "armor_riot_leg", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "butterfly_net_any",
+    "items": [ { "item": "butterfly_net_collapsible", "prob": 4 }, { "item": "butterfly_net_makeshift", "prob": 6 } ]
   }
 ]

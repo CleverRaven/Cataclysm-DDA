@@ -3403,6 +3403,7 @@
     "description": "A rather outdated light bulb used in all sorts of lighting equipment.",
     "symbol": ",",
     "color": "white",
+    "category": "spare_parts",
     "material": [ "glass" ],
     "weight": "10 g",
     "volume": "250 ml",

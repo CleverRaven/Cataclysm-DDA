@@ -276,11 +276,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_223",
-    "items": [
-      { "group": "nested_ar_pistol", "prob": 1 },
-      { "group": "nested_plr16", "prob": 1 },
-      { "group": "nested_minidraco556", "prob": 1 }
-    ]
+    "items": [ { "group": "nested_ar_pistol", "prob": 1 }, { "group": "nested_minidraco556", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -409,7 +405,6 @@
     "id": "guns_rifle_common_223",
     "items": [
       { "group": "nested_ar_pistol", "prob": 1 },
-      { "group": "nested_plr16", "prob": 1 },
       { "group": "nested_ar15", "prob": 15 },
       { "group": "nested_ruger_mini", "prob": 1 },
       { "group": "nested_ak556", "prob": 2 },
@@ -481,7 +476,6 @@
     "id": "guns_rifle_common_worn_223",
     "items": [
       { "item": "ar_pistol", "prob": 1, "charges": [ 0, 30 ] },
-      { "item": "plr16", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "ruger_mini", "prob": 1, "charges": [ 0, 5 ] },
       { "item": "ak556", "prob": 2, "charges": [ 0, 30 ] },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges": [ 0, 30 ] },

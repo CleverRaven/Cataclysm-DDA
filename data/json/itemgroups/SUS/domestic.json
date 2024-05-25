@@ -504,6 +504,7 @@
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 1 },
+      { "item": "snow_machine_home", "prob": 5 },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
       {
         "collection": [

@@ -1081,6 +1081,12 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_star_vampire_coiling",
+    "copy-from": "mon_star_vampire_coiling",
+    "extend": { "flags": [ "TIMELESS" ], "armor": { "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_unseen_hunter",
     "copy-from": "mon_unseen_hunter",
     "extend": { "armor": { "nether": 10 } }

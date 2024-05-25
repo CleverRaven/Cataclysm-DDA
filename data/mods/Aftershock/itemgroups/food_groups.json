@@ -12,6 +12,11 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "afs_cheap_drinks",
+    "items": [ [ "afs_h2o", 90 ], [ "afs_calorie_water", 50 ], [ "afs_sundew", 50 ], [ "afs_caffex", 50 ] ]
+  },
+  {
     "id": "afs_spices",
     "type": "item_group",
     "//": "This group is for cupboard, drawer, or rack with spices.",

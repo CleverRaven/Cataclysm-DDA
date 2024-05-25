@@ -142,20 +142,19 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
-    "connect_groups": "DIRT",
+    "connect_groups": [ "DIRT", "INDOORFLOOR" ],
     "connects_to": "DIRT",
     "move_cost": 3,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_null",
       "str_min": 50,
       "str_max": 100,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
-    },
-    "examine_action": "dirtmound"
+      "items": [ { "item": "material_soil", "count": [ 100, 200 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -167,6 +166,8 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "roof": "t_rock_floor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -576,6 +577,8 @@
     "looks_like": "t_pit",
     "move_cost": 0,
     "roof": "t_rock_floor",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
   },
   {

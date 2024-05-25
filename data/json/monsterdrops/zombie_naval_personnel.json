@@ -59,7 +59,7 @@
       },
       { "group": "clothing_navy", "damage": [ 0, 4 ] },
       { "group": "gear_soldier_sidearm", "prob": 10 },
-      { "item": "webbing_belt", "damage": [ 0, 4 ], "prob": 60 },
+      { "group": "loaded_webbing_belt", "damage": [ 0, 4 ], "prob": 60 },
       { "item": "pants_army", "variant": "apants_MARPAT", "damage": [ 0, 4 ] },
       { "item": "boots_combat", "damage": [ 0, 4 ] },
       { "item": "sheath", "contents-item": "knife_combat_marine", "prob": 80 },

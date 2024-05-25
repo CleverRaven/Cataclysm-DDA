@@ -3070,12 +3070,12 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint &pos 
     }
     avatar &you = dynamic_cast<avatar &>( *p );
 
-    std::optional<tripoint> target;
+    std::optional<tripoint_bub_ms> target;
     // Prompt for a target lock to pick, or use the given tripoint
     if( pos == you.pos() ) {
         target = lockpick_activity_actor::select_location( you );
     } else {
-        target = pos;
+        target = tripoint_bub_ms( pos );
     }
     if( !target.has_value() ) {
         return std::nullopt;
@@ -4688,9 +4688,9 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
     }
 
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f =
-    [&here, p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
+    const std::function<bool( const tripoint_bub_ms & )> f =
+    [&here, p]( const tripoint_bub_ms & pnt ) {
+        if( pnt == p->pos_bub() ) {
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->hacksaw->valid();
@@ -4700,14 +4700,14 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
         return false;
     };
 
-    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
+                _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
-    const tripoint &pnt = *pnt_;
+    const tripoint_bub_ms &pnt = *pnt_;
     if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
+        if( pnt == p->pos_bub() ) {
             p->add_msg_if_player( m_info, _( "Why would you do that?" ) );
             p->add_msg_if_player( m_info, _( "You're not even chained to a boiler." ) );
         } else {
@@ -4718,7 +4718,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
     if( p->pos() == it_pnt ) {
         p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
     } else {
-        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), tripoint_bub_ms( it_pnt ) ) );
     }
 
     return std::nullopt;
@@ -4887,7 +4887,6 @@ static bool heat_item( Character &p )
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
-    p.i_add_or_drop( *heat );
     p.activity.targets.emplace_back( p, heat );
     return true;
 }
@@ -8183,10 +8182,10 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                      itm.where() == item_location::type::container ||
                      get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
         }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
-        to_heat = {{loc, 1}};
-        if( to_heat.empty() ) {
+        if( !loc ) {
             return false;
         }
+        to_heat = {{loc, 1}};
     } else if( multiple == true ) {
         available_volume = it->max_containable_volume();
         const inventory_filter_preset preset( [liquid_items,
@@ -8786,6 +8785,19 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
     return 0;
 }
 
+std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint & )
+{
+    if( !p->is_avatar() ) {
+        debugmsg( "NPC %s tried to swap outfit", p->get_name() );
+        return std::nullopt;
+    }
+
+    p->assign_activity( outfit_swap_actor( item_location{*p, it} ) );
+
+    // Deleting the item we activated is handled in outfit_swap_actor::finish
+    return std::nullopt;
+}
+
 std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint & )
 {
     // From item processing
@@ -9175,4 +9187,10 @@ std::optional<int> use_function::call( Character *p, item &it,
                                        const tripoint &pos ) const
 {
     return actor->use( p, it, pos );
+}
+
+std::optional<int> use_function::call( Character *p, item &it,
+                                       const tripoint_bub_ms &pos ) const
+{
+    return use_function::call( p, it, pos.raw() );
 }
