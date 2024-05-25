@@ -1896,12 +1896,11 @@ void options_manager::add_options_interface()
              to_translation( "If true, after firing automatically aim again if targets are available." ),
              true
            );
-  
         add( "UNLOAD_RAS_WEAPON", page_id,
              to_translation( "Unload your bow etc. after canceling shooting" ),
              to_translation( "If true, weapons like bow and slingshot will be unloaded when quitting aim ui." ),
              true
-            );
+           );
 
         add( "QUERY_DISASSEMBLE", page_id, to_translation( "Query on disassembly while butchering" ),
              to_translation( "If true, will query before disassembling items while butchering." ),
