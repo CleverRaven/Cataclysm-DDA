@@ -1396,10 +1396,7 @@
     "id": "TOGGLE_UNLOAD_RAS_WEAPON",
     "category": "TARGET",
     "name": "Toggle unload-RAS-weapon",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "-" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
