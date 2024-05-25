@@ -1224,9 +1224,9 @@ void npc::regen_ai_cache()
         }
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
-        if( sees( here.getlocal( i->abs_pos ) ) ) {
+        if( sees( here.bub_from_abs( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = creatures.creature_at<npc>( here.getlocal( i->abs_pos ) );
+            npc *const sound_source = creatures.creature_at<npc>( here.bub_from_abs( i->abs_pos ) );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -1602,7 +1602,7 @@ void npc::execute_action( npc_action action )
 
         case npc_investigate_sound: {
             tripoint cur_pos = pos();
-            update_path( here.getlocal( ai_cache.s_abs_pos ) );
+            update_path( here.bub_from_abs( ai_cache.s_abs_pos ) );
             move_to_next();
             if( pos() == cur_pos ) {
                 ai_cache.stuck += 1;
@@ -3364,7 +3364,8 @@ void npc::worker_downtime()
         }
         basecamp *temp_camp = *bcp;
         std::vector<tripoint> pts;
-        for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
+        for( const tripoint &elem : here.points_in_radius( here.bub_from_abs(
+                    temp_camp->get_bb_pos() ).raw(),
                 10 ) ) {
             if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
@@ -3599,7 +3600,7 @@ void npc::find_item()
             can_see = true;
             for( item &it : m_stack ) {
                 if( consider_item( it, p ) ) {
-                    wanted_item = item_location{ map_cursor{p}, &it };
+                    wanted_item = item_location{ map_cursor{tripoint_bub_ms( p )}, &it };
                 }
             }
         }
@@ -5002,7 +5003,7 @@ void npc::go_to_omt_destination()
     }
     // TODO: fix point types
     tripoint sm_tri =
-        here.getlocal( project_to<coords::ms>( omt_path.back() ).raw() );
+        here.bub_from_abs( project_to<coords::ms>( omt_path.back() ) ).raw();
     tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !here.passable( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );

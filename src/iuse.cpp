@@ -2249,7 +2249,7 @@ class exosuit_interact
             for( const tripoint &p : here.points_in_radius( c.pos(), PICKUP_RANGE ) ) {
                 for( item &i : here.i_at( p ) ) {
                     if( filter( i ) ) {
-                        candidates.emplace_back( map_cursor( p ), &i );
+                        candidates.emplace_back( map_cursor( tripoint_bub_ms( p ) ), &i );
                     }
                 }
             }
@@ -7065,7 +7065,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     std::map<std::string, use_function> use_methods = it.type->use_methods;
                     if( use_methods.find( "transform" ) != use_methods.end() ) {
                         it.type->get_use( "transform" )->call( &p, it, loc );
-                        item_location itm_loc = item_location( map_cursor( loc ), &it );
+                        item_location itm_loc = item_location( map_cursor( tripoint_bub_ms( loc ) ), &it );
                         here.update_lum( itm_loc, true );
                     } else {
                         it.type->get_use( it.type->use_methods.begin()->first )->call( &p, it, loc );
@@ -7081,7 +7081,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( &p, *itm, loc );
-                        item_location itm_loc = item_location( map_cursor( loc ), itm );
+                        item_location itm_loc = item_location( map_cursor( tripoint_bub_ms( loc ) ), itm );
                         here.update_lum( itm_loc, true );
                     }
                 }

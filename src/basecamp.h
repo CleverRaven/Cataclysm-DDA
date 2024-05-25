@@ -167,10 +167,10 @@ class basecamp
             return !name.empty() && omt_pos != tripoint_abs_omt();
         }
         inline int board_x() const {
-            return bb_pos.x;
+            return bb_pos.x();
         }
         inline int board_y() const {
-            return bb_pos.y;
+            return bb_pos.y();
         }
         inline tripoint_abs_omt camp_omt_pos() const {
             return omt_pos;
@@ -179,14 +179,17 @@ class basecamp
             return name;
         }
         tripoint get_bb_pos() const {
+            return bb_pos.raw();
+        }
+        tripoint_abs_ms get_bb_pos_abs() const {
             return bb_pos;
         }
-        void validate_bb_pos( const tripoint &new_abs_pos ) {
-            if( bb_pos == tripoint_zero ) {
+        void validate_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
+            if( bb_pos.raw() == tripoint_zero ) {
                 bb_pos = new_abs_pos;
             }
         }
-        void set_bb_pos( const tripoint &new_abs_pos ) {
+        void set_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
             bb_pos = new_abs_pos;
         }
         void set_by_radio( bool access_by_radio );
@@ -488,8 +491,8 @@ class basecamp
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
-        // location of associated bulletin board in abs coords
-        tripoint bb_pos;
+        // location of associated bulletin board
+        tripoint_abs_ms bb_pos;
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)

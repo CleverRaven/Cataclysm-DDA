@@ -7003,12 +7003,12 @@ void map::rotate( int turns, const bool setpos_safe )
 
         const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
-            const point local_sq = getlocal( sq ).xy();
+            const point local_sq = bub_from_abs( sq ).xy().raw();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( get_map().getlocal( new_global_sq ) );
+            np.setpos( get_map().bub_from_abs( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
