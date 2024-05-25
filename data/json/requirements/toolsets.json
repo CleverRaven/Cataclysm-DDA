@@ -63,6 +63,13 @@
     ]
   },
   {
+    "id": "gun_cleaning_quick",
+    "type": "requirement",
+    "//": "Requires a rod/wire and cloth patch or similar item.",
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ] ]
+  },
+  {
     "id": "gun_lubrication",
     "type": "requirement",
     "//": "Gun Lubrication",

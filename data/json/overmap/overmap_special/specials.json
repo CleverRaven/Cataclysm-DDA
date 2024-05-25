@@ -6788,6 +6788,7 @@
       { "point": [ -1, 0, 0 ], "overmap": "s_air_atc_south" },
       { "point": [ -1, 0, 1 ], "overmap": "s_air_atc_2_south" },
       { "point": [ -1, 0, 2 ], "overmap": "s_air_atc_3_south" },
+      { "point": [ -1, 0, 3 ], "overmap": "s_air_atc_4_south" },
       { "point": [ -6, 1, 0 ], "overmap": "special_field" },
       { "point": [ -5, 1, 0 ], "overmap": "s_air_runway_r_south" },
       { "point": [ -4, 1, 0 ], "overmap": "s_air_runway_south" },

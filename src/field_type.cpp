@@ -46,7 +46,7 @@ const field_type_str_id fd_last_known( "fd_last_known" );
 const field_type_str_id fd_nuke_gas( "fd_nuke_gas" );
 const field_type_str_id fd_plasma( "fd_plasma" );
 const field_type_str_id fd_push_items( "fd_push_items" );
-const field_type_str_id fd_reality_tear( "fd_reality_tear" );
+const field_type_str_id fd_fatigue( "fd_fatigue" );
 const field_type_str_id fd_relax_gas( "fd_relax_gas" );
 const field_type_str_id fd_sap( "fd_sap" );
 const field_type_str_id fd_shock_vent( "fd_shock_vent" );

@@ -245,6 +245,7 @@ static const efftype_id effect_asked_to_train( "asked_to_train" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
@@ -10724,7 +10725,9 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
     u.set_underwater( false );
 
-    if( vp_there && !u.move_in_vehicle( static_cast<Creature *>( &u ), dest_loc ) ) {
+    bool cramped = false;
+    if( vp_there && !u.can_move_to_vehicle_tile( get_map().getglobal( dest_loc ), cramped ) ) {
+        add_msg( m_warning, _( "There's not enough room for you to fit there." ) );
         return false;
     }
 
@@ -10939,6 +10942,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( u.is_hauling() ) {
         start_hauling( oldpos );
+    }
+
+    if( cramped ) { // passed by reference, can_move_to_vehicle_tile sets to true if actually cramped
+        add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
+        u.add_effect( effect_cramped_space, 2_turns, true );
     }
 
     on_move_effects();

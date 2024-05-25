@@ -1229,16 +1229,16 @@
     "id": "maid_hat_xl",
     "copy-from": "maid_hat",
     "type": "ARMOR",
-    "name": { "str": "XL French maid hat" },
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "name": { "str": "French maid hat" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "proportional": { "weight": 1.5, "volume": 1.5 }
   },
   {
     "id": "maid_hat_xs",
     "copy-from": "maid_hat",
     "type": "ARMOR",
-    "name": { "str": "XS French maid hat" },
-    "extend": { "flags": [ "UNDERSIZE" ] },
+    "name": { "str": "French maid hat" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 }
   },
   {

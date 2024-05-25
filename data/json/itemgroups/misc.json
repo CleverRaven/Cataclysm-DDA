@@ -347,5 +347,10 @@
     "type": "item_group",
     "id": "armor_riot_leg",
     "items": [ [ "armor_riot_leg", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "butterfly_net_any",
+    "items": [ { "item": "butterfly_net_collapsible", "prob": 4 }, { "item": "butterfly_net_makeshift", "prob": 6 } ]
   }
 ]
