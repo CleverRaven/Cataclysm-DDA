@@ -1805,7 +1805,7 @@ ret_val<void> item::put_in( const item &payload, pocket_type pk_type,
 void item::force_insert_item( const item &it, pocket_type pk_type )
 {
     contents.force_insert_item( it, pk_type );
-    update_inherited_flags();
+    on_contents_changed();
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -7950,10 +7950,8 @@ float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) cons
 {
     const units::temperature dropoff = units::from_fahrenheit( 38 ); // F, ~3 C
     const float max_rot_temp = 105; // F, ~41 C, Maximum rotting rate is at this temperature
-    const float safe_temp = 145; // F, ~63 C, safe temperature above which food stops rotting
 
-    if( temp <= temperatures::freezing ||
-        temp > units::from_fahrenheit( safe_temp ) ) {
+    if( temp <= temperatures::freezing ) {
         return 0.f;
     } else if( temp < dropoff ) {
         // ditch our fancy equation and do a linear approach to 0 rot from 38 F (3 C) -> 32 F (0 C)
@@ -7963,7 +7961,7 @@ float item::calc_hourly_rotpoints_at_temp( const units::temperature &temp ) cons
         // Exponential progress from 38 F (3 C) to 105 F (41 C)
         return 3600.f * std::exp2( ( units::to_fahrenheit( temp ) - 65.f ) / 16.f );
     } else {
-        // Constant rot from 105 F (41 C) to 145 F (63 C)
+        // Constant rot from 105 F (41 C) upwards
         // This is approximately 20364.67 rot/hour
         return 3600.f * std::exp2( ( max_rot_temp - 65.f ) / 16.f );
     }
@@ -8966,9 +8964,10 @@ int item::repairable_levels() const
            : damage() > degradation(); // partial level of damage can still be repaired
 }
 
-item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
+item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+        double enchant_multiplier )
 {
-    if( has_flag( flag_UNBREAKABLE ) ) {
+    if( has_flag( flag_UNBREAKABLE ) || enchant_multiplier <= 0.0f ) {
         return armor_status::UNDAMAGED;
     }
 
@@ -8979,8 +8978,9 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         return armor_status::UNDAMAGED;
     }
     // Fragile items take damage if the block more than 15% of their armor value
-    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > 0.15f ) {
-        return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    if( has_flag( flag_FRAGILE ) && du.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
+        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+               armor_status::DAMAGED;
     }
 
     // Scale chance of article taking damage based on the number of parts it covers.
@@ -8995,7 +8995,8 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const float post_mitigated_dmg = du.amount;
     // more gradual damage chance calc
-    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    const float damaged_chance = ( 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1 ) *
+                                 enchant_multiplier;
     if( post_mitigated_dmg > armors_own_resist ) {
         // handle overflow, if you take a lot of damage your armor should be damaged
         if( damaged_chance >= 1 ) {
@@ -9012,11 +9013,16 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
+    return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+           armor_status::DAMAGED;
 }
 
-item::armor_status item::damage_armor_transforms( damage_unit &du ) const
+item::armor_status item::damage_armor_transforms( damage_unit &du, double enchant_multiplier ) const
 {
+    if( enchant_multiplier <= 0.0f ) {
+        return armor_status::UNDAMAGED;
+    }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = resist( du.type, true );
 
@@ -9028,7 +9034,7 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
 
     // plates are rated to survive 3 shots at the caliber they protect
     // linearly scale off the scale value to find the chance it breaks
-    float break_chance = 33.3f * ( du.amount / armors_own_resist );
+    float break_chance = 33.3f * ( du.amount / armors_own_resist ) * enchant_multiplier;
 
     float roll_to_break = rng_float( 0.0, 100.0 );
 
@@ -9878,7 +9884,7 @@ bool item::is_magazine_full() const
     return contents.is_magazine_full();
 }
 
-bool item::can_unload_liquid() const
+bool item::can_unload() const
 {
     if( has_flag( flag_NO_UNLOAD ) ) {
         return false;
@@ -10218,7 +10224,8 @@ std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_
 
 bool item::spill_contents( Character &c )
 {
-    if( !is_container() || is_container_empty() ) {
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
         return true;
     }
 
@@ -10234,7 +10241,8 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
-    if( !is_container() || is_container_empty() ) {
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
         return true;
     }
     return contents.spill_contents( pos );
@@ -10977,6 +10985,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty = units::to_kilojoule( wanted_energy );
     }
     return wanted_qty - qty;
+}
+
+int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
+{
+    return item::ammo_consume( qty, pos.raw(), carrier );
 }
 
 units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
@@ -14010,9 +14023,10 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
 bool item::process_blackpowder_fouling( Character *carrier )
 {
-    // rust is deterministic. 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
-    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level.
-    set_var( "rust_timer", get_var( "rust_timer", 0 ) + 1 + get_var( "dirt", 0 ) / 2000 );
+    // Rust is deterministic. At a total modifier of 1 (the max): 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
+    // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level. At minimum dirt, the modifier is 0.3x the speed of the above mentioned figures.
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + std::min( 0.3 + get_var( "dirt", 0 ) / 200,
+             1.0 ) );
     double time_mult = 1.0 + ( 4.0 * static_cast<double>( damage() ) ) / static_cast<double>
                        ( max_damage() );
     if( damage() < max_damage() && get_var( "rust_timer", 0 ) > 43200.0 * time_mult ) {
@@ -14132,9 +14146,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            set_fault( faults::random_of_type( "wet" ) );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+                set_fault( faults::random_of_type( "shorted" ) );
             }
         }
 
@@ -14467,9 +14481,11 @@ template bool item::is_bp_comfortable<bodypart_id>( const bodypart_id &bp ) cons
 
 bool item::is_reloadable() const
 {
-    if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
-        return false; // turrets ignore NO_RELOAD flag
-
+    if( ( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) ||
+        ( is_gun() && !ammo_default() ) ) {
+        // turrets ignore NO_RELOAD flag
+        // don't show guns without default ammo defined in reload ui
+        return false;
     }
 
     for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {

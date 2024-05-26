@@ -23,6 +23,7 @@
     "trap": "tr_ledge",
     "roof": "t_flat_roof",
     "examine_action": "ledge",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE" ]
   },
   {

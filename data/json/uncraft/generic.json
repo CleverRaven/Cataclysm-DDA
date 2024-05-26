@@ -758,5 +758,21 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "plastic_sheet", 4 ] ] ]
+  },
+  {
+    "result": "butterfly_net_makeshift",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "splinter", 2 ] ], [ [ "sheet_canvas", 1 ] ] ]
+  },
+  {
+    "result": "butterfly_net_collapsible",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 3 ] ], [ [ "sheet_canvas", 1 ] ] ]
   }
 ]

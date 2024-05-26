@@ -367,7 +367,8 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
+            !tmp.has_flag( flag_SEMITANGIBLE ) ) {
             for( const trait_id &mut : p.get_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
@@ -2526,7 +2527,8 @@ static item_location form_loc( Character &you, const tripoint &p, item &it )
     if( you.has_item( it ) ) {
         return form_loc_recursive( you, it );
     }
-    map_cursor mc( p );
+    const tripoint_bub_ms bub = tripoint_bub_ms( p );
+    map_cursor mc( bub );
     if( mc.has_item( it ) ) {
         return form_loc_recursive( mc, it );
     }
@@ -2737,7 +2739,7 @@ static item_location get_item_location( Character &p, item &it, const tripoint &
     }
 
     // Item on the map
-    return item_location( map_cursor( pos ), &it );
+    return item_location( map_cursor( tripoint_bub_ms( pos ) ), &it );
 }
 
 std::optional<int> repair_item_actor::use( Character *p, item &it,

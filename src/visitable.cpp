@@ -472,7 +472,7 @@ VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     map &here = get_map();
-    tripoint p = pos();
+    tripoint p = pos().raw();
 
     // check furniture pseudo items
     if( here.furn( p ) != furn_str_id::NULL_ID() ) {
@@ -697,14 +697,14 @@ std::list<item> map_cursor::remove_items_with( const
     }
 
     // fetch the appropriate item stack
-    point offset;
+    point_sm_ms offset;
     submap *sub = here.get_submap_at( pos(), offset );
-    cata::colony<item> &stack = sub->get_items( offset );
+    cata::colony<item> &stack = sub->get_items( offset.raw() );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
         if( filter( *iter ) ) {
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( offset, *iter );
+            sub->update_lum_rem( offset.raw(), *iter );
 
             // finally remove the item
             res.push_back( *iter );

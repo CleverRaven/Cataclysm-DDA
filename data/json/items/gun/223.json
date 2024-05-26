@@ -29,7 +29,7 @@
   {
     "id": "ar_pistol",
     "copy-from": "rifle_semi",
-    "looks_like": "oa93",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR pistol" },
     "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
@@ -59,77 +59,6 @@
       [ "rail mount", 2 ],
       [ "sights", 1 ],
       [ "stock mount", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "plr16",
-    "copy-from": "rifle_semi",
-    "looks_like": "oa93",
-    "type": "GUN",
-    "name": { "str": "Rifle caliber pistol" },
-    "description": "This is a semi-automatic pistol chambered in 5.56x45, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "plr16",
-        "name": { "str": "Kel-Tec PLR16 pistol" },
-        "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard."
-      }
-    ],
-    "weight": "1800 g",
-    "volume": "1665 ml",
-    "longest_side": "485 mm",
-    "barrel_length": "234 mm",
-    "price": "869 USD",
-    "price_postapoc": "55 USD",
-    "to_hit": -2,
-    "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "skill": "pistol",
-    "range": -6,
-    "dispersion": 300,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [
@@ -523,135 +452,6 @@
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
   {
-    "id": "m231pfw",
-    "type": "GUN",
-    "copy-from": "modular_m4_carbine",
-    "name": { "str": "M16 firing port gun" },
-    "description": "The M16 firing port gun is an M16 rifle modified to fire with an open-bolt design at ludicrous speeds, without sights.  It has a threaded handguard to screw into an armored vehicle's firing ports.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
-    "weight": "3330 g",
-    "volume": "2400 ml",
-    "longest_side": "727 mm",
-    "barrel_length": "396 mm",
-    "price": "34 kUSD 500 USD",
-    "price_postapoc": "35 USD",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "m231pfw",
-        "name": { "str": "M231 port firing weapon" },
-        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slightly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
-      }
-    ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "material": [ "aluminum", "steel", "plastic" ],
-    "ammo": [ "223" ],
-    "dispersion": 350,
-    "sight_dispersion": 500,
-    "durability": 7,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "//": "This weapon has an extremely high rate of fire, due to the open bolt design. This is based on a cyclic rate of fire of 1150 RPM, which is close to 19 rounds per second. 6 rounds is comparable to to other weapons with similar rates, such as the MAC-11.",
-    "modes": [ [ "DEFAULT", "auto", 6 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 12 }
-  },
-  {
-    "id": "oa93",
-    "copy-from": "rifle_semi",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "OA-93 pistol" },
-    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
-    "weight": "2023 g",
-    "volume": "2135 ml",
-    "longest_side": "456 mm",
-    "barrel_length": "165 mm",
-    "price": "1 kUSD 250 USD",
-    "price_postapoc": "55 USD",
-    "to_hit": -2,
-    "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "skill": "pistol",
-    "range": -6,
-    "dispersion": 380,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
     "id": "ruger_mini",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
@@ -696,25 +496,25 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "//": "Name changed to match the non-branded version. Also changed to the SIG 553, as the 552 is discontinued and the 553 is still in production and is identical to the 552.",
+    "//": "Changed from SG 553, which itself was originally the Sig 550, to the civilian legal copy",
     "id": "sig_assault_rifle",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "SIG assault rifle" },
-    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
-    "weight": "3200 g",
-    "volume": "2950 ml",
-    "longest_side": "741 mm",
-    "barrel_length": "348 mm",
+    "name": { "str": "SIG civilian rifle" },
+    "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
+    "weight": "4100 g",
+    "volume": "3146 ml",
+    "longest_side": "1020 mm",
+    "barrel_length": "406 mm",
     "price": "3 kUSD 200 USD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sig553",
-        "name": { "str": "SIG 553" },
-        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock."
+        "name": { "str": "SIG SG 556" },
+        "description": "The SG 556 is a civilian model of the Swiss SIG SG 550 series, manufactured in New Hampshire.  It lacks any automatic fire capability and has a 16 inch barrel, but still retains a folding stock, with the feature of feeding from STANAG magazines instead of the SG 550 series magazines."
       }
     ],
     "to_hit": -1,
@@ -723,7 +523,7 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
       {

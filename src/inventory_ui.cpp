@@ -2103,7 +2103,7 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), translation(), 100 );
         _add_map_items( target, map_cat, items, [target]( item & it ) {
-            return item_location( map_cursor( target ), &it );
+            return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
         } );
     }
 }
@@ -2167,7 +2167,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
     const std::string name = to_upper_case( remote_map->name( target ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
-        return item_location( map_cursor( target ), &it );
+        return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
     } );
 }
 
@@ -3381,7 +3381,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
                 item_location it = entry->any_item();
-                if( loc->can_reload_with( *it, true ) ) {
+                if( loc.can_reload_with( it, true ) ) {
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
@@ -3402,7 +3402,7 @@ void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int valu
         return;
     }
     for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+        if( loc.can_reload_with( entry.any_item(), true ) ) {
             item::reload_option tmp_opt( &u, loc, entry.any_item() );
             tmp_opt.qty( entry.chosen_count + value );
             entry.chosen_count = tmp_opt.qty();

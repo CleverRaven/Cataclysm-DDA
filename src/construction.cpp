@@ -161,6 +161,7 @@ static bool check_nothing( const tripoint_bub_ms & )
 static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowing water
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
+static bool check_unblocked( const tripoint_bub_ms & ); // tile is empty or empty space
 static bool check_support( const tripoint_bub_ms
                            & ); // at least two orthogonal supports or from below
 static bool check_support_below( const tripoint_bub_ms
@@ -951,7 +952,7 @@ construction_id construction_menu( const bool blueprint )
 
         if( select < 0 || static_cast<size_t>( select ) >= constructs.size()
             || con_preview_group != constructs[select] ) {
-            con_preview_group = ( select >= 0 || static_cast<size_t>( select ) < constructs.size() )
+            con_preview_group = ( select >= 0 && static_cast<size_t>( select ) < constructs.size() )
                                 ? constructs[select] : construction_group_str_id::NULL_ID();
             if( con_preview_group.is_null() ) {
                 con_preview.clear();
@@ -1453,9 +1454,21 @@ bool construct::check_empty( const tripoint_bub_ms &p )
     map &here = get_map();
     // @TODO should check for *visible* traps only. But calling code must
     // first know how to handle constructing on top of an invisible trap!
-    return ( here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) && !here.has_furn( p ) &&
-             g->is_empty( p ) && here.tr_at( p ).is_null() &&
-             here.i_at( p ).empty() && !here.veh_at( p ) );
+    return here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) && !here.has_furn( p ) &&
+           g->is_empty( p ) && here.tr_at( p ).is_null() &&
+           here.i_at( p ).empty() && !here.veh_at( p );
+}
+
+bool construct::check_unblocked( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    // @TODO should check for *visible* traps only. But calling code must
+    // first know how to handle constructing on top of an invisible trap!
+    // Should also check for empty space rather than open air, when such a check exists.
+    return !here.has_furn( p ) &&
+           ( g->is_empty( p ) || here.ter( p ) == ter_t_open_air ) && ( here.tr_at( p ).is_null() ||
+                   here.tr_at( p ) == tr_ledge ) &&
+           here.i_at( p ).empty() && !here.veh_at( p );
 }
 
 bool construct::check_support( const tripoint_bub_ms &p )
@@ -2209,8 +2222,9 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, bool( * )( const tripoint_bub_ms & )> pre_special_map = {{
             { "", construct::check_nothing },
             { "check_channel", construct::check_channel },
-            { "check_empty", construct::check_empty },
             { "check_empty_lite", construct::check_empty_lite },
+            { "check_empty", construct::check_empty },
+            { "check_unblocked", construct::check_unblocked },
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
             { "check_single_support", construct::check_single_support },

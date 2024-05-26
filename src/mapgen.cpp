@@ -3130,7 +3130,7 @@ class jmapgen_make_rubble : public jmapgen_piece
                 debugmsg( "null floor type when making rubble" );
                 chosen_floor_type = ter_t_dirt;
             }
-            dat.m.make_rubble( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ),
+            dat.m.make_rubble( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ),
                                chosen_rubble_type, items, chosen_floor_type, overwrite );
         }
 
@@ -5830,7 +5830,7 @@ void map::draw_lab( mapgendata &dat )
                                 ( !one_in( 3 ) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
                                 one_in( 4 ) ) {
                                 // bash and usually remove the rubble.
-                                make_rubble( { i, j, abs_sub.z() } );
+                                make_rubble( tripoint_bub_ms( i, j, abs_sub.z() ) );
                                 ter_set( point( i, j ), ter_t_rock_floor );
                                 if( !one_in( 3 ) ) {
                                     furn_set( point( i, j ), furn_str_id::NULL_ID() );
@@ -5840,7 +5840,7 @@ void map::draw_lab( mapgendata &dat )
                         } else if( one_in( 20 ) &&
                                    !has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p2 ) &&
                                    !has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p2 ) ) {
-                            destroy( { i, j, abs_sub.z() } );
+                            destroy( tripoint_bub_ms( i, j, abs_sub.z() ) );
                             // bashed squares can create dirt & floors, but we want rock floors.
                             const ter_id &floor_to_check_ter = ter( point( i, j ) );
                             if( floor_to_check_ter == ter_t_dirt || floor_to_check_ter == ter_t_floor ) {
@@ -5863,7 +5863,7 @@ void map::draw_lab( mapgendata &dat )
                     if( ( ( j <= tw || i >= rw ) && i >= j && ( EAST_EDGE - i ) <= j ) ||
                         ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
                         if( one_in( 5 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z() ), furn_f_rubble_rock, true,
+                            make_rubble( tripoint_bub_ms( i,  j, abs_sub.z() ), furn_f_rubble_rock, true,
                                          ter_t_slime );
                         } else if( !one_in( 5 ) ) {
                             ter_set( point( i, j ), ter_t_slime );
@@ -5923,7 +5923,7 @@ void map::draw_lab( mapgendata &dat )
                                 ter_set( point( i, j ), fluid_type );
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
-                                make_rubble( { i, j, abs_sub.z() } );
+                                make_rubble( tripoint_bub_ms( i, j, abs_sub.z() ) );
                                 ter_set( point( i, j ), fluid_type );
                                 furn_set( point( i, j ), furn_str_id::NULL_ID() );
                             }
@@ -6674,6 +6674,13 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
     return spawn_items( p, items );
 }
 
+std::vector<item *> map::put_items_from_loc( const item_group_id &group_id,
+        const tripoint_bub_ms &p,
+        const time_point &turn )
+{
+    return map::put_items_from_loc( group_id, p.raw(), turn );
+}
+
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p )
 {
     add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
@@ -6762,6 +6769,12 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         placed_vehicle->place_zones( *this );
     }
     return placed_vehicle;
+}
+
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+{
+    return map::add_vehicle( type, p.raw(), dir, veh_fuel, veh_status, merge_wrecks );
 }
 
 /**
@@ -6990,12 +7003,12 @@ void map::rotate( int turns, const bool setpos_safe )
 
         const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
-            const point local_sq = getlocal( sq ).xy();
+            const point local_sq = bub_from_abs( sq ).xy().raw();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( get_map().getlocal( new_global_sq ) );
+            np.setpos( get_map().bub_from_abs( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
@@ -7972,7 +7985,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         return false;
     }
 
-    fake_map tmp_map( ter_t_grass );
+    small_fake_map tmp_map( ter_t_grass );
 
     mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, args );
@@ -8029,21 +8042,23 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    fake_map tmp_map( base_ter );
+    small_fake_map tmp_map( base_ter );
 
     mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_id ter_at_pos = tmp_map.ter( pos );
-            if( ter_at_pos != base_ter ) {
-                terrains[ter_at_pos] += 1;
-            }
-            if( tmp_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = tmp_map.furn( pos );
-                furnitures[furn_at_pos] += 1;
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( z ) ) {
+                ter_id ter_at_pos = tmp_map.ter( pos );
+                if( ter_at_pos != base_ter ) {
+                    terrains[ter_at_pos] += 1;
+                }
+                if( tmp_map.has_furn( pos ) ) {
+                    furn_id furn_at_pos = tmp_map.furn( pos );
+                    furnitures[furn_at_pos] += 1;
+                }
             }
         }
     }

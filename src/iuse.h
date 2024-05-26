@@ -138,6 +138,7 @@ std::optional<int> lumber( Character *, item *, const tripoint & );
 std::optional<int> ma_manual( Character *, item *, const tripoint & );
 std::optional<int> magic_8_ball( Character *, item *, const tripoint & );
 std::optional<int> measure_resonance( Character *, item *, const tripoint & );
+std::optional<int> change_outfit( Character *, item *, const tripoint & );
 std::optional<int> electricstorage( Character *, item *, const tripoint & );
 std::optional<int> ebooksave( Character *, item *, const tripoint & );
 std::optional<int> ebookread( Character *, item *, const tripoint & );
@@ -326,7 +327,9 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
+        // TODO: get rid of untyped overload
         std::optional<int> call( Character *, item &, const tripoint & ) const;
+        std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;
         ret_val<void> can_call( const Character &, const item &, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {

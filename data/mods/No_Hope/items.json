@@ -298,5 +298,21 @@
     "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "melee_damage": { "bash": 18, "cut": 37 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "necropolis_leaflet",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "vault leaflet" },
+    "snippet_category": "necropolis_intro",
+    "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
+    "looks_like": "flyer",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "1 g",
+    "volume": "1 ml"
   }
 ]

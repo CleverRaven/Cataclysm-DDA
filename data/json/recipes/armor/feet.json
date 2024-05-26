@@ -23,7 +23,7 @@
     "difficulty": 2,
     "time": "10 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "3 m" },
     "using": [ [ "tailoring_leather_small", 22 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
@@ -1072,7 +1072,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
+    "using": [ [ "tailoring_cotton_patchwork_simple", 2 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

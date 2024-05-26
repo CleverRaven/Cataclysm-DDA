@@ -200,7 +200,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         }
 
         if( type == ACT_SPELLCASTING ) {
-            const std::string spell_name = u.magic->get_spell( spell_id( name ) ).name();
+            const std::string spell_name = spell_id( name )->name.translated();
             extra_info = string_format( "%s …", spell_name );
         }
     }
@@ -386,6 +386,7 @@ void player_activity::do_turn( Character &you )
             }
         }
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
+        g->wait_popup_reset();
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -412,6 +413,7 @@ void player_activity::canceled( Character &who )
         actor->canceled( *this, who );
     }
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
+    g->wait_popup_reset();
 }
 
 float player_activity::exertion_level() const

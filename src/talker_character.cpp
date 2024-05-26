@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "avatar.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "effect.h"
@@ -1096,7 +1097,8 @@ std::string talker_character_const::proficiency_training_text( const talker &stu
 
     if( cost > 0 ) {
         //~ Proficiency name: (current_practice) -> (next_practice) (cost in dollars)
-        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str, cost );
+        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str,
+                              cost / 100 );
     }
     //~ Proficiency name: (current_practice) -> (next_practice)
     return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
