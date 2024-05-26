@@ -3647,9 +3647,9 @@ bool game::verify_dynamic_power( std::string dyn )
                     || faction_manager_ptr->get( faction_id( "exodii" ) )->power < 150 ) {
                     return false;      //If they didn't, then this doesn't apply
                 }
-            } else if(dyn[i] == '4') {    //Did the Old Guard fail to find enough powerful allies?
-                if(faction_manager_ptr->get( faction_id( "old_guard" ) )->power >= 150
-                    && faction_manager_ptr->get( faction_id( "robofac") )->power >= 150
+            } else if( dyn[i] == '4' ) {  //Did the Old Guard fail to find enough powerful allies?
+                if( faction_manager_ptr->get( faction_id( "old_guard" ) )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "robofac" ) )->power >= 150
                     && faction_manager_ptr->get( faction_id( "tacoma_commune" ) )->power >= 150
                     && faction_manager_ptr->get( faction_id( "the_great_library" ) )->power >= 150
                     && faction_manager_ptr->get( faction_id( "exodii" ) )->power >= 150 ) {
