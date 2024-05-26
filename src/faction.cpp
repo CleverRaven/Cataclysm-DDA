@@ -146,7 +146,8 @@ faction_template::faction_template( const JsonObject &jsobj )
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               jao.get_string( "dynamic", "0000000" ), // old_guard, robofac, tacoma_commune, free_merchants, exodii, great_library, hells_raiders; 0 - anything; 1 - power >= 150; 2 - power < 150; 3,4,... - specific dynamic faction endings
+                               jao.get_string( "dynamic", 
+                                               "0000000" ), // old_guard, robofac, tacoma_commune, free_merchants, exodii, great_library, hells_raiders; 0 - anything; 1 - power >= 150; 2 - power < 150; 3,4,... - specific dynamic faction endings
                                snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
     }
 }
@@ -162,8 +163,8 @@ std::vector<std::string> faction::epilogue() const
     std::vector<std::string> ret;
     for( const std::tuple<int, int, std::string, snippet_id> &epilogue_entry : epilogue_data ) {
         if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            if ( g->verify_dynamic_power( std::get<2>( epilogue_entry ) ) ) {
-                 ret.emplace_back( std::get<3>( epilogue_entry )->translated() );
+            if( g->verify_dynamic_power( std::get<2>( epilogue_entry ) ) ) {
+                ret.emplace_back( std::get<3>( epilogue_entry )->translated() );
             }
         }
     }
