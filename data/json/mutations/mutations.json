@@ -238,6 +238,7 @@
       "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
+      "RESTRICTED",
       "STOCKY_TROGLO",
       "STRONGBACK",
       "TUNNEL_FIGHTER",
@@ -2097,7 +2098,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
-    "cancels": [ "ROBUST" ],
+    "cancels": [ "ROBUST", "RESTRICTED" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
