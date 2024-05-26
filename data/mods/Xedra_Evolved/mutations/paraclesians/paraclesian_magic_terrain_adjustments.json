@@ -98,6 +98,65 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_ELEMENTAL_MAGIC_PENALTY_IN_BUILDING",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            {
+              "and": [
+                { "not": "u_is_outside" },
+                { "or": [ { "u_is_on_terrain_with_flag": "FLAT" }, { "u_is_on_terrain_with_flag": "ROAD" } ] },
+                { "not": { "u_is_on_terrain": "t_barkfloor" } },
+                { "not": { "u_is_on_terrain": "t_floor" } },
+                { "not": { "u_is_on_terrain": "t_wood_stairs_down" } },
+                { "not": { "u_is_on_terrain": "t_wood_stairs_up" } },
+                { "not": { "u_is_on_terrain": "t_door_o" } },
+                { "not": { "u_is_on_terrain": "t_dirt_underground" } },
+                { "not": { "u_is_on_terrain": "t_dirtfloor_thatchroof" } }
+              ]
+            },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "u_is_on_terrain": "t_barkfloor" },
+                    { "u_is_on_terrain": "t_floor" },
+                    { "u_is_on_terrain": "t_wood_stairs_down" },
+                    { "u_is_on_terrain": "t_wood_stairs_up" },
+                    { "u_is_on_terrain": "t_door_o" },
+                    { "u_is_on_terrain": "t_dirt_underground" },
+                    { "u_is_on_terrain": "t_dirtfloor_thatchroof" }
+                  ]
+                },
+                {
+                  "or": [
+                    { "u_near_om_location": "road_curved", "range": 1 },
+                    { "u_near_om_location": "road_four_way", "range": 1 },
+                    { "u_near_om_location": "road_tee", "range": 1 },
+                    { "u_near_om_location": "road_straight", "range": 1 },
+                    { "u_near_om_location": "road_end", "range": 1 },
+                    { "u_near_om_location": "road_sw", "range": 1 },
+                    { "u_near_om_location": "road_ne", "range": 1 },
+                    { "u_near_om_location": "road_ew", "range": 1 },
+                    { "u_near_om_location": "road_ns", "range": 1 },
+                    { "u_near_om_location": "road_nesw", "range": 1 },
+                    { "u_near_om_location": "road", "range": 1 }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "u_has_trait": "ARVORE" }
+      ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'ARVORE' )", "=", "3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_IN_CIVILIZATION",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -144,6 +203,41 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_ELEMENTAL_MAGIC_PENALTY_IN_THE_WILDERNESS",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        {
+          "and": [
+            "u_is_outside",
+            {
+              "or": [
+                { "u_is_on_terrain_with_flag": "SHRUB" },
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain_with_flag": "YOUNG" }
+              ]
+            },
+            { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+            { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+            { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+            { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+            { "not": { "u_near_om_location": "road_end", "range": 1 } },
+            { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+            { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+            { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+            { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+            { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+            { "not": { "u_near_om_location": "road", "range": 1 } }
+          ]
+        },
+        { "u_has_trait": "HOMULLUS" }
+      ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_ELEMENTAL_MAGIC_ADJUSTMENT_UNDERGROUND",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -179,6 +273,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ELEMENTAL_MAGIC_PENALTY_TOO_HIGH",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", ">=", "1" ] }, { "u_has_trait": "IERDE" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'IERDE' )", "=", "3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_ADJUSTMENT_IN_FIRE",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -198,7 +300,6 @@
             { "u_is_in_field": "fd_hot_air2" },
             { "u_is_in_field": "fd_hot_air3" },
             { "u_is_in_field": "fd_hot_air4" },
-            { "u_is_in_field": "fd_fire" },
             { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
           ]
         },
@@ -206,6 +307,34 @@
       ]
     },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_ELEMENTAL_MAGIC_PENALTY_IN_CHILL",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "math": [ "weather('temperature')", "<=", "from_fahrenheit( 32 )" ] },
+        {
+          "and": [
+            { "not": { "u_is_in_field": "fd_hot_air1" } },
+            { "not": { "u_is_in_field": "fd_hot_air2" } },
+            { "not": { "u_is_in_field": "fd_hot_air3" } },
+            { "not": { "u_is_in_field": "fd_hot_air4" } },
+            { "not": { "u_is_in_field": "fd_fire" } },
+            { "not": { "u_has_item": "torch_lit" } },
+            { "not": { "u_has_item": "candle_lit" } },
+            { "not": { "u_has_item": "oil_lamp_on" } },
+            { "not": { "u_has_item": "oil_lamp_clay_on" } },
+            { "not": { "u_has_item": "cigar_lit" } },
+            { "not": { "u_has_item": "cig_lit" } }
+          ]
+        },
+        { "u_has_trait": "SALAMANDER" }
+      ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SALAMANDER' )", "=", "3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -222,6 +351,14 @@
     "required_event": "opens_spellbook",
     "condition": { "and": [ "u_is_outside", { "u_has_trait": "SYLPH" } ] },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_ELEMENTAL_MAGIC_PENALTY_UNDERGROUND",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "and": [ { "math": [ "u_val('pos_z')", "<=", "-1" ] }, { "not": "u_is_outside" }, { "u_has_trait": "SYLPH" } ] },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'SYLPH' )", "=", "3" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -279,5 +416,64 @@
     "required_event": "opens_spellbook",
     "condition": { "and": [ "u_is_underwater", { "u_has_trait": "UNDINE" } ] },
     "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "-2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_PENALTY_TOO_DRY_TIMER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_water_pool" },
+            { "u_is_on_terrain": "t_water_pool_outdoors" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_pool_shallow" },
+            { "u_is_on_terrain": "t_water_pool_shallow_outdoors" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" },
+            { "u_at_om_location": "generic_river_bank" },
+            { "u_at_om_location": "generic_river" },
+            { "u_at_om_location": "river_center" },
+            { "u_at_om_location": "river" },
+            { "u_at_om_location": "river_c_not_ne" },
+            { "u_at_om_location": "river_c_not_nw" },
+            { "u_at_om_location": "river_c_not_se" },
+            { "u_at_om_location": "river_c_not_sw" },
+            { "u_at_om_location": "river_ne" },
+            { "u_at_om_location": "river_se" },
+            { "u_at_om_location": "river_sw" },
+            { "u_at_om_location": "river_nw" },
+            { "u_at_om_location": "lake_shore" },
+            { "u_at_om_location": "lake_surface" }
+          ]
+        },
+        { "u_has_trait": "UNDINE" }
+      ]
+    },
+    "effect": [ { "math": [ "u_timer_undine_last_in_water", "=", "time('now')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_ELEMENTAL_MAGIC_PENALTY_TOO_DRY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [ { "math": [ "time_since(u_timer_undine_last_in_water)", ">=", "time('6 h')" ] }, { "u_has_trait": "UNDINE" } ]
+    },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'UNDINE' )", "=", "3" ] } ]
   }
 ]
