@@ -354,6 +354,12 @@
     "restriction": "Item must be some kind of face shield"
   },
   {
+    "id": "HELMET_FRONT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in the front of <info>military helmets</info>.",
+    "restriction": "Item must be some kind of frontal helmet attachment"
+  },
+  {
     "id": "HELMET_EAR_ATTACHMENT",
     "type": "json_flag",
     "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
