@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "sw_619", "mr73", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge", "taurus_judge" ],
+    "id": [ "sw_619", "mr73", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -151,7 +151,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1" ],
+    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
