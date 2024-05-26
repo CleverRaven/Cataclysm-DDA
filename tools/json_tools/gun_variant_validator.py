@@ -160,6 +160,7 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "needlegun",
     "needlepistol",
     "rm298",
+    "taurus judge",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
