@@ -96,7 +96,7 @@
     "color": "pink",
     "see_cost": 3,
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "id": "afs_crashed_cargo_shuttle",
@@ -114,7 +114,7 @@
     "sym": "s",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",

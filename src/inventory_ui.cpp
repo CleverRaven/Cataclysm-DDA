@@ -2103,7 +2103,7 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), translation(), 100 );
         _add_map_items( target, map_cat, items, [target]( item & it ) {
-            return item_location( map_cursor( target ), &it );
+            return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
         } );
     }
 }
@@ -2167,7 +2167,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
     const std::string name = to_upper_case( remote_map->name( target ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
-        return item_location( map_cursor( target ), &it );
+        return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
     } );
 }
 

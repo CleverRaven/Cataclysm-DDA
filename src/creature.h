@@ -317,7 +317,10 @@ class Creature : public viewer
         inline int posz() const {
             return get_location().z();
         }
+        // TODO: Get rid of untyped overload
         void setpos( const tripoint &p );
+        void setpos( const tripoint_bub_ms &p );
+
         /** Checks if the creature fits into a given tile. Set the boolean argument to true if the creature would barely fit. */
         bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const;
         /** Helper overload for when the boolean is discardable */
