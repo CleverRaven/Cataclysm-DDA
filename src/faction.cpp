@@ -85,8 +85,8 @@ void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
         for( const auto &epi : fac.epilogue_data ) {
-            if( !std::get<2>( epi ).is_valid() ) {
-                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+            if( !std::get<3>( epi ).is_valid() ) {
+                debugmsg( "There's no snippet with id %s", std::get<3>( epi ).str() );
             }
         }
     }
@@ -146,16 +146,8 @@ faction_template::faction_template( const JsonObject &jsobj )
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
+                               jao.get_string( "dynamic", "0000000" ), // old_guard, robofac, tacoma_commune, free_merchants, exodii, great_library, hells_raiders; 0 - anything; 1 - power >= 150; 2 - power < 150; 3,4,... - specific dynamic faction endings
                                snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
-    }
-    for ( const JsonObject jao : jsobj.get_array( "dynamic_epilogues" ) ) {
-        dynamic_data.emplace( faction_id( jao.get_string( "fac1_id", "your_followers" ) ),
-                              jao.get_bool( "power_strong_1", false ),
-                              faction_id( jao.get_string( "fac2_id", "your_followers" ) ),
-                              jao.get_bool( "power_strong_2", false ),
-                              faction_id( jao.get_string( "fac3_id", "your_followers" ) ),
-                              jao.get_bool( "power_strong_3", false ),
-                              snippet_id( jao.get_string( "id", "epilogue_faction_dynamic_default" ) ) );
     }
 }
 
@@ -168,22 +160,11 @@ std::string faction::describe() const
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
+    for( const std::tuple<int, int, std::string, snippet_id> &epilogue_entry : epilogue_data ) {
         if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
-        }
-    }
-    return ret;
-}
-
-std::vector<std::string> faction::dynamic() const
-{
-    std::vector<std::string> ret;
-    for ( const std::tuple<faction_id, bool, faction_id, bool, faction_id, bool, snippet_id>& dynamic_entry : dynamic_data ) {
-        if ( power >= 150 && ( std::get<0>( dynamic_entry )->power >= 150 && std::get<1>( dynamic_entry ) )
-            && ( std::get<2>( dynamic_entry )->power >= 150 && std::get<3>( dynamic_entry ) )
-            && ( std::get<4>( dynamic_entry )->power >= 150 && std::get<5>( dynamic_entry ) ) ) {
-            ret.emplace_back( std::get<6>( dynamic_entry )->translated() );
+            if ( g->verify_dynamic_power( std::get<2>( epilogue_entry ) ) ) {
+                 ret.emplace_back( std::get<3>( epilogue_entry )->translated() );
+            }
         }
     }
     return ret;
@@ -543,7 +524,6 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
                         elem.second.epilogue_data = fac_temp.epilogue_data;
-                        elem.second.dynamic_data = fac_temp.dynamic_data;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;

@@ -3627,13 +3627,127 @@ void game::disp_NPC_epilogues()
     }
 }
 
+bool game::verify_dynamic_power( std::string dyn ) {
+    for ( int i = 0; i < dyn.length(); i++ ) {
+        if ( i == 0 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "old_guard" ) )->power < 150 ) {
+                    return false;
+                }
+            } 
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "old_guard" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '3' ) {   //Did the Old Guard manage to find enough allies?
+                if ( faction_manager_ptr->get( faction_id( "old_guard" ) )->power < 150 
+                     || faction_manager_ptr->get( faction_id( "robofac" ) )->power < 150 
+                     || faction_manager_ptr->get( faction_id( "tacoma_commune" ) )->power < 150 
+                     || faction_manager_ptr->get( faction_id( "the_great_library" ) )->power < 150
+                     || faction_manager_ptr->get( faction_id( "exodii") )->power < 150 ) {
+                    return false;      //If they didn't, then this doesn't apply
+                }
+            }
+            else if (dyn[i] == '4') {    //Did the Old Guard fail to find enough powerful allies?
+                if (faction_manager_ptr->get( faction_id( "old_guard" ) )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "robofac") )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "tacoma_commune" ) )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "the_great_library" ) )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "exodii" ) )->power >= 150 ) {
+                    return false;    //If they did, then this doesn't apply
+                }
+            }
+        }
+        if ( i == 1 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "robofac" ) )->power < 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "robofac" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '3') {    //Did Hub-01 fail to find a solution to their resource shortages?
+                if ( faction_manager_ptr->get( faction_id( "robofac" ) )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "the_great_library" ) )->power >= 150
+                    && faction_manager_ptr->get( faction_id( "exodii" ) )->power >= 150 ) {
+                    return false;    //If they did, then this doesn't apply
+                }
+            }
+        }
+        if ( i == 2 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "tacoma_commune" ) )->power < 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "tacoma_commune" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+        }
+        if ( i == 3 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "free_merchants" ) )->power < 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "free_merchants" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+        }
+        if ( i == 4 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "exodii" ) )->power < 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "exodii" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+        }
+        if ( i == 5 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "the_great_library" ) )->power < 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "the_great_library" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+        }
+        if ( i == 6 ) {
+            if ( dyn[i] == '1' ) {
+                if ( faction_manager_ptr->get( faction_id( "hells_raiders" ) )->power < 150 ) {
+                    return false;
+                }
+            }
+            else if ( dyn[i] == '2' ) {
+                if ( faction_manager_ptr->get( faction_id( "hells_raiders" ) )->power >= 150 ) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 void game::display_faction_epilogues()
 {
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             const std::vector<std::string> epilogue = elem.second.epilogue();
-            const std::vector<std::string> dynamic = elem.second.dynamic();
-            if( !epilogue.empty() && dynamic.empty() ) {
+            if( !epilogue.empty() ) {
                 const auto new_win = []() {
                     return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                                point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
@@ -3644,15 +3758,6 @@ void game::display_faction_epilogues()
                 []( std::string lhs, const std::string & rhs ) -> std::string {
                     return std::move( lhs ) + "\n" + rhs;
                 } ) );
-            } else if ( !dynamic.empty() && elem.second.power >= 150 ) {
-                for ( std::string fac : dynamic ) {
-                    const auto new_win = []() {
-                        return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                            point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
-                                std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2) ) );
-                    };
-                    scrollable_text( new_win, elem.second.name, fac + "\n" );
-                }
             }
         }
     }

@@ -120,8 +120,7 @@ class faction_template
         std::vector<faction_price_rule> price_rules; // additional pricing rules
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
-        std::set<std::tuple<int, int, snippet_id>> epilogue_data;
-        std::set<std::tuple<faction_id, bool, faction_id, bool, faction_id, bool, snippet_id>> dynamic_data; //Epilogues resulting from interactions with other factions
+        std::set<std::tuple<int, int, std::string, snippet_id>> epilogue_data;
 };
 
 class faction : public faction_template
@@ -136,7 +135,6 @@ class faction : public faction_template
 
         std::string describe() const;
         std::vector<std::string> epilogue() const;
-        std::vector<std::string> dynamic() const;
 
         std::string food_supply_text();
         nc_color food_supply_color();
