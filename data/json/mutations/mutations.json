@@ -1207,6 +1207,16 @@
   },
   {
     "type": "mutation",
+    "id": "RESTRICTED",
+    "name": { "str": "Restricted Genetics" },
+    "points": 3,
+    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category.  Any that you previously developed are safe, for now.",
+    "allowed_category": [ "ALPHA" ],
+    "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
+    "category": [ "ALPHA" ]
+  },
+  {
+    "type": "mutation",
     "id": "EAGLEEYED",
     "//": "Can't change the ID as that breaks save-compatibility.",
     "name": { "str": "Scout" },
