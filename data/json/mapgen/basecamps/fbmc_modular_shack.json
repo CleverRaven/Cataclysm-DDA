@@ -161,6 +161,7 @@
         "rrrrr ",
         "rrrrr "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ { "param": "fbmc_construction_palette" } ]
     }
   },
@@ -270,6 +271,7 @@
         "rrrrrr",
         "      "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ { "param": "fbmc_construction_palette" } ]
     }
   },
@@ -379,6 +381,7 @@
         "      ",
         "      "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ { "param": "fbmc_construction_palette" } ]
     }
   },
@@ -451,6 +454,7 @@
         "r     ",
         "r     "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ { "param": "fbmc_construction_palette" } ]
     }
   },
@@ -516,6 +520,7 @@
       },
       "mapgensize": [ 1, 1 ],
       "rows": [ "r" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ { "param": "fbmc_construction_palette" } ]
     }
   },
