@@ -1961,21 +1961,71 @@
   {
     "id": "mask_gas",
     "type": "TOOL_ARMOR",
-    "name": { "str": "gas mask" },
     "category": "clothing",
+    "name": { "str": "gas mask" },
     "description": "A full gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "flags": [ "SLEEP_IGNORE" ],
-    "weight": "897 g",
+    "weight": "490 g",
     "volume": "1 L",
+    "longest_side": "279 mm",
+    "//": "Based on https://www.avon-protection.com/products/c50/",
+    "//": "According to Avon’s data specifications, the weight of an FM12 mask with a 340-gramme filter attached is 790-gramme. Therefore, we’re setting the weight of the item at the difference.",
     "price": "49 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -3,
-    "material": [ "plastic" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ { "type": "rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape" ],
+        "coverage": 25,
+        "encumbrance": 0,
+        "layers": [ "SKINTIGHT" ],
+        "//": "The cotton represents the head harness that keeps the mask attached to one’s melon. Hood-style masks, like the GP5, should get their own item."
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "NORMAL", "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
+        "//": "While some older gas masks had lenses made from glass, most modern ones are fabricated with plastic eyepieces or visors. We can hand-wave away the outliers.",
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "rigid_layer_only": true,
+        "layers": [ "SKINTIGHT", "NORMAL" ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "plastic", "covered_by_mat": 30, "thickness": 10 }
+        ],
+        "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They’re represented by the plastic content.",
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
+        "coverage": 100,
+        "encumbrance": 30,
+        "layers": [ "NORMAL", "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "plastic", "covered_by_mat": 30, "thickness": 5 }
+        ],
+        "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_cheeks" ],
+        "coverage": 80,
+        "encumbrance": 20,
+        "layers": [ "NORMAL", "OUTER" ]
+      }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -1991,7 +2041,8 @@
     ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ]
+    "tick_action": [ "GASMASK" ],
+    "flags": [ "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_gas_xl",
