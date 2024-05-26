@@ -22,6 +22,7 @@
     "type": "damage_type",
     "physical": true,
     "edged": true,
+    "melee_only": true,
     "magic_color": "light_green",
     "name": "toxic pierce",
     "skill": "stabbing",
@@ -54,7 +55,7 @@
   {
     "id": "afs_toxin_pierce",
     "type": "damage_info_order",
-    "info_display": "basic",
+    "info_display": "detailed",
     "verb": "toxic piercing",
     "bionic_info": { "order": 407, "show_type": false },
     "protection_info": { "order": 307, "show_type": false },
