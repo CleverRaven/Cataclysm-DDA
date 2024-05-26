@@ -3666,7 +3666,7 @@ bool game::verify_dynamic_power( std::string dyn )
                 if( faction_manager_ptr->get( faction_id( "robofac" ) )->power >= 150 ) {
                     return false;
                 }
-            } else if( dyn[i] == '3') {    //Did Hub-01 fail to find a solution to their resource shortages?
+            } else if( dyn[i] == '3' ) {   //Did Hub-01 fail to find a solution to their resource shortages?
                 if( faction_manager_ptr->get( faction_id( "robofac" ) )->power >= 150
                     && faction_manager_ptr->get( faction_id( "the_great_library" ) )->power >= 150
                     && faction_manager_ptr->get( faction_id( "exodii" ) )->power >= 150 ) {
