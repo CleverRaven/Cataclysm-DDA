@@ -69,6 +69,16 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_robot_anchored",
+    "name": [ "Anchored" ],
+    "desc": [ "You are anchored in place and cannot move." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
     "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_well_fed",
