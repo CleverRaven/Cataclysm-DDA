@@ -148,6 +148,15 @@ faction_template::faction_template( const JsonObject &jsobj )
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
                                snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
     }
+    for ( const JsonObject jao : jsobj.get_array( "dynamic_epilogues" ) ) {
+        dynamic_data.emplace( faction_id( jao.get_string( "fac1_id", "your_followers" ) ),
+                              jao.get_bool( "power_strong_1", false ),
+                              faction_id( jao.get_string( "fac2_id", "your_followers" ) ),
+                              jao.get_bool( "power_strong_2", false ),
+                              faction_id( jao.get_string( "fac3_id", "your_followers" ) ),
+                              jao.get_bool( "power_strong_3", false ),
+                              snippet_id( jao.get_string( "id", "epilogue_faction_dynamic_default" ) ) );
+    }
 }
 
 std::string faction::describe() const
@@ -162,6 +171,19 @@ std::vector<std::string> faction::epilogue() const
     for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
         if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
             ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+        }
+    }
+    return ret;
+}
+
+std::vector<std::string> faction::dynamic() const
+{
+    std::vector<std::string> ret;
+    for ( const std::tuple<faction_id, bool, faction_id, bool, faction_id, bool, snippet_id>& dynamic_entry : dynamic_data ) {
+        if ( power >= 150 && ( std::get<0>( dynamic_entry )->power >= 150 && std::get<1>( dynamic_entry ) )
+            && ( std::get<2>( dynamic_entry )->power >= 150 && std::get<3>( dynamic_entry ) )
+            && ( std::get<4>( dynamic_entry )->power >= 150 && std::get<5>( dynamic_entry ) ) ) {
+            ret.emplace_back( std::get<6>( dynamic_entry )->translated() );
         }
     }
     return ret;
@@ -521,6 +543,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                         elem.second.desc = fac_temp.desc;
                         elem.second.mon_faction = fac_temp.mon_faction;
                         elem.second.epilogue_data = fac_temp.epilogue_data;
+                        elem.second.dynamic_data = fac_temp.dynamic_data;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
                                 elem.second.relations[rel_data.first] = rel_data.second;

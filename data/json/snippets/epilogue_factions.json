@@ -8,6 +8,10 @@
         "text": "    You and everyone who followed you are forgotten among the billions lost in the Cataclysm…"
       },
       {
+        "id": "epilogue_faction_dynamic_default",
+        "text": "    "
+      },
+      {
         "id": "epilogue_faction_your_followers_0",
         "text": "    You and everyone who followed you are forgotten among the billions lost in the Cataclysm…"
       },
@@ -18,6 +22,10 @@
       {
         "id": "epilogue_faction_old_guard_150",
         "text": "    The steadfastness of individual survivors after the Cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
+      },
+      {
+        "id": "epilogue_faction_old_guard_thrive",
+        "text": "    The steadfastness of individual survivors after the Cataclysm impressed the tattered remains of the once glorious union. Spurred on by numerous strategic successes, a number of operations to re-secure facilities succeeded thanks to the support of various surviving communities. While some remained cautious of submitting themselves to the Old Guard's authority, nostalgia for the old world and the promise of security from the new rallied many more to their flag. In the coming decades, the Old Guard were able to reconnect much of New England and beyond, their dreams for the future buoyed by the memory of the past."
       },
       {
         "id": "epilogue_faction_free_merchants_0",
@@ -34,6 +42,18 @@
       {
         "id": "epilogue_faction_tacoma_commune_150",
         "text": "    The commune continued to grow rapidly through the years despite constant external threat.  While maintaining a reputation as a haven for all law-abiding citizens, the commune's leadership remained loyal to the interests of the Free Merchants.  Hard labor for little reward remained the price to be paid for those who sought the safety of the community."
+      },
+      {
+        "id": "epilogue_faction_tacoma_commune_revolt",
+        "text": "    Through the years, the commune would continue to rapidly grow despite constant external threats. In a surprising twist then, the greatest threat would turn out to be an internal one. The collapse of the Free Merchant traders plunged the Commune's leadership into a period of significant infighting, and seeing an opportunity, the survivors of the Commune quickly moved to oust them. Afterwards, the settlement was re-organized under a democratically elected council and the resources of Tacoma were distributed by need and popular vote. The Commune would soon earn a reputation as a place where the struggles of the wasteland were shared, and where the horrors of the world were faced together."
+      },
+      {
+        "id": "epilogue_faction_tacoma_commune_FM_OG",
+        "text": "    When the Old Guard came for their support, the Commune's leadership was happy to accept, though not without conditions. Lucrative contracts and the exclusive rights to inter-settlement trade routes made the Free Merchants virtual merchant royalty overnight. While many survivors would grumble, none could deny that wherever the Old Guard went, the Free Merchants would bring their prosperity with them, for a price of course."
+      },
+      {
+        "id": "epilogue_faction_tacoma_commune_OG",
+        "text": "    When the Old Guard came for their support, the citizens of the Commune were extremely resistant to surrendering their autonomy to this 'new' power. However, the Old Guard, desperate to find footholds in the region, proved more amicable to their demands than they expected. In exchange for representation in the Provisional Congress on Nantucket island, and the Old Guard's support in organizing other settlements like Tacoma in their territory, the Tacoma Commune would surprise many by voting to join the new union. When asked for a comment on the vote, the First Speaker of the Tacoma Council simply said, 'out of many, one.'"
       },
       {
         "id": "epilogue_faction_isolated_road_0",
@@ -60,12 +80,24 @@
         "text": "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to overthrow the last strongholds of the Old Guard.  The costly victories brought the warlords abundant territory and slaves but little in the way of stability.  Within weeks, infighting led to civil war as tribes vied for leadership of the faction.  When only one warlord finally secured control, there was nothing left to fight for… just endless cities full of the dead."
       },
       {
+        "id": "epilogue_faction_hells_raiders_collapse",
+        "text": "    With the survivors of the wasteland becoming more organized by the day, the Hell's Raiders found it more and more difficult to find easy prey to loot and pillage. Before long, the once feared raiders found themselves on the defensive as the resurgent Old Guard began to assault their outposts and dismantle their hierarchy of command. Those that weren't killed were forced to flee into the untamed west, the memory of their terror finally beginning to fade like a bad dream."
+      },
+      {
         "id": "epilogue_faction_robofac_0",
         "text": "    Despite Melchior's enlightened leadership, shortages and crises plagued Hub-01 from the first day of the Cataclysm.  The researchers and administrators among the surviving staff lacked the practical skills to survive in the savage new world.  As Hub-01's systems collapsed from a lack of maintenance, the few survivors fled the building to be killed by the zombies and bandits."
       },
       {
         "id": "epilogue_faction_robofac_150",
-        "text": "       Melchior's enlightened leadership, combined with practical skills provided by mercenary survivors, allowed Hub-01 to flourish briefly.  It became a mecca for advanced technology, selling off devices and equipment that could no longer be reproduced.  Despite this, Hub-01 was never able to expand sufficiently to renew its own population, nor was it able to unite with any other prosperous community, nor could enough trustworthy mercenaries (or staff) be recruited to replace those who died in its defense.  Hub-01 fell into disrepair and ruin.  After the air processing facility was overtaken by mold, the remaining staff of Hub-01 fled the building and were killed by zombies and bandits.  Melchior's drones - possibly by design - were incapable of maintaining themselves without human hands, and stopped working a few months later.  Without regular maintenance, Melchior's own systems also fell to ruin, and less than a decade after the Cataclysm, humanity's first AI powered down and was forgotten."
+        "text": "    Melchior's enlightened leadership, combined with practical skills provided by mercenary survivors, allowed Hub-01 to flourish briefly.  It became a mecca for advanced technology, selling off devices and equipment that could no longer be reproduced.  Despite this, Hub-01 was never able to expand sufficiently to renew its own population, nor was it able to unite with any other prosperous community, nor could enough trustworthy mercenaries (or staff) be recruited to replace those who died in its defense.  Hub-01 fell into disrepair and ruin.  After the air processing facility was overtaken by mold, the remaining staff of Hub-01 fled the building and were killed by zombies and bandits.  Melchior's drones - possibly by design - were incapable of maintaining themselves without human hands, and stopped working a few months later.  Without regular maintenance, Melchior's own systems also fell to ruin, and less than a decade after the Cataclysm, humanity's first AI powered down and was forgotten."
+      },
+      {
+        "id": "epilogue_faction_robofac_thrive",
+        "text": "    Melchior's enlightened leadership, backed-up with the muscle of numerous mercenary survivors, allowed Hub-01 to flourish on its' own for a time. However, while the staff of Hub-01 preferred to ignore the people of the region, the looming shortages of advanced resources and personnel forced them to begin opening up to their neighbors for help. Fortunately, the knowledge and resources they were able to source from the Exodii, and the influx of fresh recruits from organizations like the Great Library, ensured that the Hub would continue to thrive for the foreseeable future. While the researchers of the Hub would restrain themselves (or be restrained by Melchior) from engaging in the worst excesses of XEDRA, they continued to explore new ways to survive, and perhaps one day even overcome, the horrors besieging the Earth. Bionics and mutagens, reality anchors and molecular printing, the future was truly in their hands."
+      },
+      {
+        "id": "epilogue_faction_robofac_OG",
+        "text": "    While still technically being employees (or property, in Melchior's case) of the federal government, the staff of Hub-01 were initially very reluctant to have anything to do with the Old Guard. However, the connections and resources of the Old Guard gave them significant leverage in negotiations between the two factions. After much debate, Hub-01 would eventually vote to rejoin the government in exchange for its' support of the Hub's research, as well as for the legal recognition of Melchior as a fully sentient citizen."
       },
       {
         "id": "epilogue_faction_isherwoods_0",
@@ -74,6 +106,14 @@
       {
         "id": "epilogue_faction_isherwoods_150",
         "text": "    The generational land of the Isherwoods came to flourish following <the_cataclysm>, helping to feed nearby settlements.  Survivors flocked to learn botany, animal handling, and backwoods remedies, eventually forming a small community…"
+      },
+      {
+        "id": "epilogue_faction_isherwoods_OG_FM",
+        "text": "    After they shot an Old Guard envoy to the farm, a bounty was placed on the Isherwood family. With the Isherwoods forced from their home, the farm was quickly purchased by the Free Merchants and converted into a very profitable plantation…"
+      },
+      {
+        "id": "epilogue_faction_isherwoods_OG",
+        "text": "    After they shot an Old Guard envoy to the farm, a bounty was placed on the Isherwood family. After the father pleaded guilty to killing the man, the remaining Isherwoods were allowed to return to their farm, albeit with planners from Tacoma looking to oversee a future settlement…"
       },
       {
         "id": "epilogue_faction_lapin_0",

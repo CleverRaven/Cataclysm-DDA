@@ -3632,7 +3632,8 @@ void game::display_faction_epilogues()
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             const std::vector<std::string> epilogue = elem.second.epilogue();
-            if( !epilogue.empty() ) {
+            const std::vector<std::string> dynamic = elem.second.dynamic();
+            if( !epilogue.empty() && dynamic.empty() ) {
                 const auto new_win = []() {
                     return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                                point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
@@ -3643,6 +3644,15 @@ void game::display_faction_epilogues()
                 []( std::string lhs, const std::string & rhs ) -> std::string {
                     return std::move( lhs ) + "\n" + rhs;
                 } ) );
+            } else if ( !dynamic.empty() && elem.second.power >= 150 ) {
+                for ( std::string fac : dynamic ) {
+                    const auto new_win = []() {
+                        return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                            point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
+                                std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2) ) );
+                    };
+                    scrollable_text( new_win, elem.second.name, fac + "\n" );
+                }
             }
         }
     }
