@@ -160,7 +160,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "needlegun",
     "needlepistol",
     "rm298",
-    "taurus_judge",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
@@ -244,6 +243,7 @@ BAD_IDENTIFIERS = [
     ".40",
     ".44",
     ".45",
+    ".45/410",
     ".500",
     "5x50mm",
     "5.7mm",
