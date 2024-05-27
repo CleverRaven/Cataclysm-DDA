@@ -2081,7 +2081,15 @@
   {
     "type": "item_group",
     "id": "shoestore_accessories",
-    "items": [ [ "socks", 100 ], [ "socks_ankle", 75 ], [ "toesocks", 55 ], [ "thermal_socks", 25 ], [ "splitsocks", 20 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
+    "items": [
+      [ "socks", 100 ],
+      [ "socks_ankle", 75 ],
+      [ "toesocks", 55 ],
+      [ "thermal_socks", 25 ],
+      [ "splitsocks", 20 ],
+      [ "socks_wool", 50 ],
+      [ "string_36", 200 ]
+    ]
   },
   {
     "type": "item_group",
