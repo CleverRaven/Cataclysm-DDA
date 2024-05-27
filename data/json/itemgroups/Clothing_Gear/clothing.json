@@ -924,6 +924,7 @@
       { "group": "clothing_outdoor_torso" },
       { "group": "clothing_outdoor_pants" },
       { "item": "socks" },
+      { "item": "toesocks" },
       { "item": "boots" }
     ]
   },
@@ -1619,6 +1620,7 @@
       [ "snuggie", 5 ],
       [ "flyer", 10 ],
       [ "socks", 70 ],
+      [ "toesocks", 35 ],
       [ "socks_ankle", 50 ],
       [ "socks_wool", 30 ],
       [ "pocketwatch", 5 ],
@@ -2078,7 +2080,7 @@
   {
     "type": "item_group",
     "id": "shoestore_accessories",
-    "items": [ [ "socks", 100 ], [ "socks_ankle", 75 ], [ "thermal_socks", 25 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
+    "items": [ [ "socks", 100 ], [ "socks_ankle", 75 ], [ "toesocks", 55 ], [ "thermal_socks", 25 ], [ "socks_wool", 50 ], [ "string_36", 200 ] ]
   },
   {
     "type": "item_group",
@@ -3702,6 +3704,7 @@
       [ "bra", 25 ],
       [ "socks", 45 ],
       [ "socks_ankle", 30 ],
+      [ "toesocks", 25 ],
       [ "stockings", 20 ],
       [ "hat_cotton", 35 ],
       [ "copper_bracelet", 10 ],
@@ -3819,6 +3822,7 @@
     "items": [
       { "item": "socks", "prob": 70 },
       { "item": "socks_ankle", "prob": 50 },
+      { "item": "toesocks", "prob": 30 },
       { "item": "socks_wool", "prob": 30 },
       { "item": "thermal_socks", "prob": 10 }
     ]
