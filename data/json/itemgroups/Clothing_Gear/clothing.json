@@ -956,7 +956,7 @@
       [ "geta", 1 ],
       [ "haori", 1 ],
       [ "yukata", 1 ],
-      { "item": "toesocks", "variant": "splitsocks", "prob": 1 },
+      { "item": "toesocks", "variant": "splitsocks", "prob": 1 }
     ]
   },
   {
