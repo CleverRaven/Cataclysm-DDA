@@ -68,12 +68,44 @@ Supernatural: 40 (late game threat; skeletal juggernaut, hound of Tindalos )
 Maximum armor: 80 (highest for balance purposes; melded task force's fire armor )
 
 
+# Monster melee dice size scaling:
+Minimum damage: 1 (lowest damage; brown chick )
+
+Weak damage: 2 (low damage; black cat, decayed zombie )
+
+Standard damage: 3 (standard day one threat; zombie, giant fly, wolf, Atlantic cod )
+
+Higher damage: 4 (higher day one threat; blank body, zombie predator )
+
+High damage: 6 (highest day one threat; feral human, mi-go )
+
+Superhuman damage: 8 (deadly endgame threat; hulk, wild boar, Exodii quadruped )
+
+Maximum dice size for balance purposes: 12 (hardest possible hitter; dire wolf )
+
+This is how hard the monster hits.
+
+
+# Monster melee dice number scaling:
+Minimum dice: 1 (predictable damage; black cat, Atlantic cod, blank body, feral human)
+
+Standard dice: 2 (minimal variation; zombie, giant wasp, wolf)
+
+Higher risk: 3 (higher day one threat; dissoluted devourer, tough zombie )
+
+High risk: 4 (dangerous threat; hulk, zombie predator, mi-go)
+
+Maximum dice for balance purposes: 9 (highest for balance purposes; melded task force)
+
+Essentially this is how explosive the damage can be, with high numbers of dice allowing dangerous peaks.
+
+
 # Monster maximum damage scaling:
 Minimum damage: 0 (no damage potential; spore cloud, hallucination)
 
 Nominal damage: 4 (minimal threat; decayed zombie, blank body, cat)
 
-Average damage: 6 (normal day one threat; zombie, wasp)
+Average damage: 6 (normal day one threat; zombie, giant wasp)
 
 High damage: 10 (dangerous day one threat; tough zombie, wolf, zombie scientist)
 
@@ -125,8 +157,6 @@ Maximum danger: 300 (highest for balance purposes; triffid heart, melded task fo
 
 
 # Monster vision scaling:
-Note vision is not necessarily limited to eyesight. We have monsters with literally no eyes that can detect creatures within a couple of spaces.
-
 Minimum: 0 (blind and unable to sense presence nearby; brainless zombie night vision)
 
 Minimal vision: 1-2 (default night vision; graboid night vision, kreck night vision, triffid night vision, brainless zombie day vision)
@@ -140,6 +170,9 @@ Normal vision : 40 (default day vision; zombie, feral, mi-go, black bear, Atlant
 Very strong vision: 50 (supernatural or specialized; hound of Tindalos, mi-go, kreck, zombie master, turkey, A Shadow? )
 
 Maximum vision: 60 (highest for balance purposes; spasming lump; flesh wall )
+
+Vision is not necessarily limited to eyesight. We have monsters with literally no eyes that can detect creatures within a couple of spaces.
+
 
 
 # Dodge System assumptions:
