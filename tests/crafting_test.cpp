@@ -840,7 +840,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.insert( tools.end(), 2, item( "polycarbonate_sheet" ) );
+        tools.insert( tools.end(), 4, item( "polycarbonate_sheet" ) );
         tools.insert( tools.end(), 1, item( "knife_paring" ) );
         tools.emplace_back( "motor_micro" );
         tools.emplace_back( "power_supply" );
