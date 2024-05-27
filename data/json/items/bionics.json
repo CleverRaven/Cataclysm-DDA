@@ -1018,6 +1018,28 @@
     "difficulty": 6
   },
   {
+    "id": "bio_multimeter",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated Multimeter CBM" },
+    "looks_like": "bio_tools",
+    "description": "A set of electrical leads to be embedded in the user's fingers, connected to a multimeter unit in their hand.  Allows the user to measure voltage, resistance, and current using their fingertips, and provides slight protection against electric shocks.",
+    "price": "2 kUSD",
+    "price_postapoc": "20 USD",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_electrokit",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated Circuitry Toolset CBM" },
+    "looks_like": "bio_tools",
+    "description": "A soldering iron, multimeter, and set of fine screwdrivers implanted in the user's hands.  Contains all the tools required for manipulating bench-scale electrical circuits, and provides slight protection against electric shocks.",
+    "price": "4 kUSD",
+    "price_postapoc": "35 USD",
+    "difficulty": 5
+  },
+  {
     "id": "bio_torsionratchet",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",

@@ -13,7 +13,7 @@
   {
     "id": "ammo_38spc",
     "type": "requirement",
-    "//": "Components required for 308 ammo",
+    "//": "Components required for 38 ammo",
     "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {

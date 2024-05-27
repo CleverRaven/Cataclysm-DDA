@@ -1,6 +1,19 @@
 [
   {
     "type": "ter_furn_transform",
+    "//": "Used for unlocking all hackable furniture in the mod.",
+    "id": "afs_multi_unlock",
+    "furniture": [
+      {
+        "result": "f_intermodal_crate_open",
+        "valid_furniture": [ "f_sealed_intermodal_crate" ],
+        "message": "The shipping crate bolts slide back and the lid pops open.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "transform_gratings",
     "terrain": [
       {
