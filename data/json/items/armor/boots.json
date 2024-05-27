@@ -2707,15 +2707,23 @@
     "id": "toesocks",
     "type": "ARMOR",
     "name": { "str": "pair of toe socks", "str_pl": "pairs of toe socks" },
-    "description": "A pair of comfortable socks that separate the toes: They have separate toe sleeves that accommodate one's natural foot shape and anatomy.",
-    "copy-from": "socks"
-  },
-  {
-    "id": "splitsocks",
-    "type": "ARMOR",
-    "name": { "str": "pair of split toe socks", "str_pl": "pairs of split toe socks" },
-    "description": "A pair of comfortable socks that separate the big toe from the remaining toes of the foot. They are perfect to be wore with geta, tabi, gi tabi or even flip-flops.",
-    "copy-from": "socks"
+    "description": "This is the base item for simple but different socks. It is a error if these spawn.",
+    "copy-from": "socks",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toesocks1",
+        "name": { "str": "pair of toe socks", "str_pl": "pairs of split-toe socks" },
+        "description": "A pair of comfortable socks that separate the toes: They have separate toe sleeves that accommodate one's natural foot shape and anatomy.",
+        "weight": 50
+      },
+      {
+        "id": "splitsocks",
+        "name": { "str": "pair of split toe socks", "str_pl": "pairs of split toe socks" },
+        "description": "A pair of comfortable socks that separate the big toe from the remaining toes of the foot. They are perfect to be wore with geta, tabi, gi tabi or even flip-flops.",
+        "weight": 15
+      }
+    ]
   },
   {
     "id": "xlsocks",
