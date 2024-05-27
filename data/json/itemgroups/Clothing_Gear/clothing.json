@@ -3825,6 +3825,7 @@
       { "item": "socks", "prob": 70 },
       { "item": "socks_ankle", "prob": 50 },
       { "item": "toesocks", "prob": 30 },
+      { "item": "splitsocks", "prob": 15 },
       { "item": "socks_wool", "prob": 30 },
       { "item": "thermal_socks", "prob": 10 }
     ]
