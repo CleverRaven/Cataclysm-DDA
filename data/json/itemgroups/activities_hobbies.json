@@ -24,6 +24,8 @@
       [ "sneakers", 80 ],
       [ "socks", 50 ],
       [ "socks_ankle", 70 ],
+      [ "toesocks", 30 ],
+      [ "splitsocks", 1 ],
       [ "stockings", 20 ],
       [ "tshirt", 80 ],
       [ "tshirt_cropped", 8 ],
