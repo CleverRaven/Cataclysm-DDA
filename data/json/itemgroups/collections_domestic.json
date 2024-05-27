@@ -1067,6 +1067,7 @@
       { "item": "collarpin", "prob": 3 },
       { "item": "socks", "prob": 70 },
       { "item": "socks_ankle", "prob": 50 },
+      { "item": "toesocks", "prob": 30 },
       { "item": "briefcase", "prob": 5 },
       { "item": "mocassins", "prob": 5 },
       { "item": "boots_western", "prob": 4 },
