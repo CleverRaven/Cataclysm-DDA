@@ -219,6 +219,7 @@
       { "item": "towel" },
       { "item": "boots_combat" },
       { "item": "socks", "count": 3 },
+      { "item": "toesocks", "count": 3 },
       { "item": "gloves_tactical" },
       { "item": "light_plus_battery_cell", "charges": 150 },
       { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
