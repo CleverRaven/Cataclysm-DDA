@@ -872,7 +872,7 @@
     "autolearn": true,
     "batch_time_factors": [ 90, 4 ],
     "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ] ],
     "using": [ [ "sugar_standard", 1 ] ]
   },
   {
