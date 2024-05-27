@@ -955,7 +955,8 @@
       [ "obi_gi", 10 ],
       [ "geta", 1 ],
       [ "haori", 1 ],
-      [ "yukata", 1 ]
+      [ "yukata", 1 ],
+      { "item": "toesocks", "variant": "splitsocks", "prob": 1 },
     ]
   },
   {
@@ -1621,7 +1622,6 @@
       [ "flyer", 10 ],
       [ "socks", 70 ],
       [ "toesocks", 35 ],
-      [ "splitsocks", 15 ],
       [ "socks_ankle", 50 ],
       [ "socks_wool", 30 ],
       [ "pocketwatch", 5 ],
@@ -3714,7 +3714,6 @@
       [ "socks", 45 ],
       [ "socks_ankle", 30 ],
       [ "toesocks", 25 ],
-      [ "splitsocks", 15 ],
       [ "stockings", 20 ],
       [ "hat_cotton", 35 ],
       [ "copper_bracelet", 10 ],
@@ -3833,7 +3832,6 @@
       { "item": "socks", "prob": 70 },
       { "item": "socks_ankle", "prob": 50 },
       { "item": "toesocks", "prob": 30 },
-      { "item": "splitsocks", "prob": 15 },
       { "item": "socks_wool", "prob": 30 },
       { "item": "thermal_socks", "prob": 10 }
     ]
