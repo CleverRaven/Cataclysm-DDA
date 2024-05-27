@@ -124,6 +124,22 @@ Very high difficulty: ~100 (supernaturally dangerous; zombie hulk, shoggoth, wra
 Maximum danger: 300 (highest for balance purposes; triffid heart, melded task force)
 
 
+# Monster Vision scaling:
+Minimum: 0 (blind; yellow chick, fly, goose)
+
+Minimal vision:1 (average night vision; most basic zeds, slimes, soldier ants)
+
+Very poor vision: 3 (zombie night vision, feral night vision, zombear, albino penguin, giant wasp, missile spider)
+
+Poor vision: 20 (cat night vision, 
+
+Normal vision : 40 (average day vision; zombie master, mi-go, antlered hammer, M202A1 autonomous TALON UGV, mad militia, mi-go slaver, alpha bee)
+
+Very strong vision: 50 (supernatural or specialized; hound of Tindalos, shoggoth, wraith, jabberwock, skeletal juggernaut, fused dragonflies, mi-go guard)
+
+Maximum vision: 70 (highest for balance purposes; triffid heart, melded task force)
+
+
 # Dodge System assumptions:
 Dodge chance is based on attacker's melee skill and target's dex stat and dodge skill.
 
