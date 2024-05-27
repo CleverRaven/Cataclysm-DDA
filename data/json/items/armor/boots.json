@@ -2707,7 +2707,7 @@
     "id": "toesocks",
     "type": "ARMOR",
     "name": { "str": "pair of toe socks", "str_pl": "pairs of toe socks" },
-    "description": "A pair of comfortable socks that separate the toes: They have separate toe sleeves that work with the natural shape of your foot and your foot's anatomy",
+    "description": "A pair of comfortable socks that separate the toes: They have separate toe sleeves that accommodate one's natural foot shape and anatomy.",
     "copy-from": "socks"
   },
   {
