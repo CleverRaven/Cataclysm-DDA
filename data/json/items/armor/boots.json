@@ -2704,6 +2704,13 @@
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
+    "id": "toesocks",
+    "type": "ARMOR",
+    "name": { "str": "pair of toe socks", "str_pl": "pairs of toe socks" },
+    "description": "A pair of comfortable socks that separate the toes: They have separate toe sleeves that work with the natural shape of your foot and your foot's anatomy.",
+    "copy-from": "socks"
+  },
+  {
     "id": "xlsocks",
     "type": "ARMOR",
     "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
