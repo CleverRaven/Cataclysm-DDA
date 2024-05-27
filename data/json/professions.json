@@ -1767,7 +1767,7 @@
       "both": {
         "entries": [
           { "item": "combat_shirt" },
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_helmet_nvg" },
           { "item": "mask_ski" },
           { "item": "gloves_liner" },
           { "item": "gloves_tactical" },
@@ -1781,7 +1781,6 @@
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "grenade" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "goggles_nv" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "knife_rm42", "container-item": "sheath" },
@@ -1835,7 +1834,7 @@
           { "item": "wetsuit" },
           { "item": "pants_army" },
           { "item": "wetsuit_hood" },
-          { "item": "tac_helmet" },
+          { "group": "tac_helmet_nvg" },
           { "item": "wetsuit_gloves" },
           { "item": "gloves_tactical" },
           { "item": "socks" },

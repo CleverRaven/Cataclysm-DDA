@@ -292,7 +292,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
     "spawns": { "group": "GROUP_OGRE", "population": [ 1, 10 ], "radius": [ 1, 6 ] },
-    "flags": [ "WILDERNESS", "RISK_HIGH" ]
+    "flags": [ "WILDERNESS", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_special",

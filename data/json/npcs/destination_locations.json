@@ -116,6 +116,11 @@
   },
   {
     "type": "overmap_location",
+    "id": "risk_extreme",
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "risk_high",
     "flags": [ "RISK_HIGH" ]
   },

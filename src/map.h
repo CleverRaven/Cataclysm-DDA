@@ -1800,6 +1800,7 @@ class map
         // Camps
         void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
+        void remove_submap_camp( const tripoint_bub_ms & );
         basecamp hoist_submap_camp( const tripoint &p );
         bool point_within_camp( const tripoint &point_check ) const;
         // Graffiti
@@ -1966,10 +1967,9 @@ class map
          * Inverse of @ref getabs
          */
         // TODO: Get rid of these and use bub_from_abs instead
-        tripoint getlocal( const tripoint &p ) const;
         tripoint getlocal( const tripoint_abs_ms &p ) const;
         point getlocal( const point &p ) const {
-            return getlocal( tripoint( p, abs_sub.z() ) ).xy();
+            return getlocal( tripoint_abs_ms( point_abs_ms( p ), abs_sub.z() ) ).xy();
         }
         // TODO: fix point types (remove the first overload)
         tripoint_bub_ms bub_from_abs( const tripoint &p ) const;
@@ -2182,7 +2182,9 @@ class map
         inline const submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) const {
             return unsafe_get_submap_at( p.raw() );
         }
+        // TODO: Get rid of untyped overload
         submap *get_submap_at( const tripoint &p );
+        submap *get_submap_at( const tripoint_bub_ms &p );
         const submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) {
             return get_submap_at( tripoint( p, abs_sub.z() ) );
@@ -2219,9 +2221,15 @@ class map
             offset_p = point_sm_ms( l );
             return unsafe_get_submap_at( p );
         }
+        // TODO: Get rid of untyped overload
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
             offset_p.x = p.x % SEEX;
             offset_p.y = p.y % SEEY;
+            return get_submap_at( p );
+        }
+        submap *get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
+            offset_p.x() = p.x() % SEEX;
+            offset_p.y() = p.y() % SEEY;
             return get_submap_at( p );
         }
         const submap *get_submap_at( const tripoint &p, point &offset_p ) const {
@@ -2758,7 +2766,7 @@ class tinymap : private map
             map::collapse_at( tripoint_bub_ms( p ), silent, was_supporting, destroy_pos );
         }
         tripoint getlocal( const tripoint &p ) const {
-            return map::getlocal( p );    // TODO: Make it typed
+            return map::getlocal( tripoint_abs_ms( p ) );  // TODO: Make it typed
         }
         tripoint_abs_sm get_abs_sub() const {
             return map::get_abs_sub();    // TODO: Convert to tripoint_abs_omt

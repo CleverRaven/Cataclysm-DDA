@@ -496,25 +496,25 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "//": "Name changed to match the non-branded version. Also changed to the SIG 553, as the 552 is discontinued and the 553 is still in production and is identical to the 552.",
+    "//": "Changed from SG 553, which itself was originally the Sig 550, to the civilian legal copy",
     "id": "sig_assault_rifle",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "SIG assault rifle" },
-    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
-    "weight": "3200 g",
-    "volume": "2950 ml",
-    "longest_side": "741 mm",
-    "barrel_length": "348 mm",
+    "name": { "str": "SIG civilian rifle" },
+    "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
+    "weight": "4100 g",
+    "volume": "3146 ml",
+    "longest_side": "1020 mm",
+    "barrel_length": "406 mm",
     "price": "3 kUSD 200 USD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sig553",
-        "name": { "str": "SIG 553" },
-        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock."
+        "name": { "str": "SIG SG 556" },
+        "description": "The SG 556 is a civilian model of the Swiss SIG SG 550 series, manufactured in New Hampshire.  It lacks any automatic fire capability and has a 16 inch barrel, but still retains a folding stock, with the feature of feeding from STANAG magazines instead of the SG 550 series magazines."
       }
     ],
     "to_hit": -1,
@@ -523,7 +523,7 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
       {

@@ -1822,6 +1822,7 @@
         [ "welder_crude", 97 ],
         [ "soldering_iron", 97 ],
         [ "soldering_iron_portable", 97 ],
+        [ "integrated_electrokit", 97 ],
         [ "integrated_welder", 97 ]
       ],
       [ [ "swage", -1 ] ],
@@ -1851,6 +1852,7 @@
         [ "welder_crude", 72 ],
         [ "soldering_iron", 72 ],
         [ "soldering_iron_portable", 72 ],
+        [ "integrated_electrokit", 72 ],
         [ "integrated_welder", 72 ]
       ],
       [ [ "swage", -1 ] ],
@@ -1880,6 +1882,7 @@
         [ "welder_crude", 109 ],
         [ "soldering_iron", 109 ],
         [ "soldering_iron_portable", 109 ],
+        [ "integrated_electrokit", 109 ],
         [ "integrated_welder", 109 ]
       ],
       [ [ "swage", -1 ] ],
