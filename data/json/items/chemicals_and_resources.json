@@ -363,6 +363,14 @@
     "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
     "charges": 1
   },
+    {
+    "type": "COMESTIBLE",
+    "id": "fermentable_fish_mixture",
+    "name": { "str_sp": "fermentable fish mixture" },
+    "description": "A mixture of fish, sugars, and water.  Wait about two months for them to be fermented in an open tank.",
+    "copy-from": "fermentable_liquid_mixture",
+    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1 } }
+  },
   {
     "type": "COMESTIBLE",
     "id": "fermented_fertilizer_liquid",
