@@ -866,14 +866,13 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "survival",
-    "difficulty": 1,
+    "difficulty": 2,
     "time": "2 m",
     "charges": 3,
     "autolearn": true,
     "batch_time_factors": [ 90, 4 ],
     "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
-    "tools": [ [ "fake_digester_tank" ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ "fish", 5 ], [ "fish_scrap", 75 ] ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ],
     "using": [ [ "sugar_standard", 1 ] ]
   },
   {
