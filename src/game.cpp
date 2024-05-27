@@ -3627,9 +3627,9 @@ void game::disp_NPC_epilogues()
     }
 }
 
-bool game::verify_dynamic_power( std::string &dyn )
+bool game::verify_dynamic_power( std::string dyn )
 {
-    for( int i = 0; i < dyn.length(); i++ ) {
+    for( std::string::size_type i = 0; i < dyn.size(); i++ ) {
         if( i == 0 ) {
             if( dyn[i] == '1' ) {
                 if( faction_manager_ptr->get( faction_id( "old_guard" ) )->power < 150 ) {

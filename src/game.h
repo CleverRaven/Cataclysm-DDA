@@ -1051,7 +1051,7 @@ class game
 
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
         bool verify_dynamic_power( std::string
-                                   &dyn ); //Checks to make sure the faction power requirements are met for dynamic endings
+                                   dyn ); //Checks to make sure the faction power requirements are met for dynamic endings
     private:
         // Input related
         // Handles box showing items under mouse
