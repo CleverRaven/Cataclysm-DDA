@@ -258,6 +258,18 @@
       [ "silver_locket", 1 ],
       [ "gold_locket", 1 ],
       [ "platinum_locket", 1 ],
+      [ "gold_anklet", 1 ],
+      [ "silver_anklet", 2 ],
+      [ "gold_lip_ring_loop", 1 ],
+      [ "gold_lip_ring_stud", 1 ],
+      [ "silver_lip_ring_loop", 2 ],
+      [ "silver_lip_ring_stud", 2 ],
+      [ "gold_nose_ring_loop", 1 ],
+      [ "gold_nose_ring_stud", 1 ],
+      [ "silver_nose_ring_loop", 2 ],
+      [ "silver_nose_ring_stud", 2 ],
+      [ "gold_toe_ring", 1 ],
+      [ "silver_toe_ring", 2 ],
       { "group": "mags_pawnshop", "prob": 300 }
     ]
   },
@@ -631,6 +643,9 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
+      [ "bat_anklet", 1 ],
+      [ "flower_anklet", 1 ],
+      [ "woven_anklet", 1 ],
       { "group": "tinware", "prob": 10 },
       { "group": "pens", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 }
