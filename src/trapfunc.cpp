@@ -733,7 +733,8 @@ bool trapfunc::snare_species( const tripoint &p, Creature *critter, item * )
             add_msg( m_warning, _( "Your %1$s is caught by a %2$s!" ), critter->get_name(), laid_trap.name() );
         }
         if( !critter->is_avatar() ) {
-            add_msg_if_player_sees( p, _( "%1$s is caught by a %2$s!" ), critter->get_name(), laid_trap.name() );
+            add_msg_if_player_sees( p, _( "%1$s is caught by a %2$s!" ), critter->get_name(),
+                                    laid_trap.name() );
         }
         // Actual effects
         critter->add_effect( effect_immobilization, 10_turns, hit );
