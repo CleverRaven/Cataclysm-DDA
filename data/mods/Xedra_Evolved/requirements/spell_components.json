@@ -126,7 +126,7 @@
   {
     "id": "spell_components_hedge_changeling_snare",
     "type": "requirement",
-    "components": [ [ [ "yarn", 10 ] ], [ [ "splinter", 3 ], [ "blackberries", 1 ] ], [ [ "wild_herbs", 20 ] ] ]
+    "components": [ [ [ "yarn", 10 ] ], [ [ "splinter", 3 ] ], [ [ "blackberries", 1 ] ], [ [ "wild_herbs", 20 ] ] ]
   },
   {
     "id": "spell_components_hedge_stunning_spell",
