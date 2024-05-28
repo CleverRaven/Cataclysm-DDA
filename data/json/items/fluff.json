@@ -1535,12 +1535,23 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "leather-cover notebook" },
-    "description": "A leather-cover notebook, perfect for writing or drawing stuff with some real vintage style.",
+    "description": "A professional-looking, leather-cover notebook, perfect for writing or drawing stuff with some real vintage style. It has a special pocket for holding a pen or pencil inside it.",
     "weight": "8 g",
     "volume": "2 ml",
     "price": "3 USD 50 cent",
     "price_postapoc": "1 cent",
     "material": [ "leather", "paper" ],
+    "pocket_data": [
+      {
+        "moves": 30,
+        "max_contains_volume": "40 ml",
+        "max_contains_weight": "9 g",
+        "max_item_length": "13 cm",
+        "holster": false,
+        "item_restriction": [ "pen" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ],
     "symbol": "H",
     "color": "blue"
   },
