@@ -4441,7 +4441,7 @@ std::string unload_selector::hint_string()
 {
     std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Contain mode(<color_yellow>%s</color>)" ),
+               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
                ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
 }
 

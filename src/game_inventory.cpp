@@ -502,9 +502,9 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
         const item *const avoid )
 {
     return inv_internal( you, liquid_inventory_selector_preset( liquid, avoid ),
-                         string_format( _( "Container for %s | %s %s" ), liquid.display_name( liquid.charges ),
+                         string_format( _( "Pour %s | %s %s into" ), liquid.display_name( liquid.charges ),
                                         format_volume( liquid.volume() ), volume_units_abbr() ), radius,
-                         string_format( _( "You don't have a suitable container for carrying %s." ),
+                         string_format( _( "You don't have a suitable container to pour %s into." ),
                                         liquid.tname() ) );
 }
 
