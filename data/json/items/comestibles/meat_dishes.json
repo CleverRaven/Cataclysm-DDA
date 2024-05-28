@@ -2009,7 +2009,7 @@
     "name": { "str_sp": "scrapple" },
     "symbol": "%",
     "looks_like": "offal_cooked",
-    "description": "A dry mush of meat scraps and grain, sliced and pan-fried; better than it sounds and looks. A staple food of the Mid-Atlantic United States.",
+    "description": "A dry mush of meat scraps and grain, sliced and pan-fried; better than it sounds and looks.  A staple food of the Mid-Atlantic United States.",
     "price_postapoc": "40 cent",
     "material": [ "flesh", "wheat" ],
     "primary_material": "flesh",
