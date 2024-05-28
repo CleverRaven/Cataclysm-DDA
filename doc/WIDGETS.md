@@ -1019,7 +1019,7 @@ Many vars are numeric in nature. These may use style "number" or style "graph". 
 |--                 |--
 | `cardio_acc`      | Cardio accumulator, integer
 | `cardio_fit`      | Cardio fitness, integer near BMR
-| `fatigue`         | tiredness, 0-600+
+| `sleepiness`         | tiredness, 0-600+
 | `focus`           | focus level, 0-100+
 | `health`          | Current hidden health value, -200 to +200
 | `mana`            | available mana, 0-MAX_MANA
@@ -1140,7 +1140,7 @@ Text widget ids typically have a `_desc` suffix.
 | `activity_desc`        | `Activity: Moderate`
 | `date_desc`            | `Date: Summer day 25`
 | `env_temp_desc`        | `Temperature: 65F`
-| `fatigue_desc`         | `Rest: Tired`
+| `sleepiness_desc`         | `Rest: Tired`
 | `health_desc`          | `Health: Good`
 | `hunger_desc`          | `Hunger: Satisfied`
 | `lighting_desc`        | `Lighting: Bright`
@@ -1177,7 +1177,7 @@ This table gives some examples of single-line "columns" layouts:
 | `hitpoints_legs_layout` | `L LEG: \|\|\|\|\|  R LEG: \|\|\|\|\|`
 | `mood_focus_layout` | `Mood: :-)  Focus: 100`
 | `safe_sound_layout` | `Safe: Off  Sound:  15`
-| `sound_fatigue_focus_layout` | `Sound:  15  Fatigue: Fresh  Focus: 100`
+| `sound_sleepiness_focus_layout` | `Sound:  15  Fatigue: Fresh  Focus: 100`
 | `sound_focus_layout` | `Sound:  15  Focus: 100`
 | `stats_layout` | `Str: 9  Dex: 8  Int: 10  Per: 7`
 

@@ -95,11 +95,8 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "rm614_lmg",
     "rm88_battle_rifle",
     "bigun",
-    "sw629",
-    "sw_500",
     "m2browning",
     "american_180",
-    "ruger_lcr_22",
     "sig_mosquito",
     "fn_p90",
     "p50",
@@ -115,30 +112,19 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "rfb_308",
     "steyr_scout",
     "tac338",
-    "obrez",
     "smg_45",
     "hptjhp",
     "cx4",
     "hk_mp5_semi_pistol",
     "hk_g3",
     "briefcase_smg",
-    "mp18",
-    "mauser_c96",
     "mauser_m714",
     "ksub2000",
     "smg_9mm",
     "colt_ro635",
     "arx160",
-    "sks",
     "draco",
     "mk47",
-    "mosin44",
-    "mosin91_30",
-    "model_10_revolver",
-    "mr73",
-    "ruger_lcr_38",
-    "sw_619",
-    "m1903",
     "m1918",
     "m249",
     "m249_semi",
@@ -146,21 +132,13 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "minidraco556",
     "mdrx",
     "sapra",
-    "raging_bull",
-    "raging_judge",
-    "type99",
-    "type99_sniper",
     "m202_flash",
-    "sw_610",
     "STI_DS_10",
     "kord",
     "hpt3895",
     "m2carbine",
     "smg_40",
     "rm228",
-    "needlegun",
-    "needlepistol",
-    "rm298",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
@@ -202,7 +180,6 @@ NAME_CHECK_BLACKLIST = {
     "famas",
     "fs2000",
     "scar_l",
-    "m231pfw",
     "brogyaga",
     "raging_bull",
     "raging_judge",
@@ -733,14 +710,6 @@ def find_identifiers(all_guns):
                           (mag, gun["id"]))
                 continue
             mags.append(mag)
-        # A gun may/may not have speedloaders, which we treat like mags
-        for mag in gun["speedloaders"] if "speedloaders" in gun else []:
-            if mag not in all_jos:
-                if VERBOSE:
-                    print("\tnot checking speedloader %s for %s" %
-                          (mag, gun["id"]))
-                continue
-            mags.append(mag)
         # Add all the magazine names in
         for mag in mags:
             name = name_of(all_jos[mag])
@@ -821,6 +790,20 @@ def check_combination(all_guns):
     return len(similar_guns) > 0
 
 
+def string_listify(strings, separator):
+    count = len(strings)
+    if count == 0:
+        return ""
+    elif count == 1:
+        return strings[0]
+
+    ret = ""
+    for i in range(count - 1):
+        ret += strings[i] + separator
+    ret += strings[count - 1]
+    return ret
+
+
 def check_identifiers(all_guns):
     if not args_dict["identifier"]:
         return False
@@ -832,12 +815,24 @@ def check_identifiers(all_guns):
             print_identifier_info(good[2], good[0], good[1])
     else:
         for bad in bad_tokens:
-            print_identifier_info("ERROR: No identifier:", bad[0], bad[1])
+            error_str = "This gun and it's magazines lack a shared identifier:"
+            print_identifier_info(f"ERROR: {error_str}", bad[0], bad[1])
         if VERBOSE:
-            good_token_list = ""
+            good_token_list = {}
             for good in good_tokens:
-                good_token_list += good[2] + " (" + good[0]["id"] + "), "
-            print("Valid Identifiers: " + good_token_list)
+                if good[2] in good_token_list:
+                    good_token_list[good[2]].append(good[0]["id"])
+                else:
+                    good_token_list[good[2]] = [good[0]["id"]]
+            # make sense: are real words (or gun names (: ), when they apply to
+            # multiple guns, those guns all take the same mags, etc
+            print("The following valid identifiers were found.",
+                  "Please check to ensure they make sense.")
+            good_tokens = []
+            for token in good_token_list:
+                guns_str = string_listify(good_token_list[token], " ")
+                good_tokens.append(f"{token} ({guns_str})")
+            print(string_listify(good_tokens, ", "))
 
     return len(bad_tokens) > 0
 

@@ -23,6 +23,7 @@
       "practice_clair_see_map",
       "practice_clair_perfect_shot",
       "practice_clair_clear_sight",
+      "practice_clair_astral_projection",
       "practice_clair_group_tactics",
       "practice_clair_omniscience"
     ],
@@ -41,17 +42,26 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
         "condition": { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -70,17 +80,26 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
         "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -150,17 +169,26 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
         "condition": { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -179,17 +207,26 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
         "condition": { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_spot_weakness')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -259,17 +296,26 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
         "condition": { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_sense_rads')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -288,17 +334,26 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
         "condition": { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -368,18 +423,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
         "condition": { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -449,18 +513,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
         "condition": { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_voyance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -530,18 +603,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
         "condition": { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -611,18 +693,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
         "condition": { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -692,18 +783,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
         "condition": { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_see_map')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -773,18 +873,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
         "condition": { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_perfect_shot')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -854,18 +963,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
         "condition": { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -925,6 +1043,93 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: astral projection",
+    "id": "practice_clair_astral_projection",
+    "description": "Contemplate your powers and improve your ability to cast your spirit forth from your body.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 7,
+    "time": "30 m",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
+    "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION",
+        "condition": { "math": [ "u_spell_level('clair_astral_projection')", ">=", "1" ] },
+        "effect": [
+          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          { "math": [ "u_spell_exp('clair_astral_projection')", "+=", "(contemplation_factor(1))" ] },
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": [
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION_LEARNING_2",
+            "condition": {
+              "and": [
+                {
+                  "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_clairsentience')" ] },
+                  "difficulty": 12
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Astral Projection power.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('clair_astral_projection')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: prescient tactics",
     "id": "practice_clair_group_tactics",
     "description": "Contemplate your powers and improve your ability to use foresight to advise your allies.",
@@ -935,18 +1140,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
         "condition": { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1016,18 +1230,27 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_clairsentience", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_clairsentience", -1 ] ] ],
+    "tools": [
+      [
+        [ "matrix_crystal_drained", -1 ],
+        [ "black_nether_crystal_pseudo_tool", -1 ],
+        [ "matrix_crystal_clairsentience", -1 ]
+      ]
+    ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
         "condition": { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('clair_omniscience')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [

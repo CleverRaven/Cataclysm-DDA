@@ -298,7 +298,7 @@
     "type": "profession",
     "id": "afs_holo_fighter",
     "name": "Corporate Infiltrator",
-    "description": "A spy and mercenary at the direct service of the Solar Corporations.  Touring the frontier in search of intelligence gathering and sabotage contracts.  Equipped with a set of irreplacable holographic technology that borders on the miraculous.",
+    "description": "A spy and mercenary at the direct service of the Solar Corporations.  Touring the frontier in search of intelligence gathering and sabotage contracts.  Equipped with a set of irreplaceable holographic technology that borders on the miraculous.",
     "points": 8,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -446,12 +446,6 @@
           { "item": "rollmat" },
           { "item": "e_tool" },
           { "item": "knife_hunting" },
-          {
-            "item": "medium_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 600,
-            "container-item": "multi_cooker"
-          },
           {
             "item": "m2010",
             "ammo-item": "300_winmag",

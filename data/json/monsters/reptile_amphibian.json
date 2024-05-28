@@ -1,52 +1,5 @@
 [
   {
-    "id": "mon_gator",
-    "type": "MONSTER",
-    "name": { "str": "sewer gator" },
-    "description": "In the late 20th century, there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in the sewers.  If this large specimen was ever someone's pet, it doesn't look like it sees humans as anything other than a meal now.",
-    "default_faction": "gator",
-    "bodytype": "gator",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "volume": "108500 ml",
-    "weight": "120 kg",
-    "hp": 90,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "A",
-    "color": "light_green",
-    "aggression": 30,
-    "morale": 50,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 10,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "dodge": 2,
-    "vision_day": 3,
-    "vision_night": 35,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
-    "harvest": "mutant_mammal_large_leather",
-    "dissect": "dissect_lizard_sample_large",
-    "path_settings": { "max_dist": 8 },
-    "grab_strength": 50,
-    "special_attacks": [
-      {
-        "id": "bite_grab",
-        "cooldown": 20,
-        "accuracy": 6,
-        "damage_max_instance": [
-          { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
-          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
-        ],
-        "infection_chance": 50
-      }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
-    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
-  },
-  {
     "id": "mon_rattlesnake_s",
     "type": "MONSTER",
     "name": { "str_sp": "rattlesnake snakelet" },
@@ -160,7 +113,7 @@
     "aggression": -30,
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "mammal_tiny",
+    "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
@@ -305,8 +258,8 @@
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "AMPHIBIAN" ],
-    "volume": "25 ml",
-    "weight": "10 g",
+    "volume": "5 ml",
+    "weight": "3 g",
     "hp": 1,
     "speed": 70,
     "material": [ "flesh" ],
@@ -314,11 +267,13 @@
     "color": "brown",
     "aggression": -60,
     "morale": -5,
-    "dodge": 5,
+    "dodge": 10,
+    "melee_training_cap": 0,
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "harvest": "mammal_tiny",
+    "harvest": "exempt",
     "vision_night": 30,
-    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "SWARMS" ]
   },
   {
@@ -328,7 +283,7 @@
     "name": { "str": "tadpole" },
     "description": "A speckled, grey-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
     "color": "dark_gray",
-    "upgrades": { "age_grow": 22, "into": "mon_leo_frog" }
+    "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_LEO" }
   },
   {
     "id": "mon_pattern_tadpole",
@@ -436,6 +391,72 @@
     "upgrades": { "age_grow": 15, "into": "mon_shift_frog" }
   },
   {
+    "id": "mon_mink_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "A brown and tan speckled tadpole with a wide body and very broad, feather-shaped tail.",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 91, "into": "mon_mink_frog" }
+  },
+  {
+    "id": "mon_tail_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_mink_tadpole",
+    "description": "This strange tadpole is mostly tail.  The tail itself appears to have exceptional strength and flexibility, for a tadpole.  It may be able to use it for more than swimming.",
+    "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
+    "speed": 60,
+    "harvest": "mutant_tiny",
+    "upgrades": { "age_grow": 22, "into": "mon_tail_frog" },
+    "delete": { "flags": [ "AQUATIC" ] }
+  },
+  {
+    "id": "mon_pickerel_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "This yellowish tadpole is covered in flecks of brown and cream coloring.  Its eyes rest close together on a notably pointed face.",
+    "name": { "str": "tadpole" },
+    "color": "yellow",
+    "upgrades": { "age_grow": 22, "into": "mon_pickerel_frog" },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_palette_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_pickerel_tadpole",
+    "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
+    "harvest": "mutant_tiny",
+    "upgrades": { "age_grow": 22, "into": "mon_palette_frog" },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_green_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "A corpulent green tadpole with a yellow underbelly and black speckles.",
+    "name": { "str": "tadpole" },
+    "color": "green",
+    "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_GREEN" }
+  },
+  {
+    "id": "mon_wood_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "This mottled brown tadpole appears rather typical until you can get a glimpse from the side.  Then its high, peaked mouth and low round belly stand out in profile.",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_WOOD" }
+  },
+  {
+    "id": "mon_spade_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "A squat and wide-bellied tadpole with wide-set eyes.",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 8, "into": "mon_spade_frog" },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
     "abstract": "mon_proxy_bigtad",
     "type": "MONSTER",
     "description": "A tadpole the size of a bass.  It could win awards if it hadn't been debugged.",
@@ -455,6 +476,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_training_cap": 1,
     "dodge": 6,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_batrachian_sample_single",
@@ -526,6 +548,7 @@
     "vision_night": 30,
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE", "SMALL_HIDER", "SWARMS" ]
   },
   {
@@ -534,18 +557,18 @@
     "copy-from": "mon_proxy_frog",
     "description": "Leopard frogs are named for the brown spots on their backs and legs.  Although limited by size, they too are voracious predators.",
     "name": { "str": "leopard frog" },
-    "reproduction": { "baby_egg": "egg_leo_frog", "baby_count": 6, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "reproduction": { "baby_egg": "egg_leo_frog", "baby_count": 6, "baby_timer": 20 }
   },
   {
     "id": "mon_pattern_frog",
     "type": "MONSTER",
     "copy-from": "mon_leo_frog",
-    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
+    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of TV static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
     "name": { "str": "strangely-patterned frog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
+    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -559,8 +582,7 @@
     "hp": 4,
     "color": "green",
     "harvest": "bullfrog",
-    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 }
   },
   {
     "id": "mon_strange_frog",
@@ -580,9 +602,8 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
-    "name": { "str": "fowler's toad" },
+    "name": { "str": "Fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -602,9 +623,8 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
-    "name": { "str": "american toad" },
+    "name": { "str": "American toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -629,9 +649,8 @@
     "volume": "20 ml",
     "weight": "4 g",
     "hp": 1,
-    "special_attacks": [ [ "PARROT", 100 ] ],
-    "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "special_attacks": [ [ "PARROT", 30 ], { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
+    "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 }
   },
   {
     "id": "mon_vocal_frog",
@@ -641,7 +660,6 @@
     "name": { "str": "vocal treefrog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
-    "special_attacks": [ [ "PARROT", 30 ] ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_VOCAL" }
   },
   {
@@ -655,7 +673,6 @@
     "hp": 2,
     "color": "light_gray",
     "reproduction": { "baby_egg": "egg_gray_frog", "baby_count": 8, "baby_timer": 26 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "CAMOUFLAGE" ] }
   },
   {
@@ -667,6 +684,119 @@
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_shift_bigfrog" }
+  },
+  {
+    "id": "mon_mink_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "This pungent frog is named for the mammal with which it shares both name and odor.  Its skin is light green underneath a heavy spatter of almost black mottling.",
+    "name": { "str": "mink frog" },
+    "volume": "150 ml",
+    "weight": "10 g",
+    "hp": 2,
+    "color": "green",
+    "reproduction": { "baby_egg": "egg_mink_frog", "baby_count": 8, "baby_timer": 26 }
+  },
+  {
+    "id": "mon_tail_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_mink_frog",
+    "description": "This very large, funky frog has an accentuated, paddle-like tail that accounts for half its body mass.  It is green with many brown spots scattering across its back.",
+    "name": { "str": "tailed frog" },
+    "categories": [ "NULL" ],
+    "harvest": "mutant_tiny"
+  },
+  {
+    "id": "mon_pickerel_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "The pickerel frog is identifiable by two rows of roughly square-shaped spots that run along its back, shaded a darker brown than the rest of their skin.  Though not more than an irritant to humans, their skin secretions are known for being fatal to most things their size.",
+    "name": { "str": "pickerel frog" },
+    "volume": "150 ml",
+    "weight": "10 g",
+    "hp": 2,
+    "reproduction": { "baby_egg": "egg_pickerel_frog", "baby_count": 8, "baby_timer": 26 },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_palette_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_pickerel_frog",
+    "description": "You're quite sure that no frog this bright and garish could be native to New England.  Most of its skin is a light brown, but the large, squarish patches on its back and legs are of every different hue, all of them bright.",
+    "name": { "str": "palette frog" },
+    "categories": [ "NULL" ],
+    "color": "magenta",
+    "harvest": "mutant_tiny",
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_green_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "True to its name this frog is green.  Though this one is certainly of the Northern subspecies, they are common throughout, and native to, the Eastern half of North America.  The shades of green can vary greatly and there might be some brown on the limbs or mottled on the back.",
+    "name": { "str": "green frog" },
+    "volume": "150 ml",
+    "weight": "10 g",
+    "hp": 2,
+    "color": "green",
+    "reproduction": { "baby_egg": "egg_green_frog", "baby_count": 8, "baby_timer": 20 }
+  },
+  {
+    "id": "mon_wood_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "This frog wears a pattern of tans and browns, with a darker eye mask and a light cream underbelly.  Its coverings make for great camouflage among the dry leaves and tree bark.",
+    "name": { "str": "wood frog" },
+    "volume": "150 ml",
+    "weight": "10 g",
+    "hp": 2,
+    "reproduction": { "baby_egg": "egg_wood_frog", "baby_count": 8, "baby_timer": 36 }
+  },
+  {
+    "id": "mon_spade_frog",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_frog",
+    "description": "The eastern variety of the American spadefoot toad is a squat, round toad with vertical pupils.  Its body is colored a muddy mixture of browns, tans, and yellow-greens.  Their name comes from the keratinous projection on their hind legs that aids them in digging.",
+    "name": { "str": "spadefoot toad" },
+    "volume": "150 ml",
+    "weight": "10 g",
+    "hp": 2,
+    "reproduction": { "baby_egg": "egg_spade_frog", "baby_count": 8, "baby_timer": 20 },
+    "baby_flags": [ "SPRING", "SUMMER", "FALL", "WINTER" ],
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_leo_worm",
+    "type": "MONSTER",
+    "copy-from": "mon_leo_frog",
+    "description": "You see a whole leopard frog and then some.  This poor thing must have almost a dozen extra legs sticking off of it.  It is difficult to determine an exact number as most of them are underdeveloped or otherwise malformed.",
+    "name": { "str": "many-legged frog" },
+    "categories": [ "NULL" ],
+    "dissect": "dissect_worm_frog_single",
+    "harvest": "mutant_tiny",
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
+  },
+  {
+    "id": "mon_green_worm",
+    "type": "MONSTER",
+    "copy-from": "mon_green_frog",
+    "description": "A green frog that has suffered some kind of mutation.  At its hips it has clusters of extra legs, some are complete but others lack feet or end at the first joint.",
+    "name": { "str": "many-legged frog" },
+    "categories": [ "NULL" ],
+    "dissect": "dissect_worm_frog_single",
+    "harvest": "mutant_tiny",
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
+  },
+  {
+    "id": "mon_wood_worm",
+    "type": "MONSTER",
+    "copy-from": "mon_wood_frog",
+    "description": "This cream and brown frog looks more like a great insect in profile.  It has evidently mutated, growing many additional, spindly legs that rise high before attempting to bend back downwards.",
+    "name": { "str": "many-legged frog" },
+    "categories": [ "NULL" ],
+    "dissect": "dissect_worm_frog_single",
+    "harvest": "mutant_tiny",
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
   {
     "abstract": "mon_proxy_bigfrog",
@@ -701,6 +831,18 @@
     "grab_strength": 2,
     "special_attacks": [
       {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
         "type": "leap",
         "cooldown": 10,
         "move_cost": 0,
@@ -711,6 +853,7 @@
     ],
     "fear_triggers": [ "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_husk",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
   },
@@ -760,7 +903,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 12, "baby_timer": 20 }
   },
   {
     "id": "mon_foul_bigfrog",
@@ -777,6 +920,18 @@
     "armor": { "bash": 2, "acid": 4, "heat": 1 },
     "emit_fields": [ { "emit_id": "emit_tear_gas_toad", "delay": "1 s" } ],
     "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
       {
         "type": "leap",
         "cooldown": 5,
@@ -809,6 +964,18 @@
     "grab_strength": 1,
     "special_attacks": [
       {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
         "type": "leap",
         "cooldown": 8,
         "move_cost": 0,
@@ -833,6 +1000,18 @@
     "copy-from": "mon_jumbo_bigfrog",
     "special_attacks": [
       [ "PARROT", 30 ],
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
       {
         "type": "leap",
         "cooldown": 8,
@@ -915,6 +1094,7 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_mummy",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
   },
@@ -985,7 +1165,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "SWARMS" ] }
   },
   {
@@ -1086,6 +1266,7 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_smoker_hulk",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
   },

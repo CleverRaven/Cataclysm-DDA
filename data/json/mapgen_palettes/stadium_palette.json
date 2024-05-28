@@ -107,7 +107,7 @@
       "p": "f_pinball_machine",
       "r": "f_rack",
       "q": "f_displaycase",
-      "e": "f_fridge",
+      "e": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "é": "f_fridge",
       "E": "f_glass_fridge",
       "É": "f_glass_fridge",
@@ -243,7 +243,7 @@
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
       { "item": "bandages", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "liq_bandage_spray", "prob": 10, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 10, "charges": [ 1, -1 ] },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       [ "mouthpiece", 40 ],
       [ "football", 60 ],
@@ -257,7 +257,7 @@
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] },
       [ "mp3", 50 ],
       { "item": "inhaler", "prob": 10, "charges": [ 0, 100 ] }
     ]
@@ -272,7 +272,7 @@
     "id": "bread_bag_plastic_2",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "bread", "container-item": "null", "count": 2 } ]
   }
 ]

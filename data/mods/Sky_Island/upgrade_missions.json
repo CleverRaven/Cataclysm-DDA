@@ -2296,6 +2296,1000 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_centralskylight2",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Glass Figurine from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 2.  A larger skylight above your main room, allowing more light to enter in.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight2" },
+        {
+          "u_message": "Now that you have a bunker under the island, you have a place to live.  But the small glass roof doesn't let in a lot of light; a larger skylight would be ideal.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 2.  A larger skylight over the main room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_centralskylight2" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight2" },
+        { "u_message": "Construction complete.  The skylight above the central room has expanded.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Glass Figurine" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "glass_shard", 150 ] ],
+      [ [ "chunk_rubber", 5 ] ],
+      [ [ "superglue", 2 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight3",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Mirror from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 3.  Expand the central room's skylight to allow even more light.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight3" },
+        {
+          "u_message": "The central room could use even more natural light.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 3.  Expand the skylight over the central room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_centralskylight3" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight3" },
+        { "u_message": "Construction complete.  The skylight over the central room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Crystalline Mirror" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
+      [ [ "glass_sheet", 3 ] ],
+      [ [ "mirror", 1 ] ],
+      [ [ "superglue", 5 ] ],
+      [ [ "frame_wood", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight4",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 4",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Transparent Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 4.  Expand the central skylight to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight4" },
+        {
+          "u_message": "The central skylight should be enormous to allow in as much light as possible.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skaylight 4.  Expand the central skylight to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_centralskylight4" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight4" },
+        { "u_message": "Construction complete.  The central skylight has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Transparent Cube" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "bigmirror", 1 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "frame", 4 ] ],
+      [ [ "rubber_cement", 8 ] ],
+      [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_westroom1",
+    "type": "mission_definition",
+    "name": "Construct: West Room 1",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: West Room 1.  A hollow chamber west of the island's center to serve as a multipurpose space, with tons of room to expand.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_westroom1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_westroom1" },
+        {
+          "u_message": "Now that you have corridors snaking beneath your island, you could build rooms in various areas.  The western quadrant might be a good place for another room.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: West Room 1.  A hollow chamber to the west of the island's center to serve as a multipurpose space, with tons of room to expand.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_westroom", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_westroom1" },
+        { "run_eocs": "EOC_skyisland_build_westroom1" },
+        {
+          "u_message": "Construction complete.  A room has been dug out to the west of the central area in the bunker beneath the island.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_westroom1",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Miner's Cameo (West)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_westroom1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 1 ] ],
+      [ [ "hinge", 5 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_westroom2",
+    "type": "mission_definition",
+    "name": "Construct: West Room 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Hollow Carver from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: West Room 2.  Expand the western room to fit more loot, furniture, or anything else you may need.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_westroom2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_westroom2" },
+        {
+          "u_message": "The western room would be a lot more useful if it were larger.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: West Room 2.  Expand the western room to fit more loot, furniture, or anything else you may need.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_westroom", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_westroom2" },
+        { "run_eocs": "EOC_skyisland_build_westroom2" },
+        { "u_message": "Construction complete.  The western room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_westroom2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Hollow Carver (West)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_westroom2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "shovel", 1 ], [ "shovel_snow", 1 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_westroom3",
+    "type": "mission_definition",
+    "name": "Construct: West Room 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Warped Reinforcement from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: West Room 3.  Expand the western room to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_westroom3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_westroom3" },
+        {
+          "u_message": "The western room is a good start, but it could be much bigger.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: West Room 3.  Expand the western room to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_westroom", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_westroom3" },
+        { "run_eocs": "EOC_skyisland_build_westroom3" },
+        { "u_message": "Construction complete.  The western room has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_westroom3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Warped Reinforcement (West)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_westroom3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "wood_beam", 4 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "wearable_light", 2 ] ],
+      [ [ "hard_plate", 4 ], [ "steel_plate", 8 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_westroom4",
+    "type": "mission_definition",
+    "name": "Construct: West Room Gallery",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Glass from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: West Room Gallery.  Add an enclosed gallery to the western room to allow viewing off the side of the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_westroom4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_westroom4" },
+        {
+          "u_message": "The western room is a nice size, but you're on a floating island.  What if you had a place where you could admire the beautiful view without having to worry about the blowing winds?  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: West Room Gallery.  Add an enclosed gallery to the western room to allow viewing off the side of the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_westroom", "=", "4" ] },
+        { "u_forget_recipe": "buildkey_westroom4" },
+        { "run_eocs": "EOC_skyisland_build_westroom4" },
+        { "u_message": "Construction complete.  The western room has now has a viewing gallery.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_westroom4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Crystalline Glass (West)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: West Room Gallery",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_westroom4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "glass_sheet", 4 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "glass_shard", 100 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_eastroom1",
+    "type": "mission_definition",
+    "name": "Construct: East Room 1",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: east Room 1.  A hollow chamber east of the island's center to serve as a multipurpose space, with tons of room to expand.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_eastroom1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_eastroom1" },
+        {
+          "u_message": "Now that you have corridors snaking beneath your island, you could build rooms in various areas.  The eastern quadrant might be a good place for another room.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: East Room 1.  A hollow chamber to the east of the island's center to serve as a multipurpose space, with tons of room to expand.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_eastroom", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_eastroom1" },
+        { "run_eocs": "EOC_skyisland_build_eastroom1" },
+        {
+          "u_message": "Construction complete.  A room has been dug out to the east of the central area in the bunker beneath the island.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_eastroom1",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Miner's Cameo (East)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_eastroom1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 1 ] ],
+      [ [ "hinge", 5 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "nuts_bolts", 15 ] ],
+      [ [ "box_medium", 4 ], [ "box_large", 2 ], [ "box_oversize", 1 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_eastroom2",
+    "type": "mission_definition",
+    "name": "Construct: East Room 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Hollow Carver from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Room 2.  Expand the eastern room to fit more loot, furniture, or anything else you may need.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_eastroom2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_eastroom2" },
+        {
+          "u_message": "The eastern room would be a lot more useful if it were larger.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: East Room 2.  Expand the eastern room to fit more loot, furniture, or anything else you may need.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_eastroom", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_eastroom2" },
+        { "run_eocs": "EOC_skyisland_build_eastroom2" },
+        { "u_message": "Construction complete.  The eastern room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_eastroom2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Hollow Carver (East)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_eastroom2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "shovel", 1 ], [ "shovel_snow", 1 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_eastroom3",
+    "type": "mission_definition",
+    "name": "Construct: East Room 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Warped Reinforcement from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: East Room 3.  Expand the eastern room to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_eastroom3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_eastroom3" },
+        {
+          "u_message": "The eastern room is a good start, but it could be much bigger.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: East Room 3.  Expand the eastern room to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_eastroom", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_eastroom3" },
+        { "run_eocs": "EOC_skyisland_build_eastroom3" },
+        { "u_message": "Construction complete.  The eastern room has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_eastroom3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Warped Reinforcement (East)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: east Room 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_eastroom3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "wood_beam", 4 ] ],
+      [ [ "sheet_metal", 8 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "wearable_light", 2 ] ],
+      [ [ "hard_plate", 4 ], [ "steel_plate", 8 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_eastroom4",
+    "type": "mission_definition",
+    "name": "Construct: east Room Gallery",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Glass from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: east Room Gallery.  Add an enclosed gallery to the eastern room to allow viewing off the side of the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_eastroom4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_eastroom4" },
+        {
+          "u_message": "The eastern room is a nice size, but you're on a floating island.  What if you had a place where you could admire the beautiful view without having to worry about the blowing winds?  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: East Room Gallery.  Add an enclosed gallery to the eastern room to allow viewing off the side of the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_eastroom", "=", "4" ] },
+        { "u_forget_recipe": "buildkey_eastroom4" },
+        { "run_eocs": "EOC_skyisland_build_eastroom4" },
+        { "u_message": "Construction complete.  The eastern room has now has a viewing gallery.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_eastroom4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Crystalline Glass (East)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: East Room Gallery",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_eastroom4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "glass_sheet", 4 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "glass_shard", 100 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_northroom1",
+    "type": "mission_definition",
+    "name": "Construct: North Room 1",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Miner's Cameo from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: north Room 1.  A hollow chamber north of the island's center to serve as a multipurpose space, with tons of room to expand.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_northroom1",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_northroom1" },
+        {
+          "u_message": "Now that you have corridors snaking beneath your island, you could build rooms in various areas.  The northern quadrant might be a good place for another room.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: North Room 1.  A hollow chamber to the north of the island's center with one wall a long window to look down on the world, with tons of room to expand.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_northroom", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_northroom1" },
+        { "run_eocs": "EOC_skyisland_build_northroom1" },
+        {
+          "u_message": "Construction complete.  A room has been dug out to the north of the central area in the bunker beneath the island.",
+          "popup": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_northroom1",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Miner's Cameo (North)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: north Room 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_northroom1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "DIG", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "2x4", 1 ] ],
+      [ [ "hinge", 3 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "chunk_rubber", 15 ] ],
+      [ [ "glass_shard", 250 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_northroom2",
+    "type": "mission_definition",
+    "name": "Construct: North Room 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Hollow Carver from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room 2.  Expand the northern room to fit more loot, furniture, or anything else you may need.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_northroom2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_northroom2" },
+        {
+          "u_message": "The northern room would be a lot more useful if it were larger and had a bigger window.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: North Room 2.  Expand the northern room to fit more loot, furniture, or anything else you may need.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_northroom", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_northroom2" },
+        { "run_eocs": "EOC_skyisland_build_northroom2" },
+        { "u_message": "Construction complete.  The northern room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_northroom2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Hollow Carver (North)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_northroom2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "shovel", 1 ], [ "shovel_snow", 1 ] ],
+      [ [ "glass_sheet", 4 ] ],
+      [ [ "rubber_cement", 4 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_northroom3",
+    "type": "mission_definition",
+    "name": "Construct: north Room 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Warped Reinforcement from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room 3.  Expand the northern room to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_northroom3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_northroom3" },
+        {
+          "u_message": "The northern room is a good start, but it could be much bigger.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: North Room 3.  Expand the northern room to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_northroom", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_northroom3" },
+        { "run_eocs": "EOC_skyisland_build_northroom3" },
+        { "u_message": "Construction complete.  The northern room has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_northroom3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Warped Reinforcement (north)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_northroom3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "wood_beam", 4 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "frame", 2 ] ],
+      [ [ "rubber_tire_strip", 4 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_northroom4",
+    "type": "mission_definition",
+    "name": "Construct: north Room Gallery",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Cavernous Soul from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room Gallery.  Add an enclosed gallery to the northern room to allow viewing off the side of the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_northroom4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_northroom4" },
+        {
+          "u_message": "The northern room is a nice size, but you're on a floating island.  What if you had a place where you could admire the beautiful view without having to worry about the blowing winds?  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: North Room 4.  Expand the northern room to its maximum size.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_northroom", "=", "4" ] },
+        { "u_forget_recipe": "buildkey_northroom4" },
+        { "run_eocs": "EOC_skyisland_build_northroom4" },
+        { "u_message": "Construction complete.  The northern room is now larger.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_northroom4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "Cavernous Soul (North)" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: North Room 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_northroom4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [
+      { "id": "WRENCH", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "reinforced_glass_sheet", 4 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "hdframe", 2 ] ],
+      [ [ "432gal_drum_rubber", 3 ] ],
+      [ [ "wood_beam", 8 ] ],
+      [ [ "block_and_tackle", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_security1",
     "type": "mission_definition",
     "name": "Upgrade: Security Alpha",

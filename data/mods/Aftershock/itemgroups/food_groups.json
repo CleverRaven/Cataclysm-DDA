@@ -12,6 +12,11 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "afs_cheap_drinks",
+    "items": [ [ "afs_h2o", 90 ], [ "afs_calorie_water", 50 ], [ "afs_sundew", 50 ], [ "afs_caffex", 50 ] ]
+  },
+  {
     "id": "afs_spices",
     "type": "item_group",
     "//": "This group is for cupboard, drawer, or rack with spices.",
@@ -87,10 +92,10 @@
     "subtype": "collection",
     "id": "afs_mealgrub_procesing",
     "entries": [
-      { "item": "afs_mealgrub_jelly", "count-min": 5, "count-max": 20 },
-      { "prob": 15, "count-min": 5, "count-max": 25, "group": "afs_mealgrubs_wrapper_pr_5" },
-      { "prob": 5, "count-min": 5, "count-max": 25, "group": "afs_mealgrubs_wrapper_pr_5" },
-      { "item": "water", "prob": 10, "charges-min": 20, "charges-max": 40, "container-item": "jerrycan" }
+      { "item": "afs_mealgrub_jelly", "count": [ 5, 20 ] },
+      { "prob": 15, "count": [ 5, 25 ], "group": "afs_mealgrubs_wrapper_pr_5" },
+      { "prob": 5, "count": [ 5, 25 ], "group": "afs_mealgrubs_wrapper_pr_5" },
+      { "item": "water", "prob": 10, "charges": [ 20, 40 ], "container-item": "jerrycan" }
     ]
   },
   {
@@ -98,9 +103,9 @@
     "subtype": "collection",
     "id": "afs_mealgrub_precursor",
     "entries": [
-      { "item": "afs_mealgrub_spores", "count-min": 1, "count-max": 6 },
-      { "item": "afs_mealgrub_medium", "prob": 80, "count-min": 23, "count-max": 6 },
-      { "item": "afs_mealgrub_medium", "prob": 33, "count-min": 2, "count-max": 6 }
+      { "item": "afs_mealgrub_spores", "count": [ 1, 6 ] },
+      { "item": "afs_mealgrub_medium", "prob": 80, "count": [ 23, 6 ] },
+      { "item": "afs_mealgrub_medium", "prob": 33, "count": [ 2, 6 ] }
     ]
   },
   {

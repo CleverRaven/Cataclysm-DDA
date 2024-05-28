@@ -62,7 +62,7 @@ void wipe_map_terrain( map *target )
         ter_id terrain = z == 0 ? ter_t_grass : z < 0 ? ter_t_rock : ter_t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set( { x, y, z}, terrain, f_null );
+                here.set( { x, y, z}, terrain, furn_str_id::NULL_ID() );
                 here.partial_con_remove( { x, y, z } );
             }
         }
@@ -146,7 +146,7 @@ void clear_map_and_put_player_underground()
 {
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    get_player_character().setpos( { 0, 0, -2 } );
+    get_player_character().setpos( tripoint_bub_ms{ 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,

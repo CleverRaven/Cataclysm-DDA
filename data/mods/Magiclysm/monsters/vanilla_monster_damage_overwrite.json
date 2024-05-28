@@ -1081,6 +1081,12 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_star_vampire_coiling",
+    "copy-from": "mon_star_vampire_coiling",
+    "extend": { "flags": [ "TIMELESS" ], "armor": { "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_unseen_hunter",
     "copy-from": "mon_unseen_hunter",
     "extend": { "armor": { "nether": 10 } }
@@ -1792,36 +1798,6 @@
     "id": "mon_zombie_skull",
     "copy-from": "mon_zombie_skull",
     "extend": { "flags": [ "PSIONICPROOF" ], "armor": { "sonic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_charred_nightmare",
-    "copy-from": "mon_charred_nightmare",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_1",
-    "copy-from": "mon_irradiated_wanderer_1",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_2",
-    "copy-from": "mon_irradiated_wanderer_2",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_3",
-    "copy-from": "mon_irradiated_wanderer_3",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_4",
-    "copy-from": "mon_irradiated_wanderer_4",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
   },
   {
     "type": "MONSTER",

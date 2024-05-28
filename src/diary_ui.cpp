@@ -1,11 +1,13 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <initializer_list>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "diary.h"
@@ -293,7 +295,9 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        w_info = catacurses::newwin( std::clamp( 3, max.y / 2 - 4, 7 ), max.x + 9, beg + point( -4,
+        int lines = std::clamp( max.y / 2 - 4, 3, 7 );
+
+        w_info = catacurses::newwin( lines, max.x + 9, beg + point( -4,
                                      3 + max.y + ( max.y > 12 ) ) );
 
         ui.position_from_window( w_info );

@@ -104,6 +104,7 @@ parsers = {
     "anatomy": dummy_parser,
     "armor": parse_generic,
     "ascii_art": dummy_parser,
+    "attack_vector": dummy_parser,
     "battery": parse_generic,
     "behavior": dummy_parser,
     "bionic": parse_bionic,

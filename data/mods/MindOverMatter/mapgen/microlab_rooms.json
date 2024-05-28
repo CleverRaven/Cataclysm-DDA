@@ -67,7 +67,13 @@
       "place_monster": [
         { "group": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 60, "repeat": [ 1, 5 ] },
         { "group": "GROUP_FERAL_TELEPORTER", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 30, "repeat": [ 1, 2 ] },
-        { "group": "GROUP_NETHER_FATIGUE_FIELD", "x": [ 10, 12 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 2, 3 ] }
+        {
+          "group": "GROUP_NETHER_REALITY_TEAR_FIELD",
+          "x": [ 10, 12 ],
+          "y": [ 6, 7 ],
+          "chance": 50,
+          "repeat": [ 2, 3 ]
+        }
       ],
       "computers": {
         "7": {

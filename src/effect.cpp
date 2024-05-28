@@ -1,26 +1,35 @@
 #include "effect.h"
 
 #include <algorithm>
-#include <cstddef>
 #include <map>
+#include <memory>
 #include <optional>
+#include <type_traits>
 #include <unordered_set>
 
 #include "bodypart.h"
-#include "color.h"
+#include "cata_assert.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "effect_source.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "json_error.h"
+#include "magic_enchantment.h"
 #include "messages.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "units.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
@@ -464,16 +473,16 @@ void effect_type::load_mod_data( const JsonObject &j )
         {"perspiration_tick",        mod_action::TICK},
     } );
 
-    // Then fatigue
-    extract_effect( to_extract, "FATIGUE", {
-        {"fatigue_amount",      mod_action::AMOUNT},
-        {"fatigue_min",         mod_action::MIN},
-        {"fatigue_max",         mod_action::MAX},
-        {"fatigue_min_val",     mod_action::MIN_VAL},
-        {"fatigue_max_val",     mod_action::MAX_VAL},
-        {"fatigue_chance",      mod_action::CHANCE_TOP},
-        {"fatigue_chance_bot",  mod_action::CHANCE_BOT},
-        {"fatigue_tick",        mod_action::TICK},
+    // Then sleepiness
+    extract_effect( to_extract, "SLEEPINESS", {
+        {"sleepiness_amount",      mod_action::AMOUNT},
+        {"sleepiness_min",         mod_action::MIN},
+        {"sleepiness_max",         mod_action::MAX},
+        {"sleepiness_min_val",     mod_action::MIN_VAL},
+        {"sleepiness_max_val",     mod_action::MAX_VAL},
+        {"sleepiness_chance",      mod_action::CHANCE_TOP},
+        {"sleepiness_chance_bot",  mod_action::CHANCE_BOT},
+        {"sleepiness_tick",        mod_action::TICK},
     } );
 
     // Then stamina
@@ -893,15 +902,15 @@ std::string effect::disp_desc( bool reduced ) const
                          _( "damage" ) );
     val = get_avg_mod( "STAMINA", reduced );
     values.emplace_back( get_percentage( "STAMINA", val, reduced ), val,
-                         _( "stamina recovery" ), _( "fatigue" ) );
+                         _( "stamina recovery" ), _( "sleepiness" ) );
     val = get_avg_mod( "THIRST", reduced );
     values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
                          _( "quench" ) );
     val = get_avg_mod( "HUNGER", reduced );
     values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
                          _( "sate" ) );
-    val = get_avg_mod( "FATIGUE", reduced );
-    values.emplace_back( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
+    val = get_avg_mod( "SLEEPINESS", reduced );
+    values.emplace_back( get_percentage( "SLEEPINESS", val, reduced ), val, _( "sleepiness" ),
                          _( "rest" ) );
     val = get_avg_mod( "COUGH", reduced );
     values.emplace_back( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),

@@ -265,7 +265,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
 
     const std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
     const std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
-    const std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
+    const std::pair<std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( you );
 
     // Hunger
     if( !hunger_pair.first.empty() ) {
@@ -295,9 +295,9 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
         right_indent += utf8_width( thirst_pair.first ) + 3;
     }
 
-    // Fatigue
-    if( !fatigue_pair.first.empty() ) {
-        cur_str_pos = right_print( window, 1, right_indent, fatigue_pair.second, fatigue_pair.first );
+    // Sleepiness
+    if( !sleepiness_pair.first.empty() ) {
+        cur_str_pos = right_print( window, 1, right_indent, sleepiness_pair.second, sleepiness_pair.first );
 
         // Borders
         for( int i = 1; i < getmaxy( window ) - 1; i++ ) {
@@ -306,7 +306,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
         mvwputch( window, point( cur_str_pos - 2, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
         mvwputch( window, point( cur_str_pos - 2, 2 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
-        right_indent += utf8_width( fatigue_pair.first ) + 3;
+        right_indent += utf8_width( sleepiness_pair.first ) + 3;
     }
 
     // Hotkey Helper
@@ -613,7 +613,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );
     }
 
-    pen = player->get_pain_penalty().speed;
+    pen = player->ppen_spd;
     if( pen >= 1 ) {
         pge_str = pgettext( "speed penalty", "Pain " );
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );

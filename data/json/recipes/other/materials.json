@@ -451,9 +451,9 @@
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
         [ "bag_plastic", 10 ],
+        [ "bag_plastic_small", 20 ],
         [ "plastic_sheet_small", 10 ],
         [ "tumbler_plastic", 4 ],
-        [ "bowl_plastic", 4 ],
         [ "plastic_bowl_kids", 8 ],
         [ "sippy_cup", 4 ],
         [ "gasket_plastic", 1 ]
@@ -610,7 +610,7 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
-    "components": [ [ [ "felt_patch", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -1714,7 +1714,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",

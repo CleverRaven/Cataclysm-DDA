@@ -2,6 +2,7 @@
   {
     "type": "region_settings",
     "id": "default",
+    "//": "TODO: Change to an overlay",
     "default_oter": [
       "open_air",
       "open_air",
@@ -49,6 +50,7 @@
           "t_shrub_lilac": 2,
           "t_shrub_grape": 1
         },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 6,
           "t_shrub_strawberry": 6,

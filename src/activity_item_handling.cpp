@@ -2,31 +2,32 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
 #include <cstdlib>
-#include <iosfwd>
 #include <list>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
-#include "contents_change_handler.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
@@ -36,11 +37,12 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -52,7 +54,10 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -65,10 +70,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "recipe_dictionary.h"
-#include "activity_actor_definitions.h"
+
+struct use_function;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -425,7 +431,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
         item &dropped_item = here.add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( where.raw() ), &dropped_item );
+        items_dropped.emplace_back( map_cursor( where ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
@@ -1296,6 +1302,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
             const itype_id seed = options.get_seed();
 
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+                return activity_reason_info::ok( do_activity_reason::NEEDS_CLEARING );
+            }
+
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 map_stack items = here.i_at( src_loc );
                 const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -1846,7 +1856,7 @@ static bool fetch_activity(
     const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.getlocal( you.backlog.front().coords.back() ) ) ) {
+    if( !here.can_put_items_ter_furn( here.bub_from_abs( you.backlog.front().coords.back() ) ) ) {
         return false;
     }
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
@@ -1947,7 +1957,7 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             elem.set_var( "activity_var", you.name );
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             // TODO: fix point types
-            you.activity.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+            you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             you.activity.placement = here.getglobal( src_loc );
             return true;
         }
@@ -2976,6 +2986,9 @@ static bool generic_multi_activity_do(
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
         iexamine::harvest_plant( you, src_loc.raw(), true );
+    } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
+               here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+        iexamine::clear_overgrown( you, src_loc.raw() );
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
@@ -3119,7 +3132,7 @@ static bool generic_multi_activity_do(
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
                                                            recipe_time_flag::ignore_proficiencies ) * qty ) );
                     // TODO: fix point types
-                    act.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+                    act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getglobal( src_loc );
                     act.position = qty;
                     act.index = false;
@@ -3519,7 +3532,7 @@ int get_auto_consume_moves( Character &you, const bool food )
             }
         } else {
             for( item &it : here.i_at( here.getlocal( loc ) ) ) {
-                item_location i_loc( map_cursor( here.getlocal( loc ) ), &it );
+                item_location i_loc( map_cursor( here.bub_from_abs( loc ) ), &it );
                 visit_item_contents( i_loc, visit );
             }
         }

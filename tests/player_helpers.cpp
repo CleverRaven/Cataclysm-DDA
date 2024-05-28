@@ -94,7 +94,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     }
 
     // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, fatigue and such to zero
+    // and sets hunger, thirst, sleepiness and such to zero
     dummy.environmental_revert_effect();
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
@@ -180,7 +180,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
     if( gun->magazine_integral() ) {
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             gun->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun->can_reload_with( *ammo, true ) );
+        REQUIRE( gun.can_reload_with( ammo, true ) );
         REQUIRE( shooter.can_reload( *gun, &*ammo ) );
         gun->reload( shooter, ammo, gun->ammo_capacity( type_of_ammo ) );
     } else {
@@ -188,7 +188,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
         item_location magazine = shooter.i_add( item( magazine_id ) );
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             magazine->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine->can_reload_with( *ammo,  true ) );
+        REQUIRE( magazine.can_reload_with( ammo,  true ) );
         REQUIRE( shooter.can_reload( *magazine, &*ammo ) );
         magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );

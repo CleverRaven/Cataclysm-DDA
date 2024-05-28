@@ -4,16 +4,16 @@
 
 #include <map>
 #include <optional>
-#include <utility>
+#include <string>
 #include <vector>
 
 #include "coordinates.h"
-#include "point.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
 class nc_color;
+struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
@@ -97,8 +97,13 @@ void nuke( const tripoint_abs_omt &p );
 void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
                 bool ignore_player );
 
+// TODO: Get rid of untyped overload
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
+void draw_explosion( const tripoint_bub_ms &p, int radius, const nc_color &col );
+// TODO: Get rid of untyped overload
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
+                            const std::optional<std::string> &tile_id = std::nullopt );
+void draw_custom_explosion( const std::map<tripoint_bub_ms, nc_color> &area,
                             const std::optional<std::string> &tile_id = std::nullopt );
 
 int ballistic_damage( float velocity, float mass );

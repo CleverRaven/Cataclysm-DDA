@@ -9,7 +9,7 @@
       "+": "t_door_c",
       ",": "t_pavement_y",
       "-": "t_wall_w",
-      ".": [ [ "t_region_groundcover_barren", 30 ], [ "t_region_groundcover", 35 ], "t_region_shrub" ],
+      ".": [ [ "t_region_groundcover_barren", 30 ], [ "t_region_groundcover", 35 ], "t_region_shrub_plains" ],
       "/": "t_region_groundcover_barren",
       "5": "t_barndoor",
       "6": "t_palisade_pulley",

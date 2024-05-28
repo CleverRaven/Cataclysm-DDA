@@ -186,9 +186,9 @@ Effect                 | Description
 `pain_split`           | Evens out all of your limbs' damage.
 `pull_target`          | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
 `recharge_vehicle`     | Increases or decreases the battery charge of a vehicle or battery-connected power grid. Damage is equal to the charge (negative decreases).
-`recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `FATIGUE`, `PAIN`, `MANA` or `STAMINA`.
+`recover_energy`       | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `SLEEPINESS`, `PAIN`, `MANA` or `STAMINA`.
 `remove_effect`        | Removes `effect_str` effects from all creatures in the aoe.
-`remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.  (see `ter_transform` for more versatility)
+`remove_field`         | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_reality_tear`.  (see `ter_transform` for more versatility)
 `revive`               | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
 `revive_dormant`       | Revives a dormant monster.  The monster must have the `REVIVES` AND the `DORMANT` flag.
 `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
@@ -225,13 +225,13 @@ Field group | Description | Example
 ---  | --- | ---
 `min_X`, `max_X`, ``X_increment`` | Minimum value, maximum value, and the value increase per level. <br>Note: a spell is not _set_ to have max_X at max lvl, max_X is the ceiling for the value: a spell with `min_damage: 0, max_damage: 100, damage_increment: 5` and `max_level: 10`, will deal 5 damage at lvl 1, 10 at lvl 2 and 50 at lvl 10, as [ 0 + ( 5 \* 10 ) ].  Similarly, if `max_damage` is instead 25, the damage will cap at spell lvl 5, as [ 0 + ( 5 \* 5 ) ] | `"min_damage": { "math": [ "u_skill('dodge') + u_val('intelligence')" ] },`,<br> `"min_range": 24,`,<br> `"min_aoe": { "math": [ "( VAR_1 / 3 )" ] },`.
 `min_damage`, `max_damage`, `damage_increment` |  "Damage" value of the spell by default (or healing, if value is negative).  The [spell effect](MAGIC.md#spell-effects) can modify its function.  When the spell doesn't increase by level (such as a monster spell), `min_damage` and `max_damage` can be set at the same value (`"min_damage": 15, "max_damage": 15`), `damage_increment` can be omitted. | "min_damage": 0,  <br>"max_damage": 100,  <br>"damage_increment": 5,|
-`min_duration`, `max_duration`, `duration_increment` | Duration of the spell `effects` and `effect_str`, depending on the type of the ID.  Writed in moves, so `100` means `1 second`, `1 minute` as `6000`, and so on. | "min_duration": 100, <br>"max_duration": 6000, <br>"duration_increment": 100,
+`min_duration`, `max_duration`, `duration_increment` | Duration of the spell `effects` and `effect_str`, depending on the type of the ID.  Written in moves, so `100` means `1 second`, `1 minute` as `6000`, and so on. | "min_duration": 100, <br>"max_duration": 6000, <br>"duration_increment": 100,
 `min_range`, `max_range`, `range_increment` | Distance from the caster to the target.  Can be omitted if the target is the caster (giving an buff/debuff, spawning an item).  <br>Note: the reality bubble diameter is ~60 tiles. | "min_range": 2, <br>"max_range": 10, <br>"range_increment": 0.5,
 `min_aoe`, `max_aoe`, `aoe_increment` | Short for "area of effect", area/zone of tiles that the spell will affect. | "min_aoe": 0, <br>"max_aoe": 5, <br>"aoe_increment": 0.1, 
 `min_accuracy`, `max_accuracy`, `accuracy_increment` | Accuracy of the spell.  -20 accuracy will cause it to always miss, 20 will cause it always hit.  Currently doesn't work. | "min_accuracy" -20, <br>"max_accuracy": 20, <br>"accuracy_increment": 1.5
 `min_dot`, `max_dot`, `dot_increment` | Short for "damage over time".  Similar to damage, positive values hurt while negative values heal.  <br>Note: dot values are rounded up, so 1.1 will be 2. | "min_dot": 0, <br>"max_dot": 2, <br>"dot_increment": 0.1,
 `min_pierce`, `max_pierce`, `pierce_increment` | Armor "piercing", how much armor of the same `damage_type` the spell will ignore. | "min_pierce": 0, <br>"max_pierce": 1, <br>"pierce_increment": 0.1,
-`base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's writed in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
+`base_casting_time`, `final_casting_time`, `casting_time_increment` | Time the caster spends when casting the spell.  Similar to duration, it's written in moves, which allows spells to be casted in fractions of a second.  Ignored for monsters and items that cast spells.  If several spells are chained, only the first one will apply the cost.  <br>Note: The casting time is not shown to the player (e.g. a cast of 300 will behave as if the player waits for 3 turns). | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
 `base_energy_cost`, `final_energy_cost`, `energy_increment` | Amount of energy spent for cast.  If several spells are chained, only the first one will apply the cost.  Ignored for monsters and items that cast spells. | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
 `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Allows the spell to spawn fields.  `field_id` describes which field will be spawned, `field_chance` describes the chance as ( 1 / `field_chance`).  <br>`min_field_intensity`, `max_field_intensity` and `field_intensity_increment` modify the field intensity and it's growth (e.g. fd_electricity intensity 1 is "spark", while intensity 10 is "electric cloud").  <br>`field_intensity_variance` allows to randomly increase or decrease the intensity of the spell as a percent (e.g. intensity 10 and variance 0.1 means it can grow or shrink by 10%, or go from 9 to 11). | "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
 `effect_str` | The "effect" the spell has (see [EFFECTS_JSON](EFFECTS_JSON.md)).  Varies according to the spell `effect` field. | "effect_str": "zapped", "effect_str": "mon_zombie",
@@ -803,11 +803,11 @@ Character status value  | Description
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BANDAGE_BONUS`         | Affects the `bandages_power` you have when applying medicine.
 `BIONIC_MANA_PENALTY`       | changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
-`BIONIC_POWER`          |
+`BIONIC_POWER`          | Adds bionic power storage in millijoules ("add": 1000000 adds 1 kJ)
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when applying medicine.
 `BODYTEMP_SLEEP`        | Amount of warmth (in celcius) added to you when you sleep. Default is 0, so better to use `add`
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
-`BONUS_DODGE`           | Affects the number of dodges you can perform.
+`BONUS_DODGE`           | Affects the number of dodges you can perform. Do not confuse with `DODGE_CHANCE`
 `CARDIO_MULTIPLIER`     | Affects total cardio fitness by this amount.  Since it's a percent, using `multiply` is recommended.
 `CARRY_WEIGHT`          | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
 `CASTING_TIME_MULTIPLIER`   | Same as mutation `casting_time_multiplier` field, changes your casting speed. Since it's a percent, using `multiply` is recommended. `"multiply": 2"` triples the casting speed 
@@ -818,7 +818,9 @@ Character status value  | Description
 `CRAFTING_SPEED_MULTIPLIER` | Changes your crafting speed. Since it's a percent, using `multiply` is recommended.  Positive values decrease crafting time, negative values increase it.
 `DEXTERITY`             | Affects the dexterity stat.
 `DISINFECTANT_BONUS`    | Affects the `disinfectant_power` you have when applying medicine.
+`DODGE_CHANCE`          | Modifies the probability to dodge an attack. Default is 0, so better to use `add`
 `EFFECTIVE_HEALTH_MOD`  | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
+`EQUIPMENT_DAMAGE_CHANCE` | Modifies the likelihood that weapons and armor take durability damage.  Since it's a percent, using 'multiply' is recommended.  Positive values increase likelihood of damage while negative values decrease likelihood.  `multiply`: -1 and below result in indestructible equipment.
 `EXTRA_ACID`            | EXTRA_TYPE increases received damage of the selected type.
 `EXTRA_BASH`            | 
 `EXTRA_BIO`             | 
@@ -831,8 +833,8 @@ Character status value  | Description
 `EXTRA_ELEC_PAIN`       | Multiplier on electric damage received, the result is applied as extra pain.
 `EVASION`               | Flat chance for your character to dodge incoming attacks regardless of other modifiers.  From 0.0 (no evasion chance) to 1.0 (100% evasion chance).
 `FALL_DAMAGE`           | Affects the amount of fall damage you take.
-`FATIGUE`               | Affects how fast your fatigue grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
-`FATIGUE_REGEN`         | Affects how much of your fatigue and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
+`SLEEPINESS`               | Affects how fast your sleepiness grows over time - bigger value makes you tired faster. Since it's a percent, using `multiply` is recommended.
+`SLEEPINESS_REGEN`         | Affects how much of your sleepiness and sleep deprivation drops when resting. Since it's a percent, using `multiply` is recommended.
 `FAT_TO_MAX_HP`         | Changes the amount of HP, that is given to you by your fat. Formula is `((your_calories/7716.17)/((your_height_in_cm/100)^2))*hitsize_of_all_non_bionic_bodyparts`. Using `add` works just as adding HP, so use `multiply` instead
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
@@ -865,14 +867,14 @@ Character status value  | Description
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `OVERMAP_SIGHT`         | Increases the amount of overmap tiles you can see around.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
-`PAIN_PENALTY_MOD_STR`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
-`PAIN_PENALTY_MOD_DEX`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
-`PAIN_PENALTY_MOD_INT`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
-`PAIN_PENALTY_MOD_PER`  | Amount of this stat you lose from pain. Default value is `((pain^0.8)/10)*0.66`. Can't be lower than 0
+`PAIN_PENALTY_MOD_STR`  | Amount of this stat you lose from pain. Default value is `(pain*0.005)*max_str`. Can't be lower than 1
+`PAIN_PENALTY_MOD_DEX`  | Amount of this stat you lose from pain. Default value is `(pain*0.0075)*max_dex`. Can't be lower than 1
+`PAIN_PENALTY_MOD_INT`  | Amount of this stat you lose from pain. Default value is `(pain*0.01)*max_int`. Can't be lower than 1
+`PAIN_PENALTY_MOD_PER`  | Amount of this stat you lose from pain. Default value is `(pain*0.01)*max_per`. Can't be lower than 1
 `PAIN_PENALTY_MOD_SPEED`| Amount of speed you lose from pain. Default value is `pain^0.7`. Can't be bigger than 50 speed.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `PERCEPTION`            | Affects the perception stat.
-`POWER_TRICKLE`         | Generates this amount of joules each second. Default value is zero, so better to use `add`
+`POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
 `READING_EXP`           | Changes the minimum you learn from each reading increment.

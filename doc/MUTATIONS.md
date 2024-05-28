@@ -51,17 +51,13 @@ The mutation system works in several steps. All time references are in game time
 
 ### Instability and the odds of a good mutation
 
-The odds of a mutation being good or bad is directly determined by Instability, which is a stat tracked using a vitamin. It represents long-term genetic damage; a character will begin the game with 0 Instability and obtain only positive or neutral mutations, but with enough Instability, they will become almost exclusively negative ones.
+The odds of a mutation being good or bad is directly determined by Instability, which is a hidden value derived on a per-tree basis (it is possible for the chances of a bad mutation to be different across multiple mutation trees simultaneously).  This value is determined by counting all mutations you have that aren't negative, and counting double any mutations that don't belong as double.  For example, for the Feline mutation tree, "Feline Ears" is worth a single point of instability, while "Hooves" would count as two points. "Sleepy" counts as no points of instability, since it is a negative mutation.  Only traits you have gained as mutations count; ones you started with don't matter. Traits which cannot be gained as mutations, such as the Exodii's "Standard Neurobionic Matrix" mutation, also do not count.  Currently, the Robust Genetics trait negates the double penalty for out-of-tree mutations.  All mutations are counted as "in tree" that way.  Lastly, mutations count their prior forms.  "Very Strong" is worth two instability raw, since it counts "Strong" too which you had to mutate in order to obtain it even though it only shows one mutation in your character's list.  So if neither "Very Strong" nor "Strong" are in the tree, having "Very Strong" gives four instability; if Strong is in the tree but Very Strong isn't, 3 instability.
 
-These chances are determined on a curve, ranging from 0 Instability (default) to 8000 Instability (the maximum):
-* Neutral mutations (those which are neither negative nor positive) are always eligible.
-* From roughly 0 to 800 Instability, there is a 100% chance for a positive or neutral mutation and a 0% chance for a negative one.
-* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
-* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
+This value is added up and then compared to the number of mutations that are non negative in the given tree. For example, Alpha has 21 non negative mutations, while Troglobite has 28, and Chimera has even more.  Half of your instability for that tree divided by the prior tally is your chance of rolling a bad mutation. For example if your Alpha instability was 7 you'd have a 1/3 chance of getting a bad mutation instead of a good one, and if for Trog your instability was also 7 you would have a 1/4 chance of getting a bad mutation.
 
-Instability very slowly decreases on its own, at a rate of 12 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per 2 hours, for a total of 24 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
+Instability cannot decrease over time.  It is a static value that can only be lowered by lowering your number of mutations by using Purifier.  If you purify back to baseline after becoming heavily mutated, it like getting a reset on your instability value, but it cannot otherwise be lowered without giving up your mutations.
 
-Instability can't currently be viewed numerically in normal play, but the player will receive a visible effect on their character sheet whenever they have any Instability. This serves to give a general ballpark of how unstable the character is without telling them the exact amount.
+Finally, there are some sources of true-random mutations that can be inflicted by certain nether monsters for example.  These are always completely random regardless of instability, but any beneficial mutations obtained will cause instability as usual.
 
 ### tl;dr
 
@@ -100,12 +96,14 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
   "description": "Nothing gets you down!",    // In-game description.
   "starting_trait": true,                     // Can be selected at character creation (default: false).
-  "valid": false,                             // Can be mutated ingame (default: true).
+  "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
   "debug": false,                             // Trait is for debug purposes (default: false).
   "dummy": false,                             // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
-  "threshold": false                          //True if it's a threshold itself, and shouldn't be obtained *easily*.
+  "threshold": false,                         //True if it's a threshold itself, and shouldn't be obtained *easily*.  Disallows mutating this trait directly
+  "threshold_substitutes": [ "FOO", "BAR" ],   // The listed traits are accepted in place of this threshold trait for the purposes of gaining post-threshold mutations
+  "strict_thresreq": false,                   // This trait needs an *exact* threshold match (ie. ignores threshold substitutions)
   "player_display": true,                     // Trait is displayed in the `@` player display menu and mutations screen.
   "vanity": false,                            // Trait can be changed any time with no cost, like hair, eye color and skin color.
   "variants": [                               // Cosmetic variants of this mutation.
@@ -176,11 +174,11 @@ Note that **all new traits that can be obtained through mutation must be purifia
   ],
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
-  "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or fatigue values set to true (default: 0).
+  "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or sleepiness values set to true (default: 0).
   "time": 100,                                // Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again.  Needs to be higher than one to have any effect (default: 0).
   "kcal": true,                               // If true, activated mutation consumes `cost` kcal. (default: false).
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
-  "fatigue": true,                            // If true, activated mutation increases fatigue by cost (default: false).
+  "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
@@ -236,7 +234,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "processed_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate every time (defined above) units of time. Time of 0 means every turn it processes. Processed when the mutation is active for activatable mutations and always for non-activatable ones.
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
   "enchantments": [ "ench_id_1" ],            // List of enchantments granted by this mutation.  Can be either IDs or an inline definition of the enchantment (see MAGIC.md)
-  "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
+  "flags": [ "WALK_UNDERWATER" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
   "moncams": [ [ "mon_player_blob", 16 ] ],    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
   "override_look": { "id": "mon_cat_black", "tile_category": "monster" } // Change the character's appearance to another specified thing with a specified ID and tile category. Please ensure that the ID corresponds to the tile category. The valid tile category are "none", "vehicle_part", "terrain", "item", "furniture", "trap", "field", "lighting", "monster", "bullet", "hit_entity", "weather", "overmap_terrain", "map_extra", "overmap_note".
 }
@@ -262,7 +260,7 @@ These fields are optional, but are very frequently used in mutations and their c
 |    Identifier     | Default |                                                                          Description                                                                        |
 | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `category`        | Nothing | An array of string IDs representing mutation categories. This defines which categories the trait is considered part of (such as `ALPHA`, `BEAST`, `CEPHALOPOD`, and so on) and so it determines which primers must be used for the player to mutate them. |
-| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating towards such a trait would remove the existing one if it could.  |
+| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating towards such a trait would remove the existing one if it could.  An exception is made for same-typed prerequisite traits, these will not get removed.|
 | `prereqs`         | Nothing | An array of mutation IDs that are possible requirements for this trait to be obtained. Only a single option from this list needs to be present.             |
 | `prereqs2`        | Nothing | Identical to `prereqs`, and will throw errors if `prereqs` isn't defined. This is used to have multiple traits required to obtain another trait; one option must be present on the character from both `prereqs` and `prereqs2` for a trait to be obtainable. |
 | `threshreq`       | Nothing | This is a dedicated prerequisite slot for threshold mutations, and functions identically to `prereq` and `prereq2`.                                         |
@@ -284,7 +282,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `cost`            | 0       | For active mutations, this value is the cost to activate them. At least one of the following three values will need to be `true` for this to function.      |
 | `kcal`            | false   | If true, this active mutation will consume `cost` kcal during activation or upkeep.                                                                         |
 | `thirst`          | false   | If true, this active mutation will consume `cost` thirst during activation or upkeep.                                                                       |
-| `fatigue`         | false   | If true, this active mutation will consume `cost` fatigue during activation or upkeep.                                                                      |
+| `sleepiness`         | false   | If true, this active mutation will consume `cost` sleepiness during activation or upkeep.                                                                      |
 | `enchantments`    | Nothing | A list of enchantments granted by this mutation. Can either be string IDs of a defined enchantment, or an inline definition.                                |
 
 ### Optional Fields

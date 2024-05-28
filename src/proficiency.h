@@ -132,7 +132,7 @@ class proficiency_set
         // True if the proficiency is learned;
         bool practice( const proficiency_id &practicing, const time_duration &amount,
                        float remainder, const std::optional<time_duration> &max );
-        void learn( const proficiency_id &learned );
+        void learn( const proficiency_id &learned, bool recursive = false );
         void remove( const proficiency_id &lost );
 
         // Ignore requirements, made for debugging
@@ -156,7 +156,6 @@ class proficiency_set
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jsobj );
-        void deserialize_legacy( const JsonArray &jo );
 };
 
 struct learning_proficiency {

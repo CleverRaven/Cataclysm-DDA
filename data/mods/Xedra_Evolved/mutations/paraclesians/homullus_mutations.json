@@ -1,5 +1,6 @@
 [
   {
+    "//": "When any new mutation is added, make sure to add it to the jmath statement paraclesian_homullus_total_mutations",
     "type": "mutation",
     "id": "HOMULLUS_SKIN_1",
     "name": { "str": "Mannequin Skin" },
@@ -85,7 +86,7 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more succesful at lying to people now.",
+    "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more successful at lying to people now.",
     "category": [ "HOMULLUS" ],
     "social_modifiers": { "lie": 40 }
   },
@@ -103,12 +104,25 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_CHARM_FERALS",
+    "name": { "str": "One of Us" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "With this ability, the Homullus can reach out to a feral's fractured mind and twist it, convincing them to function as an ally.",
+    "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "homullus_charm_feral_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_SUMMON_FERALS",
     "name": { "str": "The Lost and the Damned" },
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
+    "description": "The world crawls with the hungry dead and those who may as well be dead while they still live.  This allows the Homullus to call one of the latter to their side.",
+    "prereqs": [ "HOMULLUS_CHARM_FERALS" ],
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
   },
@@ -144,10 +158,48 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
+    "description": "Upon gaining this ability the Homullus gains the ability to render one of their allies inconspicuous.",
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_INVISIBLE_TO_HUMANS" ],
     "spells_learned": [ [ "homullus_reduced_visibility_ally_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_RESTORE_POWER",
+    "name": { "str": "Dynamo" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to recharge vehicles or power grids.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
+    "spells_learned": [ [ "homullus_restore_power_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ADD_LEARNING_FOCUS",
+    "name": { "str": "The Scholar's Regard" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning ability.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "INT_UP_2" ],
+    "spells_learned": [ [ "homullus_add_learning_focus_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ROAD_TRANSLOCATION",
+    "name": { "str": "All Roads Lead to Rome" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to travel along a road to any bastion of civilization they have attuned to.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
+    "prereqs2": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
+    "spells_learned": [ [ "homullus_road_translocate_spell", 1 ], [ "homullus_road_translocate_attune", 1 ] ]
   },
   {
     "type": "mutation",
@@ -260,6 +312,22 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_PASSIVE_BIONIC_POWER",
+    "name": "Internalized Charge",
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You are capable of storing power directly in your flesh.  You gain 50 kJ of bionic power storage per Homullus trait you have.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "BIONIC_POWER", "add": { "math": [ "paraclesian_homullus_total_mutations(1) * 50000000" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_ARMOR_MULT_1",
     "name": "Reinforced Armor",
     "points": 4,
@@ -268,7 +336,7 @@
     "description": "Humans are flimsy creatures compared to even natural animals, yet by crafting armor they obtain durability that unthinking creatures will never reach.  You draw on this legacy, increasing the strength of armor you wear by 20%",
     "changes_to": "HOMULLUS_ARMOR_MULT_2",
     "category": [ "HOMULLUS" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -281,7 +349,32 @@
     "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
-    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
+    "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" } }, { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DURABILITY_MULT_1",
+    "name": "Equipment Hardening",
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You conceptually harden your tools and armor, reducing the chance that they are damaged.",
+    "changes_to": "HOMULLUS_DURABILITY_MULT_2",
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DURABILITY_MULT_2",
+    "name": "Extreme Equipment Hardening",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You conceptually harden your tools and armor, immensely reducing the chance that they are damaged.",
+    "prereqs": [ "HOMULLUS_DURABILITY_MULT_1" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.66 } ] } ]
   },
   {
     "type": "mutation",
@@ -293,6 +386,7 @@
     "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power.",
     "changes_to": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
     "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "prereqs2": [ "HOMULLUS_PASSIVE_BIONIC_POWER" ],
     "category": [ "HOMULLUS" ]
   },
   {
@@ -321,7 +415,6 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You are at home in the artificial environments constructed by humanity.  You move slightly faster within.",
-    "types": [ "RUNNING" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
@@ -362,10 +455,32 @@
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina.",
     "types": [ "CARDIO" ],
-    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_REGEN_STAMINA",
+    "name": { "str": "Take the Line" },
+    "points": 2,
+    "description": "By standing together, humanity was able to overcome all threats, and it was only when they turned on each other that the Cataclysm grew out of control.  The Homullus regains Stamina 5% faster per ally within 30 meters (10% faster per ally if they have the Homullus trait).",
+    "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": {
+              "math": [
+                "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_archaeologist', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both')) * (0.05 * paraclesian_post_threshold_doubler(1))"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -559,7 +674,8 @@
           { "value": "REGEN_HP", "multiply": -1.0 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
           { "value": "ATTACK_SPEED", "multiply": 0.8 },
-          { "value": "MENDING_MODIFIER", "multiply": -1.0 }
+          { "value": "MENDING_MODIFIER", "multiply": -1.0 },
+          { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 }
         ]
       },
       {

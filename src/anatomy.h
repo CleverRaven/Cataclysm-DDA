@@ -2,15 +2,17 @@
 #ifndef CATA_SRC_ANATOMY_H
 #define CATA_SRC_ANATOMY_H
 
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "bodypart.h"
-#include "string_id.h"
+#include "type_id.h"
 
+class Creature;
 class JsonObject;
 class anatomy;
-class Creature;
 
 using anatomy_id = string_id<anatomy>;
 

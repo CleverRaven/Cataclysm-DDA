@@ -195,7 +195,7 @@
           { "item": "sneakers" },
           { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "deck_of_cards" },
+          { "item": "deck_of_cards", "variant": "generic_deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
@@ -285,7 +285,7 @@
   {
     "type": "profession",
     "id": "psi_telepath_interrogater",
-    "name": "Government Interrogater (DECEASED)",
+    "name": "Government Interrogator (DECEASED)",
     "description": "You did not die in the Cataclysm because on paper, you are already dead.  You assumed a new identity as part of an experimental program designed to produce psychic interrogators.  They told you that you were serving your country, that your gifts would be the key to winning the new Cold War that was surely developing, but they didn't consider the ramifications of having a telepath on the base.  You knew right away that things were much worse than the brass was telling you, and your gifts let you \"persuade\" the guards to let you out even in the face of the lockdown.  You had thought to go somewhere else, to get away from New England, but the end came much faster than even you thought it would.",
     "points": 3,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 3, "name": "metaphysics" } ],

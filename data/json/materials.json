@@ -399,6 +399,21 @@
   },
   {
     "type": "material",
+    "id": "yrax_quartz",
+    "name": "Quartz",
+    "//": "Density value assumes Titanium Diboride",
+    "density": 4.5,
+    "specific_heat_liquid": 1,
+    "specific_heat_solid": 1,
+    "latent_heat": 333,
+    "chip_resist": 2000,
+    "dmg_adj": [ "chipped", "cracked", "resonating", "fractal" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut",
+    "resist": { "bash": 4, "cut": 8, "acid": 14, "heat": 14, "bullet": 6 }
+  },
+  {
+    "type": "material",
     "id": "damaged_ceramic",
     "name": "Compromised Ceramic",
     "copy-from": "ceramic",
@@ -610,6 +625,22 @@
     "repaired_with": "null",
     "wind_resist": 75,
     "resist": { "bash": 2, "cut": 2, "acid": 3, "heat": 0, "bullet": 1.5 }
+  },
+  {
+    "type": "material",
+    "id": "cotton_salted",
+    "name": "Salt Hardened Cotton",
+    "copy-from": "cotton",
+    "repaired_with": "null",
+    "resist": { "bash": 2, "cut": 2, "acid": 5, "heat": 10, "bullet": 1.5 }
+  },
+  {
+    "type": "material",
+    "id": "cotton_quilted_salted",
+    "name": "Salt Hardened Quilted Cotton",
+    "copy-from": "cotton",
+    "repaired_with": "null",
+    "resist": { "bash": 3.5, "cut": 3.5, "acid": 5, "heat": 10, "bullet": 2 }
   },
   {
     "type": "material",
@@ -1146,6 +1177,17 @@
   },
   {
     "type": "material",
+    "id": "crude_oil",
+    "density": 0.8,
+    "name": "Crude oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": "38000 kJ",
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
     "id": "iflesh",
     "name": "Insect Flesh",
     "density": 1.1,
@@ -1178,11 +1220,11 @@
     "latent_heat": 247,
     "conductive": true,
     "chip_resist": 15,
-    "repaired_with": "scrap",
+    "repaired_with": "scrap_cast_iron",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
-    "burn_products": [ [ "scrap", 0.5 ] ],
+    "burn_products": [ [ "scrap_cast_iron", 0.5 ] ],
     "resist": { "bash": 4, "cut": 4, "acid": 5, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
   },
@@ -1542,7 +1584,7 @@
     "type": "material",
     "id": "paraffin_wax",
     "name": "Paraffin Wax",
-    "density": 0.9,
+    "density": 0.86,
     "specific_heat_liquid": 2.9,
     "specific_heat_solid": 3.7,
     "latent_heat": 210,

@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -59,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -259,15 +261,15 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_thirst( mut_id->cost );
             }
         }
-        if( mut_id->fatigue ) {
+        if( mut_id->sleepiness ) {
             // Exhausted
-            if( you.get_fatigue() >= fatigue_levels::EXHAUSTED ) {
+            if( you.get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too exhausted to keep your %s going." ),
                                        you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
-                you.mod_fatigue( mut_id->cost );
+                you.mod_sleepiness( mut_id->cost );
             }
         }
 
@@ -505,8 +507,8 @@ void suffer::from_chemimbalance( Character &you )
         you.mod_thirst( 5 * rng( 1, 3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
-        you.add_msg_if_player( m_good, _( "You feel fatigued all of a sudden." ) );
-        you.mod_fatigue( 10 * rng( 2, 4 ) );
+        you.add_msg_if_player( m_good, _( "You feel sleepy all of a sudden." ) );
+        you.mod_sleepiness( 10 * rng( 2, 4 ) );
     }
     if( one_turn_in( 8_hours ) ) {
         if( one_in( 3 ) ) {
@@ -1320,7 +1322,7 @@ void suffer::from_stimulants( Character &you, const int current_stim )
     if( current_stim < -60 || you.get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel tired…" ) );
-            you.mod_fatigue( rng( 1, 2 ) );
+            you.mod_sleepiness( rng( 1, 2 ) );
         }
     }
 }
@@ -1519,7 +1521,7 @@ void suffer::from_nyctophobia( Character &you )
 {
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
+    const bool in_darkness = get_map().ambient_light_at( you.pos_bub() ) < nyctophobia_threshold;
     if( in_darkness ) {
         if( one_in( 80 ) && !you.has_effect( effect_shakes ) ) {
             you.add_msg_if_player( m_bad,
@@ -1809,7 +1811,7 @@ void Character::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     } else {

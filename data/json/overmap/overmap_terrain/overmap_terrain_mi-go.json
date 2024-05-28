@@ -6,7 +6,7 @@
     "sym": "<",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,7 +15,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -24,7 +24,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -33,16 +33,25 @@
     "sym": "_",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mi-go_scout_tower_1", "mi-go_scout_tower_2", "mi-go_scout_tower_3", "mi-go_scout_tower_4" ],
+    "id": [
+      "barry_mi-go_scout_tower_1",
+      "barry_mi-go_scout_tower_2",
+      "barry_mi-go_scout_tower_3",
+      "barry_mi-go_scout_tower_4",
+      "mi-go_scout_tower_1",
+      "mi-go_scout_tower_2",
+      "mi-go_scout_tower_3",
+      "mi-go_scout_tower_4"
+    ],
     "name": "mi-go scout tower",
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -51,6 +60,6 @@
     "sym": "=",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   }
 ]

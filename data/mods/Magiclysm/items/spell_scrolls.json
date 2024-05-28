@@ -6,7 +6,7 @@
     "category": "manuals",
     "weight": "475 g",
     "volume": "500 ml",
-    "price": 4000,
+    "price": "40 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white"
@@ -89,7 +89,7 @@
     "id": "spell_scroll_recover_mana",
     "//": "Animist spell",
     "name": { "str": "Scroll of Life Conversion", "str_pl": "Scrolls of Life Conversion" },
-    "description": "You channel your life force itself into your spiritual energy.  You spend hp to regain mana.",
+    "description": "You channel your life force itself into your spiritual energy.  You spend HP to regain mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_mana" ] }
   },
   {
@@ -328,11 +328,11 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_recover_fatigue",
+    "id": "spell_scroll_recover_sleepiness",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
-    "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "recover_sleepiness" ] }
   },
   {
     "type": "BOOK",
@@ -492,7 +492,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_reactive_armor",
     "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Reactive Armour", "str_pl": "Scrolls of Reactive Armour" },
+    "name": { "str": "Scroll of Reactive Armor", "str_pl": "Scrolls of Reactive Armor" },
     "description": "Explode your stone skin, to deal massive damage to all enemies around.",
     "use_action": { "type": "learn_spell", "spells": [ "reactive_armor" ] }
   },
@@ -853,7 +853,7 @@
     "id": "spell_scroll_explosive_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Explosive Decompression", "str_pl": "Scrolls of Explosive Decompression" },
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.",
     "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
   },
   {
@@ -862,7 +862,7 @@
     "id": "spell_scroll_vacuum_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Vacuum Decompression", "str_pl": "Scrolls of Vacuum Decompression" },
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
     "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
   },
   {
@@ -1143,7 +1143,7 @@
     "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
     "weight": "129 g",
     "volume": "500 ml",
-    "price": 25000,
+    "price": "250 USD",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
@@ -2011,7 +2011,7 @@
     "id": "spell_scroll_animist_slow_food_rotting_spell",
     "//": "Animist spell",
     "name": { "str": "Scroll of Abjure Spirits of Rot", "str_pl": "Scrolls of Abjure Spirits of Rot" },
-    "description": "Banisht the decay spirits from the food you're carrying, making it last much longer before going bad.",
+    "description": "Banish the decay spirits from the food you're carrying, making it last much longer before going bad.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
   },
   {
@@ -2040,5 +2040,23 @@
     "name": { "str": "Scroll of Zoom Lens", "str_pl": "Scrolls of Zoom Lens" },
     "description": "Enchant a lens with the ability to see beyond the horizon.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_pain_ignore",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of The Body Mechanical", "str_pl": "Scrolls of The Body Mechanical" },
+    "description": "Grant yourself brief reprieves from the effects of pain.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_magic_fissile",
+    "//": "Animist spell",
+    "name": { "str": "Rewritten Scroll" },
+    "description": "This scroll has been scribbled over again and again in the handwriting of more than one person.  The notes in the margins imply some sort of departmental competition, but no matter the results you can still make out a functional spell in the mess.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_magic_fissile" ] }
   }
 ]

@@ -6,32 +6,34 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
-#include <iosfwd>
+#include <iterator>
 #include <limits>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
-#include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
-#include "bionics.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "colony.h"
 #include "color.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"
@@ -42,11 +44,13 @@
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -69,6 +73,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -110,9 +115,13 @@ static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 
+static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+static const std::string flag_NO_BENCH( "NO_BENCH" );
+static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
+static const std::string flag_NO_MANIP( "NO_MANIP" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 
 class basecamp;
@@ -287,11 +296,27 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
     return multiplier;
 }
 
+float Character::workbench_crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint_bub_ms> &loc )const
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    return Character::workbench_crafting_speed_multiplier( craft, tmp );
+}
+
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
+
+    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
+                                 limb_score_manip );
+    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+
     float crafting_speed = morale_crafting_speed_multiplier( rec ) *
                            lighting_craft_speed_multiplier( rec ) *
-                           get_limb_score( limb_score_manip );
+                           limb_score * pain_multi;
 
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
@@ -314,15 +339,21 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = ( use_cached_workbench_multiplier ||
+    const float bench_value = ( use_cached_workbench_multiplier ||
                                 cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
+    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ? 1.0f : bench_value;
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = 1.0 + enchantment_cache->get_value_multiply(
+    const float mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 +
+                            enchantment_cache->get_value_multiply(
                                 enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
+    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
+                                 limb_score_manip );
+    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f ;
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
-                              get_limb_score( limb_score_manip );
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score *
+                              pain_multi;
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -338,7 +369,11 @@ float Character::crafting_speed_multiplier( const item &craft,
         return 0.0f;
     }
 
-    // If we're working below 20% speed, just give up
+    if( pain_multi <= 0.1f ) {
+        add_msg_if_player( m_bad, _( "You can't continue due the immense pain in your body." ) );
+        return 0.0f;
+    }
+
     if( total_multi <= 0.2f ) {
         add_msg_if_player( m_bad, _( "Your progress is so slow that you give up in frustration." ) );
         return 0.0f;
@@ -359,6 +394,18 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
 
     return total_multi;
+}
+
+float Character::crafting_speed_multiplier( const item &craft,
+        const std::optional<tripoint_bub_ms> &loc, bool use_cached_workbench_multiplier,
+        float cached_workbench_multiplier ) const
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    return Character::crafting_speed_multiplier( craft, tmp, use_cached_workbench_multiplier,
+            cached_workbench_multiplier );
 }
 
 bool Character::has_morale_to_craft() const
@@ -407,7 +454,7 @@ void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size ) const
 {
     const recipe &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !making || !crafting_allowed( *this, making ) ) {
         return false;
     }
 
@@ -573,7 +620,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( !has_recipe( r, crafting_inv, get_crafting_group() ) ) {
+    if( !has_recipe( r ) ) {
         return false;
     }
 
@@ -741,7 +788,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &get_map().add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
-            return item_location( map_cursor( tile ), it_on_map );
+            return item_location( map_cursor( tripoint_bub_ms( tile ) ), it_on_map );
         }
     }
     debugmsg( "Could not place %s on map near (%d, %d, %d)", newit.tname(), loc.x, loc.y, loc.z );
@@ -1525,6 +1572,15 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
     }
 }
 
+void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms> &loc )
+{
+    std::optional<tripoint> tmp;
+    if( loc.has_value() ) {
+        tmp = loc.value().raw();
+    }
+    Character::complete_craft( craft, tmp );
+}
+
 bool Character::can_continue_craft( item &craft )
 {
     if( !craft.is_craft() ) {
@@ -2105,7 +2161,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         }
     }
     for( item &it : ret ) {
-        it.spill_contents( *this );
+        // leave battery/liquids/gases in their containers, spill out solids
+        if( !it.contains_no_solids() ) {
+            it.spill_contents( *this );
+        }
         // todo: make a proper solution that overflows with the proper item_location
         it.overflow( pos() );
     }
@@ -2677,7 +2736,7 @@ void Character::disassemble_all( bool one_pass )
     bool found_any = false;
     std::vector<item_location> to_disassemble;
     for( item &it : get_map().i_at( pos() ) ) {
-        to_disassemble.emplace_back( map_cursor( pos() ), &it );
+        to_disassemble.emplace_back( map_cursor( pos_bub() ), &it );
     }
     for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
@@ -3084,7 +3143,7 @@ item_location npc::get_item_to_craft()
         }
         for( item &itm : here.i_at( adj ) ) {
             if( itm.get_var( "crafter", "" ) == name ) {
-                to_craft = item_location( map_cursor( adj ), &itm );
+                to_craft = item_location( map_cursor( tripoint_bub_ms( adj ) ), &itm );
                 if( !is_anyone_crafting( to_craft, this ) ) {
                     return to_craft;
                 }
@@ -3126,7 +3185,7 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
         }
         for( item &itm : here.i_at( adj ) ) {
             if( itm.is_craft() && itm.get_making().npc_can_craft( dummy ) ) {
-                item_location to_craft = item_location( map_cursor( adj ), &itm );
+                item_location to_craft = item_location( map_cursor( tripoint_bub_ms( adj ) ), &itm );
                 if( !is_anyone_crafting( to_craft, this ) ) {
                     craft_item_list.push_back( to_craft );
                 }

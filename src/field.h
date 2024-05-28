@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_FIELD_H
 #define CATA_SRC_FIELD_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "calendar.h"

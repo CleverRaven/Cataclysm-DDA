@@ -8,8 +8,8 @@
     "material": [ "cotton" ],
     "weight": "900 g",
     "volume": "3 L",
-    "price": 2000,
-    "price_postapoc": 100,
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
     "symbol": "i",
     "color": "cyan",
     "flags": [ "SLEEP_AID", "NO_SALVAGE" ],
@@ -213,8 +213,8 @@
       },
       {
         "id": "toy_plush_baryo",
-        "name": { "str": "baryonix plushie" },
-        "description": "A grayish, soft and cute baryonix plushie with a big head and small arms, it is holding a fish, probably saving it for later.",
+        "name": { "str": "baryonyx plushie" },
+        "description": "A grayish, soft and cute baryonyx plushie with a big head and small arms, it is holding a fish, probably saving it for later.",
         "weight": 1
       },
       {
@@ -232,7 +232,7 @@
       {
         "id": "toy_plush_tik",
         "name": { "str": "tiktaalik plushie" },
-        "description": "A large plushie of your ancestor, the tiktaalik!  It has a soft, huggable fish-like body, stubby legs, and paddle-like soft fins.  Its colour is a mix of blue-gray soft scales pattern on the back and a plush beige belly.  It has large eyes and a friendly expression.",
+        "description": "A large plushie of your ancestor, the tiktaalik!  It has a soft, huggable fish-like body, stubby legs, and paddle-like soft fins.  Its color is a mix of blue-gray soft scales pattern on the back and a plush beige belly.  It has large eyes and a friendly expression.",
         "weight": 1
       },
       {
@@ -548,7 +548,7 @@
       {
         "id": "toy_plush_jmonkey",
         "name": { "str": "Japanese macaque plushie" },
-        "description": "This japanese macaque plushie features a soft, brown grayish fur, with a reddish-brown face and hands.",
+        "description": "This Japanese macaque plushie features a soft, brown grayish fur, with a reddish-brown face and hands.",
         "weight": 1
       },
       {
@@ -572,7 +572,7 @@
       {
         "id": "toy_plush_howlerm",
         "name": { "str": "howler monkey plushie" },
-        "description": "This cute and cuddling howler monkeu plushie has soft, brown fur, and produces a sound that mimics the howler monkey's signature hooting noise when hugged properly.",
+        "description": "This cute and cuddling howler monkey plushie has soft, brown fur, and produces a sound that mimics the howler monkey's signature hooting noise when hugged properly.",
         "weight": 1
       },
       {
@@ -728,8 +728,8 @@
     "weight": "625 g",
     "volume": "30 L",
     "longest_side": "103 cm",
-    "price": 600,
-    "price_postapoc": 20,
+    "price": "6 USD",
+    "price_postapoc": "20 cent",
     "symbol": "s",
     "color": "cyan",
     "flags": [ "SLEEP_AID" ]
@@ -743,8 +743,8 @@
     "material": [ "plastic" ],
     "weight": "500 g",
     "volume": "1 L",
-    "price": 2000,
-    "price_postapoc": 20,
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
     "symbol": "f",
     "color": "cyan",
     "variant_type": "generic",
@@ -806,8 +806,8 @@
     "material": [ "plastic" ],
     "weight": "125 g",
     "volume": "200 ml",
-    "price": 2000,
-    "price_postapoc": 10,
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
     "symbol": "f",
     "color": "cyan",
     "variant_type": "generic",
@@ -869,8 +869,8 @@
     "weight": "50 g",
     "volume": "70 ml",
     "longest_side": "7 cm",
-    "price": 200,
-    "price_postapoc": 5,
+    "price": "2 USD",
+    "price_postapoc": "5 cent",
     "symbol": "q",
     "color": "light_gray"
   },
@@ -889,8 +889,8 @@
       "menu_text": "Spin",
       "effect_on_conditions": [ { "id": "EOC_spinner_spinning", "effect": { "u_message": "You spin your fidget spinner." } } ]
     },
-    "price": 500,
-    "price_postapoc": 5,
+    "price": "5 USD",
+    "price_postapoc": "5 cent",
     "symbol": "/",
     "color": "green"
   },
@@ -901,8 +901,8 @@
     "description": "Its legs are mismatched, its arms misshapen, its eyes more crooked than its smile.  Everywhere, it sparkles with the golden thread that has put it back together.  It's beautiful.",
     "category": "other",
     "material": [ "cotton" ],
-    "price": 0,
-    "price_postapoc": 10000000,
+    "price": "0 cent",
+    "price_postapoc": "100 kUSD",
     "symbol": "@",
     "color": "white",
     "looks_like": "talking_doll",
@@ -920,8 +920,8 @@
     "description": "They're different colors and different lengths.  It would be hard to run away with these.",
     "category": "other",
     "material": [ "cotton" ],
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
     "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
@@ -933,8 +933,8 @@
     "description": "The spun cloth fingers are fraying away.  There's nothing that they could hold on to.",
     "category": "other",
     "material": [ "cotton" ],
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "cyan",
     "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]
@@ -946,8 +946,8 @@
     "description": "A pair of mismatched buttons and some dull yellow thread, to put on a brave face with.",
     "category": "other",
     "material": [ "cotton" ],
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "symbol": "i",
     "color": "dark_gray",
     "flags": [ "NO_SALVAGE", "INTEGRATED", "ZERO_WEIGHT" ]

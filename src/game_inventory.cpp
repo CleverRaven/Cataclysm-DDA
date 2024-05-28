@@ -532,11 +532,13 @@ class pickup_inventory_preset : public inventory_selector_preset
                 } else if( loc->is_frozen_liquid() ) {
                     ret_val<crush_tool_type> can_crush = you.can_crush_frozen_liquid( loc );
 
-                    if( loc->has_flag( flag_SHREDDED ) ) { // NOLINT(bugprone-branch-clone)
-                        return std::string();
-                    } else if( !can_crush.success() ) {
-                        return can_crush.str();
-                    } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) ) {
+                    if( you.can_pickVolume_partial( *loc, false, nullptr, false, true ) ) {
+                        if( loc->has_flag( flag_SHREDDED ) ) {// NOLINT(bugprone-branch-clone)
+                            return std::string();
+                        } else if( !can_crush.success() ) {
+                            return can_crush.str();
+                        }
+                    } else {
                         item item_copy( *loc );
                         item_copy.charges = 1;
                         item_copy.set_flag( flag_SHREDDED );
@@ -549,11 +551,11 @@ class pickup_inventory_preset : public inventory_selector_preset
                                                  !ip->front().can_combine( item_copy ) ||
                                                  item_copy.typeId() != ip->front().typeId() ) ) ) {
                             return _( "Does not have any pocket for frozen liquids!" );
+                        } else {
+                            return std::string();
                         }
-                    } else {
-                        return std::string();
                     }
-                } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) &&
+                } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false, true ) &&
                            ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
                     return _( "Does not fit in any pocket!" );
                 } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -904,7 +906,7 @@ static std::string get_consume_needs_hint( Character &you )
     desc = display::pain_text_color( you );
     hint.append( string_format( "%s %s", _( "Pain:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = display::fatigue_text_color( you );
+    desc = display::sleepiness_text_color( you );
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
@@ -1276,6 +1278,15 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
         // a sight mod location, both are removable. Ideally one should not be removable, to
         // represent the mod that has the other mod attached to its added sight mod location.
         std::string get_denial( const item_location &loc ) const override {
+            item mod = *loc.get_item();
+            if( ( mod.type->gunmod->location.name() == "magazine" ||
+                  mod.type->gunmod->location.name() == "mechanism" ||
+                  mod.type->gunmod->location.name() == "loading port" ||
+                  mod.type->gunmod->location.name() == "bore" ) &&
+                ( gun.ammo_remaining() > 0 || gun.magazine_current() ) ) {
+                return _( "must be unloaded before removing this mod" );
+            }
+
             if( !loc->type->gunmod->add_mod.empty() ) {
                 std::map<gunmod_location, int> mod_locations_added = loc->type->gunmod->add_mod;
 
@@ -2229,6 +2240,16 @@ drop_locations game_menus::inv::pickup( avatar &you,
     return pick_s.execute();
 }
 
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const std::optional<tripoint_bub_ms> &target, const std::vector<drop_location> &selection )
+{
+    std::optional<tripoint> tmp;
+    if( target.has_value() ) {
+        tmp = target.value().raw();
+    }
+    return game_menus::inv::pickup( you, tmp, selection );
+}
+
 class smokable_selector_preset : public inventory_selector_preset
 {
     public:
@@ -2792,7 +2813,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             append_cell( [&you, target]( const item_location & loc ) {
                 for( const item_location &opt : get_possible_reload_targets( target ) ) {
-                    if( opt->can_reload_with( *loc, true ) ) {
+                    if( opt.can_reload_with( loc, true ) ) {
                         if( opt == target ) {
                             return std::string();
                         }
@@ -2860,11 +2881,11 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p->can_reload_with( *loc, true ) ) {
+                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p.can_reload_with( loc, true ) ) {
                     return true;
                 }
 
-                if( p->can_reload_with( *loc, true ) ) {
+                if( p.can_reload_with( loc, true ) ) {
                     return true;
                 }
             }
@@ -2933,7 +2954,7 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
 
     item_location target_loc;
     for( const item_location &opt : get_possible_reload_targets( loc ) ) {
-        if( opt->can_reload_with( *selected.first, true ) ) {
+        if( opt.can_reload_with( selected.first, true ) ) {
             target_loc = opt;
             break;
         }

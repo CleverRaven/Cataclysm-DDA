@@ -17,6 +17,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -301,10 +302,10 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // For every 1000 points of sleep deprivation, reduce your roll by 1.
     // As of this writing, sleep deprivation passively increases at the rate of 1 point per minute.
-    const float fatigue_penalty = p.get_sleep_deprivation() / 1000.0f;
+    const float sleepiness_penalty = p.get_sleep_deprivation() / 1000.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect - distance_penalty - sleepiness_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
 

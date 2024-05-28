@@ -515,10 +515,10 @@
     "shape": "blast",
     "min_aoe": 4,
     "max_aoe": 1,
-    "aoe_increment": -0.25,
+    "aoe_increment": -0.2,
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('teleport_farstep') * 1.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+        "min( (( (u_spell_level('teleport_farstep') * 2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
       ]
     },
     "max_range": 80,
@@ -535,7 +535,7 @@
     "type": "SPELL",
     "name": "[Ψ]Oubliette",
     "description": "Teleport the target through the nether to some other dimension.  They are technically not dead, but they are no longer your concern.  Oubliette will occasionally fail when used against very powerful enemies, or succeed but cause damage to the teleporter.",
-    "message": "With a tremendous mental exertion, you hurl your target to another dimension!",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPORTER",
@@ -543,7 +543,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "banishment",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORTER_OUBLIETTE_HANDLING",
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -568,6 +569,24 @@
     "base_casting_time": 150,
     "final_casting_time": 75,
     "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_banish_self_target",
+    "type": "SPELL",
+    "name": "Oubliette Self",
+    "description": "This is the banishment that the target casts on themselves.",
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "TELEPORTER",
+    "teachable": false,
+    "min_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "max_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "min_range": 0,
+    "max_range": 0,
     "ignored_monster_species": [ "PSI_NULL" ]
   },
   {

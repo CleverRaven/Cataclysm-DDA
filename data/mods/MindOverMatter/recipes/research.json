@@ -197,10 +197,11 @@
         "condition": { "and": [ { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 8 } ] },
         "effect": [
           {
-            "u_message": "You've figured it out.  The concept of \"taking more time\" wasn't exactly hard to grasp, but maintain the images in your mind, keeping your focus on a single train of thought, that was harder.  Now you've got it down, though.  If you take meticulous care in channeling your powers, it will take much longer but you'll be more likely to succeed.",
+            "u_message": "You've figured it out.  The concept of \"taking more time\" wasn't exactly hard to grasp, but maintaining the images in your mind, keeping your focus on a single train of thought, that was harder.  Now you've got it down, though.  If you take meticulous care in channeling your powers, it will take much longer but you'll be more likely to succeed.",
             "type": "good"
           },
           { "u_add_trait": "PSI_EXTENDED_CHANNELING" },
+          { "u_forget_recipe": "psi_research_extended_channeling" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -208,6 +209,47 @@
             "u_message": "There's just something you're not grasping.  You need more practice before you can get it down.",
             "type": "bad"
           },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "name": "research torrential channeling",
+    "id": "psi_research_torrential_channeling",
+    "description": "You have more of an understanding of the way the Nether ebbs and flows, sometimes surging forth like a flood when you least expect it.  There has to be a way to direct that more purposefully, to call forth more energy than you need and direct it into your powers instead of letting it wash over you.  It might be risky, sure, but you need every edge you can get in this post-Cataclysmic world.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "14 h",
+    "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_TORRENTIAL_CHANNELING",
+        "condition": { "and": [ { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 13 } ] },
+        "effect": [
+          {
+            "u_message": "You've figured it out.  Your first few attempts were overwhelming, a raging crush of power than nearly knocked you unconscious…or perhaps worse.  But after you recovered, you tried again, and again, and you gained more and more control over the flood and now you can tame its flow.  Mostly.",
+            "type": "good"
+          },
+          { "u_add_trait": "PSI_TORRENTIAL_CHANNELING" },
+          { "u_forget_recipe": "psi_research_torrential_channeling" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's just something you're not grasping.  You need more practice before you can get it down…but you might want to wait.  The flow of Nether energy hasn't completely stopped.",
+            "type": "bad"
+          },
+          { "u_add_effect": "effect_nether_attunement_raiser", "duration": "24 hours" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }

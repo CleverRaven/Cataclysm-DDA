@@ -81,7 +81,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::hiding ) {
-        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
+        desc += colorize( _( "Hiding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
                 ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
@@ -308,18 +308,18 @@ void avatar::power_mutations()
                 }
                 if( md.thirst ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " thirst" );
                     number_of_resource++;
                 }
-                if( md.fatigue ) {
+                if( md.sleepiness ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
                         resource_unit += _( " &" );
                     }
-                    resource_unit += _( " fatigue" );
+                    resource_unit += _( " sleepiness" );
                 }
                 mut_desc += mutation_name( md.id );
                 if( md.cost > 0 && md.cooldown > 0_turns ) {
@@ -429,7 +429,7 @@ void avatar::power_mutations()
                                 exit = true;
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                       ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
+                                       ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
                                 add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
                                 // Reset menu in advance
                                 ui.reset();
@@ -602,7 +602,7 @@ void avatar::power_mutations()
                                     exit = true;
                                 } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                           ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
+                                           ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
                                     add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
                                     // Reset menu in advance
                                     ui.reset();

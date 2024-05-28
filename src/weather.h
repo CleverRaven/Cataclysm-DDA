@@ -23,7 +23,7 @@ class translation;
  * @name BODYTEMP
  * Body temperature.
  * Most values can be changed with no impact on calculations.
- * Maximum heat cannot pass 57 C, otherwise the player will vomit to death.
+ * Maximum heat cannot pass 57 C (the player will die of heatstroke)
  */
 ///@{
 //!< More aggressive cold effects.

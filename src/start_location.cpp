@@ -234,7 +234,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         const tripoint fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
         const tripoint bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
-        m.furn_set( fp, f_null );
+        m.furn_set( fp, furn_str_id::NULL_ID() );
         map_stack destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.insert( moved_item );
@@ -593,7 +593,9 @@ static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &t
     m.load( omtstart, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
-    m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );
+    m.place_spawns( type, 1, point_omt_ms( point_zero ), point_omt_ms( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    omtstart.z(),
+                    density );
     m.save();
 }
 

@@ -124,8 +124,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_clair_weak_point",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DISCERN_WEAKNESS",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -516,6 +516,61 @@
         "u_effect_intensity('effect_clair_clear_sight') > -1 ? 10 : max((75 -(u_spell_level('clair_clear_sight') * 3.5)), 25)"
       ]
     }
+  },
+  {
+    "id": "clair_astral_projection",
+    "type": "SPELL",
+    "name": "[Ψ]Astral Projection",
+    "description": "After a short period of concentration and meditation, cast your spirit forth from your body, wandering the world disembodied.  You will move at the speed of thought but cannot use further powers or interact with the world while your spirit is wandering.  Follow your silver cord to return back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
+    "energy_increment": -125,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "clair_astral_projection_passwall",
+    "type": "SPELL",
+    "name": "[Ψ]Pass Through Wall",
+    "description": "Walls are no barrier to a body of pure spirit.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "TARGET_TELEPORT", "IGNORE_WALLS", "NO_PROJECTILE", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_range": 2,
+    "max_range": 2,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 100
+  },
+  {
+    "id": "clair_astral_projection_return",
+    "type": "SPELL",
+    "name": "[Ψ]Follow the Silver Cord",
+    "description": "Follow the silver cord back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
+    "shape": "blast"
   },
   {
     "id": "clair_group_tactics",

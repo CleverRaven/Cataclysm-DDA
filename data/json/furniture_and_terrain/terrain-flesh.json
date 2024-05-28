@@ -8,6 +8,7 @@
     "color": "red_yellow",
     "move_cost": 5,
     "roof": "t_concrete_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "bash": {
       "sound": "SMASH!",
@@ -28,6 +29,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 10,

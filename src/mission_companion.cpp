@@ -65,6 +65,7 @@ class character_id;
 static const efftype_id effect_riding( "riding" );
 
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 
 static const item_group_id Item_spawn_data_farming_seeds( "farming_seeds" );
 static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
@@ -1639,7 +1640,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
             }
             used_seed.front().set_age( 0_turns );
             bay.add_item_or_charges( plot, used_seed.front() );
-            bay.set( plot, ter_t_dirt, f_plant_seed );
+            bay.set( plot, ter_t_dirt, furn_f_plant_seed );
             limiting_number--;
         }
     }
@@ -1732,7 +1733,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                     number_seeds += std::max( 1, rng( plant_count / 4, plant_count / 2 ) ) * item_seed.charges;
 
                     bay.i_clear( plot );
-                    bay.furn_set( plot, f_null );
+                    bay.furn_set( plot, furn_str_id::NULL_ID() );
                     bay.ter_set( plot, ter_t_dirtmound );
                 }
             }

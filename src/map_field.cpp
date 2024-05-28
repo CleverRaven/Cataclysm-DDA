@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -81,6 +82,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+
+static const furn_str_id furn_f_ash( "f_ash" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
@@ -655,6 +658,9 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
 
     bool valid_candidates = false;
     for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+        if( !pd.here.inbounds( dst ) ) {
+            continue;
+        }
         // Skip tiles with intense fields
         const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( dst );
         if( field_entry *field = pd.here.get_field( dst, field_type ) ) {
@@ -764,7 +770,8 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
                 [&pd]( const tripoint & n ) {
                 return pd.here.passable( n );
                 } ) ) {
-                    pd.here.add_spawn( mgr, *spawn_point );
+                    const tripoint_bub_ms pt = tripoint_bub_ms( spawn_point.value() );
+                    pd.here.add_spawn( mgr, pt );
                 }
             }
         }
@@ -918,7 +925,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
         pd.here.ter_set( p, ter_t_dirt );
     }
     if( frn.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
-        pd.here.furn_set( p, f_null );
+        pd.here.furn_set( p, furn_str_id::NULL_ID() );
     }
 }
 
@@ -1058,14 +1065,14 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
                 if( p.z > 0 ) {
                     // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
-                    here.furn_set( p, f_null );
+                    here.furn_set( p, furn_str_id::NULL_ID() );
                     here.ter_set( p, ter_t_open_air );
                 } else if( p.z < -1 ) {
                     // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
                     here.ter_set( p, ter_t_rock_floor );
                 } else {
                     // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
-                    here.furn_set( p, f_null );
+                    here.furn_set( p, furn_str_id::NULL_ID() );
                     here.ter_set( p, ter_t_dirt );
                 }
             }
@@ -1077,7 +1084,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.furn_set( p, f_ash );
+                here.furn_set( p, furn_f_ash );
                 here.add_item_or_charges( p, item( "ash" ) );
             }
 
@@ -2098,10 +2105,11 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
         return;
     }
 
-    const float chance = src->chance() * mul;
-    if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
-        const int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
-        propagate_field( pos, src->field(), qty, src->intensity() );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    const float chance = src->chance( d ) * mul;
+    if( x_in_y( chance, 100 ) ) {
+        const int qty = chance > 100.0f ? roll_remainder( src->qty( d ) * chance / 100.0f ) : src->qty( d );
+        propagate_field( pos, src->field( d ), qty, src->intensity( d ) );
     }
 }
 

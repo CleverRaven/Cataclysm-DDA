@@ -35,7 +35,8 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 6 }
     ],
-    "integrated_armor": [ "integrated_pebbled" ]
+    "integrated_armor": [ "integrated_pebbled" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -62,7 +63,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_granite_skin" ]
+    "integrated_armor": [ "integrated_granite_skin" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -401,7 +403,7 @@
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
           { "value": "METABOLISM", "multiply": -1.0 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
@@ -580,6 +582,20 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_TUNNEL_TRANSLOCATION",
+    "name": { "str": "Traveling the Veins of the Earth" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to travel through stone to another underground location they have previously been to.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SINK_INTO_EARTH" ],
+    "prereqs2": [ "IERDE_STOP_BLEEDING" ],
+    "spells_learned": [ [ "ierde_tunnel_translocation_spell", 1 ], [ "ierde_tunnel_translocation_attune", 1 ] ]
   },
   {
     "type": "mutation",

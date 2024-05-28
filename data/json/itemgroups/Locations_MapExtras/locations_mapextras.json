@@ -141,8 +141,8 @@
       { "item": "handflare", "prob": 30, "charges": 300 },
       [ "emer_blanket", 30 ],
       [ "sleeping_bag", 80 ],
-      { "item": "gasoline_lantern", "charges": 40, "charges-min": 0 },
-      { "item": "oil_lamp", "prob": 40, "charges-min": 0 },
+      { "item": "gasoline_lantern", "charges": [ 40, -1 ] },
+      { "item": "oil_lamp", "prob": 40, "charges": [ 0, -1 ] },
       [ "popcan_stove", 10 ],
       [ "denat_alcohol", 6 ],
       [ "methed_alcohol", 4 ],
@@ -153,7 +153,7 @@
       { "prob": 15, "group": "licorice_bag_plastic_4" },
       { "group": "salty_snacks", "prob": 130 },
       { "prob": 80, "group": "bottle_otc_painkiller_1_20" },
-      { "item": "inhaler", "prob": 30, "charges-min": 0 },
+      { "item": "inhaler", "prob": 30, "charges": [ 0, -1 ] },
       { "group": "beer", "prob": 80 },
       [ "vodka", 60 ],
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
@@ -161,7 +161,7 @@
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 17, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, -1 ] },
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 5, "charges": [ 0, 150 ] },
       [ "camera_bag", 10 ],
@@ -206,7 +206,7 @@
       [ "rollerskates", 10 ],
       [ "folded_skateboard_generic", 10 ],
       { "prob": 80, "group": "bottle_otc_painkiller_1_20" },
-      { "item": "inhaler", "prob": 30, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 30, "charges": [ 10, 100 ] },
       { "group": "beer", "prob": 180 },
       [ "sports_drink", 80 ],
       [ "energy_drink", 30 ],
@@ -214,7 +214,7 @@
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges-min": 0 }
+      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -250,14 +250,14 @@
       [ "silver_locket", 20 ],
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "prob": 80, "group": "bottle_otc_painkiller_1_20" },
-      { "item": "inhaler", "prob": 30, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 30, "charges": [ 10, 100 ] },
       [ "beer", 80 ],
       [ "wine_barley", 20 ],
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "weed", "prob": 10, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       { "item": "cell_phone", "prob": 6, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 44, "charges-min": 0 }
+      { "item": "smart_phone", "prob": 44, "charges": [ 0, -1 ] }
     ]
   }
 ]

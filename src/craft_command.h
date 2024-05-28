@@ -2,20 +2,22 @@
 #ifndef CATA_SRC_CRAFT_COMMAND_H
 #define CATA_SRC_CRAFT_COMMAND_H
 
-#include <iosfwd>
-#include <new>
+#include <functional>
 #include <optional>
+#include <string>
 #include <vector>
 
 #include "point.h"
 #include "recipe.h"
-#include "requirements.h"
 #include "type_id.h"
 
 class Character;
+class JsonObject;
 class JsonOut;
 class item;
 class read_only_visitable;
+struct item_comp;
+struct tool_comp;
 template<typename T> struct enum_traits;
 
 /**
@@ -70,7 +72,9 @@ class craft_command
          * Selects components to use for the craft, then assigns the crafting activity to 'crafter'.
          * Executes with supplied location, std::nullopt means crafting from inventory.
          */
+        // TODO: Get rid of untyped overload
         void execute( const std::optional<tripoint> &new_loc );
+        void execute( const std::optional<tripoint_bub_ms> &new_loc );
         /** Executes with saved location, NOT the same as execute( std::nullopt )! */
         void execute( bool only_cache_comps = false );
 

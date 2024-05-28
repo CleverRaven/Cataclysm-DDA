@@ -156,6 +156,7 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
 static int time_to_attack( const Character &p, const itype &firing );
+static int RAS_time( const Character &p, const item_location &loc );
 /**
 * Handle spent ammo casings and linkages.
 * @param weap   Weapon.
@@ -367,6 +368,9 @@ class target_ui
         // how much they moved their aim point.
         // Relevant for TargetMode::Fire
         void apply_aim_turning_penalty() const;
+
+        // Update range & ammo from current gun mode
+        void update_ammo_range_from_gun_mode();
 
         // Switch firing mode.
         bool action_switch_mode();
@@ -861,10 +865,10 @@ int Character::fire_gun( const tripoint &target, int shots )
         debugmsg( "%s doesn't have a gun to fire", get_name() );
         return 0;
     }
-    return fire_gun( target, shots, *gun );
+    return fire_gun( target, shots, *gun, item_location() );
 }
 
-int Character::fire_gun( const tripoint &target, int shots, item &gun )
+int Character::fire_gun( const tripoint &target, int shots, item &gun, item_location ammo )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
@@ -874,6 +878,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         add_msg_if_player( _( "A shotgun equipped with choke cannot fire slugs." ) );
         return 0;
     }
+    if( gun.ammo_required() > 0 && !gun.ammo_remaining() && !ammo ) {
+        debugmsg( "%s is empty and has no ammo for reloading.", gun.tname() );
+        return 0;
+    }
     bool is_mech_weapon = false;
     if( is_mounted() &&
         mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
@@ -881,15 +889,17 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // cap our maximum burst size by ammo and energy
-    if( !gun.has_flag( flag_VEHICLE ) ) {
+    if( !gun.has_flag( flag_VEHICLE ) && !ammo ) {
         shots = std::min( shots, gun.shots_remaining( this ) );
     } else if( gun.ammo_required() ) {
         // This checks ammo only. Vehicle turret energy drain is handled elsewhere.
-        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
+        const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining();
+        shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
 
     if( shots <= 0 ) {
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
+        return 0;
     }
 
     map &here = get_map();
@@ -910,6 +920,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
                               static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
+    int attack_moves = time_to_attack( *this, *gun_id ) + RAS_time( *this, ammo );
     skill_id gun_skill = gun.gun_skill();
     add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
@@ -918,6 +929,14 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
+        // Special handling for weapons where we supply the ammo separately (i.e. ammo is populated)
+        // instead of it being loaded into the weapon, reload right before firing.
+        if( !!ammo && !gun.ammo_remaining() ) {
+            Character &you = get_avatar();
+            gun.reload( you, ammo, 1 );
+            you.burn_energy_arms( - gun.get_min_str() * static_cast<int>( 0.006f *
+                                  get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
+        }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             mod_moves( -get_speed() * 0.5 );
             gun.faults.erase( fault_gun_chamber_spent );
@@ -955,6 +974,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         bool multishot = proj.count > 1;
         std::map< Creature *, std::pair < int, int >> targets_hit;
         for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
+            if( !first && !proj.multi_projectile_effects ) {
+                proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
+            }
             dealt_projectile_attack shot = projectile_attack( proj, pos(), aim,
                                            dispersion, this, in_veh, wp_attack, first );
             first = false;
@@ -1054,7 +1076,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
     }
     // Use different amounts of time depending on the type of gun and our skill
-    mod_moves( -time_to_attack( *this, *gun_id ) );
+    mod_moves( -attack_moves );
 
     const islot_gun &firing = *gun.type->gun;
     for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
@@ -1605,7 +1627,7 @@ Target_attributes::Target_attributes( tripoint src, tripoint target )
            target_critter->ranged_target_size() :
            get_map().ranged_target_size( target );
     size_in_moa = target_size_in_moa( range, size ) ;
-    light = get_map().ambient_light_at( target );
+    light = get_map().ambient_light_at( tripoint_bub_ms( target ) );
     visible = shooter->sees( target );
 
 }
@@ -1690,7 +1712,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const target_ui &ui, const Character &you,
     target_ui::TargetMode mode, const input_context &ctxt, const item &weapon,
     const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_ratings,
-    const Target_attributes &target, const tripoint &pos )
+    const Target_attributes &target, const tripoint &pos, const item_location &load_loc )
 {
     std::vector<aim_type> aim_types { get_default_aim_type() };
     std::vector<aim_type_prediction> aim_outputs;
@@ -1721,7 +1743,8 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
             prediction.moves = throw_moves;
         } else {
             prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
-                                               you.recoil ).moves + time_to_attack( you, *weapon.type );
+                                               you.recoil ).moves + time_to_attack( you, *weapon.type )
+                               + RAS_time( you, load_loc );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
@@ -1800,7 +1823,7 @@ static void print_confidence_rating_bar( const catacurses::window &w,
 }
 
 static int print_ranged_chance( const catacurses::window &w, int line_number,
-                                const std::vector<aim_type_prediction> &aim_chances )
+                                const std::vector<aim_type_prediction> &aim_chances, const int time )
 {
     std::vector<aim_type_prediction> sorted = aim_chances;
 
@@ -1905,9 +1928,11 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
         for( const aim_type_prediction &out : sorted ) {
             std::string col_hl = out.is_default ? "light_green" : "light_gray";
-            std::string desc =
-                string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
-                               out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves );
+            std::string desc = time ==  0 ?
+                               string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
+                                              out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves ) :
+                               string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color> (%d)",
+                                              out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves, time );
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
@@ -1936,7 +1961,8 @@ static bool pl_sees( const Creature &cr )
 }
 
 static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
-                      int line_number, input_context &ctxt, const item &weapon, const tripoint &pos )
+                      int line_number, input_context &ctxt, const item &weapon, const tripoint &pos,
+                      item_location &load_loc )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -1956,9 +1982,11 @@ static int print_aim( const target_ui &ui, Character &you, const catacurses::win
 
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
             target_ui::TargetMode::Fire, ctxt, weapon, dispersion, confidence_config,
-            Target_attributes( you.pos(), pos ), pos );
+            Target_attributes( you.pos(), pos ), pos, load_loc );
 
-    return print_ranged_chance( w, line_number, aim_chances );
+    int time = RAS_time( you, load_loc );
+
+    return print_ranged_chance( w, line_number, aim_chances, time );
 }
 
 static void draw_throw_aim( const target_ui &ui, const Character &you, const catacurses::window &w,
@@ -1991,13 +2019,15 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    Target_attributes attributes( range, target_size, get_map().ambient_light_at( target_pos ),
+    Target_attributes attributes( range, target_size,
+                                  get_map().ambient_light_at( tripoint_bub_ms( target_pos ) ),
                                   you.sees( target_pos ) );
 
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
-            throwing_target_mode, ctxt, weapon, dispersion, confidence_config, attributes, target_pos );
+            throwing_target_mode, ctxt, weapon, dispersion, confidence_config, attributes, target_pos,
+            item_location() );
 
-    text_y = print_ranged_chance( w, text_y, aim_chances );
+    text_y = print_ranged_chance( w, text_y, aim_chances, 0 );
 }
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
@@ -2080,6 +2110,10 @@ static projectile make_gun_projectile( const item &gun )
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
+        proj.multi_projectile_effects = ammo->multi_projectile_effects;
+        if( fx.count( "MULTI_EFFECTS" ) ) {
+            proj.multi_projectile_effects = true;
+        }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
@@ -2104,6 +2138,20 @@ int time_to_attack( const Character &p, const itype &firing )
     return std::max( info.min_time,
                      static_cast<int>( round( info.base_time - info.time_reduction_per_level * p.get_skill_level(
                                            skill_used ) ) ) );
+}
+
+int RAS_time( const Character &p, const item_location &loc )
+{
+    int time = 0;
+    if( loc ) {
+        // At low stamina levels, firing starts getting slow.
+        const item_location gun = p.get_wielded_item();
+        int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
+        time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+        item::reload_option opt = item::reload_option( &p, gun, loc );
+        time += opt.moves();
+    }
+    return time;
 }
 
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
@@ -2459,6 +2507,7 @@ target_handler::trajectory target_ui::run()
         you->add_msg_if_player( m_bad, _( "You don't have enough %s to cast this spell" ),
                                 casting->energy_string() );
     } else if( mode == TargetMode::Fire ) {
+        update_ammo_range_from_gun_mode();
         sight_dispersion = you->most_accurate_aiming_method_limit( *relevant );
     }
 
@@ -2498,7 +2547,7 @@ target_handler::trajectory target_ui::run()
     bool attack_was_confirmed = false;
     bool reentered = false;
     bool resume_critter = false;
-    if( mode == TargetMode::Fire && !activity->first_turn ) {
+    if( mode == TargetMode::Fire && !activity->action.empty() ) {
         // We were in this UI during previous turn...
         reentered = true;
         std::string act_data = activity->action;
@@ -2552,7 +2601,7 @@ target_handler::trajectory target_ui::run()
             action.clear();
             attack_was_confirmed = false;
         }
-        if( !activity->first_turn && !action.empty() && !prompt_friendlies_in_lof() ) {
+        if( !action.empty() && !prompt_friendlies_in_lof() ) {
             // A friendly creature moved into line of fire during aim-and-shoot,
             // and player decided to stop aiming
             action.clear();
@@ -2642,6 +2691,16 @@ target_handler::trajectory target_ui::run()
                 timed_out_action = "AIM";
                 loop_exit_code = ExitCode::Timeout;
                 break;
+            }
+
+            if( relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                if( !relevant->ammo_remaining() && activity->reload_loc ) {
+                    you->mod_moves( -RAS_time( *you, activity->reload_loc ) );
+                    relevant->reload( get_avatar(), activity->reload_loc, 1 );
+                    you->burn_energy_arms( - relevant->get_min_str() * static_cast<int>( 0.006f *
+                                           get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
+                    activity->reload_loc = item_location();
+                }
             }
         } else if( action == "STOPAIM" ) {
             if( status != Status::Good ) {
@@ -2863,7 +2922,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
@@ -3046,7 +3105,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
     }
 
     // Try to re-acquire target tile or tile where the target creature used to be
-    tripoint local_lt = get_map().getlocal( *you->last_target_pos );
+    tripoint local_lt = get_map().bub_from_abs( *you->last_target_pos ).raw();
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
@@ -3222,7 +3281,7 @@ void target_ui::cycle_targets( int direction )
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 ) - src.z;
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
@@ -3262,7 +3321,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = get_map().getlocal( *you->last_target_pos );
+        curr_recoil_pos = get_map().bub_from_abs( *you->last_target_pos ).raw();
     } else {
         curr_recoil_pos = src;
     }
@@ -3292,6 +3351,34 @@ void target_ui::recalc_aim_turning_penalty()
 void target_ui::apply_aim_turning_penalty() const
 {
     you->recoil = predicted_recoil;
+}
+
+void target_ui::update_ammo_range_from_gun_mode()
+{
+    if( mode == TargetMode::TurretManual ) {
+        itype_id ammo_current = turret->ammo_current();
+        if( ammo_current.is_null() ) {
+            ammo = nullptr;
+            range = 0;
+        } else {
+            ammo = item::find_type( ammo_current );
+            range = turret->range();
+        }
+    } else {
+        if( relevant->gun_current_mode().melee() ) {
+            range = relevant->current_reach_range( *you );
+        } else {
+            ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
+                   relevant->gun_current_mode().target->ammo_data();
+            if( activity->reload_loc ) {
+                item temp_weapon = *relevant;
+                temp_weapon.ammo_set( ammo->get_id() );
+                range = temp_weapon.gun_current_mode().target->gun_range( you );
+            } else {
+                range = relevant->gun_current_mode().target->gun_range( you );
+            }
+        }
+    }
 }
 
 bool target_ui::action_switch_mode()
@@ -3382,8 +3469,15 @@ bool target_ui::action_switch_mode()
             refresh = true;
             range = relevant->current_reach_range( *you );
         } else {
-            range = relevant->gun_current_mode().target->gun_range( you );
-            ammo = relevant->gun_current_mode().target->ammo_data();
+            ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
+                   relevant->gun_current_mode().target->ammo_data();
+            if( activity->reload_loc ) {
+                item temp_weapon = *relevant;
+                temp_weapon.ammo_set( ammo->get_id() );
+                range = temp_weapon.gun_current_mode().target->gun_range( you );
+            } else {
+                range = relevant->gun_current_mode().target->gun_range( you );
+            }
         }
     }
 
@@ -3402,6 +3496,11 @@ bool target_ui::action_switch_ammo()
             ammo = item::find_type( turret->ammo_current() );
             range = turret->range();
         }
+    } else if( mode == TargetMode::Fire && relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        item_location gun = you->get_wielded_item();
+        item::reload_option opt = you->select_ammo( gun );
+        activity->reload_loc = opt.ammo;
+        update_ammo_range_from_gun_mode();
     } else {
         // Leave aiming UI and open reloading UI since
         // reloading annihilates our aim anyway
@@ -3468,14 +3567,14 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
 
 void target_ui::draw_terrain_overlay()
 {
-    tripoint center = you->pos() + you->view_offset;
+    tripoint_bub_ms center = you->pos_bub() + you->view_offset;
 
     // Removes parts that don't belong to currently visible Z level
     const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
         std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
-            return p.z != center.z;
+            return p.z != center.z();
         } ), this_z.end() );
         return this_z;
     };
@@ -3498,11 +3597,11 @@ void target_ui::draw_terrain_overlay()
         // we can draw it even if the player can't see some parts
         points.erase( dst ); // Workaround for fake cursor on TILES
         std::vector<tripoint> l( points.begin(), points.end() );
-        if( dst.z == center.z ) {
+        if( dst.z == center.z() ) {
             // Workaround for fake cursor bug on TILES
             l.push_back( dst );
         }
-        g->draw_line( src, center, l, true );
+        g->draw_line( src, center.raw(), l, true );
     }
 
     // Draw trajectory
@@ -3512,12 +3611,12 @@ void target_ui::draw_terrain_overlay()
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
         // about tiles they can't see.
-        g->draw_line( dst, center, this_z );
+        g->draw_line( dst, center.raw(), this_z );
     }
 
     // Since draw_line does nothing if destination is not visible,
     // cursor also disappears. Draw it explicitly.
-    if( dst.z == center.z ) {
+    if( dst.z == center.z() ) {
         g->draw_cursor( dst );
     }
 
@@ -3525,7 +3624,7 @@ void target_ui::draw_terrain_overlay()
     if( mode == TargetMode::Spell ) {
         drawsq_params params = drawsq_params().highlight( true ).center( center );
         for( const tripoint &tile : spell_aoe ) {
-            if( tile.z != center.z ) {
+            if( tile.z != center.z() ) {
                 continue;
             }
 #ifdef TILES
@@ -3579,7 +3678,9 @@ void target_ui::draw_ui_window()
     } else if( status == Status::Good ) {
         // TODO: these are old, consider refactoring
         if( mode == TargetMode::Fire ) {
-            text_y = print_aim( *this, *you, w_target, text_y, ctxt, *relevant->gun_current_mode(), dst );
+            item_location load_loc = activity->reload_loc;
+            text_y = print_aim( *this, *you, w_target, text_y, ctxt, *relevant->gun_current_mode(), dst,
+                                load_loc );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
             bool blind = mode == TargetMode::ThrowBlind;
             draw_throw_aim( *this, *you, w_target, text_y, ctxt, *relevant, dst, blind );

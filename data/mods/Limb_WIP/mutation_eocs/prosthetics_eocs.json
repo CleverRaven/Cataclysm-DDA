@@ -8,10 +8,7 @@
         { "or": [ { "u_has_trait": "RIGHT_PROSTHETIC_LEG" }, { "u_has_trait": "RIGHT_PEG_LEG" } ] }
       ]
     },
-    "effect": [
-      { "u_lose_trait": "NO_RIGHT_LEG" },
-      { "u_add_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" }
-    ]
+    "effect": [ { "u_lose_trait": "NO_RIGHT_LEG" }, { "u_add_var": "traits_limbs_missing_right_leg", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -21,7 +18,7 @@
       "and": [
         { "not": { "u_has_trait": "RIGHT_PROSTHETIC_LEG" } },
         { "not": { "u_has_trait": "RIGHT_PEG_LEG" } },
-        { "u_has_var": "missing_right_leg", "type": "traits", "context": "limbs", "value": "yes" }
+        { "u_has_var": "traits_limbs_missing_right_leg", "value": "yes" }
       ]
     },
     "effect": [ { "u_add_trait": "NO_RIGHT_LEG" } ]
@@ -35,10 +32,7 @@
         { "or": [ { "u_has_trait": "LEFT_PROSTHETIC_LEG" }, { "u_has_trait": "LEFT_PEG_LEG" } ] }
       ]
     },
-    "effect": [
-      { "u_lose_trait": "NO_LEFT_LEG" },
-      { "u_add_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" }
-    ]
+    "effect": [ { "u_lose_trait": "NO_LEFT_LEG" }, { "u_add_var": "traits_limbs_missing_left_leg", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -48,7 +42,7 @@
       "and": [
         { "not": { "u_has_trait": "LEFT_PROSTHETIC_LEG" } },
         { "not": { "u_has_trait": "LEFT_PEG_LEG" } },
-        { "u_has_var": "missing_left_leg", "type": "traits", "context": "limbs", "value": "yes" }
+        { "u_has_var": "traits_limbs_missing_left_leg", "value": "yes" }
       ]
     },
     "effect": [ { "u_add_trait": "NO_LEFT_LEG" } ]
@@ -68,10 +62,7 @@
         }
       ]
     },
-    "effect": [
-      { "u_lose_trait": "NO_RIGHT_ARM" },
-      { "u_add_var": "missing_right_arm", "type": "traits", "context": "limbs", "value": "yes" }
-    ]
+    "effect": [ { "u_lose_trait": "NO_RIGHT_ARM" }, { "u_add_var": "traits_limbs_missing_right_arm", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -82,7 +73,7 @@
         { "not": { "u_has_trait": "RIGHT_PROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "RIGHT_NEUROPROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "RIGHT_COSMETIC_PROSTHETIC_ARM" } },
-        { "u_has_var": "missing_right_arm", "type": "traits", "context": "limbs", "value": "yes" }
+        { "u_has_var": "traits_limbs_missing_right_arm", "value": "yes" }
       ]
     },
     "effect": [ { "u_add_trait": "NO_RIGHT_ARM" } ]
@@ -102,10 +93,7 @@
         }
       ]
     },
-    "effect": [
-      { "u_lose_trait": "NO_LEFT_ARM" },
-      { "u_add_var": "missing_left_arm", "type": "traits", "context": "limbs", "value": "yes" }
-    ]
+    "effect": [ { "u_lose_trait": "NO_LEFT_ARM" }, { "u_add_var": "traits_limbs_missing_left_arm", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -116,7 +104,7 @@
         { "not": { "u_has_trait": "LEFT_PROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "LEFT_NEUROPROSTHETIC_ARM" } },
         { "not": { "u_has_trait": "LEFT_COSMETIC_PROSTHETIC_ARM" } },
-        { "u_has_var": "missing_left_arm", "type": "traits", "context": "limbs", "value": "yes" }
+        { "u_has_var": "traits_limbs_missing_left_arm", "value": "yes" }
       ]
     },
     "effect": [ { "u_add_trait": "NO_LEFT_ARM" } ]
@@ -397,8 +385,8 @@
       { "u_lose_trait": "NO_RIGHT_ARM" },
       { "u_add_trait": "HAS_LEFT_ARM" },
       { "u_add_trait": "HAS_RIGHT_ARM" },
-      { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
-      { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" }
+      { "u_lose_var": "traits_limbs_missing_left_arm" },
+      { "u_lose_var": "traits_limbs_missing_right_arm" }
     ]
   },
   {
@@ -436,8 +424,8 @@
       { "u_lose_trait": "NO_RIGHT_LEG" },
       { "u_add_trait": "HAS_LEFT_LEG" },
       { "u_add_trait": "HAS_RIGHT_LEG" },
-      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
-      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" }
+      { "u_lose_var": "traits_limbs_missing_left_leg" },
+      { "u_lose_var": "traits_limbs_missing_right_leg" }
     ]
   },
   {

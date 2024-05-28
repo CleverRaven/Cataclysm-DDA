@@ -166,8 +166,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_concrete_roof",
-    "name": "Build Concrete Roof"
+    "id": "build_concrete_floor_with_roof",
+    "name": "Build Concrete Floor with Roof"
   },
   {
     "type": "construction_group",
@@ -311,6 +311,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_compost_tank",
+    "name": "Build Small Scale Anaerobic Digestion System"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fire_ring",
     "name": "Build Fire Ring"
   },
@@ -366,8 +371,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_log_sod_roof",
-    "name": "Build Log & Sod Roof"
+    "id": "build_primitive_floor_with_log_sod_roof",
+    "name": "Build Primitive Floor with Log & Sod Roof"
   },
   {
     "type": "construction_group",
@@ -451,8 +456,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_metal_roof",
-    "name": "Build Metal Roof"
+    "id": "build_scrap_floor_with_roof",
+    "name": "Build Scrap Floor with Roof"
   },
   {
     "type": "construction_group",
@@ -541,8 +546,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_reinforced_concrete_roof",
-    "name": "Build Reinforced Concrete Roof"
+    "id": "build_reinforced_concrete_floor_with_roof",
+    "name": "Build Reinforced Concrete Floor with Roof"
   },
   {
     "type": "construction_group",
@@ -646,13 +651,13 @@
   },
   {
     "type": "construction_group",
-    "id": "build_roof",
-    "name": "Build Roof"
+    "id": "build_floor_with_treated_roof",
+    "name": "Build Floor with Treated Roof"
   },
   {
     "type": "construction_group",
-    "id": "build_roof_over_dirt_floor",
-    "name": "Build Roof Over Dirt Floor"
+    "id": "build_dirt_floor_with_shingle_roof",
+    "name": "Build Dirt Floor with Flat Shingle Roof"
   },
   {
     "type": "construction_group",
@@ -816,8 +821,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_thatched_roof",
-    "name": "Build Thatched Roof"
+    "id": "build_dirt_floor_with_thatched_roof",
+    "name": "Build Dirt Floor with Thatched Roof"
   },
   {
     "type": "construction_group",
@@ -982,7 +987,7 @@
   {
     "type": "construction_group",
     "id": "dig_downstair",
-    "name": "Dig Downstair"
+    "name": "Dig Downstairs"
   },
   {
     "type": "construction_group",
@@ -998,6 +1003,11 @@
     "type": "construction_group",
     "id": "extract_sand",
     "name": "Extract Sand"
+  },
+  {
+    "type": "construction_group",
+    "id": "extract_dirt",
+    "name": "Extract Dirt"
   },
   {
     "type": "construction_group",
@@ -1107,7 +1117,7 @@
   {
     "type": "construction_group",
     "id": "mine_downstair",
-    "name": "Mine Downstair"
+    "name": "Mine Downstairs"
   },
   {
     "type": "construction_group",
@@ -1117,7 +1127,7 @@
   {
     "type": "construction_group",
     "id": "mine_upstair",
-    "name": "Mine Upstair"
+    "name": "Mine Upstairs"
   },
   {
     "type": "construction_group",
@@ -1201,18 +1211,33 @@
   },
   {
     "type": "construction_group",
-    "id": "place_fridge",
-    "name": "Place Fridge"
+    "id": "place_apartment_fridge",
+    "name": "Place Household Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_big_portable_fridge",
+    "name": "Place Food Truck Fridge"
   },
   {
     "type": "construction_group",
     "id": "place_glass_fridge",
-    "name": "Place Glass Door Fridge"
+    "name": "Place Single Glass Door Fridge"
   },
   {
     "type": "construction_group",
-    "id": "place_stereo",
-    "name": "Place Stereo System"
+    "id": "place_glass_fridge_double",
+    "name": "Place Double Glass Door Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heavy_duty_fridge",
+    "name": "Place Heavy-Duty Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_display_fridge",
+    "name": "Place Display Fridge"
   },
   {
     "type": "construction_group",
@@ -1221,13 +1246,43 @@
   },
   {
     "type": "construction_group",
-    "id": "place_freezer",
-    "name": "Place Freezer"
+    "id": "place_apartment_freezer",
+    "name": "Place Home Freezer"
   },
   {
     "type": "construction_group",
     "id": "place_minifreezer",
     "name": "Place Minifreezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_big_portable_freezer",
+    "name": "Place Food Truck Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chest_freezer",
+    "name": "Place Chest Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heavy_duty_freezer",
+    "name": "Place Heavy Duty Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_glass_freezer",
+    "name": "Place Glass Door Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_display_freezer",
+    "name": "Place Display Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_stereo",
+    "name": "Place Stereo System"
   },
   {
     "type": "construction_group",
@@ -1821,6 +1876,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_travel_toilet",
+    "name": "Place Travel Toilet"
+  },
+  {
+    "type": "construction_group",
     "id": "place_oxygen_concentrator",
     "name": "Place Oxygen Concentrator"
   },
@@ -1928,5 +1988,80 @@
     "type": "construction_group",
     "id": "place_piano",
     "name": "Place Piano"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_scaffolding",
+    "name": "Place Scaffolding"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_scaffolding",
+    "name": "Remove Scaffolding"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_roof",
+    "name": "Build Brick Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_concrete_roof",
+    "name": "Build Concrete Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flat_roof",
+    "name": "Build Flat Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_log_sod_roof",
+    "name": "Build Log and Sod Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_roof",
+    "name": "Build Metal Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_flat_roof",
+    "name": "Build Flat Metal Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "extrude_resin_roof",
+    "name": "Extrude Resin Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_shingle_flat_roof",
+    "name": "Build Shingle Flat Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_thatched_roof",
+    "name": "Build Thatched Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_treated_wood_roof",
+    "name": "Build Treated Wood Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wood_roof",
+    "name": "Build Wood Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chimney",
+    "name": "Build Chimney"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_vent_pipe",
+    "name": "Build Vent Pipe"
   }
 ]

@@ -116,6 +116,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
   },
   {
@@ -137,6 +138,7 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
@@ -220,6 +222,69 @@
       "sound_fail": "clang!",
       "ter_set": "t_ladder_down",
       "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_up",
+    "name": "scaffolding up",
+    "description": "Scaffolding leading up.",
+    "symbol": "<",
+    "looks_like": "t_ladder_up",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_scaffolding_pipe_down",
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_down",
+    "name": "scaffolding down",
+    "description": "Scaffolding leading down.",
+    "symbol": ">",
+    "looks_like": "t_ladder_down",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT" ],
+    "bash": { "str_min": 20, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_updown",
+    "name": "scaffolding up/down",
+    "description": "Scaffolding leading up and down.",
+    "looks_like": "t_ladder_up_down",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_scaffolding_pipe_down",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
     }
   },
   {

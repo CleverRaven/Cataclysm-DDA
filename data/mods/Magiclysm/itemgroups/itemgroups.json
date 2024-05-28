@@ -115,9 +115,9 @@
     "copy-from": "guns_pistol_rare",
     "extend": {
       "items": [
-        { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
-        { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 },
-        { "item": "m47a1", "prob": 25, "charges-min": 0, "charges-max": 6 }
+        { "item": "wand_magic_missile_minor", "prob": 35, "charges": [ 12, 34 ] },
+        { "item": "wand_fireball_minor", "prob": 25, "charges": [ 3, 24 ] },
+        { "item": "m47a1", "prob": 25, "charges": [ 0, 6 ] }
       ]
     }
   },
@@ -125,13 +125,13 @@
     "type": "item_group",
     "id": "guns_rifle_common",
     "copy-from": "guns_rifle_common",
-    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 5 } ] }
+    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges": [ 0, 5 ] } ] }
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common_display",
     "copy-from": "guns_rifle_common_display",
-    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 0 } ] }
+    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges": 0 } ] }
   },
   {
     "type": "item_group",
@@ -216,7 +216,12 @@
     "type": "item_group",
     "copy-from": "trash",
     "extend": {
-      "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ], [ "spell_scroll_stormshaper_cloak_of_frog", 5 ] ]
+      "items": [
+        [ "summon_scroll_smudged", 5 ],
+        [ "spell_scroll_tornskin", 5 ],
+        [ "spell_scroll_stormshaper_cloak_of_frog", 5 ],
+        [ "spell_scroll_animist_magic_fissile", 5 ]
+      ]
     }
   },
   {
@@ -316,8 +321,8 @@
     "type": "item_group",
     "id": "magic_shop_wands",
     "items": [
-      { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_magic_missile_minor", "prob": 35, "charges": [ 12, 34 ] },
+      { "item": "wand_fireball_minor", "prob": 25, "charges": [ 3, 24 ] }
     ]
   },
   {
@@ -414,8 +419,8 @@
       { "group": "potions_rare", "prob": 5 },
       { "group": "alchemy_items", "prob": 30 },
       { "group": "magical_reagents", "prob": 20 },
-      { "item": "crystallized_mana", "prob": 55, "charges-min": 1, "charges-max": 10 },
-      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
+      { "item": "crystallized_mana", "prob": 55, "charges": [ 1, 10 ] },
+      { "item": "small_mana_crystal", "prob": 40, "charges": [ 5, 50 ] }
     ]
   },
   {
@@ -423,13 +428,13 @@
     "type": "item_group",
     "items": [
       [ "owlbear_stone", 10 ],
-      { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "stone_shell", "prob": 10, "count": [ 1, 3 ] },
       [ "egg_owlbear_rock", 5 ],
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
       [ "cauldron_orichalcum", 7 ],
       [ "mithril_ingot", 2 ],
-      { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 },
+      { "item": "bulette_pearl", "prob": 8, "count": [ 1, 2 ] },
       { "group": "magic_plants_common", "prob": 6 },
       { "group": "magic_plants_uncommon", "prob": 3 },
       { "group": "magic_plants_rare", "prob": 1 }
@@ -445,11 +450,11 @@
       { "group": "enchanted_tools_plus1", "prob": 10 },
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
-      { "group": "potions_common", "prob": 15, "count-min": 1, "count-max": 3 },
-      { "group": "potions_uncommon", "prob": 7, "count-min": 1, "count-max": 2 },
+      { "group": "potions_common", "prob": 15, "count": [ 1, 3 ] },
+      { "group": "potions_uncommon", "prob": 7, "count": [ 1, 2 ] },
       { "group": "potions_rare", "prob": 3 },
       { "group": "potions_illegal", "prob": 1 },
-      { "group": "magical_reagents", "prob": 45, "count-min": 1, "count-max": 3 },
+      { "group": "magical_reagents", "prob": 45, "count": [ 1, 3 ] },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
@@ -463,13 +468,13 @@
         ],
         "prob": 15
       },
-      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
-      { "item": "denarius", "prob": 40, "count-min": 2, "count-max": 5 },
+      { "item": "bone_human", "prob": 60, "count": [ 1, 5 ] },
+      { "item": "denarius", "prob": 40, "count": [ 2, 5 ] },
       [ "cauldron_orichalcum", 10 ],
       { "group": "tools_toolbox", "prob": 20 },
-      { "group": "magic_plants_common", "prob": 40, "count-min": 1, "count-max": 14 },
-      { "group": "magic_plants_uncommon", "prob": 20, "count-min": 1, "count-max": 8 },
-      { "group": "magic_plants_rare", "prob": 5, "count-min": 1, "count-max": 4 }
+      { "group": "magic_plants_common", "prob": 40, "count": [ 1, 14 ] },
+      { "group": "magic_plants_uncommon", "prob": 20, "count": [ 1, 8 ] },
+      { "group": "magic_plants_rare", "prob": 5, "count": [ 1, 4 ] }
     ]
   },
   {
@@ -503,7 +508,7 @@
       { "group": "enchanted_combat_items", "prob": 10 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "magical_reagents", "prob": 8 },
-      { "item": "denarius", "prob": 40, "count-min": 11, "count-max": 67 }
+      { "item": "denarius", "prob": 40, "count": [ 11, 67 ] }
     ]
   },
   {
@@ -573,8 +578,8 @@
     "items": [
       { "group": "jewelry_safe", "prob": 30 },
       { "group": "jewelry_front", "prob": 8 },
-      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
-      { "item": "denarius", "prob": 40, "count-min": 7, "count-max": 32 }
+      { "item": "bone_human", "prob": 60, "count": [ 1, 5 ] },
+      { "item": "denarius", "prob": 40, "count": [ 7, 32 ] }
     ]
   },
   {
@@ -582,19 +587,19 @@
     "id": "lair_black_dragon",
     "//": "Stuff you would find in any dragon deeper lair level.  Gold, jewelry, weapons etc.  Should require a bit of a fight or risk to access.",
     "items": [
-      { "item": "bone_human", "prob": 30, "count-min": 1, "count-max": 5 },
+      { "item": "bone_human", "prob": 30, "count": [ 1, 5 ] },
       { "item": "dragon_black_scale", "count": [ 12, 56 ] },
       { "group": "archery", "prob": 1 },
       { "group": "jewelry_safe", "prob": 2 },
       { "group": "jewelry_front", "prob": 2 },
       { "group": "corpses", "prob": 20 },
-      { "group": "remains_human_generic", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
-      { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
-      { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
+      { "group": "remains_human_generic", "prob": 5, "count": [ 1, 2 ] },
+      { "group": "archery_ammo", "prob": 2, "count": [ 1, 4 ] },
+      { "group": "medieval", "prob": 1, "count": [ 1, 2 ] },
+      { "group": "medieval", "prob": 1, "count": [ 1, 2 ] },
       { "group": "magical_reagents", "prob": 2 },
       { "group": "enchanted_combat_items", "prob": 1 },
-      { "item": "denarius", "prob": 40, "count-min": 17, "count-max": 53 }
+      { "item": "denarius", "prob": 40, "count": [ 17, 53 ] }
     ]
   },
   {
@@ -624,7 +629,7 @@
       { "group": "enchanted_misc", "prob": 5 },
       { "group": "enchanted_cloaks_rare", "prob": 10 },
       { "group": "items_of_elvenkind", "prob": 5 },
-      { "item": "denarius", "prob": 40, "count-min": 27, "count-max": 98 }
+      { "item": "denarius", "prob": 40, "count": [ 27, 98 ] }
     ]
   },
   {
@@ -637,16 +642,17 @@
       { "item": "mkey_opening", "prob": 100 },
       { "item": "mtorch_everburning", "prob": 100 },
       { "item": "mflask_hip_whiskey", "prob": 100 },
-      { "item": "mtailors_kit", "prob": 100, "charges-min": 3, "charges-max": 24 },
+      { "item": "mtailors_kit", "prob": 100, "charges": [ 3, 24 ] },
       { "item": "mteapot", "prob": 40 },
-      { "item": "mspider_box", "prob": 100, "charges-min": 3, "charges-max": 24 },
+      { "item": "mspider_box", "prob": 100, "charges": [ 3, 24 ] },
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
-      { "item": "bag_holding_2", "prob": 1 },
+      { "item": "bag_holding_2", "prob": 2 },
+      { "item": "bag_holding_3", "prob": 1 },
       { "item": "cauldron_orichalcum", "prob": 100 },
-      { "item": "bleed_staff_minor", "prob": 8, "charges-min": 1, "charges-max": 5 },
-      { "item": "grim_reaper_scythe", "prob": 2, "charges-min": 1, "charges-max": 3 }
+      { "item": "bleed_staff_minor", "prob": 8, "charges": [ 1, 5 ] },
+      { "item": "grim_reaper_scythe", "prob": 2, "charges": [ 1, 3 ] }
     ]
   },
   {
@@ -746,12 +752,12 @@
     "//": "minor enchanted wands",
     "subtype": "collection",
     "items": [
-      { "item": "wand_magic_missile_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_fireball_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_mana_beam_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_point_flare_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_hoaryblast_minor", "prob": 20, "charges-min": 3, "charges-max": 20 },
-      { "item": "wand_disp_cone_cold_minor", "prob": 20, "charges-min": 3, "charges-max": 20 }
+      { "item": "wand_magic_missile_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_fireball_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_mana_beam_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_point_flare_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_hoaryblast_minor", "prob": 20, "charges": [ 3, 20 ] },
+      { "item": "wand_disp_cone_cold_minor", "prob": 20, "charges": [ 3, 20 ] }
     ]
   },
   {
@@ -770,13 +776,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "wand_disp_magic_missile_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_fireball_minor", "prob": 5, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_mana_beam_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_point_flare_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_hoaryblast_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_cone_cold_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_knock_minor", "prob": 10, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_disp_magic_missile_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_fireball_minor", "prob": 5, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_mana_beam_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_point_flare_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_hoaryblast_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_cone_cold_minor", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_knock_minor", "prob": 10, "charges": [ 3, 24 ] }
     ]
   },
   {
@@ -784,13 +790,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "wand_disp_magic_missile_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_fireball_lesser", "prob": 5, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_mana_beam_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_point_flare_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_hoaryblast_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_cone_cold_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_knock_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_disp_magic_missile_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_fireball_lesser", "prob": 5, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_mana_beam_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_point_flare_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_hoaryblast_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_cone_cold_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_knock_lesser", "prob": 10, "charges": [ 3, 24 ] }
     ]
   },
   {
@@ -798,13 +804,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "wand_disp_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_fireball_greater", "prob": 5, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_mana_beam_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_point_flare_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_hoaryblast_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_cone_cold_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_knock_greater", "prob": 10, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_disp_magic_missile_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_fireball_greater", "prob": 5, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_mana_beam_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_point_flare_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_hoaryblast_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_cone_cold_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_knock_greater", "prob": 10, "charges": [ 3, 24 ] }
     ]
   },
   {
@@ -829,12 +835,12 @@
     "//": "lesser enchanted wands",
     "subtype": "collection",
     "items": [
-      { "item": "wand_magic_missile_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_fireball_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_mana_beam_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_point_flare_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_hoaryblast_lesser", "prob": 20, "charges-min": 3, "charges-max": 20 },
-      { "item": "wand_disp_cone_cold_lesser", "prob": 20, "charges-min": 3, "charges-max": 20 }
+      { "item": "wand_magic_missile_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_fireball_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_mana_beam_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_point_flare_lesser", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_hoaryblast_lesser", "prob": 20, "charges": [ 3, 20 ] },
+      { "item": "wand_disp_cone_cold_lesser", "prob": 20, "charges": [ 3, 20 ] }
     ]
   },
   {
@@ -843,12 +849,12 @@
     "//": "rare enchanted wands.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [
-      { "item": "wand_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_fireball_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_mana_beam_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_point_flare_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
-      { "item": "wand_disp_hoaryblast_greater", "prob": 20, "charges-min": 3, "charges-max": 20 },
-      { "item": "wand_disp_cone_cold_greater", "prob": 20, "charges-min": 3, "charges-max": 20 }
+      { "item": "wand_magic_missile_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_fireball_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_mana_beam_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_point_flare_greater", "prob": 10, "charges": [ 3, 24 ] },
+      { "item": "wand_disp_hoaryblast_greater", "prob": 20, "charges": [ 3, 20 ] },
+      { "item": "wand_disp_cone_cold_greater", "prob": 20, "charges": [ 3, 20 ] }
     ]
   },
   {
@@ -1062,8 +1068,8 @@
       { "group": "magic_CBM", "prob": 2 },
       { "item": "lair_map", "prob": 20 },
       { "item": "retreat_map", "prob": 30 },
-      { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
-      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 },
+      { "item": "crystallized_mana", "prob": 50, "charges": [ 1, 10 ] },
+      { "item": "small_mana_crystal", "prob": 40, "charges": [ 5, 50 ] },
       { "item": "magic_knife_bag", "prob": 10 }
     ]
   },
@@ -1158,7 +1164,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "mercury", "prob": 15, "charges-min": 50 },
+      { "item": "mercury", "prob": 15, "charges": [ 50, -1 ] },
       { "group": "magic_plants_common", "prob": 6 },
       { "group": "magic_plants_uncommon", "prob": 3 },
       { "group": "magic_plants_rare", "prob": 1 }
@@ -1267,8 +1273,8 @@
       },
       {
         "distribution": [
-          { "item": "bleed_staff_minor", "prob": 90, "charges-min": 1, "charges-max": 5 },
-          { "item": "grim_reaper_scythe", "prob": 10, "charges-min": 1, "charges-max": 3 }
+          { "item": "bleed_staff_minor", "prob": 90, "charges": [ 1, 5 ] },
+          { "item": "grim_reaper_scythe", "prob": 10, "charges": [ 1, 3 ] }
         ],
         "prob": 10
       }
@@ -1509,7 +1515,7 @@
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "plant_spellbook", "prob": 10 },
           { "group": "items_of_elvenkind", "prob": 5 },
-          { "item": "spell_scroll_recover_fatigue", "prob": 100 },
+          { "item": "spell_scroll_recover_sleepiness", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },
@@ -1597,10 +1603,10 @@
         "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
         "prob": 40
       },
-      { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
+      { "item": "crystallized_mana", "prob": 50, "charges": [ 1, 10 ] },
       [ "copper_circlet", 10 ],
       [ "cauldron_orichalcum", 1 ],
-      { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
+      { "item": "small_mana_crystal", "prob": 40, "charges": [ 5, 50 ] }
     ]
   },
   {

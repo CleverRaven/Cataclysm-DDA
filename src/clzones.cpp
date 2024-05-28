@@ -5,28 +5,34 @@
 #include <functional>
 #include <iosfwd>
 #include <iterator>
-#include <new>
 #include <string>
 #include <tuple>
-#include <type_traits>
 
+#include "avatar.h"
+#include "calendar.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
+#include "color.h"
 #include "construction.h"
 #include "construction_group.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
+#include "field_type.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "init.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_group.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
-#include "line.h"
+#include "json_error.h"
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
@@ -1385,7 +1391,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
     // only non personal zones can be vehicle zones
     if( !personal ) {
-        optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
+        optional_vpart_position const vp = here.veh_at( here.bub_from_abs( start ) );
         if( vp && vp->vehicle().get_owner() == fac && vp.cargo() ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
             if( start == end &&
@@ -1509,13 +1515,17 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     }
 
     for( zone_data &zone : zones ) {
-        if( !zone.get_is_personal() ) {
+        if( !zone.get_is_personal() && target_map.inbounds_z( zone.get_center_point().z() ) ) {
             _rotate_zone( target_map, zone, turns );
         }
     }
 
-    for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
-        _rotate_zone( target_map, *zone, turns );
+    for( int z_level = target_map.supports_zlevels() ? -OVERMAP_DEPTH : target_map.get_abs_sub().z();
+         z_level <= ( target_map.supports_zlevels() ? OVERMAP_HEIGHT : target_map.get_abs_sub().z() );
+         z_level++ ) {
+        for( zone_data *zone : target_map.get_vehicle_zones( z_level ) ) {
+            _rotate_zone( target_map, *zone, turns );
+        }
     }
 }
 

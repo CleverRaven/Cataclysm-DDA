@@ -65,7 +65,7 @@ static void test_bash_set( const bash_test_set &set )
         for( const ter_id &ter : set.tested_ter ) {
             INFO( string_format( "%s bashing %s", test.id, ter.id().str() ) );
             here.ter_set( test_pt, ter );
-            here.furn_set( test_pt, f_null );
+            here.furn_set( test_pt, furn_str_id::NULL_ID() );
             int tries = 0;
             while( here.ter( test_pt ) == ter && tries < max_tries ) {
                 ++tries;

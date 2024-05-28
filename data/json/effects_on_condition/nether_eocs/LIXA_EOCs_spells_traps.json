@@ -2066,7 +2066,7 @@
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2a" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2b" } },
       {
-        "u_message": "There is a soft sound, like a champaigne cork popping in an empty concert hall.  The world is as it was again.  The LIXA device still hums quietly as it finishes powering down.",
+        "u_message": "There is a soft sound, like a champagne cork popping in an empty concert hall.  The world is as it was again.  The LIXA device still hums quietly as it finishes powering down.",
         "popup": true
       },
       { "u_teleport": { "global_val": "LIXA_return_tp" }, "force": true }

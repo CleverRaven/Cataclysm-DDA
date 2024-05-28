@@ -425,7 +425,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "survivor dusters",
-    "description": "Recipes related to tailoring durable long coats from kevlar and other materials, known as dusters.",
+    "description": "Recipes related to tailoring durable long coats from Kevlar and other materials, known as dusters.",
     "skill_used": "tailor",
     "nested_category_data": [
       "duster_survivor",
@@ -509,7 +509,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "survivor trenchcoats",
-    "description": "Recipes related to tailoring long coats from kevlar, known as trenchcoats.",
+    "description": "Recipes related to tailoring long coats from Kevlar, known as trenchcoats.",
     "skill_used": "tailor",
     "nested_category_data": [ "trenchcoat_survivor", "sleeveless_trenchcoat_survivor", "sleeveless_trenchcoat_survivor_from_trenchcoat_survivor" ],
     "difficulty": 3
@@ -2420,7 +2420,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "standard kevlar jumpsuits",
+    "name": "standard Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
     "skill_used": "fabrication",
     "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ],
@@ -2432,7 +2432,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "light kevlar jumpsuits",
+    "name": "light Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ],
@@ -2444,7 +2444,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "steel-plated kevlar jumpsuits",
+    "name": "steel-plated Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer REALLY safe from harm, although they are a bit heavy.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ],
@@ -2456,7 +2456,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "kevlar firesuits",
+    "name": "Kevlar firesuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and intense fires.",
     "skill_used": "fabrication",
     "nested_category_data": [ "fsurvivor_jumpsuit", "xs_fsurvivor_jumpsuit", "xl_fsurvivor_jumpsuit" ],
@@ -2468,7 +2468,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "winter kevlar jumpsuits",
+    "name": "winter Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2487,7 +2487,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "kevlar wetsuits",
+    "name": "Kevlar wetsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2509,7 +2509,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "name": "kevlar jumpsuits",
+    "name": "Kevlar jumpsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from various types of harm.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -3846,7 +3846,14 @@
     "name": "cardboard boxes",
     "description": "Recipes related to constructing cardboard boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "box_small_crafted", "box_medium_crafted", "box_large_crafted", "box_large_reinforced", "box_oversize_crafted" ],
+    "nested_category_data": [
+      "box_small_crafted",
+      "box_medium_crafted",
+      "box_large_crafted",
+      "box_large_reinforced",
+      "box_oversize_crafted",
+      "box_oversize_reinforced"
+    ],
     "difficulty": 1
   },
   {
@@ -3894,6 +3901,18 @@
     "description": "Recipes related to constructing boxes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_cardboard_boxes", "nested_cardboard_boxes_assembly", "nested_wooden_boxes", "nested_metal_boxes" ]
+  },
+  {
+    "id": "nested_can_food",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "name": "cans",
+    "description": "Recipes related to creating tin cans for conserving food.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "can_medium", "can_food_big", "can_food" ],
+    "difficulty": 6
   },
   {
     "id": "nested_sheet_patchwork",
@@ -4205,6 +4224,28 @@
     "skill_used": "fabrication",
     "nested_category_data": [ "spiked_rocket", "incendiary_hm_rocket", "explosive_hm_rocket" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_adjustable_wrenches",
+    "type": "nested_category",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "name": "adjustable wrenches",
+    "description": "Recipes related to creating adjustable wrenches.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "wrench", "wrench_large", "wrench_small" ]
+  },
+  {
+    "id": "nested_funnels",
+    "type": "nested_category",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "name": "funnels",
+    "description": "Recipes related to creating funnels for catching rainwater.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "birchbark_funnel", "makeshift_funnel", "leather_funnel", "funnel", "metal_funnel" ]
   },
   {
     "id": "nested_sewing_tools",
@@ -4722,8 +4763,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "jians",
-    "description": "Recipes for making jians.",
+    "name": "jian",
+    "description": "Recipes for making jian.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ],
     "difficulty": 7
@@ -4734,8 +4775,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "katanas",
-    "description": "Recipes for making katanas.",
+    "name": "katana",
+    "description": "Recipes for making katana.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ],
     "difficulty": 7
@@ -4770,8 +4811,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "nodachis",
-    "description": "Recipes for making nodachis.",
+    "name": "nodachi",
+    "description": "Recipes for making nodachi.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ],
     "difficulty": 7
@@ -4865,8 +4906,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
-    "name": "wakizashis",
-    "description": "Recipes for making wakizashis.",
+    "name": "wakizashi",
+    "description": "Recipes for making wakizashi.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ],
     "difficulty": 7
@@ -7140,5 +7181,40 @@
     "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewelry formed from spent munitions.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_bullet_necklaces" ]
+  },
+  {
+    "id": "nested_combat_exoskeleton_armor_reinforcement",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "exoskeleton armors reinforcements",
+    "description": "Recipes related to the reinforcement of standard exoskeleton armors.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "combat_exoskeleton_armor_head_heavy_reinforced",
+      "combat_exoskeleton_armor_torso_heavy_reinforced",
+      "combat_exoskeleton_armor_arm_heavy_reinforced",
+      "combat_exoskeleton_armor_leg_heavy_reinforced",
+      "combat_exoskeleton_armor_head_medium_reinforced",
+      "combat_exoskeleton_armor_torso_medium_reinforced",
+      "combat_exoskeleton_armor_arm_medium_reinforced",
+      "combat_exoskeleton_armor_leg_medium_reinforced",
+      "combat_exoskeleton_armor_head_light_reinforced",
+      "combat_exoskeleton_armor_torso_light_reinforced",
+      "combat_exoskeleton_armor_arm_light_reinforced",
+      "combat_exoskeleton_armor_leg_light_reinforced"
+    ]
+  },
+  {
+    "id": "nested_combat_exoskeleton_armor",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "exoskeleton armors",
+    "description": "Recipes related to the production of custom exoskeleton armors.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_combat_exoskeleton_armor_reinforcement" ]
   }
 ]

@@ -92,6 +92,7 @@
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_LORD_DOING" },
       { "text": "I have some stories for you.", "topic": "TALK_FORGE_LORD_BOOKS_DELIVER" },
+      { "text": "Anything interesting being worked on?", "topic": "TALK_FORGE_LORD_ASK_INTERVAL" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -132,20 +133,24 @@
     "id": "TALK_FORGE_LORD_DOING",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_FORGE_LORD",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_FORGE_LORD",
       "value": "yes",
       "no": "Well here and now I am the law, and the law here is that people purchase my goods, they take them out into the world and they die; or they return to buy more of my goods.  Either way, I write poetry about them.",
-      "yes": "Once I was lost in the throes of love, now I've built an empire of material goods."
+      "yes": "Once I was lost in the throes of love, now I've built an empire of material goods.  I've found these two things are equally as powerful, and dangerous."
     },
     "responses": [
       {
         "text": "Good day, sir.",
-        "effect": { "u_add_var": "u_met_FORGE_LORD", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_FORGE_LORD", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" } },
         "topic": "TALK_FORGE_LORD"
       }
     ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": "My minions are busy putting the final touches on a few exciting projects, check back in <interval> and see what's new.",
+    "responses": [ { "text": "May your hammers be accurate.", "topic": "TALK_FORGE_LORD" } ]
   }
 ]

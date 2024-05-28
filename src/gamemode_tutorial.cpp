@@ -26,6 +26,8 @@
 #include "type_id.h"
 #include "weather.h"
 
+static const furn_str_id furn_f_rack( "f_rack" );
+
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
@@ -229,7 +231,7 @@ void tutorial_game::per_turn()
         } else if( here.ter( p ) == ter_t_window ) {
             add_message( tut_lesson::LESSON_WINDOW );
             break;
-        } else if( here.furn( p ) == f_rack ) {
+        } else if( here.furn( p ) == furn_f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
         } else if( here.ter( p ) == ter_t_stairs_down ) {

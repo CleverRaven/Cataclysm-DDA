@@ -2,18 +2,23 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
-#include <algorithm>
-#include <cstdlib>
+#include <functional>
+#include <iosfwd>
 #include <iterator>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "line.h"
-#include "point.h"
 #include "debug.h"
+#include "game_constants.h"
+#include "line.h"  // IWYU pragma: keep
+#include "point.h"
 
+class JsonOut;
 class JsonValue;
 
 enum class direction : unsigned;
@@ -729,6 +734,23 @@ using coords::project_remain;
 using coords::project_combine;
 using coords::project_bounds;
 
+// Rebase relative coordinates to the base you know they're actually relative to.
+point_rel_ms rebase_rel( point_omt_ms p );
+point_rel_ms rebase_rel( point_bub_ms p );
+point_omt_ms rebase_omt( point_rel_ms p );
+point_bub_ms rebase_bub( point_rel_ms p );
+
+tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
+tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
+tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
+
+// 'Glue' rebase operations for when a tinymap is using the underlying map operation and when a tinymap
+// has to be cast to a map to access common functionality. Note that this doesn't actually change anything
+// as the reference remains the same location regardless, and the map operation still knows how large the map is.
+point_bub_ms rebase_bub( point_omt_ms p );
+tripoint_bub_ms rebase_bub( tripoint_omt_ms p );
+
 template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
 inline int square_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
                         const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
@@ -771,16 +793,35 @@ direction direction_from( const coords::coord_point<Point, Origin, Scale, LhsInB
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
+template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
+std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBounds >>
         line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2,
+                 const int t = 0 )
 {
-    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t );
     std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const Point & p ) {
         return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
+               RhsInBounds >::make_unchecked( p );
+    } );
+    return result;
+}
+
+template<typename Tripoint, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point < Tripoint, Origin, Scale, LhsInBounds && RhsInBounds >>
+        line_to( const coords::coord_point<Tripoint, Origin, Scale, LhsInBounds> &loc1,
+                 const coords::coord_point<Tripoint, Origin, Scale, RhsInBounds> &loc2,
+                 const int t = 0, const int t2 = 0 )
+{
+    std::vector<Tripoint> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
+    std::vector < coords::coord_point < Tripoint, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Tripoint & p ) {
+        return coords::coord_point < Tripoint, Origin, Scale, LhsInBounds &&
                RhsInBounds >::make_unchecked( p );
     } );
     return result;

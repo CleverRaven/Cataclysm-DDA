@@ -3,10 +3,8 @@
 #define CATA_SRC_CONSTRUCTION_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -16,7 +14,7 @@
 #include "coordinates.h"
 #include "game_constants.h"
 #include "item.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
@@ -30,7 +28,6 @@ class window;
 } // namespace catacurses
 class JsonObject;
 class nc_color;
-struct tripoint;
 
 struct partial_con {
     int counter = 0;

@@ -24,6 +24,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -81,7 +83,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 60,
-    "connect_groups": "WALL",
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
     "connects_to": "WALL",
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
@@ -106,6 +108,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -138,6 +142,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -170,6 +176,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -202,6 +210,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -234,6 +244,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -266,6 +278,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -298,6 +312,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -330,6 +346,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -362,6 +380,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -394,6 +414,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -426,6 +448,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -458,6 +482,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -490,8 +516,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -517,8 +544,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -544,8 +572,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -571,8 +600,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -598,8 +628,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -625,8 +656,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -652,8 +684,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -679,8 +712,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -706,8 +740,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -733,8 +768,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -760,8 +796,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -787,8 +824,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
       "str_max": 150,
@@ -814,6 +852,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -835,6 +875,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -856,6 +898,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -877,6 +921,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -898,6 +944,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -919,6 +967,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -940,6 +990,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -961,6 +1013,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -982,6 +1036,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1003,6 +1059,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1024,6 +1082,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1045,6 +1105,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1066,6 +1128,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1087,6 +1151,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1108,6 +1174,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1129,6 +1197,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1150,6 +1220,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1171,6 +1243,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1192,6 +1266,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1213,6 +1289,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1234,6 +1312,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1249,12 +1329,14 @@
     "id": "t_strconc_wall_brown",
     "name": "reinforced brown concrete wall",
     "looks_like": "t_wall_brown",
-    "description": "Reinfoced concrete wall painted brown.",
+    "description": "Reinforced concrete wall painted brown.",
     "symbol": "─",
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1276,6 +1358,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1297,6 +1381,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1318,6 +1404,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1339,6 +1427,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1360,6 +1450,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1381,6 +1473,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1402,6 +1496,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1423,6 +1519,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1444,6 +1542,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1465,6 +1565,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1486,6 +1588,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1507,6 +1611,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1528,6 +1634,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1549,6 +1657,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1589,6 +1699,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_brick_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 60,
@@ -1610,6 +1722,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_rock_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
@@ -1654,7 +1768,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_rock_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
       "str_max": 400,
@@ -1695,6 +1811,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_brick_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
@@ -1716,6 +1834,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1737,6 +1857,8 @@
     "move_cost": 10,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "MOUNTABLE" ],
     "bash": {
       "str_min": 70,
@@ -1757,6 +1879,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_metal_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "oxytorch": {
       "result": "t_scrap_wall_halfway",
@@ -1787,6 +1911,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_metal_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -1808,6 +1934,8 @@
     "coverage": 100,
     "looks_like": "t_wall_metal",
     "roof": "t_metal_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
@@ -1833,6 +1961,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
@@ -1876,6 +2006,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -1950,6 +2082,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_metal_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
@@ -1991,6 +2125,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
@@ -2017,6 +2153,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 8,
@@ -2042,7 +2180,9 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 35,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 4,
       "str_max": 110,
@@ -2091,6 +2231,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -2122,6 +2264,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
@@ -2141,7 +2285,9 @@
     "symbol": "&",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -2162,7 +2308,9 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_WITH_WALL", "WALL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 35,
       "str_max": 150,
@@ -2191,6 +2339,8 @@
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ]
     },
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -2211,7 +2361,9 @@
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ]
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ]
   },
   {
     "id": "t_wall_wattle_half",
@@ -2243,6 +2395,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "bash": {
       "str_min": 60,
@@ -2269,6 +2423,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_dirt",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 60,
@@ -2290,6 +2446,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_dirt",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -2309,6 +2467,8 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -2321,6 +2481,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 60,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "bash": {
       "str_min": 30,
@@ -2342,6 +2504,8 @@
     "move_cost": 0,
     "coverage": 30,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -2367,6 +2531,8 @@
     "move_cost": 0,
     "coverage": 30,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -2391,6 +2557,8 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
@@ -2414,6 +2582,8 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
@@ -2441,6 +2611,8 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
@@ -2469,6 +2641,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_glass_shutter_open",
     "bash": {
@@ -2502,6 +2676,8 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "close": "t_reinforced_glass_shutter",
     "bash": {
@@ -2540,7 +2716,9 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": 3 } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
@@ -2564,6 +2742,8 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 1,
@@ -2582,6 +2762,8 @@
     "copy-from": "t_paper",
     "symbol": "#",
     "color": "white",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 1,
@@ -2603,6 +2785,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "MINEABLE", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 30,
@@ -2626,6 +2810,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_dirt",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,
@@ -2646,6 +2832,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_floor_wax",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "PLACE_ITEM", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,
@@ -2665,6 +2853,8 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "roof": "t_dirt",
     "bash": {
@@ -2686,6 +2876,8 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "roof": "t_rock_floor_no_roof",
     "bash": {
@@ -2768,6 +2960,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "TRANSPARENT" ],
     "bash": {
       "str_min": 40,
@@ -2809,6 +3003,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,
@@ -2829,6 +3025,8 @@
     "color": "light_gray",
     "move_cost": 6,
     "coverage": 20,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "WALL", "SHORT", "PERMEABLE" ],
     "bash": {
       "str_min": 350,
@@ -2850,6 +3048,8 @@
     "move_cost": 0,
     "coverage": 80,
     "roof": "t_metal_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "REDUCE_SCENT", "SUPPORTS_ROOF", "MINEABLE" ],
     "bash": {
       "str_min": 40,
@@ -2884,6 +3084,8 @@
     "move_cost": 0,
     "coverage": 55,
     "roof": "t_metal_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "SUPPORTS_ROOF", "MINEABLE" ],
     "bash": {
       "str_min": 20,
@@ -2918,6 +3120,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_rock_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 50,
@@ -2960,6 +3164,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,

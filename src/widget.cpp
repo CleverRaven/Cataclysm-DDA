@@ -82,8 +82,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
-        case widget_var::fatigue:
-            return "fatigue";
+        case widget_var::sleepiness:
+            return "sleepiness";
         case widget_var::health:
             return "health";
         case widget_var::weariness_level:
@@ -591,7 +591,7 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = 120;
             break;
-        case widget_var::fatigue:
+        case widget_var::sleepiness:
             _var_min = 0;
             _var_max = 1000;
             break;
@@ -814,8 +814,8 @@ int widget::get_var_value( const avatar &ava ) const
         case widget_var::pain:
             value = ava.get_perceived_pain();
             break;
-        case widget_var::fatigue:
-            value = ava.get_fatigue();
+        case widget_var::sleepiness:
+            value = ava.get_sleepiness();
             break;
         case widget_var::health:
             value = ava.get_lifestyle();

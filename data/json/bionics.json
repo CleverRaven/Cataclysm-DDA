@@ -759,6 +759,7 @@
     "canceled_mutations": [
       "WEAKSTOMACH",
       "STRONGSTOMACH",
+      "TINYSTOMACH",
       "CARNIVORE",
       "HERBIVORE",
       "ANTIJUNK",
@@ -1416,7 +1417,8 @@
     "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "passive_pseudo_items": [ "fake_razor" ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ]
   },
   {
     "id": "bio_recycler",
@@ -1508,7 +1510,7 @@
     "id": "bio_sleepy",
     "type": "bionic",
     "name": { "str": "Endocrine Enervator" },
-    "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue.  You will find yourself tiring a bit faster than before.",
+    "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause sleepiness.  You will find yourself tiring a bit faster than before.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -1680,6 +1682,38 @@
     "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_multimeter",
+    "type": "bionic",
+    "name": { "str": "Integrated Multimeter" },
+    "description": "Your fingers and arms have been implanted with retractable electrical probes connected to a multimeter embedded in your arm, allowing you to measure electrical voltage, resistance, and current by touch.  This also provides your hands and arms with a modicum of protection against electric shocks.",
+    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
+    "passive_pseudo_items": [ "integrated_multimeter" ],
+    "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ],
+    "protec": [
+      [ "hand_l", { "electric": 3 } ],
+      [ "hand_r", { "electric": 3 } ],
+      [ "arm_l", { "electric": 3 } ],
+      [ "arm_r", { "electric": 3 } ]
+    ],
+    "available_upgrades": [ "bio_electrokit" ]
+  },
+  {
+    "id": "bio_electrokit",
+    "type": "bionic",
+    "name": { "str": "Integrated Circuitry Toolset" },
+    "description": "Your fingers and arms have been implanted a soldering iron, a multimeter, and a set of small screwdrivers, providing all the tools required for working with bench-scale electrical circuits.  This also provides your hands and arms with a modicum of protection against electric shocks.",
+    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ] ],
+    "passive_pseudo_items": [ "integrated_electrokit", "integrated_multimeter" ],
+    "flags": [ "BIONIC_SHOCKPROOF", "BIONIC_NPC_USABLE" ],
+    "protec": [
+      [ "hand_l", { "electric": 3 } ],
+      [ "hand_r", { "electric": 3 } ],
+      [ "arm_l", { "electric": 3 } ],
+      [ "arm_r", { "electric": 3 } ]
+    ],
+    "upgraded_bionic": "bio_multimeter"
+  },
+  {
     "id": "bio_torsionratchet",
     "type": "bionic",
     "name": { "str": "Joint Torsion Ratchet" },
@@ -1844,7 +1878,7 @@
     "id": "bio_soporific",
     "type": "bionic",
     "name": { "str": "Soporific Induction" },
-    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
+    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of sleepiness.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SLEEPY", "add": 30 } ] } ]

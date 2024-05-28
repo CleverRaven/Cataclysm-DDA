@@ -135,7 +135,7 @@
       "thirst_desc_label",
       "vampire_blood_levels",
       "weight_desc_label",
-      "fatigue_desc_label",
+      "sleepiness_desc_label",
       "pain_desc_label",
       "body_temp_desc_label"
     ]

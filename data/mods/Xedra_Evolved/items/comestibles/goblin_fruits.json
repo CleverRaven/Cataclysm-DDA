@@ -12,8 +12,8 @@
     "symbol": "%",
     "quench": 3,
     "calories": 75,
-    "price": 40,
-    "price_postapoc": 100,
+    "price": "40 cent",
+    "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 1,
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
@@ -30,8 +30,8 @@
     "spoils_in": "60 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "price": 40,
-    "price_postapoc": 100,
+    "price": "40 cent",
+    "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "flags": [ "INEDIBLE", "NO_AUTO_CONSUME", "SINGLE_USE" ],
     "use_action": {
@@ -197,7 +197,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_AWAKE",
-    "effect": [ { "math": [ "u_val('fatigue')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
     "type": "COMESTIBLE",
@@ -452,7 +452,7 @@
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
       { "u_add_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "math": [ "u_val('stored_kcal')", "+=", "100000" ] },
+      { "math": [ "u_calories()", "+=", "100000" ] },
       { "queue_eocs": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE", "time_in_future": { "math": [ "3000 + rand(10000)" ] } }
     ],
     "false_effect": [ { "u_message": "You eat the goblin fruit but nothing happens.  Oh well." } ]
@@ -463,7 +463,7 @@
     "effect": [
       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "mixed" },
       { "u_lose_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "math": [ "u_val('stored_kcal')", "-=", "100000" ] }
+      { "math": [ "u_calories()", "-=", "100000" ] }
     ]
   }
 ]

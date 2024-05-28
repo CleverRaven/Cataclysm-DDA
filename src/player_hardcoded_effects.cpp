@@ -101,6 +101,8 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
+static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
+
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
@@ -652,7 +654,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
             } while( creatures.creature_at( dest ) );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
-                    here.make_rubble( dest, f_rubble_rock, true );
+                    here.make_rubble( dest, furn_f_rubble_rock, true );
                 }
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
@@ -828,7 +830,7 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
     }
 
     // Hypovolemic shock
-    // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
+    // stage 1 - early symptoms include headache, sleepiness, weakness, thirst, and dizziness.
     // stage 2 - person may begin sweating and feeling more anxious and restless.
     // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
     // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
@@ -860,7 +862,7 @@ static void eff_fun_hypovolemia( Character &u, effect &it )
                     break;
                 case 2:
                     warning = _( "You feel tired and you breathe heavily." );
-                    u.mod_fatigue( 3 * intense );
+                    u.mod_sleepiness( 3 * intense );
                     break;
                 case 3:
                     warning = _( "You are anxious and cannot collect your thoughts." );
@@ -906,9 +908,9 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
     // Lack of iron impairs production of hemoglobin and therefore ability to carry
     // oxygen by red blood cells. Alternatively hemorrhage causes physical loss of red blood cells.
     // This triggers variety of symptoms, focusing on weakness,
-    // fatigue, cold limbs, later in dizziness, soreness, breathlessness,
+    // sleepiness, cold limbs, later in dizziness, soreness, breathlessness,
     // and severe malaise and lethargy.
-    // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health
+    // Base anemia symptoms: sleepiness, loss of stamina, loss of strength, impact on health
     // are placed in effect JSON
 
     int intense = it.get_intensity();
@@ -945,7 +947,7 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                 break;
             case 6:
                 u.add_msg_if_player( m_bad, _( "There is an overwhelming aura of tiredness inside of you." ) );
-                u.mod_fatigue( intense * 3 );
+                u.mod_sleepiness( intense * 3 );
                 break;
             case 7: // 7-9 empty for variability, as messages stack on higher intensity
             case 8:
@@ -991,7 +993,7 @@ static void eff_fun_redcells_anemia( Character &u, effect &it )
                     break;
                 case 2:
                     u.add_msg_if_player( m_bad, _( "You feel like you could sleep on a rock." ) );
-                    u.mod_fatigue( intense * 3 );
+                    u.mod_sleepiness( intense * 3 );
                     break;
                 case 3:
                     u.add_msg_if_player( m_bad, _( "You gasp for air!" ) );
@@ -1038,16 +1040,17 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.mod_intensity( 1 );
     }
 
-    if( u.has_effect( effect_narcosis ) && u.get_fatigue() <= 25 ) {
-        u.set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
+    if( u.has_effect( effect_narcosis ) && u.get_sleepiness() <= 25 ) {
+        u.set_sleepiness( 25 ); //Prevent us from waking up naturally while under anesthesia
     }
 
-    if( u.get_fatigue() < -25 && it.get_duration() > 3_minutes && !u.has_effect( effect_narcosis ) ) {
+    if( u.get_sleepiness() < -25 && it.get_duration() > 3_minutes &&
+        !u.has_effect( effect_narcosis ) ) {
         it.set_duration( 1_turns * dice( 3, 10 ) );
     }
 
-    if( u.get_fatigue() <= 0 && u.get_fatigue() > -20 && !u.has_effect( effect_narcosis ) ) {
-        u.mod_fatigue( -25 );
+    if( u.get_sleepiness() <= 0 && u.get_sleepiness() > -20 && !u.has_effect( effect_narcosis ) ) {
+        u.mod_sleepiness( -25 );
         if( u.get_sleep_deprivation() < SLEEP_DEPRIVATION_HARMLESS ) {
             u.add_msg_if_player( m_good, _( "You feel well rested." ) );
         } else {
@@ -1064,8 +1067,8 @@ static void eff_fun_sleep( Character &u, effect &it )
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
-                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
-                    u.set_fatigue( 25 );
+                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_sleepiness() <= 25 ) ) {
+                    u.set_sleepiness( 25 );
                 }
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
@@ -1083,8 +1086,8 @@ static void eff_fun_sleep( Character &u, effect &it )
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
             if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
-                if( u.get_fatigue() >= 0 ) {
-                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                if( u.get_sleepiness() >= 0 ) {
+                    u.mod_sleepiness( -5 ); // Local guides need less sleep on fungal soil
                 }
                 if( calendar::once_every( 1_hours ) ) {
                     u.spores(); // spawn some P O O F Y   B O I S
@@ -1092,7 +1095,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             }
         }
         if( u.has_trait( trait_WATERSLEEP ) ) {
-            u.mod_fatigue( -3 ); // Fish sleep less in water
+            u.mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
 
@@ -1133,22 +1136,22 @@ static void eff_fun_sleep( Character &u, effect &it )
                     u.mutate_category( mutation_category_MYCUS, false, true );
                     u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
-                    u.mod_fatigue( 5 );
+                    u.mod_sleepiness( 5 );
                 }
             }
         }
     }
 
     bool woke_up = false;
-    int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
+    int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_sleepiness() * 2 * 5 ) );
     if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
         !u.has_active_mutation( trait_CHLOROMORPH ) && !u.has_bionic( bio_sleep_shutdown ) ) {
         // People who can see while sleeping are acclimated to the light.
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
                 // So you can too sleep through noon
-                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
-                        one_in( u.get_fatigue() / 2 ) ) ) {
+                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos_bub() ) && ( u.get_sleepiness() < 10 ||
+                        one_in( u.get_sleepiness() / 2 ) ) ) {
                     u.add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -1156,15 +1159,15 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
                 // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
             } else if( u.has_trait( trait_HIBERNATE ) ) {
-                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
-                        one_in( u.get_fatigue() / 2 ) ) ) {
+                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos_bub() ) && ( u.get_sleepiness() < 10 ||
+                        one_in( u.get_sleepiness() / 2 ) ) ) {
                     u.add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                     woke_up = true;
                 }
-            } else if( tirednessVal < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
-                       one_in( u.get_fatigue() / 2 ) ) ) {
+            } else if( tirednessVal < here.ambient_light_at( u.pos_bub() ) && ( u.get_sleepiness() < 10 ||
+                       one_in( u.get_sleepiness() / 2 ) ) ) {
                 u.add_msg_if_player( _( "It's too bright to sleep." ) );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
@@ -1184,16 +1187,16 @@ static void eff_fun_sleep( Character &u, effect &it )
     // Have we already woken up?
     if( !woke_up && !u.has_effect( effect_narcosis ) ) {
         // Cold or heat may wake you up.
-        // Player will sleep through cold or heat if fatigued enough
+        // Player will sleep through cold or heat if sleepy enough
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
             const units::temperature curr_temp = u.get_part_temp_cur( bp );
-            const units::temperature_delta fatigue_modifier = units::from_celsius_delta(
-                        u.get_fatigue() / 1000.0 );
-            if( curr_temp < BODYTEMP_VERY_COLD - fatigue_modifier ) {
+            const units::temperature_delta sleepiness_modifier = units::from_celsius_delta(
+                        u.get_sleepiness() / 1000.0 );
+            if( curr_temp < BODYTEMP_VERY_COLD - sleepiness_modifier ) {
                 if( one_in( 30000 ) ) {
                     u.add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                 }
-                if( curr_temp < BODYTEMP_FREEZING - fatigue_modifier ||
+                if( curr_temp < BODYTEMP_FREEZING - sleepiness_modifier ||
                     one_in( units::to_celsius( curr_temp ) * 3000 + 16500 ) ) {
                     u.add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                     // Set ourselves up for removal
@@ -1201,11 +1204,11 @@ static void eff_fun_sleep( Character &u, effect &it )
                     woke_up = true;
                     break;
                 }
-            } else if( curr_temp > BODYTEMP_VERY_HOT + fatigue_modifier ) {
+            } else if( curr_temp > BODYTEMP_VERY_HOT + sleepiness_modifier ) {
                 if( one_in( 30000 ) ) {
                     u.add_msg_if_player( _( "You toss and turn in the heat." ) );
                 }
-                if( curr_temp > BODYTEMP_SCORCHING + fatigue_modifier ||
+                if( curr_temp > BODYTEMP_SCORCHING + sleepiness_modifier ||
                     one_in( 76500 - units::to_celsius( curr_temp ) * 500 ) ) {
                     u.add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                     // Set ourselves up for removal
@@ -1347,7 +1350,7 @@ void Character::hardcoded_effects( effect &it )
             } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
-                    here.make_rubble( dest, f_rubble_rock, true );
+                    here.make_rubble( dest, furn_f_rubble_rock, true );
                 }
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
@@ -1368,7 +1371,7 @@ void Character::hardcoded_effects( effect &it )
             if( one_in( 900 ) ) {
                 add_msg_if_player( m_bad, _( "You feel paranoid.  They're watching you." ) );
                 mod_pain( 1 );
-                mod_fatigue( dice( 1, 6 ) );
+                mod_sleepiness( dice( 1, 6 ) );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "You feel like you need less teeth.  You pull one out, and it is rotten to the core." ) );
@@ -1382,7 +1385,7 @@ void Character::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad,
                                    _( "You feel so sick, like you've been poisoned, but you need more.  So much more." ) );
                 vomit();
-                mod_fatigue( dice( 1, 6 ) );
+                mod_sleepiness( dice( 1, 6 ) );
             }
         }
     } else if( id == effect_tindrift ) {

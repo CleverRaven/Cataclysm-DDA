@@ -42,7 +42,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER",
     "type": "talk_topic",
-    "dynamic_line": "Are you looking for something in particular?",
+    "dynamic_line": "Are you looking for something?  I can help with anything but your own stuff.  You'll have to ask your mother for help with that.",
     "responses": [
       { "text": "Can you help me find something?", "topic": "TALK_FORGE_DIVINER_FIND_WHAT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_DIVINER_DOING" },
@@ -52,7 +52,7 @@
   {
     "id": "TALK_FORGE_DIVINER_DOING",
     "type": "talk_topic",
-    "dynamic_line": "I specialize in scrying.  I can help you find any number of things.",
+    "dynamic_line": "What are any of us really doing here in this dead and dying world?  I specialize in scrying, and while I wish I could say I'm in it to help lost souls find their way, the collective pockets of a thousand realities is a very good incentive.  I can help you find any number of things, but I take no responsibility for what happens when you find what you're looking for.",
     "responses": [ { "text": "Let's talk business then.", "topic": "TALK_FORGE_LORD_DIVINER" } ]
   },
   {
@@ -93,10 +93,8 @@
       { "text": "A triffid grove.", "topic": "TALK_FORGE_LORD_DIVINER_TRIFFID" },
       { "text": "A kraken cave.", "topic": "TALK_FORGE_LORD_DIVINER_KRAKEN" },
       { "text": "A slime pit.", "topic": "TALK_FORGE_LORD_DIVINER_SLIME" },
-      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
-      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "A goblin camp.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
       { "text": "A swamp dragon cave!", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON" },
-      { "text": "Demon spiders", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON" },
       { "text": "A balrog mine", "topic": "TALK_FORGE_LORD_DIVINER_BALROG" },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
@@ -105,16 +103,15 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_MAN_MADE",
     "type": "talk_topic",
-    "dynamic_line": "Seeking to pick around your civilization's corpse?",
+    "dynamic_line": "Seeking to pick around your civilization's corpse?  You're not the first and you won't be the last.",
     "responses": [
       { "text": "A lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB" },
-      { "text": "An exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
+      { "text": "An Exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
       { "text": "A strange temple.", "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE" },
       { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
       { "text": "A magic academy.", "topic": "TALK_FORGE_LORD_DIVINER_ACADEMY" },
       { "text": "A wizard tower.", "topic": "TALK_FORGE_LORD_DIVINER_TOWER" },
-      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
-      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "A goblin city.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
@@ -126,8 +123,7 @@
     "responses": [
       { "text": "A strange temple.", "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE" },
       { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
-      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
-      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "A goblin camp.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
@@ -135,7 +131,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GEOLOGY",
     "type": "talk_topic",
-    "dynamic_line": "Sure.  Looking for a pretty vista, perhaps?",
+    "dynamic_line": "Sure.  Looking for a nice spot to watch the world end, perhaps?",
     "responses": [
       { "text": "A river.", "topic": "TALK_FORGE_LORD_DIVINER_RIVER" },
       { "text": "A clay deposit.", "topic": "TALK_FORGE_LORD_DIVINER_CLAY" },
@@ -169,7 +165,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
     "type": "talk_topic",
-    "dynamic_line": "I see.  You could get some from trading with the merchants around here.  The librarian is crazy for beech nuts, for example.  I saw her trade away all her money and books for a literal truckload of the things in another reality earlier.  Not sure what she does with them.  You see, she's lined her private rooms with lead which blocks my scrying.  Almost like she doesn't trust me.  Not sure why.",
+    "dynamic_line": "I see.  You could get some from trading with the merchants around here.  The librarian is crazy for beech nuts, for example.  I saw her trade away all her money and books for a literal truckload of the things in another reality earlier.  Not sure what she does with them.  You see, she's lined her private rooms with lead which just so happens to block my scrying.  Almost like she doesn't trust me.  Not sure why.",
     "responses": [ { "text": "Fair enough.", "topic": "TALK_DONE" } ]
   },
   {
@@ -235,7 +231,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_SPIDERS",
     "type": "talk_topic",
-    "dynamic_line": "Spiders it is then.  But there are several different kinds of spiders out there.  Which type are you interested in?",
+    "dynamic_line": "Spiders it is then.  But of course, there are several different kinds of spiders out there.  Which type are you interested in?",
     "responses": [
       { "text": "Web spinners in a forest.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_WEB" },
       { "text": "A pit full of spiders.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS_PIT" },
@@ -287,7 +283,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON",
     "type": "talk_topic",
-    "dynamic_line": "Fasinating creatures, really.  They have evolved a way to channel their innate mana into potent fire spells.  Some demonic spider queens collect magical items as well.  Perhaps they have a way of absorbing the mana in them and use it for themselves?  I'll mark the lair of such a queen on your map for one denarius.  You might want to bring fire resistant clothing.",
+    "dynamic_line": "Fascinating creatures, really.  They have evolved a way to channel their innate mana into potent fire spells.  Some demonic spider queens collect magical items as well.  Perhaps they have a way of absorbing the mana in them and use it for themselves?  I'll mark the lair of such a queen on your map for one denarius.  You might want to bring fire resistant clothing.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -430,7 +426,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_TRIFFID",
     "type": "talk_topic",
-    "dynamic_line": "Right.  Extradimensional intelligent plants with a mean streak.  They seem to have a method of traveling from reality to reality without traversing the hazards between.  Interesting, no?    I'll mark one of their groves on your map for one denarius.",
+    "dynamic_line": "Right.  Extradimensional intelligent plants with a mean streak.  They seem to have a method of traveling from reality to reality without traversing the hazards between.  Interesting, no?  I'd ask them how they do it but I don't think I could get a word in edgewise before they cut me to pieces.  I'll mark one of their groves on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -490,13 +486,24 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GOBLIN",
     "type": "talk_topic",
-    "dynamic_line": "Good choice.  Small, angry creatures obsessed with trash, yet with a tendency to hoard some surprisingly valuable artefacts.  Just watch out for the mind goblin.  Actually, uh, never mind.  I'll mark one of their camps on your map for one denarius.",
+    "dynamic_line": "Good choice.  It seems that shortly before the world started to end, a few of them got it in their heads to just leave civilization alone for a bit and go live in the woods with other goblins.  And wargs.  Not a terrible idea if you ask me.  Anyways, theres a few different types of places they gather, are you looking for an encampment or an outpost?",
+    "responses": [
+      { "text": "An encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN_ENCAMPMENT" },
+      { "text": "An outpost.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN_OUTPOST" },
+      { "text": "On second thought…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_GOBLIN_ENCAMPMENT",
+    "type": "talk_topic",
+    "dynamic_line": "You've got a long walk deep into the forest ahead of you.  Oh, and did I mention the wargs?  They've got these wargs that are absolutely adorable.  Of course they'll maul you if you try to pet them, but the temptation is always there.  I'll mark one of their camps on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_GOBLIN" }, { "u_consume_item": "denarius" } ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_GOBLIN_ENCAMPMENT" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
@@ -508,15 +515,15 @@
     ]
   },
   {
-    "id": "TALK_FORGE_LORD_DIVINER_ORC",
+    "id": "TALK_FORGE_LORD_DIVINER_GOBLIN_OUTPOST",
     "type": "talk_topic",
-    "dynamic_line": "Militaristic xenophobes, that bunch.  They are fairly good weapon smiths, and quite strong, so be careful.  Oh, and something about their physiology makes them extra super dangerous when raised as undead.  So you should probably try to not let that happen.  I'll mark one of their camps on your map for one denarius.",
+    "dynamic_line": "Contrary to popular belief, goblins are not actually orcs.  Its the other way around.  Orcs are goblins who have taken one too many unlabeled potions and lived to tell the tale.  Sometimes this awakens powers much like my own.  Well, not exactly, if it did I'd be out of a job faster than a Magus could cast Phase Door.  Luckily for you, you shouldn't have to delve too deep into a forest to see for yourself.  I'll mark one of their outposts on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_ORC" }, { "u_consume_item": "denarius" } ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_GOBLIN_OUTPOST" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
@@ -703,7 +710,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT",
     "type": "talk_topic",
-    "dynamic_line": "You know, if you've got the aptitude, you should go visit an attunement altar.  I'll mark one on your map for one denarius.",
+    "dynamic_line": "You know, if you've got the aptitude, you should go visit an attunement altar.  They help you combine your skills with different classes of magic to incredible effect.  I'll mark one on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -723,7 +730,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_ACADEMY",
     "type": "talk_topic",
-    "dynamic_line": "This place used to teach magic before the whole Malignance business.  There is probably still spell scrolls and magical items to find there.  And golems.  I'll mark one on your map for one denarius.",
+    "dynamic_line": "This place used to teach magic before the whole Malignance business.  There are probably still spell scrolls and magical items to find there.  And golems.  Can't forget about the golems.  I'll mark one on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -743,14 +750,20 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_TOWER",
     "type": "talk_topic",
-    "dynamic_line": "Seems like an eccentric wizard once lived here.  Not that there is any other kind of wizards, am I right?  But, uh, don't tell Valzain I said so.  But you know it's true.  Anyways, I'll mark the building on your map for one denarius.",
-    "//": "TODO: randomize between MISSION_FORGE_DIVINER_TOWER1 and MISSION_FORGE_DIVINER_TOWER2",
+    "dynamic_line": "Seems like an eccentric wizard once lived here.  Not that there are any other kind of wizards, am I right?  But, uh, don't tell Valzain I said so.  Or any other wizards for that matter.  But you know it's true.  Anyways, I'll mark the building on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_TOWER1" }, { "u_consume_item": "denarius" } ]
+        "effect": [
+          {
+            "if": { "one_in_chance": 2 },
+            "then": { "assign_mission": "MISSION_FORGE_DIVINER_TOWER1" },
+            "else": { "assign_mission": "MISSION_FORGE_DIVINER_TOWER2" }
+          },
+          { "u_consume_item": "denarius" }
+        ]
       },
       {
         "text": "I can't afford that right now.",
@@ -764,7 +777,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_RIVER",
     "type": "talk_topic",
-    "dynamic_line": "Rivers.  Water, sand, clay, fish, giant mutant bugs.  If you're having trouble finding one, I'll mark one on your map for one denarius.",
+    "dynamic_line": "Rivers.  Water, sand, clay, fish, giant mutant bugs.  Generally pretty big.  If you're still having trouble finding one, I'll mark one on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -784,7 +797,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_CLAY",
     "type": "talk_topic",
-    "dynamic_line": "Digging clay is quintessential of the Earthshaper.  Forming it into useful tools is quintessential of the Technomancer.  I'll a place a mark on your map for one denarius, if you want.",
+    "dynamic_line": "Digging clay is quintessential of the Earthshaper.  Forming it into useful tools is quintessential of the Technomancer.  Showing you where you can find it is quintessential of me. For one denarius of course.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -902,22 +915,8 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE",
     "type": "talk_topic",
-    "dynamic_line": "Valzain is powerful, all right?  He has built his forge in every country in every reality.  Or at least the realities we have access to.  If you travel far enough in either direction, you are bound to run into another forge somewhere else.  Except in reality, it's the same forge.  There would even be a 'me' there.  If you go there, feel free to give my regards to myself.  Confusing?  I agree.  It's all part of Valzain's master plan, I think.  He needs a near infinity of something do do something about something.  I haven't been able to pry much details out of him.  You know it wasn't that long ago that I was not part of any of the forges.  And now I have suddenly always been part of all of them.  Yeah, I don't fully understand it either, but if you want me to point you to another instance of the forge, I can do so for one denarius.",
-    "responses": [
-      {
-        "text": "It's a deal?",
-        "topic": "TALK_DONE",
-        "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_OTHER_FORGE" }, { "u_consume_item": "denarius" } ]
-      },
-      {
-        "text": "I can't afford that right now.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
-        "condition": { "not": { "u_has_item": "denarius" } }
-      },
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": "There is only one Forge of Wonders, it's not like this a multidimensional franchise opportunity.",
+    "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",

@@ -7,16 +7,15 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <new>
+#include <memory>
 #include <optional>
+#include <queue>
 #include <set>
 #include <string>
 #include <type_traits>
-#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -25,77 +24,86 @@
 #include "activity_tracker.h"
 #include "activity_type.h"
 #include "addiction.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_attire.h"
 #include "character_id.h"
-#include "city.h"
+#include "city.h"  // IWYU pragma: keep
+#include "compatibility.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
-#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "magic_enchantment.h"
-#include "memory_fast.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ranged.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "visitable.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
 
-class Character;
 class JsonObject;
 class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
+class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
-class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
 class faction;
-class inventory;
+class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
 class monster;
 class nc_color;
-class npc;
 class player_morale;
+class profession;
 class proficiency_set;
+class recipe;
 class recipe_subset;
 class spell;
 class ui_adaptor;
-class vpart_reference;
 class vehicle;
+class vpart_reference;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
+struct field_immunity_data;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
 struct itype;
 struct mutation_branch;
+struct mutation_category_trait;
 struct mutation_variant;
-struct needs_rates;
 struct pathfinding_settings;
-struct points_left;
+struct projectile;
 struct requirement_data;
 struct tool_comp;
 struct trait_and_var;
@@ -144,82 +152,82 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum class fatigue_levels : int {
+enum class sleepiness_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
     EXHAUSTED = 575,
-    MASSIVE_FATIGUE = 1000
+    MASSIVE_SLEEPINESS = 1000
 };
-const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
-        { "TIRED", fatigue_levels::TIRED },
-        { "DEAD_TIRED", fatigue_levels::DEAD_TIRED },
-        { "EXHAUSTED", fatigue_levels::EXHAUSTED },
-        { "MASSIVE_FATIGUE", fatigue_levels::MASSIVE_FATIGUE }
+const std::unordered_map<std::string, sleepiness_levels> sleepiness_level_strs = { {
+        { "TIRED", sleepiness_levels::TIRED },
+        { "DEAD_TIRED", sleepiness_levels::DEAD_TIRED },
+        { "EXHAUSTED", sleepiness_levels::EXHAUSTED },
+        { "MASSIVE_SLEEPINESS", sleepiness_levels::MASSIVE_SLEEPINESS }
     }
 };
 
-constexpr inline bool operator>=( const fatigue_levels &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator>=( const sleepiness_levels &lhs, const sleepiness_levels &rhs )
 {
     return static_cast<int>( lhs ) >= static_cast<int>( rhs );
 }
 
-constexpr inline bool operator<( const fatigue_levels &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator<( const sleepiness_levels &lhs, const sleepiness_levels &rhs )
 {
     return static_cast<int>( lhs ) < static_cast<int>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator>=( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator>=( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs >= static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator>( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator>( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs > static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator<=( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator<=( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs <= static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator<( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator<( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs < static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline int operator/( const fatigue_levels &lhs, const T &rhs )
+constexpr inline int operator/( const sleepiness_levels &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) / rhs;
 }
 
 template<typename T>
-constexpr inline int operator+( const fatigue_levels &lhs, const T &rhs )
+constexpr inline int operator+( const sleepiness_levels &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) + rhs;
 }
 
 template<typename T>
-constexpr inline int operator-( const fatigue_levels &lhs, const T &rhs )
+constexpr inline int operator-( const sleepiness_levels &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) - rhs;
 }
 
 template<typename T>
-constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
+constexpr inline int operator-( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs - static_cast<T>( rhs );
 }
 
 /** @brief five levels of consequences for days without sleep
-    @details Sleep deprivation, distinct from fatigue, is defined in minutes. Although most
+    @details Sleep deprivation, distinct from sleepiness, is defined in minutes. Although most
     calculations scale linearly, malus is bestowed only upon reaching the tiers defined below.
-    @note Sleep deprivation increases fatigue. Fatigue increase scales with the severity of sleep
+    @note Sleep deprivation increases sleepiness. Sleepiness increase scales with the severity of sleep
     deprivation.
     @note Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for
     long periods of time
@@ -489,7 +497,7 @@ struct ret_val<crush_tool_type>::default_failure : public
 struct needs_rates {
     float thirst = 0.0f;
     float hunger = 0.0f;
-    float fatigue = 0.0f;
+    float sleepiness = 0.0f;
     float recovery = 0.0f;
     float kcal = 0.0f;
 };
@@ -570,6 +578,13 @@ class Character : public Creature, public visitable
         int dex_cur;
         int int_cur;
         int per_cur;
+
+        // Used to display pain penalties
+        int ppen_str;
+        int ppen_dex;
+        int ppen_int;
+        int ppen_per;
+        int ppen_spd;
 
         int kill_xp = 0;
         // Level-up points spent on Stats through Kills
@@ -691,22 +706,22 @@ class Character : public Creature, public visitable
         void mod_continuous_sleep( time_duration mod );
         void reset_continuous_sleep();
 
-        int get_fatigue() const;
+        int get_sleepiness() const;
         int get_sleep_deprivation() const;
 
         /** Modifiers for need values exclusive to characters */
         void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
         void mod_hunger( int nhunger );
         void mod_thirst( int nthirst );
-        void mod_fatigue( int nfatigue );
+        void mod_sleepiness( int nsleepiness );
         void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
         void set_stored_kcal( int kcal );
         void set_hunger( int nhunger );
         void set_thirst( int nthirst );
-        void set_fatigue( int nfatigue );
-        void set_fatigue( fatigue_levels nfatigue );
+        void set_sleepiness( int nsleepiness );
+        void set_sleepiness( sleepiness_levels nsleepiness );
         void set_sleep_deprivation( int nsleep_deprivation );
 
     protected:
@@ -908,6 +923,7 @@ class Character : public Creature, public visitable
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
+        stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
@@ -926,7 +942,7 @@ class Character : public Creature, public visitable
         void update_enchantment_mutations();
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
-        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
+        /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates() const;
         void calc_sleep_recovery_rate( needs_rates &rates ) const;
@@ -947,11 +963,11 @@ class Character : public Creature, public visitable
             comfort_level level = comfort_level::neutral;
             const item *aid = nullptr;
         };
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not sleepiness nor stimulants. */
         comfort_response_t base_comfort_value( const tripoint_bub_ms &p ) const;
 
-        /** Returns focus equilibrium cap due to fatigue **/
-        int focus_equilibrium_fatigue_cap( int equilibrium ) const;
+        /** Returns focus equilibrium cap due to sleepiness **/
+        int focus_equilibrium_sleepiness_cap( int equilibrium ) const;
         /** Uses morale and other factors to return the character's focus target goto value */
         int calc_focus_equilibrium( bool ignore_pain = false ) const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
@@ -1120,13 +1136,14 @@ class Character : public Creature, public visitable
         item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
-        /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item_location &weap,
-                                 bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
-        // Houses the actual picking logic and returns the vector of eligable techniques
-        std::vector<matec_id> evaluate_techniques( Creature &t, const item_location &weap,
-                bool crit = false, bool dodge_counter = false, bool block_counter = false,
-                const std::vector<matec_id> &blacklist = {} );
+        /** Returns a random technique/vector/contact area set from the  possible techs */
+        std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> pick_technique(
+            Creature &t, const item_location &weap,
+            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
+        // Filter techniques per tech, return a tech/vector/sublimb set
+        std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
+                evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
+                                    bool crit = false, bool dodge_counter = false, bool block_counter = false );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
@@ -1196,10 +1213,11 @@ class Character : public Creature, public visitable
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              const std::string &attack_vector,
+                              const attack_vector_id &attack_vector, const sub_bodypart_str_id &contact,
                               const Creature *target, const bodypart_id &bp ) const;
         void roll_damage( const damage_type_id &dt, bool crit, damage_instance &di, bool average,
-                          const item &weap, const std::string &attack_vector, float crit_mod ) const;
+                          const item &weap, const attack_vector_id &attack_vector, const sub_bodypart_str_id &contact,
+                          float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -1230,7 +1248,8 @@ class Character : public Creature, public visitable
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
-        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false,
+                       bool allow_multilevel = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
@@ -1426,9 +1445,6 @@ class Character : public Creature, public visitable
         bool check_mount_is_spooked();
         void dismount();
         void forced_dismount();
-
-        /** Attempt to enter a tile in a vehicle */
-        bool move_in_vehicle( Creature *c, const tripoint &dest_loc ) const;
 
         bool is_deaf() const;
         bool is_mute() const;
@@ -1912,7 +1928,9 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
+        // TODO: Get rid of untyped overload
         virtual bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves = -1 );
+        virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
         virtual bool invoke_item( item *, const std::string &, const tripoint &pt,
                                   int pre_obtain_moves = -1 );
@@ -2273,7 +2291,7 @@ class Character : public Creature, public visitable
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
                              bool ignore_pkt_settings = true ) const;
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
-                                     bool ignore_pkt_settings = true ) const;
+                                     bool ignore_pkt_settings = true, bool is_pick_up_inv = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -2341,6 +2359,9 @@ class Character : public Creature, public visitable
          * @param it Thing to be unwielded
          */
         ret_val<void> can_drop( const item &it ) const;
+
+        // Standalone function to clear the inventory search cache
+        void clear_inventory_search_cache();
 
         void drop_invalid_inventory();
         // this cache is for checking if items in the character's inventory can't actually fit into other items they are inside of
@@ -2433,7 +2454,7 @@ class Character : public Creature, public visitable
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
-        void set_skills_from_hobbies();
+        void set_skills_from_hobbies( bool no_override = false );
 
         void set_bionics_from_hobbies();
 
@@ -2442,7 +2463,8 @@ class Character : public Creature, public visitable
         float get_proficiency_practice( const proficiency_id &prof ) const;
         time_duration get_proficiency_practiced_time( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
-        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
+        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false,
+                              bool recursive = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const std::optional<time_duration> &max = std::nullopt );
@@ -3118,7 +3140,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun );
+        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
@@ -3341,9 +3363,9 @@ class Character : public Creature, public visitable
 
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
-        /** Used to apply fatigue modifications from food and medication **/
+        /** Used to apply sleepiness modifications from food and medication **/
         /** Used to apply radiation from food and medication **/
-        void modify_fatigue( const islot_comestible &comest );
+        void modify_sleepiness( const islot_comestible &comest );
         void modify_radiation( const islot_comestible &comest );
         /** Used to apply addiction modifications from food and medication **/
         void modify_addiction( const islot_comestible &comest );
@@ -3405,7 +3427,7 @@ class Character : public Creature, public visitable
         bool is_worn_item_visible( std::list<item>::const_iterator ) const;
 
         /** Returns all worn items visible to an outside observer */
-        std::list<item> get_visible_worn_items() const;
+        std::list<item_location> get_visible_worn_items() const;
 
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
@@ -3464,9 +3486,8 @@ class Character : public Creature, public visitable
         int last_batch;
 
         // Returns true if the character knows the recipe, is near a book or device
-        // providing the recipe or a nearby Character knows it.
-        bool has_recipe( const recipe *r, const inventory &crafting_inv,
-                         const std::vector<Character *> &helpers ) const;
+        // providing the recipe or a nearby allied Character knows it.
+        bool has_recipe( const recipe *r ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         void forget_recipe( const recipe *rec );
@@ -3484,6 +3505,7 @@ class Character : public Creature, public visitable
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
         recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
+    protected:
         /**
           * Return all available recipes (from books and companions)
           * @param crafting_inv Current available items to craft
@@ -3491,6 +3513,11 @@ class Character : public Creature, public visitable
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
                                              const std::vector<Character *> *helpers = nullptr ) const;
+    public:
+        /**
+          * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
+          */
+        recipe_subset get_group_available_recipes() const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
@@ -3504,14 +3531,21 @@ class Character : public Creature, public visitable
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
+        // TODO: Get rid of untyped overload
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint> &loc )const;
+        float workbench_crafting_speed_multiplier( const item &craft,
+                const std::optional<tripoint_bub_ms> &loc )const;
         /** For use with in progress crafts.
          *  Workbench multiplier calculation (especially finding lifters nearby)
          *  is expensive when numorous items are around.
          *  So use pre-calculated cache if possible.
          */
+        // TODO: Get rid of untyped overload
         float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc,
+                                         bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
+                                       ) const;
+        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint_bub_ms> &loc,
                                          bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
                                        ) const;
         int available_assistant_count( const recipe &rec ) const;
@@ -3565,7 +3599,9 @@ class Character : public Creature, public visitable
         float item_destruction_chance( const recipe &making ) const;
         craft_roll_data recipe_success_roll_data( const recipe &making ) const;
         craft_roll_data recipe_failure_roll_data( const recipe &making ) const;
+        // TODO: Get rid of untyped overload
         void complete_craft( item &craft, const std::optional<tripoint> &loc );
+        void complete_craft( item &craft, const std::optional<tripoint_bub_ms> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
          * unable to continue print messages explaining the reason.
@@ -3764,7 +3800,7 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
-        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+        /** Rate point's ability to serve as a bed. Takes all mutations, sleepiness and stimulants into account. */
         int sleep_spot( const tripoint_bub_ms &p ) const;
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
@@ -3816,7 +3852,7 @@ class Character : public Creature, public visitable
             /** Key to select the mutation in the UI. */
             char key = ' ';
             /**
-             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+             * Time (in turns) until the mutation increase hunger/thirst/sleepiness according
              * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
              * is reset to @ref mutation_branch::cooldown.
              */
@@ -3996,7 +4032,7 @@ class Character : public Creature, public visitable
         // Additional vision sources, currently only used by avatars
         std::map<mtype_id, int> moncams;
 
-        /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
+        /// @brief Needs (hunger, starvation, thirst, sleepiness, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
         int stored_calories;
         int healthy_calories;
@@ -4021,7 +4057,7 @@ class Character : public Creature, public visitable
         time_duration daily_sleep = 0_turns;
         time_duration continuous_sleep = 0_turns;
 
-        int fatigue;
+        int sleepiness;
         int sleep_deprivation;
         bool check_encumbrance = true;
         bool cache_inventory_is_valid = false;

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "väinämöinens_kantele",
+    "looks_like": "kantele",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "Väinämöinen's Kantele" },
+    "description": "An original kantele made by Väinämöinen himself.  Fashioned from a great pike's jawbone, the material is unlike anything you saw before the end of the world.  Every note from this instrument thrums with power.",
+    "weight": "550 g",
+    "volume": "3000 ml",
+    "longest_side": "46 cm",
+    "price": "55 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": 1,
+    "material": [ "monolith" ],
+    "symbol": "(",
+    "color": "brown",
+    "use_action": [ { "type": "cast_spell", "spell_id": "kantele_spell", "no_fail": true, "level": 15 }, { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 10,
+      "fun": -25,
+      "fun_bonus": 4,
+      "speed_penalty": 5,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a haunting melody and sing words you don't understand, but they fill you with a strong sense of longing.",
+        "You play an enchanting composition on your kantele, while you play a chorus of children echo along the wind accompanying you in a language you don't recognize.",
+        "You play a somber dirge on your kantele, keening wailing women's voices sing a mournful song along with you.  The language is like none you are familiar with.",
+        "You play a song of courage and battle, of heroes and mythical beasts.  The language is your own and all the words known to you, but it is an extemperaneous piece of music."
+      ]
+    },
+    "melee_damage": { "xe_cold_iron_bash_damage": 14 }
+  }
+]

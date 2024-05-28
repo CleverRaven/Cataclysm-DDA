@@ -21,7 +21,7 @@
         "u_location_variable": { "global_val": "Port_augustmoon" },
         "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
         "zone": "ZONE_START_POINT",
-        "target_max_radius": 26
+        "target_max_radius": 30
       },
       {
         "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
@@ -31,11 +31,11 @@
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse1" }
+        "target_params": { "om_terrain": "augustmoon_main_concourse1", "z": -9, "random": true, "search_range": 380 }
       },
       {
         "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
-        "target_params": { "om_terrain": "augustmoon_main_concourse2" }
+        "target_params": { "om_terrain": "augustmoon_main_concourse2", "z": -9, "random": true, "search_range": 380 }
       },
       { "math": [ "searched_port_augustmoon", "=", "1" ] }
     ]
@@ -140,6 +140,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_AUGUSTMOON_SPACEPORT_TP",
+    "effect": [
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
+      {
+        "u_location_variable": { "context_val": "crate_loc" },
+        "terrain": "t_intermodal_crate_scripted_source",
+        "target_max_radius": 24
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "crate_loc" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "true_eocs": [
+          { "id": "_EOC_AFS_AUGUSTMOON_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "Port_augustmoon_cargo" } } ] }
+        ]
+      },
+      { "u_run_npc_eocs": [ "EOC_AFS_TEST_AUGUSTMOON_TP" ], "local": true },
+      {
+        "u_message": "The shuttle's ascent is a little rough, but you're soon on your way to Port Augustmoon.",
+        "popup": true
+      },
+      { "u_teleport": { "global_val": "Port_augustmoon" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORT_TO_LANDING_PAD_TP",
     "effect": [
       {
@@ -166,11 +194,6 @@
         "popup": true
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_AFS_TEST_AUGUSTMOON_CARGO_TP",
-    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon_cargo" }, "force": true } ]
   },
   {
     "type": "effect_on_condition",

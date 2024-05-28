@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "void_spider_nest",
     "subtype": "distribution",
-    "entries": [ { "item": "egg_void_spider", "count-min": 1, "count-max": 6 } ]
+    "entries": [ { "item": "egg_void_spider", "count": [ 1, 6 ] } ]
   },
   {
     "id": "void_spider_corpse_mayor_loot",

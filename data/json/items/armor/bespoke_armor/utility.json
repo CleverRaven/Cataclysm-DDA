@@ -6,8 +6,8 @@
     "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade, a holster to carry a pistol and a loop for holding larger tools.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1549 g",
     "volume": "2250 ml",
-    "price": 15000,
-    "price_postapoc": 2500,
+    "price": "150 USD",
+    "price_postapoc": "25 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -94,8 +94,8 @@
     "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
     "weight": "212 g",
     "volume": "250 ml",
-    "price": 7500,
-    "price_postapoc": 3000,
+    "price": "75 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -2,
     "material": [ "hard_plastic_transp", "leather_treated" ],
     "symbol": "[",
@@ -124,8 +124,8 @@
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
     "weight": "320 g",
     "volume": "1250 ml",
-    "price": 20000,
-    "price_postapoc": 4000,
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
     "material": [ "leather", "canvas" ],
     "symbol": "[",
     "looks_like": "tacvest",
@@ -183,16 +183,16 @@
     "id": "xl_survivor_vest",
     "type": "ARMOR",
     "copy-from": "survivor_vest",
-    "name": { "str": "XL survivor harness", "str_pl": "XL survivor harnesses" },
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_survivor_vest",
     "type": "ARMOR",
     "copy-from": "survivor_vest",
-    "name": { "str": "XS survivor harness", "str_pl": "XS survivor harnesses" },
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

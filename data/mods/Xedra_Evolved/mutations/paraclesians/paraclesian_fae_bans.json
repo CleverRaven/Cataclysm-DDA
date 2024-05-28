@@ -95,7 +95,7 @@
             "effect": [
               { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
               { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
-              { "math": [ "u_val('fatigue')", "+=", "150" ] },
+              { "math": [ "u_val('sleepiness')", "+=", "150" ] },
               {
                 "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
                 "type": "bad"
@@ -138,7 +138,7 @@
     "effect": [
       { "run_eocs": [ "EOC_PARACLESIAN_BROKE_FAE_BAN" ] },
       { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
-      { "math": [ "u_val('fatigue')", "+=", "150" ] },
+      { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
         "u_message": "You awaken in pain, your muscles stiff, your body groaning in protest.  Away from the depths of the living earth, your sleep was not as restful as it should have been.",
         "type": "bad"

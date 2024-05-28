@@ -225,13 +225,13 @@
     }
   },
   {
-    "id": "MISSION_FORGE_DIVINER_GOBLIN",
+    "id": "MISSION_FORGE_DIVINER_GOBLIN_ENCAMPMENT",
     "type": "mission_definition",
-    "name": { "str": "Visit the goblins" },
+    "name": { "str": "Visit the goblin encampment" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 0,
     "value": 0,
-    "description": "The diviner told you there would be goblins here.",
+    "description": "The diviner told you there would be a goblin encampment here.",
     "destination": "goblin_1A",
     "start": {
       "assign_mission_target": {
@@ -244,13 +244,13 @@
     }
   },
   {
-    "id": "MISSION_FORGE_DIVINER_ORC",
+    "id": "MISSION_FORGE_DIVINER_GOBLIN_OUTPOST",
     "type": "mission_definition",
-    "name": { "str": "Visit the orcs" },
+    "name": { "str": "Visit the goblin outpost" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 0,
     "value": 0,
-    "description": "The diviner told you there would be orcs here.",
+    "description": "The diviner told you there would be a goblin outpost here.",
     "destination": "orc_village",
     "start": {
       "assign_mission_target": { "om_terrain": "orc_village", "om_special": "orc_village", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
@@ -355,11 +355,11 @@
   {
     "id": "MISSION_FORGE_DIVINER_EXODII",
     "type": "mission_definition",
-    "name": { "str": "Visit the exodii" },
+    "name": { "str": "Visit the Exodii" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 0,
     "value": 0,
-    "description": "The diviner told you that there would be exodii here.",
+    "description": "The diviner told you that there would be Exodii here.",
     "destination": "exodii_base_x0y0z0",
     "start": {
       "assign_mission_target": {
@@ -442,7 +442,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 0,
     "value": 0,
-    "description": "The diviner told you that there would be a wizard tower altar here.",
+    "description": "The diviner told you that there would be a wizard tower with an altar here.",
     "destination": "wizardtower2_ground",
     "start": {
       "assign_mission_target": { "om_terrain": "wizardtower2_ground", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
@@ -540,19 +540,6 @@
         "cant_see": true,
         "search_range": 180
       }
-    }
-  },
-  {
-    "id": "MISSION_FORGE_DIVINER_OTHER_FORGE",
-    "type": "mission_definition",
-    "name": { "str": "Visit the other Forge of Wonders" },
-    "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 0,
-    "value": 0,
-    "description": "The diviner told you that there would be another Forge of Wonders here.  Or perhaps it's the same forge, but a different time?  They weren't entirely clear what was going on here.",
-    "destination": "forge_1A_north",
-    "start": {
-      "assign_mission_target": { "om_terrain": "forge_1A_north", "reveal_radius": 3, "cant_see": true, "search_range": 400 }
     }
   }
 ]

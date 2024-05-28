@@ -852,10 +852,12 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
     return std::pair<field, tripoint> {field_removed, field_position};
 }
 
-static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint> &fd_fatigue_field,
+static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint>
+        &fd_fatigue_field,
         Creature &caster )
 {
-    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( fd_fatigue_field ) ) {
+    for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
+         ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint &field_position = std::get<1>( fd_fatigue_field );
@@ -1136,9 +1138,9 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         you->magic->mod_mana( *you, healing );
     } else if( energy_source == "STAMINA" ) {
         you->mod_stamina( healing );
-    } else if( energy_source == "FATIGUE" ) {
-        // fatigue is backwards
-        you->mod_fatigue( -healing );
+    } else if( energy_source == "SLEEPINESS" ) {
+        // sleepiness is backwards
+        you->mod_sleepiness( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
             you->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( healing ) ) );
@@ -1672,7 +1674,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( here.getlocal( *walk_point ) == source ) {
+    if( here.bub_from_abs( *walk_point ).raw() == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1680,14 +1682,14 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
-            if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
-                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
+            if( creatures.creature_at( here.bub_from_abs( *walk_point ) ) ||
+                !g->walk_move( here.bub_from_abs( *walk_point ), false ) ) {
                 if( walk_point != trajectory.begin() ) {
                     --walk_point;
                 }
                 break;
             } else if( walk_point != trajectory.begin() ) {
-                sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
+                sp.create_field( here.bub_from_abs( *( walk_point - 1 ) ).raw(), caster );
                 g->draw_ter();
             }
         }
@@ -1700,7 +1702,8 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     caster.set_moves( cur_moves );
 
     tripoint far_target;
-    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ),
+                  here.bub_from_abs( *walk_point ).raw(),
                   far_target );
 
     spell_effect::override_parameters params( sp, caster );

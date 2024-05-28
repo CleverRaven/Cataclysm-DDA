@@ -369,7 +369,7 @@
     "effect": [
       { "math": [ "u_hp('ALL')", "=", "999" ] },
       { "math": [ "u_hp('ALL_MAJOR')", "=", "45" ] },
-      { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
+      { "math": [ "u_calories()", "=", "70000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
@@ -405,7 +405,7 @@
       { "u_lose_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
       { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
       { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('stored_kcal')", "=", "65000" ] },
+      { "math": [ "u_calories()", "=", "65000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       {
         "foreach": "ids",
@@ -429,22 +429,20 @@
     "type": "effect_on_condition",
     "id": "EOC_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
-    "condition": { "math": [ "u_val('stored_kcal')", ">=", "118000" ] },
+    "condition": { "math": [ "u_calories()", ">=", "118000" ] },
     "effect": [  ],
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_SUN_FOODS_ON_KCAL_2",
-          "condition": {
-            "and": [ { "math": [ "u_val('stored_kcal')", "<=", "179999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ]
-          },
-          "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "7" ] } ],
+          "condition": { "and": [ { "math": [ "u_calories()", "<=", "179999" ] }, { "math": [ "u_calories()", ">=", "75000" ] } ] },
+          "effect": [ { "math": [ "u_calories()", "+=", "7" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "EOC_SUN_FOODS_ON_KCAL_3",
-                "condition": { "math": [ "u_val('stored_kcal')", "<=", "74999" ] },
-                "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "12" ] } ]
+                "condition": { "math": [ "u_calories()", "<=", "74999" ] },
+                "effect": [ { "math": [ "u_calories()", "+=", "12" ] } ]
               }
             ]
           }
@@ -793,7 +791,7 @@
         }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_real" } } ],
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
     "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
   },
   {

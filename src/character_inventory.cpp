@@ -1,13 +1,50 @@
+#include <algorithm>
+#include <bitset>
+#include <climits>
+#include <functional>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <memory>
+#include <optional>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
+#include "debug.h"
+#include "enums.h"
 #include "flag.h"
 #include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "map.h"
+#include "map_selector.h"
 #include "options.h"
+#include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 void Character::handle_contents_changed( const std::vector<item_location> &containers )
@@ -297,7 +334,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                return item_location( map_cursor( pos_bub() ), &get_map().add_item_or_charges( pos(), it ) );
             } else {
                 return added;
             }
@@ -331,7 +368,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( pos() ), &map_added );
+            added = added ? added : item_location( map_cursor( pos_bub() ), &map_added );
         }
     }
     return added;
@@ -357,7 +394,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                    loc = item_location( map_cursor( pos_bub() ), &get_map().add_item_or_charges( pos(), it ) );
                 }
             } else {
                 loc = item_location( *this, &weapon );
@@ -423,9 +460,16 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
+            if( !retval ) {
+                // No need to loop now, we already knew that there isn't enough room for the item.
+                break;
+            }
         } else if( add ) {
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+        } else {
+            retval = false;
+            break;
         }
     }
 
@@ -584,7 +628,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const

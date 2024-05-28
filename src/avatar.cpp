@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <array>
-#include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstddef>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <map>
@@ -15,18 +15,17 @@
 #include <utility>
 
 #include "action.h"
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "clzones.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "diary.h"
@@ -36,19 +35,22 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "field_type.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
-#include "kill_tracker.h"
-#include "make_static.h"
-#include "magic_enchantment.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_memory.h"
+#include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -57,15 +59,14 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "profession.h"
 #include "ranged.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
@@ -74,8 +75,8 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
-#include "translations.h"
 #include "timed_event.h"
+#include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
@@ -84,6 +85,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class monfaction;
 
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_soporific( "bio_soporific" );
@@ -345,7 +348,7 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %s is not in the active_missions list",
+        debugmsg( "new objective %s is not in the active_missions list",
                   cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
@@ -941,20 +944,20 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_penalty = 0;
-    const int fatigue_cap = focus_equilibrium_fatigue_cap( equilibrium );
+    int sleepiness_penalty = 0;
+    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
 
-    if( fatigue_cap < equilibrium ) {
-        fatigue_penalty = equilibrium - fatigue_cap;
-        equilibrium = fatigue_cap;
+    if( sleepiness_cap < equilibrium ) {
+        sleepiness_penalty = equilibrium - sleepiness_cap;
+        equilibrium = sleepiness_cap;
     }
 
     int pain_penalty = 0;
     if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
     }
 
-    morale->display( equilibrium, pain_penalty, fatigue_penalty );
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
 }
 
 void avatar::reset_stats()
@@ -1014,10 +1017,15 @@ void avatar::reset_stats()
     // Pain
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
-        mod_str_bonus( -ppen.strength );
-        mod_dex_bonus( -ppen.dexterity );
-        mod_int_bonus( -ppen.intelligence );
-        mod_per_bonus( -ppen.perception );
+        ppen_str = ppen.strength;
+        ppen_dex = ppen.dexterity;
+        ppen_int = ppen.intelligence;
+        ppen_per = ppen.perception;
+        ppen_spd = ppen.speed;
+        mod_str_bonus( -ppen_str );
+        mod_dex_bonus( -ppen_dex );
+        mod_int_bonus( -ppen_int );
+        mod_per_bonus( -ppen_per );
         if( ppen.dexterity > 0 ) {
             add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
         }
@@ -1229,6 +1237,11 @@ bool avatar::is_obeying( const Character &p ) const
 
 bool avatar::cant_see( const tripoint &p )
 {
+    return cant_see( tripoint_bub_ms( p ) );
+}
+
+bool avatar::cant_see( const tripoint_bub_ms &p )
+{
 
     // calc based on recoil
     if( !last_target_pos.has_value() ) {
@@ -1239,14 +1252,14 @@ bool avatar::cant_see( const tripoint &p )
         rebuild_aim_cache();
     }
 
-    return aim_cache[p.x][p.y];
+    return aim_cache[p.x()][p.y()];
 }
 
 void avatar::rebuild_aim_cache()
 {
     double pi = 2 * acos( 0.0 );
 
-    const tripoint local_last_target = get_map().getlocal( last_target_pos.value() );
+    const tripoint local_last_target = get_map().bub_from_abs( last_target_pos.value() ).raw();
 
     float base_angle = atan2f( local_last_target.y - posy(),
                                local_last_target.x - posx() );
@@ -1526,6 +1539,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
+bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+{
+    return avatar::invoke_item( used, pt.raw(), pre_obtain_moves );
+}
+
 bool avatar::invoke_item( item *used )
 {
     return Character::invoke_item( used );
@@ -1625,6 +1643,32 @@ void avatar::add_spent_calories( int cal )
 void avatar::add_gained_calories( int cal )
 {
     calorie_diary.front().gained += cal;
+}
+
+int avatar::get_daily_calories( unsigned days_ago, std::string const &type ) const
+{
+    auto iterator = calorie_diary.begin();
+    if( days_ago > calorie_diary.size() ) {
+        debugmsg(
+            "trying to access calorie diary from %d days ago, but the diary only contains %d days",
+            days_ago, calorie_diary.size() );
+        return 0;
+    }
+    std::advance( iterator, days_ago );
+
+    int result{};
+
+    if( type == "spent" ) {
+        result = iterator->spent;
+    } else if( type == "gained" ) {
+        result = iterator->gained;
+    } else if( type == "ingested" ) {
+        result = iterator->ingested;
+    } else if( type == "total" ) {
+        result = iterator->total();
+    }
+
+    return result;
 }
 
 void avatar::log_activity_level( float level )
@@ -1937,11 +1981,12 @@ void avatar::try_to_sleep( const time_duration &dur )
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
         const std::unordered_set<ter_str_id> comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_pit, ter_t_pit_shallow };
-        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp && furn_at_pos == f_null ) {
+        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp &&
+            furn_at_pos == furn_str_id::NULL_ID() ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != f_null ) {
+        } else if( furn_at_pos != furn_str_id::NULL_ID() ) {
             add_msg_if_player( m_bad,
                                _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
         } else { // Floor problems

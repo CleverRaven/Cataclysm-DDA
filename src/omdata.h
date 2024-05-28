@@ -189,6 +189,7 @@ enum class oter_flags : int {
     ravine,
     ravine_edge,
     generic_loot,
+    risk_extreme,
     risk_high,
     risk_low,
     source_ammo,
