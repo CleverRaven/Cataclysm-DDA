@@ -278,7 +278,10 @@
       },
       {
         "id": "hbook_industrial",
-        "name": { "str": "The Industrial Revolution: A World Transformed", "str_pl": "copies of The Industrial Revolution: A World Transformed" },
+        "name": {
+          "str": "The Industrial Revolution: A World Transformed",
+          "str_pl": "copies of The Industrial Revolution: A World Transformed"
+        },
         "description": "This hard-cover history book explore and explain the dawn of the Industrial and Modern Age as steam engines, factories, and new technologies revolutionize society, as well as the economic, social, and environmental impacts of this transformative era on both sides of the Atlantic",
         "weight": 10
       },
