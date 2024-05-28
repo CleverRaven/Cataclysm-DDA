@@ -1123,8 +1123,8 @@
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 },
-      { "item": "notebook", "prob": 1},
-      { "item": "notebook_leather", "prob": 1},
+      { "item": "notebook", "prob": 1 },
+      { "item": "notebook_leather", "prob": 1 },
       { "item": "scorecard", "prob": 30 },
       { "group": "writing_utensils", "prob": 10 }
     ]
