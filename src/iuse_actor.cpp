@@ -5583,7 +5583,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
         loc = item_location( *p->as_character(), &it );
     } else {
-        loc = item_location( map_cursor( point ), &it );
+        loc = item_location( map_cursor( tripoint_bub_ms( point ) ), &it );
     }
 
     dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
