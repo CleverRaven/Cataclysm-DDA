@@ -389,8 +389,10 @@ class activity_data_furn : public activity_data_common
 void init_mapdata();
 
 struct map_data_common_t {
-        map_bash_info        bash;
+        map_bash_info bash;
         map_deconstruct_info deconstruct;
+        std::set<emit_id> emissions;
+        translation lockpick_message; // Lockpick action: message when successfully lockpicked
         cata::value_ptr<map_shoot_info> shoot;
 
     public:
@@ -545,7 +547,6 @@ struct ter_t : map_data_common_t {
     ter_str_id close; // Close action: transform into terrain with matching id
 
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
-    translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
     cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
@@ -558,7 +559,6 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
-    std::set<emit_id> emissions;
     std::set<itype_id> allowed_template_id;
 
     ter_t();
@@ -587,11 +587,8 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
-    translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
-    /** Emissions of furniture */
-    std::set<emit_id> emissions;
 
     units::temperature_delta bonus_fire_warmth_feet = 0.6_C_delta;
     itype_id deployed_item; // item id string used to create furniture

@@ -799,6 +799,27 @@ void init_mapdata()
 
 void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
+    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "description", description );
+
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+
+    if( jo.has_member( "connect_groups" ) ) {
+        connect_groups.reset();
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
+    }
+    if( jo.has_member( "connects_to" ) ) {
+        connect_to_groups.reset();
+        set_connects_to( jo.get_as_string_array( "connects_to" ) );
+    }
+    if( jo.has_member( "rotates_to" ) ) {
+        rotate_to_groups.reset();
+        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
+    }
+    optional( jo, was_loaded, "coverage", coverage );
+    optional( jo, was_loaded, "curtain_transform", curtain_transform );
+    optional( jo, was_loaded, "emissions", emissions );
+
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( jo.get_string( "examine_action" ) );
@@ -810,6 +831,25 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
     } else if( !was_loaded ) {
         examine_actor = nullptr;
         examine_func = iexamine_functions_from_string( "none" );
+    }
+
+    if( was_loaded && jo.has_member( "flags" ) ) {
+        unset_flags();
+    }
+    for( auto &flag : jo.get_string_array( "flags" ) ) {
+        set_flag( flag );
+    }
+    if( was_loaded && jo.has_member( "extend" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            set_flag( flag );
+        }
+    }
+    if( was_loaded && jo.has_member( "delete" ) ) {
+        JsonObject jod = jo.get_object( "delete" );
+        for( auto &flag : jod.get_string_array( "flags" ) ) {
+            unset_flag( flag );
+        }
     }
 
     if( jo.has_array( "harvest_by_season" ) ) {
@@ -828,12 +868,21 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    mandatory( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "curtain_transform", curtain_transform );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta(
+                                          floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
+    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
+
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+    optional( jo, was_loaded, "light_emitted", light_emitted );
 
     if( jo.has_object( "shoot" ) ) { //TODO: Does this support copy-from?
         shoot = cata::make_value<map_shoot_info>();
         shoot->load( jo, "shoot", was_loaded );
+    }
+
+    if( !was_loaded ) {
+        transparent = false;
     }
 }
 
@@ -845,46 +894,14 @@ bool ter_t::is_null() const
 void ter_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
-    mandatory( jo, was_loaded, "name", name_ ); //TODO: Should be in map_data_common_t::load?
     mandatory( jo, was_loaded, "move_cost", movecost );
-    optional( jo, was_loaded, "coverage", coverage ); //TODO: Should be in map_data_common_t::load?
     assign( jo, "max_volume", max_volume, src == "dda" ); //TODO: Does this support copy-from?
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
-    optional( jo, was_loaded, "light_emitted", light_emitted );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta(
-                                          floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
-    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    optional( jo, was_loaded, "comfort", comfort, 0 );
 
     load_symbol( jo, "terrain " + id.str() );
 
-    trap = tr_null; //Should just be a default value?
-
-    if( !was_loaded ) { //TODO: Should be in map_data_common_t::load?
-        transparent = false;
-    }
-
-    if( was_loaded && jo.has_member( "flags" ) ) {
-        unset_flags();
-    }
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        set_flag( flag );
-    }
-
-    if( jo.has_member( "connect_groups" ) ) { //TODO: Should be in map_data_common_t::load?
-        connect_groups.reset();
-        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
-    }
-    if( jo.has_member( "connects_to" ) ) {
-        connect_to_groups.reset();
-        set_connects_to( jo.get_as_string_array( "connects_to" ) );
-    }
-    if( jo.has_member( "rotates_to" ) ) {
-        rotate_to_groups.reset();
-        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
-    }
+    trap = tr_null; //TODO: Make default value
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
@@ -894,7 +911,6 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
-    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) { //TODO: Check overwriting these with eg "oxytorch": { } works, they appear to allow overwriting result already.
@@ -916,27 +932,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         prying->load( jo.get_object( "prying" ) );
     }
 
-    optional( jo, was_loaded, "emissions", emissions );
-
     bash.load( jo, "bash", map_bash_info::terrain,
                "terrain " +
                id.str() ); //TODO: Make this support copy-from, also make overwriting these with "bash": { } works and overwriting single values primarily for "ter_set" works
     deconstruct.load( jo, "deconstruct", false,
                       "terrain " +
                       id.str() ); //TODO: Make this support copy-from, possibly take an enum for type like above, also make overwriting these with "bash": { } works and overwriting single values primarily for "ter_set" works
-
-    if( was_loaded && jo.has_member( "extend" ) ) {
-        JsonObject joe = jo.get_object( "extend" );
-        for( auto &flag : joe.get_string_array( "flags" ) ) {
-            set_flag( flag );
-        }
-    }
-    if( was_loaded && jo.has_member( "delete" ) ) {
-        JsonObject jod = jo.get_object( "delete" );
-        for( auto &flag : jod.get_string_array( "flags" ) ) {
-            unset_flag( flag );
-        }
-    }
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
@@ -1043,15 +1044,7 @@ bool furn_t::is_movable() const
 void furn_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
-    mandatory( jo, was_loaded, "name", name_ ); //TODO: Should be in map_data_common_t::load?
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
-    optional( jo, was_loaded, "coverage", coverage ); //TODO: Should be in map_data_common_t::load?
-    optional( jo, was_loaded, "comfort", comfort, 0 );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta(
-                                          floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
-    optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
-    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
-    optional( jo, was_loaded, "emissions", emissions );
     int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
     optional( jo, was_loaded, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, 300 );
     bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
@@ -1062,38 +1055,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo, "furniture " + id.str() );
 
-    optional( jo, was_loaded, "light_emitted", light_emitted );
-
-    if( !was_loaded ) { //TODO: Should be in map_data_common_t::load?
-        transparent = false;
-    }
-
-    if( was_loaded && jo.has_member( "flags" ) ) {
-        unset_flags();
-    }
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
-        set_flag( flag );
-    }
-
-    if( jo.has_member( "connect_groups" ) ) { //TODO: Should be in map_data_common_t::load?
-        connect_groups.reset();
-        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
-    }
-    if( jo.has_member( "connects_to" ) ) {
-        connect_to_groups.reset();
-        set_connects_to( jo.get_as_string_array( "connects_to" ) );
-    }
-    if( jo.has_member( "rotates_to" ) ) {
-        rotate_to_groups.reset();
-        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
-    }
-
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
-    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
     oxytorch = cata::make_value<activity_data_furn>();
     if( jo.has_object( "oxytorch" ) ) { //TODO: Do these support copy-from?
