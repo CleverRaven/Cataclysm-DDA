@@ -579,6 +579,13 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        // Used to display pain penalties
+        int ppen_str;
+        int ppen_dex;
+        int ppen_int;
+        int ppen_per;
+        int ppen_spd;
+
         int kill_xp = 0;
         // Level-up points spent on Stats through Kills
         int spent_upgrade_points = 0;
@@ -916,6 +923,7 @@ class Character : public Creature, public visitable
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
+        stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */

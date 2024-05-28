@@ -613,7 +613,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );
     }
 
-    pen = player->get_pain_penalty().speed;
+    pen = player->ppen_spd;
     if( pen >= 1 ) {
         pge_str = pgettext( "speed penalty", "Pain " );
         speed_detail_str += colorize( string_format( _( "%s    -%2d%%\n" ), pge_str, pen ), c_red );

@@ -557,6 +557,11 @@ Character::Character() :
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
+    ppen_str = 0;
+    ppen_dex = 0;
+    ppen_int = 0;
+    ppen_per = 0;
+    ppen_spd = 0;
     lifestyle = 0;
     daily_health = 0;
     health_tally = 0;
@@ -12343,10 +12348,10 @@ stat_mod Character::get_pain_penalty() const
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
     // Also not make character has 0 stats
-    ret.strength = std::max( ret.strength, 1 );
-    ret.dexterity = std::max( ret.dexterity, 1 );
-    ret.intelligence = std::max( ret.intelligence, 1 );
-    ret.perception = std::max( ret.perception, 1 );
+    ret.strength = std::clamp( ret.strength, 1, get_str() - 1 );
+    ret.dexterity = std::clamp( ret.dexterity, 1, get_dex() - 1 );
+    ret.intelligence = std::clamp( ret.intelligence, 1, get_int() - 1 );
+    ret.perception = std::clamp( ret.perception, 1, get_per() - 1 );
 
 
     int speed_penalty = std::pow( pain, 0.7f );
@@ -12355,6 +12360,17 @@ stat_mod Character::get_pain_penalty() const
                           speed_penalty ), 0.0 );
 
     ret.speed = std::min( ret.speed, 50 );
+    return ret;
+}
+
+stat_mod Character::read_pain_penalty() const
+{
+    stat_mod ret;
+    ret.strength = ppen_str;
+    ret.dexterity = ppen_dex;
+    ret.intelligence = ppen_int;
+    ret.perception = ppen_per;
+    ret.speed = ppen_spd;
     return ret;
 }
 
