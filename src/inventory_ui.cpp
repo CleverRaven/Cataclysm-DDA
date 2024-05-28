@@ -2696,7 +2696,8 @@ int inventory_selector::query_count( char init, bool end_with_toggle )
         try {
             ret = std::stoi( query.second );
         } catch( const std::invalid_argument &e ) {
-            // TODO Tell User they did a bad
+            // Tell User they did a bad
+            popup( _( "That is not an integer." ) );
             ret = -1;
         } catch( const std::out_of_range &e ) {
             ret = INT_MAX;
