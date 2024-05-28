@@ -85,7 +85,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_other",
-    "items": [ { "group": "nested_kp32", "prob": 5 } ]
+    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 9 } ]
   },
   {
     "type": "item_group",
@@ -257,7 +257,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_other",
-    "items": [ { "item": "kp32", "prob": 5 } ]
+    "items": [ { "item": "kp32", "prob": 5 }, { "item": "taurus_judge", "prob": 9 } ]
   },
   {
     "type": "item_group",
