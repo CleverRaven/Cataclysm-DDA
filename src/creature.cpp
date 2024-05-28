@@ -225,7 +225,6 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
     if( !vp_there ) {
         return true;
     }
-    
     const monster *mon = as_monster();
 
     vehicle &veh = vp_there->vehicle();
