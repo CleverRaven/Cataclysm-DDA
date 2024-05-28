@@ -352,13 +352,7 @@
         [ "pepper", 2 ],
         [ "hot_sauce", 1 ]
       ],
-      [ 
-        [ "corn", 1 ], 
-        [ "barley", 1 ],
-        [ "buckwheat", 1 ],
-        [ "oats", 1 ],
-        [ "wheat", 1 ]
-	  ]
-	 ]
+      [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
+    ]
   }
 ]
