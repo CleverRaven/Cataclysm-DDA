@@ -992,12 +992,7 @@
           { "item": "mbag" },
           { "item": "pockknife" },
           { "item": "book_history" },
-          {
-            "item": "pen",
-            "ammo-item": "black_pen_ink",
-            "charges": 100,
-            "container-item": "notebook_leather"
-          },
+          { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100, "container-item": "notebook_leather" },
           { "group": "charged_smart_phone" }
         ]
       },
