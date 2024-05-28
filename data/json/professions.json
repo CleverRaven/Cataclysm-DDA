@@ -975,39 +975,30 @@
     "type": "profession",
     "id": "historian",
     "name": "Historian",
-    "description": "As a historian, you spent your days buried in ancient texts and archives, uncovering the secrets of the past.  While your knowledge of historical events and cultures might not seem immediately useful in the chaos of the cataclysm, your skills in research, analysis, and survival strategies from bygone eras give you a unique edge.  Equipped with a keen intellect and a deep understanding of how humans have endured through history, you feel ready to face these Dark Days Ahead.",
+    "description": "As a historian, you spent your days buried in ancient texts and archives, uncovering the secrets of the past.  While your knowledge of historical events and cultures might not seem immediately useful in the chaos of the cataclysm, your skills in research, analysis, and survival strategies from bygone eras give you an unique edge.  Equipped with a keen intellect and a deep understanding of how humans have endured through history, you feel ready to face these Dark Days Ahead.",
     "points": 1,
-    "proficiencies": [ "prof_lockpicking", "prof_knives_familiar", "prof_unarmed_familiar" ],
     "skills": [
-      { "level": 3, "name": "melee" },
-      { "level": 3, "name": "stabbing" },
-      { "level": 3, "name": "unarmed" },
-      { "level": 3, "name": "dodge" },
-      { "level": 3, "name": "traps" },
-      { "level": 3, "name": "speech" }
+      { "level": 2, "name": "speech" },
+      { "level": 1, "name": "archery" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "computers" }
     ],
     "items": {
       "both": {
         "entries": [
-          { "item": "tank_top" },
-          { "item": "hoodie" },
-          { "item": "pants_cargo" },
+          { "item": "dress_shirt" },
+          { "item": "cliptie" },
+          { "item": "pants", "variant": "pants_stone" },
           { "item": "socks" },
-          { "item": "sneakers" },
-          { "item": "weed" },
-          { "item": "tobacco" },
-          { "item": "rolling_paper" },
-          { "item": "switchblade" },
+          { "item": "dress_shoes" },
           { "item": "wristwatch" },
-          { "item": "picklocks" },
-          { "group": "charged_smart_phone" },
-          { "item": "lighter", "charges": 100 }
+          { "group": "charged_smart_phone" }
         ]
       },
-      "male": { "entries": [ { "item": "boxer_briefs" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
-    "age_lower": 18
+    "age_lower": 20
   },
   {
     "type": "profession",
