@@ -5,7 +5,7 @@
 #include <list>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "submap.h"
 
 enum class timed_event_type : int {

@@ -15,7 +15,7 @@
 
 #include "calendar.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "enums.h"
 #include "explosion.h"

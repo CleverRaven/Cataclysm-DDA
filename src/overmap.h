@@ -19,7 +19,7 @@
 
 #include "basecamp.h"
 #include "city.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "cube_direction.h"
 #include "enums.h"
 #include "game_constants.h"

@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "type_id.h"
 

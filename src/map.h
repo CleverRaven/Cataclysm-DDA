@@ -26,7 +26,7 @@
 #include "cata_utility.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "enums.h"
 #include "game_constants.h"

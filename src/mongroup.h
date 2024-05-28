@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "io_tags.h"
 #include "mapgen.h"
