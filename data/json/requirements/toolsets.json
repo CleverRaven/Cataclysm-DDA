@@ -249,6 +249,7 @@
     "tools": [
       [
         [ "soldering_iron", 1 ],
+        [ "integrated_electrokit", 1 ],
         [ "soldering_iron_portable", 1 ],
         [ "integrated_welder", 1 ],
         [ "small_repairkit", 1 ],

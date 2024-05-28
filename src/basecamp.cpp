@@ -860,7 +860,7 @@ bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
 void basecamp::load_data( const std::string &data )
 {
     std::stringstream stream( data );
-    stream >> name >> bb_pos.x >> bb_pos.y;
+    stream >> name >> bb_pos.x() >> bb_pos.y();
     // add space to name
     replace( name.begin(), name.end(), '_', ' ' );
 }

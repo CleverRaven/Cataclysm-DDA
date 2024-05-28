@@ -185,7 +185,8 @@
       [ "metal_RPG_die", 1 ],
       [ "balloon", 5 ],
       [ "deck_of_cards", 1 ],
-      [ "milkshake_fastfood", 3 ]
+      [ "milkshake_fastfood", 3 ],
+      { "group": "butterfly_net_any", "prob": 5 }
     ]
   },
   {

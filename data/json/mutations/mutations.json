@@ -1203,7 +1203,7 @@
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
     "cancels": [ "CHAOTIC_BAD" ],
-    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL", "PLANT" ]
+    "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
   },
   {
     "type": "mutation",
@@ -1945,7 +1945,8 @@
     "starting_trait": true,
     "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": 1 } ] } ],
     "types": [ "CONSTITUTION" ],
-    "changes_to": [ "NAUSEA" ],
+    "leads_to": [ "NAUSEA" ],
+    "changes_to": [ "EATPOISON" ],
     "category": [
       "ALPHA",
       "SLIME",
@@ -4455,13 +4456,13 @@
     "type": "mutation",
     "id": "EATPOISON",
     "name": { "str": "Intestinal Fortitude" },
-    "points": 3,
+    "points": 2,
     "description": "Your guts have developed the ability to handle the toxic elements of mutated flesh.  Mostly.",
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "EATDEAD" ],
-    "prereqs": [ "POISRESIST" ],
+    "prereqs": [ "WEAKSTOMACH" ],
+    "prereqs2": [ "VOMITOUS" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
-    "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
     "threshreq": [
       "THRESH_TROGLOBITE",
       "THRESH_CHIMERA",
@@ -6803,7 +6804,8 @@
     "description": "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
     "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": 2 } ] } ],
     "types": [ "CONSTITUTION" ],
-    "prereqs": [ "NAUSEA" ],
+    "prereqs": [ "WEAKSTOMACH" ],
+    "prereqs2": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
     "category": [
       "ALPHA",

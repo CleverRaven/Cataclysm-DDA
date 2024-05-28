@@ -6,7 +6,7 @@
     "sym": "T",
     "color": "magenta",
     "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,6 +15,6 @@
     "sym": "T",
     "color": "light_red",
     "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   }
 ]

@@ -2400,12 +2400,12 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "pair of light amp goggles", "str_pl": "pairs of light amp goggles" },
-    "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  Use it to turn them on.",
-    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC" ],
-    "price": "920 USD",
-    "price_postapoc": "35 USD",
+    "description": "A pair of battery-powered goggles that use a infrared LED in conjunction with a IR camera, allowing you to see in the dark.  Use it to turn them on.",
+    "flags": [ "FRAGILE", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "price": "300 USD",
+    "price_postapoc": "30 USD",
     "material": [ "plastic", "steel" ],
-    "weight": "1020 g",
+    "weight": "600 g",
     "volume": "1 L",
     "to_hit": -3,
     "charges_per_use": 1,
@@ -2429,6 +2429,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
+    "relic_data": { "passive_effects": [ { "id": "nvg_bad" } ] },
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
@@ -2436,9 +2437,9 @@
     "copy-from": "goggles_nv",
     "type": "TOOL_ARMOR",
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
-    "description": "A pair of battery-powered light amplifying goggles with an infrared illuminator, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
+    "description": "A pair of battery-powered goggles that use a infrared LED in conjunction with a IR camera, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] },
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": "375 mW",
     "revert_to": "goggles_nv",
