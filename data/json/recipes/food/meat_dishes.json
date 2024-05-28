@@ -342,10 +342,7 @@
     "charges": 8,
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_frying" } ],
     "components": [
-	  [   
-	    [ "meat_offal", 2, "LIST" ],
-        [ "meat_nofish", 1, "LIST" ]
-	  ],
+      [ [ "meat_offal", 2, "LIST" ], [ "meat_nofish", 1, "LIST" ] ],
       [
         [ "salt", 2 ],
         [ "syrup", 1 ],
