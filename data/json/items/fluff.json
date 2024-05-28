@@ -1522,8 +1522,8 @@
     "category": "other",
     "name": { "str": "notebook" },
     "description": "A spiral-bound collection of lined pages used for writing or drawing stuff.",
-    "weight": "8 g",
-    "volume": "2 ml",
+    "weight": "150 g",
+    "volume": "250 ml",
     "price": "1 USD 50 cent",
     "price_postapoc": "1 cent",
     "material": [ "cardboard", "paper" ],
@@ -1535,11 +1535,11 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "leather-cover notebook" },
-    "description": "A professional-looking, leather-cover notebook, perfect for writing or drawing stuff with some real vintage style. It has a special strap for holding or storing a pen or pencil inside it.",
-    "weight": "8 g",
-    "volume": "2 ml",
+    "description": "A professional-looking, leather-cover notebook, perfect for writing or drawing stuff with some real vintage style.  It has a special strap for storing a pen or pencil inside it.",
+    "weight": "300 g",
+    "volume": "500 ml",
     "price": "3 USD 50 cent",
-    "price_postapoc": "1 cent",
+    "price_postapoc": "2 cent",
     "material": [ "leather", "paper" ],
     "pocket_data": [
       {
@@ -1554,7 +1554,7 @@
       }
     ],
     "symbol": "H",
-    "color": "blue"
+    "color": "brown"
   },
   {
     "type": "GENERIC",
