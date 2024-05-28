@@ -100,16 +100,6 @@ struct faction_power_spec
     void deserialize( const JsonObject& jo );
 };
 
-void faction_power_spec::deserialize( const JsonObject& jo )
-{
-    mandatory( jo, false, "faction", faction ); // from generic_factory.h
-    optional( jo, false, "power_min", power_min );
-    optional( jo, false, "power_max", power_max );
-
-    if ( !power_min.has_value() && !power_max.has_value() ) {
-        jo.throw_error("must have either a power_min or a power_max");
-    }
-}
 
 struct faction_epilogue_data
 {
@@ -123,13 +113,6 @@ struct faction_epilogue_data
     void deserialize( const JsonObject &jo );
 };
 
-void faction_epilogue_data::deserialize( const JsonObject &jo ) 
-{
-    optional(jo, false, "power_min", power_min);
-    optional(jo, false, "power_max", power_max);
-    optional(jo, false, "dynamic", dynamic_conditions);
-    mandatory(jo, false, "faction", epilogue);
-}
 
 class faction_template
 {
@@ -162,7 +145,7 @@ public:
     std::vector<faction_price_rule> price_rules; // additional pricing rules
     std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
     mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
-    std::set<faction_epilogue_data> epilogue_data;
+    std::vector<faction_epilogue_data> epilogue_data;
 };
 
 class faction : public faction_template

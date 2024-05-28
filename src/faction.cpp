@@ -152,6 +152,24 @@ std::string faction::describe() const
     return ret;
 }
 
+void faction_power_spec::deserialize(const JsonObject& jo)
+{
+    mandatory(jo, false, "faction", faction); // from generic_factory.h
+    optional(jo, false, "power_min", power_min);
+    optional(jo, false, "power_max", power_max);
+
+    if (!power_min.has_value() && !power_max.has_value()) {
+        jo.throw_error("must have either a power_min or a power_max");
+    }
+}
+
+void faction_epilogue_data::deserialize(const JsonObject& jo)
+{
+    optional(jo, false, "power_min", power_min);
+    optional(jo, false, "power_max", power_max);
+    optional(jo, false, "dynamic", dynamic_conditions);
+    mandatory(jo, false, "faction", epilogue);
+}
 
 //bool faction::check_relations( std::optional<std::vector<faction_power_spec>> jo ) const
 //{
