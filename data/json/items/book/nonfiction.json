@@ -255,19 +255,28 @@
       },
       {
         "id": "hbook_murica",
-        "name": { "str": "The American Revolution: Forging a New Nation", "str_pl": "copies of The American Revolution: Forging a New Nation" },
+        "name": {
+          "str": "The American Revolution: Forging a New Nation",
+          "str_pl": "copies of The American Revolution: Forging a New Nation"
+        },
         "description": " A history book about the crucible of revolution that witness the birth of a nation.  It follows the American Founding Fathers, from the Boston Tea Party to the signing of the Declaration of Independence, as they chart a course toward liberty and self-governance.",
         "weight": 10
       },
       {
         "id": "hbook_french",
-        "name": { "str": "The French Revolution: Liberty, Equality, Fraternity", "str_pl": "copies of The French Revolution: Liberty, Equality, Fraternity" },
+        "name": {
+          "str": "The French Revolution: Liberty, Equality, Fraternity",
+          "str_pl": "copies of The French Revolution: Liberty, Equality, Fraternity"
+        },
         "description": "Telling the tumultuous upheaval of revolutionary France, where the ideals of liberty and equality clashed with the forces of monarchy and aristocracy, this history book explores the Reign of Terror, the Rise of Napoleon, and the Legacy of the French Revolution.",
         "weight": 10
       },
       {
         "id": "hbook_murica2",
-        "name": { "str": "The American Civil War: Divided Nation, United Resolve", "str_pl": "copies of The American Civil War: Divided Nation, United Resolve" },
+        "name": {
+          "str": "The American Civil War: Divided Nation, United Resolve",
+          "str_pl": "copies of The American Civil War: Divided Nation, United Resolve"
+        },
         "description": "This fascinating and complete history book transports its reader to the bloody battlefields and political upheaval of America's Civil War.  It explore and explain the causes, key battles, and lasting consequences of this epic struggle for the soul of a now defunct nation.",
         "weight": 10
       },
