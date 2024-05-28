@@ -162,7 +162,7 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
-            { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] } 
+            { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
