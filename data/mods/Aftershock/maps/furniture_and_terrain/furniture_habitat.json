@@ -157,7 +157,6 @@
     "required_str": 5,
     "crafting_pseudo_item": "mirror",
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
-    "examine_action": "change_appearance",
     "deconstruct": {
       "items": [
         { "item": "large_lcd_screen", "count": 1 },
@@ -184,6 +183,69 @@
         { "item": "cable", "charges": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_intermodal_crate_open",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be open.",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sealed_intermodal_crate",
+    "name": "sealed intermodal crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock.",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "oxytorch": { "result": "f_intermodal_crate_open", "duration": "14 seconds" },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER", "SEALED" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_crate",
+          "effect": [
+            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            {
+              "run_eoc_with": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
       ]
     }
   }

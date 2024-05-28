@@ -1028,7 +1028,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !is_avatar() ) {
             return false;
         }
-        std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
+        std::optional<tripoint_bub_ms> target = lockpick_activity_actor::select_location(
+                player_character );
         if( target.has_value() ) {
             add_msg_activate();
             assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );

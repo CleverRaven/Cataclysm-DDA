@@ -1203,7 +1203,7 @@
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
     "cancels": [ "CHAOTIC_BAD" ],
-    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL", "PLANT" ]
+    "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
   },
   {
     "type": "mutation",
@@ -1945,7 +1945,8 @@
     "starting_trait": true,
     "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": 1 } ] } ],
     "types": [ "CONSTITUTION" ],
-    "changes_to": [ "NAUSEA" ],
+    "leads_to": [ "NAUSEA" ],
+    "changes_to": [ "EATPOISON" ],
     "category": [
       "ALPHA",
       "SLIME",
@@ -3330,6 +3331,7 @@
   {
     "type": "mutation",
     "id": "BARK",
+    "flags": [ "BARKY" ],
     "name": { "str": "Protective Bark" },
     "points": 5,
     "visibility": 10,
@@ -3344,6 +3346,7 @@
   {
     "type": "mutation",
     "id": "BARK2_a",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Distributed)" },
     "points": 6,
     "visibility": 10,
@@ -3366,6 +3369,7 @@
   {
     "type": "mutation",
     "id": "BARK2_b",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Consolidated)" },
     "points": 6,
     "visibility": 10,
@@ -3386,6 +3390,7 @@
   {
     "type": "mutation",
     "id": "BARK2_c",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Latticed)" },
     "points": 6,
     "visibility": 10,
@@ -3424,7 +3429,7 @@
     "ugliness": 3,
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
     "wet_protection": [ { "part": "head", "ignored": 1 } ]
@@ -3470,7 +3475,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ]
@@ -3483,7 +3488,7 @@
     "visibility": 10,
     "ugliness": -4,
     "description": "You've started blooming where your scalp used to be.  Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "HAIRROOTS" ],
     "types": [ "SCENT" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
@@ -4451,13 +4456,13 @@
     "type": "mutation",
     "id": "EATPOISON",
     "name": { "str": "Intestinal Fortitude" },
-    "points": 3,
+    "points": 2,
     "description": "Your guts have developed the ability to handle the toxic elements of mutated flesh.  Mostly.",
     "types": [ "CONSTITUTION" ],
     "changes_to": [ "EATDEAD" ],
-    "prereqs": [ "POISRESIST" ],
+    "prereqs": [ "WEAKSTOMACH" ],
+    "prereqs2": [ "VOMITOUS" ],
     "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
-    "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
     "threshreq": [
       "THRESH_TROGLOBITE",
       "THRESH_CHIMERA",
@@ -6799,7 +6804,8 @@
     "description": "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
     "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": 2 } ] } ],
     "types": [ "CONSTITUTION" ],
-    "prereqs": [ "NAUSEA" ],
+    "prereqs": [ "WEAKSTOMACH" ],
+    "prereqs2": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
     "category": [
       "ALPHA",
@@ -7497,7 +7503,7 @@
     "ugliness": 5,
     "description": "You have developed several vines sprouting from your shoulder area.  They're bulky, and get in the way.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "VINES2" ],
     "category": [ "PLANT" ],
     "encumbrance_always": [ [ "torso", 10 ] ]
@@ -7511,7 +7517,7 @@
     "ugliness": 5,
     "description": "You've developed the ability to control your vines; they make good lashes.  You can even rappel down sheer drops using them, but disconnecting HURTS.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
     "category": [ "PLANT" ],
@@ -7534,7 +7540,7 @@
     "ugliness": 6,
     "description": "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
@@ -9187,7 +9193,8 @@
     "name": { "str": "Mute" },
     "points": 0,
     "valid": false,
-    "description": "Trait that makes it impossible to say anything."
+    "description": "Trait that makes it impossible to say anything.",
+    "flags": [ "MUTE" ]
   },
   {
     "type": "mutation",
@@ -9493,7 +9500,7 @@
     "id": "RESISTCHILL",
     "name": { "str": "Cold Tolerance" },
     "points": 1,
-    "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while you are slightly less prone to developing frostbite as a result, you aren't any better at dealing with the symptoms.",
+    "description": "You fare better than most in colder climates and are less bothered by lower temperatures.  Note that while it will take more cold and exposure for you to suffer the effects of frostbite, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTCHILL" ],
     "types": [ "ACCLIMATIZATION", "ECTOTHERMIC" ],
@@ -9518,7 +9525,7 @@
     "id": "RESISTWARM",
     "name": { "str": "Heat Tolerance" },
     "points": 1,
-    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while you it will take more heat and exposure for you to suffer from sunstroke, this will not make dealing with its consequences any easier.",
+    "description": "You fare better than most in warmer climates and are less bothered by hotter temperatures.  Note that while it will take more heat and exposure for you to suffer the effects of sunstroke, you aren't any better at dealing with the symptoms.",
     "starting_trait": true,
     "changes_to": [ "STRONGER_RESISTWARM" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],

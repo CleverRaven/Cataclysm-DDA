@@ -2249,7 +2249,7 @@ class exosuit_interact
             for( const tripoint &p : here.points_in_radius( c.pos(), PICKUP_RANGE ) ) {
                 for( item &i : here.i_at( p ) ) {
                     if( filter( i ) ) {
-                        candidates.emplace_back( map_cursor( p ), &i );
+                        candidates.emplace_back( map_cursor( tripoint_bub_ms( p ) ), &i );
                     }
                 }
             }
@@ -3070,12 +3070,12 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint &pos 
     }
     avatar &you = dynamic_cast<avatar &>( *p );
 
-    std::optional<tripoint> target;
+    std::optional<tripoint_bub_ms> target;
     // Prompt for a target lock to pick, or use the given tripoint
     if( pos == you.pos() ) {
         target = lockpick_activity_actor::select_location( you );
     } else {
-        target = pos;
+        target = tripoint_bub_ms( pos );
     }
     if( !target.has_value() ) {
         return std::nullopt;
@@ -4688,9 +4688,9 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
     }
 
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f =
-    [&here, p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
+    const std::function<bool( const tripoint_bub_ms & )> f =
+    [&here, p]( const tripoint_bub_ms & pnt ) {
+        if( pnt == p->pos_bub() ) {
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->hacksaw->valid();
@@ -4700,14 +4700,14 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
         return false;
     };
 
-    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
+                _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
-    const tripoint &pnt = *pnt_;
+    const tripoint_bub_ms &pnt = *pnt_;
     if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
+        if( pnt == p->pos_bub() ) {
             p->add_msg_if_player( m_info, _( "Why would you do that?" ) );
             p->add_msg_if_player( m_info, _( "You're not even chained to a boiler." ) );
         } else {
@@ -4718,7 +4718,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint &it_pnt
     if( p->pos() == it_pnt ) {
         p->assign_activity( hacksaw_activity_actor( pnt, item_location{ *p, it } ) );
     } else {
-        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), it_pnt ) );
+        p->assign_activity( hacksaw_activity_actor( pnt, it->typeId(), tripoint_bub_ms( it_pnt ) ) );
     }
 
     return std::nullopt;
@@ -7065,7 +7065,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     std::map<std::string, use_function> use_methods = it.type->use_methods;
                     if( use_methods.find( "transform" ) != use_methods.end() ) {
                         it.type->get_use( "transform" )->call( &p, it, loc );
-                        item_location itm_loc = item_location( map_cursor( loc ), &it );
+                        item_location itm_loc = item_location( map_cursor( tripoint_bub_ms( loc ) ), &it );
                         here.update_lum( itm_loc, true );
                     } else {
                         it.type->get_use( it.type->use_methods.begin()->first )->call( &p, it, loc );
@@ -7081,7 +7081,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( &p, *itm, loc );
-                        item_location itm_loc = item_location( map_cursor( loc ), itm );
+                        item_location itm_loc = item_location( map_cursor( tripoint_bub_ms( loc ) ), itm );
                         here.update_lum( itm_loc, true );
                     }
                 }
@@ -9187,4 +9187,10 @@ std::optional<int> use_function::call( Character *p, item &it,
                                        const tripoint &pos ) const
 {
     return actor->use( p, it, pos );
+}
+
+std::optional<int> use_function::call( Character *p, item &it,
+                                       const tripoint_bub_ms &pos ) const
+{
+    return use_function::call( p, it, pos.raw() );
 }

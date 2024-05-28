@@ -852,15 +852,15 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
     return std::pair<field, tripoint> {field_removed, field_position};
 }
 
-static void handle_remove_fd_reality_tear_field( const std::pair<field, tripoint>
-        &fd_reality_tear_field,
+static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint>
+        &fd_fatigue_field,
         Creature &caster )
 {
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
-         ( fd_reality_tear_field ) ) {
+         ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
-        const tripoint &field_position = std::get<1>( fd_reality_tear_field );
+        const tripoint &field_position = std::get<1>( fd_fatigue_field );
         const bool sees_field = caster.sees( field_position );
 
         switch( intensity ) {
@@ -912,8 +912,8 @@ void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoi
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
             sp.make_sound( caster.pos(), caster );
 
-            if( fd.first.id() == fd_reality_tear ) {
-                handle_remove_fd_reality_tear_field( field_removed, caster );
+            if( fd.first.id() == fd_fatigue ) {
+                handle_remove_fd_fatigue_field( field_removed, caster );
             } else {
                 caster.add_msg_if_player( m_neutral, _( "The %s dissipates." ),
                                           fd.second.get_intensity_level().name );
@@ -1674,7 +1674,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( here.getlocal( *walk_point ) == source ) {
+    if( here.bub_from_abs( *walk_point ).raw() == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1682,14 +1682,14 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
-            if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
-                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
+            if( creatures.creature_at( here.bub_from_abs( *walk_point ) ) ||
+                !g->walk_move( here.bub_from_abs( *walk_point ), false ) ) {
                 if( walk_point != trajectory.begin() ) {
                     --walk_point;
                 }
                 break;
             } else if( walk_point != trajectory.begin() ) {
-                sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
+                sp.create_field( here.bub_from_abs( *( walk_point - 1 ) ).raw(), caster );
                 g->draw_ter();
             }
         }
@@ -1702,7 +1702,8 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     caster.set_moves( cur_moves );
 
     tripoint far_target;
-    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ),
+                  here.bub_from_abs( *walk_point ).raw(),
                   far_target );
 
     spell_effect::override_parameters params( sp, caster );

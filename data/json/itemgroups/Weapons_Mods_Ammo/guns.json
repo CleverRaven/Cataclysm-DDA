@@ -137,7 +137,6 @@
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
       { "group": "nested_mauser_c96", "prob": 39 },
-      { "group": "nested_moss_brownie", "prob": 400 },
       { "group": "nested_mr73", "prob": 8 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
@@ -156,7 +155,6 @@
       { "item": "af2011a1_38super", "prob": 25 },
       { "item": "draco", "prob": 30 },
       { "item": "ar_pistol", "prob": 35 },
-      { "item": "plr16", "prob": 3 },
       { "group": "guns_pistol_collectible", "prob": 1 },
       { "item": "minidraco556", "prob": 30 }
     ]
@@ -262,12 +260,7 @@
     "id": "guns_smg_obscure",
     "subtype": "distribution",
     "//": "Imported or otherwise very obscure SMGs.",
-    "items": [
-      { "item": "ppsh", "prob": 50 },
-      { "item": "hk_mp5_10_semi", "prob": 1 },
-      { "item": "greasegun", "prob": 150 },
-      { "group": "guns_smg_collectible", "prob": 1 }
-    ]
+    "items": [ { "item": "ppsh", "prob": 50 }, { "item": "hk_mp5_10_semi", "prob": 1 }, { "item": "greasegun", "prob": 150 } ]
   },
   {
     "type": "item_group",
@@ -279,12 +272,6 @@
       { "group": "guns_smg_rare_display", "prob": 30 },
       { "group": "guns_smg_common_display", "prob": 60 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_collectible",
-    "//": "Extremely rare factory-made submachine guns that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
-    "items": [ { "item": "mp18", "variant": "mp18", "prob": 3 } ]
   },
   {
     "type": "item_group",
@@ -418,7 +405,6 @@
       { "group": "nested_rm51_assault_rifle", "prob": 1 },
       { "group": "nested_rm614_lmg", "prob": 1 },
       { "group": "nested_rm88_battle_rifle", "prob": 1 },
-      { "group": "nested_sig_assault_rifle", "prob": 50 },
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },
@@ -449,7 +435,6 @@
       { "group": "nested_carbine_flintlock", "prob": 140 },
       { "group": "nested_m60_semi", "prob": 10 },
       { "group": "nested_rifle_flintlock", "prob": 180 },
-      { "group": "nested_oa93", "prob": 3 },
       { "group": "nested_steyr_aug", "prob": 40 },
       { "group": "nested_win70_458", "prob": 60 },
       { "group": "nested_arx160", "prob": 40 },
@@ -479,7 +464,6 @@
       { "item": "type99", "variant": "type99", "contents-group": "type99_mods", "prob": 5, "charges": 0 },
       { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 2, "charges": 0 },
       { "item": "m60_semi", "prob": 5 },
-      { "item": "oa93", "prob": 3 },
       { "item": "steyr_aug", "prob": 5 },
       { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
@@ -1744,7 +1728,6 @@
       { "group": "guns_improvised", "prob": 50 },
       { "group": "modular_ar15", "prob": 13, "charges": [ 0, 30 ] },
       { "item": "ar_pistol", "prob": 2, "charges": [ 0, 30 ] },
-      { "item": "plr16", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "mossberg_500", "prob": 2, "charges": [ 0, 6 ] },
       { "item": "remington_870", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "benelli_sa", "variant": "m2", "prob": 2, "charges": [ 0, 4 ] },

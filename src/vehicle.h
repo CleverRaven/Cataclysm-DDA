@@ -1789,7 +1789,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
-        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+        static bool use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                      const itype_id &tool_type,
                                       bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair

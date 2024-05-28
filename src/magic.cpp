@@ -58,6 +58,11 @@ static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
+static const proficiency_id proficiency_prof_concentration_basic( "prof_concentration_basic" );
+static const proficiency_id
+proficiency_prof_concentration_intermediate( "prof_concentration_intermediate" );
+static const proficiency_id proficiency_prof_concentration_master( "prof_concentration_master" );
+
 static const skill_id skill_spellcraft( "spellcraft" );
 
 static const trait_id trait_NONE( "NONE" );
@@ -1100,6 +1105,10 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
+    if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0, false ),
                 return_true<item> ) ) {
@@ -1241,9 +1250,28 @@ float spell::spell_fail( const Character &guy ) const
     const float two_thirds_power_level = static_cast<float>( get_effective_level() ) /
                                          static_cast<float>
                                          ( 1.5 );
+    float psi_effective_skill = 0;
+    if( is_psi ) {
+        const float psi_effective_skill_initial = 2 * ( ( guy.get_skill_level(
+                    skill() ) * 2 ) - get_difficulty(
+                    guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
 
-    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
-            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
+        if( !guy.has_proficiency( proficiency_prof_concentration_basic ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 24 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_basic ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_intermediate ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 31 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_intermediate ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_master ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 37 ) );
+        } else {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 45 ) );
+        }
+    }
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
         return 0.0f;
@@ -1949,6 +1977,10 @@ void known_magic::deserialize( const JsonObject &data )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
+        if( !sp.is_valid() ) {
+            DebugLog( D_WARNING, D_MAIN ) << "Tried to load bad spell: " << sp.c_str();
+            continue;
+        }
         if( knows_spell( sp ) ) {
             spellbook[sp].set_exp( xp );
         } else {
@@ -2118,6 +2150,8 @@ spell &known_magic::get_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
         debugmsg( "ERROR: Tried to get unknown spell" );
+        static spell null_spell_reference( spell_id::NULL_ID() );
+        return null_spell_reference; // Don't make up new spells in our spellbook
     }
     spell &temp_spell = spellbook[ sp ];
     return temp_spell;

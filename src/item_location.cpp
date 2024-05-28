@@ -220,7 +220,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur.pos();
+            return cur.pos().raw();
         }
 
         Character *carrier() const override {
@@ -230,7 +230,7 @@ class item_location::impl::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos() );
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos().raw() );
             }
             return res;
         }
@@ -263,7 +263,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos() );
+            mv += 100 * rl_dist( ch.pos(), cur.pos().raw() );
 
             // TODO: handle unpacking costs
 
@@ -829,7 +829,7 @@ void item_location::deserialize( const JsonObject &obj )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -842,7 +842,7 @@ void item_location::deserialize( const JsonObject &obj )
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->all_items_top();

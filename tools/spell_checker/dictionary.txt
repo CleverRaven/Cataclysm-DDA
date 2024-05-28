@@ -2308,6 +2308,7 @@ gov
 gozu
 gozus
 GPMG
+GPNVG
 GR
 gr
 graboid
@@ -4322,6 +4323,8 @@ numpad
 nums
 Nunez
 NV
+NVG
+NVGs
 NW
 NY
 Nyâyis
@@ -5668,6 +5671,7 @@ spacebar
 Spaceborn
 spacefaring
 spacetime
+spadefoot
 spadelike
 spalling
 Spanish

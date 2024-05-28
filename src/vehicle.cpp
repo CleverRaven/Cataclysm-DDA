@@ -632,7 +632,7 @@ void vehicle::autopilot_patrol()
             autodrive_local_target = tripoint_zero;
             return;
         }
-        if( !here.inbounds( here.getlocal( autodrive_local_target ) ) ) {
+        if( !here.inbounds( here.bub_from_abs( autodrive_local_target ) ) ) {
             autodrive_local_target = tripoint_zero;
             is_patrolling = false;
             return;
@@ -6734,15 +6734,16 @@ void vehicle::do_towing_move()
         towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
-        std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
-                                                here.getlocal( tower_tow_point ) );
+        std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
+                                                here.bub_from_abs( tower_tow_point ).raw() );
         tripoint nearby_destination;
         if( lineto.size() >= 2 ) {
             nearby_destination = lineto[1];
         } else {
             nearby_destination = tower_tow_point;
         }
-        const tripoint destination_delta( here.getlocal( tower_tow_point ).xy() - nearby_destination.xy() +
+        const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
+                                          nearby_destination.xy() +
                                           tripoint( 0, 0, towed_veh->global_pos3().z ) );
         const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
                                          clamp( destination_delta.y, -1, 1 ),
