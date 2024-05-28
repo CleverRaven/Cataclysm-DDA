@@ -272,7 +272,10 @@
       },
       {
         "id": "hbook_sea",
-        "name": { "str": "The Age of Exploration: Voyages of Discovery", "str_pl": "copies of The Age of Exploration: Voyages of Discovery" },
+        "name": {
+          "str": "The Age of Exploration: Voyages of Discovery",
+          "str_pl": "copies of The Age of Exploration: Voyages of Discovery"
+        },
         "description": "This history book contains uncharted seas of knowledge with history's greatest explorers. From Columbus's journey to the New World to Magellan's circumnavigation of the globe, it trace the daring expeditions that expanded the horizons of humanity back in the day.",
         "weight": 10
       },
