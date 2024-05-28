@@ -306,7 +306,10 @@
       },
       {
         "id": "hbook_rights",
-        "name": { "str": "The Civil Rights Movement: Struggle for Equality", "str_pl": "copies of The Civil Rights Movement: Struggle for Equality" },
+        "name": {
+          "str": "The Civil Rights Movement: Struggle for Equality",
+          "str_pl": "copies of The Civil Rights Movement: Struggle for Equality"
+        },
         "description": "This plain, hard-cover history book puts the reader on the front lines of America's fight for civil rights, from the Montgomery Bus Boycott to the March on Washington.  It has interesting articles on the lives and works of courageous activists and ordinary citizens who challenged segregation and bigotry to demand justice and equality.",
         "weight": 10
       },
