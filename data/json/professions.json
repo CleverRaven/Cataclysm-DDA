@@ -990,10 +990,14 @@
           { "item": "tie_clipon" },
           { "item": "wristwatch" },
           { "item": "mbag" },
-          { "item": "pen" },
           { "item": "notebook" },
           { "item": "pockknife" },
           { "item": "book_history" },
+          {
+            "item": "pen",
+            "ammo-item": "black_pen_ink"",
+            "charges": 100
+          },
           { "group": "charged_smart_phone" }
         ]
       },
