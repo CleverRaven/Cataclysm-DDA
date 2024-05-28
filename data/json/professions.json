@@ -981,7 +981,7 @@
       { "level": 2, "name": "speech" },
       { "level": 1, "name": "archery" },
       { "level": 1, "name": "survival" },
-      { "level": 1, "name": "computers" }
+      { "level": 1, "name": "computer" }
     ],
     "items": {
       "both": {
@@ -990,19 +990,19 @@
           { "item": "tie_clipon" },
           { "item": "wristwatch" },
           { "item": "mbag" },
-          { "item": "notebook" },
           { "item": "pockknife" },
           { "item": "book_history" },
           {
             "item": "pen",
             "ammo-item": "black_pen_ink"",
-            "charges": 100
+            "charges": 100,
+            "container-item": "notebook_leather"
           },
           { "group": "charged_smart_phone" }
         ]
       },
       "male": { "entries": [ { "item": "jacket_leather" }, { "item": "leather_belt" }, { "item": "boxer_shorts" }, { "item": "pants", "variant": "pants_stone" }, { "item": "socks" }, { "item": "dress_shoes" } ] },
-      "female": { "entries": [ { "item": "hairpin" }, { "item": "blazer" }, { "item": "bra" }, { "item": "panties" }, { "item": "skirt", "variant": "skirt_black" }, { "item": "stockings", "variant": "stokings_black" }, { "item": "heels", "variant": "heels_wedge" } ] }
+      "female": { "entries": [ { "item": "hairpin" }, { "item": "blazer" }, { "item": "bra" }, { "item": "panties" }, { "item": "skirt", "variant": "skirt_black" }, { "item": "stockings", "variant": "stockings_black" }, { "item": "heels", "variant": "heels_wedge" } ] }
     },
     "age_lower": 20
   },
