@@ -716,7 +716,8 @@
       { "group": "SUS_book_nonf_hard_psych", "prob": 10 },
       { "group": "SUS_book_nonf_hard_phil", "prob": 7 },
       { "group": "SUS_book_nonf_hard_sports", "prob": 3 },
-      { "group": "SUS_book_nonf_hard_arch", "prob": 10 }
+      { "group": "SUS_book_nonf_hard_arch", "prob": 10 },
+      { "item": "history_book", "prob": 1 }
     ]
   },
   {
@@ -735,6 +736,7 @@
       { "item": "book_nonf_soft_safety_radiaea", "prob": 1 },
       { "item": "book_nonf_soft_mechnic_hotrod", "prob": 1 },
       { "item": "book_nonf_soft_speech_naillaw", "prob": 1 },
+      { "item": "history_book", "prob": 1 },
       { "item": "book_nonf_soft_phil_benoth", "prob": 1 }
     ]
   },
