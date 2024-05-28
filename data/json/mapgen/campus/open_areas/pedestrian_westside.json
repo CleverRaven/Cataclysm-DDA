@@ -17,9 +17,7 @@
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "fbml_2_metal_palette" ],
-      "place_nested": [
-        { "chunks": [ "campus_shack_roof" ], "x": 0, "y": 0, "z": 1 }
-      ]
+      "place_nested": [ { "chunks": [ "campus_shack_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
