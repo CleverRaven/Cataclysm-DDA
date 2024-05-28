@@ -229,7 +229,8 @@
       { "item": "bandolier_wrist", "prob": 100 },
       { "item": "fitness_band", "prob": 10 },
       { "item": "hand_pump", "prob": 10 },
-      { "item": "folded_inflatable_boat", "prob": 4 }
+      { "item": "folded_inflatable_boat", "prob": 4 },
+      { "group": "butterfly_net_any", "prob": 20 }
     ]
   },
   {

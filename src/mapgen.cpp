@@ -7003,12 +7003,12 @@ void map::rotate( int turns, const bool setpos_safe )
 
         const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
-            const point local_sq = getlocal( sq ).xy();
+            const point local_sq = bub_from_abs( sq ).xy().raw();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( get_map().getlocal( new_global_sq ) );
+            np.setpos( get_map().bub_from_abs( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
@@ -8010,13 +8010,12 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         rotation_guard rot( md );
 
         if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
-            for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-                const tripoint level_pos = tripoint( pos.xy(), omt_pos.z() );
-                if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( level_pos ) ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
+                if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( pos ) ) {
                     if( apply ) {
-                        update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
+                        update_tmap.add_field( pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
                     } else {
-                        update_tmap.delete_field( level_pos, fd_construction_site );
+                        update_tmap.delete_field( pos, fd_construction_site );
                     }
                 }
             }

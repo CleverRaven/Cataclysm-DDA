@@ -3621,7 +3621,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
                                               size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
             for( const tripoint &search_loc : points ) {
-                if( rl_dist( here.getlocal( talker_pos ), search_loc ) <= min_target_dist ) {
+                if( rl_dist( here.bub_from_abs( talker_pos ).raw(), search_loc ) <= min_target_dist ) {
                     continue;
                 }
                 if( search_type.value() == "terrain" ) {
@@ -3692,7 +3692,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
                 if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
-                    ( !passable_only || here.passable( here.getlocal( target_pos ) ) ) &&
+                    ( !passable_only || here.passable( here.bub_from_abs( target_pos ) ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
@@ -5440,7 +5440,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
         for( const tripoint &pos : here.points_in_radius( center, max_radius ) ) {
             if( rl_dist( center, pos ) >= min_radius && here.inbounds( pos ) ) {
                 for( item &it : here.i_at( pos ) ) {
-                    items.emplace_back( map_cursor( pos ), &it );
+                    items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
                 }
             }
         }

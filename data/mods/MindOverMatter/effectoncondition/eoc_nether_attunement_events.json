@@ -78,7 +78,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -95,7 +95,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -166,7 +166,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -183,7 +183,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -217,27 +217,64 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_active",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "not": { "u_has_effect": "effect_noetic_resilience" } },
-    "effect": {
-      "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
-      "cases": [
-        { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
-        { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
-        { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] } },
-        { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.1" ] } },
-        { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.17" ] } },
-        { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.25" ] } },
-        { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.35" ] } },
-        { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
-        { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
-        { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
-        { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
-        { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
-      ]
-    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST_2",
+            "condition": { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } },
+            "effect": {
+              "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+              "cases": [
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
+                { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
+                { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] } },
+                { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.1" ] } },
+                { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.17" ] } },
+                { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.25" ] } },
+                { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.35" ] } },
+                { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
+              ]
+            },
+            "false_effect": {
+              "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+              "cases": [
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
+              ]
+            }
+          }
+        ]
+      }
+    ],
     "false_effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] }
   },
   {

@@ -1,5 +1,10 @@
-/* Entry point and main loop for Cataclysm
+/* Main Loop for cataclysm
+ * Linux only I guess
+ * But maybe not
+ * Who knows
  */
+
+// KG: Yes, the above is inaccurate now. It's also a poem, it stays.
 
 // IWYU pragma: no_include <sys/signal.h>
 #include <algorithm>

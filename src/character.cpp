@@ -1551,7 +1551,7 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
           !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
+                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -3006,7 +3006,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const map_cursor &cur : map_selector( pos(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos_bub(), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3114,7 +3114,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
         }
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
-                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( qual_LIFT ),
+                                   map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
                                    vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
@@ -11070,7 +11070,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    bool cramped = has_effect( effect_cramped_space );
+    bool cramped = false;
     // return is intentionally discarded, sets cramped if appropriate
     can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
     if( cramped ) {
@@ -11078,6 +11078,8 @@ void Character::process_effects()
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
         }
+    } else {
+        remove_effect( effect_cramped_space );
     }
 
     Creature::process_effects();
@@ -11378,7 +11380,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos() == get_map().getlocal( *destination_point );
+           pos_bub() == get_map().bub_from_abs( *destination_point );
 }
 
 void Character::start_destination_activity()
