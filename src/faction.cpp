@@ -85,8 +85,8 @@ void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
         for( const auto &epi : fac.epilogue_data ) {
-            if( !std::get<3>( epi ).is_valid() ) {
-                debugmsg( "There's no snippet with id %s", std::get<3>( epi ).str() );
+            if( !epi.epilogue.is_valid() ) {
+                debugmsg( "There's no snippet with id %s", epi.epilogue.str() );
             }
         }
     }
@@ -143,13 +143,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
-    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
-        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
-                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               jao.get_string( "dynamic",
-                                               "0000000" ), // old_guard, robofac, tacoma_commune, free_merchants, exodii, great_library, hells_raiders; 0 - anything; 1 - power >= 150; 2 - power < 150; 3,4,... - specific dynamic faction endings
-                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
-    }
+    optional( jsobj, false, "epilogues", epilogue_data );
 }
 
 std::string faction::describe() const
@@ -158,13 +152,41 @@ std::string faction::describe() const
     return ret;
 }
 
+
+//bool faction::check_relations( std::optional<std::vector<faction_power_spec>> jo ) const
+//{
+//    for( auto it = jo->cbegin(), next_it = it; it != jo->cend(); it = next_it ) {
+//        if( it->power_min.has_value() && it->faction->power < it->power_min.value() ) {
+//            return false;
+//        }
+//        else if( it->power_max.has_value() && it->faction->power >= it->power_max.value() ) {
+//            return false;
+//        }
+//    }
+//    return true;
+//}
+
+bool faction::check_relations(const std::vector<faction_power_spec> faction_power_specs) const
+{
+    if (!faction_power_specs.empty()) {
+        for (const faction_power_spec& spec : faction_power_specs) {
+            if ((!!spec.power_min && spec.faction->power < spec.power_min.value()) || (!!spec.power_max && spec.faction->power >= spec.power_max.value())) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, std::string, snippet_id> &epilogue_entry : epilogue_data ) {
-        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            if( g->verify_dynamic_power( std::get<2>( epilogue_entry ) ) ) {
-                ret.emplace_back( std::get<3>( epilogue_entry )->translated() );
+    for( auto it = epilogue_data.cbegin(), next_it = it; it != epilogue_data.cend(); it = next_it ) {
+        if( power >= it->power_min && power < it->power_max ) {
+            if( !it->dynamic_conditions.empty() ) { 
+                if( check_relations( it->dynamic_conditions ) ) {
+                    ret.emplace_back( it->epilogue->translated() );
+                }
             }
         }
     }
