@@ -401,7 +401,7 @@ void submap::merge_submaps( submap *copy_from )
 
             this->m->lum[x][y] += copy_from->m->lum[x][y];
 
-            for( const item itm : copy_from->m->itm[x][y] ) {
+            for( const item &itm : copy_from->m->itm[x][y] ) {
                 this->m->itm[x][y].emplace( itm );
             }
 
@@ -428,7 +428,7 @@ void submap::merge_submaps( submap *copy_from )
         }
     }
 
-    for( const submap::cosmetic_t cos : copy_from->cosmetics ) {
+    for( const submap::cosmetic_t &cos : copy_from->cosmetics ) {
         bool found = false;
 
         for( size_t i = 0; i < this->cosmetics.size(); ++i ) {
@@ -452,7 +452,7 @@ void submap::merge_submaps( submap *copy_from )
         this->last_touched = copy_from->last_touched;
     }
 
-    for( const spawn_point spawn : copy_from->spawns ) {
+    for( const spawn_point &spawn : copy_from->spawns ) {
         this->spawns.emplace_back( spawn );
     }
 
@@ -470,7 +470,7 @@ void submap::merge_submaps( submap *copy_from )
         debugmsg( "Camp found on copied submap when none is expected." );
     }
 
-    for( const std::pair<const point, computer>  comp : copy_from->computers ) {
+    for( const std::pair<const point, computer>  &comp : copy_from->computers ) {
         if( this->m->frn[comp.first.x][comp.first.y] == furn_f_console &&
             !this->get_computer( comp.first ) ) {
             this->set_computer( comp.first, comp.second );
