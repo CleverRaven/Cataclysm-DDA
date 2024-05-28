@@ -285,7 +285,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
         map &here = get_map();
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -634,7 +634,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
          allow_hallucinations_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -752,7 +752,7 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
     return [beta = is_beta( scope ), params, loc_var, radius_val, filter_val, f]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
