@@ -85,6 +85,8 @@
       { "group": "book_mag_gen", "prob": 45 },
       { "group": "book_mag_interests", "prob": 30 },
       { "group": "kids_books", "prob": 65 },
+      [ "notebook", 1 ],
+      [ "notebook_leather", 1 ],
       [ "family_cookbook", 25 ]
     ]
   },
@@ -281,6 +283,7 @@
       { "item": "oxylamp", "prob": 50, "charges": [ 0, -1 ] },
       [ "bathroom_scale", 50 ],
       [ "polisher", 6 ],
+      [ "notebook_leather", 1 ],
       [ "folded_inflatable_boat", 10 ],
       [ "hand_pump", 10 ],
       [ "wakizashi_inferior", 3 ],
@@ -851,6 +854,8 @@
       { "item": "wrapper", "prob": 25 },
       { "item": "wrapper_foil", "prob": 1 },
       { "item": "bubblewrap", "prob": 25 },
+      { "item": "notebook", "prob": 5 },
+      { "item": "notebook_leather", "prob": 1},
       { "item": "scissors", "prob": 25 },
       { "item": "roadmap", "prob": 10 },
       { "item": "trailmap", "prob": 20 },
@@ -878,6 +883,7 @@
       { "item": "bb", "prob": 30 },
       { "item": "air_launcher", "prob": 5 },
       { "item": "portable_game", "prob": 60 },
+      { "item": "notebook_leather", "prob": 1},
       { "item": "game_watch", "prob": 15 },
       { "item": "deck_of_cards", "prob": 25 },
       { "item": "atomic_light", "prob": 1 },
@@ -1117,6 +1123,8 @@
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 },
+      { "item": "notebook", "prob": 1},
+      { "item": "notebook_leather", "prob": 1},
       { "item": "scorecard", "prob": 30 },
       { "group": "writing_utensils", "prob": 10 }
     ]
