@@ -1610,7 +1610,7 @@
       { "group": "mansion_ammo", "prob": 40 },
       { "group": "tools_lighting", "prob": 30 },
       { "group": "softdrugs", "prob": 30 },
-      { "item": "notebook", "prob": 1 ],
+      { "item": "notebook", "prob": 1 },
       { "item": "notebook_leather", "prob": 1 },
       { "item": "pen", "prob": 1, "charges": [ 50, 100 ] },
       { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
