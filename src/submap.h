@@ -289,6 +289,13 @@ class submap
             return !static_cast<bool>( m );
         }
 
+        // Copy the data from the copy_from submap onto the caller submap, merging their
+        // contents. When there is a conflict the caller's data is kept.
+        // The operation is intended for mapgen where data from the "official" generation
+        // may have to be merged with data generated from chunks targeting different
+        // Z levels.
+        void merge_submaps( submap *copy_from );
+
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 
         active_item_cache active_items;

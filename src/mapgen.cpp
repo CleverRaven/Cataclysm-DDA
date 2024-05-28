@@ -32,6 +32,7 @@
 #include "drawing_primitives.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "field.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
@@ -48,6 +49,7 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
@@ -81,6 +83,8 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 #include "creature_tracker.h"
+
+static furn_id f_null;
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
@@ -217,18 +221,16 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when )
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
     //  generation which overflows won't cause a crash.  At the bottom of this
-    //  function, we save the upper-left 4 submaps, and delete the rest.
-    // Mapgen is not z-level aware yet. Only actually initialize current z-level
-    //  because other submaps won't be touched.
+    //  function, we save the upper-left 4 submaps, plus the ones that were
+    //  generated and modified, and delete the rest.
+
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t grid_pos = get_nonant( { gridx, gridy, p_sm.z()} );
-            if( getsubmap( grid_pos ) ) {
-                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p_sm.z() );
-                continue;
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                const size_t grid_pos = get_nonant( { gridx, gridy, gridz } );
+                setsubmap( grid_pos, new submap() );
+                // TODO: memory leak if the code below throws before the submaps get stored/deleted!
             }
-            setsubmap( grid_pos, new submap() );
-            // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
     oter_id terrain_type = overmap_buffer.ter( p );
@@ -305,17 +307,36 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when )
 
     // Okay, we know who our neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
+
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
-            dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
+            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
+                dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
-            const tripoint pos( i, j, p_sm.z() );
-            if( i <= 1 && j <= 1 ) {
-                saven( pos );
-            } else {
-                const size_t grid_pos = get_nonant( pos );
-                delete getsubmap( grid_pos );
-                setsubmap( grid_pos, nullptr );
+                const tripoint pos( i, j, k );
+                submap *old_sub = MAPBUFFER.lookup_submap( abs_sub.xy() + tripoint{ i, j, k } );
+                submap *new_sub = getsubmap( get_nonant( tripoint{ i, j, k } ) );
+
+                // We have to merge the data generated now with data generated earlier through
+                // Z level offsets.
+
+                if( old_sub != nullptr && !old_sub->is_uniform() && !new_sub->is_uniform() ) {
+                    old_sub->merge_submaps( new_sub );
+                }
+
+                if( i <= 1 && j <= 1 && k == p_sm.z() ) {
+                    if( old_sub == nullptr || old_sub->is_uniform() ) {
+                        saven( pos );
+                    } else {
+                        delete new_sub;
+                    }
+                } else {
+                    if( ( old_sub == nullptr || old_sub->is_uniform() ) && !new_sub->is_uniform() ) {
+                        saven( pos );
+                    } else {
+                        delete new_sub;
+                    }
+                }
             }
         }
     }

@@ -8246,11 +8246,6 @@ void map::saven( const tripoint &grid )
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
-    if( submap_to_save->get_ter( point_zero ) == ter_str_id::NULL_ID() ) {
-        // This is a serious error and should be signaled as soon as possible
-        debugmsg( "map::saven grid %s uninitialized!", grid.to_string() );
-        return;
-    }
 
     const tripoint_abs_sm abs = abs_sub.xy() + grid;
 
@@ -8314,8 +8309,51 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
 
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
-    if( tmpsub == nullptr ) {
-        // It doesn't exist; we must generate it!
+
+    bool incomplete = false;
+
+    if( tmpsub != nullptr ) {
+        for( int x = 0; x < SEEX; x++ ) {
+            for( int y = 0; y < SEEY; y++ ) {
+                if( tmpsub->get_ter( {x, y} ) == t_null ) {
+                    incomplete = true;
+                    break;
+                }
+            }
+            if( incomplete ) {
+                break;
+            }
+        }
+
+        if( incomplete ) {
+            const tripoint_abs_omt grid_abs_omt = project_to<coords::omt>( grid_abs_sub );
+            const oter_id terrain_type = overmap_buffer.ter( grid_abs_omt );
+            ter_id ter = t_null;
+
+            if( terrain_type == oter_open_air ) {
+                ter = ter_t_open_air;
+            } else if( terrain_type == oter_empty_rock || terrain_type == oter_deep_rock ) {
+                ter = ter_t_rock;
+            } else if( terrain_type == oter_solid_earth ) {
+                ter = ter_t_soil;
+            }
+
+            if( ter != t_null ) {
+                for( int x = 0; x < SEEX; x++ ) {
+                    for( int y = 0; y < SEEY; y++ ) {
+                        if( tmpsub->get_ter( { x, y } ) == t_null ) {
+                            tmpsub->set_ter( { x, y }, ter );
+                        }
+                    }
+                }
+
+                incomplete = false;
+            }
+        }
+    }
+
+    if( tmpsub == nullptr || incomplete ) {
+        // It doesn't exist and we must generate it, or it contains only incomplete info!
         dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data.  Regenerating.";
 
         // Each overmap square is two nonants; to prevent overlap, generate only at
@@ -8327,8 +8365,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 
         // Short-circuit if the map tile is uniform
         // TODO: Replace with json mapgen functions.
-        if( !generate_uniform_omt( grid_abs_sub_rounded, terrain_type ) ) {
-            tinymap tmp_map;
+        if( incomplete || !generate_uniform_omt( grid_abs_sub_rounded, terrain_type ) ) {
+
+            smallmap tmp_map;
             tmp_map.main_cleanup_override( false );
             tmp_map.generate( grid_abs_omt, calendar::turn );
             _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
@@ -9867,7 +9906,7 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 
     if( zlevels ) {
-        const int indexz = gridp.z + OVERMAP_HEIGHT; // Can't be lower than 0
+        const int indexz = gridp.z + OVERMAP_DEPTH; // Can't be lower than 0
         return indexz + ( gridp.x + gridp.y * my_MAPSIZE ) * OVERMAP_LAYERS;
     } else {
         return gridp.x + gridp.y * my_MAPSIZE;
