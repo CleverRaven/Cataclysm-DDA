@@ -228,5 +228,84 @@
     "time": "18 m",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "chapters": 3, "intelligence": 2 }
+  },
+  {
+  },
+  {
+    "id": "history_book",
+    "type": "BOOK",
+    "name": { "str": "History Book" },
+    "description": "Different hard bound nonfiction history books.  That's the base item.",
+    "weight": "1 kg",
+    "volume": "1100 ml",
+    "price": "14 USD 50 cent",
+    "price_postapoc": "29 USD",
+    "material": [ "paper", "cardboard" ],
+    "chapters": 28,
+    "copy-from": "book_nonf_tpl",
+    "melee_damage": { "bash": 2 },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "hbook_rome",
+        "name": { "str": "Rome: Rise, Conquest and Collapse", "str_pl": "copies of Rome: Rise, Conquest and Collapse" },
+        "description": "This history book tells in a methodical and detailed way the rise and fall of Ancient Rome, from the mythological tale of Romulus and Remus, to the conquests of Alexander the Great, to the decline and complete fall of the Roman Empire.  It explores the military campaigns, cultural achievements, and political intrigues that shaped Ancient Rome.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_murica",
+        "name": { "str": "The American Revolution: Forging a New Nation", "str_pl": "copies of The American Revolution: Forging a New Nation" },
+        "description": " A history book about the crucible of revolution that witness the birth of a nation.  It follows the American Founding Fathers, from the Boston Tea Party to the signing of the Declaration of Independence, as they chart a course toward liberty and self-governance.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_french",
+        "name": { "str": "The French Revolution: Liberty, Equality, Fraternity", "str_pl": "copies of The French Revolution: Liberty, Equality, Fraternity" },
+        "description": "Telling the tumultuous upheaval of revolutionary France, where the ideals of liberty and equality clashed with the forces of monarchy and aristocracy, this history book explores the Reign of Terror, the Rise of Napoleon, and the Legacy of the French Revolution.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_murica2",
+        "name": { "str": "The American Civil War: Divided Nation, United Resolve", "str_pl": "copies of The American Civil War: Divided Nation, United Resolve" },
+        "description": "This fascinating and complete history book transports its reader to the bloody battlefields and political upheaval of America's Civil War.  It explore and explain the causes, key battles, and lasting consequences of this epic struggle for the soul of a now defunct nation.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_sea",
+        "name": { "str": "The Age of Exploration: Voyages of Discovery", "str_pl": "copies of The Age of Exploration: Voyages of Discovery" },
+        "description": "This history book contains uncharted seas of knowledge with history's greatest explorers. From Columbus's journey to the New World to Magellan's circumnavigation of the globe, it trace the daring expeditions that expanded the horizons of humanity back in the day.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_industrial",
+        "name": { "str": "The Industrial Revolution: A World Transformed", "str_pl": "copies of The Industrial Revolution: A World Transformed" },
+        "description": "This hard-cover history book explore and explain the dawn of the Industrial and Modern Age as steam engines, factories, and new technologies revolutionize society, as well as the economic, social, and environmental impacts of this transformative era on both sides of the Atlantic",
+        "weight": 10
+      },
+      {
+        "id": "hbook_space",
+        "name": { "str": "The Space Race: Reaching for the Stars", "str_pl": "copies of The Space Race: Reaching for the Stars" },
+        "description": "This history book revives the rivalry between superpowers as they race to conquer the final frontier.  From Sputnik to the Apollo moon landings, it follows the triumphs and tragedies of humanity's quest to explore the cosmos during the tensions of the Cold War.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_berlin",
+        "name": { "str": "The Fall of the Berlin Wall: End of an Era", "str_pl": "copies of The Fall of the Berlin Wall: End of an Era" },
+        "description": "This history book tells and explains the collapse of communism and the reunification of Germany in the wake of the Cold War.  It explore the events leading up to the fall of the Berlin Wall and the subsequent reshaping of global geopolitics.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_rights",
+        "name": { "str": "The Civil Rights Movement: Struggle for Equality", "str_pl": "copies of The Civil Rights Movement: Struggle for Equality" },
+        "description": "This plain, hard-cover history book puts the reader on the front lines of America's fight for civil rights, from the Montgomery Bus Boycott to the March on Washington.  It has interesting articles on the lives and works of courageous activists and ordinary citizens who challenged segregation and bigotry to demand justice and equality.",
+        "weight": 10
+      },
+      {
+        "id": "hbook_arab",
+        "name": { "str": "The Arab Spring: Revolution in the Digital Age", "str_pl": "copies of The Arab Spring: Revolution in the Digital Age" },
+        "description": "This book on modern history explores and explains the wave of pro-democracy protests that swept across the Middle East and North Africa in 2011.  It delves the reader into the social media-fueled uprisings, government crackdowns, and struggles for political reform and human rights.  Eh, if only they knew that the Cataclysm was about to happen...",
+        "weight": 10
+      }
+    ]
   }
 ]
