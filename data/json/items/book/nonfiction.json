@@ -297,7 +297,10 @@
       },
       {
         "id": "hbook_berlin",
-        "name": { "str": "The Fall of the Berlin Wall: End of an Era", "str_pl": "copies of The Fall of the Berlin Wall: End of an Era" },
+        "name": {
+          "str": "The Fall of the Berlin Wall: End of an Era",
+          "str_pl": "copies of The Fall of the Berlin Wall: End of an Era"
+        },
         "description": "This history book tells and explains the collapse of communism and the reunification of Germany in the wake of the Cold War.  It explore the events leading up to the fall of the Berlin Wall and the subsequent reshaping of global geopolitics.",
         "weight": 10
       },
