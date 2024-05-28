@@ -192,9 +192,9 @@ void Creature::setpos( const tripoint &p )
     on_move( old_loc );
 }
 
-void Creature::setpos(const tripoint_bub_ms& p)
+void Creature::setpos( const tripoint_bub_ms &p )
 {
-    Creature::setpos(p.raw());
+    Creature::setpos( p.raw() );
 }
 
 static units::volume size_to_volume( creature_size size_class )
