@@ -1517,6 +1517,34 @@
     "color": "light_gray"
   },
   {
+    "id": "notebook",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "notebook" },
+    "description": "A spiral-bound collection of lined pages used for writing or drawing stuff.",
+    "weight": "8 g",
+    "volume": "2 ml",
+    "price": "1 USD 50 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "cardboard", "paper" ],
+    "symbol": "H",
+    "color": "blue"
+  },
+  {
+    "id": "notebook_leather",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "leather-cover notebook" },
+    "description": "A leather-cover notebook, perfect for writing or drawing stuff with some real vintage style.",
+    "weight": "8 g",
+    "volume": "2 ml",
+    "price": "3 USD 50 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "leather", "paper" ],
+    "symbol": "H",
+    "color": "blue"
+  },
+  {
     "type": "GENERIC",
     "id": "doormat",
     "name": { "str": "doormat" },
