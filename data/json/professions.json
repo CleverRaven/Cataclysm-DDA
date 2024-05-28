@@ -994,7 +994,7 @@
           { "item": "book_history" },
           {
             "item": "pen",
-            "ammo-item": "black_pen_ink"",
+            "ammo-item": "black_pen_ink",
             "charges": 100,
             "container-item": "notebook_leather"
           },
