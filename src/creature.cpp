@@ -192,9 +192,9 @@ void Creature::setpos( const tripoint &p )
     on_move( old_loc );
 }
 
-void Creature::setpos( const tripoint_bub_ms &p )
+void Creature::setpos(const tripoint_bub_ms& p)
 {
-    Creature::setpos( p.raw() );
+    Creature::setpos(p.raw());
 }
 
 static units::volume size_to_volume( creature_size size_class )
@@ -203,16 +203,19 @@ static units::volume size_to_volume( creature_size size_class )
     // e.g. max tiny size is 7500, max small size is 46250, we return
     // 46250+7500 / 2 - 1_ml = 26875_ml - 1ml
     // This is still stupid and both of these functions should be merged into one single source of truth.
+
+    //Updated Calculation Because this one seems off
+    //now midpoint is calculated by just /2 -1
     if( size_class == creature_size::tiny ) {
         return 3749_ml;
     } else if( size_class == creature_size::small ) {
-        return 26874_ml;
+        return 23124_ml;
     } else if( size_class == creature_size::medium ) {
-        return 77124_ml;
+        return 53999_ml;
     } else if( size_class == creature_size::large ) {
-        return 295874_ml;
+        return 241874_ml;
     }
-    return 741874_ml;
+    return 483750_ml;
 }
 
 bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
@@ -222,7 +225,7 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
     if( !vp_there ) {
         return true;
     }
-
+    
     const monster *mon = as_monster();
 
     vehicle &veh = vp_there->vehicle();
@@ -263,7 +266,7 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
             return false;
         }
 
-        if( critter_volume < free_cargo * 1.33 ) {
+        if( critter_volume < free_cargo * 1.33 && critter_volume > free_cargo * 0.9) {
             if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
                            mon->type->bodytype == "fish" ||
                            has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
