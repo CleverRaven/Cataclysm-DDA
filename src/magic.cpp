@@ -2516,8 +2516,8 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     } else {
         info_txt.emplace_back(
             colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
-                                            sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
-                             string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
     }
     info_txt.emplace_back(
         colorize( columnize( sp.colorized_fail_percent( pc ),
