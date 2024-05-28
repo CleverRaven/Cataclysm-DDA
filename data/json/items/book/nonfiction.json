@@ -230,9 +230,6 @@
     "relative": { "chapters": 3, "intelligence": 2 }
   },
   {
-    
-  },
-  {
     "id": "history_book",
     "type": "BOOK",
     "name": { "str": "History Book" },
