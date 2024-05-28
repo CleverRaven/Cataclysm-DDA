@@ -1001,8 +1001,27 @@
           { "group": "charged_smart_phone" }
         ]
       },
-      "male": { "entries": [ { "item": "jacket_leather" }, { "item": "leather_belt" }, { "item": "boxer_shorts" }, { "item": "pants", "variant": "pants_stone" }, { "item": "socks" }, { "item": "dress_shoes" } ] },
-      "female": { "entries": [ { "item": "hairpin" }, { "item": "blazer" }, { "item": "bra" }, { "item": "panties" }, { "item": "skirt", "variant": "skirt_black" }, { "item": "stockings", "variant": "stockings_black" }, { "item": "heels", "variant": "heels_wedge" } ] }
+      "male": {
+        "entries": [
+          { "item": "jacket_leather" },
+          { "item": "leather_belt" },
+          { "item": "boxer_shorts" },
+          { "item": "pants", "variant": "pants_stone" },
+          { "item": "socks" },
+          { "item": "dress_shoes" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "hairpin" },
+          { "item": "blazer" },
+          { "item": "bra" },
+          { "item": "panties" },
+          { "item": "skirt", "variant": "skirt_black" },
+          { "item": "stockings", "variant": "stockings_black" },
+          { "item": "heels", "variant": "heels_wedge" }
+        ]
+      }
     },
     "age_lower": 20
   },
