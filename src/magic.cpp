@@ -2505,7 +2505,6 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     } else if( temp_level_adjust > 0 ) {
         temp_level_adjust_string = " (+" + std::to_string( temp_level_adjust ) + ")";
     }
-    
     const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
     if( is_psi ) {
