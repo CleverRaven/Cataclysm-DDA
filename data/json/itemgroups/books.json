@@ -326,6 +326,7 @@
       { "item": "poetry_book", "prob": 10 },
       { "item": "philosophy_book", "prob": 1 },
       { "item": "essay_book", "prob": 6 },
+      { "item": "history_book", "prob": 6 },
       { "item": "plays_book", "prob": 8 }
     ]
   },
@@ -753,6 +754,7 @@
       { "group": "rare_martial_arts_books", "prob": 6 },
       { "item": "scots_tailor", "prob": 30 },
       { "item": "necronomicon", "prob": 1 },
+      { "item": "history_book", "prob": 1 },
       { "item": "ballista_book", "prob": 6 }
     ]
   },
