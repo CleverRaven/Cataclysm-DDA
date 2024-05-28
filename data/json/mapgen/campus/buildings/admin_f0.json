@@ -83,11 +83,7 @@
       "terrain": {  },
       "furniture": {  },
       "palettes": [ "campus_common" ],
-      "nested": {
-        "1": {
-          "chunks": [ "campus_shack" ]
-        }
-      }
+      "nested": { "1": { "chunks": [ "campus_shack" ] } }
     }
   }
 ]
