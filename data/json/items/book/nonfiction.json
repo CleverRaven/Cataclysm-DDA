@@ -283,7 +283,7 @@
           "str": "The Age of Exploration: Voyages of Discovery",
           "str_pl": "copies of The Age of Exploration: Voyages of Discovery"
         },
-        "description": "This history book contains uncharted seas of knowledge with history's greatest explorers. From Columbus's journey to the New World to Magellan's circumnavigation of the globe, it trace the daring expeditions that expanded the horizons of humanity back in the day.",
+        "description": "This history book contains uncharted seas of knowledge with history's greatest explorers.  From Columbus's Journey to the New World to Magellan's circumnavigation of the globe, it trace the daring expeditions that expanded the horizons of humanity back in the day.",
         "weight": 10
       },
       {
@@ -325,7 +325,7 @@
           "str": "The Arab Spring: Revolution in the Digital Age",
           "str_pl": "copies of The Arab Spring: Revolution in the Digital Age"
         },
-        "description": "This book on modern history explores and explains the wave of pro-democracy protests that swept across the Middle East and North Africa in 2011.  It delves the reader into the social media-fueled uprisings, government crackdowns, and struggles for political reform and human rights.  Eh, if only they knew that the Cataclysm was about to happen...",
+        "description": "This book on modern history explores and explains the wave of pro-democracy protests that swept across the Middle East and North Africa in 2011.  It delves the reader into the social media-fueled uprisings, government crackdowns, and struggles for political reform and human rights.  Eh, if only they knew that the Cataclysm was about to happen.",
         "weight": 10
       }
     ]
