@@ -991,7 +991,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "item": "pockknife" },
-          { "item": "book_history" },
+          { "item": "history_book" },
           { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100, "container-item": "notebook_leather" },
           { "group": "charged_smart_phone" }
         ]
@@ -1001,7 +1001,7 @@
           { "item": "jacket_leather" },
           { "item": "leather_belt" },
           { "item": "boxer_shorts" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_black" },
           { "item": "socks" },
           { "item": "dress_shoes" }
         ]
