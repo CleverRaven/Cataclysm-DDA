@@ -855,7 +855,7 @@
       { "item": "wrapper_foil", "prob": 1 },
       { "item": "bubblewrap", "prob": 25 },
       { "item": "notebook", "prob": 5 },
-      { "item": "notebook_leather", "prob": 1},
+      { "item": "notebook_leather", "prob": 1 },
       { "item": "scissors", "prob": 25 },
       { "item": "roadmap", "prob": 10 },
       { "item": "trailmap", "prob": 20 },
