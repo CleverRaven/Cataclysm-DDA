@@ -160,7 +160,7 @@
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ 
+          "or": [
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] } 
           ]
