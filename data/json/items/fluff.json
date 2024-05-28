@@ -1548,7 +1548,7 @@
         "rigid": false,
         "moves": 150,
         "max_contains_volume": "40 ml",
-        "max_contains_weight": "9 g",
+        "max_contains_weight": "10 g",
         "max_item_length": "13 cm",
         "item_restriction": [ "pen", "pencil" ]
       }
