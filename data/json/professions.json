@@ -987,16 +987,18 @@
       "both": {
         "entries": [
           { "item": "dress_shirt" },
-          { "item": "cliptie" },
-          { "item": "pants", "variant": "pants_stone" },
-          { "item": "socks" },
-          { "item": "dress_shoes" },
+          { "item": "tie_clipon" },
           { "item": "wristwatch" },
+          { "item": "mbag" },
+          { "item": "pen" },
+          { "item": "notebook" },
+          { "item": "pockknife" },
+          { "item": "book_history" },
           { "group": "charged_smart_phone" }
         ]
       },
-      "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "male": { "entries": [ { "item": "jacket_leather" }, { "item": "leather_belt" }, { "item": "boxer_shorts" }, { "item": "pants", "variant": "pants_stone" }, { "item": "socks" }, { "item": "dress_shoes" } ] },
+      "female": { "entries": [ { "item": "hairpin" }, { "item": "blazer" }, { "item": "bra" }, { "item": "panties" }, { "item": "skirt", "variant": "skirt_black" }, { "item": "stockings", "variant": "stokings_black" }, { "item": "heels", "variant": "heels_wedge" } ] }
     },
     "age_lower": 20
   },
