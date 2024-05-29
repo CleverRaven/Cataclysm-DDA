@@ -6,7 +6,7 @@
     "required_event": "avatar_enters_omt",
     "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
     "condition": {
-      "and": [ 
+      "and": [
         {
           "or": [
             {
