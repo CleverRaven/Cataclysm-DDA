@@ -23,15 +23,15 @@
     "description": "A large container made out of hardwood and a stainless steel mesh, with a handle for you to carry it around.  Used by lobster fishers in the pre-Cataclysm, now you can easily carry one around, too.  That if you can carry this cumbersome thing around.",
     "weight": "14 kg",
     "volume": "7000 ml",
-    "price": "1 USD",
-    "price_postapoc": "1 USD",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
     "material": [ "wood", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "properties": { "creature_size_capacity": "TINY" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 2, "cut": 1 }
+    "melee_damage": { "bash": 4, "cut": 1 }
   },
   {
     "id": "dog_whistle",
