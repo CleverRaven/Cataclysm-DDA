@@ -322,7 +322,7 @@
   "symbol": ",",
   "color": "gray",
   "name": { "str": "library card" },
-  "description": "",
+  "description": "A small, rectangular plastic card bearing the emblem of a local library.  Back in the old days, it granted access to the repositories of distinctive libraries, but now it is practically useless.",
   "price": "0 cent",
   "price_postapoc": "0 cent",
   "material": [ "plastic" ],
