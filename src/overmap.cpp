@@ -1443,7 +1443,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                     } else {
                         basecamp *temp_camp = *bcp;
                         temp_camp->set_owner( elem.camp_owner.value() );
-                        temp_camp->set_name( elem.camp_name );
+                        temp_camp->set_name( elem.camp_name.translated() );
                         // FIXME? Camp types are raw strings! Not ideal.
                         temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
                     }
@@ -3972,7 +3972,7 @@ void overmap::clear_connections_out()
 }
 
 static std::map<std::string, std::string> oter_id_migrations;
-static std::map<oter_type_str_id, std::pair<std::string, faction_id>> camp_map;
+static std::map<oter_type_str_id, std::pair<translation, faction_id>> camp_migration_map;
 
 void overmap::load_oter_id_migration( const JsonObject &jo )
 {
@@ -3990,12 +3990,13 @@ void overmap::load_oter_id_camp_migration( const JsonObject &jo )
     jsobj.read( "name", name );
     jsobj.read( "overmap_terrain", oter );
     jsobj.read( "faction", owner );
-    camp_map.emplace( oter, std::pair<std::string, faction_id>( name, owner ) );
+    camp_migration_map.emplace( oter,
+                                std::pair<translation, faction_id>( translation::to_translation( name ), owner ) );
 }
 
 void overmap::reset_oter_id_camp_migrations()
 {
-    camp_map.clear();
+    camp_migration_map.clear();
 }
 
 void overmap::reset_oter_id_migrations()
@@ -4005,7 +4006,7 @@ void overmap::reset_oter_id_migrations()
 
 bool overmap::oter_id_should_have_camp( const oter_type_str_id &oter )
 {
-    return camp_map.count( oter ) > 0;
+    return camp_migration_map.count( oter ) > 0;
 }
 
 bool overmap::is_oter_id_obsolete( const std::string &oterid )
@@ -4046,8 +4047,8 @@ void overmap::migrate_camps( const std::vector<tripoint_abs_omt> &points ) const
         basecamp *temp_camp = *bcp;
         const oter_type_str_id &keyvalue = ter( project_remain<coords::om>
                                                 ( point ).remainder_tripoint )->get_type_id();
-        temp_camp->set_owner( camp_map[keyvalue].second );
-        temp_camp->set_name( camp_map[keyvalue].first );
+        temp_camp->set_owner( camp_migration_map[keyvalue].second );
+        temp_camp->set_name( camp_migration_map[keyvalue].first.translated() );
         temp_camp->define_camp( point, "faction_base_bare_bones_NPC_camp_0", false );
     }
 }

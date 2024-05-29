@@ -501,7 +501,7 @@ struct overmap_special_terrain : overmap_special_locations {
     oter_str_id terrain;
     std::set<std::string> flags;
     std::optional<faction_id> camp_owner;
-    std::string camp_name;
+    translation camp_name;
 
     void deserialize( const JsonObject &om );
 };
