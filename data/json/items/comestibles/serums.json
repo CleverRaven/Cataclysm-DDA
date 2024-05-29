@@ -2,7 +2,7 @@
   {
     "id": "serum_regen",
     "type": "COMESTIBLE",
-    "comestible_type": "MED",
+    "comestible_type": "INVALID",
     "category": "drugs",
     "name": { "str_sp": "unknown liquid" },
     "description": "White, semi-transparent liquid of unknown origin.",
