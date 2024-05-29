@@ -580,6 +580,22 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         return shots;
     }
 
+    // An automatic turret will not fire if the gun is too hot.
+    double overheat_modifier = 0;
+    float overheat_multiplier = 1.0f;
+    for( const item *mod : gun.base()->gunmods() ) {
+        overheat_modifier += mod->type->gunmod->overheat_threshold_modifier;
+        overheat_multiplier *= mod->type->gunmod->overheat_threshold_multiplier;
+    }
+    double heat = gun.base()->get_var( "gun_heat", 0.0 );
+    double threshold = std::max( ( gun.base()->type->gun->overheat_threshold * overheat_multiplier ) +
+                                 overheat_modifier, 5.0 );
+
+    // Heat is too hot, do not fire. The warning chime will have just started sounding.
+    if( heat > threshold * 0.6 ) {
+        return shots;
+    }
+
     // The position of the vehicle part.
     tripoint pos = global_part_pos3( pt );
 
