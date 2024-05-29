@@ -128,6 +128,24 @@ Maximal HP: 800 (highest for balance purposes; wraith)
 In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
 
 
+# Monster aggression scaling:
+Minimum aggression: -99 (never attack; chicken, giant aphid )
+
+Low aggression: -50 (slow to anger; fungaloid, American eel )
+
+Average aggression: -10 (average critter; cow, beagle, Exodii quadruped )
+
+Borderline aggression: 0 (the slightest thing will mean bloodshed; giant ant, tiger )
+
+Slightly aggressive: 1 (prefers violence but easily calmed; goose )
+
+Notable aggression: 20-30 (usually attacks; oversized soldier ant, triffid, mi-go, giant web spider, feral human )
+
+Maximum aggression: 100 (kill everything on sight; all zombies, slime, shoggoth, kreck )
+
+The most important difference is between 1 and 0, which is the difference between a monster attacking or not. Farther away in either direction means other factors like danger or other triggers like being attacked matter less or not at all.
+
+
 # Monster Speed Scaling:
 Minimum speed: 20 (very little ability to move, 1 km/h; crawling zombie)
 
