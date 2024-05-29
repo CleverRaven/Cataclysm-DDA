@@ -4434,6 +4434,40 @@
   },
   {
     "type": "profession",
+    "id": "killer",
+    "name": "Serial Killer",
+    "description": "In the shadows, you lurked, just like a predator stalking prey with cold calculation and merciless intent.  Each victim was carefully chosen, each death meticulously planned to satisfy your insatiable thirst for blood.  With every life extinguished, a perverse sense of power surged through your veins, fueling the twisted desires that drove you to commit unspeakable acts of violence.  The cops where already about to get you, but when your victims started to rise back to life, hungry for vengeance, you where more than happy to put them down once again, and when the world fell apart, you noticed that there aren't laws stopping you now.",
+    "points": 1,
+    "skills": [ 
+      { "level": 4, "name": "speech" }, 
+      { "level": 2, "name": "cutting" }, 
+      { "level": 2, "name": "stabbing" }, 
+      { "level": 1, "name": "traps" } 
+    ],
+    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar" ],
+    "traits": [ "KILLER" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "longshirt" }, 
+          { "item": "gloves_medical" }, 
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "socks" },
+          { "item": "sneakers" }, 
+          { "item": "knife_steak" }, 
+          { "item": "wallet_photo" }, 
+          { "item": "coin_dime" },
+          { "item": "cotton_patchwork" }, 
+          { "item": "mask_skull", "variant": "noface_plastic_mask", "container-item": "duffelbag" }, 
+          { "item": "corpse_generic_human", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "convict_assassin",
     "name": "Undercover Assassin Convict",
     "description": "You were given a target, a mission, but killing your mark seems to have become much more difficult now.  Your employer cut contact with you and now you have to make do with what you have.",
