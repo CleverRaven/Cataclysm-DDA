@@ -1069,7 +1069,7 @@
   {
     "type": "profession",
     "id": "c_eater",
-    "name": "Competitive eater",
+    "name": "Competitive Eater",
     "description": "Before the Cataclysm, you considered yourself to be a professional competitive eater, not as a hobby, neither a background.  You made a name for yourself by conquering food challenges and devouring massive quantities of food in record time.  Whether it was hot dogs, burgers, or spicy wings, you never backed down from a gastronomic challenge.  Now, as the world faces a true apocalypse, your insatiable appetite may be a burden.  In a world where food is scarce and survival is a constant battle, your ability to eat large quantities of food with gusto could mean the difference between satisfaction and starvation.",
     "points": 1,
     "traits": [ "GOURMAND" ],
@@ -1195,6 +1195,48 @@
           { "item": "hairpin" },
           { "item": "bra" },
           { "item": "panties" }
+        ]
+      }
+    },
+    "age_lower": 16
+  },
+  {
+    "type": "profession",
+    "id": "cashier",
+    "name": "Cashier",
+    "description": "Your days before all this were spent behind a register, ringing up items and dealing with grumpy customers.  It was a job, enough to pay the bills, and now that the world turned grey, you'll have to do what you can with your mundane skills (and all that change) to see the other day.",
+    "points": 0,
+    "traits": [ "" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "sweater" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
+          { "item": "socks" },
+          { "item": "lowtops" },
+          { "item": "library_card", "container-item": "wallet" },
+          { "item": "novel_drama" },
+          { "item": "novel_crime" },
+          { "item": "manual_survival" },
+          { "item": "pen", "ammo-item": "red_pen_ink", "charges": 100 },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "leather_belt" },
+          { "item": "briefs" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "hairpin" },
+          { "item": "bra" },
+          { "item": "panties" },
+          { "item": "skirt", "variant": "skirt_black" }
         ]
       }
     },
