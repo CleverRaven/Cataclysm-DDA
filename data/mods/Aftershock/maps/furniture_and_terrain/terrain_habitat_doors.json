@@ -1,0 +1,50 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_afs_door_metal_elocked",
+    "name": "closed metal door",
+    "description": "A galvanized steel door, forged to withstand punishment and impede anyone or anything.  This one is secured with an electronic lock.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_c",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_metal_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "LOCKED", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_metal_door",
+          "effect": [
+            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            {
+              "run_eoc_with": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
+  }
+]

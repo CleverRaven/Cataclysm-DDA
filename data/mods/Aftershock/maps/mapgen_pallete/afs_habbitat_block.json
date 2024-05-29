@@ -13,7 +13,8 @@
       "©": "t_atm",
       "°": "t_thconc_floor_no_roof",
       "±": "t_linoleum_white",
-      "™": "t_region_groundcover_urban"
+      "™": "t_region_groundcover_urban",
+      "†": "t_afs_door_metal_elocked"
     },
     "furniture": {
       "á": "f_rack",
@@ -32,7 +33,7 @@
       "ö": "f_rack",
       "ú": "f_rack",
       "û": "f_rack",
-	  "ü": "f_bookcase",
+      "ü": "f_bookcase",
       "r": "f_clothing_rail",
       "R": "f_rack",
       "m": "f_mannequin",
@@ -89,7 +90,7 @@
       "ú": { "item": "tools_earthworking", "chance": 40, "repeat": [ 1, 2 ] },
       "û": { "item": "sauna", "chance": 80, "repeat": [ 3, 7 ] },
       "ü": { "item": "novels", "chance": 80, "repeat": [ 5, 12 ] },
-	  "f": { "item": "afs_old_food_storage", "chance": 60 },
+      "f": { "item": "afs_old_food_storage", "chance": 60 },
       "o": { "item": "afs_kitchenette", "chance": 60 },
       "$": { "item": "afs_cash_safe" },
       "m": { "item": "afs_colonist_outfit" },
