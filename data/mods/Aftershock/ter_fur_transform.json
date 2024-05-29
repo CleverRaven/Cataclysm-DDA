@@ -21,7 +21,7 @@
       {
         "result": "t_door_metal_c",
         "valid_terrain": [ "t_afs_door_metal_elocked" ],
-        "message": "The door's pinpad chimes happily as the locking mechanism releases.",
+        "message": "The door's PIN pad chimes happily as the locking mechanism releases.",
         "message_good": true
       }
     ]
