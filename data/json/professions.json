@@ -1101,7 +1101,7 @@
       },
       "male": {
         "entries": [
-          { "item": "boxer_shorts" }
+          { "item": "boxer_briefs" }
         ]
       },
       "female": {
@@ -1144,7 +1144,6 @@
       },
       "female": {
         "entries": [
-          { "item": "hairpin" },
           { "item": "bra" },
           { "item": "panties" }
         ]
@@ -2319,6 +2318,45 @@
           { "item": "pants", "variant": "pants_blue" },
           { "group": "charged_smart_phone" },
           { "group": "full_1st_aid" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "veterinarian",
+    "name": "Veterinarian",
+    "description": "With a stethoscope draped around your neck and a gentle touch, your pre-Cataclysm days where a harmonious blend of vet skills and heartfelt empathy.  Whether tending to the beloved family pets of suburban neighborhoods or trekking through the rugged terrain of farmlands to care for livestock, each moment presented you an unique opportunity to make a meaningful impact.  Animal life nowadays may be more feral and dangerous than before, but you believe your medical skills so far are more than enough to get you though all this.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "firstaid" } ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_burn_care",
+    ],
+    "traits": [ "ANIMALEMPATH" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "gloves_medical" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "coat_lab" },
+          { "item": "badge_vet" },
+          { "item": "petpack" }
+          { "item": "glasses_safety" },
+          { "item": "wristwatch" },
+          { "item": "bandages", "count": 3 },
+          { "item": "medical_tape" },
+          { "item": "antiparasitic" },
+          { "item": "stethoscope" },
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
