@@ -4512,6 +4512,7 @@
       { "item": "national_flag", "prob": 1 },
       { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
+      { "item": "badge_manager", "prob": 1 },
       { "group": "flask_liquor", "prob": 3 }
     ]
   },
