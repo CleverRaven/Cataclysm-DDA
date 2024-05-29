@@ -5329,6 +5329,7 @@
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" }, { "level": 2, "name": "swimming" } ],
     "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
+    "pets": [ { "name": "mon_lobster", "amount": 1 } ],
     "items": {
       "both": {
         "entries": [
