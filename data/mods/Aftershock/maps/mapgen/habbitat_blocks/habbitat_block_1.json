@@ -8,15 +8,15 @@
       "rows": [
         " ¢¢¢¢  ¢  ¢¢¢ '' '''  '''''''  ''' '''  ''''  ' ",
         " ¢   ¢ ¢¢¢ ¢¢ '__'///______///_/' '/_///____/// ",
-        " ¢¢ ¢¢ ¢¢   ¢¢'__'/./======/y/__'''__/±/====/±/ ",
-        "  ¢¢£¢¢ ¢£¢ ¢¢'__'/.hyh.hyh.h////!////±±±±±±±±/ ",
-        " ¢ ¢£¢ ¢ £¢¢ ¢' ''=.hyh.hyh...h/.../±±±±±±±±±±= ",
-        " ¢ ¢£  ¢¢    ¢'__'=...........y/.../±±±±±±±±±±= ",
-        "  ¢ £¢¢ ¢£¢ ¢¢'__'/...........h//!//±±±±±±±±±±/ ",
-        " ¢ ¢£¢  ¢ ¢¢¢ '__'/..h.h.hyh.../...!±±±±±±±±±±/ ",
-        " ¢¢¢£¢¢ ¢£¢ ¢¢'  '/gCCCC/////!!/.../////////!// ",
-        " ''' ' '' '''' ' '/...../ááá/....../^&/^&/±±±±/ ",
-        " ''''  ' '  ' '''</foCC.!.../...__./../../±±±±/ ",
+        " ¢¢ ¢¢ ¢¢   ¢¢'__'/±/======/±/__'''__/±/====/±/ ",
+        "  ¢¢£¢¢ ¢£¢ ¢¢'__'/±±±±±±±±±±////!////±±±±±±±±/ ",
+        " ¢ ¢£¢ ¢ £¢¢ ¢' ''=±±±±±±±±±±±±/.../±±±±±±±±±±= ",
+        " ¢ ¢£  ¢¢    ¢'__'=±±±±±±±±±±±±/.../±±±±±±±±±±= ",
+        "  ¢ £¢¢ ¢£¢ ¢¢'__'/±±±±±±±±±±±±//!//±±±±±±±±±±/ ",
+        " ¢ ¢£¢  ¢ ¢¢¢ '__'/±±±±±±±±±±±±/...!±±±±±±±±±±/ ",
+        " ¢¢¢£¢¢ ¢£¢ ¢¢'  '/±±±±±/////!!/.../////////!// ",
+        " ''' ' '' '''' ' '/±±±±±!±±±/....../^&/^&/±±±±/ ",
+        " ''''  ' '  ' '''</±±±±±/±±±/...__./../../±±±±/ ",
         " ///=/////=/////=////////////...__.//://:///:// ",
         " /@@..:~/f.@@/@@..:~/f.@@/V.............../±±±/ ",
         " #j..f///o..j/j..o///o..j/5............5bb/±±±/ ",
@@ -31,9 +31,29 @@
         " ///=/////=/////=/////=///<                     ",
         "                                                "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_block" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_block", "afs_habblock_1_paramter_palette" ],
       "place_nested": [
-        {
+	    {
+		  "chunks": [
+		    { "param": "variant", "fallback": "afs_habbitat_block_1_slot1_cafe_a1" }
+		  ],
+		  "x": 0,
+		  "y": 0
+	    },
+		{
+		  "chunks": [
+			{
+              "switch": { "param": "variant", "fallback": "afs_habbitat_block_1_slot1_cafe_a2" },
+              "cases": {
+                "afs_habbitat_block_1_slot1_cafe_a1": "afs_habbitat_block_1_slot1_cafe_a2",
+                "afs_habbitat_block_1_slot1_diner_a1": "afs_habbitat_block_1_slot1_diner_a2"
+			  }
+            }
+		  ],
+		  "x": 24,
+		  "y": 0			
+		},
+		{
           "chunks": [
             [ "afs_habblock_1_slot2_grocer", 20 ],
             [ "afs_habblock_1_slot2_library", 20 ],
@@ -142,6 +162,163 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "afs_habblock_1_paramter_palette",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "default": {
+          "distribution": [
+            "afs_habbitat_block_1_slot1_cafe_a1",
+            "afs_habbitat_block_1_slot1_diner_a1"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_habbitat_block_1_slot1_cafe_a1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    hyh ",
+        "                    hyh ",
+        "                        ",
+        "                        ",
+        "                     h h",
+        "                   cCCCC",
+        "                        ",
+        "                   ffoCC",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_block" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_habbitat_block_1_slot1_diner_a1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                    hyh ",
+        "                    hyh ",
+        "                        ",
+        "                     hyh",
+        "                     hyh",
+        "                   :////",
+        "                        ",
+        "                   ffooC",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_block" ],
+	  "terrain": { "/": "t_wall_prefab_metal", ":": "t_door_c" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_habbitat_block_1_slot1_diner_a2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "hyh                     ",
+        "hyh   h                 ",
+        "    / c                 ",
+        " hyh/                   ",
+        " hyh/                   ",
+        "                        ",
+        "                        ",
+        " ááá                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_block" ],
+	  "terrain": { "/": "t_wall_prefab_metal" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_habbitat_block_1_slot1_cafe_a2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "    y                   ",
+        "hyh h                   ",
+        "hyh   h                 ",
+        "      y                 ",
+        "      h                 ",
+        " hyh                    ",
+        "                        ",
+        "                        ",
+        " ááá                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_block" ]
     }
   },
   {
