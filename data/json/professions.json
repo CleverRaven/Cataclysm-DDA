@@ -1176,8 +1176,11 @@
           { "item": "can_corn", "container-item": "can_medium" },
           { "item": "can_corn", "container-item": "can_medium" },
           { "item": "can_tomato", "container-item": "can_medium" },
+          { "item": "can_tomato", "container-item": "can_medium" },
           { "item": "can_pineapple", "container-item": "can_medium" },
-          { 
+          { "item": "can_pineapple", "container-item": "can_medium" },
+          { "item": "water_mineral", "container-item": "bottle_plastic" },
+          { "item": "water_mineral", "container-item": "bottle_plastic" },
           { "group": "charged_matches" },
           { "group": "charged_smart_phone" }
         ]
