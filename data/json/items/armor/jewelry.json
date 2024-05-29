@@ -2019,7 +2019,29 @@
     "weight": "50 g",
     "volume": "50 ml",
     "price_postapoc": "10 cent",
-    "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
+    "description": "A plastic name tag marking the wearer or the original owner as a real doctor of the medical kind."
+  },
+  {
+    "id": "badge_vet",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "veterinarian badge" },
+    "material": [ "plastic" ],
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": "10 cent",
+    "description": "A plastic name tag marking the wearer or the original owner as a real veterinary doctor."
+  },
+  {
+    "id": "badge_manager",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "manager badge" },
+    "material": [ "plastic" ],
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": "10 cent",
+    "description": "A plastic name tag marking the wearer or the original owner as a career store manager."
   },
   {
     "id": "badge_foodkid",
