@@ -4065,17 +4065,20 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     const furn_t &furnid = furn( p ).obj();
     bool smash_furn = false;
     bool smash_ter = false;
-    const map_bash_info *bash = nullptr;
+    map_ter_furn_bash_info bash_union = has_furn( p ) && furnid.bash.str_max != -1 ?
+                                        { map_ter_furn_bash_info::FURN, &furnid.bash } :
+                                        terid.bash.str_max != -1 ?
+                                        { map_ter_furn_bash_info::TER, &terid.bash } :
+                                        { map_ter_furn_bash_info::TER, nullptr };
 
     bool success = false;
-
-    if( has_furn( p ) && furnid.bash.str_max != -1 ) {
-        bash = &furnid.bash;
-        smash_furn = true;
-    } else if( ter( p ).obj().bash.str_max != -1 ) {
-        bash = &ter( p ).obj().bash;
-        smash_ter = true;
-    }
+    auto bash = [&bash_union]() {
+        if( bash_union.type == map_ter_furn_bash_info::TER ) {
+            return bash_union.ter;
+        } else {
+            return bash_union.furn;
+        }
+    };
 
     // Floor bashing check
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
