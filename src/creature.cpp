@@ -263,7 +263,8 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
             return false;
         }
 
-        if( critter_volume < free_cargo * 1.33 ) {
+        // free_cargo * 0.75 < critter_volume && critter_volume <= free_cargo
+        if( free_cargo * 0.75 < critter_volume ) {
             if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
                            mon->type->bodytype == "fish" ||
                            has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
