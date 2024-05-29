@@ -197,24 +197,6 @@ void Creature::setpos( const tripoint_bub_ms &p )
     Creature::setpos( p.raw() );
 }
 
-static units::volume size_to_volume( creature_size size_class )
-{
-    // returns midpoint of size from volume_to_size, minus 1_ml
-    // e.g. max tiny size is 7500, max small size is 46250, we return
-    // 46250+7500 / 2 - 1_ml = 26875_ml - 1ml
-    // This is still stupid and both of these functions should be merged into one single source of truth.
-    if( size_class == creature_size::tiny ) {
-        return 3749_ml;
-    } else if( size_class == creature_size::small ) {
-        return 26874_ml;
-    } else if( size_class == creature_size::medium ) {
-        return 77124_ml;
-    } else if( size_class == creature_size::large ) {
-        return 295874_ml;
-    }
-    return 741874_ml;
-}
-
 bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
 {
     map &here = get_map();
@@ -250,15 +232,15 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
         units::volume critter_volume;
         if( mon ) {
             critter_volume = mon->get_volume();
-        } else {
-            critter_volume = size_to_volume( size );
+        } else if( const Character *you = as_character() )  {
+            you->get_total_volume();
         }
 
         if( critter_volume > free_cargo ) {
             return false;
         }
 
-        if( critter_volume > size_to_volume( creature_size::large ) &&
+        if( size == creature_size::huge &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
             return false;
         }
