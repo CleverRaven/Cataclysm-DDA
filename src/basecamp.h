@@ -15,7 +15,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "craft_command.h"
 #include "game_constants.h"
 #include "game_inventory.h"
