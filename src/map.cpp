@@ -8264,6 +8264,10 @@ void map::saven( const tripoint &grid )
 // Does not create or require a temporary map and does its own saving
 bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter )
 {
+    if( MAPBUFFER.lookup_submap( p ) ) {
+        return false;
+    }
+
     std::unique_ptr<submap> sm = std::make_unique<submap>();
     if( oter == oter_open_air ) {
         sm->set_all_ter( ter_t_open_air, true );

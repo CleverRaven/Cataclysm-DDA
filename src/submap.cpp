@@ -381,21 +381,20 @@ void submap::update_lum_rem( const point &p, const item &i )
     }
 }
 
-
-void submap::merge_submaps( submap *copy_from )
+void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
 {
     this->field_count = 0;
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            if( this->m->ter[x][y] == t_null ) {
+            if( copy_from->m->ter[x][y] != t_null && ( copy_from_is_overlay ||
+                    this->m->ter[x][y] == t_null ) ) {
                 this->m->ter[x][y] = copy_from->m->ter[x][y];
-                if( copy_from->get_map_damage( {x, y} ) > 0 ) {
-                    this->set_map_damage( {x, y}, copy_from->get_map_damage( { x, y } ) );
-                }
+                this->set_map_damage( { x, y }, copy_from->get_map_damage( { x, y } ) );
             }
 
-            if( copy_from->m->frn[x][y] != f_null && this->m->frn[x][y] == f_null ) {
+            if( copy_from->m->frn[x][y] != f_null && ( copy_from_is_overlay ||
+                    this->m->frn[x][y] == f_null ) ) {
                 this->m->frn[x][y] = copy_from->m->frn[x][y];
             }
 
@@ -410,6 +409,10 @@ void submap::merge_submaps( submap *copy_from )
                 if( !this->m->fld[x][y].find_field( it->first, false ) ) {
                     this->m->fld[x][y].add_field( it->first, it->second.get_field_intensity(),
                                                   it->second.get_field_age() );
+                } else if( copy_from_is_overlay ) { // Modify the field to match
+                    field_entry *fld = this->m->fld[x][y].find_field( it->first, false );
+                    fld->set_field_intensity( it->second.get_field_intensity() );
+                    fld->set_field_age( it->second.get_field_age() );
                 }
             }
 
@@ -418,11 +421,12 @@ void submap::merge_submaps( submap *copy_from )
                 this->field_count++;
             }
 
-            if( copy_from->m->trp[x][y] != tr_null && this->m->trp[x][y] == tr_null ) {
+            if( copy_from->m->trp[x][y] != tr_null && ( copy_from_is_overlay ||
+                    this->m->trp[x][y] == tr_null ) ) {
                 this->m->trp[x][y] = copy_from->m->trp[x][y];
             }
 
-            if( copy_from->m->rad[x][y] > 0 && this->m->rad[x][y] == 0 ) {
+            if( copy_from->m->rad[x][y] > 0 && ( copy_from_is_overlay || this->m->rad[x][y] == 0 ) ) {
                 this->m->rad[x][y] = copy_from->m->rad[x][y];
             }
         }
@@ -432,7 +436,11 @@ void submap::merge_submaps( submap *copy_from )
         bool found = false;
 
         for( size_t i = 0; i < this->cosmetics.size(); ++i ) {
-            if( this->cosmetics[i].pos == cos.pos ) {
+            if( this->cosmetics[i].pos == cos.pos &&
+                this->cosmetics[i].type == cos.type ) {
+                if( this->cosmetics[i].str == cos.str || !copy_from_is_overlay ) {
+                    this->cosmetics[i].str = cos.str;
+                }
                 found = true;
                 break;
             }

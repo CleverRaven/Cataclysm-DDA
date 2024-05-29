@@ -289,12 +289,14 @@ class submap
             return !static_cast<bool>( m );
         }
 
-        // Copy the data from the copy_from submap onto the caller submap, merging their
-        // contents. When there is a conflict the caller's data is kept.
+        // Merge the contents of the two submaps onto the target submap. If there is a
+        // conflict the overlay wins out. Note that it's technically possible for both
+        // submaps to actually be overlays, but the one that's not called out is treated
+        // as the basic map for merging precedent purposes.
         // The operation is intended for mapgen where data from the "official" generation
         // may have to be merged with data generated from chunks targeting different
         // Z levels.
-        void merge_submaps( submap *copy_from );
+        void merge_submaps( submap *copy_from, bool copy_from_is_overlay );
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 

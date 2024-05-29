@@ -311,7 +311,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when )
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
+                dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << "," << k << ")";
 
                 const tripoint pos( i, j, k );
                 submap *old_sub = MAPBUFFER.lookup_submap( abs_sub.xy() + tripoint{ i, j, k } );
@@ -320,18 +320,24 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when )
                 // We have to merge the data generated now with data generated earlier through
                 // Z level offsets.
 
-                if( old_sub != nullptr && !old_sub->is_uniform() && !new_sub->is_uniform() ) {
-                    old_sub->merge_submaps( new_sub );
+                if( old_sub != nullptr && !new_sub->is_uniform() ) {
+                    if( k == p.z() ) {
+                        old_sub->merge_submaps( new_sub, false );
+                    } else {
+                        // We've generated an overlay and merge it with other overlays if this
+                        // is at a higher Z level, or with the base map (possibly overlayed) if below.
+                        old_sub->merge_submaps( new_sub, true );
+                    }
                 }
 
                 if( i <= 1 && j <= 1 && k == p_sm.z() ) {
-                    if( old_sub == nullptr || old_sub->is_uniform() ) {
+                    if( old_sub == nullptr ) {
                         saven( pos );
                     } else {
                         delete new_sub;
                     }
                 } else {
-                    if( ( old_sub == nullptr || old_sub->is_uniform() ) && !new_sub->is_uniform() ) {
+                    if( old_sub == nullptr && !new_sub->is_uniform() ) {
                         saven( pos );
                     } else {
                         delete new_sub;
