@@ -2505,11 +2505,19 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     } else if( temp_level_adjust > 0 ) {
         temp_level_adjust_string = " (+" + std::to_string( temp_level_adjust ) + ")";
     }
+    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
-    info_txt.emplace_back(
-        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
-                                            sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
-                             string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    if( is_psi ) {
+        info_txt.emplace_back(
+            colorize( columnize( string_format( "%s: %d%s%s", _( "Power Level" ), sp.get_effective_level(),
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    } else {
+        info_txt.emplace_back(
+            colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    }
     info_txt.emplace_back(
         colorize( columnize( sp.colorized_fail_percent( pc ),
                              string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty( pc ) ) ), c_light_gray ) );
@@ -2522,7 +2530,6 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     info_txt.emplace_back( );
 
     const bool cost_encumb = sp.energy_cost_encumbered( pc );
-    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
     if( is_psi ) {
         std::string cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
         std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :

@@ -5571,23 +5571,22 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 }
 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
-        const tripoint & ) const
+        const tripoint &point ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action effect_on_conditons that requires character but no character is present",
-                  it.typeId().str() );
-        return std::nullopt;
-    }
-
     Character *char_ptr = nullptr;
-    if( avatar *u = p->as_avatar() ) {
-        char_ptr = u;
-    } else if( npc *n = p->as_npc() ) {
-        char_ptr = n;
+    item_location loc;
+    if( p ) {
+        if( avatar *u = p->as_avatar() ) {
+            char_ptr = u;
+        } else if( npc *n = p->as_npc() ) {
+            char_ptr = n;
+        }
+        loc = item_location( *p->as_character(), &it );
+    } else {
+        loc = item_location( map_cursor( tripoint_bub_ms( point ) ), &it );
     }
 
-    item_location loc( *p->as_character(), &it );
-    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
     write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
@@ -5597,7 +5596,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
-    if( !p->has_item( it ) ) {
+    if( p && !p->has_item( it ) ) {
         return 0;
     }
     return 1;
