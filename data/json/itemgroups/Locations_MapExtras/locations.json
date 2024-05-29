@@ -612,6 +612,7 @@
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
       [ "bucket_5gal", 100 ],
+      [ "lobster_cage", 3 ],
       [ "fishing_hook_basic", 100 ]
     ]
   },
