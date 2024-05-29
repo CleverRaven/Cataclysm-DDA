@@ -1168,7 +1168,9 @@
           { "item": "pants_cargo" },
           { "item": "socks" },
           { "item": "boots" },
-          { "item": 
+          { "item": "boxcutter" },
+          { "item": "duct_tape", "container-item": "cardboard_roll" },
+          { "item": "box_medium", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -1187,9 +1189,7 @@
     },
     "age_lower": 16
 
- , "pants_cargo",
-
-Items: "box_medium" (auto-wield), 
+Items: "" (auto-wield), 
     
   },
   {
