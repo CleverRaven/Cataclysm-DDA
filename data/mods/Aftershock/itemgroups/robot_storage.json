@@ -7,16 +7,10 @@
     "items": [ [ "bot_light_hack", 10 ], [ "broken_hazmatbot", 60 ], [ "broken_utilibot_const", 120 ] ]
   },
   {
-	"id": "domestic_bot_storage",
-	"type": "item_group",
-	"//": "Small Consumer and commercial grade robots that can (probably) fit in the reinforced display cases."
-	"subtype": "distribution",
-	"items": [
-		[ "bot_light_hack", 20 ],
-		[ "bot_skitterbot_rat", 10 ],
-		[ "bot_eyebot_heater", 5 ],
-		[ "bot_eyebot", 20] ,
-		[ "bot_skitterbot_hunter", 5]
-	]
+    "id": "domestic_bot_storage",
+    "type": "item_group",
+    "//": "Small Consumer and commercial grade robots that can (probably) fit in the reinforced display cases.",
+    "subtype": "distribution",
+    "items": [ [ "bot_light_hack", 20 ], [ "bot_skitterbot_rat", 10 ], [ "bot_eyebot_heater", 5 ], [ "bot_skitterbot_hunter", 5 ] ]
   }
 ]

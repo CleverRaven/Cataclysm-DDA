@@ -262,7 +262,7 @@
     "required_str": 10,
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
     "rotates_to": "INDOORFLOOR",
-	"examine_action": {
+    "examine_action": {
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
@@ -271,7 +271,7 @@
             { "math": [ "_t_delay", "=", "time('20 m')" ] },
             {
               "run_eoc_with": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "12" },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10" },
               "alpha_talker": "avatar"
             }
           ]
@@ -288,7 +288,7 @@
       "furn_set": "f_displaycase_b",
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     },
-	"shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
   },
   {
     "type": "furniture",
@@ -313,7 +313,7 @@
       "furn_set": "f_displaycase_b",
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
     },
-	"shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
   },
   {
     "type": "furniture",
