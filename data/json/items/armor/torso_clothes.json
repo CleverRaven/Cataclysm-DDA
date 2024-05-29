@@ -1840,6 +1840,13 @@
         "color": "dark_gray"
       },
       {
+        "id": "tshirtburg",
+        "name": { "str": "burger t-shirt", "str_pl": "burger t-shirts" },
+        "description": "This white cotton t-shirt displays a cartoonish image of a traditional hamburger on a plate, and on top of it, a text that reads 'I LOVE HAMBURGERS'.",
+        "symbol": "o",
+        "color": "white"
+      },
+      {
         "id": "baseball_fan_tshirt",
         "name": { "str": "baseball t-shirt" },
         "description": "A short-sleeved cotton shirt with the logo of a local baseball team printed on its front and back."
