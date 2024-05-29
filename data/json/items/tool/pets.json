@@ -17,6 +17,23 @@
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
+    "id": "lobster_cage",
+    "type": "TOOL",
+    "name": { "str": "lobster cage" },
+    "description": "A  container ",
+    "weight": "600 g",
+    "volume": "2500 ml",
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "wood", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "properties": { "creature_size_capacity": "TINY" },
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
+    "flags": [ "TRADER_AVOID" ],
+    "melee_damage": { "bash": 2, "cut": 1 }
+  },
+  {
     "id": "dog_whistle",
     "type": "TOOL",
     "name": { "str": "dog whistle" },
