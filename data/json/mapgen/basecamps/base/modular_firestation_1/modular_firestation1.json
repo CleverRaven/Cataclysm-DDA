@@ -65,8 +65,11 @@
     "update_mapgen_id": "fbmc_firestation1_fireplace",
     "method": "json",
     "object": {
-      "set": [ { "point": "furniture", "id": "f_fireplace", "x": 1, "y": 12 } ],
-      "place_loot": [ { "item": "pot", "x": 1, "y": 13, "chance": 100 } ]
+      "set": [
+        { "point": "furniture", "id": "f_fireplace", "x": 1, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 1, "y": 12, "z": 1 }
+      ],
+      "place_loot": [ { "item": "pot", "x": 1, "y": 13, "z": 0, "chance": 100 } ]
     }
   },
   {
@@ -79,7 +82,12 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_stove",
     "method": "json",
-    "object": { "set": [ { "point": "furniture", "id": "f_woodstove", "x": 1, "y": 12 } ] }
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_woodstove", "x": 1, "y": 12, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 1, "y": 12, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -201,7 +209,10 @@
     "update_mapgen_id": "fbmc_firestation1_forge",
     "method": "json",
     "object": {
-      "set": [ { "point": "furniture", "id": "f_forge_rock", "x": 6, "y": 17 } ],
+      "set": [
+        { "point": "furniture", "id": "f_forge_rock", "x": 6, "y": 17, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 6, "y": 17, "z": 1 }
+      ],
       "place_loot": [ { "item": "hammer", "x": 8, "y": 21, "chance": 100 } ]
     }
   },
