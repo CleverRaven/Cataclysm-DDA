@@ -65,7 +65,7 @@
     "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
     "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
     "condition": { "math": [ "u_homullus_is_in_civilization", "==", "1" ] },
-    "effect": []
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
