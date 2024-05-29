@@ -1,5 +1,12 @@
 [
   {
+    "type": "jmath_function",
+    "id": "spent_to_ingested_ratio",
+    "//": "return ratio between calories you spent yesterday and calories you ingested yesterday. if bigger than 1, you consumed more calories than you ingested",
+    "num_args": 0,
+    "return": "max( get_calories_daily('type':'spent', 'day':'1'), 1 ) / max( get_calories_daily('type':'ingested', 'day':'1'), 1 )"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_SERUM_REGEN",
     "effect": [
@@ -47,6 +54,7 @@
     "apply_message": "Injected Serum",
     "remove_message": "You just take a shot of some weird stuff.  You feel sleepiness, nauseous, and overall weakened, but you wounds close up at unnatural pace.",
     "rating": "mixed",
+    "flags": [ "MEND_ALL" ],
     "enchantments": [
       {
         "values": [
@@ -71,22 +79,8 @@
     "enchantments": [
       {
         "values": [
-          {
-            "value": "CARDIO_MULTIPLIER",
-            "multiply": {
-              "math": [
-                "-1 * clamp( max( get_calories_daily('type':'spent', 'day':'1'), 1 ) / max( get_calories_daily('type':'ingested', 'day':'1'), 1 ), 0, 0.6 )"
-              ]
-            }
-          },
-          {
-            "value": "STRENGTH",
-            "multiply": {
-              "math": [
-                "-1 * clamp( max( get_calories_daily('type':'spent', 'day':'1'), 1 ) / max( get_calories_daily('type':'ingested', 'day':'1'), 1 ), 0, 0.6 )"
-              ]
-            }
-          }
+          { "value": "CARDIO_MULTIPLIER", "multiply": { "math": [ "(-1 / clamp( spent_to_ingested_ratio(), 0, 0.6 )) / 5" ] } },
+          { "value": "STRENGTH", "multiply": { "math": [ "(-1 / clamp( spent_to_ingested_ratio(), 0, 0.6 )) / 5" ] } }
         ]
       }
     ]
