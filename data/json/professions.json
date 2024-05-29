@@ -1022,6 +1022,52 @@
   },
   {
     "type": "profession",
+    "id": "librarian",
+    "name": "Librarian",
+    "description": "Before the Cataclysm, you spent your days surrounded by books, knowledge, and the quiet hum of the library.  As a librarian, you were adept (or at least paid to) in organizing information and books, conducting research with, to and for patrons, and delving into the depths of literature.  While others sought excitement in the outside world, you found solace and purpose within the walls of academia.  Now, as the Cataclysm engulfs the world, you question yourself if all that time inside the library will be a hinder to your survival.",
+    "points": 1,
+    "traits": [ "LOVES_BOOKS" ],
+    "skills": [
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "computer" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "sweater" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
+          { "item": "socks" },
+          { "item": "lowtops" },
+          { "item": "library_card" },
+          { "item": "history_book" },
+          { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100 },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "leather_belt" },
+          { "item": "briefs" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "hairpin" },
+          { "item": "bra" },
+          { "item": "panties" },
+          { "item": "skirt", "variant": "skirt_black" }
+        ]
+      }
+    },
+    "age_lower": 20
+Items: library card (to add), 3 books: A novel, a reference book, and a survival manual.
+    
+  },
+  {
+    "type": "profession",
     "id": "beekeeper",
     "name": "Beekeeper",
     "description": "You used to be a professional apiarist, building and maintaining beehives.  You had to abandon your precious bees when the Cataclysm struck, but at least you managed to grab some utensils and honey.",
