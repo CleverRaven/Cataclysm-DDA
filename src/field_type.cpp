@@ -310,7 +310,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
     if( jo.has_object( "bash" ) ) {
-        bash_info.load( jo.get_object( "bash" ), map_bash_info::field, was_loaded, "field " + id.str() );
+        bash_info.load( jo.get_object( "bash" ), was_loaded, "field " + id.str() );
     }
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );

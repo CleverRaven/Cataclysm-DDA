@@ -316,8 +316,8 @@ static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_st
     }
 }
 
-void map_bash_info::load( const JsonObject &jo, map_object_type obj_type, const bool was_loaded,
-                          const std::string &context )
+void map_common_bash_info::load( const JsonObject &jo, const bool was_loaded,
+                                 const std::string &context )
 {
     optional( jo, was_loaded, "str_min", str_min, 0 );
     optional( jo, was_loaded, "str_max", str_max, 0 );
@@ -342,20 +342,6 @@ void map_bash_info::load( const JsonObject &jo, map_object_type obj_type, const 
     optional( jo, was_loaded, "sound", sound, to_translation( "smash!" ) );
     optional( jo, was_loaded, "sound_fail", sound_fail, to_translation( "thump!" ) );
 
-    switch( obj_type ) {
-        case map_bash_info::furniture:
-            optional( jo, was_loaded, "furn_set", furn_set, furn_str_id( "f_null" ) );
-            break;
-        case map_bash_info::terrain:
-            mandatory( jo, was_loaded, "ter_set", ter_set );
-            optional( jo, was_loaded, "ter_set_bashed_from_above", ter_set_bashed_from_above, ter_set );
-            break;
-        case map_bash_info::field:
-            optional( jo, was_loaded, "move_cost", fd_bash_move_cost, 100 );
-            optional( jo, was_loaded, "msg_success", field_bash_msg_success );
-            break;
-    }
-
     if( jo.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( jo.get_member( "items" ), "collection",
                      "map_bash_info for " + context );
@@ -367,6 +353,27 @@ void map_bash_info::load( const JsonObject &jo, map_object_type obj_type, const 
         load_map_bash_tent_centers( jo.get_array( "tent_centers" ), tent_centers );
     }
 }
+void map_ter_bash_info::load( const JsonObject &jo, const bool was_loaded,
+                              const std::string &context )
+{
+    map_common_bash_info::load( jo, was_loaded, context );
+    mandatory( jo, was_loaded, "ter_set", ter_set );
+    optional( jo, was_loaded, "ter_set_bashed_from_above", ter_set_bashed_from_above, ter_set );
+}
+void map_furn_bash_info::load( const JsonObject &jo, const bool was_loaded,
+                               const std::string &context )
+{
+    map_common_bash_info::load( jo, was_loaded, context );
+    optional( jo, was_loaded, "furn_set", furn_set, furn_str_id( "f_null" ) );
+}
+void map_fd_bash_info::load( const JsonObject &jo, const bool was_loaded,
+                             const std::string &context )
+{
+    map_common_bash_info::load( jo, was_loaded, context );
+    optional( jo, was_loaded, "move_cost", fd_bash_move_cost, 100 );
+    optional( jo, was_loaded, "msg_success", field_bash_msg_success );
+}
+
 
 void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loaded,
                                         const std::string &context )
@@ -919,7 +926,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        bash.load( jo.get_object( "bash" ), map_bash_info::terrain, was_loaded,
+        bash.load( jo.get_object( "bash" ), was_loaded,
                    "terrain " +
                    id.str() ); //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
     }
@@ -928,22 +935,36 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     }
 }
 
-static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
+void map_common_bash_info::check( const std::string &id ) const
 {
-    if( !item_group::group_is_defined( mbi.drop_group ) ) {
-        debugmsg( "%s: bash result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
+    if( !item_group::group_is_defined( drop_group ) ) {
+        debugmsg( "%s: bash result item group %s does not exist", id, drop_group.c_str() );
     }
-    if( mbi.str_max != -1 ) {
-        if( is_terrain && mbi.ter_set.is_empty() ) { // Some tiles specify t_null explicitly
-            debugmsg( "bash result terrain of %s is undefined/empty", id.c_str() );
+}
+void map_ter_bash_info::check( const std::string &id ) const
+{
+    map_common_bash_info::check( id );
+    if( str_max != -1 ) {
+        if( ter_set.is_empty() ) { // Some tiles specify t_null explicitly
+            debugmsg( "bash result terrain of %s is undefined/empty", id );
         }
-        if( !mbi.ter_set.is_valid() ) {
-            debugmsg( "bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str() );
-        }
-        if( !mbi.furn_set.is_valid() ) {
-            debugmsg( "bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str() );
+        if( !ter_set.is_valid() ) {
+            debugmsg( "bash result terrain %s of %s does not exist", ter_set.c_str(), id );
         }
     }
+}
+void map_furn_bash_info::check( const std::string &id ) const
+{
+    map_common_bash_info::check( id );
+    if( str_max != -1 ) {
+        if( !furn_set.is_valid() ) {
+            debugmsg( "bash result furniture %s of %s does not exist", furn_set.c_str(), id );
+        }
+    }
+}
+void map_fd_bash_info::check( const std::string &id ) const
+{
+    map_common_bash_info::check( id );
 }
 
 void map_common_deconstruct_info::check( const std::string &id ) const
@@ -975,7 +996,7 @@ void map_furn_deconstruct_info::check( const std::string &id ) const
 void ter_t::check() const
 {
     map_data_common_t::check();
-    check_bash_items( bash, id.str(), true );
+    bash.check( id.c_str() );
     deconstruct.check( id.c_str() );
 
     if( !transforms_into.is_valid() ) {
@@ -1074,12 +1095,10 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_object( "bash" ) ) {
-        bash.load( jo.get_object( "bash" ), map_bash_info::furniture, was_loaded,
-                   "furniture " + id.str() );
+        bash.load( jo.get_object( "bash" ), was_loaded, "furniture " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        deconstruct.load( jo.get_object( "deconstruct" ), was_loaded,
-                          "furniture " + id.str() );
+        deconstruct.load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
     }
 
     if( jo.has_object( "workbench" ) ) { //TODO: Does this support copy-from?
@@ -1098,7 +1117,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 void furn_t::check() const
 {
     map_data_common_t::check();
-    check_bash_items( bash, id.str(), false );
+    bash.check( id.c_str() );
     deconstruct.check( id.c_str() );
 
     if( !open.is_valid() ) {

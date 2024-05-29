@@ -3273,13 +3273,13 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
         return true;
     }
 
-    const map_bash_info &ter_bash = ter( p ).obj().bash;
+    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
     return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
 }
 
 bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 {
-    const map_bash_info &ter_bash = ter( p ).obj().bash;
+    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
     return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
 }
 
@@ -3309,7 +3309,7 @@ int map::bash_strength( const tripoint &p, const bool allow_floor ) const
         return furn( p ).obj().bash.str_max;
     }
 
-    const map_bash_info &ter_bash = ter( p ).obj().bash;
+    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
     if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return ter_bash.str_max;
     }
@@ -3323,7 +3323,7 @@ int map::bash_resistance( const tripoint &p, const bool allow_floor ) const
         return furn( p ).obj().bash.str_min;
     }
 
-    const map_bash_info &ter_bash = ter( p ).obj().bash;
+    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
     if( ter_bash.str_min != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return ter_bash.str_min;
     }
@@ -4248,7 +4248,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                     continue;
                 }
 
-                const map_bash_info *recur_bash = &frn.obj().bash;
+                const map_furn_bash_info *recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
                 for( const auto &cur_id : recur_bash->tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
