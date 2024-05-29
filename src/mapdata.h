@@ -73,13 +73,6 @@ struct map_furn_bash_info : map_common_bash_info {
     void load( const JsonObject &jo, const bool was_loaded, const std::string &context ) override;
     void check( const std::string &id ) const override;
 };
-struct map_ter_furn_bash_info {
-    enum {TER, FURN} type;
-    union {
-        map_ter_bash_info *ter;
-        map_furn_bash_info *furn;
-    };
-};
 struct map_fd_bash_info : map_common_bash_info {
     int fd_bash_move_cost; // cost to bash a field
     translation field_bash_msg_success; // message upon successfully bashing a field

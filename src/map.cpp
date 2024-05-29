@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
+#include <variant>
 
 #include "active_item_cache.h"
 #include "ammo.h"
@@ -4065,45 +4066,45 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     const furn_t &furnid = furn( p ).obj();
     bool smash_furn = false;
     bool smash_ter = false;
-    map_ter_furn_bash_info bash_union = has_furn( p ) && furnid.bash.str_max != -1 ?
-                                        { map_ter_furn_bash_info::FURN, &furnid.bash } :
-                                        terid.bash.str_max != -1 ?
-                                        { map_ter_furn_bash_info::TER, &terid.bash } :
-                                        { map_ter_furn_bash_info::TER, nullptr };
+    std::variant<map_ter_bash_info, map_furn_bash_info> bash;
 
+    bool nothing_bashable = false;
     bool success = false;
-    auto bash = [&bash_union]() {
-        if( bash_union.type == map_ter_furn_bash_info::TER ) {
-            return bash_union.ter;
-        } else {
-            return bash_union.furn;
-        }
-    };
+
+    if( has_furn( p ) && furnid.bash.str_max != -1 ) {
+        map_furn_bash_info furn_bash = furnid.bash;
+        bash = furn_bash;
+        smash_furn = true;
+    } else if( ter( p ).obj().bash.str_max != -1 ) {
+        map_ter_bash_info ter_bash = terid.bash;
+        bash = ter_bash;
+        smash_ter = true;
+    }
 
     // Floor bashing check
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
     // Unless we're destroying, then it gets a little weird
-    if( smash_ter && bash->bash_below && ( !zlevels || !params.bash_floor ) ) {
+    if( smash_ter && bash.bash_below && ( !zlevels || !params.bash_floor ) ) {
         if( !params.destroy ) { // NOLINT(bugprone-branch-clone)
             smash_ter = false;
-            bash = nullptr;
-        } else if( !bash->ter_set && zlevels ) {
+            nothing_bashable = true;
+        } else if( !bash.ter_set && zlevels ) {
             // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.xy(), p.z - 1 );
             const ter_str_id roof = get_roof( below, false );
             if( ter( p ) == roof ) {
                 smash_ter = false;
-                bash = nullptr;
+                nothing_bashable = true;
             }
-        } else if( !bash->ter_set && ter( p ) == ter_t_dirt ) {
+        } else if( !bash.ter_set && ter( p ) == ter_t_dirt ) {
             // As above, except for no-z-levels case
             smash_ter = false;
-            bash = nullptr;
+            nothing_bashable = true;
         }
     }
 
-    if( bash == nullptr || ( bash->destroy_only && !params.destroy ) ) {
+    if( nothing_bashable || ( bash.destroy_only && !params.destroy ) ) {
         // Nothing bashable here
         if( impassable( p ) ) {
             if( !params.silent ) {
@@ -4118,30 +4119,32 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         return;
     }
 
-    int smin = bash->str_min;
-    int smax = bash->str_max;
-    int sound_vol = bash->sound_vol;
-    int sound_fail_vol = bash->sound_fail_vol;
+    int smin = std::visit( []( auto &&v ) {
+        return v.str_min;
+    }, bash );
+    int smax = bash.str_max;
+    int sound_vol = bash.sound_vol;
+    int sound_fail_vol = bash.sound_fail_vol;
     if( !params.destroy ) {
-        if( bash->str_min_blocked != -1 || bash->str_max_blocked != -1 ) {
+        if( bash.str_min_blocked != -1 || bash.str_max_blocked != -1 ) {
             if( furn_is_supported( *this, p ) ) {
-                if( bash->str_min_blocked != -1 ) {
-                    smin = bash->str_min_blocked;
+                if( bash.str_min_blocked != -1 ) {
+                    smin = bash.str_min_blocked;
                 }
-                if( bash->str_max_blocked != -1 ) {
-                    smax = bash->str_max_blocked;
+                if( bash.str_max_blocked != -1 ) {
+                    smax = bash.str_max_blocked;
                 }
             }
         }
 
-        if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
+        if( bash.str_min_supported != -1 || bash.str_max_supported != -1 ) {
             tripoint below( p.xy(), p.z - 1 );
             if( !zlevels || has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, below ) ) {
-                if( bash->str_min_supported != -1 ) {
-                    smin = bash->str_min_supported;
+                if( bash.str_min_supported != -1 ) {
+                    smin = bash.str_min_supported;
                 }
-                if( bash->str_max_supported != -1 ) {
-                    smax = bash->str_max_supported;
+                if( bash.str_max_supported != -1 ) {
+                    smax = bash.str_max_supported;
                 }
             }
         }
@@ -4178,7 +4181,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         params.did_bash = true;
         if( !params.silent ) {
-            sounds::sound( p, sound_volume, sounds::sound_t::combat, bash->sound_fail, false,
+            sounds::sound( p, sound_volume, sounds::sound_t::combat, bash.sound_fail, false,
                            "smash_fail", soundfxvariant );
         }
 
@@ -4206,17 +4209,17 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     soundfxid = "smash_success";
-    const translation &sound = bash->sound;
+    const translation &sound = bash.sound;
     // Set this now in case the ter_set below changes this
     const bool will_collapse = smash_ter &&
                                has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) && !has_flag( ter_furn_flag::TFLAG_INDOORS, p );
-    const bool tent = smash_furn && !bash->tent_centers.empty();
+    const bool tent = smash_furn && !bash.tent_centers.empty();
 
     // Special code to collapse the tent if destroyed
     if( tent ) {
         // Get ids of possible centers
         std::set<furn_id> centers;
-        for( const auto &cur_id : bash->tent_centers ) {
+        for( const auto &cur_id : bash.tent_centers ) {
             if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
@@ -4229,7 +4232,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( centers.count( furn( p ) ) > 0 ) {
             tentp.emplace( p, furn( p ) );
         } else {
-            for( const tripoint &pt : points_in_radius( p, bash->collapse_radius ) ) {
+            for( const tripoint &pt : points_in_radius( p, bash.collapse_radius ) ) {
                 const furn_id &f_at = furn( pt );
                 // Check if we found the center of the current tent
                 if( centers.count( f_at ) > 0 ) {
@@ -4240,8 +4243,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
         // Didn't find any tent center, wreck the current tile
         if( !tentp ) {
-            spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
-            furn_set( p, bash->furn_set );
+            spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            furn_set( p, bash.furn_set );
         } else {
             // Take the tent down
             const int rad = tentp->second.obj().bash.collapse_radius;
@@ -4253,11 +4256,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
                 const map_furn_bash_info *recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
-                for( const auto &cur_id : recur_bash->tent_centers ) {
+                for( const auto &cur_id : recur_bash.tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
                         // Found same center, wreck current tile
-                        spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );
-                        furn_set( pt, recur_bash->furn_set );
+                        spawn_items( p, item_group::items_from( recur_bash.drop_group, calendar::turn ) );
+                        furn_set( pt, recur_bash.furn_set );
                         break;
                     }
                 }
@@ -4265,7 +4268,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
         soundfxvariant = "smash_cloth";
     } else if( smash_furn ) {
-        furn_set( p, bash->furn_set );
+        furn_set( p, bash.furn_set );
         for( item &it : i_at( p ) )  {
             it.on_drop( p, *this );
         }
@@ -4279,17 +4282,17 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter( p ).obj().id.c_str() );
-    } else if( params.bashing_from_above && bash->ter_set_bashed_from_above ) {
+    } else if( params.bashing_from_above && bash.ter_set_bashed_from_above ) {
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
-        ter_set( p, bash->ter_set_bashed_from_above );
-    } else if( bash->ter_set ) {
+        ter_set( p, bash.ter_set_bashed_from_above );
+    } else if( bash.ter_set ) {
         // If the terrain has a valid post-destroy terrain, set it
-        ter_set( p, bash->ter_set );
+        ter_set( p, bash.ter_set );
     } else {
         tripoint below( p.xy(), p.z - 1 );
         const ter_t &ter_below = ter( below ).obj();
-        if( bash->bash_below && ter_below.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ) {
+        if( bash.bash_below && ter_below.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ) {
             // When bashing the tile below, don't allow bashing the floor
             bash_params params_below = params; // Make a copy
             params_below.bashing_from_above = true;
@@ -4301,7 +4304,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( !tent ) {
-        spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
+        spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
     }
 
     if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && zlevels ) {
@@ -4310,12 +4313,12 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         ter_set( p, roof );
     }
 
-    if( bash->explosive > 0 ) {
-        explosion_handler::explosion( nullptr, p, bash->explosive, 0.8, false );
+    if( bash.explosive > 0 ) {
+        explosion_handler::explosion( nullptr, p, bash.explosive, 0.8, false );
     }
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
-        collapse_at( tripoint_bub_ms( p ), params.silent, true, bash->explosive > 0 );
+        collapse_at( tripoint_bub_ms( p ), params.silent, true, bash.explosive > 0 );
     }
 
     params.did_bash = true;
