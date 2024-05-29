@@ -1171,6 +1171,14 @@
           { "item": "boxcutter" },
           { "item": "duct_tape", "container-item": "cardboard_roll" },
           { "item": "box_medium", "custom-flags": [ "auto_wield" ] },
+          { "item": "can_beans", "container-item": "can_medium" },
+          { "item": "can_beans", "container-item": "can_medium" },
+          { "item": "can_corn", "container-item": "can_medium" },
+          { "item": "can_corn", "container-item": "can_medium" },
+          { "item": "can_tomato", "container-item": "can_medium" },
+          { "item": "can_pineapple", "container-item": "can_medium" },
+          { 
+          { "group": "charged_matches" },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -1188,9 +1196,6 @@
       }
     },
     "age_lower": 16
-
-Items: "" (auto-wield), 
-    
   },
   {
     "type": "profession",
