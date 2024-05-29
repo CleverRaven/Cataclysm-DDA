@@ -135,7 +135,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "prereqs2": [ "CEPH_EYES", "LIZ_EYE" ],
   "threshreq": [ "THRESH_SPIDER" ],           // Required threshold for this mutation to be possible.
   "cancels": [ "ROT1", "ROT2", "ROT3" ],      // Cancels these mutations when mutating.
-  "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
+  "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further, provided the new trait has this as its prerequisite.
   "leads_to": [ ],                            // Mutations that add to this one.
   "wet_protection": [ { "part": "head", "good": 1 } ],    // Wet Protection on specific bodyparts.  Possible values: "neutral/good/ignored".  Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
   "vitamin_rates": [ [ "vitC", -1200 ] ],     // How much extra vitamins do you consume, one point per this many seconds.  Negative values mean production.

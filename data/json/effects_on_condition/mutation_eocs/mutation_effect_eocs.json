@@ -6,6 +6,100 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "mute_bird_gain",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "MUTE_BIRD", { "context_val": "trait" } ] },
+    "effect": { "u_learn_recipe": "prac_unmute_bird" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mute_cephalopod_gain",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "MUTE_CEPHALOPOD", { "context_val": "trait" } ] },
+    "effect": { "u_learn_recipe": "prac_unmute_ceph" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mute_slime_gain",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "MUTE_SLIME", { "context_val": "trait" } ] },
+    "effect": { "u_learn_recipe": "prac_unmute_slime" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_BIRD",
+    "condition": { "math": [ "u_progress_unmute_bird", ">=", "7" ] },
+    "effect": [ { "u_mutate_towards": "MUTE_BIRD_OK" }, { "u_message": "What's that made of?  Glass.  That will have to do." } ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_bird", "++" ] },
+      {
+        "u_message": "Restricting your range to the apes' feels demeaning, and you decide to take a break before you start plucking out your feathers in frustration."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_CEPH",
+    "condition": { "math": [ "u_progress_unmute_ceph", ">=", "7" ] },
+    "effect": [
+      { "u_mutate_towards": "MUTE_CEPH_OK" },
+      {
+        "u_message": "Your sentences are short, and you can't quite control your beak's clicking as you tire.  Still, they will understand, if they want to."
+      }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_ceph", "++" ] },
+      {
+        "u_message": "Draw air into your mantle, close your throat, rehearse your sentence, exhale and contort your beak just so."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_SLIME",
+    "condition": { "math": [ "u_progress_unmute_slime", ">=", "15" ] },
+    "effect": [
+      { "u_mutate_towards": "MUTE_SLIME_OK" },
+      {
+        "u_message": "You realize you don't need to grow anything nearly as complicated as your old insides - one vesicle per word will suffice, but you needed a long time to learn the right rhytm."
+      }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_slime", "++" ] },
+      {
+        "u_message": "Do you need teeth, lungs?  You fall back into your resting shape in exasperation.  This will take long."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mute_bird_lose",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "condition": { "compare_string": [ "MUTE_BIRD", { "context_val": "trait" } ] },
+    "effect": { "u_forget_recipe": "prac_unmute_bird" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mute_cephalopod_lose",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "condition": { "compare_string": [ "MUTE_CEPHALOPOD", { "context_val": "trait" } ] },
+    "effect": { "u_forget_recipe": "prac_unmute_ceph" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mute_slime_lose",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "condition": { "compare_string": [ "MUTE_SLIME", { "context_val": "trait" } ] },
+    "effect": { "u_forget_recipe": "prac_unmute_bird" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "mut_eyestalk",
     "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
