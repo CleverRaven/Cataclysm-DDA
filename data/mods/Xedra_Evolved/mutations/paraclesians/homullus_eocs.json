@@ -57,8 +57,8 @@
         { "u_has_trait": "HOMULLUS" }
       ]
     },
-    "effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "1" ] }  ],
-    "false_effect":  [ { "math": [ "u_homullus_is_in_civilization", "=", "0" ] }]
+    "effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "0" ] } ]
   },
   {
     "type": "effect_on_condition",
