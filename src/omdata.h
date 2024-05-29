@@ -18,7 +18,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"

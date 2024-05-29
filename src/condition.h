@@ -9,7 +9,7 @@
 #include <unordered_set>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "dialogue_helpers.h"
 #include "global_vars.h"
 

@@ -7,7 +7,7 @@
 #include <map>
 #include <utility>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "mapdata.h"
 #include "type_id.h"
 
