@@ -1,56 +1,71 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
+    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECK_CIVILIZATION_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
     "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
     "condition": {
-      "or": [
+      "and": [ 
         {
           "or": [
-            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
-            { "u_near_om_location": "evac_center_18", "range": 6 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
-            { "u_near_om_location": "ranch_camp_41", "range": 6 },
-            { "u_near_om_location": "godco_5", "range": 6 },
-            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
-          ]
-        },
-        {
-          "and": [
             {
               "or": [
-                { "u_near_om_location": "road_curved", "range": 3 },
-                { "u_near_om_location": "road_four_way", "range": 3 },
-                { "u_near_om_location": "road_tee", "range": 3 },
-                { "u_near_om_location": "road_straight", "range": 3 },
-                { "u_near_om_location": "road_end", "range": 3 },
-                { "u_near_om_location": "road_sw", "range": 3 },
-                { "u_near_om_location": "road_ne", "range": 3 },
-                { "u_near_om_location": "road_ew", "range": 3 },
-                { "u_near_om_location": "road_ns", "range": 3 },
-                { "u_near_om_location": "road_nesw", "range": 3 },
-                { "u_near_om_location": "road", "range": 3 },
-                { "u_near_om_location": "dirt_road", "range": 3 },
-                { "u_near_om_location": "subway", "range": 3 }
+                { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
+                { "u_near_om_location": "evac_center_18", "range": 6 },
+                { "u_near_om_location": "isolated_road_field_0", "range": 6 },
+                { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
+                { "u_near_om_location": "ranch_camp_41", "range": 6 },
+                { "u_near_om_location": "godco_5", "range": 6 },
+                { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
+                { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
               ]
             },
             {
               "and": [
-                { "not": { "u_at_om_location": "field" } },
-                { "not": { "u_at_om_location": "forest" } },
-                { "not": { "u_at_om_location": "forest_thick" } },
-                { "not": { "u_at_om_location": "forest_water" } },
-                { "not": { "u_at_om_location": "lake_surface" } },
-                { "not": { "u_at_om_location": "river_center" } }
+                {
+                  "or": [
+                    { "u_near_om_location": "road_curved", "range": 3 },
+                    { "u_near_om_location": "road_four_way", "range": 3 },
+                    { "u_near_om_location": "road_tee", "range": 3 },
+                    { "u_near_om_location": "road_straight", "range": 3 },
+                    { "u_near_om_location": "road_end", "range": 3 },
+                    { "u_near_om_location": "road_sw", "range": 3 },
+                    { "u_near_om_location": "road_ne", "range": 3 },
+                    { "u_near_om_location": "road_ew", "range": 3 },
+                    { "u_near_om_location": "road_ns", "range": 3 },
+                    { "u_near_om_location": "road_nesw", "range": 3 },
+                    { "u_near_om_location": "road", "range": 3 },
+                    { "u_near_om_location": "dirt_road", "range": 3 },
+                    { "u_near_om_location": "subway", "range": 3 }
+                  ]
+                },
+                {
+                  "and": [
+                    { "not": { "u_at_om_location": "field" } },
+                    { "not": { "u_at_om_location": "forest" } },
+                    { "not": { "u_at_om_location": "forest_thick" } },
+                    { "not": { "u_at_om_location": "forest_water" } },
+                    { "not": { "u_at_om_location": "lake_surface" } },
+                    { "not": { "u_at_om_location": "river_center" } }
+                  ]
+                }
               ]
             }
           ]
-        }
+        },
+        { "u_has_trait": "HOMULLUS" }
       ]
     },
-    "effect": [  ]
+    "effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "1" ] }  ],
+    "false_effect":  [ { "math": [ "u_homullus_is_in_civilization", "=", "0" ] }]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
+    "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
+    "condition": { "math": [ "u_homullus_is_in_civilization", "==", "1" ] },
+    "effect": []
   },
   {
     "type": "effect_on_condition",
