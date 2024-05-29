@@ -1264,6 +1264,51 @@
   },
   {
     "type": "profession",
+    "id": "manager",
+    "name": "Store Manager",
+    "description": "You used to be the one holding the keys, balancing inventory, scheduling shifts, setting up and down the store's alarm system, and dealing with the occasional disgruntled employee or the unhappy customer.  When everything fell apart, you lost everything: Family, employees, your store.  Can you navigate the Cataclysm with the same determination that once kept your store running smoothly?",
+    "points": 1,
+    "skills": [
+      { "level": 2, "name": "speech" },
+      { "level": 1, "name": "computer" },
+      { "level": 1, "name": "devices" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "polo_shirt", "variant": "s_polo" },
+          { "item": "wristwatch" },
+          { "item": "fanny" },
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "old_key" },
+          { "item": "gum", "variant": "gum_peppermint" }
+          { "item": "gum", "variant": "gum_peppermint" }
+          { "item": "gum", "variant": "gum_peppermint" }
+          { "item": "gum", "variant": "gum_peppermint" }
+          { "item": "gum", "variant": "gum_peppermint" }
+          { "item": "pen", "ammo-item": "blue_pen_ink", "charges": 100 },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "boxer_briefs" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "hairpin" },
+          { "item": "bra" },
+          { "item": "panties" }
+        ]
+      }
+    },
+    "age_lower": 21
+  },
+  {
+    "type": "profession",
     "id": "beekeeper",
     "name": "Beekeeper",
     "description": "You used to be a professional apiarist, building and maintaining beehives.  You had to abandon your precious bees when the Cataclysm struck, but at least you managed to grab some utensils and honey.",
