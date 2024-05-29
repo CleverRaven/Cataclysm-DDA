@@ -5285,6 +5285,43 @@
   },
   {
     "type": "profession",
+    "id": "lobster",
+    "name": { "male": "Lobsterman", "female": "Lobsterwoman" },
+    "description": "Out on the briny deep, you've spent your days haulin' traps, ridin' the swells, and huntin' them elusive crustaceans.  A line of work not suitable for the faint of heart.  At least the lobsters didn't got too big to seek vengeance - Yet.",
+    "points": 2,
+    "skills": [ { "level": 5, "name": "survival" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "hat_cotton" },
+          { "item": "jeans" },
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "Item": "gloves_rubber" },
+          { "item": "socks" },
+          { "item": "fishing_waders" },
+          { "item": "hat_boonie" },
+          { "item": "wristwatch" },
+          { "item": "backpack" },
+          { "Item": "pliers" },
+          { "item": "chicken_cage" },
+          { "Item": "lobster_smoked", "container-item": "wrapper" },
+          { "Item": "lobster_smoked", "container-item": "wrapper" },
+          { "Item": "lobster_smoked", "container-item": "wrapper" },
+          { "group": "charged_smart_phone" },
+          { "item": "fish_trap", "ammo-item": "fish_bait", "charges": 5 },
+          { "item": "fish_bait", "charges": 15 },
+          { "item": "lighter", "charges": 100 },
+          { "item": "knife_hunting", "container-item": "sheath" },
+          { "item": "net", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "reenactor",
     "name": { "male": "Historical Reenactor", "female": "Ahistorical Reenactor" },
     "description": {
