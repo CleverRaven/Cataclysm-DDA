@@ -262,6 +262,8 @@
       { "group": "candy_chocolate", "prob": 12 },
       { "group": "softdrinks_canned", "prob": 5 },
       { "group": "softdrinks_bottled", "prob": 7 },
+      { "item": "notebook", "prob": 20 },
+      { "item": "notebook_leather", "prob": 1 },
       { "group": "bugout_toys", "prob": 2 }
     ]
   },
