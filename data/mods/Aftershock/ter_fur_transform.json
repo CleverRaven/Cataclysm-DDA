@@ -45,11 +45,17 @@
   {
     "type": "ter_furn_transform",
     "id": "afs_lights_on",
-    "terrain": [ { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] } ]
+    "terrain": [
+      { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] },
+      { "result": "t_linoleum_whitefloor_olight", "valid_terrain": [ "t_linoleum_white_olight_inactive" ] }
+    ]
   },
   {
     "type": "ter_furn_transform",
     "id": "afs_lights_off",
-    "terrain": [ { "result": "t_metal_floor_olight_inactive", "valid_terrain": [ "t_metal_floor_olight" ] } ]
+    "terrain": [
+      { "result": "t_metal_floor_olight_inactive", "valid_terrain": [ "t_metal_floor_olight" ] },
+      { "result": "t_linoleum_white_olight_inactive", "valid_terrain": [ "t_linoleum_whitefloor_olight" ] }
+    ]
   }
 ]
