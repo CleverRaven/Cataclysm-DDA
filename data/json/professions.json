@@ -1156,45 +1156,40 @@
     "type": "profession",
     "id": "stocker",
     "name": "Stocker",
-    "description": " .",
+    "description": "While you are used to Black Friday chaos, stocking shelves and managing inventory like it was just another normal day, this is a different situation.  Now, Black Friday is everyday, and YOU are the most sought food item.  Will all that time of back pain and stocking shelves aid you into staying alive?  At least you where able to grab some stuff for yourself during the initial chaos.",
     "points": 1,
-    "traits": [ "" ],
+    "traits": [ "PACKMULE" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "dress_shirt" },
-          { "item": "sweater" },
+          { "item": "polo_shirt", "variant": "s_polo" },
+          { "item": "waist_apron_short", "variant": "red_apron_cotton" },
           { "item": "wristwatch" },
-          { "item": "mbag" },
+          { "item": "pants_cargo" },
           { "item": "socks" },
-          { "item": "lowtops" },
-          { "item": "library_card", "container-item": "wallet" },
-          { "item": "novel_drama" },
-          { "item": "novel_crime" },
-          { "item": "manual_survival" },
-          { "item": "pen", "ammo-item": "red_pen_ink", "charges": 100 },
+          { "item": "boots" },
+          { "item": 
           { "group": "charged_smart_phone" }
         ]
       },
       "male": {
         "entries": [
-          { "item": "leather_belt" },
-          { "item": "briefs" },
-          { "item": "pants", "variant": "pants_black" }
+          { "item": "boxer_shorts" }
         ]
       },
       "female": {
         "entries": [
           { "item": "hairpin" },
           { "item": "bra" },
-          { "item": "panties" },
-          { "item": "skirt", "variant": "skirt_black" }
+          { "item": "panties" }
         ]
       }
     },
     "age_lower": 16
 
+ , "pants_cargo",
 
+Items: "box_medium" (auto-wield), 
     
   },
   {
