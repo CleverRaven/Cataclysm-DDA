@@ -765,7 +765,7 @@
       "both": {
         "entries": [
           { "item": "mbag" },
-          { "item": "polo_shirt" },
+          { "item": "polo_shirt", "variant": "generic_polo" },
           { "item": "blazer" },
           { "item": "socks" },
           { "item": "dress_shoes" },
@@ -1087,9 +1087,9 @@
           { "item": "sneakers" },
           { "item": "napkin" },
           { "item": "plastic_shopping_bag" },
-          { "item": "hamburger", "container-item": "wrapper" },
-          { "item": "hamburger", "container-item": "wrapper" },
-          { "item": "hamburger", "container-item": "wrapper" },
+          { "item": "cheeseburger", "container-item": "wrapper" },
+          { "item": "cheeseburger", "container-item": "wrapper" },
+          { "item": "cheeseburger", "container-item": "wrapper" },
           { "item": "hotdogs_cooked", "container-item": "wrapper" },
           { "item": "hotdogs_cooked", "container-item": "wrapper" },
           { "item": "hotdogs_cooked", "container-item": "wrapper" },
@@ -2517,7 +2517,7 @@
         "entries": [
           { "item": "pants_cargo" },
           { "item": "socks" },
-          { "item": "polo_shirt" },
+          { "item": "polo_shirt", "variant": "generic_polo" },
           { "item": "boots" },
           { "item": "wristwatch" },
           { "item": "fancy_sunglasses" },
@@ -4723,7 +4723,6 @@
           { "item": "flyer" },
           { "item": "flyer" },
           { "item": "flyer" },
-          { "item": "holy_symbol" },
           { "group": "charged_smart_phone" },
           { "group": "charged_laptop" },
           { "item": "holy_symbol", "variant": "general_necklace" },
@@ -4974,7 +4973,7 @@
   {
     "type": "profession",
     "id": "national_guard",
-    "name": "National Guardsman",
+    "name": { "male": "National Guardsman", "female": "National Guardswoman" },
     "requirement": "achievement_reach_military_bunker",
     "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
     "points": 4,
@@ -5811,7 +5810,7 @@
   {
     "type": "profession",
     "id": "urban_samurai",
-    "name": "Urban Samurai",
+    "name": { "male": "Urban Samurai", "female": "Urban Ona-Samurai" },
     "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "cutting" } ],
@@ -6112,7 +6111,7 @@
   {
     "type": "profession",
     "id": "mil_marksman",
-    "name": "Military Marksman",
+    "name": { "male": "Military Marksman", "female": "Military Markswoman" },
     "requirement": "achievement_reach_military_bunker",
     "description": "You like to think of yourself as a sniper, but really you're just infantry with a bigger gun.  That said, a big gun is a definite advantage now.",
     "points": 5,
@@ -7084,7 +7083,7 @@
   {
     "type": "profession",
     "id": "cowboy",
-    "name": "Cowboy",
+    "name": { "male": "Cowboy", "female": "Cowgirl" },
     "description": "You liked to spend your days taking care of the horses and cows, searching the perimeter of the ranch on your steed and looking out for anything suspicious, that's why you managed to escape in time when shit hit the fan.",
     "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning" ],
