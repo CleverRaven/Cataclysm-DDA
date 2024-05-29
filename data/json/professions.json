@@ -1040,9 +1040,11 @@
           { "item": "mbag" },
           { "item": "socks" },
           { "item": "lowtops" },
-          { "item": "library_card" },
-          { "item": "history_book" },
-          { "item": "pen", "ammo-item": "black_pen_ink", "charges": 100 },
+          { "item": "library_card", "container-item": "wallet" },
+          { "item": "novel_drama" },
+          { "item": "novel_crime" },
+          { "item": "manual_survival" },
+          { "item": "pen", "ammo-item": "red_pen_ink", "charges": 100 },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -1063,8 +1065,6 @@
       }
     },
     "age_lower": 20
-Items: library card (to add), 3 books: A novel, a reference book, and a survival manual.
-    
   },
   {
     "type": "profession",
