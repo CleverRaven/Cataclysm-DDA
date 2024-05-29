@@ -868,7 +868,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "popcan_stove", 60 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "popcan_stove", 30 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron_portable", 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
