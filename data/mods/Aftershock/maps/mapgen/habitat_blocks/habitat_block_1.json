@@ -33,14 +33,14 @@
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_block", "afs_habblock_1_paramter_palette" ],
       "place_nested": [
-        { "chunks": [ { "param": "variant", "fallback": "afs_habbitat_block_1_slot1_cafe_a1" } ], "x": 0, "y": 0 },
+        { "chunks": [ { "param": "variant", "fallback": "afs_habblock_1_slot1_cafe_a1" } ], "x": 0, "y": 0 },
         {
           "chunks": [
             {
-              "switch": { "param": "variant", "fallback": "afs_habbitat_block_1_slot1_cafe_a2" },
+              "switch": { "param": "variant", "fallback": "afs_habblock_1_slot1_cafe_a2" },
               "cases": {
-                "afs_habbitat_block_1_slot1_cafe_a1": "afs_habbitat_block_1_slot1_cafe_a2",
-                "afs_habbitat_block_1_slot1_diner_a1": "afs_habbitat_block_1_slot1_diner_a2"
+                "afs_habblock_1_slot1_cafe_a1": "afs_habblock_1_slot1_cafe_a2",
+                "afs_habblock_1_slot1_diner_a1": "afs_habblock_1_slot1_diner_a2"
               }
             }
           ],
@@ -168,7 +168,7 @@
     "parameters": {
       "variant": {
         "type": "nested_mapgen_id",
-        "default": { "distribution": [ "afs_habbitat_block_1_slot1_cafe_a1", "afs_habbitat_block_1_slot1_diner_a1" ] }
+        "default": { "distribution": [ "afs_habblock_1_slot1_cafe_a1", "afs_habblock_1_slot1_diner_a1" ] }
       },
       "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } }
     }
@@ -176,7 +176,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "afs_habbitat_block_1_slot1_cafe_a1",
+    "nested_mapgen_id": "afs_habblock_1_slot1_cafe_a1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -211,7 +211,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "afs_habbitat_block_1_slot1_diner_a1",
+    "nested_mapgen_id": "afs_habblock_1_slot1_diner_a1",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -247,7 +247,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "afs_habbitat_block_1_slot1_diner_a2",
+    "nested_mapgen_id": "afs_habblock_1_slot1_diner_a2",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -283,7 +283,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "afs_habbitat_block_1_slot1_cafe_a2",
+    "nested_mapgen_id": "afs_habblock_1_slot1_cafe_a2",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
