@@ -1074,7 +1074,7 @@
     "points": 1,
     "traits": [ "GOURMAND" ],
     "skills": [
-      { "level": 1, "name": "" }
+      { "level": 2, "name": "cooking" }
     ],
     "items": {
       "both": {
@@ -1112,6 +1112,90 @@
       }
     },
     "age_lower": 17
+  },
+  {
+    "type": "profession",
+    "id": "writer",
+    "name": "Writer",
+    "description": "You spent your days weaving tales, crafting worlds, and breathing life into characters through the power of your words.  Your imagination knew no bounds, and you found inspiration in both the mundane and the extraordinary.  Whether penning novels, articles, or poetry, you possessed a knack for captivating readers and evoking emotions with your prose.  Now people are not lining up for autographs, instead, they want a piece of you.  You think to yourself if you will be able to write a new chapter for yourself in the Cataclysm.",
+    "skills": [
+      { "level": 1, "name": "speech" }
+    ],
+    "points": 1,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "jacket_light" },
+          { "item": "wristwatch" },
+          { "item": "backpack" },
+          { "item": "pants", "variant": "generic_pants" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "novel_drama" },
+          { "item": "pen", "ammo-item": "blue_pen_ink", "charges": 100, "container-item": "notebook_leather" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "boxer_shorts" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "hairpin" },
+          { "item": "bra" },
+          { "item": "panties" }
+        ]
+      }
+    },
+    "age_lower": 18
+  },
+  {
+    "type": "profession",
+    "id": "stocker",
+    "name": "Stocker",
+    "description": " .",
+    "points": 1,
+    "traits": [ "" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "sweater" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
+          { "item": "socks" },
+          { "item": "lowtops" },
+          { "item": "library_card", "container-item": "wallet" },
+          { "item": "novel_drama" },
+          { "item": "novel_crime" },
+          { "item": "manual_survival" },
+          { "item": "pen", "ammo-item": "red_pen_ink", "charges": 100 },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": {
+        "entries": [
+          { "item": "leather_belt" },
+          { "item": "briefs" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "hairpin" },
+          { "item": "bra" },
+          { "item": "panties" },
+          { "item": "skirt", "variant": "skirt_black" }
+        ]
+      }
+    },
+    "age_lower": 16
+
+
+    
   },
   {
     "type": "profession",
