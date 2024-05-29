@@ -20,7 +20,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SERUM_GENERIFIED_2",
     "condition": { "test_eoc": "EOC_HAS_SERUM" },
-    "effect": [ { "run_eocs": [ { "context_val": "eoc" } ] }, { "u_message": "You inject the liquid, with hope it won't kill you." } ],
-    "false_effect": { "u_message": "You would not dare to inject two of them at once.", "type": "bad" }
+    "false_effect": [ { "run_eocs": [ { "context_val": "eoc" } ] }, { "u_message": "You inject the liquid, with hope it won't kill you." } ],
+    "effect": { "u_message": "You would not dare to inject two of them at once.", "type": "bad" }
   }
 ]
