@@ -1329,7 +1329,23 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
-      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_polo",
+        "name": { "str": "polo shirt" },
+        "description": "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "s_polo",
+        "name": { "str": "Supermarket polo shirt" },
+        "description": "This is a short-sleeved cotton shirt, slightly thicker than a t-shirt.  On the left side of the upper torso there is a logo of a large Supermarket chain, indicating that either the wearer or the original owner of this polo shirt worked there as an employee.",
+        "weight": 5,
+        "append": true
+      }
     ]
   },
   {
