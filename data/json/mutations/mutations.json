@@ -9653,6 +9653,72 @@
   },
   {
     "type": "mutation",
+    "id": "MUTE_BIRD",
+    "name": { "str": "Mute (Bird)" },
+    "points": -2,
+    "description": "Your beak and voicebox have changed irreversibly, rendering you incapable of human speech.  With enough practice you could relearn imitating their weird ape chirps, but it will take time.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "BIRD" ],
+    "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
+    "flags": [ "MUTE" ],
+    "changes_to": [ "MUTE_BIRD_OK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_BIRD_OK",
+    "name": { "str": "Speech Mimicry (Bird)" },
+    "points": 0,
+    "description": "Your throat cramps, your beak twitches, but you can speak human again if you want.",
+    "category": [ "BIRD" ],
+    "prereqs": [ "MUTE_BIRD" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_CEPH",
+    "name": { "str": "Mute (Cephalopod)" },
+    "points": -2,
+    "description": "Your beak and new lungs have diverged too much from your human form to be capable of human speech.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "CEPHALOPOD" ],
+    "prereqs": [ "BEAK" ],
+    "changes_to": [ "MUTE_CEPH_OK" ],
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_CEPH_OK",
+    "name": { "str": "Speech Mimicry (Cephalopod)" },
+    "points": 0,
+    "description": "Contorting your voice to match your surroundings is just as necessary as changing your color, even if learning it was a pain.",
+    "category": [ "CEPHALOPOD" ],
+    "prereqs": [ "MUTE_CEPH" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_SLIME",
+    "name": { "str": "Mute (Slime)" },
+    "points": -2,
+    "description": "Your mouth is gone.  Oh, wait, there's one, isn't there?  If only it stopped moving around you might start to relearn something like human speech.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "SLIME" ],
+    "prereqs": [ "AMORPHOUS" ],
+    "changes_to": [ "MUTE_SLIME_OK" ],
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_SLIME_OK",
+    "name": { "str": "Speech Mimicry (Slime)" },
+    "points": 0,
+    "description": "Each word its own custom bubble under your membrane, waiting for its turn to pop.  It sounds like something small and furry drowning in sourdough, but if you manage to convince somebody to listen to you they will probably understand.",
+    "category": [ "SLIME" ],
+    "prereqs": [ "MUTE_SLIME" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "NOMAD",
     "name": { "str": "Nomad" },
     "points": -1,
