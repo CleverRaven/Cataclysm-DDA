@@ -5342,7 +5342,7 @@
           { "item": "wristwatch" },
           { "item": "backpack" },
           { "Item": "pliers" },
-          { "item": "lobster_cage" },
+          { "item": "lobster_cage", "custom-flags": [ "auto_wield" ] },
           { "Item": "lobster_smoked", "container-item": "wrapper" },
           { "Item": "lobster_smoked", "container-item": "wrapper" },
           { "Item": "lobster_smoked", "container-item": "wrapper" },
@@ -6205,14 +6205,14 @@
           { "item": "boxer_shorts" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "dress_shoes" },
-          { "item": "polo_shirt" },
+          { "item": "polo_shirt", "variant": "generic_polo" },
           { "item": "socks" },
           { "item": "mag_dude" }
         ]
       },
       "female": {
         "entries": [
-          { "item": "polo_shirt" },
+          { "item": "halter_top" },
           { "item": "bra" },
           { "item": "panties" },
           { "item": "skirt" },
