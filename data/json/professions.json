@@ -1116,7 +1116,7 @@
   {
     "type": "profession",
     "id": "writer",
-    "name": "Writer",
+    "name": "Career Writer",
     "description": "You spent your days weaving tales, crafting worlds, and breathing life into characters through the power of your words.  Your imagination knew no bounds, and you found inspiration in both the mundane and the extraordinary.  Whether penning novels, articles, or poetry, you possessed a knack for captivating readers and evoking emotions with your prose.  Now people are not lining up for autographs, instead, they want a piece of you.  You think to yourself if you will be able to write a new chapter for yourself in the Cataclysm.",
     "skills": [
       { "level": 1, "name": "speech" }
@@ -1204,39 +1204,59 @@
     "type": "profession",
     "id": "cashier",
     "name": "Cashier",
-    "description": "Your days before all this were spent behind a register, ringing up items and dealing with grumpy customers.  It was a job, enough to pay the bills, and now that the world turned grey, you'll have to do what you can with your mundane skills (and all that change) to see the other day.",
-    "points": 0,
-    "traits": [ "" ],
+    "description": "Your days before all this were spent behind a register, quickly ringing up items and dealing with grumpy customers.  It was a job, enough to pay the bills, and now that the world turned grey, you'll have to do what you can with your mundane skills (and all that change) to see the other day.",
+    "points": 1,
+    "traits": [ "QUICK" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "dress_shirt" },
-          { "item": "sweater" },
+          { "item": "polo_shirt", "variant": "s_polo" },
+          { "item": "jacket_light" },
           { "item": "wristwatch" },
-          { "item": "mbag" },
+          { "item": "plastic_shopping_bag" },
+          { "item": "jeans" },
           { "item": "socks" },
           { "item": "lowtops" },
-          { "item": "library_card", "container-item": "wallet" },
-          { "item": "novel_drama" },
-          { "item": "novel_crime" },
-          { "item": "manual_survival" },
-          { "item": "pen", "ammo-item": "red_pen_ink", "charges": 100 },
+          { "item": "money_one" },
+          { "item": "money_one" },
+          { "item": "money_one" },
+          { "item": "money_five" },
+          { "item": "money_five" },
+          { "item": "money_five" },
+          { "item": "money_ten" },
+          { "item": "money_ten" },
+          { "item": "money_ten" },
+          { "item": "money_twenty" },
+          { "item": "money_twenty" },
+          { "item": "money_twenty" },
+          { "item": "coin_half_dollar" },
+          { "item": "coin_half_dollar" },
+          { "item": "coin_half_dollar" },
+          { "item": "coin_half_dollar" },
+          { "item": "coin_half_dollar" },
+          { "item": "coin_penny" },
+          { "item": "coin_penny" },
+          { "item": "coin_penny" },
+          { "item": "coin_penny" },
+          { "item": "coin_penny" },
+          { "item": "coin_dime" },
+          { "item": "coin_dime" },
+          { "item": "coin_dime" },
+          { "item": "coin_dime" },
+          { "item": "coin_dime" },
           { "group": "charged_smart_phone" }
         ]
       },
       "male": {
         "entries": [
-          { "item": "leather_belt" },
-          { "item": "briefs" },
-          { "item": "pants", "variant": "pants_black" }
+          { "item": "boxer_shorts" }
         ]
       },
       "female": {
         "entries": [
           { "item": "hairpin" },
           { "item": "bra" },
-          { "item": "panties" },
-          { "item": "skirt", "variant": "skirt_black" }
+          { "item": "panties" }
         ]
       }
     },
