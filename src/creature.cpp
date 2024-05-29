@@ -233,7 +233,7 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
         if( mon ) {
             critter_volume = mon->get_volume();
         } else if( const Character *you = as_character() )  {
-            you->get_total_volume();
+            critter_volume = you->get_total_volume();
         }
 
         if( critter_volume > free_cargo ) {
