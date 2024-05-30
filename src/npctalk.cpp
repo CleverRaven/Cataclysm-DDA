@@ -557,12 +557,18 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
             entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
-        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.addentry( npc_count, true, 'e', _( "Everyone" ) );
+        nmenu.addentry( npc_count + 1, true, 'f', _( "Finish selection" ) );
         nmenu.selected = nmenu.fselected = last_index;
         nmenu.query();
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
-        } else if( nmenu.ret >= npc_count ) {
+        } else if( nmenu.ret == npc_count ) {
+            picked.resize( npc_count );
+            std::iota( picked.begin(), picked.end(), 0 );
+            last_index = nmenu.fselected;
+            continue;
+        } else if( nmenu.ret > npc_count ) {
             break;
         }
         std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
