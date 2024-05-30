@@ -1990,7 +1990,8 @@
         "specifically_covers": [ "head_forehead" ],
         "coverage": 100,
         "encumbrance": 20,
-        "layers": [ "NORMAL", "OUTER" ]
+        "layers": [ "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
@@ -1999,7 +2000,8 @@
         "coverage": 100,
         "encumbrance": 10,
         "rigid_layer_only": true,
-        "layers": [ "SKINTIGHT", "NORMAL" ]
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -2023,7 +2025,8 @@
         "specifically_covers": [ "mouth_cheeks" ],
         "coverage": 100,
         "encumbrance": 20,
-        "layers": [ "NORMAL", "OUTER" ]
+        "layers": [ "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
       }
     ],
     "warmth": 20,
