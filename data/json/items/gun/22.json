@@ -435,8 +435,8 @@
     "color": "light_gray",
     "ammo": [ "22" ],
     "dispersion": 480,
-    "durability": 8,
-    "clip_size": 5,
+    "durability": 6,
+    "min_cycle_recoil": 100,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
