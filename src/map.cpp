@@ -3269,12 +3269,7 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
         return true;
     }
 
-    if( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
-        return true;
-    }
-
-    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
-    return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
+    return is_bashable_ter_furn( p, allow_floor );
 }
 
 bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
@@ -3305,13 +3300,12 @@ bool map::is_bashable_ter_furn( const tripoint &p, const bool allow_floor ) cons
 
 int map::bash_strength( const tripoint &p, const bool allow_floor ) const
 {
-    if( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
+    if( is_bashable_furn( p ) ) {
         return furn( p ).obj().bash.str_max;
     }
 
-    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
-    if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
-        return ter_bash.str_max;
+    if( is_bashable_ter( p, allow_floor ) ) {
+        return ter( p ).obj().bash.str_max;
     }
 
     return -1;
@@ -3319,13 +3313,12 @@ int map::bash_strength( const tripoint &p, const bool allow_floor ) const
 
 int map::bash_resistance( const tripoint &p, const bool allow_floor ) const
 {
-    if( has_furn( p ) && furn( p ).obj().bash.str_min != -1 ) {
+    if( is_bashable_furn( p ) ) {
         return furn( p ).obj().bash.str_min;
     }
 
-    const map_ter_bash_info &ter_bash = ter( p ).obj().bash;
-    if( ter_bash.str_min != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
-        return ter_bash.str_min;
+    if( is_bashable_ter( p, allow_floor ) ) {
+        return ter( p ).obj().bash.str_min;
     }
 
     return -1;
