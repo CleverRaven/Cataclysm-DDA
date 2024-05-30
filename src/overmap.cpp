@@ -2669,12 +2669,13 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     if( !cit || !constraints_.city_size.contains( cit.size ) ) {
         return false;
     }
-    for( const tripoint_om_omt &tile : closest_points_first( p, constraints_.city_distance.max ) ) {
-        if( omap.is_in_city( tile ) ) {
-            return constraints_.city_distance.contains( rl_dist( p, tile ) );
-        }
+    if( constraints_.city_distance.max > std::max( OMAPX, OMAPY ) ) {
+        // Only care that we're more than min away from a city
+        return !omap.distance_to_city( p, constraints_.city_distance.min );
     }
-    return false;
+    const std::optional<int> dist = omap.distance_to_city( p, constraints_.city_distance.max );
+    // Found a city within max and it's greater than min away
+    return !!dist && constraints_.city_distance.min < *dist;
 }
 
 bool overmap_special::has_flag( const std::string &flag ) const
@@ -3950,6 +3951,19 @@ void overmap::clear_connections_out()
 bool overmap::is_in_city( const tripoint_om_omt &p ) const
 {
     return city_tiles.find( p.xy() ) != city_tiles.end();
+}
+
+std::optional<int> overmap::distance_to_city( const tripoint_om_omt &p,
+        const int max_dist_to_check ) const
+{
+    for( int i = 0; i < max_dist_to_check; i++ ) {
+        for( const tripoint_om_omt &tile : closest_points_first( p, i, i + 1 ) ) {
+            if( is_in_city( tile ) ) {
+                return i + 1;
+            }
+        }
+    }
+    return {};
 }
 
 void overmap::flood_fill_city_tiles()
