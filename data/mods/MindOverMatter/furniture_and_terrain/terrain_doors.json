@@ -22,7 +22,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_secretdoor_concrete_o",
+    "id": "t_secretdoor_strconcrete_o",
     "name": "open secret door",
     "looks_like": "t_thconc_floor",
     "description": "This apparently normal segment of reinforced concrete wall has opened to reveal a secret passage.",
@@ -31,7 +31,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
     "close": "t_secretdoor_strconcrete_c",
-     "bash": {
+    "bash": {
       "str_min": 120,
       "str_max": 460,
       "sound": "scrrrash!",

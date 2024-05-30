@@ -289,6 +289,9 @@
     "type": "overmap_terrain",
     "id": [ "phavian_hospital_transition_tunnel" ],
     "name": "PHAVIAN lab",
-    "copy-from": "microlab_generic"
+    "looks_like": "microlab_generic",
+    "sym": "L",
+    "see_cost": 5,
+    "color": "light_red"
   }
 ]
