@@ -162,7 +162,7 @@
   },
   {
     "id": "witness_mag_10",
-    "looks_like": "cz75mag_12rd",
+    "looks_like": "cz75mag_16rd",
     "type": "MAGAZINE",
     "name": { "str": "EAA Witness 15-round magazine" },
     "description": "A 15-round steel box magazine for 10mm Auto EAA Witness pistols.",

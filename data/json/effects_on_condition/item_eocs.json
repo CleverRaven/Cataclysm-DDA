@@ -99,13 +99,13 @@
   {
     "id": "EOC_toolweapon_running",
     "type": "effect_on_condition",
-    "condition": { "not": "u_is_underwater" },
+    "condition": { "not": "npc_is_underwater" },
     "effect": {
       "if": { "one_in_chance": { "context_val": "sound_chance" } },
       "then": [
-        { "u_message": { "context_val": "sound_message" }, "sound": true },
+        { "message": { "context_val": "sound_message" }, "sound": true },
         {
-          "u_make_sound": { "context_val": "sound_message" },
+          "npc_make_sound": { "context_val": "sound_message" },
           "type": "activity",
           "volume": { "context_val": "volume" },
           "ambient": true
@@ -156,7 +156,17 @@
       { "u_lose_trait": "hair_messy" },
       { "u_lose_trait": "hair_very_long" },
       { "u_lose_trait": "hair_extremely_long" },
-      { "u_lose_trait": "hair_body_length" }
+      { "u_lose_trait": "hair_body_length" },
+      { "u_lose_trait": "hair_modern" },
+      { "u_lose_trait": "hair_puff" },
+      { "u_lose_trait": "hair_beaded" },
+      { "u_lose_trait": "hair_curls" },
+      { "u_lose_trait": "hair_bun" },
+      { "u_lose_trait": "hair_punk_long" },
+      { "u_lose_trait": "hair_braid" },
+      { "u_lose_trait": "hair_detective" },
+      { "u_lose_trait": "hair_super_princess" },
+      { "u_lose_trait": "hair_twintails" }
     ]
   },
   {

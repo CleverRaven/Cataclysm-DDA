@@ -9,6 +9,13 @@
     "class": "NC_ISHERWOOD_LUKE",
     "attitude": 0,
     "mission": 7,
+    "age": 16,
+    "height": 181,
+    "str": 8,
+    "dex": 9,
+    "int": 7,
+    "per": 8,
+    "personality": { "aggression": 2, "bravery": 8, "collector": 1, "altruism": 2 },
     "chat": "TALK_ISHERWOOD_LUKE",
     "mission_offered": "MISSION_ISHERWOOD_LUKE_1",
     "faction": "isherwood_family"
@@ -19,8 +26,11 @@
     "name": { "str": "Luke Isherwood" },
     "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "FLEET" },
+      { "trait": "TOUGH" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "hazel" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],

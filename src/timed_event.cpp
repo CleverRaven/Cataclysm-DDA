@@ -280,7 +280,7 @@ void timed_event::actualize()
         case timed_event_type::DSA_ALRP_SUMMON: {
             const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
+                const tripoint spot = here.bub_from_abs( project_to<coords::ms>( map_point ) ).raw();
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );

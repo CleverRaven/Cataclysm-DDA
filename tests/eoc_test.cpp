@@ -698,7 +698,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     CHECK( d_copy.actor( true )->get_character() != nullptr );
 
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
     computer comp( "test_computer", 0, tripoint_zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
@@ -722,7 +722,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     standard_npc dude;
     monster zombie( mon_zombie );
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
     computer comp( "test_computer", 0, tripoint_zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
@@ -1174,7 +1174,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item(), item_location() );
+        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
         if( !npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }
@@ -1194,7 +1194,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item(), item_location() );
+        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item() );
         if( !mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }

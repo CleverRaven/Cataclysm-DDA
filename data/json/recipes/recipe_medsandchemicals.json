@@ -862,6 +862,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "fermentable_fish_mixture",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "2 m",
+    "charges": 3,
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ] ],
+    "using": [ [ "sugar_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fertilizer_liquid",
     "id_suffix": "simple",
     "category": "CC_CHEM",
@@ -1033,6 +1049,21 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "poppy_bud", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "skunk_spray_neutralizing_solution",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": "5 m",
+    "book_learn": [ [ "pocket_survival", 3 ], [ "survival_book", 3 ], [ "isherwood_herbal_remedies", 2 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "chem_hydrogen_peroxide", 4 ] ], [ [ "chem_baking_soda", 83 ], [ "liquid_soap", 2 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",

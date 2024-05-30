@@ -1,6 +1,28 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_DASH_CHECKER",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "grabbed", "bodypart": "head" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "torso" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "arm_l" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "arm_r" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "leg_l" } },
+        { "not": { "u_has_effect": "grabbed", "bodypart": "leg_r" } },
+        { "not": { "u_has_effect": "disabled", "bodypart": "leg_l" } },
+        { "not": { "u_has_effect": "disabled", "bodypart": "leg_r" } },
+        { "not": { "u_is_on_terrain_with_flag": "DEEP_WATER" } }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "biokin_dash_real" }, "targeted": true },
+      { "u_message": "You move almost faster than the eye can see.", "type": "neutral" }
+    ],
+    "false_effect": [ { "u_message": "Your circumstances prevent you from moving freely right now.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_CHANGE_APPEARANCE",
     "effect": [ "barber_hair", "barber_beard", { "u_activate": "change_appearance" } ]
   },

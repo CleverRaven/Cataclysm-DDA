@@ -1313,6 +1313,11 @@
     "replace": "stanag30"
   },
   {
+    "id": "cz75mag_12rd",
+    "type": "MIGRATION",
+    "replace": "cz75mag_16rd"
+  },
+  {
     "id": "mossberg_500",
     "type": "MIGRATION",
     "from_variant": "mossberg_500_security",
@@ -1344,5 +1349,59 @@
     "type": "MIGRATION",
     "replace": "con_mix_foldable",
     "reset_item_vars": true
+  },
+  {
+    "id": "raw_lentils",
+    "type": "MIGRATION",
+    "replace": "dry_lentils"
+  },
+  {
+    "id": "uno",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "uno"
+  },
+  {
+    "id": "onirim",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "onirim"
+  },
+  {
+    "id": "cards_magic",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "cards_magic"
+  },
+  {
+    "id": "deck_of_cards_makeshift",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "deck_of_cards_makeshift"
+  },
+  {
+    "id": "mp18",
+    "type": "MIGRATION",
+    "replace": "p08"
+  },
+  {
+    "id": "plr16",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "oa93",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "m231pfw",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "moss_brownie",
+    "type": "MIGRATION",
+    "replace": "ruger_lcr_22"
   }
 ]

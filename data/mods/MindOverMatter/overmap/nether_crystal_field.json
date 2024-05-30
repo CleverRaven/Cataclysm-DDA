@@ -190,8 +190,8 @@
       "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
       "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_fields": [
-        { "field": "fd_reality_tear", "x": 0, "y": 1, "intensity": [ 2, 3 ] },
-        { "field": "fd_reality_tear", "x": 1, "y": 0, "intensity": [ 2, 3 ] }
+        { "field": "fd_fatigue", "x": 0, "y": 1, "intensity": [ 2, 3 ] },
+        { "field": "fd_fatigue", "x": 1, "y": 0, "intensity": [ 2, 3 ] }
       ]
     }
   },
@@ -210,8 +210,8 @@
       "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
       "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_fields": [
-        { "field": "fd_reality_tear", "x": 0, "y": 0, "intensity": [ 2, 3 ] },
-        { "field": "fd_reality_tear", "x": 1, "y": 1, "intensity": [ 2, 3 ] }
+        { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": [ 2, 3 ] },
+        { "field": "fd_fatigue", "x": 1, "y": 1, "intensity": [ 2, 3 ] }
       ]
     }
   },

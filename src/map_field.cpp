@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -769,7 +770,8 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
                 [&pd]( const tripoint & n ) {
                 return pd.here.passable( n );
                 } ) ) {
-                    pd.here.add_spawn( mgr, *spawn_point );
+                    const tripoint_bub_ms pt = tripoint_bub_ms( spawn_point.value() );
+                    pd.here.add_spawn( mgr, pt );
                 }
             }
         }
@@ -1671,7 +1673,7 @@ void map::player_in_field( Character &you )
                 }
             }
         }
-        if( ft == fd_reality_tear ) {
+        if( ft == fd_fatigue ) {
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !you.in_vehicle ) {
                 // Teleports you... somewhere.
@@ -1991,7 +1993,7 @@ void map::monster_in_field( monster &z )
                                                     cur.get_field_intensity() ) );
             z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_electric, field_dmg ) );
         }
-        if( cur_field_type == fd_reality_tear ) {
+        if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
                 teleport::teleport( z );
@@ -2103,10 +2105,11 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
         return;
     }
 
-    const float chance = src->chance() * mul;
-    if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
-        const int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
-        propagate_field( pos, src->field(), qty, src->intensity() );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    const float chance = src->chance( d ) * mul;
+    if( x_in_y( chance, 100 ) ) {
+        const int qty = chance > 100.0f ? roll_remainder( src->qty( d ) * chance / 100.0f ) : src->qty( d );
+        propagate_field( pos, src->field( d ), qty, src->intensity( d ) );
     }
 }
 

@@ -334,7 +334,7 @@
   {
     "type": "effect_type",
     "id": "shattered",
-    "name": [ "shattered" ],
+    "name": [ "Shattered Armor" ],
     "//": "Intended for monsters, has no effect except to create a new weak point.",
     "desc": [ "Your armor has been shattered by a heavy attack." ],
     "apply_message": "Your armor has been shattered.",
@@ -2072,6 +2072,37 @@
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "skunk_spray",
+    "name": [ "Skunk Spray" ],
+    "desc": [ "You were sprayed by a skunk!" ],
+    "apply_message": "You're covered in a foul smelling fluid!",
+    "rating": "bad",
+    "max_duration": "5 hours",
+    "base_mods": { "per_mod": [ -1 ], "int_mod": [ -1 ], "vomit_chance": [ 2000 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": -10 },
+          { "value": "SOCIAL_LIE", "add": -4 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 2 },
+          { "value": "UGLINESS", "add": 5 },
+          { "value": "SCENT_MASK", "add": 300 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "skunk_spray_neutralizer",
+    "name": [ "Skunk Spray Neutralized" ],
+    "desc": [ "A solution that neutralizes skunk odors." ],
+    "rating": "good",
+    "apply_message": "As you apply the solution, the skunk odor dissipates.",
+    "max_duration": "2 minutes",
+    "removes_effects": [ "skunk_spray" ]
   },
   {
     "type": "effect_type",
@@ -4667,6 +4698,26 @@
     ]
   },
   {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
@@ -4745,7 +4796,7 @@
     "id": "star_vampire_blood_drink",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
-    "desc": [ "The monster is drinking your blood!" ],
+    "desc": [ "The monster is greedily drinking your blood!" ],
     "rating": "bad",
     "resist_traits": [ "BLEED_IMMUNE" ],
     "show_in_info": true,
@@ -4756,6 +4807,23 @@
     "vitamins": [
       { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
       { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
+    ]
+  },
+  {
+    "id": "star_vampire_blood_drink",
+    "type": "effect_type",
+    "name": [ "Hemorrhage" ],
+    "desc": [ "The monster is sucking up your blood!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "show_in_info": true,
+    "max_intensity": 2,
+    "show_intensity": false,
+    "int_decay_step": -2,
+    "int_decay_tick": 1,
+    "vitamins": [
+      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
     ]
   },
   {
@@ -4822,6 +4890,14 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "mute",
+    "show_in_info": true,
+    "name": [ "Mute" ],
+    "desc": [ "You can't talk." ],
+    "flags": [ "MUTE" ]
   },
   {
     "type": "effect_type",
@@ -4904,5 +4980,13 @@
     "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
     "immune_flags": [ "DRACULIN_IMMUNE" ],
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "fragile_frog",
+    "name": [ "Fragile Frog" ],
+    "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
+    "max_duration": "5 m",
+    "show_in_info": true
   }
 ]

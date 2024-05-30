@@ -136,7 +136,13 @@
         [ "egg_peeper_frog", 1 ],
         [ "egg_vocal_frog", 1 ],
         [ "egg_gray_frog", 1 ],
-        [ "egg_shift_frog", 1 ]
+        [ "egg_shift_frog", 1 ],
+        [ "egg_mink_frog", 1 ],
+        [ "egg_pickerel_frog", 1 ],
+        [ "egg_palette_frog", 1 ],
+        [ "egg_green_frog", 1 ],
+        [ "egg_wood_frog", 1 ],
+        [ "egg_spade_frog", 1 ]
       ]
     ]
   },
@@ -450,19 +456,16 @@
     ]
   },
   {
+    "id": "meat_red_raw_steak",
+    "type": "requirement",
+    "//": "A whole slab of raw, red meat.  Substitutes pork and beef, but not chicken, in common recipes.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
+  },
+  {
     "id": "meat_raw_steak",
     "type": "requirement",
-    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "components": [
-      [
-        [ "meat", 1 ],
-        [ "mutant_meat", 1 ],
-        [ "human_flesh", 1 ],
-        [ "mutant_human_flesh", 1 ],
-        [ "demihuman_flesh", 1 ],
-        [ "poultry", 1 ]
-      ]
-    ]
+    "//": "An unbroken slab of raw meat including poultry.  For when scraps aren't good enough.",
+    "components": [ [ [ "meat_red_raw_steak", 1, "LIST" ], [ "poultry", 1 ] ] ]
   },
   {
     "id": "meat_red_raw",
@@ -594,12 +597,11 @@
     ]
   },
   {
-    "id": "meat_cooked",
+    "id": "meat_red_cooked",
     "type": "requirement",
-    "//": "meat you'd put on a sandwich",
+    "//": "cooked red meat.",
     "components": [
       [
-        [ "any_cracklins", 2, "LIST" ],
         [ "meat_cooked", 1 ],
         [ "meat_fatty_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
@@ -610,7 +612,6 @@
         [ "demihuman_cooked", 1 ],
         [ "meat_pickled", 1 ],
         [ "meat_smoked", 1 ],
-        [ "earthworm_dried", 10 ],
         [ "meat_salted", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -620,6 +621,25 @@
         [ "bologna", 2 ],
         [ "can_spam", 2 ],
         [ "fried_spam", 2 ],
+        [ "meat_canned", 1 ],
+        [ "meat_aspic", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "sausage_wasteland", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "meat_fried", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "meat_red_cooked", 1, "LIST" ],
+        [ "any_cracklins", 2, "LIST" ],
+        [ "earthworm_dried", 10 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
         [ "fish_scrap_cooked", 10 ],
@@ -632,16 +652,9 @@
         [ "can_sardine", 1 ],
         [ "can_clams", 1 ],
         [ "salted_fish", 1 ],
-        [ "meat_canned", 1 ],
         [ "fish_canned", 1 ],
         [ "fish_pickled", 1 ],
         [ "lobster_canned", 1 ],
-        [ "meat_aspic", 1 ],
-        [ "sausage", 1 ],
-        [ "sausage_cooked", 1 ],
-        [ "sausage_wasteland", 1 ],
-        [ "bratwurst_sausage", 1 ],
-        [ "meat_fried", 1 ],
         [ "poultry_cooked", 1 ],
         [ "poultry_pepper", 1 ],
         [ "poultry_smoked", 1 ]
@@ -698,6 +711,7 @@
         [ "dry_meat", 1 ],
         [ "can_chicken", 1 ],
         [ "poultry_raw_any", 1, "LIST" ],
+        [ "poultry_smoked", 1 ],
         [ "dry_poultry", 1 ]
       ]
     ]
@@ -1161,6 +1175,8 @@
         [ "corn_kernels", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
+        [ "gherkin_cut", 1 ],
+        [ "gherkin", 1 ],
         [ "lettuce", 1 ],
         [ "onion", 1 ],
         [ "plant_sac", 1 ],
@@ -1179,7 +1195,6 @@
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
-        [ "eggplant", 1 ],
         [ "eggplant_cut", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],

@@ -3087,7 +3087,7 @@
     "result": "knife_carving",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "spike", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -5670,6 +5670,123 @@
     "components": [ [ [ "diamond", 1 ] ] ]
   },
   {
+    "result": "gold_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "bat_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_6", 1 ] ] ]
+  },
+  {
+    "result": "flower_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_6", 1 ] ] ]
+  },
+  {
+    "result": "woven_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 s",
+    "components": [ [ [ "string_6", 8 ] ] ]
+  },
+  {
+    "result": "gold_lip_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_lip_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_lip_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_lip_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_nose_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_nose_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_nose_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_nose_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_toe_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ] ]
+  },
+  {
+    "result": "silver_toe_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ] ]
+  },
+  {
     "result": "razor_shaving",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -5974,11 +6091,11 @@
     "components": [ [ [ "scrap_aluminum", 1 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
-    "result": "cards_magic",
+    "result": "deck_of_cards",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "2 s",
-    "components": [ [ [ "paper", 20 ] ] ],
+    "components": [ [ [ "cardboard", 20 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -6026,6 +6143,22 @@
     "time": "5 m",
     "skill_used": "tailor",
     "difficulty": 3,
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
+  },
+  {
+    "result": "ballistic_vest_light_pouches",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "ballistic_vest_light",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
+  },
+  {
+    "result": "ballistic_vest_light_operator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "ballistic_vest_light",
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
   },
@@ -7298,6 +7431,15 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "skull_skunk",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "deck_chair",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -7310,6 +7452,14 @@
       [ [ "cotton_patchwork", 6 ] ],
       [ [ "splinter", 22 ] ]
     ]
+  },
+  {
+    "result": "v_table",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 14 ] ], [ [ "wood_panel", 1 ] ], [ [ "plank_short", 1 ] ], [ [ "splinter", 4 ] ] ]
   },
   {
     "result": "chair_wood",

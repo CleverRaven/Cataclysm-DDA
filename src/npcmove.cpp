@@ -119,6 +119,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
+static const efftype_id effect_cramped_space( "cramped_space" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
@@ -403,7 +404,7 @@ bool npc::could_move_onto( const tripoint &p ) const
     if( !here.passable( p ) ) {
         return false;
     }
-    if( !move_in_vehicle( const_cast<npc *>( this ), p ) ) {
+    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
         return false;
     }
 
@@ -1223,9 +1224,9 @@ void npc::regen_ai_cache()
         }
     }
     while( i != std::end( ai_cache.sound_alerts ) ) {
-        if( sees( here.getlocal( i->abs_pos ) ) ) {
+        if( sees( here.bub_from_abs( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = creatures.creature_at<npc>( here.getlocal( i->abs_pos ) );
+            npc *const sound_source = creatures.creature_at<npc>( here.bub_from_abs( i->abs_pos ) );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -1601,7 +1602,7 @@ void npc::execute_action( npc_action action )
 
         case npc_investigate_sound: {
             tripoint cur_pos = pos();
-            update_path( here.getlocal( ai_cache.s_abs_pos ) );
+            update_path( here.bub_from_abs( ai_cache.s_abs_pos ) );
             move_to_next();
             if( pos() == cur_pos ) {
                 ai_cache.stuck += 1;
@@ -1730,7 +1731,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
-                fire_gun( tar, mode.qty, *mode, item_location() );
+                fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
@@ -1971,7 +1972,7 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs and any combat items.
     prepare_for_combat();
 
-    evaluate_best_weapon( critter );
+    evaluate_best_attack( critter );
 
     std::optional<int> potential = ai_cache.current_attack_evaluation.value();
     if( potential && *potential > 0 ) {
@@ -1982,7 +1983,7 @@ npc_action npc::method_of_attack()
     }
 }
 
-void npc::evaluate_best_weapon( const Creature *target )
+void npc::evaluate_best_attack( const Creature *target )
 {
     std::shared_ptr<npc_attack> best_attack;
     npc_attack_rating best_evaluated_attack;
@@ -2898,7 +2899,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
-    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !move_in_vehicle( this, p ) ) {
+    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
         auto other_points = here.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
@@ -3141,6 +3142,17 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
+
+        bool cramped = false;
+        if( !can_move_to_vehicle_tile( here.getglobal( p ), cramped ) ) {
+            debugmsg( "NPC %s somehow moved to a too-cramped vehicle tile", disp_name() );
+        } else if( cramped ) { //set by above call to Creature::can_move_to_vehicle_tile
+            if( !has_effect( effect_cramped_space ) ) {
+                add_msg_if_player_sees( *this, m_warning,
+                                        string_format( _( "%s has to really cram their huge body to fit." ), disp_name() ) );
+            }
+            add_effect( effect_cramped_space, 2_turns, true );
+        }
     }
 }
 
@@ -3352,7 +3364,8 @@ void npc::worker_downtime()
         }
         basecamp *temp_camp = *bcp;
         std::vector<tripoint> pts;
-        for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
+        for( const tripoint &elem : here.points_in_radius( here.bub_from_abs(
+                    temp_camp->get_bb_pos() ).raw(),
                 10 ) ) {
             if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
@@ -3587,7 +3600,7 @@ void npc::find_item()
             can_see = true;
             for( item &it : m_stack ) {
                 if( consider_item( it, p ) ) {
-                    wanted_item = item_location{ map_cursor{p}, &it };
+                    wanted_item = item_location{ map_cursor{tripoint_bub_ms( p )}, &it };
                 }
             }
         }
@@ -4042,9 +4055,27 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-bool npc::wield_better_weapon()
+double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
 {
-    // TODO: Allow wielding weaker weapons against weaker targets
+    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
+    // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
+    // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
+    // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
+    // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
+    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( this ) ) : 0;
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
+                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
+    double val_melee = melee_value( maybe_weapon );
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
+                   maybe_weapon.type->get_id().str(), val_melee );
+    double val = std::max( val_gun, val_melee );
+    return val;
+}
+
+item *npc::evaluate_best_weapon() const
+{
     bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
     bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
 
@@ -4053,45 +4084,32 @@ bool npc::wield_better_weapon()
 
     // Check if there's something better to wield
     item *best = &weap;
-    double best_value = -100.0;
+    double best_value = evaluate_weapon( weap, can_use_gun, use_silent );
 
-    const auto compare_weapon =
-    [this, &weap, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
-        bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
-        // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
-        // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
-        // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
-        // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-        double val_gun = allowed ? gun_value( it, it.shots_remaining( this ) ) : 0;
-        add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                       "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                       disp_name( true ), it.type->get_id().str(), val_gun );
-        double val_melee = melee_value( it );
-        add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                       "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                       it.type->get_id().str(), val_melee );
-        double val = std::max( val_gun, val_melee );
-        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
-                                             && &it != &weap
-                                             && it.type->get_id() == weap.type->get_id();
-
-        if( val > best_value && !using_same_type_bionic_weapon ) {
-            best = const_cast<item *>( &it );
-            best_value = val;
-        }
-    };
-
-    compare_weapon( weap );
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
-    compare_weapon( null_item_reference() );
+    double fist_value = evaluate_weapon( null_item_reference(), can_use_gun, use_silent );
 
-    visit_items( [&compare_weapon]( item * node, item * ) {
-        // Only compare melee weapons, guns, or holstered items
+    if( fist_value > best_value ) {
+        best = &null_item_reference();
+        best_value = fist_value;
+    }
+
+    //Now check through the NPC's inventory for melee weapons, guns, or holstered items
+    visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
+        double weapon_value = 0.0;
+        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                             && node != &weap
+                                             && node->type->get_id() == weap.type->get_id();
+
         if( node->is_melee() || node->is_gun() ) {
-            compare_weapon( *node );
+            weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+            if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
+                best = const_cast<item *>( node );
+                best_value = weapon_value;
+            }
             return VisitResponse::SKIP;
         } else if( node->get_use( "holster" ) && !node->empty() ) {
             // we just recur to the next farther down
@@ -4100,21 +4118,37 @@ bool npc::wield_better_weapon()
         return VisitResponse::NEXT;
     } );
 
-    // TODO: Reimplement switching to empty guns
-    // Needs to check reload speed, RELOAD_ONE etc.
-    // Until then, the NPCs should reload the guns as a last resort
+    return best;
+}
 
-    if( best == &weap ) {
+bool npc::wield_better_weapon()
+{
+    // These are also assigned here so npc::evaluate_best_weapon() can be called by itself
+    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
+    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
+
+    item_location weapon = get_wielded_item();
+    item &weap = weapon ? *weapon : null_item_reference();
+    item *best = &weap;
+
+    item *better_weapon = evaluate_best_weapon();
+
+    if( best == better_weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
-                       best_value );
+                       evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
         return false;
     }
 
-    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", best->type->get_id().str(),
-                   best_value );
+    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", better_weapon->type->get_id().str(),
+                   evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
 
-    wield( *best );
+    // Always returns true, but future proof
+    bool wield_success = wield( *better_weapon );
+    if( !wield_success ) {
+        debugmsg( "NPC failed to wield better weapon %s", better_weapon->tname() );
+        return false;
+    }
     return true;
 }
 
@@ -4521,9 +4555,6 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
 
 bool npc::consume_food_from_camp()
 {
-    if( !is_player_ally() ) {
-        return false;
-    }
     Character &player_character = get_player_character();
     std::optional<basecamp *> potential_bc;
     for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
@@ -4538,46 +4569,28 @@ bool npc::consume_food_from_camp()
         return false;
     }
     basecamp *bcp = *potential_bc;
-    if( get_thirst() > 40 && bcp->has_water() ) {
+
+    // Handle water
+    if( get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
         complain_about( "camp_water_thanks", 1_hours,
                         chat_snippets().snip_camp_water_thanks.translated(), false );
         // TODO: Stop skipping the stomach for this, actually put the water in there.
         set_thirst( 0 );
         return true;
     }
-    faction *yours = player_character.get_faction();
 
+    // Handle food
     int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
     int kcal_threshold = get_healthy_kcal() * 19 / 20;
-    if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
+    if( get_hunger() > 0 && current_kcals < kcal_threshold && bcp->allowed_access_by( *this ) ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
-        int kcals_to_eat = std::min( desired_kcals, yours->food_supply.kcal() );
+        int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply.kcal() );
 
         if( kcals_to_eat > 0 ) {
-            // We need food and there's some available, so let's eat it
-            complain_about( "camp_food_thanks", 1_hours,
-                            chat_snippets().snip_camp_food_thanks.translated(), false );
-
-            // Make a fake food object here to feed the NPC with, since camp calories are abstracted away
-
-            // Fill up the stomach to "full" (half of capacity) but no further, to avoid NPCs vomiting
-            // or becoming engorged
-            units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
-
-            // Returns the actual amount of calories and vitamins taken from the camp's larder.
-            nutrients nutr = bcp->camp_food_supply( -kcals_to_eat );
-
-            stomach.ingest( food_summary{
-                0_ml,
-                filling_vol,
-                nutr
-            } );
-            // Ensure our hunger is satisfied so we don't try to eat again immediately.
-            // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
-            set_hunger( -1 );
+            bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ) );
 
             return true;
         } else {
@@ -4602,7 +4615,7 @@ bool npc::consume_food()
     const std::vector<item *> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
-        if( !is_player_ally() ) {
+        if( !needs_food() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );
@@ -4969,7 +4982,7 @@ void npc::go_to_omt_destination()
     }
     // TODO: fix point types
     tripoint sm_tri =
-        here.getlocal( project_to<coords::ms>( omt_path.back() ).raw() );
+        here.bub_from_abs( project_to<coords::ms>( omt_path.back() ) ).raw();
     tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !here.passable( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );

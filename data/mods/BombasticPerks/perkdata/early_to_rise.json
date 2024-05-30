@@ -1,0 +1,33 @@
+[
+  {
+    "id": "morale_perk_early_to_rise",
+    "type": "morale_type",
+    "text": "Early Riser"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTENTION_NIGHTMARES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_early_to_rise" },
+        {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 4" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 7" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_morale": "morale_perk_early_to_rise",
+        "bonus": 20,
+        "max_bonus": 20,
+        "duration": "6 hours",
+        "decay_start": "3 hours"
+      }
+    ]
+  }
+]

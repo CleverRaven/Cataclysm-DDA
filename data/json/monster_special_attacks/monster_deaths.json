@@ -69,7 +69,7 @@
     "shape": "blast",
     "effect": "attack",
     "max_level": 2,
-    "field_id": "fd_reality_tear",
+    "field_id": "fd_fatigue",
     "field_chance": 1,
     "min_field_intensity": 1,
     "field_intensity_increment": 1,
@@ -284,6 +284,18 @@
     "shape": "blast",
     "effect": "emit",
     "effect_str": "emit_smoke_blast",
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  },
+  {
+    "id": "death_smokeburst_tiny",
+    "type": "SPELL",
+    "name": { "str": "Tiny Smoke Explosion" },
+    "description": "Causes a tiny explosion of smoke.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_smoke_plume",
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {

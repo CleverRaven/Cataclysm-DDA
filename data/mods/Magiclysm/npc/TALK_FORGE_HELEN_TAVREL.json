@@ -103,6 +103,7 @@
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_REAGENT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_REAGENT_DOING" },
+      { "text": "When are you getting new stuff?", "topic": "TALK_FORGE_REAGENT_ASK_INTERVAL" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -115,5 +116,19 @@
       "no": "A lifetime of plunder has brought me many a strange item - that you can have for unbeatable prices!"
     },
     "responses": [ { "text": "Well, shiver me timbers then.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
+  },
+  {
+    "id": "TALK_FORGE_REAGENT_ASK_INTERVAL",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "Do you think me a fool, to tell an officer of the law my current plans?",
+        "Not even trying to ask me that undercover?  By the seventeen seas, officers of the law really ARE made worse these days.",
+        "The end of times is here and that's what you're worried about?  You should get your priorities straight."
+      ],
+      "no": "Well you obviously aren't an officer so here's the deal.  There's a mighty fine galleon making land in <interval>, I'm certain to have something good by then."
+    },
+    "responses": [ { "text": "May the seas be ever in your favor", "topic": "TALK_FORGE_LORD_REAGENT" } ]
   }
 ]

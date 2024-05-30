@@ -50,7 +50,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SPARK_SIGHT",
@@ -88,7 +88,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SHOCK_TOUCH",
@@ -126,7 +126,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_ZAP_ENEMIES",
@@ -215,7 +215,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_MELEE_ATTACKS",
@@ -304,7 +304,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_HACKING_INTERFACE",
@@ -393,7 +393,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_ROBOT_INTERFACE",
@@ -482,7 +482,7 @@
         [ "matrix_crystal_electrokinesis", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTRO_PERSONAL_BATTERY",
@@ -572,7 +572,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_PARALYSIS",
@@ -662,7 +662,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_REDUCE_PAIN",
@@ -752,7 +752,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BOLT",
@@ -842,7 +842,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_RECHARGE_VEHICLE",
@@ -932,7 +932,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_SPEED_BOOST",
@@ -1022,7 +1022,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_PAIN_IMMUNE",
@@ -1112,7 +1112,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_KILL_ROBOT",
@@ -1202,7 +1202,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_AURA",
@@ -1292,7 +1292,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_LIGHTNING_BLAST",
@@ -1382,7 +1382,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_electrokin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_ELECTROKIN_REVIVE",

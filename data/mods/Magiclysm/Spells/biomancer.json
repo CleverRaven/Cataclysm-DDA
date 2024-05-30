@@ -99,9 +99,9 @@
     "effect": "attack",
     "effect_str": "bio_boost",
     "shape": "blast",
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 0.33)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5, 0.05)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50, 0.33)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_energy_cost": 250,
     "energy_increment": -5.0,
@@ -112,9 +112,9 @@
     "max_level": 20,
     "flags": [ "SOMATIC", "LOUD" ],
     "//": "duration is in moves",
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2700)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000, 360)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 360)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2700, 0.05)" ] }
   },
   {
     "id": "bio_acidicspray",
@@ -353,13 +353,13 @@
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(200)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(200, 2)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_energy_cost": 100,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4200)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000, 560)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 560)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4200, 0.05)" ] }
   },
   {
     "id": "corrosive_aura_spell",
@@ -452,13 +452,13 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(120000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(120000, 1600)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 1600)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000, 0.1)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "energy_source": "MANA",
     "base_energy_cost": 200,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1000)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1000, 6.7)" ] }
   },
   {
     "id": "biomancer_giant_growth",
@@ -473,13 +473,13 @@
     "shape": "blast",
     "difficulty": 6,
     "max_level": 15,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 400)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 400)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 1)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -542,12 +542,12 @@
     "difficulty": 3,
     "energy_source": "MANA",
     "max_level": 10,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2800)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000, 200)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 200)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2800, 0.093)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_energy_cost": 250,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] }
   },
   {
     "id": "biomancer_lashing_tentacles",
@@ -605,16 +605,16 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60480000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60480000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60480000, 403200)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60480000, 403200)" ] },
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(90000)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(30000)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-6000)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(90000, 400)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(30000, 400)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-6000, 0.1)" ] }
   },
   {
     "id": "biomancer_hyper_regeneration",
@@ -629,12 +629,12 @@
     "shape": "blast",
     "difficulty": 10,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(3000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(13000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(500)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(3000, 66.7)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(13000, 66.7)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(500, 0.05)" ] },
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_energy_cost": { "math": [ "enhancement_proficiency_negate_calculate(900)" ] },
+    "base_energy_cost": { "math": [ "enhancement_proficiency_negate_calculate(900, 6)" ] },
     "base_casting_time": 150
   },
   {
@@ -650,13 +650,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOMANCER_SLOW_BLEEDING",
     "shape": "blast",
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(630000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 3600)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(630000, 3600)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 250,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(350)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(350, 2)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -722,13 +722,13 @@
     "shape": "blast",
     "difficulty": 7,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1380000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000, 8000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1380000, 8000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 0.05)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 450,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(600)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(600, 4)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -767,12 +767,12 @@
     "shape": "blast",
     "difficulty": 3,
     "max_level": 16,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(72000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1224000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(72000, 7680)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1224000, 7680)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000, 0.0625)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] }
   }
 ]

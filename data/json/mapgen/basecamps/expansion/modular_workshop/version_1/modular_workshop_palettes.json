@@ -10,6 +10,7 @@
       "t": "f_table",
       "x": "f_kiln_empty",
       "A": "f_anvil",
+      "C": "f_chimney",
       "L": "f_locker",
       "Q": "f_bellows"
     }
@@ -31,7 +32,9 @@
       "x": "t_thconc_floor",
       "z": "t_dirt",
       "B": "t_thconc_floor",
-      "M": "t_thconc_floor"
+      "C": "t_concrete_roof",
+      "M": "t_thconc_floor",
+      "R": "t_concrete_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -47,7 +50,9 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
-      "M": "f_armchair"
+      "C": "f_chimney",
+      "M": "f_armchair",
+      "Y": "f_chimney"
     }
   },
   {
@@ -67,7 +72,9 @@
       "x": "t_dirtfloor",
       "z": "t_dirt",
       "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
+      "C": "t_wood_treated_roof",
+      "M": "t_dirtfloor",
+      "R": "t_wood_treated_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -83,6 +90,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   },
@@ -103,7 +111,9 @@
       "x": "t_dirtfloor",
       "z": "t_dirt",
       "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
+      "C": "t_metal_flat_roof",
+      "M": "t_dirtfloor",
+      "R": "t_metal_flat_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -119,6 +129,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   },
@@ -139,7 +150,9 @@
       "x": "t_floor_resin",
       "z": "t_dirt",
       "B": "t_floor_resin",
-      "M": "t_floor_resin"
+      "C": "t_resin_roof",
+      "M": "t_floor_resin",
+      "R": "t_resin_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -155,6 +168,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   },
@@ -175,7 +189,9 @@
       "x": "t_dirtfloor",
       "z": "t_dirt",
       "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
+      "C": "t_log_sod_roof",
+      "M": "t_dirtfloor",
+      "R": "t_log_sod_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -191,6 +207,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   },
@@ -211,7 +228,9 @@
       "x": "t_dirtfloor",
       "z": "t_dirt",
       "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
+      "C": "t_wood_treated_roof",
+      "M": "t_dirtfloor",
+      "R": "t_wood_treated_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -227,6 +246,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   },
@@ -247,7 +267,9 @@
       "x": "t_dirtfloor",
       "z": "t_dirt",
       "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
+      "C": "t_log_sod_roof",
+      "M": "t_dirtfloor",
+      "R": "t_log_sod_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -263,6 +285,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   },
@@ -283,7 +306,9 @@
       "x": "t_dirtfloor",
       "z": "t_dirt",
       "B": "t_dirtfloor",
-      "M": "t_dirtfloor"
+      "C": "t_wood_treated_roof",
+      "M": "t_dirtfloor",
+      "R": "t_wood_treated_roof"
     },
     "furniture": {
       ".": "f_clear",
@@ -299,6 +324,7 @@
       "x": "f_kiln_empty",
       "z": "f_55gal_firebarrel",
       "B": "f_bookcase",
+      "C": "f_chimney",
       "M": "f_armchair"
     }
   }

@@ -1096,19 +1096,19 @@
     "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-      [ "helicopter_apache_1a", 100 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_osprey_2a", 100 ],
-      [ "helicopter_osprey_2b", 400 ],
-      [ "helicopter_osprey_2c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ],
-      [ "2seater2_Wreck", 400 ],
-      [ "SmallFlier3_Wreck", 400 ],
-      [ "Smallflier1_Wreck", 400 ],
-      [ "SmallFlier2_Wreck", 400 ],
+      [ "helicopter_apache_1a", 1 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_osprey_2a", 1 ],
+      [ "helicopter_osprey_2b", 4 ],
+      [ "helicopter_osprey_2c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ],
+      [ "2seater2_Wreck", 4000 ],
+      [ "SmallFlier3_Wreck", 4000 ],
+      [ "Smallflier1_Wreck", 4000 ],
+      [ "SmallFlier2_Wreck", 4000 ],
       [ "Medevac1_Wreck", 400 ],
       [ "Medevac2_Wreck", 400 ]
     ]
@@ -1117,16 +1117,16 @@
     "type": "vehicle_group",
     "id": "crashed_helicopters_small",
     "vehicles": [
-      [ "helicopter_apache_1a", 100 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ],
-      [ "2seater2_Wreck", 400 ],
-      [ "SmallFlier3_Wreck", 400 ],
-      [ "Smallflier1_Wreck", 400 ],
-      [ "SmallFlier2_Wreck", 400 ],
+      [ "helicopter_apache_1a", 1 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ],
+      [ "2seater2_Wreck", 4000 ],
+      [ "SmallFlier3_Wreck", 4000 ],
+      [ "Smallflier1_Wreck", 4000 ],
+      [ "SmallFlier2_Wreck", 4000 ],
       [ "Medevac1_Wreck", 400 ],
       [ "Medevac2_Wreck", 400 ]
     ]
@@ -1140,13 +1140,13 @@
       [ "2seater2_Wreck", 200 ],
       [ "SmallFlier3_Wreck", 100 ],
       [ "SmallFlier2", 400 ],
-      [ "Medevac1", 100 ],
+      [ "Medevac1", 10 ],
       [ "Smallflier1_Wreck", 200 ],
       [ "SmallFlier2_Wreck", 200 ],
-      [ "Medevac1_Wreck", 100 ],
+      [ "Medevac1_Wreck", 10 ],
       [ "SmallFlier3", 400 ],
-      [ "Medevac2", 200 ],
-      [ "Medevac2_Wreck", 200 ]
+      [ "Medevac2", 20 ],
+      [ "Medevac2_Wreck", 20 ]
     ]
   },
   {
@@ -1156,9 +1156,9 @@
       [ "2seater2", 100 ],
       [ "SmallFlier1", 400 ],
       [ "SmallFlier2", 400 ],
-      [ "Medevac1", 100 ],
+      [ "Medevac1", 10 ],
       [ "SmallFlier3", 400 ],
-      [ "Medevac2", 200 ]
+      [ "Medevac2", 20 ]
     ]
   },
   {
@@ -1169,15 +1169,15 @@
       [ "Medevac2", 200 ],
       [ "Medevac1_Wreck", 200 ],
       [ "Medevac2_Wreck", 200 ],
-      [ "helicopter_apache_1a", 200 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_osprey_2a", 100 ],
-      [ "helicopter_osprey_2b", 400 ],
-      [ "helicopter_osprey_2c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ]
+      [ "helicopter_apache_1a", 2 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_osprey_2a", 1 ],
+      [ "helicopter_osprey_2b", 4 ],
+      [ "helicopter_osprey_2c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ]
     ]
   },
   {
@@ -1188,12 +1188,12 @@
       [ "Medevac2", 200 ],
       [ "Medevac1_Wreck", 200 ],
       [ "Medevac2_Wreck", 200 ],
-      [ "helicopter_apache_1a", 200 ],
-      [ "helicopter_apache_1b", 400 ],
-      [ "helicopter_apache_1c", 200 ],
-      [ "helicopter_blackhawk_3a", 100 ],
-      [ "helicopter_blackhawk_3b", 400 ],
-      [ "helicopter_blackhawk_3c", 200 ]
+      [ "helicopter_apache_1a", 2 ],
+      [ "helicopter_apache_1b", 4 ],
+      [ "helicopter_apache_1c", 2 ],
+      [ "helicopter_blackhawk_3a", 10 ],
+      [ "helicopter_blackhawk_3b", 40 ],
+      [ "helicopter_blackhawk_3c", 20 ]
     ]
   },
   {

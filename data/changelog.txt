@@ -106,6 +106,20 @@ Add u_wants_to_talk/npc_wants_to_talk EOC effects
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
 Implement IME pre-edit text for CJK text
 Allow effects disabling (conditional) limb flags
+Threshold substitutions
+Small scale anaerobic digestion system
+Shatter a zombie's torso armour with a good hard hit.
+Limbify Feathered Arms, rework gaining Bird Wings
+Unhardcode KI strike / Drunken master
+Make power grids easier to disconnect, reconnect, and merge parts to
+Beast mutants can mutate quills
+Adds a new trait, Tiny Stomach
+Add new hairstyles from Mawranth's Hair Salon
+Unhardcode and limbify attack vectors
+Add new function follower_present for use in JSON
+Graphical construction preview
+Resume butchering
+The player can swap between defined outfits with the 'set of clothes' item
 
 
 ## Content:
@@ -216,7 +230,24 @@ Pictures for House fluff
 Added Hub 01 mission signposting LIXA
 Crafting Musical Instruments
 Additional Achievements
-
+Honk your clown nose!
+Add a new LMOE mapgen layout
+Eeeeven MOOORE mission context dialogue for Liam (Friends to the End).
+Adds a significant amount of extra dialogue and conditionals to Isherwood (Isherwood update part 1, 50% done)
+Add a new high danger Yrax construct
+Add poultry meat
+Adds ASCII Art to 619
+Created Map Extra that spawns monsters from the Group_Worm
+Adds a lot of mission-specific and chat/small-talk dialogue to Liam (Friends to the End scenario)
+Rework exoskeletons
+Adds still more mission-specific dialogue for Liam (Friends to the End)
+Add XL and XS versions for french maid clothes/aprons/hats
+Fridges and freezers. What do you mean 'we already have some'?
+New portal monsters: unviable life forms
+Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
+Adds a new  globally unique special to spawn in the ocean : an Oil Platform !
+Overhaul and flesh out Barry Isherwood's rescue mission
+Prepper Militia Community
 
 
 ## Interface:
@@ -273,6 +304,14 @@ Can't accidentally select full deconstruction if simple deconstruction is availa
 Set priority for containers that have auto whitelisting.
 Tile cover is now named concealment, because that's all it actually does.
 When opening spellcasting menu, go to favorite spells tab if player has favorited spells
+AIM: when cannot wear, try to wield
+Separate keybinding to select default ammo for RELOAD_AND_SHOOT/RELOAD_ONE weapon
+Show NEW! in List Items menu
+Adding spell name to the casting... widget
+Adding Classless as a supernatural category
+Mission UI migrated to imGUI
+Provide a visual UI for changing vehicle part shapes
+
 
 
 ## Mods:
@@ -401,6 +440,34 @@ XE: Trait to avoid learning dream magick
 [MoM] Power maintenance message change
 [DinoMod] Iguanodon
 [Bombastic Perks] Add more perks
+[MoM] Add `city_sizes` parameter to city buildings
+[Sky Island] Add east bunker room upgrades to possible missions 
+[MoM] Rework Far Hand into the "Move items" power and Force Shove into the "move creatures" power
+Tune conveyance spells with scaling modifier
+[MoM] Add the Megakinesis telekinetic power
+[Sky Island] Add buildable north chamber missions and mapgen
+[MoM] Add actual fear effect to Primal Terror telepathic power
+Aftershock: Add two crashed shuttle maps
+[Bombastic Perks] Add Stormwrought line of playstyle perks
+[MoM] Add pseudo tool to nether crystal outcroppings, add that tool as a possibility to contemplation recipes
+[Bombastic Perks] Yet more perks
+[MoM] Add zombie breaker, change MoM zombies to copy-from mon_zombie_base
+[MoM] Fix Force Shove to account for target weight
+[MoM] Add Astral Projection Clairsentient power
+[DinoMod] falcarius
+[Sky Island] Add west bunker room upgrades to possible mission
+[DinoMod] skeletal looks_like fix
+Technomancer pain ignoring spell
+[MoM] Add `city_sizes` parameter to city buildings
+Aftershock: New combat bionics
+[Xedra Evolved] Even more paraclesian powers
+[Sky Island] Upgrade central skylight missions and mapgen
+Aftershock: Add a space station clothes store
+[MoM] Using psionics in or near the Nether is more powerful, but also more risky
+[No Hope] Adds a difficulty setting prompt to determine item spawn rates
+[MoM] Add triffid psions
+Aftershock: Add poison based bullets, grenades and 'toxic flamethrower'
+Give Liam opinions in XE
 
 
 ## Balance:
@@ -464,6 +531,13 @@ Instability no longer accumulates or decreases; it depends on how many mutations
 Pain is painful
 Pain was a bit too painful
 shoggoths cannot eat artifacts
+Removed palm metal plating on brigandine gloves
+City buildings are restricted to spawn in (more) appropriately sized cities
+Unattended crops that are ready to harvest will die if not harvested before their next growth period
+Make Quadcopter Drones Produce Sound
+Make most plastic and glass containers transparent
+Added limb blocking to bionic styles
+The average skill level of NPCs will rise over time
 
 
 ## Bugfixes:
@@ -605,6 +679,31 @@ fixing issues where ImGui popup changes size sporadically. Fix issue where keybi
 fixes issue where all ImGui windows display wrong when the window scaling is not 1
 Fixed issue where new ImGui popup does not obey the default option requested by user
 Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
+Fixed frame lag in imgui text inputs
+Fridges do not drop 999 kilo of copper when disassembled
+Cureall Effect (Panacea) now cures early stages of cold and flu
+Fixed arrows disappearing when unwielded
+Make pupating zombie explosion quieter
+Fixed issue where new ImGui popup does not obey the default option requested by user
+Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
+Fix segfault-causing error in _characters_nearby
+Fix shotgun speedloader and speedloader chute
+Do not try to unload your bow when it is not loaded.
+Favorite ammo must be on the avatar.
+Fix split vehicles always using the incorrect pivot point
+Transformed active mutations (extended claws etc) properly cause instability
+Only count CONTAINER type pockets in the pickup inventory
+Allow select-all when highlighted item is non-selectable
+Eddie can talk about his father.
+Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall length is too long
+Wet Towels No Longer Prompt to be Turned Off
+Maybe prevent rare crater generation error
+AIM: Now moving all items will not move favourite items, if other items are present.
+Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
+Fixed issue where Android gesture inputs were not recognized by ImGui windows
+Fixed arrows disappearing when unwielded
+Fix for massive slowdown when NPC crafting speed drops below 0.0
+Pseudo terrain appearing in fields when using mods is fixed (won't affect existing fields)
 
 
 ## Performance:
@@ -630,6 +729,9 @@ Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
 Skip MGOAL_Find_Item if the player is busy.
 Avoid wasteful loop in map special road connections
+Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
+Faster ascii overmap drawing
+Optimize item::stacks as well as allocation patterns in item and elsewhere
 
 
 ## Infrastructure:
@@ -683,6 +785,9 @@ Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing dif
 EOC proficiency adjustments use normal training route by default
 Improve spell checker tokenization and reporting
 Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
+Use test enumerating item spawns to make assertions about the rate of appearance of different items.
+Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
+refactored ImTuis drawing code to fix a black screen issue, and to improve performance
 
 
 ## Build:
@@ -701,12 +806,14 @@ CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
+Update Flatpak manifest to use clang and include the default soundpack
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
+Add more English names and their translations to Simplified Chinese and Japanese
 
 
 # 0.G (Gaiman)

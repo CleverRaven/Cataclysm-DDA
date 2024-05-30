@@ -28,6 +28,7 @@
     "name": "rural building",
     "sym": "#",
     "color": "i_brown",
+    "delete": { "flags": [ "RISK_HIGH" ] },
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ] }
   },
   {

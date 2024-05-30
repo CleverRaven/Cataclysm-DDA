@@ -16,6 +16,7 @@
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "json.h"
 #include "output.h"
@@ -26,9 +27,12 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#if !(defined(TILES) || defined(WIN32))
 #include "cata_imgui.h"
-#endif
+
+nc_color::operator ImVec4()
+{
+    return cataimgui::imvec4_from_color( *this );
+}
 
 void nc_color::serialize( JsonOut &jsout ) const
 {

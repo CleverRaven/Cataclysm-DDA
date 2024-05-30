@@ -220,7 +220,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur.pos();
+            return cur.pos().raw();
         }
 
         Character *carrier() const override {
@@ -230,7 +230,7 @@ class item_location::impl::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos() );
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos().raw() );
             }
             return res;
         }
@@ -263,7 +263,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos(), cur.pos() );
+            mv += 100 * rl_dist( ch.pos(), cur.pos().raw() );
 
             // TODO: handle unpacking costs
 
@@ -717,7 +717,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 return 0;
             }
 
-            int primary_cost = ch.item_handling_cost( *target(), true, container_mv );
+            int primary_cost = ch.item_handling_cost( *target(), true, container_mv, qty );
             primary_cost = ch.enchantment_cache->modify_value( enchant_vals::mod::OBTAIN_COST_MULTIPLIER,
                            primary_cost );
             int parent_obtain_cost = container.obtain_cost( ch, qty );
@@ -829,7 +829,7 @@ void item_location::deserialize( const JsonObject &obj )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -842,7 +842,7 @@ void item_location::deserialize( const JsonObject &obj )
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->all_items_top();
@@ -1157,3 +1157,17 @@ std::unique_ptr<talker> get_talker_for( item_location *it )
     return std::make_unique<talker_item>( it );
 }
 
+bool item_location::can_reload_with( const item_location &ammo, bool now ) const
+{
+    const item_location reloadable = *this;
+    if( reloadable->is_gun() && !reloadable->ammo_default() ) {
+        return false;
+    } else if( reloadable->is_magazine() ) {
+        if( reloadable.has_parent() ) {
+            if( reloadable.parent_item()->is_gun() && !reloadable.parent_item()->ammo_default() ) {
+                return false;
+            }
+        }
+    }
+    return reloadable->can_reload_with( *ammo, now );
+}

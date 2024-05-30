@@ -1,0 +1,165 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "nest_conditional_placement_test_mutable",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "check_for_locations_area": [ { "type": [ "land", "ncpt_predecessors" ], "from": [ -1, -1, 0 ], "to": [ 1, 1, 0 ] } ],
+    "rotate": false,
+    "occurrences": [ 0, 0 ],
+    "joins": [ "ncpt_joins" ],
+    "overmaps": {
+      "test_map": {
+        "overmap": "nest_conditional_placement_test",
+        "north": "ncpt_joins",
+        "east": "ncpt_joins",
+        "locations": [ "ncpt_predecessors" ]
+      },
+      "neighbors_s": { "overmap": "ncpt_neighbors", "south": "ncpt_joins" },
+      "neighbors_w": { "overmap": "ncpt_neighbors", "west": "ncpt_joins" },
+      "flags": { "overmap": "ncpt_flags" }
+    },
+    "root": "test_map",
+    "phases": [
+      [
+        {
+          "name": "maps_for_conditions",
+          "chunk": [
+            { "overmap": "neighbors_s", "pos": [ 0, -1, 0 ] },
+            { "overmap": "neighbors_w", "pos": [ 1, 0, 0 ] },
+            { "overmap": "flags", "pos": [ 0, 1, 0 ] },
+            { "overmap": "flags", "pos": [ -1, 0, 0 ] }
+          ],
+          "max": 1
+        }
+      ]
+    ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ncpt_predecessors",
+    "terrains": [ "ncpt_predecessors" ]
+  },
+  {
+    "method": "json",
+    "om_terrain": "nest_conditional_placement_test",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_linoleum_gray",
+      "place_nested": [
+        { "chunks": [ "1x1_ncpt" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "1x1_ncpt" ], "x": 0, "y": 1 },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": { "north": [ "ncpt_neighbors" ], "east": [ "ncpt_neighbors" ] },
+          "x": 1,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": { "south": [ "ncpt_neighbors" ], "west": [ "ncpt_neighbors" ] },
+          "x": 1,
+          "y": 1
+        },
+        { "chunks": [ "1x1_ncpt" ], "joins": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ] }, "x": 2, "y": 0 },
+        { "chunks": [ "1x1_ncpt" ], "joins": { "south": [ "ncpt_joins" ], "west": [ "ncpt_joins" ] }, "x": 2, "y": 1 },
+        { "chunks": [ "1x1_ncpt" ], "flags": { "south": [ "RISK_HIGH" ], "west": [ "RISK_HIGH" ] }, "x": 3, "y": 0 },
+        { "chunks": [ "1x1_ncpt" ], "flags": { "north": [ "RISK_HIGH" ], "east": [ "RISK_HIGH" ] }, "x": 3, "y": 1 },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "flags_any": { "north": [ "RISK_HIGH" ], "east": [ "RISK_HIGH" ], "south": [ "RISK_HIGH" ], "west": [ "RISK_HIGH" ] },
+          "x": 4,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "flags_any": { "north": [ "RISK_LOW" ], "east": [ "RISK_LOW" ], "south": [ "RISK_LOW" ], "west": [ "RISK_LOW" ] },
+          "x": 4,
+          "y": 1
+        },
+        { "chunks": [ "1x1_ncpt" ], "predecessors": [ "ncpt_predecessors" ], "x": 5, "y": 0 },
+        { "chunks": [ "1x1_ncpt" ], "predecessors": [ "field" ], "x": 5, "y": 1 },
+        { "chunks": [ "1x1_ncpt" ], "check_z": [ 0, 2, 4 ], "x": 6, "y": 0 },
+        { "chunks": [ "1x1_ncpt" ], "check_z": [ -1, 1, 3 ], "x": 6, "y": 1 },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": {
+            "north": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "east": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "south": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "west": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ]
+          },
+          "x": 22,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": {
+            "above": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "below": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ]
+          },
+          "x": 22,
+          "y": 1
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": { "north": [ "ncpt_neighbors" ], "east": [ "ncpt_neighbors" ] },
+          "joins": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ] },
+          "flags": { "south": [ "RISK_HIGH" ], "west": [ "RISK_HIGH" ] },
+          "x": 23,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": { "north": [ "ncpt_neighbors" ], "east": [ "ncpt_neighbors" ] },
+          "joins": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ] },
+          "flags": { "south": [ "RISK_LOW" ], "west": [ "RISK_LOW" ] },
+          "x": 23,
+          "y": 1
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": [ "ncpt_predecessors", "ncpt_flags", "ncpt_neighbors" ],
+    "type": "mapgen",
+    "object": { "fill_ter": "t_linoleum_gray" }
+  },
+  {
+    "method": "json",
+    "nested_mapgen_id": "1x1_ncpt",
+    "type": "mapgen",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "." ], "terrain": { ".": "t_linoleum_white" } }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "ncpt_generic",
+    "name": "nest conditional placement test",
+    "sym": ".",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "nest_conditional_placement_test",
+    "copy-from": "ncpt_generic",
+    "extend": { "flags": [ "REQUIRES_PREDECESSOR" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ncpt_predecessors",
+    "copy-from": "ncpt_generic"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ncpt_flags",
+    "copy-from": "ncpt_generic",
+    "extend": { "flags": [ "RISK_HIGH" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ncpt_neighbors",
+    "copy-from": "ncpt_generic"
+  }
+]

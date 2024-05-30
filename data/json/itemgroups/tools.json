@@ -17,42 +17,6 @@
     ]
   },
   {
-    "id": "tools_simple_blacksmith",
-    "type": "item_group",
-    "//": "Tools commonly used by amateur blacksmiths. A subset of blacksmiths tools",
-    "items": [ { "group": "basic_metalworking_a", "prob": 40 }, { "group": "basic_metalworking_b", "prob": 60 } ]
-  },
-  {
-    "id": "basic_metalworking_a",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_large",
-    "entries": [
-      { "item": "anvil", "count": 1 },
-      { "item": "chisel", "count": 1 },
-      { "item": "metal_file", "count": 1 },
-      { "item": "hotcut", "count": 1 },
-      { "item": "metalworking_tongs", "count": 1 },
-      { "item": "hammer", "count": 1 },
-      { "item": "sandpaper", "count": 1 }
-    ]
-  },
-  {
-    "id": "basic_metalworking_b",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_large",
-    "entries": [
-      { "item": "anvil", "count": 1 },
-      { "item": "metal_file", "count": 1 },
-      { "item": "metalworking_tongs", "count": 1 },
-      { "item": "hammer", "count": 1 },
-      { "item": "sandpaper", "count": 1 }
-    ]
-  },
-  {
     "id": "tools_carpentry",
     "type": "item_group",
     "//": "Portable tools used for carpentry",
@@ -118,7 +82,7 @@
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
       [ "aluminum_stepladder", 5 ],
-      { "item": "misc_repairkit", "prob": 25, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 25 },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
       { "group": "tools_common_small", "prob": 500 }
@@ -225,7 +189,6 @@
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
-      { "group": "tools_simple_blacksmith", "prob": 10 },
       [ "jumper_cable_heavy", 2 ],
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
@@ -861,7 +824,7 @@
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],
       [ "duct_tape", 8 ],
-      { "item": "misc_repairkit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 15 },
       { "item": "welder", "prob": 10 },
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {

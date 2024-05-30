@@ -34,7 +34,19 @@
 #include <string>
 #include <thread>
 
-WINDOW* imtui_win = nullptr;
+// SDL_Renderer data
+struct ImTui_ImplNCurses_Data
+{
+    std::vector<WINDOW*> imtui_wins;
+    ImTui_ImplNCurses_Data() { memset((void*)this, 0, sizeof(*this)); }
+};
+
+// Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
+// It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
+static ImTui_ImplNCurses_Data* ImTui_ImplNCurses_GetBackendData()
+{
+    return ImGui::GetCurrentContext() ? (ImTui_ImplNCurses_Data*)ImGui::GetIO().BackendRendererUserData : nullptr;
+}
 
 namespace
 {
@@ -60,17 +72,6 @@ struct VSync {
         auto tNextCur_us = tNext_us + tStep_us;
 
         while( tNow_us < tNextCur_us - 100 ) {
-            if( tNow_us + 0.5 * tStepActive_us < tNextCur_us ) {
-                int ch = wgetch( imtui_win );
-
-                if( ch != ERR ) {
-                    ungetch( ch );
-                    tNextCur_us = tNow_us;
-
-                    return;
-                }
-            }
-
             std::this_thread::sleep_for( std::chrono::microseconds(
                                              std::min( ( uint64_t )( 0.9 * tStepActive_us ),
                                                      ( uint64_t )( 0.9 * ( tNextCur_us - tNow_us ) )
@@ -93,12 +94,14 @@ struct VSync {
 }
 
 static VSync g_vsync;
-static ImTui::TScreen *g_screen = nullptr;
 
-ImTui::TScreen *ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
+void ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
 {
-    if( g_screen == nullptr ) {
-        g_screen = new ImTui::TScreen();
+    if( ImGui::GetCurrentContext()->IO.BackendPlatformUserData == nullptr ) {
+        ImGui::GetCurrentContext()->IO.BackendPlatformUserData = new ImTui::ImplImtui_Data();
+    }
+    if(ImGui::GetIO().BackendRendererUserData == nullptr) {
+        ImGui::GetIO().BackendRendererUserData = new ImTui_ImplNCurses_Data();
     }
 
     if( fps_idle < 0.0 ) {
@@ -107,7 +110,7 @@ ImTui::TScreen *ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
     fps_idle = std::min( fps_active, fps_idle );
     g_vsync = VSync( fps_active, fps_idle );
 
-    imtui_win = newwin(LINES, COLS, 0, 0);
+    //imtui_win = newwin(LINES, COLS, 0, 0);
     ImGui::GetIO().KeyMap[ImGuiKey_Tab]         = 9;
     ImGui::GetIO().KeyMap[ImGuiKey_LeftArrow]   = 260;
     ImGui::GetIO().KeyMap[ImGuiKey_RightArrow]  = 261;
@@ -139,8 +142,6 @@ ImTui::TScreen *ImTui_ImplNcurses_Init( float fps_active, float fps_idle )
 
     getmaxyx( stdscr, screenSizeY, screenSizeX );
     ImGui::GetIO().DisplaySize = ImVec2( screenSizeX, screenSizeY );
-
-    return g_screen;
 }
 
 void ImTui_ImplNcurses_Shutdown()
@@ -148,11 +149,11 @@ void ImTui_ImplNcurses_Shutdown()
     // ref #11 : https://github.com/ggerganov/imtui/issues/11
     printf( "\033[?1003l\n" ); // Disable mouse movement events, as l = low
 
-    if( g_screen ) {
-        delete g_screen;
+    ImTui_ImplNCurses_Data* data = ImTui_ImplNCurses_GetBackendData();
+    if( data ) {
+        delete data;
+        ImGui::GetIO().BackendRendererUserData = nullptr;
     }
-
-    g_screen = nullptr;
 }
 
 bool ImTui_ImplNcurses_NewFrame( std::vector<std::pair<int, ImTui::mouse_event>> key_events )
@@ -284,23 +285,6 @@ static int nActiveFrames = 10;
 static ImTui::TScreen screenPrev;
 static std::array<std::pair<bool, int>, 256 * 256> colPairs;
 
-bool is_in_bounds( int x, int y )
-{
-    ImGuiContext *ctxt = ImGui::GetCurrentContext();
-    // skip the first window, since ImGui seems to always have a "dummy" window that takes up most of the screen
-    for( int index = 1; index < ctxt->Windows.size(); index++ ) {
-        ImGuiWindow *win = ctxt->Windows[index];
-        if(win->Collapsed || !win->Active) {
-            continue;
-        }
-        if( x >= win->Pos.x && x < ( win->Pos.x + win->Size.x )  &&
-            y >= win->Pos.y && y < ( win->Pos.y + win->Size.y ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void ImTui_ImplNcurses_UploadColorPair( short p, short f, short b )
 {
     uint16_t imtui_p = b * 256 + f;
@@ -313,75 +297,89 @@ void ImTui_ImplNcurses_SetAllocedPairCount( short p )
     nColPairs = std::max(nColPairs, p) + 1;
 }
 
+void create_destroy_curses_windows(std::vector<WINDOW*> &windows)
+{
+    size_t cursesWinIdx = 0;
+    int imguiWinIdx = 0;
+    for(; imguiWinIdx < GImGui->Windows.Size; imguiWinIdx++) {
+        ImGuiWindow* imwin = GImGui->Windows[imguiWinIdx];
+        if(imwin->Collapsed || !imwin->Active) {
+            continue;
+        }
+        if(windows.size() <= cursesWinIdx) {
+            windows.push_back(newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x)));
+        } else {
+            WINDOW* win = windows[cursesWinIdx];
+            
+            if(getbegx( win ) != short(imwin->Pos.x) || getbegy( win ) != short(imwin->Pos.y) || getmaxx(win) != short(imwin->Size.x) || getmaxy(win) != imwin->Size.y) {
+                delwin(win);
+                windows[cursesWinIdx] = newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x));
+            }
+        }
+        cursesWinIdx++;
+    }
+    if(cursesWinIdx < int(windows.size())) {
+        size_t lastIndex = cursesWinIdx;
+        for(; cursesWinIdx < windows.size(); cursesWinIdx++) {
+            if(windows[cursesWinIdx] != nullptr) {
+                delwin(windows[cursesWinIdx]);
+            }
+        }
+        windows.erase(windows.begin() + lastIndex, windows.end());
+    }
+}
+wchar_t strTmp[] = {0, 0};
 void ImTui_ImplNcurses_DrawScreen( bool active )
 {
+    ImTui::ImplImtui_Data* bd = ImTui::ImTui_Impl_GetBackendData();
+    ImTui_ImplNCurses_Data* rd = ImTui_ImplNCurses_GetBackendData();
     if( active ) {
         nActiveFrames = 10;
     }
 
+    ImTui::TScreen& g_screen = bd->Screen;
+    create_destroy_curses_windows(rd->imtui_wins);
+    ImFont* font = nullptr;
+    for(WINDOW *cursesWin : rd->imtui_wins) {
+        int nx = g_screen.nx;
+        int ny = g_screen.ny;
 
-    std::vector<ImRect> window_bounds;
-    for( ImGuiWindow *win : ImGui::GetCurrentContext()->Windows ) {
-        window_bounds.push_back( win->OuterRectClipped );
-    }
-    int nx = g_screen->nx;
-    int ny = g_screen->ny;
+        for( int y = getbegy(cursesWin); y <= (getbegy(cursesWin) + getmaxy(cursesWin)); ++y ) {
+            constexpr int no_lastp = 0x7FFFFFFF;
+            int lastp = no_lastp;
+            wmove(cursesWin, y - getbegy(cursesWin), 0);
+            for( int x = getbegx(cursesWin); x <= (getbegx(cursesWin) +  getmaxx(cursesWin)); ++x ) {
+                const auto cell = g_screen.data[y * nx + x];
+                const uint16_t f = cell.fg;
+                const uint16_t b = cell.bg;
+                const uint16_t p = b * 256 + f;
 
-    bool compare = true;
-
-    if( screenPrev.nx != nx || screenPrev.ny != ny ) {
-        screenPrev.resize( nx, ny );
-        compare = false;
-    }
-
-    int ic = 0;
-    wmove(imtui_win, 0, 0);
-    for( int y = 0; y < ny; ++y ) {
-        bool wmove_needed = true;
-        constexpr int no_lastp = 0x7FFFFFFF;
-        int lastp = no_lastp;
-        for( int x = 0; x < nx; ++x ) {
-            if( !is_in_bounds( x, y ) ) {
-                wmove_needed = true;
-                continue;
-            }
-            const auto cell = g_screen->data[y * nx + x];
-            const uint16_t f = ( cell & 0x00FF0000 ) >> 16;
-            const uint16_t b = ( cell & 0xFF000000 ) >> 24;
-            const uint16_t p = b * 256 + f;
-
-            if( wmove_needed ) {
-                wmove( imtui_win, y, x );
-            }
-            if( lastp != ( int ) p ) {
-                if( colPairs[p].first == false ) {
-                    init_pair( nColPairs, f, b );
-                    colPairs[p].first = true;
-                    colPairs[p].second = nColPairs;
-                    ++nColPairs;
+                if( lastp != ( int ) p ) {
+                    if( colPairs[p].first == false ) {
+                        init_pair( nColPairs, f, b );
+                        colPairs[p].first = true;
+                        colPairs[p].second = nColPairs;
+                        ++nColPairs;
+                    }
+                    wattron( cursesWin, COLOR_PAIR( colPairs[p].second ) );
+                    lastp = p;
                 }
-                wattron( imtui_win, COLOR_PAIR( colPairs[p].second ) );
-                lastp = p;
+                strTmp[0] = cell.ch;
+                waddwstr( cursesWin, strTmp );
+                
+                if(cell.chwidth > 1)
+                {
+                    x += (cell.chwidth - 1);
+                }
             }
-
-            const uint16_t c = cell & 0x0000FFFF;
-            waddch( imtui_win, c );
+            if( lastp != no_lastp ) {
+                wattroff( cursesWin, COLOR_PAIR( colPairs[lastp].second ) );
+            }
         }
-        if( lastp != no_lastp ) {
-            wattroff( imtui_win, COLOR_PAIR( colPairs[lastp].second ) );
-        }
-
-        if( compare ) {
-            memcpy( screenPrev.data + y * nx, g_screen->data + y * nx, nx * sizeof( ImTui::TCell ) );
-        }
+        
+        wnoutrefresh(cursesWin);
     }
-    wrefresh(imtui_win);
-
-    if( !compare ) {
-        memcpy( screenPrev.data, g_screen->data, nx * ny * sizeof( ImTui::TCell ) );
-    }
-
-    //g_vsync.wait( nActiveFrames -- > 0 );
+    
 }
 
 bool ImTui_ImplNcurses_ProcessEvent()

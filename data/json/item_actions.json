@@ -502,6 +502,21 @@
   },
   {
     "type": "item_action",
+    "id": "HEAT_LIQUID_ITEMS",
+    "name": { "str": "Heat up liquid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_SOLID_ITEMS",
+    "name": { "str": "Heat up solid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_ALL_ITEMS",
+    "name": { "str": "Heat up solid or liquid items" }
+  },
+  {
+    "type": "item_action",
     "id": "HONEYCOMB",
     "name": { "str": "Consume" }
   },
@@ -529,6 +544,11 @@
     "type": "item_action",
     "id": "MEASURE_RESONANCE",
     "name": { "str": "Measure artifact resonance" }
+  },
+  {
+    "type": "item_action",
+    "id": "CHANGE_OUTFIT",
+    "name": { "str": "Swap outfits" }
   },
   {
     "type": "item_action",

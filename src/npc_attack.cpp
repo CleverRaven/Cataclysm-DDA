@@ -727,6 +727,13 @@ npc_attack_rating npc_attack_throw::evaluate(
         // please don't throw your pants...
         return effectiveness;
     }
+    const inventory &available_weapons = source.crafting_inventory( tripoint_zero, -1 );
+    if( &thrown_item == source.evaluate_best_weapon() &&
+        available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
+        available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
+        // Don't throw if it's the best individual killy-thing we've got
+        return effectiveness;
+    }
     const int penalty = base_penalty( source );
     const bool throw_now = thrown_item.has_flag( flag_NPC_THROW_NOW );
     // TODO: Should this be a field to cache the result?

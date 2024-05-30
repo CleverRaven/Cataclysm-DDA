@@ -667,6 +667,7 @@
     "volume": "263 ml",
     "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1150,7 +1151,8 @@
     "volume": "25 ml",
     "to_hit": -5,
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",
@@ -3401,6 +3403,7 @@
     "description": "A rather outdated light bulb used in all sorts of lighting equipment.",
     "symbol": ",",
     "color": "white",
+    "category": "spare_parts",
     "material": [ "glass" ],
     "weight": "10 g",
     "volume": "250 ml",
@@ -4104,7 +4107,7 @@
     "color": "brown",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it some duct tape to mark the striking points.  You need to embed it into the ground for training.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and has some duct tape to mark the striking points.  You need to embed it into the ground for training.",
     "price": "150 USD",
     "price_postapoc": "6 USD",
     "material": [ "wood" ],

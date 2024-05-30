@@ -512,26 +512,7 @@
     "category": [ "UNDINE" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
         "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ]
       }
     ]
@@ -550,26 +531,7 @@
     "category": [ "UNDINE" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
         "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "multiply": 0.5 } ]
       }
     ]
@@ -587,26 +549,7 @@
     "threshreq": [ "THRESH_UNDINE" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            "u_is_underwater",
-            { "u_is_on_terrain": "t_water_dp" },
-            { "u_is_on_terrain": "t_water_sh" },
-            { "u_is_on_terrain": "t_swater_dp" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_dp_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_water_hot" },
-            { "u_is_on_terrain": "t_water_murky" },
-            { "u_is_on_terrain": "t_water_sh_underground" },
-            { "u_is_on_terrain": "t_swater_dp_underground" },
-            { "u_is_on_terrain": "t_swater_sh_underground" },
-            { "u_is_on_terrain": "t_swater_sh" },
-            { "u_is_on_terrain": "t_water_moving_dp" },
-            { "u_is_on_terrain": "t_water_moving_dp_underground" },
-            { "u_is_on_terrain": "t_water_sh_murky_underground" }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
         "values": [
           { "value": "REGEN_MANA", "multiply": 0.5 },
           { "value": "MAX_MANA", "multiply": 0.5 },

@@ -800,6 +800,7 @@ Breece
 Breedlove
 Bren
 Brenda
+Breton
 Brett
 brewable
 Brewster
@@ -1162,6 +1163,7 @@ coffeetable
 coffeetree
 Cohasset
 coilgun
+coilpistol
 coilguns
 coincidently
 coipo
@@ -2306,6 +2308,7 @@ gov
 gozu
 gozus
 GPMG
+GPNVG
 GR
 gr
 graboid
@@ -2757,6 +2760,8 @@ icecream
 Icelandic
 Ichaival
 Ichaivals
+ichcahuipilli
+ichcahuipillis
 Ichi
 ichthyostega
 ichthys
@@ -2858,6 +2863,14 @@ Irishman
 irising
 Ironfist
 ironshod
+irradiance
+irremovable
+irrecoverable
+irritants
+isable
+isassembled
+isk
+isopod
 Irradiants
 Isaac
 isekai
@@ -3177,6 +3190,7 @@ kPa
 krabgek
 krabgeks
 Krag
+krampouezh
 krar
 krars
 Krav
@@ -4309,6 +4323,8 @@ numpad
 nums
 Nunez
 NV
+NVG
+NVGs
 NW
 NY
 Nyâyis
@@ -4971,6 +4987,7 @@ reenabled
 reenactor
 reenactors
 refuelable
+refurb
 regenerators
 Reggie
 regia
@@ -5084,6 +5101,7 @@ Rochester
 Rockbolt
 rockclimbing
 Rockford
+rockin'
 Rockland
 Rockport
 rockwheel
@@ -5653,6 +5671,7 @@ spacebar
 Spaceborn
 spacefaring
 spacetime
+spadefoot
 spadelike
 spalling
 Spanish
@@ -5947,6 +5966,7 @@ SWD
 Swedish
 sweety
 Swiss
+swole
 swordfighting
 swording
 swordsmith
@@ -6461,6 +6481,7 @@ unselectable
 unsetting
 unsleeping
 unsmoked
+unspun
 unstocked
 untamable
 untampered
