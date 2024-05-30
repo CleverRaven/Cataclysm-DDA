@@ -1770,7 +1770,17 @@ conditional_t::func f_math( const JsonObject &jo, const std::string_view member 
 conditional_t::func f_u_has_camp()
 {
     return []( dialogue const & ) {
-        return !get_player_character().camps.empty();
+        for( const tripoint_abs_omt &camp_tripoint : get_player_character().camps ) {
+            std::optional<basecamp *> camp = overmap_buffer.find_camp( camp_tripoint.xy() );
+            if( !camp ) {
+                continue;
+            }
+            basecamp *bcp = *camp;
+            if( bcp->get_owner() == get_player_character().get_faction()->id ) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 

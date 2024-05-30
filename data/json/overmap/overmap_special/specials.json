@@ -443,7 +443,7 @@
       { "point": [ 0, 1, 0 ], "overmap": "hive_edge_01_north" },
       { "point": [ 0, 2, 0 ], "overmap": "hive_edge_02_north" },
       { "point": [ 1, 0, 0 ], "overmap": "hive_edge_10_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "hive_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "hive_north", "camp": "apis_hive", "camp_name": "???" },
       { "point": [ 1, 2, 0 ], "overmap": "hive_edge_12_north" },
       { "point": [ 2, 0, 0 ], "overmap": "hive_edge_20_north" },
       { "point": [ 2, 1, 0 ], "overmap": "hive_edge_21_north" },
@@ -716,7 +716,7 @@
     "type": "overmap_special",
     "id": "Cabin_Lapin",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "cabin_lapin_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lapin_north", "camp": "lapin", "camp_name": "Lapin" },
       { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_lapin_north" },
       { "point": [ 1, 1, 0 ], "overmap": "field_graboid" }
     ],
@@ -1339,7 +1339,7 @@
       { "point": [ 2, 0, 0 ], "overmap": "prison_island_1_3_north" },
       { "point": [ 3, 0, 0 ], "overmap": "prison_island_1_4_north" },
       { "point": [ 4, 0, 0 ], "overmap": "prison_island_1_5_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "prison_island_1_6_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "prison_island_1_6_north", "camp": "prisoners", "camp_name": "Holdouts" },
       { "point": [ 1, 1, 0 ], "overmap": "prison_island_1_7_north" },
       { "point": [ 2, 1, 0 ], "overmap": "prison_island_1_8_north" },
       { "point": [ 3, 1, 0 ], "overmap": "prison_island_1_9_north" },
@@ -2080,7 +2080,12 @@
       { "point": [ 9, 6, 0 ], "overmap": "evac_center_10_north" },
       { "point": [ 5, 7, 0 ], "overmap": "evac_center_11_north" },
       { "point": [ 6, 7, 0 ], "overmap": "evac_center_12_north" },
-      { "point": [ 7, 7, 0 ], "overmap": "evac_center_13_north" },
+      {
+        "point": [ 7, 7, 0 ],
+        "overmap": "evac_center_13_north",
+        "camp": "free_merchants",
+        "camp_name": "Refugee Center"
+      },
       { "point": [ 8, 7, 0 ], "overmap": "evac_center_14_north" },
       { "point": [ 9, 7, 0 ], "overmap": "evac_center_15_north" },
       { "point": [ 5, 8, 0 ], "overmap": "evac_center_16_north" },
@@ -2436,7 +2441,12 @@
       { "point": [ -2, 4, 0 ], "overmap": "godco_6_north" },
       { "point": [ -3, 4, 0 ], "overmap": "forest_thick" },
       { "point": [ -4, 4, 0 ], "overmap": "forest_thick" },
-      { "point": [ -1, 4, 0 ], "overmap": "godco_5_north" },
+      {
+        "point": [ -1, 4, 0 ],
+        "overmap": "godco_5_north",
+        "camp": "gods_community",
+        "camp_name": "New England Church Retreat"
+      },
       { "point": [ 0, 4, 0 ], "overmap": "godco_4_north" },
       { "point": [ 1, 4, 0 ], "overmap": "forest_thick" },
       { "point": [ 2, 4, 0 ], "overmap": "forest_thick" },
@@ -2680,7 +2690,7 @@
       { "point": [ 1, 7, 1 ], "overmap": "ranch_camp_65_roof_north" },
       { "point": [ 2, 7, 0 ], "overmap": "ranch_camp_66_north" },
       { "point": [ 2, 7, 1 ], "overmap": "ranch_camp_66_roof_north" },
-      { "point": [ 3, 7, 0 ], "overmap": "ranch_camp_67_north" },
+      { "point": [ 3, 7, 0 ], "overmap": "ranch_camp_67_north", "camp": "tacoma_commune", "camp_name": "Tacoma" },
       { "point": [ 3, 7, 1 ], "overmap": "ranch_camp_67_roof_north" },
       { "point": [ 4, 7, 0 ], "overmap": "ranch_camp_68_north" },
       { "point": [ 4, 7, 1 ], "overmap": "ranch_camp_68_roof_north" },
@@ -3583,7 +3593,12 @@
       { "point": [ 2, -1, 0 ], "overmap": "robofachq_surface_road2_north" },
       { "point": [ 3, -1, 0 ], "overmap": "robofachq_surface_road3_north" },
       { "point": [ 0, 0, 0 ], "overmap": "robofachq_surface_parking_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "robofachq_surface_entrance_north" },
+      {
+        "point": [ 1, 0, 0 ],
+        "overmap": "robofachq_surface_entrance_north",
+        "camp": "robofac",
+        "camp_name": "Hub 01"
+      },
       { "point": [ 2, 0, 0 ], "overmap": "robofachq_surface_car_entrance_north" },
       { "point": [ 3, 0, 0 ], "overmap": "robofachq_surface_a3_north" },
       { "point": [ 0, 1, 0 ], "overmap": "robofachq_surface_b0_north" },
@@ -3685,7 +3700,12 @@
     "id": "isolated_road",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "isolated_road_field_0" },
-      { "point": [ 1, 0, 0 ], "overmap": "isolated_house_farm_gunsmith" },
+      {
+        "point": [ 1, 0, 0 ],
+        "overmap": "isolated_house_farm_gunsmith",
+        "camp": "isolated_artisans",
+        "camp_name": "Cody & Jay"
+      },
       { "point": [ 0, 1, 0 ], "overmap": "isolated_house_farm_blacksmith" },
       { "point": [ 1, 0, 1 ], "overmap": "isolated_house_farm_roof_gunsmith" },
       { "point": [ 0, 1, 1 ], "overmap": "isolated_house_farm_roof_blacksmith" },
@@ -5487,7 +5507,7 @@
       { "point": [ 1, 4, 0 ], "overmap": "special_forest" },
       { "point": [ 2, 4, 0 ], "overmap": "special_forest_thick" },
       { "point": [ 3, 4, 0 ], "overmap": "special_forest" },
-      { "point": [ 4, 4, 0 ], "overmap": "cabin_isherwood_north" },
+      { "point": [ 4, 4, 0 ], "overmap": "cabin_isherwood_north", "camp": "isherwood_family", "camp_name": "Cabin" },
       { "point": [ 4, 4, 1 ], "overmap": "cabin_lake_roof_north" },
       { "point": [ 5, 4, 0 ], "overmap": "special_forest" },
       { "point": [ 6, 4, 0 ], "overmap": "special_forest" },
@@ -5622,7 +5642,12 @@
       { "point": [ 14, 8, 0 ], "overmap": "special_field" },
       { "point": [ 15, 8, 0 ], "overmap": "special_field" },
       { "point": [ 16, 8, 0 ], "overmap": "horse_farm_isherwood_5_north" },
-      { "point": [ 17, 8, 0 ], "overmap": "horse_farm_isherwood_6_north" },
+      {
+        "point": [ 17, 8, 0 ],
+        "overmap": "horse_farm_isherwood_6_north",
+        "camp": "isherwood_family",
+        "camp_name": "Isherwood Stables"
+      },
       { "point": [ 18, 8, 0 ], "overmap": "horse_farm_isherwood_7_north" },
       { "point": [ 18, 8, 1 ], "overmap": "horse_farm_isherwood_7_hayloft_north" },
       { "point": [ 18, 8, 2 ], "overmap": "horse_farm_isherwood_7_roof_north" },
@@ -5924,7 +5949,12 @@
       { "point": [ 10, 18, 0 ], "overmap": "farm_isherwood_3_north" },
       { "point": [ 10, 18, 2 ], "overmap": "farm_isherwood_3_roof_north" },
       { "point": [ 10, 18, 1 ], "overmap": "farm_isherwood_3_hayloft_north" },
-      { "point": [ 11, 18, 0 ], "overmap": "farm_isherwood_2_north" },
+      {
+        "point": [ 11, 18, 0 ],
+        "overmap": "farm_isherwood_2_north",
+        "camp": "isherwood_family",
+        "camp_name": "Isherwood Outcropping"
+      },
       { "point": [ 11, 18, -1 ], "overmap": "farm_isherwood_2_cellar_north" },
       { "point": [ 11, 18, 1 ], "overmap": "farm_isherwood_2_roof_north" },
       { "point": [ 12, 18, 0 ], "overmap": "farm_isherwood_1_north" },
@@ -6064,7 +6094,12 @@
       { "point": [ 23, 22, 0 ], "overmap": "rural_road_ns" },
       { "point": [ 24, 22, 0 ], "overmap": "smokehouse_north" },
       { "point": [ 24, 22, 1 ], "overmap": "smokehouse_roof_north" },
-      { "point": [ 25, 22, 0 ], "overmap": "dairy_farm_isherwood_SW_north" },
+      {
+        "point": [ 25, 22, 0 ],
+        "overmap": "dairy_farm_isherwood_SW_north",
+        "camp": "isherwood_family",
+        "camp_name": "Isherwood Farms"
+      },
       { "point": [ 25, 22, 1 ], "overmap": "dairy_farm_isherwood_SW_roof_north" },
       { "point": [ 26, 22, 0 ], "overmap": "dairy_farm_isherwood_SE_north" },
       { "point": [ 26, 22, 1 ], "overmap": "dairy_farm_isherwood_SE_roof_north" },
@@ -6946,7 +6981,7 @@
     "type": "overmap_special",
     "id": "Occupied Chem Lab",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "chemical_lab_ocu_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "chemical_lab_ocu_north", "camp": "wasteland_scavengers", "camp_name": "Chemist" },
       { "point": [ 0, 0, 1 ], "overmap": "chemical_lab_roof_ocu_north" },
       { "point": [ -1, -1, 0 ], "locations": [ "land", "road" ] },
       { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] }
@@ -6965,7 +7000,7 @@
     "type": "overmap_special",
     "id": "Occupied Scrap Yard",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north", "camp": "wasteland_scavengers", "camp_name": "Scrapper" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
@@ -6982,7 +7017,12 @@
       { "point": [ 0, 0, 0 ], "overmap": "lumbermill_0_0_ocu_north" },
       { "point": [ 1, 0, 0 ], "overmap": "lumbermill_1_0_ocu_north" },
       { "point": [ 0, 1, 0 ], "overmap": "lumbermill_0_1_ocu_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "lumbermill_1_1_ocu_north" },
+      {
+        "point": [ 1, 1, 0 ],
+        "overmap": "lumbermill_1_1_ocu_north",
+        "camp": "wasteland_scavengers",
+        "camp_name": "Lumbermill (survivor base)"
+      },
       { "point": [ 0, 0, 1 ], "overmap": "lumbermill_0_0_roof_north" },
       { "point": [ 1, 0, 1 ], "overmap": "lumbermill_1_0_roof_north" },
       { "point": [ 0, 1, 1 ], "overmap": "lumbermill_0_1_roof_north" },
@@ -7061,7 +7101,12 @@
     "id": "bunker shop",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bunker_shop_g_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_shop_b_south" }
+      {
+        "point": [ 0, 0, -1 ],
+        "overmap": "bunker_shop_b_south",
+        "camp": "wasteland_scavengers",
+        "camp_name": "Merchant"
+      }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],

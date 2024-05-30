@@ -2,7 +2,7 @@
   {
     "type": "overmap_special",
     "id": "prepnet_orchard",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "prepnet_orchard_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "prepnet_orchard_north", "camp": "Prepnet_Phyle", "camp_name": "PrepNet" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
@@ -189,7 +189,12 @@
     "overmaps": [
       { "point": [ 0, -1, -9 ], "overmap": "augustmoon_docking_arm_north" },
       { "point": [ -1, 0, -9 ], "overmap": "augustmoon_bar_north" },
-      { "point": [ 0, 0, -9 ], "overmap": "augustmoon_main_concourse1_north" },
+      {
+        "point": [ 0, 0, -9 ],
+        "overmap": "augustmoon_main_concourse1_north",
+        "camp": "UICA",
+        "camp_name": "Port Augustmoon"
+      },
       { "point": [ 1, 0, -9 ], "overmap": "augustmoon_solar_array1_north" },
       { "point": [ 0, 1, -9 ], "overmap": "augustmoon_main_concourse2_north" },
       { "point": [ 1, 1, -9 ], "overmap": "augustmoon_solar_array2_north" },

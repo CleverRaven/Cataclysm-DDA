@@ -57,7 +57,7 @@
       { "point": [ 2, 1, 1 ], "overmap": "exodii_base_x2y1z1_north" },
       { "point": [ 3, 1, 1 ], "overmap": "exodii_base_x3y1z1_north" },
       { "point": [ 0, 2, 1 ], "overmap": "exodii_base_x0y2z1_north" },
-      { "point": [ 1, 2, 1 ], "overmap": "exodii_base_x1y2z1_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "exodii_base_x1y2z1_north", "camp": "exodii", "camp_name": "Exodii" },
       { "point": [ 2, 2, 1 ], "overmap": "exodii_base_x2y2z1_north" },
       { "point": [ 3, 2, 1 ], "overmap": "exodii_base_x3y2z1_north" },
       { "point": [ 0, 3, 1 ], "overmap": "exodii_base_x0y3z1_north" },
