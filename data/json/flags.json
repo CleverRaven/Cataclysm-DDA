@@ -273,10 +273,6 @@
     "type": "json_flag"
   },
   {
-    "id": "MEND_ALL",
-    "type": "json_flag"
-  },
-  {
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "info": "This med can't be used by everyone, it requires a special mutation."
