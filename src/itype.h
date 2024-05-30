@@ -1018,6 +1018,9 @@ struct islot_ammo : common_ranged_data {
     /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
     int recoil = 0;
 
+    /** Percentage of chance to recover the ammo after a shot*/
+    int recovery_chance = 0;
+
     /**
      * Should this ammo explode in fire?
      * This value is cached by item_factory based on ammo_effects and item material.

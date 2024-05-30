@@ -3073,30 +3073,16 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        for( const ammo_effect_str_id &effect : ammo.ammo_effects ) {
-            const std::string eff_str = effect.str();
-            if( string_starts_with( eff_str, "RECOVER_" ) ) {
-                ret_val<int> try_recover_chance =
-                    try_parse_integer<int>( eff_str.substr( 8 ), false );
-                if( !try_recover_chance.success() ) {
-                    debugmsg( "Error parsing ammo RECOVER_ denominator: %s",
-                              try_recover_chance.str() );
-                    break;
-                }
-                int recover_chance = try_recover_chance.value();
-                if( recover_chance <= 5 ) {
-                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 10 ) {
-                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 20 ) {
-                    fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
-                } else if( recover_chance <= 30 ) {
-                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
-                } else {
-                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
-                }
-                break;
-            }
+        if( ammo.recovery_chance <= 5 ) {
+            fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 10 ) {
+            fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 20 ) {
+            fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
+        } else if( ammo.recovery_chance <= 30 ) {
+            fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+        } else {
+            fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
         }
     }
     if( ( ammo.ammo_effects.count( ammo_effect_id_INCENDIARY ) ||

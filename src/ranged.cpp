@@ -2112,19 +2112,10 @@ static projectile make_gun_projectile( const item &gun )
     }
 
     if( gun.ammo_data() ) {
+        const auto &ammo = gun.ammo_data()->ammo;
+
         // Some projectiles have a chance of being recoverable
-        bool recover = std::any_of( fx.begin(), fx.end(), []( const ammo_effect_id ammo_eff_id ) {
-            std::string_view e = ammo_eff_id.id().str();
-            if( !string_starts_with( e, "RECOVER_" ) ) {
-                return false;
-            }
-            ret_val<int> n = try_parse_integer<int>( e.substr( 8 ), false );
-            if( !n.success() ) {
-                debugmsg( "Error parsing ammo RECOVER_ denominator: %s", n.str() );
-                return false;
-            }
-            return !one_in( n.value() );
-        } );
+        bool recover = x_in_y( ammo->recovery_chance, 100 );
 
         if( recover && !fx.count( ammo_effect_id_IGNITE ) && !fx.count( ammo_effect_id_EXPLOSIVE ) ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
@@ -2133,7 +2124,6 @@ static projectile make_gun_projectile( const item &gun )
             proj.set_drop( drop );
         }
 
-        const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
         proj.multi_projectile_effects = ammo->multi_projectile_effects;

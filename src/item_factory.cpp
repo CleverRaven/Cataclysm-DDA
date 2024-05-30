@@ -2694,6 +2694,7 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "dispersion", dispersion, strict, 0 );
     optional( jo, was_loaded, "dispersion_modifier", disp_mod_by_barrels, {} );
     assign( jo, "recoil", recoil, strict, 0 );
+    optional( jo, was_loaded, "recovery_chance", recovery_chance, 0 );
     assign( jo, "count", def_charges, strict, 1 );
     assign( jo, "loudness", loudness, strict, 0 );
     assign( jo, "effects", ammo_effects, strict );
