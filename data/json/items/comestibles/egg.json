@@ -95,7 +95,7 @@
     "type": "COMESTIBLE",
     "id": "egg_robin",
     "name": { "str": "American robin egg" },
-    "spoils_in": "7 days",
+    "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
     "color": "light_blue",
