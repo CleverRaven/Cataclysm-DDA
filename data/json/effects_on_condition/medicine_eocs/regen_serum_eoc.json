@@ -10,6 +10,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SERUM_REGEN",
     "effect": [
+      { "u_consume_item": { "context_val": "id" } },
       { "math": [ "_serum_duration", "=", "rng(time('1 d'), time('2 d'))" ] },
       { "u_add_effect": "regen_serum_main", "duration": { "context_val": "serum_duration" } },
       { "u_add_effect": "regen_serum_crash_cardio", "duration": { "math": [ "_serum_duration * rng(1.5, 2.5)" ] } },

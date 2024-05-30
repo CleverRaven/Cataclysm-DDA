@@ -1,15 +1,12 @@
 [
   {
     "id": "serum_regen",
-    "type": "COMESTIBLE",
-    "comestible_type": "INVALID",
+    "type": "GENERIC",
     "category": "drugs",
     "name": { "str_sp": "unknown liquid" },
-    "description": "White, semi-transparent liquid of unknown origin.",
+    "description": "Little, sealed ampule with some white, semi-transparent liquid of unknown origin.",
     "weight": "7 g",
     "volume": "10 ml",
-    "charges": 1,
-    "phase": "liquid",
     "material": [ "alien_liquid" ],
     "symbol": "[",
     "color": "white",
