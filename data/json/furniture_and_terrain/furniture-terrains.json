@@ -203,6 +203,7 @@
     "coverage": 100,
     "description": "A pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is open.",
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
     "deconstruct": {
       "items": [
@@ -243,6 +244,7 @@
     "coverage": 100,
     "description": "A pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is closed.",
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
     "open": "f_cardboard_door_o",
     "deconstruct": {
@@ -285,6 +287,7 @@
     "move_cost_mod": 6,
     "coverage": 90,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
     "open": "f_beaded_door_o",
     "deconstruct": {
@@ -429,6 +432,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
@@ -450,6 +454,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_shelter_kit",
@@ -521,6 +526,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "connect_groups": "CANVAS_WALL",
     "connects_to": "CANVAS_WALL",
@@ -566,6 +572,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "connect_groups": "CANVAS_WALL",
     "connects_to": "CANVAS_WALL",
@@ -612,6 +619,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "tent_kit",
@@ -634,6 +642,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
@@ -654,6 +663,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_tent_kit",
@@ -677,6 +687,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "bash": {
       "str_min": 1,
@@ -763,6 +774,7 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "shelter_kit",
@@ -1366,7 +1378,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_dirtmound_shallow", "base": "f_dirtmound_shallow" },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_shallow" },
     "examine_action": "harvest_plant_ex"
   },
   {
@@ -1548,7 +1560,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_dirtmound_pile", "base": "f_dirtmound_pile" },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_pile" },
     "examine_action": "harvest_plant_ex"
   },
   {

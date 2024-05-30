@@ -105,7 +105,7 @@
         { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
         { "item": "afs_heat_2_salvage", "count": [ 1, 4 ] },
         { "item": "frame", "count": 1 },
-        { "item": "oxygen_tank", "prob": 15, "charges-min": 4 },
+        { "item": "oxygen_tank", "prob": 15, "charges": [ 4, -1 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 10 ] },
         { "item": "cu_pipe", "count": [ 5, 15 ] },

@@ -367,6 +367,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "threshold_substitutes", threshold_substitutes );
+    optional( jo, was_loaded, "strict_threshreq", strict_threshreq );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );

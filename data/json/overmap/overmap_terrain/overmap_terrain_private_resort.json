@@ -7,7 +7,7 @@
     "color": "yellow",
     "see_cost": 5,
     "mondensity": 1,
-    "flags": [ "RISK_HIGH", "SOURCE_DRINK", "SOURCE_LUXURY" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_DRINK", "SOURCE_LUXURY" ]
   },
   {
     "id": [ "p_resort_1nw", "p_resort_pm" ],

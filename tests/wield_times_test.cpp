@@ -49,7 +49,7 @@ static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
 {
     item &spawned_item = get_map().add_item_or_charges( guy.pos(), item( item_name, calendar::turn,
                          1 ) );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    item_location item_loc( map_cursor( guy.pos_bub() ), &spawned_item );
     CHECK( item_loc.obtain_cost( guy ) == Approx( expected_moves ).epsilon( 0.1f ) );
 }
 

@@ -42,16 +42,13 @@
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_TACOMA_Nunez" },
-            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } ]
         }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
-        "condition": { "not": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } }
+        "condition": { "not": { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -75,22 +72,16 @@
     "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "doctor_anesthetic_scavengers_helped",
-      "type": "mission",
-      "context": "tacoma_ranch",
+      "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped",
       "value": "yes",
       "no": {
-        "u_has_var": "doctor_anesthetic_scrappers_helped",
-        "type": "mission",
-        "context": "tacoma_ranch",
+        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
         "value": "yes",
         "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
         "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
       },
       "yes": {
-        "u_has_var": "doctor_anesthetic_scrappers_helped",
-        "type": "mission",
-        "context": "tacoma_ranch",
+        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
         "value": "yes",
         "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
         "yes": "I'm afraid I don't have anything to offer."
@@ -102,12 +93,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "or": [
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scrappers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
           ]
         }
       },
@@ -116,13 +103,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "and": [
-            { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" },
-            {
-              "u_has_var": "doctor_anesthetic_scrappers_helped",
-              "type": "mission",
-              "context": "tacoma_ranch",
-              "value": "yes"
-            }
+            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
+            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
           ]
         }
       },
@@ -154,7 +136,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_Nunez",
     "dynamic_line": "We're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
-    "speaker_effect": { "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
+    "speaker_effect": { "effect": { "u_add_var": "recruit_general_Nunez_Tacoma", "value": "phase_2" } },
     "responses": [ { "text": "I'll tell them that, but they seemed good for a bit of hard labor.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
@@ -189,12 +171,12 @@
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_65",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
         },
         {
           "om_terrain": "ranch_camp_66",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [
             { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },
             { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 13, "y": 0 },
@@ -203,12 +185,12 @@
         },
         {
           "om_terrain": "ranch_camp_74",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
         },
         {
           "om_terrain": "ranch_camp_75",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [
             { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },
             { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 13, "y": 0 },
@@ -309,7 +291,7 @@
         {
           "om_terrain": "ranch_camp_46",
           "//": "tilled soil in the fields",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 7, "y": 4, "x2": 22, "y2": 23 },
             { "square": "terrain", "id": "t_dirtmound", "x": 8, "y": 5, "x2": 9, "y2": 22 },
@@ -319,7 +301,7 @@
         {
           "om_terrain": "ranch_camp_55",
           "//": "tilled soil in the fields",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 7, "y": 0, "x2": 22, "y2": 18 },
             { "square": "terrain", "id": "t_dirtmound", "x": 8, "y": 2, "x2": 9, "y2": 17 },
@@ -328,7 +310,7 @@
         },
         {
           "om_terrain": "ranch_camp_56",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [ { "vehicle": "hippie_van", "x": 13, "y": 19, "rotation": 270, "chance": 100, "faction": "tacoma_commune" } ]
         },
         {
@@ -391,17 +373,17 @@
         },
         {
           "om_terrain": "ranch_camp_57",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_npcs": [ { "class": "ranch_crop_overseer", "x": 12, "y": 7 } ]
         },
         {
           "om_terrain": "ranch_camp_58",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_4" ], "x": 0, "y": 2 } ]
         },
         {
           "om_terrain": "ranch_camp_67",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [ { "square": "terrain", "id": "t_palisade", "x": 21, "y": 19, "x2": 23, "y2": 19 } ]
         }
       ]
@@ -758,7 +740,7 @@
         },
         {
           "om_terrain": "ranch_camp_69",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [ { "square": "terrain", "id": "t_palisade", "x": 0, "y": 12, "x2": 2, "y2": 12 } ],
           "place_vehicles": [
             { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 3, "y": 14, "faction": "tacoma_commune" },
@@ -803,7 +785,7 @@
         },
         {
           "om_terrain": "ranch_camp_69",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [
             { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15, "faction": "tacoma_commune" },
             { "vehicle": "car_sports", "chance": 100, "rotation": 0, "x": 21, "y": 14, "faction": "tacoma_commune" }
@@ -844,7 +826,7 @@
         { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ] },
         {
           "om_terrain": "ranch_camp_70",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [ { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 9, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
@@ -884,7 +866,7 @@
         },
         {
           "om_terrain": "ranch_camp_61",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 270, "x": 13, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]

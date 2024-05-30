@@ -97,7 +97,7 @@
         "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
       ],
       "palettes": [ "farm" ],
-      "terrain": { "|": "t_hole", "^": "t_palisade", "W": "t_embrasure_wood", "M": "t_palisade_gate", "O": "t_palisade_pulley" },
+      "terrain": { "|": "t_pit_spiked", "^": "t_palisade", "W": "t_embrasure_wood", "M": "t_palisade_gate", "O": "t_palisade_pulley" },
       "furniture": {
         "5": "f_utility_shelf",
         "*": "f_utility_shelf",

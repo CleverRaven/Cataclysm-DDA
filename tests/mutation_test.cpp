@@ -17,6 +17,7 @@ static const effect_on_condition_id effect_on_condition_changing_mutate2( "chang
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
 static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
+static const mutation_category_id mutation_category_BIRD( "BIRD" );
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
 static const mutation_category_id mutation_category_HUMAN( "HUMAN" );
@@ -26,12 +27,15 @@ static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
 static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
 static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 
+static const trait_id trait_BEAK( "BEAK" );
+static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_STR_UP( "STR_UP" );
 static const trait_id trait_STR_UP_2( "STR_UP_2" );
 static const trait_id trait_TEST_OVERMAP_SIGHT_5( "TEST_OVERMAP_SIGHT_5" );
@@ -42,7 +46,11 @@ static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
 static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
 static const trait_id trait_TEST_TRIGGER_2_active( "TEST_TRIGGER_2_active" );
 static const trait_id trait_TEST_TRIGGER_active( "TEST_TRIGGER_active" );
+static const trait_id trait_THRESH_ALPHA( "THRESH_ALPHA" );
+static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
+static const trait_id trait_THRESH_CHIMERA( "THRESH_CHIMERA" );
 static const trait_id trait_UGLY( "UGLY" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
@@ -202,7 +210,6 @@ TEST_CASE( "Having_all_mutations_give_correct_highest_category", "[mutations][st
 // If a category breach power falls below 55, it suggests that category lacks enough pre-threshold mutations
 // to comfortably cross the Threshold
 //
-// Alpha threshold is intentionally meant to be harder to breach, so the permitted range is 35-60
 //
 // When creating or editing a category, remember that 55 is a limit, not suggestion
 // 65+ is the suggested range
@@ -231,14 +238,7 @@ TEST_CASE( "Having_all_pre-threshold_mutations_gives_a_sensible_threshold_breach
             dummy.give_all_mutations( cur_cat, false );
 
             const int breach_chance = dummy.mutation_category_level[cat_id];
-            if( cat_id == mutation_category_ALPHA ) {
-                THEN( "Alpha Threshold breach power is between 35 and 60" ) {
-                    INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                    CHECK( breach_chance >= 35 );
-                    CHECK( breach_chance <= 60 );
-                }
-                continue;
-            } else if( cat_id == mutation_category_CHIMERA ) {
+            if( cat_id == mutation_category_CHIMERA ) {
                 THEN( "Chimera Threshold breach power is 100+" ) {
                     INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                     CHECK( breach_chance >= 100 );
@@ -721,5 +721,44 @@ TEST_CASE( "The_mutation_flags_are_associated_to_the_corresponding_base_mutation
     verify_mutation_flag( dummy, "COLDBLOOD2", "COLDBLOOD2" );
     verify_mutation_flag( dummy, "COLDBLOOD3", "COLDBLOOD3" );
     verify_mutation_flag( dummy, "COLDBLOOD4", "ECTOTHERM" );
+}
+
+// Test that threshold substitutes work
+// Tested using Chimera for the mainline use case
+TEST_CASE( "Threshold_substitutions", "[mutations]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+    // Check our assumptions
+    const std::vector<trait_id> bird_subst = trait_THRESH_BIRD->threshold_substitutes;
+    const std::vector<trait_id> alpha_subst = trait_THRESH_ALPHA->threshold_substitutes;
+    REQUIRE( std::find( bird_subst.begin(), bird_subst.end(),
+                        trait_THRESH_CHIMERA ) != bird_subst.end() );
+    REQUIRE( std::find( alpha_subst.begin(), alpha_subst.end(),
+                        trait_THRESH_CHIMERA ) == alpha_subst.end() );
+    REQUIRE( !trait_BEAK_PECK->threshreq.empty() );
+    REQUIRE( !trait_WINGS_BIRD->threshreq.empty() );
+    REQUIRE( !trait_BEAK_PECK->strict_threshreq );
+    REQUIRE( trait_WINGS_BIRD->strict_threshreq );
+
+    // Character tries to gain post-thresh traits
+    for( int i = 0; i < 10; i++ ) {
+        dummy.mutate_towards( trait_BEAK_PECK, mutation_category_BIRD, nullptr, false, false );
+        dummy.mutate_towards( trait_WINGS_BIRD, mutation_category_BIRD, nullptr, false, false );
+        dummy.mutate_towards( trait_STR_ALPHA, mutation_category_ALPHA, nullptr, false, false );
+    }
+    // We didn't gain any, filled up on prereqs though
+    CHECK( !dummy.has_trait( trait_BEAK_PECK ) );
+    CHECK( !dummy.has_trait( trait_WINGS_BIRD ) );
+    CHECK( !dummy.has_trait( trait_STR_ALPHA ) );
+    CHECK( dummy.has_trait( trait_BEAK ) );
+    // After gaining Chimera we can mutate a fancy beak, but no wings or Alpha traits
+    dummy.set_mutation( trait_THRESH_CHIMERA );
+    dummy.mutate_towards( trait_BEAK_PECK, mutation_category_BIRD, nullptr, false, false );
+    dummy.mutate_towards( trait_WINGS_BIRD, mutation_category_BIRD, nullptr, false, false );
+    dummy.mutate_towards( trait_STR_ALPHA, mutation_category_ALPHA, nullptr, false, false );
+    CHECK( dummy.has_trait( trait_BEAK_PECK ) );
+    CHECK( !dummy.has_trait( trait_WINGS_BIRD ) );
+    CHECK( !dummy.has_trait( trait_STR_ALPHA ) );
 }
 

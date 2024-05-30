@@ -122,5 +122,39 @@
       { "point": [ 0, 0, 1 ], "overmap": "afs_shelter_1_roof_north" }
     ],
     "locations": [ "land" ]
+  },
+  {
+    "id": "afs_general_store_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_general_store_n1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_general_store_n2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_general_store_n3_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "id": "afs_habitat_block_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_habblock_1_a1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "afs_hablock_1_a2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_habblock_1_floor2_a1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_hablock_1_floor2_a2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_habblock_1_roof_a1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "afs_hablock_1_roof_a2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "id": "afs_shuttle_pad",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "afs_shuttle_pad_a1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "afs_shuttle_pad_a2_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "afs_shuttle_pad_a1_roof_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_shuttle_pad_a2_roof_south" }
+    ],
+    "locations": [ "land" ]
   }
 ]

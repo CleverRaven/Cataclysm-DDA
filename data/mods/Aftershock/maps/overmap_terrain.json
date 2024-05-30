@@ -96,7 +96,25 @@
     "color": "pink",
     "see_cost": 3,
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle",
+    "type": "overmap_terrain",
+    "name": "crashed cargo droneship",
+    "sym": "s",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle_wraitheon",
+    "type": "overmap_terrain",
+    "name": "crashed military droneship",
+    "sym": "s",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -390,5 +408,61 @@
     "color": "i_red",
     "see_cost": 2,
     "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Shuttle Landing Pad",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_shuttle_pad_a1", "afs_shuttle_pad_a2", "afs_shuttle_pad_a1_roof", "afs_shuttle_pad_a2_roof" ],
+    "sym": "-",
+    "color": "light_blue",
+    "see_cost": 3,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Malamute Transport Wreck",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [
+      "afs_freight_transport_a1",
+      "afs_freight_transport_a2",
+      "afs_freight_transport_roof_a1",
+      "afs_freight_transport_roof_a2"
+    ],
+    "sym": "M",
+    "color": "light_gray",
+    "see_cost": 3,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Habitat Block",
+    "spawns": { "group": "AFS_GROUP_RUIN_MOXIE", "population": [ 1, 5 ], "chance": 80 },
+    "id": [
+      "afs_habblock_1_a1",
+      "afs_hablock_1_a2",
+      "afs_habblock_1_floor2_a1",
+      "afs_hablock_1_floor2_a2",
+      "afs_habblock_1_roof_a1",
+      "afs_hablock_1_roof_a2"
+    ],
+    "sym": "H",
+    "color": "light_green",
+    "see_cost": 4,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "General Store",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_general_store_n1", "afs_general_store_n2", "afs_general_store_n3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": 3,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

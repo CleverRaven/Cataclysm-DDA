@@ -605,11 +605,11 @@ void mapgen_river_straight( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ), dat.zlevel() );
     }
 
     if( dat.terrain_type() == oter_river_east ) {
@@ -631,20 +631,20 @@ void mapgen_river_curved( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ), dat.zlevel() );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
-        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
+        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
+        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ), dat.zlevel() );
     }
 
     if( dat.terrain_type() == oter_river_se ) {
@@ -767,7 +767,7 @@ void mapgen_forest( mapgendata &dat )
     // In order to feather (blend) this overmap tile with adjacent ones, the general composition thereof must be known.
     // This can be calculated once from dat.t_nesw, and stored here:
     std::array<const forest_biome *, 8> adjacent_biomes;
-    for( int d = 0; d < 7; d++ ) {
+    for( int d = 0; d <= 7; d++ ) {
         auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d]->get_type_id() );
         if( lookup != dat.region.forest_composition.biomes.end() ) {
             adjacent_biomes[d] = &( lookup->second );
@@ -1022,7 +1022,12 @@ void mapgen_forest( mapgendata &dat )
                 return *dat.region.default_groundcover.pick();
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
-                    return *adjacent_biomes[feather_selection]->groundcover.pick();
+                    const ter_id *cover = adjacent_biomes[feather_selection]->groundcover.pick();
+                    if( cover ) {
+                        return *cover;
+                    }
+                    // Adjacent biome has no groundcover, use the region default.
+                    return *dat.region.default_groundcover.pick();
                 } else {
                     return *dat.region.default_groundcover.pick();
                 }
@@ -1130,7 +1135,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 
@@ -2108,7 +2113,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     if( straight ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 );
-            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ), dat.zlevel() );
         }
         if( w_ravine ) {
             m->rotate( 1 );
@@ -2122,7 +2127,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( interior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 ) + x;
-            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ), dat.zlevel() );
         }
         if( nw_ravine ) {
             m->rotate( 1 );
@@ -2136,7 +2141,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( exterior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge =  12  + rng( 1, 3 ) - x;
-            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ), dat.zlevel() );
         }
         if( w_ravine && s_ravine ) {
             m->rotate( 1 );
@@ -2157,26 +2162,23 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
 }
 
-void mremove_trap( map *m, const point &p, trap_id type )
+void mremove_trap( map *m, const tripoint_bub_ms &p, trap_id type )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
+    const trap_id trap_at_loc = m->maptile_at( p ).get_trap().id();
     if( type == tr_null || trap_at_loc == type ) {
-        m->remove_trap( actual_location );
+        m->remove_trap( p );
     }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
+void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
-                      m->get_abs_sub().z() ) ) ), true );
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( p ) ), true );
         if( c ) {
             return;
         }
     }
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    m->trap_set( actual_location, type );
+    m->trap_set( p, type );
 }
 
 void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
@@ -2198,10 +2200,9 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 
-void mremove_fields( map *m, const point &p )
+void mremove_fields( map *m, const tripoint_bub_ms &p )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    m->clear_fields( actual_location );
+    m->clear_fields( p.raw() );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

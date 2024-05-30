@@ -3,15 +3,19 @@
 #define CATA_SRC_AMMO_EFFECT_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "explosion.h"
 #include "field_type.h"
+#include "magic.h"
 #include "type_id.h"
 
 class JsonObject;
+struct ammo_effect;
+template <typename T> class generic_factory;
 
 generic_factory<ammo_effect> &get_all_ammo_effects();
 
@@ -20,6 +24,7 @@ struct ammo_effect {
         void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
+        fake_spell spell_data;
 
         field_type_id aoe_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */

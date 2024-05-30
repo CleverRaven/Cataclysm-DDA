@@ -1,7 +1,20 @@
+#include <algorithm>
+#include <cmath>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
+
 #include "cached_options.h"
+#include "calendar.h"
 #include "character.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
+#include "pimpl.h"
 #include "proficiency.h"
+#include "translations.h"
+#include "type_id.h"
 
 bool Character::has_proficiency( const proficiency_id &prof ) const
 {
@@ -32,13 +45,14 @@ bool Character::has_prof_prereqs( const proficiency_id &prof ) const
     return _proficiencies->has_prereqs( prof );
 }
 
-void Character::add_proficiency( const proficiency_id &prof, bool ignore_requirements )
+void Character::add_proficiency( const proficiency_id &prof, bool ignore_requirements,
+                                 bool recursive )
 {
     if( ignore_requirements ) {
         _proficiencies->direct_learn( prof );
         return;
     }
-    _proficiencies->learn( prof );
+    _proficiencies->learn( prof, recursive );
 }
 
 void Character::lose_proficiency( const proficiency_id &prof, bool ignore_requirements )

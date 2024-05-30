@@ -476,6 +476,19 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_WIND_TRANSLOCATION",
+    "name": { "str": "Going Wither the Wind May Lead" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to travel along the blowing winds to another location they have previously been to.",
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "prereqs": [ "SYLPH_FLY_AT_WILL" ],
+    "spells_learned": [ [ "sylph_wind_translocation_spell", 1 ], [ "sylph_wind_translocation_attune", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_CLOUD_FORM",
     "name": { "str": "Body of Cloud" },
     "points": 11,
@@ -514,5 +527,22 @@
     "threshreq": [ "THRESH_SYLPH" ],
     "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ] } ],
     "flags": [ "STEADY", "SLUDGE_IMMUNE", "WEB_WALKER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_PAIN_DOESNT_AFFECT_DEX_SPEED",
+    "name": { "str": "Winds Always At My Back" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The winds surround the Sylph and carry them along regardless of their physical condition.  They suffer no penalties to dexterity or speed due to pain.",
+    "prereqs": [ "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": -1 }, { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -1 } ]
+      }
+    ]
   }
 ]

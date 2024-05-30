@@ -9,6 +9,7 @@
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "pimpl.h"
 #include "recipe.h"
@@ -17,10 +18,9 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-bool Character::has_recipe( const recipe *r, const inventory &crafting_inv,
-                            const std::vector<Character *> &helpers ) const
+bool Character::has_recipe( const recipe *r ) const
 {
-    return knows_recipe( r ) || get_available_recipes( crafting_inv, &helpers ).contains( r );
+    return knows_recipe( r ) || get_group_available_recipes().contains( r );
 }
 
 bool Character::knows_recipe( const recipe *rec ) const
@@ -178,6 +178,15 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
 
     res.include( get_available_nested( res ) );
 
+    return res;
+}
+
+recipe_subset Character::get_group_available_recipes() const
+{
+    recipe_subset res;
+    for( const Character *guy : get_crafting_group() ) {
+        res.include( guy->get_available_recipes( crafting_inventory() ) );
+    }
     return res;
 }
 

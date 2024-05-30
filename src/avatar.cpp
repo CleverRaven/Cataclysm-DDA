@@ -348,7 +348,7 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %s is not in the active_missions list",
+        debugmsg( "new objective %s is not in the active_missions list",
                   cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
@@ -1017,10 +1017,15 @@ void avatar::reset_stats()
     // Pain
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
-        mod_str_bonus( -ppen.strength );
-        mod_dex_bonus( -ppen.dexterity );
-        mod_int_bonus( -ppen.intelligence );
-        mod_per_bonus( -ppen.perception );
+        ppen_str = ppen.strength;
+        ppen_dex = ppen.dexterity;
+        ppen_int = ppen.intelligence;
+        ppen_per = ppen.perception;
+        ppen_spd = ppen.speed;
+        mod_str_bonus( -ppen_str );
+        mod_dex_bonus( -ppen_dex );
+        mod_int_bonus( -ppen_int );
+        mod_per_bonus( -ppen_per );
         if( ppen.dexterity > 0 ) {
             add_miss_reason( _( "Your pain distracts you!" ), static_cast<unsigned>( ppen.dexterity ) );
         }
@@ -1232,6 +1237,11 @@ bool avatar::is_obeying( const Character &p ) const
 
 bool avatar::cant_see( const tripoint &p )
 {
+    return cant_see( tripoint_bub_ms( p ) );
+}
+
+bool avatar::cant_see( const tripoint_bub_ms &p )
+{
 
     // calc based on recoil
     if( !last_target_pos.has_value() ) {
@@ -1242,14 +1252,14 @@ bool avatar::cant_see( const tripoint &p )
         rebuild_aim_cache();
     }
 
-    return aim_cache[p.x][p.y];
+    return aim_cache[p.x()][p.y()];
 }
 
 void avatar::rebuild_aim_cache()
 {
     double pi = 2 * acos( 0.0 );
 
-    const tripoint local_last_target = get_map().getlocal( last_target_pos.value() );
+    const tripoint local_last_target = get_map().bub_from_abs( last_target_pos.value() ).raw();
 
     float base_angle = atan2f( local_last_target.y - posy(),
                                local_last_target.x - posx() );
@@ -1529,6 +1539,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
+bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+{
+    return avatar::invoke_item( used, pt.raw(), pre_obtain_moves );
+}
+
 bool avatar::invoke_item( item *used )
 {
     return Character::invoke_item( used );
@@ -1628,6 +1643,32 @@ void avatar::add_spent_calories( int cal )
 void avatar::add_gained_calories( int cal )
 {
     calorie_diary.front().gained += cal;
+}
+
+int avatar::get_daily_calories( unsigned days_ago, std::string const &type ) const
+{
+    auto iterator = calorie_diary.begin();
+    if( days_ago > calorie_diary.size() ) {
+        debugmsg(
+            "trying to access calorie diary from %d days ago, but the diary only contains %d days",
+            days_ago, calorie_diary.size() );
+        return 0;
+    }
+    std::advance( iterator, days_ago );
+
+    int result{};
+
+    if( type == "spent" ) {
+        result = iterator->spent;
+    } else if( type == "gained" ) {
+        result = iterator->gained;
+    } else if( type == "ingested" ) {
+        result = iterator->ingested;
+    } else if( type == "total" ) {
+        result = iterator->total();
+    }
+
+    return result;
 }
 
 void avatar::log_activity_level( float level )

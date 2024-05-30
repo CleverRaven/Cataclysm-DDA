@@ -204,10 +204,7 @@
       "failure": "Don't worry about it, I'll do it myself."
     },
     "end": {
-      "effect": [
-        { "npc_add_var": "sonia_guitar_fixed", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_spawn_item": "icon", "count": 1 }
-      ]
+      "effect": [ { "npc_add_var": "mission_completed_sonia_guitar_fixed", "value": "yes" }, { "u_spawn_item": "icon", "count": 1 } ]
     }
   },
   {
@@ -236,7 +233,7 @@
     },
     "end": {
       "effect": [
-        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "npc_add_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         { "u_spawn_item": "icon", "count": 3 }
       ],
       "update_mapgen": {
@@ -273,10 +270,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "effect": [
-        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_spawn_item": "icon", "count": 6 }
-      ],
+      "effect": [ { "npc_add_var": "mission_completed_godco_darryl_mission1", "value": "yes" }, { "u_spawn_item": "icon", "count": 6 } ],
       "update_mapgen": { "om_terrain": "godco_5", "set": [ { "point": "terrain", "id": "t_water_pump", "x": 15, "y": 23 } ] }
     }
   },
@@ -428,7 +422,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 12 },
-        { "u_add_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+        { "u_add_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -656,10 +650,7 @@
       "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
     },
     "end": {
-      "effect": [
-        { "u_spawn_item": "icon", "count": 10 },
-        { "npc_add_var": "gemma_got_supplements", "type": "mission", "context": "meeting", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -713,7 +704,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 155 },
-        { "npc_add_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+        { "npc_add_var": "mission_meeting_jane_willing_to_follow", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -755,7 +746,7 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "u_add_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
       ]
     }
@@ -831,7 +822,7 @@
         { "u_spawn_item": "gold_necklace" },
         { "u_spawn_item": "glasses_reading" },
         { "u_spawn_item": "knitting_needles" },
-        { "u_add_var": "theresa_going_away", "type": "general", "context": "completed", "value": "yes" }
+        { "u_add_var": "general_completed_theresa_going_away", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1091,7 +1082,7 @@
       "effect": [
         { "u_spawn_item": "icon", "count": 6 },
         { "mapgen_update": "olwen_radio_adapter", "om_terrain": "godco_1_2" },
-        { "u_add_var": "godco_has_radio", "type": "general", "context": "mission", "value": "yes" }
+        { "u_add_var": "general_mission_godco_has_radio", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1290,7 +1281,7 @@
     "description": "Go to the location Helena told you about and see who's there.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" },
+    "goal_condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {

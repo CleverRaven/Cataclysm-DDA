@@ -435,7 +435,6 @@
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
     "tools": [
       [
-        [ "fire_ax", -1 ],
         [ "ax", -1 ],
         [ "hatchet", -1 ],
         [ "copper_ax", -1 ],
@@ -452,6 +451,7 @@
     "//": "Any real, cutting weapons that can be used like an axe; large, heavy head with two sharp sides on a pole.",
     "tools": [
       [
+        [ "fire_ax", -1 ],
         [ "battleaxe", -1 ],
         [ "lc_battleaxe", -1 ],
         [ "mc_battleaxe", -1 ],

@@ -4,17 +4,15 @@
 
 #include <array>
 #include <cstddef>
-#include <cstdlib>
 #include <iosfwd>
 #include <map>
-#include <type_traits>
+#include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "debug.h"
-#include "enum_conversions.h"
 
 template <typename E> struct enum_traits;
 

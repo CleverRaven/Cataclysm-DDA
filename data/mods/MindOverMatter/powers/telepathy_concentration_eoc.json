@@ -39,7 +39,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -99,7 +99,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -159,7 +159,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -227,7 +227,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
       { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
         "u_add_morale": "morale_telepathy",

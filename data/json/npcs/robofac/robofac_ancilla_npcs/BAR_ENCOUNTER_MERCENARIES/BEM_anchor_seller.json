@@ -3,9 +3,7 @@
     "id": [ "BEM_ANCHOR_SELLER_1", "BEM_ANCHOR_SELLER_ASK" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "ANCHOR_SELLER_paranormal",
-      "type": "dialogue",
-      "context": "BEM_ANCHOR_SELLER",
+      "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal",
       "value": "yes",
       "yes": { "gendered_line": "Sorry I'd rather be left alone right now.", "relevant_genders": [ "npc" ] },
       "no": {
@@ -16,28 +14,22 @@
     "responses": [
       {
         "text": "Offer to buy the anchor for 1 HGC.",
-        "condition": {
-          "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
-        },
+        "condition": { "not": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" } },
         "topic": "BEM_ANCHOR_SELLER_2"
       },
       {
         "text": "Well, what's that thing for anyways?",
-        "condition": {
-          "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
-        },
+        "condition": { "not": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" } },
         "topic": "BEM_ANCHOR_SELLER_ASK"
       },
       {
         "text": "Sorry, I don't think I can help you.",
-        "condition": {
-          "not": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" }
-        },
+        "condition": { "not": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, see you around then.",
-        "condition": { "u_has_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -51,7 +43,7 @@
     },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "ANCHOR_SELLER_paranormal", "type": "dialogue", "context": "BEM_ANCHOR_SELLER", "value": "yes" },
+        { "u_add_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" },
         { "queue_eocs": "EOC_BEM_ANCHOR_SELLER_GONE", "time_in_future": [ "0s", "0s" ] }
       ]
     },

@@ -9,10 +9,14 @@
         { "u_has_trait": "HOMULLUS" },
         {
           "u_has_any_trait": [
+            "HOMULLUS_CHARM_FERALS",
             "HOMULLUS_SUMMON_FERALS",
             "HOMULLUS_SELF_DECEPTION",
             "HOMULLUS_INVISIBLE_TO_HUMANS",
             "HOMULLUS_REDUCED_VISIBILITY_ALLY",
+            "HOMULLUS_RESTORE_POWER",
+            "HOMULLUS_ADD_LEARNING_FOCUS",
+            "HOMULLUS_ROAD_TRANSLOCATION",
             "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
@@ -22,26 +26,13 @@
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
     "effect": [
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
-        "target_var": { "context_val": "homullus_location" }
-      },
-      {
         "run_eocs": [
           {
             "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_2",
-            "//": "This EoC is required because map_in_city cannot check talker location directly.",
             "condition": {
               "or": [
-                { "u_at_om_location": "FACTION_CAMP_ANY" },
-                { "u_near_om_location": "evac_center_13", "range": 3 },
-                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-                { "u_near_om_location": "ranch_camp_41", "range": 3 },
-                { "u_near_om_location": "godco_5", "range": 3 },
-                { "u_at_om_location": "homullus_genius_loci_NW" },
-                { "u_at_om_location": "homullus_genius_loci_NE" },
-                { "u_at_om_location": "homullus_genius_loci_SW" },
-                { "u_at_om_location": "homullus_genius_loci_SE" },
+                { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+                { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
                 { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
               ]
             },
@@ -57,24 +48,50 @@
     "//": "This is a separate EoC to allow looping through until it finds a spell the Homullus knows. Probability is [11-Difficulty]",
     "condition": {
       "or": [
+        { "math": [ "u_spell_level('homullus_charm_feral_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('homullus_summon_feral_spell')", "<", "35" ] },
         { "math": [ "u_spell_level('homullus_self_deception_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('homullus_invisible_to_humans_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('homullus_restore_power_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('homullus_add_learning_focus_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('homullus_road_translocate_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('homullus_cultivate_goblin_fruit')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
     },
     "effect": {
       "weighted_list_eocs": [
+        [ "EOC_LEVELER_HOMULLUS_CHARM_FERALS", 9 ],
         [ "EOC_LEVELER_HOMULLUS_SUMMON_FERALS", 8 ],
         [ "EOC_LEVELER_HOMULLUS_SELF_DECEPTION", 7 ],
         [ "EOC_LEVELER_HOMULLUS_INVISIBLE_TO_HUMANS", 5 ],
         [ "EOC_LEVELER_HOMULLUS_REDUCED_VISIBILITY_ALLY", 7 ],
+        [ "EOC_LEVELER_HOMULLUS_RESTORE_POWER", 6 ],
+        [ "EOC_LEVELER_HOMULLUS_ADD_LEARNING_FOCUS", 4 ],
+        [ "EOC_LEVELER_HOMULLUS_ROAD_TRANSLOCATION", 3 ],
         [ "EOC_LEVELER_HOMULLUS_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_HOMULLUS_MAKE_GOSSAMER", 4 ]
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_HOMULLUS_CHARM_FERALS",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('homullus_charm_feral_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_charm_feral_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('homullus_charm_feral_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
   {
     "type": "effect_on_condition",
@@ -147,6 +164,60 @@
       {
         "math": [ "u_spell_exp('homullus_reduced_visibility_ally_spell')", "+=", "paraclesian_passive_spell_exp(1)" ]
       }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_HOMULLUS_RESTORE_POWER",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('homullus_restore_power_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_restore_power_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('homullus_restore_power_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_HOMULLUS_ADD_LEARNING_FOCUS",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('homullus_add_learning_focus_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_add_learning_focus_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('homullus_add_learning_focus_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_HOMULLUS_ROAD_TRANSLOCATION",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('homullus_road_translocate_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_road_translocate_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('homullus_road_translocate_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

@@ -48,15 +48,13 @@
     "condition": {
       "and": [
         { "u_has_trait": "TUNDRA_MAGE" },
-        {
-          "not": { "u_has_var": "u_got_tundra_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
+        { "not": { "u_has_var": "attunement_attunement_u_got_tundra_mage_attunement", "value": "yes" } }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "TUNDRA_MAGE" } },
     "effect": [
       { "u_add_trait": "FREEZING_AURA_OFF" },
-      { "u_add_var": "u_got_tundra_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+      { "u_add_var": "attunement_attunement_u_got_tundra_mage_attunement", "value": "yes" }
     ]
   },
   {

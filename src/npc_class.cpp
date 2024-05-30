@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "condition.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "itype.h"
@@ -169,6 +170,11 @@ void npc_class::check_consistency()
             debugmsg( "Trait group %s is undefined", cl.traits.c_str() );
         }
     }
+}
+
+bool npc_class::is_common() const
+{
+    return common;
 }
 
 static distribution load_distribution( const JsonObject &jo )

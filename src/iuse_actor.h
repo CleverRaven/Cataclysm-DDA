@@ -15,7 +15,7 @@
 
 #include "calendar.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "enums.h"
 #include "explosion.h"
@@ -1179,7 +1179,7 @@ class effect_on_conditons_actor : public iuse_actor
 
         ~effect_on_conditons_actor() override = default;
         void load( const JsonObject &obj ) override;
-        std::optional<int> use( Character *p, item &it, const tripoint & ) const override;
+        std::optional<int> use( Character *p, item &it, const tripoint &point ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;

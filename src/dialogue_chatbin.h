@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_DIALOGUE_CHATBIN_H
 #define CATA_SRC_DIALOGUE_CHATBIN_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "translation.h"

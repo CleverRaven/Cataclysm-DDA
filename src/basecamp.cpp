@@ -1,36 +1,38 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <functional>
 #include <map>
-#include <new>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
+#include "cata_assert.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "debug.h"
+#include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_group.h"
-#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -185,9 +187,12 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type )
+void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type,
+                            bool player_founded )
 {
-    query_new_name( true );
+    if( player_founded ) {
+        query_new_name( true );
+    }
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -203,9 +208,11 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view ca
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
         const std::string direction = oter_get_rotation_string( omt_ref );
-        const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
-                            direction );
-        overmap_buffer.ter_set( omt_pos, bcid );
+        if( player_founded ) {
+            const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
+                                direction );
+            overmap_buffer.ter_set( omt_pos, bcid );
+        }
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -315,6 +322,24 @@ bool basecamp::has_water() const
 {
     // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
+}
+
+bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
+{
+    // The owner can always access their own camp.
+    if( fac() == guy.get_faction() ) {
+        return true;
+    }
+    // Sharing stuff also means sharing access.
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+        return true;
+    }
+    // Some factions will share access to infinite water sources, but not food
+    if( water_request &&
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
+        return true;
+    }
+    return false;
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
@@ -427,6 +452,7 @@ void basecamp::update_resources( const std::string &bldg )
 void basecamp::update_provides( const std::string &bldg, expansion_data &e_data )
 {
     if( !recipe_id( bldg ).is_valid() ) {
+        debugmsg( "Invalid basecamp recipe %s", bldg );
         return;
     }
 
@@ -806,14 +832,8 @@ void basecamp::unload_camp_map()
 
 void basecamp::set_owner( faction_id new_owner )
 {
-    for( const std::pair<faction_id, faction> fac : g->faction_manager_ptr->all() ) {
-        if( fac.first == new_owner ) {
-            owner = new_owner;
-            return;
-        }
-    }
-    //Fallthrough, id must be invalid
-    debugmsg( "Could not find matching faction for new owner's faction_id!" );
+    // Absolutely no safety checks, factions don't exist until you've encountered them but we sometimes set the owner before that
+    owner = new_owner;
 }
 
 faction_id basecamp::get_owner()
@@ -858,7 +878,7 @@ bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
 void basecamp::load_data( const std::string &data )
 {
     std::stringstream stream( data );
-    stream >> name >> bb_pos.x >> bb_pos.y;
+    stream >> name >> bb_pos.x() >> bb_pos.y();
     // add space to name
     replace( name.begin(), name.end(), '_', ' ' );
 }

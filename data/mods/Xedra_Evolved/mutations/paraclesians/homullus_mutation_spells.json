@@ -1,5 +1,40 @@
 [
   {
+    "id": "homullus_charm_feral_spell",
+    "type": "SPELL",
+    "name": "One of Us",
+    "description": "Insinuate yourself into a feral human's mind, tricking them into thinking you are an ally.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "charm_monster",
+    "shape": "blast",
+    "min_damage": { "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 5) + 20) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 8) + 45) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "min_duration": {
+      "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 10) + 60) * (scaling_factor(u_val('intelligence') ) ) " ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('homullus_charm_feral_spell') * 25) + 120) * (scaling_factor(u_val('intelligence') ) ) " ]
+    },
+    "min_range": {
+      "math": [ "min( (( (u_spell_level('homullus_charm_feral_spell') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) )), 70)" ]
+    },
+    "max_range": 70,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 250,
+    "energy_increment": -5,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -8,
+    "targeted_monster_species": [ "FERAL" ]
+  },
+  {
     "id": "homullus_summon_feral_spell",
     "type": "SPELL",
     "name": "Calling the Lost and the Damned",
@@ -142,6 +177,63 @@
     "duration_increment": 16500
   },
   {
+    "id": "homullus_restore_power_spell",
+    "type": "SPELL",
+    "name": "Dynamo",
+    "description": "Fueled by the power charging your leylines, touch a target to restore some of the power in a vehicle or power grid.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "SILENT", "VERBAL", "SOMATIC", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "recharge_vehicle",
+    "shape": "blast",
+    "min_damage": {
+      "math": [ "( (u_spell_level('homullus_restore_power_spell') * 350) + 400) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('homullus_restore_power_spell') * 850) + 1500) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "min_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 750,
+    "final_energy_cost": 450,
+    "energy_increment": -10,
+    "base_casting_time": 1500,
+    "final_casting_time": 400,
+    "casting_time_increment": -50
+  },
+  {
+    "id": "homullus_add_learning_focus_spell",
+    "type": "SPELL",
+    "name": "The Scholar's Regard",
+    "description": "Unlike plants or animals, humans study subjects unrelated to survival.  This spell focuses the Homullus's mind, allowing easier learning.",
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS", "RANDOM_DURATION" ],
+    "teachable": false,
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_homullus_add_learning_focus",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 90000 + (u_spell_level('homullus_invisible_to_humans_spell') * 12000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( 180000 + (u_spell_level('homullus_invisible_to_humans_spell') * 25000) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 850,
+    "final_energy_cost": 600,
+    "energy_increment": -8,
+    "base_casting_time": 500
+  },
+  {
     "id": "homullus_cultivate_goblin_fruit",
     "type": "SPELL",
     "name": "Discover Goblin Fruit",
@@ -163,5 +255,60 @@
     "base_energy_cost": 450,
     "final_energy_cost": 350,
     "energy_increment": -4
+  },
+  {
+    "id": "homullus_road_translocate_spell",
+    "type": "SPELL",
+    "name": "All Roads Lead to Rome",
+    "description": "Humanity crisscrossed the Earth with roads, first small tracks, then earthen projects, and finally mighty asphalt webs upon which billions of people traveled every day.  The Homullus can stand on the remnants of that web and return to any remaining locus of civilization that they have attuned to.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_ALL_ROADS_TRANSLOCATE_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "homullus_road_translocate_attune",
+    "type": "SPELL",
+    "name": "All Roads Lead to Rome Attunement",
+    "description": "Attune to a location for later traveling.  You must attune at one of the remaining bastions of civilization or concentrations of humanity.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_ALL_ROADS_ATTUNEMENT_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "1440000 - max(( u_spell_level('homullus_road_translocate') * 108000), 90000)" ] }
+  },
+  {
+    "id": "homullus_civilization_translocate_attune_real",
+    "type": "SPELL",
+    "name": "All Roads Lead to Rome Attunement Real",
+    "description": "The actual All Roads Lead to Rome attunement spell.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "HOMULLUS",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_homullus_translocate_location_attune",
+    "shape": "blast",
+    "min_range": 1
   }
 ]

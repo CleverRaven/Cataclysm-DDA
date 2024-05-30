@@ -122,6 +122,7 @@ class monster : public Creature
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
+        std::vector<material_id> get_no_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -212,8 +213,6 @@ class monster : public Creature
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;
-
-        bool monster_move_in_vehicle( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -457,7 +456,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
-        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
+        void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
 

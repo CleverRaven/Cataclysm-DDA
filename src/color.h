@@ -3,12 +3,12 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
-#include <cstddef>
 #include <iosfwd>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
-#include "translations.h"
+#include "translation.h"
 
 #define all_colors get_all_colors()
 
@@ -344,6 +344,8 @@ enum hl_enum {
     NUM_HL
 };
 
+struct ImVec4;
+
 class nc_color
 {
     private:
@@ -356,6 +358,8 @@ class nc_color
 
     public:
         nc_color() : attribute_value( 0 ), index( 0 ) { }
+
+        operator ImVec4(); // NOLINT(google-explicit-constructor): the conversion is not expensive
 
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).

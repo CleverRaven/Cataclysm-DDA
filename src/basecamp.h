@@ -2,36 +2,47 @@
 #ifndef CATA_SRC_BASECAMP_H
 #define CATA_SRC_BASECAMP_H
 
+#include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_set>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "craft_command.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "inventory.h"
 #include "map.h"
+#include "mapgendata.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
 #include "stomach.h"
+#include "translation.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
+class basecamp;
 class character_id;
+class faction;
+class item;
 class npc;
+class recipe;
 class time_duration;
 class zone_data;
-enum class farm_ops : int;
-class item;
-class recipe;
+struct MonsterGroupResult;
+enum class farm_ops;
 
 using faction_id = string_id<faction>;
 
@@ -156,10 +167,10 @@ class basecamp
             return !name.empty() && omt_pos != tripoint_abs_omt();
         }
         inline int board_x() const {
-            return bb_pos.x;
+            return bb_pos.x();
         }
         inline int board_y() const {
-            return bb_pos.y;
+            return bb_pos.y();
         }
         inline tripoint_abs_omt camp_omt_pos() const {
             return omt_pos;
@@ -168,14 +179,17 @@ class basecamp
             return name;
         }
         tripoint get_bb_pos() const {
+            return bb_pos.raw();
+        }
+        tripoint_abs_ms get_bb_pos_abs() const {
             return bb_pos;
         }
-        void validate_bb_pos( const tripoint &new_abs_pos ) {
-            if( bb_pos == tripoint_zero ) {
+        void validate_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
+            if( bb_pos.raw() == tripoint_zero ) {
                 bb_pos = new_abs_pos;
             }
         }
-        void set_bb_pos( const tripoint &new_abs_pos ) {
+        void set_bb_pos( const tripoint_abs_ms &new_abs_pos ) {
             bb_pos = new_abs_pos;
         }
         void set_by_radio( bool access_by_radio );
@@ -196,7 +210,8 @@ class basecamp
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
-        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type );
+        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type,
+                          bool player_founded = true );
 
         std::string expansion_tab( const point &dir ) const;
         // check whether the point is the part of camp
@@ -259,6 +274,7 @@ class basecamp
         /// Changes the faction opinion for you by @ref change, returns opinion
         int camp_morale( int change = 0 ) const;
 
+        bool allowed_access_by( Character &guy, bool water_request = false ) const;
         // recipes, gathering, and craft support functions
         // from a direction
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
@@ -477,8 +493,8 @@ class basecamp
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
-        // location of associated bulletin board in abs coords
-        tripoint bb_pos;
+        // location of associated bulletin board
+        tripoint_abs_ms bb_pos;
         std::map<point, expansion_data> expansions;
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)

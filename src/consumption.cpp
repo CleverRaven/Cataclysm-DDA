@@ -2,21 +2,29 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
+#include <cstdint>
+#include <limits>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 #include "addiction.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "contents_change_handler.h"
-#include "craft_command.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -25,12 +33,16 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_components.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "material.h"
@@ -41,14 +53,18 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
+#include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
@@ -60,6 +76,9 @@ static const std::string comesttype_FOOD( "FOOD" );
 static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
+
+static const character_modifier_id character_modifier_liquid_consume_mod( "liquid_consume_mod" );
+static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
@@ -699,7 +718,9 @@ float Character::metabolic_rate_base() const
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     float hunger_rate = get_option< float >( hunger_rate_string );
-    return enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, hunger_rate );
+    const float final_hunger_rate = enchantment_cache->modify_value( enchant_vals::mod::METABOLISM,
+                                    hunger_rate );
+    return std::clamp( final_hunger_rate, 0.0f, float_max );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -1706,10 +1727,12 @@ time_duration Character::get_consume_time( const item &it ) const
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
+        consume_time_modifier *= get_modifier( character_modifier_solid_consume_mod );
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
+        consume_time_modifier *= get_modifier( character_modifier_liquid_consume_mod );
     } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
         time = time_duration::from_moves( dynamic_cast<heal_actor const *>
                                           ( fun->get_actor_ptr() )->move_cost );
@@ -1747,6 +1770,9 @@ time_duration Character::get_consume_time( const item &it ) const
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
+        consume_time_modifier *=  it.made_of_from_type( phase_id::LIQUID ) ?
+                                  get_modifier( character_modifier_liquid_consume_mod ) :
+                                  get_modifier( character_modifier_solid_consume_mod );
     }
 
     // Minimum consumption time, without mutations, is always 1 second.

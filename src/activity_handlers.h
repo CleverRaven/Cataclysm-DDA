@@ -2,23 +2,24 @@
 #ifndef CATA_SRC_ACTIVITY_HANDLERS_H
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "coordinates.h"
-#include "item_location.h"
-#include "type_id.h"
+#include "coords_fwd.h"
 #include "requirements.h"
+#include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
 class item;
+class item_location;
 class player_activity;
-struct tripoint;
 
 template<typename Point, typename Container>
 std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Container &tiles )
@@ -64,6 +65,7 @@ enum class do_activity_reason : int {
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
     UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
+    NEEDS_CLEARING,         // For farming - tile was neglected and became overgrown, can be cleared.
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
@@ -95,6 +97,7 @@ const std::vector<std::string> do_activity_reason_string = {
     "NO_ZONE",
     "ALREADY_DONE",
     "UNKNOWN_ACTIVITY",
+    "NEEDS_CLEARING",
     "NEEDS_HARVESTING",
     "NEEDS_PLANTING",
     "NEEDS_TILLING",
@@ -163,6 +166,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you,
 void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
+double butcher_get_progress( const item &corpse_item, butcher_type action );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -192,6 +196,7 @@ void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
+void butcher_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );

@@ -1,16 +1,18 @@
 #include "bionics.h"
 
-#include <algorithm> //std::min
+#include <algorithm>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <cstdint>
 #include <forward_list>
-#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
 #include <optional>
+#include <ostream>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "action.h"
@@ -24,36 +26,45 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
+#include "condition.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "handle_liquid.h"
+#include "init.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "json_error.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "material.h"
-#include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -64,13 +75,16 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "translations.h"
 #include "ui.h"
@@ -1014,7 +1028,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !is_avatar() ) {
             return false;
         }
-        std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
+        std::optional<tripoint_bub_ms> target = lockpick_activity_actor::select_location(
+                player_character );
         if( target.has_value() ) {
             add_msg_activate();
             assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );

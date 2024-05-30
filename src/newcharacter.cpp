@@ -40,6 +40,7 @@
 #include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mission.h"
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
@@ -795,7 +796,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-void Character::set_skills_from_hobbies()
+void Character::set_skills_from_hobbies( bool no_override )
 {
     // 2 for an average person
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
@@ -804,6 +805,9 @@ void Character::set_skills_from_hobbies()
     // Grab skills from hobbies and train
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
+            if( no_override && get_skill_level( e.first ) != 0 ) {
+                continue;
+            }
             // Train our skill
             const int skill_xp_bonus = calculate_cumulative_experience( e.second );
             get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,

@@ -60,7 +60,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "null", "prob": 50 },
-      { "item": "mask_gas", "prob": 20, "charges-min": 10 },
+      { "item": "mask_gas", "prob": 20, "charges": [ 10, -1 ] },
       { "item": "mask_bal", "prob": 10 }
     ]
   },

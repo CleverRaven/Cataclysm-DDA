@@ -445,6 +445,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_oil",
+    "name": "crude oil",
+    "default": "crude_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
     "default": "thread"
@@ -526,6 +532,12 @@
     "id": "propane",
     "name": "propane",
     "default": "propane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "biogas",
+    "name": "biogas",
+    "default": "biogas"
   },
   {
     "type": "ammunition_type",

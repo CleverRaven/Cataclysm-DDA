@@ -1,7 +1,14 @@
-#include <algorithm> //std::min
+#include <algorithm>
 #include <cstddef>
+#include <cstdint>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
@@ -9,6 +16,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -16,14 +24,21 @@
 #include "game.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
+#include "item.h"
+#include "item_location.h"
 #include "localized_comparator.h"
+#include "make_static.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "make_static.h"
 #include "pimpl.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"

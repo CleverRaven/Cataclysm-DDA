@@ -10,9 +10,9 @@
           { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           {
             "collection": [
-              { "item": "tobacco", "count-min": 1, "count-max": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
+              { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
@@ -72,7 +72,7 @@
               { "item": "cotton_patchwork", "count": [ 3, 10 ] },
               { "distribution": [ { "item": "hotplate", "prob": 80 }, { "item": "chemistry_set", "prob": 20 } ] },
               { "item": "vac_pump" },
-              { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
+              { "item": "chem_ethanol", "charges": [ 150, -1 ], "prob": 80 }
             ],
             "prob": 30
           }
@@ -80,8 +80,8 @@
       },
       {
         "collection": [
-          { "item": "filter_paper_qualitative", "charges-min": 30 },
-          { "item": "filter_paper_quantitative", "charges-min": 30 },
+          { "item": "filter_paper_qualitative", "charges": [ 30, -1 ] },
+          { "item": "filter_paper_quantitative", "charges": [ 30, -1 ] },
           { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
           { "item": "textbook_extraction", "prob": 75 }
         ]
@@ -278,8 +278,8 @@
     "id": "makeshift_memorial",
     "subtype": "collection",
     "entries": [
-      { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges-max": 50 },
-      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges-min": 50 },
+      { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges": [ 0, 50 ] },
+      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges": [ 50, -1 ] },
       { "item": "family_photo", "prob": 20, "count": [ 1, 2 ] },
       { "item": "teddy_bear", "prob": 5 }
     ]
@@ -289,7 +289,7 @@
     "id": "cathedral_archives",
     "subtype": "collection",
     "entries": [
-      { "item": "book_binder", "prob": 90, "charges-max": 90, "count": [ 1, 5 ] },
+      { "item": "book_binder", "prob": 90, "charges": [ 0, 90 ], "count": [ 1, 5 ] },
       { "item": "file", "prob": 50, "count": [ 1, 15 ] },
       { "item": "paper", "prob": 60, "count": [ 10, 125 ] },
       { "item": "book_pieces", "prob": 20 },
@@ -327,5 +327,30 @@
     "id": "pillbox_any_empty",
     "subtype": "distribution",
     "items": [ "pillbox", "pillbox_large" ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot",
+    "items": [ [ "armor_riot", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "helmet_riot",
+    "items": [ [ "helmet_riot", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot_arm",
+    "items": [ [ "armor_riot_arm", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot_leg",
+    "items": [ [ "armor_riot_leg", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "butterfly_net_any",
+    "items": [ { "item": "butterfly_net_collapsible", "prob": 4 }, { "item": "butterfly_net_makeshift", "prob": 6 } ]
   }
 ]

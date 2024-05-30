@@ -19,7 +19,7 @@
 
 #include "basecamp.h"
 #include "city.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "cube_direction.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -450,7 +450,7 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, int town_size ) const;
 
         // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
         // NOLINTNEXTLINE(cata-serialize)
@@ -549,10 +549,15 @@ class overmap
         void load_legacy_monstergroups( const JsonArray &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
+        static void load_oter_id_camp_migration( const JsonObject &jo );
         static void load_oter_id_migration( const JsonObject &jo );
+        static void reset_oter_id_camp_migrations();
         static void reset_oter_id_migrations();
+        static bool oter_id_should_have_camp( const oter_type_str_id &oter );
         static bool is_oter_id_obsolete( const std::string &oterid );
+        void migrate_camps( const std::vector<tripoint_abs_omt> &points ) const;
         void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
+        oter_id get_or_migrate_oter( const std::string &oterid );
 };
 
 bool is_river( const oter_id &ter );

@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <bitset>
 #include <cstdlib>
 #include <limits>
@@ -12,6 +13,7 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
@@ -19,11 +21,15 @@
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "json_error.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -31,10 +37,11 @@
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
-#include "text_snippets.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -125,6 +132,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "consumes_food", consumes_food, false );
     optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
     jsobj.read( "fac_food_supply", food_supply, true );
     if( jsobj.has_string( "currency" ) ) {
@@ -1045,6 +1053,10 @@ void faction_manager::display() const
                 continue;
             }
             basecamp *temp_camp = *p;
+            if( temp_camp->get_owner() != player_character.get_faction()->id ) {
+                // Don't display NPC camps as ours
+                continue;
+            }
             camps.push_back( temp_camp );
         }
         lore.clear();

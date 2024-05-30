@@ -354,6 +354,12 @@
     "restriction": "Item must be some kind of face shield"
   },
   {
+    "id": "HELMET_FRONT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in the front of <info>military helmets</info>.",
+    "restriction": "Item must be some kind of frontal helmet attachment"
+  },
+  {
     "id": "HELMET_EAR_ATTACHMENT",
     "type": "json_flag",
     "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
@@ -909,11 +915,6 @@
   {
     "id": "REVIVE_SPECIAL",
     "type": "json_flag"
-  },
-  {
-    "id": "SLOWS_MOVEMENT",
-    "type": "json_flag",
-    "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
   },
   {
     "id": "STURDY",
@@ -1894,6 +1895,10 @@
     "type": "json_flag"
   },
   {
+    "id": "USES_NEARBY_AMMO",
+    "type": "json_flag"
+  },
+  {
     "id": "USE_EAT_VERB",
     "type": "json_flag"
   },
@@ -2196,32 +2201,32 @@
   {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit helmet plating."
+    "info": "This is meant for exoskeleton helmet plating."
   },
   {
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit torso plating."
+    "info": "This is meant for exoskeleton torso plating."
   },
   {
     "id": "EXO_ARM_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit arm plating."
+    "info": "This is meant for exoskeleton arm plating."
   },
   {
     "id": "EXO_GLOVE_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit arm plating."
+    "info": "This is meant for exoskeleton arm plating."
   },
   {
     "id": "EXO_LEG_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit leg plating."
+    "info": "This is meant for exoskeleton leg plating."
   },
   {
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit foot plating."
+    "info": "This is meant for exoskeleton foot plating."
   },
   {
     "id": "ROBOFAC_ROBOT_MEDIUM",
@@ -2455,5 +2460,15 @@
   {
     "id": "DRACULIN_VENOM",
     "type": "json_flag"
+  },
+  {
+    "id": "PREFIX_XL",
+    "type": "json_flag",
+    "item_prefix": "XL "
+  },
+  {
+    "id": "PREFIX_XS",
+    "type": "json_flag",
+    "item_prefix": "XS "
   }
 ]

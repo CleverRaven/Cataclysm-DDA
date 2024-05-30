@@ -7,26 +7,39 @@
 #include <limits>
 #include <list>
 #include <string>
+#include <utility>
 
 #include "activity_actor_definitions.h"
 #include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
+#include "itype.h"
 #include "json.h"
+#include "line.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
-#include "vpart_range.h"
+#include "vehicle.h"
 #include "visitable.h"
+#include "vpart_position.h"
 
 static const itype_id itype_candle( "candle" );
 
@@ -105,6 +118,15 @@ void craft_command::execute( const std::optional<tripoint> &new_loc )
     loc = new_loc;
 
     execute();
+}
+
+void craft_command::execute( const std::optional<tripoint_bub_ms> &new_loc )
+{
+    std::optional<tripoint> tmp;
+    if( new_loc.has_value() ) {
+        tmp = new_loc.value().raw();
+    }
+    craft_command::execute( tmp );
 }
 
 void craft_command::execute( bool only_cache_comps )

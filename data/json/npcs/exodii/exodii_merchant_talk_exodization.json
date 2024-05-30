@@ -79,7 +79,7 @@
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
@@ -90,7 +90,7 @@
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "condition": {
           "and": [
-            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
@@ -120,7 +120,7 @@
         "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
@@ -131,7 +131,7 @@
         "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
         "condition": {
           "and": [
-            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
@@ -157,12 +157,7 @@
       {
         "text": "One thousand units of, uh, anesthetic, coming up.  Can we talk about something else?",
         "condition": {
-          "not": {
-            "or": [
-              { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
-            ]
-          }
+          "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
         },
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -170,24 +165,14 @@
       {
         "text": "One thousand units of, uh, anesthetic, coming up.  I'd better start looking.",
         "condition": {
-          "not": {
-            "or": [
-              { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
-            ]
-          }
+          "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
         },
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_DONE"
       },
       {
         "text": "Something's weird, I shouldn't have ever reached this dialogue option.  I'd better go file a bug report.",
-        "condition": {
-          "or": [
-            { "u_has_mission": "RUBIK_ANUS_FETICK" },
-            { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
-          ]
-        },
+        "condition": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] },
         "topic": "TALK_DONE"
       }
     ]
@@ -222,12 +207,12 @@
     },
     "speaker_effect": [
       {
-        "condition": { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
         "//": "Rubik considers it a good sign that you might be a bit unsure about diving into exodization.",
         "effect": [
           { "u_add_faction_trust": 2 },
           { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "-=", "2" ] },
-          { "u_add_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+          { "u_add_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
           { "math": [ "u_timer_blobpsychosis_u_declined_exodization", "=", "time('now')" ] }
         ]
       }

@@ -101,7 +101,12 @@
       { "point": [ 3, 3, 0 ], "overmap": "lake_retreat_ground_north" },
       { "point": [ 3, 3, 1 ], "overmap": "lake_retreat_z1_north" },
       { "point": [ 3, 3, 2 ], "overmap": "lake_retreat_z2_north" },
-      { "point": [ 3, 3, 3 ], "overmap": "lake_retreat_z3_north" },
+      {
+        "point": [ 3, 3, 3 ],
+        "overmap": "lake_retreat_z3_north",
+        "camp": "wizards_ancient",
+        "camp_name": "Old Wizard"
+      },
       { "point": [ 3, 3, 4 ], "overmap": "lake_retreat_z4_north" },
       { "point": [ 4, 3, 0 ], "overmap": "forest" },
       { "point": [ 5, 3, 0 ], "overmap": "lake_shore" },
@@ -292,7 +297,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
     "spawns": { "group": "GROUP_OGRE", "population": [ 1, 10 ], "radius": [ 1, 6 ] },
-    "flags": [ "WILDERNESS", "RISK_HIGH" ]
+    "flags": [ "WILDERNESS", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_special",

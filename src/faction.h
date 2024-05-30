@@ -3,8 +3,8 @@
 #define CATA_SRC_FACTION_H
 
 #include <bitset>
-#include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -14,9 +14,10 @@
 
 #include "character_id.h"
 #include "color.h"
+#include "generic_factory.h"
 #include "shop_cons_rate.h"
 #include "stomach.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "vitamin.h"
 
@@ -40,8 +41,6 @@ class JsonValue;
 class faction;
 class npc;
 
-struct dialogue;
-
 using faction_id = string_id<faction>;
 
 namespace npc_factions
@@ -51,6 +50,7 @@ enum relationship : int {
     kill_on_sight,
     watch_your_back,
     share_my_stuff,
+    share_public_goods,
     guard_your_stuff,
     lets_you_in,
     defend_your_space,
@@ -63,6 +63,7 @@ const std::unordered_map<std::string, relationship> relation_strs = { {
         { "kill on sight", kill_on_sight },
         { "watch your back", watch_your_back },
         { "share my stuff", share_my_stuff },
+        { "share public goods", share_public_goods },
         { "guard your stuff", guard_your_stuff },
         { "lets you in", lets_you_in },
         { "defends your space", defend_your_space },
@@ -115,6 +116,7 @@ class faction_template
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
         nutrients food_supply; //Total nutritional value held
+        bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency

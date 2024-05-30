@@ -1,13 +1,11 @@
 #pragma once
+#include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
-#include <functional>
-#include <memory>
-#include <array>
 
 class nc_color;
 struct input_event;
-struct item_info_data;
 
 #if defined(WIN32) || defined(TILES)
 #include "sdl_geometry.h"
@@ -16,7 +14,8 @@ struct item_info_data;
 #endif
 
 struct point;
-class ImVec2;
+struct ImVec2;
+struct ImVec4;
 class Font;
 class input_context;
 
@@ -46,6 +45,10 @@ enum class dialog_result {
 
 class client
 {
+        std::vector<int> cata_input_trail;
+#if defined(TILES) || defined(WIN32)
+        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
+#endif
     public:
 #if !(defined(TILES) || defined(WIN32))
         client();
@@ -76,6 +79,8 @@ class client
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
+ImVec4 imvec4_from_color( nc_color &color );
+
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
@@ -90,6 +95,9 @@ class window
                                 float wrap_width = 0.0F, bool *is_selected = nullptr,
                                 bool *is_focused = nullptr, bool *is_hovered = nullptr );
         void draw_colored_text( std::string const &text, nc_color &color,
+                                float wrap_width = 0.0F, bool *is_selected = nullptr,
+                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
+        void draw_colored_text( std::string const &text,
                                 float wrap_width = 0.0F, bool *is_selected = nullptr,
                                 bool *is_focused = nullptr, bool *is_hovered = nullptr );
         bool action_button( const std::string &action, const std::string &text );

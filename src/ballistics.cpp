@@ -2,15 +2,14 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
-#include <functional>
-#include <iosfwd>
 #include <memory>
 #include <optional>
 #include <set>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -24,6 +23,7 @@
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
@@ -36,9 +36,7 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
-#include "visitable.h"
 #include "vpart_position.h"
-#include "weakpoint.h"
 
 static const efftype_id effect_bounced( "bounced" );
 
@@ -242,6 +240,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const auto &proj_effects = proj.proj_effects;
 
     const bool stream = proj_effects.count( "STREAM" ) > 0 ||
+                        proj_effects.count( "STREAM_TINY" ) > 0 ||
                         proj_effects.count( "STREAM_BIG" ) > 0 ||
                         proj_effects.count( "JET" ) > 0;
     const char bullet = stream ? '#' : '*';

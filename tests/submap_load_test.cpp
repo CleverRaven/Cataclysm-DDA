@@ -31,6 +31,7 @@ static const furn_str_id furn_f_bookcase( "f_bookcase" );
 static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
+static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_floor( "t_floor" );
@@ -38,6 +39,7 @@ static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" );
 
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
@@ -779,6 +781,29 @@ static std::string submap_cosmetic_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
+static std::string submap_pre_migration_ss(
+    "{\n"
+    "  \"version\": 32,\n"
+    "  \"coordinates\": [ 0, 0, 0 ],\n"
+    "  \"turn_last_touched\": 0,\n"
+    "  \"temperature\": 0,\n"
+    "  \"terrain\": [ [ \"test_t_migration_old_id\", 1 ], [ \"t_dirt\", 10 ], [ \"test_t_migration_old_id\", 1 ], [ \"t_dirt\", 132 ] ],\n"
+    "  \"radiation\": [ 0, 144 ],\n"
+    "  \"furniture\": [\n"
+    "    [ 0, 0, \"f_bookcase\" ],\n"
+    "    [ 0, 11, \"test_f_migration_old_id\" ],\n"
+    "    [ 11, 11, \"test_f_migration_old_id\" ]\n"
+    "  ],\n"
+    "  \"items\": [ ],\n"
+    "  \"traps\": [ ],\n"
+    "  \"fields\": [ ],\n"
+    "  \"cosmetics\": [ ],\n"
+    "  \"spawns\": [ ],\n"
+    "  \"vehicles\": [ ],\n"
+    "  \"partial_constructions\": [ ],\n"
+    "  \"computers\": [ ]\n"
+    "}\n"
+);
 
 static_assert( SEEX == 12, "Reminder to update submap tests when SEEX changes." );
 static_assert( SEEY == 12, "Reminder to update submap tests when SEEY changes." );
@@ -798,6 +823,7 @@ static JsonValue submap_vehicle = json_loader::from_string( submap_vehicle_ss );
 static JsonValue submap_construction = json_loader::from_string( submap_construction_ss );
 static JsonValue submap_computer = json_loader::from_string( submap_computer_ss );
 static JsonValue submap_cosmetic = json_loader::from_string( submap_cosmetic_ss );
+static JsonValue submap_pre_migration = json_loader::from_string( submap_pre_migration_ss );
 
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
@@ -1417,4 +1443,47 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     // Checking more is complicated
     REQUIRE( sm.has_computer( point_south ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
+}
+
+TEST_CASE( "submap_ter_furn_migration", "[submap][load]" )
+{
+    submap sm;
+    load_from_jsin( sm, submap_pre_migration );
+    submap_checks checks;
+    checks.terrain = false;
+    checks.furniture = false;
+
+    REQUIRE( is_normal_submap( sm, checks ) );
+
+    const ter_id ter_nw = sm.get_ter( corner_nw );
+    const ter_id ter_ne = sm.get_ter( corner_ne );
+    const ter_id ter_sw = sm.get_ter( corner_sw );
+    const ter_id ter_se = sm.get_ter( corner_se );
+
+    const furn_id furn_nw = sm.get_furn( corner_nw );
+    const furn_id furn_ne = sm.get_furn( corner_ne );
+    const furn_id furn_sw = sm.get_furn( corner_sw );
+    const furn_id furn_se = sm.get_furn( corner_se );
+
+    // North corners should have migrated from test_t_migration_old_id to test_t_migration_new_id
+    INFO( string_format( "ter nw: %s", ter_nw.id().str() ) );
+    INFO( string_format( "ter ne: %s", ter_ne.id().str() ) );
+    REQUIRE( ter_nw == ter_test_t_migration_new_id );
+    REQUIRE( ter_ne == ter_test_t_migration_new_id );
+    // West one could still have a f_bookcase as it may override the test_f_migration_new_id placed by migration, as the load order for the json members isn't defined
+    INFO( string_format( "furn nw: %s", furn_nw.id().str() ) );
+    REQUIRE( ( furn_nw == furn_f_bookcase || furn_nw == furn_test_f_migration_new_id ) );
+    // East one should now have test_f_migration_new_id as per the migration
+    INFO( string_format( "furn ne: %s", furn_ne.id().str() ) );
+    REQUIRE( furn_ne == furn_test_f_migration_new_id );
+    // South corners should still have t_dirt
+    INFO( string_format( "ter sw: %s", ter_sw.id().str() ) );
+    INFO( string_format( "ter se: %s", ter_se.id().str() ) );
+    REQUIRE( ter_sw == ter_t_dirt );
+    REQUIRE( ter_se == ter_t_dirt );
+    // But should have migrated test_f_migration_old_id to test_f_migration_new_id
+    INFO( string_format( "furn sw: %s", furn_sw.id().str() ) );
+    INFO( string_format( "furn se: %s", furn_se.id().str() ) );
+    REQUIRE( furn_sw == furn_test_f_migration_new_id );
+    REQUIRE( furn_se == furn_test_f_migration_new_id );
 }

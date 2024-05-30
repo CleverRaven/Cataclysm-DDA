@@ -1,39 +1,54 @@
 #include "condition.h"
 
+#include <algorithm>
+#include <array>
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <optional>
+#include <queue>
 #include <set>
+#include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
-#include "dialogue.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
+#include "faction.h"
 #include "field.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "item.h"
 #include "item_category.h"
-#include "json.h"
-#include "kill_tracker.h"
+#include "item_location.h"
+#include "json_error.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
@@ -41,6 +56,8 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -48,16 +65,24 @@
 #include "profession.h"
 #include "ranged.h"
 #include "recipe_groups.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "talker.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
+#include "weather.h"
 #include "widget.h"
 #include "worldfactory.h"
 
+class Creature;
 class basecamp;
 class recipe;
+struct mapgen_arguments;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -346,9 +371,9 @@ str_translation_or_var get_str_translation_or_var(
     return ret_val;
 }
 
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d )
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d, bool is_npc )
 {
-    tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
+    tripoint_abs_ms target_pos = get_map().getglobal( d.actor( is_npc )->pos() );
     if( var.has_value() ) {
         std::string value = read_var_value( var.value(), d );
         if( !value.empty() ) {
@@ -1402,6 +1427,33 @@ conditional_t::func f_npc_train_spells( bool is_npc )
     };
 }
 
+conditional_t::func f_follower_present( const JsonObject &jo, std::string_view member )
+{
+    const std::string &var_name = jo.get_string( std::string( member ) );
+    return [var_name]( dialogue const & d ) {
+        npc *npc_to_check = nullptr;
+        for( npc &guy : g->all_npcs() ) {
+            if( guy.myclass.str() == var_name ) {
+                npc_to_check = &guy;
+                break;
+            }
+        }
+        npc *d_npc = d.actor( true )->get_npc();
+        if( npc_to_check == nullptr || d_npc == nullptr ) {
+            return false;
+        }
+        const std::set<character_id> followers = g->get_follower_list();
+        if( !std::any_of( followers.begin(), followers.end(), [&npc_to_check]( const character_id & id ) {
+        return id == npc_to_check->getID();
+        } ) ||
+        !npc_to_check->is_following() ) {
+            return false;
+        }
+        return rl_dist( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw() ) < 5 &&
+               get_map().clear_path( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw(), 5, 0, 100 );
+    };
+}
+
 conditional_t::func f_at_safe_space( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -1582,7 +1634,7 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( dialogue const & d ) {
-        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d, false ) );
         if( terrain ) {
             return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
@@ -1602,7 +1654,7 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( dialogue const & d ) {
-        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d, false ) );
         if( terrain ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else {
@@ -1718,7 +1770,17 @@ conditional_t::func f_math( const JsonObject &jo, const std::string_view member 
 conditional_t::func f_u_has_camp()
 {
     return []( dialogue const & ) {
-        return !get_player_character().camps.empty();
+        for( const tripoint_abs_omt &camp_tripoint : get_player_character().camps ) {
+            std::optional<basecamp *> camp = overmap_buffer.find_camp( camp_tripoint.xy() );
+            if( !camp ) {
+                continue;
+            }
+            basecamp *bcp = *camp;
+            if( bcp->get_owner() == get_player_character().get_faction()->id ) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 
@@ -2049,7 +2111,6 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "sold", &talker::sold },
     { "stamina", &talker::get_stamina },
     { "stim", &talker::get_stim },
-    { "stored_kcal", &talker::get_stored_kcal },
     { "strength_base", &talker::get_str_max },
     { "strength_bonus", &talker::get_str_bonus },
     { "strength", &talker::str_cur },
@@ -2098,16 +2159,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
                 return 0.0; //Default value if character does not have mana, avoids division with 0.
             }
             return d.actor( is_npc )->mana_cur() * 100.0 / mana_max;
-        };
-    } else if( checked_value == "stored_kcal_percentage" ) {
-        // 100% is 5 BMI's worth of kcal, which is considered healthy (this varies with height).
-        return [is_npc]( dialogue const & d ) {
-            int divisor = d.actor( is_npc )->get_healthy_kcal() / 100;
-            //if no data default to default height of 175cm
-            if( divisor == 0 ) {
-                divisor = 118169 / 100;
-            }
-            return static_cast<double>( d.actor( is_npc )->get_stored_kcal() ) / divisor;
         };
     } else if( checked_value == "body_temp" ) {
         return [is_npc]( dialogue const & d ) {
@@ -2158,7 +2209,6 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "sleep_deprivation", &talker::set_sleep_deprivation },
     { "stamina", &talker::set_stamina },
     { "stim", &talker::set_stim },
-    { "stored_kcal", &talker::set_stored_kcal },
     { "strength_base", &talker::set_str_max },
     { "strength_bonus", &talker::set_str_bonus },
     { "thirst", &talker::set_thirst },
@@ -2216,11 +2266,6 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
     } else if( checked_value == "mana_percentage" ) {
         return [is_npc]( dialogue & d, double input ) {
             d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
-        };
-    } else if( checked_value == "stored_kcal_percentage" ) {
-        // 100% is 55'000 kcal, which is considered healthy.
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->set_stored_kcal( input * 5500 );
         };
     }
     throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
@@ -2391,6 +2436,7 @@ parsers = {
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
     {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
+    { "follower_present", jarg::string, &conditional_fun::f_follower_present},
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_fun::f_npc_allies },

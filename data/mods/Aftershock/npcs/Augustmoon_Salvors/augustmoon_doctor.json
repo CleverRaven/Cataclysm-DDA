@@ -54,9 +54,7 @@
     "type": "talk_topic",
     "id": "TALK_MERCURIAL_DOCTOR",
     "dynamic_line": {
-      "u_has_var": "first_meet",
-      "type": "dialogue",
-      "context": "augustmoon_doctor",
+      "u_has_var": "dialogue_augustmoon_doctor_first_meet",
       "value": "yes",
       "yes": [
         "Try not to touch anything.  Keeping this place clean is a full time job.",
@@ -65,7 +63,7 @@
       "no": "Clinic is open, yes.  If you need medical assistance, this is the place."
     },
     "speaker_effect": {
-      "effect": [ { "u_add_var": "first_meet", "type": "dialogue", "context": "augustmoon_doctor", "value": "yes" } ],
+      "effect": [ { "u_add_var": "dialogue_augustmoon_doctor_first_meet", "value": "yes" } ],
       "sentinel": "mercurial_doctor_meet"
     },
     "responses": [

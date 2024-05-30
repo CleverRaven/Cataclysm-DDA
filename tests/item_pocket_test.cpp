@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -1828,11 +1829,12 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     Character &u = get_player_character();
     clear_map();
     clear_character( u, true );
-    item_location cont1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_nest_rigid ) );
-    item_location cont2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_nest_soft ) );
-    item_location obj1( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
-    item_location obj2( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
-    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos(), autopickup );
+    item_location cont1( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(),
+                         cont_nest_rigid ) );
+    item_location cont2( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), cont_nest_soft ) );
+    item_location obj1( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), rigid_obj ) );
+    item_location obj2( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), soft_obj ) );
+    pickup_activity_actor act_actor( { obj1, obj2 }, { 1, 1 }, u.pos_bub(), autopickup );
     u.assign_activity( act_actor );
 
     item_location pack;
@@ -2058,10 +2060,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
-            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
+            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
             u.assign_activity( new_actor );
             THEN( ( soft_nested ? "pickup most, nested empty" : "pickup all, overflow into nested" ) ) {
                 if( soft_nested ) {
@@ -2089,10 +2091,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
-            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
+            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
             u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
@@ -2121,10 +2123,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         obj2.remove_item();
         WHEN( "item stack too large to fit in top-level container" ) {
             stack.charges = 300;
-            item_location obj3( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), stack ) );
+            item_location obj3( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos_bub(), stack ) );
             REQUIRE( obj3->charges == 300 );
             u.cancel_activity();
-            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos(), autopickup );
+            pickup_activity_actor new_actor( { obj3 }, { 300 }, u.pos_bub(), autopickup );
             u.assign_activity( new_actor );
             THEN( "pickup most, nested empty" ) {
                 if( soft_nested ) {
@@ -2253,7 +2255,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
     item cont_suit( "test_robofac_armor_rig" );
 
     // Place a container at the character's feet
-    item_location jug_w_water( map_cursor( u.pos() ), &m.add_item_or_charges( u.pos(), cont_jug ) );
+    item_location jug_w_water( map_cursor( u.pos_bub() ), &m.add_item_or_charges( u.pos(), cont_jug ) );
 
     GIVEN( "character wearing a multipocket liquid container" ) {
         item_location suit( u, & **u.wear_item( cont_suit, false ) );
@@ -2622,7 +2624,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     map &m = get_map();
     clear_map();
 
-    item_location backpack_loc( map_cursor( ipos ), &m.add_item( ipos, backpack ) );
+    item_location backpack_loc( map_cursor( tripoint_bub_ms( ipos ) ), &m.add_item( ipos, backpack ) );
     item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
     item_location water_loc( bottle_loc, &bottle_loc->only_item() );
 
@@ -2639,7 +2641,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     }
     CHECK( in_top );
     CHECK( bottle_loc->can_contain( water_item ).success() );
-    CHECK( !bottle_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+    CHECK( !bottle_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 
     // Check backpack containing bottle containing water
     in_top = false;
@@ -2650,7 +2652,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     }
     CHECK( !in_top );
     CHECK( backpack_loc->can_contain( water_item ).success() );
-    CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+    CHECK( !backpack_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 }
 
 TEST_CASE( "Sawed_off_fits_in_large_holster", "[item][pocket]" )
@@ -2762,7 +2764,7 @@ TEST_CASE( "auto_whitelist", "[item][pocket][item_spawn]" )
     clear_map();
     tripoint_abs_omt const this_omt =
         project_to<coords::omt>( get_avatar().get_location() );
-    tripoint const this_bub = get_map().getlocal( project_to<coords::ms>( this_omt ) );
+    tripoint_bub_ms const this_bub = get_map().bub_from_abs( project_to<coords::ms>( this_omt ) );
     manual_nested_mapgen( this_omt, nested_mapgen_auto_wl_test );
     REQUIRE( !get_map().i_at( this_bub + tripoint_zero ).empty() );
     REQUIRE( !get_map().i_at( this_bub + tripoint_east ).empty() );

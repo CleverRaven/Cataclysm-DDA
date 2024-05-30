@@ -157,7 +157,6 @@
     "required_str": 5,
     "crafting_pseudo_item": "mirror",
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
-    "examine_action": "change_appearance",
     "deconstruct": {
       "items": [
         { "item": "large_lcd_screen", "count": 1 },
@@ -184,6 +183,161 @@
         { "item": "cable", "charges": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_intermodal_crate_open",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be open.",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sealed_intermodal_crate",
+    "name": "sealed intermodal crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  This one appears to be secured with an electric lock.",
+    "required_str": 12,
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "oxytorch": { "result": "f_intermodal_crate_open", "duration": "14 seconds" },
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER", "SEALED" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_crate",
+          "effect": [
+            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            {
+              "run_eoc_with": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "9" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase",
+    "name": "reinforced display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass panelling on top.  Useful for storing valuable things while still showing them off.  Secured with an electronic lock.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_display_case",
+          "effect": [
+            { "math": [ "_t_delay", "=", "time('20 m')" ] },
+            {
+              "run_eoc_with": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase_o",
+    "name": "reinforced display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass panelling on top.  Useful for storing valuable things while still showing them off.  This one had its lock hacked and is open.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reinforced_displaycase_b",
+    "name": "broken display case",
+    "looks_like": "f_rack",
+    "description": "A secure metal case at about waist-height, with reinforced glass panelling on top.  Would be useful for storing valuable things while still showing them off, if the glass hadn't been shattered.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
       ]
     }
   }

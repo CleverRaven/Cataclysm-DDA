@@ -21,5 +21,16 @@
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot_rat", "weight": 500, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PIRATE__BOT_AMBUSH",
+    "default": "mon_manhack",
+    "monsters": [
+      { "monster": "mon_bloodhound_drone", "weight": 500, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_manhack", "weight": 200, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
+      { "monster": "mon_scavbot_needle", "weight": 100, "cost_multiplier": 70 }
+    ]
   }
 ]

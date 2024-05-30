@@ -923,7 +923,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         dummy.set_wielded_item( item( "sw_610", calendar::turn_zero, 0 ) );
         REQUIRE( dummy.get_wielded_item()->ammo_remaining() == 0 );
-        REQUIRE( dummy.get_wielded_item()->can_reload_with( *ammo, false ) );
+        REQUIRE( dummy.get_wielded_item().can_reload_with( ammo, false ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
@@ -937,7 +937,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         GIVEN( "the player has another gun with ammo" ) {
             item_location gun2 = dummy.i_add( item( "sw_610", calendar::turn_zero, 0 ) );
             REQUIRE( gun2->ammo_remaining() == 0 );
-            REQUIRE( gun2->can_reload_with( *ammo, false ) );
+            REQUIRE( gun2.can_reload_with( ammo, false ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
@@ -1131,7 +1131,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
 
         SECTION( "liquid in container on floor" ) {
             ammo_jug.remove_item();
-            ammo_jug = item_location( map_cursor( near_point ), &here.add_item( near_point,
+            ammo_jug = item_location( map_cursor( tripoint_bub_ms( near_point ) ), &here.add_item( near_point,
                                       item( "bottle_plastic" ) ) );
             ammo_jug->fill_with( item( "water_clean" ) );
             ammo_volume = ammo_jug->total_contained_volume();

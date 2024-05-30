@@ -1,0 +1,62 @@
+[
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Refugee Center", "overmap_terrain": "evac_center_13", "faction": "free_merchants" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Exodii", "overmap_terrain": "exodii_base_x1y2z1", "faction": "exodii" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "???", "overmap_terrain": "hive", "faction": "apis_hive" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Lapin", "overmap_terrain": "cabin_lapin", "faction": "lapin" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Holdouts", "overmap_terrain": "prison_island_1_6", "faction": "prisoners" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "New England Church Retreat", "overmap_terrain": "godco_5", "faction": "gods_community" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Tacoma", "overmap_terrain": "ranch_camp_67", "faction": "tacoma_commune" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Hub 01", "overmap_terrain": "robofachq_surface_entrance", "faction": "robofac" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Cody & Jay", "overmap_terrain": "isolated_house_farm_gunsmith", "faction": "isolated_artisans" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Cabin", "overmap_terrain": "cabin_isherwood", "faction": "isherwood_family" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Isherwood Stables", "overmap_terrain": "horse_farm_isherwood_6", "faction": "isherwood_family" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Isherwood Outcropping", "overmap_terrain": "farm_isherwood_2", "faction": "isherwood_family" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Isherwood Farms", "overmap_terrain": "dairy_farm_isherwood_SW", "faction": "isherwood_family" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Merchant", "overmap_terrain": "bunker_shop_b", "faction": "wasteland_scavengers" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "The Great Library", "overmap_terrain": "campus_media_0_0_0", "faction": "the_great_library" }
+  }
+]

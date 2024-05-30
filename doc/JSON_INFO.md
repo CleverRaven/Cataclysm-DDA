@@ -255,6 +255,7 @@ Use the `Home` key to return to the top.
 - [Starting locations](#starting-locations)
   - [`name`](#name-2)
   - [`terrain`](#terrain)
+    - [Examples](#examples)
   - [`city_sizes`](#city_sizes)
   - [`city_distance`](#city_distance)
   - [`allowed_z_levels`](#allowed_z_levels)
@@ -1156,7 +1157,7 @@ An array of effects to add whenever the limb in question takes damage. Variables
 ```
 
 ### Limb scores
-Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters. They are defined using the `"limb_score"` type:
+Limb scores act as the basis of calculating the effect of limb encumbrance and damage on the abilities of characters.  Most limb scores affect the character via `character_modifiers`, for further information see there. They are defined using the `"limb_score"` type:
 
 ```json
 {
@@ -1177,6 +1178,8 @@ Here are the currently defined limb scores:
 
 | Limb score id          | Description
 |------                  |------
+| `consume_liquid`       | Speed modifier when consuming liquids.
+| `consume_solid`        | Speed multiplier when consuming solids.
 | `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
 | `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
@@ -1516,10 +1519,10 @@ Emitters randomly place [fields](#field-types) around their positions - every tu
 | Identifier  | Description
 |---          |---
 | `id`        | Unique ID
-| `field`     | Field type emitted
-| `intensity` | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.
-| `chance`    | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.
-| `qty`       | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.
+| `field`     | Field type emitted.  This can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. 
+| `intensity` | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.  This can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. 
+| `chance`    | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.  This can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. 
+| `qty`       | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.  This can be a Variable Object, see the [doc](EFFECT_ON_CONDITION.md) for more info. 
 
 ```JSON
   {
@@ -1650,6 +1653,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
   "skills": { "mechanics": 1 }, // skills required to apply fix
   "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "adjust_variables_multiply": { "dirt": ".8" }, // adjusts the variables on the item when fix is applied using MULTIPLICATION
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
@@ -2446,10 +2450,11 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "vehicle_start": true,                                              // Hardcoded check for construction recipe, that result into vehicle frame; Can be used only with `done_vehicle`
 "time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_special": "check_empty",                                       // Required something that isn't terrain
+"pre_special": [ "check_empty", "check_up_OK" ],                    // Required something that isn't terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain
 "post_terrain": "t_pit_spiked",                                     // Terrain type after construction is complete
+"post_special": "done_mine_upstairs",                               // Required to do something beyond setting the post terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_note": "Build a spikes on a diggable terrain",                 // Create an annotation to this recipe
 "dark_craftable": true,                                             // If true, you can construct it with lack of light
 "byproducts": [ { "item": "material_soil", "count": [ 2, 5 ] } } ], // Items, that would be left after construction
@@ -2460,21 +2465,48 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 | pre_special            | Description
 |---                     |---
 | `check_channel`        | Must be empty and have a current in at least one orthogonal tile
-| `check_empty`          | Tile is empty (no furniture, trap, item, or vehicle) and flat terrain
 | `check_empty_lite`     | Tile is empty (no furniture, trap, item, or vehicle)
-| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
-| `check_support_below`  | Must have at least two solid walls/obstructions at the Z level below on orthogonals (non-diagonal directions only) to support the tile and be empty lite but with a ledge trap acceptable, as well as open air
+| `check_empty`          | Tile is empty (no furniture, trap, item, or vehicle) and flat terrain
+| `check_unblocked`      | Tile is empty (no furniture, trap, item, or vehicle), and either flat terrain or empty space
+| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) or solid support directly below to support the tile
+| `check_support_below`  | Must have at least two solid walls/obstructions at the Z level below on orthogonals (non-diagonal directions only) or solid support directly below to support the tile and be empty lite but with a ledge trap acceptable, as well as open air
+| `check_single_support` | Must have solid support directly below to support the tile
 | `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
 | `check_empty_stable`   | Tile is empty and stable
 | `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
 | `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
-| `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
 | `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)
 | `check_down_OK`        | Tile is above the lowest possible elevation (can dig down here)
 | `check_no_trap`        | There is no trap object in this tile
 | `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
 | `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
 | `check_no_wiring`      | The tile must either be free of a vehicle, or at least a vehicle that doesn't have the WIRING flag
+| `check_matching_down_above`| The tile directly above must have the same base identifier but with a suffix of 'down'
+
+| post_special            | Description
+|---                     |---
+| `done_trunk_plank`     | Generate logs and then planks here (under the assumption the tile was a trunk or stump)
+| `done_grave`           | Finish grave digging by performing burial activities
+| `done_vehicle`         | Create a new vehicle and name it
+| `done_appliance`       | Finish the placement of a partially placed appliance
+| `done_wiring`          | Place a wiring "appliance" at the location
+| `done_deconstruct`     | Finish deconstruction of furniture or, if not present, terrain
+| `done_dig_grave`       | Finish digging up a grave and find what's inside of it
+| `done_dig_grave_nospawn`| Finish digging up a grave and retrieve a coffin (which is not an option above)
+| `done_dig_stair`       | Finish diggins stairs downwards (with handling of what's beneath and how to get up)
+| `done_mine_downstair`  | Same as the previous one, but mining rather than digging
+| `done_mine_upstair`    | Finish mining stairs from below
+| `done_wood_stairs`     | Finish building stairs from below
+| `done_window_curtains` | Finish boarding up window and get materials from curtains
+| `done_extract_maybe_revert_to_dirt`| Finish sand/clay extraction, which may exhaust the resource
+| `done_mark_firewood`   | Sets a firewood source trap at the location
+| `done_mark_practice_target`| Sets a target practice trap at the location
+| `done_ramp_low`        | Sets a t_ramp_down_low at the tile above the target
+| `done_ramp_high`       | Sets a t_ramp_down_high at the tile above the target
+| `done_matching_down_above`| The terrain on the Z level above is set to the corresponding terrain at this level, but with the "down" suffix instead
+| `remove_above`         | Remove the terrain at the Z level above and replace it with t_open_air
+| `add_roof`             | Add the roof specified for the terrain at the site to the tile above
+
 
 ### Scent_types
 
@@ -3364,7 +3396,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "longest_side": "15 cm",                     // Length of longest item dimension. Default is cube root of volume.
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price": "1 USD",                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "stackable": true,                           // This item can be stacked together, similarly to `charges`
 "degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
@@ -3466,6 +3498,7 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 "dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
 "shot_counter": 5,    // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5); designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
 "projectile_count": 5,// amount of pellets, that the ammo will shot, like in shotgun-like weapon; if used, shot_damage should be specified
+"multi_projectile_effects": true,// (Optional) Boolean, default false. If the projectile_count is greater than 1, determines if the extra projectiles will also trigger any ammo effects. (For more on ammo effects see below)
 "shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present projectile_count must also be specified; syntax is equal to damage
 "critical_multiplier": 4, // All ranged damage dealt would be multiplied by this, if it was a critical hit
 "shot_spread": 100,   // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
@@ -3875,7 +3908,7 @@ You can list as many conditional names for a given item as you want. Each condit
     - `COMPONENT_ID` Similar to `COMPONENT_ID_SUBSTRING`, but search the exact component match
     - `FLAG` which checks if an item has the specified flag (exact match).
     - `VITAMIN` which checks if an item has the specified vitamin (exact match).
-    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
+    - `VAR` which checks if an item has a variable with the given name (exact match) and value = `value`. Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "value": "Felt Great" }` would be named: `npctalk_var_MORALE`.
     - `SNIPPET_ID`which checks if an item has a snippet id variable set by an effect_on_condition with the given name (exact match) and snippets id = `value`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
@@ -3985,7 +4018,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "airtight": false,                // Default false. If true, can contain gas.
     "ablative": false,                // Default false. If true, this item holds a single ablative plate. Make sure to include a flag_restriction on the type of plate that can be added.
     "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
-    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
+    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is worn by a character or placed into another item.
     "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
     "transparent": false              // Default false. If true, the pocket is transparent, as you can see items inside it afar; in the future this would be used for light also
     "extra_encumbrance": 3,           // Additional encumbrance given to character, if this pocket is used
@@ -4003,7 +4036,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
 
-    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
+    "inherits_flags": true // Items in this pocket pass their flags to the parent item.
   }
 ]
 ```
@@ -4016,7 +4049,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 "color": "light_gray", // ASCII character color
 "name": "hatchet",     // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
-"price": 95,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
+    "price": "95 cent",           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": [          // Material types.  See materials.json for possible options
   { "type": "iron", "portion": 2 }, // See Generic Item attributes for type and portion details
   { "type": "wood", "portion": 3 }
@@ -4187,7 +4220,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "color": "brown",     // ASCII character color
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
-"price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
+    "price": "0 cent",           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": [ { "type": "wood", "portion": 1 } ], // Material types.  See materials.json for possible options. Also see Generic Item attributes for type and portion details
 "techniques": [ "FLAMING" ], // Combat techniques used by this tool
 "flags": [ "FIRE" ],      // Indicates special effects
