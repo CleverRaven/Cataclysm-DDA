@@ -444,7 +444,7 @@
         "rigid": false,
         "magazine_well": "123 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cp33mag", "cp33mag_50" ]
+        "item_restriction": [ "cp33_mag", "cp33_mag_50" ]
       }
     ],
     "melee_damage": { "bash": 7 }
