@@ -898,11 +898,12 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                // this recipe should be replaced with a test recipe that isn't impacted by changes in game recipes
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 // vacuum molding takes 4 charges
-                CHECK( get_remaining_charges( "UPS_off" ) == 286 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
             }
         }
 
