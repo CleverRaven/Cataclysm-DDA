@@ -1982,7 +1982,8 @@
         "coverage": 25,
         "encumbrance": 0,
         "layers": [ "SKINTIGHT" ],
-        "//": "The cotton represents the head harness that keeps the mask attached to one’s melon. Hood-style masks, like the GP5, should get their own item."
+        "//": "The cotton represents the head harness that keeps the mask attached to one’s melon. Hood-style masks, like the GP5, should get their own item.",
+        "volume_encumber_modifier": 0
       },
       {
         "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -1999,7 +2000,6 @@
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 10,
-        "rigid_layer_only": true,
         "layers": [ "SKINTIGHT", "NORMAL" ],
         "volume_encumber_modifier": 0
       },
@@ -2018,7 +2018,7 @@
       {
         "material": [
           { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
+          { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
         ],
         "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
         "covers": [ "mouth" ],
