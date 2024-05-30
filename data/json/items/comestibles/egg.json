@@ -43,7 +43,6 @@
     "type": "COMESTIBLE",
     "id": "egg_grouse",
     "name": { "str": "grouse egg" },
-    "spoils_in": "11 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
