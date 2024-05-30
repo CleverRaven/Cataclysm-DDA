@@ -2062,7 +2062,7 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "SLEEP_IGNORE" ]
+    "flags": [ "SLEEP_IGNORE", "SOFT" ]
   },
   {
     "id": "mask_gas_xl",
