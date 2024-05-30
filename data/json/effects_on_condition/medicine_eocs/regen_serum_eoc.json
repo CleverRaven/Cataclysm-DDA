@@ -50,7 +50,7 @@
   {
     "type": "effect_type",
     "id": "regen_serum_main",
-    "name": [ "Injected Serum" ],
+    "name": [ "Injected 48x-\"Locutus\"" ],
     "desc": [
       "You just take a shot of some weird stuff.  You feel sleepiness, nauseous, and overall weakened, but you wounds close up at unnatural pace."
     ],
