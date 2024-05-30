@@ -413,7 +413,7 @@
     "copy-from": "pistol_base",
     "looks_like": "ar_pistol",
     "type": "GUN",
-    "name": { "str": "high capacity .22 handgun" },
+    "name": { "str": "high capacity handgun" },
     "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
     "variant_type": "gun",
     "variants": [

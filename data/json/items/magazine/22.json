@@ -338,7 +338,7 @@
     "id": "cp33_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "high capacity 33 round .22 magazine" },
+    "name": { "str": "high capacity 33 round magazine" },
     "description": "A 33-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
     "variant_type": "gun",
     "variants": [
@@ -364,7 +364,7 @@
     "id": "cp33_mag_50",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "high capacity 50 round .22 magazine" },
+    "name": { "str": "high capacity 50 round magazine" },
     "description": "A 50-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
     "variant_type": "gun",
     "variants": [
