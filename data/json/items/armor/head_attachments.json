@@ -945,7 +945,6 @@
   {
     "id": "outsert_sunlight",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "outsert_clear",
     "name": { "str": "sunlight outsert lens", "str_pl": "sunlight outsert lenses" },
     "description": "A tinted and flexible plastic outsert intended to be mounted over the eyepiece of a panoramic-view gas mask to protect the wearer from high-level UV light, sudden flashes, and overly bright flares.",
@@ -966,7 +965,6 @@
   {
     "id": "outsert_breach",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "outsert_clear",
     "name": { "str": "breach outsert lens", "str_pl": "breach outsert lenses" },
     "description": "A specialized lens designed to clip into place over the solitary eyepiece of a panoramic gas mask, providing eye protection to users deploying a cutting torch while also improving impact resistance.",
@@ -989,7 +987,6 @@
   {
     "id": "insert_vision_correction",
     "type": "ARMOR",
-    "category": "armor",
     "copy-from": "outsert_clear",
     "name": { "str": "vision correction assembly", "str_pl": "vision correction assemblies" },
     "description": "A detachable frame of prescription lenses intended for installation behind a panoramic gas mask’s visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",

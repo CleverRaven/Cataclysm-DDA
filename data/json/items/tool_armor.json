@@ -2031,17 +2031,13 @@
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      },
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GASFILTER_MED" ], "default_magazine": "gasfilter_med" },
       {
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "50 ml",
-        "max_contains_weight": "140 g",
+        "max_contains_weight": "50 g",
         "moves": 250,
         "description": "A number of external brackets arranged around the eyepiece to retain an outer attachment.",
         "flag_restriction": [ "PANORAMIC_OUTSERT" ],
@@ -2053,7 +2049,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "50 ml",
-        "max_contains_weight": "140 g",
+        "max_contains_weight": "50 g",
         "moves": 380,
         "description": "A space behind the visor designed to accommodate the installation of inserts.",
         "flag_restriction": [ "PANORAMIC_INSERT" ],
@@ -2063,112 +2059,6 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "non_functional": "mask_gas_breached",
-    "damage_verb": "rapidly depressurizes as its rubber is mangled; your protective layer has been breached!",
-    "flags": [ "SLEEP_IGNORE" ]
-  },
-  {
-    "id": "mask_gas_breached",
-    "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "name": { "str": "breached gas mask" },
-    "description": "A full gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "weight": "490 g",
-    "volume": "1 L",
-    "longest_side": "279 mm",
-    "//": "Based on https://www.avon-protection.com/products/c50/",
-    "price": "499 USD 50 cent",
-    "price_postapoc": "7 USD 50 cent",
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ { "type": "rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      {
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_nape" ],
-        "coverage": 25,
-        "encumbrance": 0,
-        "layers": [ "SKINTIGHT" ],
-        "//": "The cotton represents the head harness that keeps the mask attached to one’s melon. Hood-style masks, like the GP5, should get their own item."
-      },
-      {
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead" ],
-        "coverage": 100,
-        "encumbrance": 20,
-        "layers": [ "NORMAL", "OUTER" ]
-      },
-      {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
-        "//": "While some older gas masks had lenses made from glass, most modern ones are fabricated with plastic eyepieces or visors. We can hand-wave away the outliers.",
-        "covers": [ "eyes" ],
-        "coverage": 100,
-        "encumbrance": 10,
-        "rigid_layer_only": true,
-        "layers": [ "SKINTIGHT", "NORMAL" ]
-      },
-      {
-        "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
-        ],
-        "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They’re represented by the plastic content.",
-        "covers": [ "mouth" ],
-        "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
-        "coverage": 100,
-        "encumbrance": [ 20, 45 ],
-        "layers": [ "NORMAL", "OUTER" ]
-      },
-      {
-        "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
-        ],
-        "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
-        "covers": [ "mouth" ],
-        "specifically_covers": [ "mouth_cheeks" ],
-        "coverage": 100,
-        "encumbrance": 20,
-        "layers": [ "NORMAL", "OUTER" ]
-      }
-    ],
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 4,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "400 g",
-        "flag_restriction": [ "GASFILTER_MED" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "50 ml",
-        "max_contains_weight": "140 g",
-        "moves": 250,
-        "description": "A number of external brackets arranged around the eyepiece to retain an outer attachment.",
-        "flag_restriction": [ "PANORAMIC_OUTSERT" ],
-        "inherits_flags": true
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "50 ml",
-        "max_contains_weight": "140 g",
-        "moves": 380,
-        "description": "A space behind the visor designed to accommodate the installation of inserts.",
-        "flag_restriction": [ "PANORAMIC_INSERT" ],
-        "inherits_flags": true
-      }
-    ],
     "flags": [ "SLEEP_IGNORE" ]
   },
   {
