@@ -335,7 +335,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   },
   {
-    "id": "cp33mag",
+    "id": "cp33_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "high capacity 33 round .22 magazine" },
@@ -343,7 +343,7 @@
     "variant_type": "gun",
     "variants": [
       {
-        "id": "cp33mag",
+        "id": "cp33_mag",
         "name": { "str": "CP33 33-round magazine" },
         "description": "The CP33's magazine is a polymer body quad stack with 4 rows of .22 rounds, which gives it the ability to cram in 33 rounds into the magazine."
       }
@@ -361,7 +361,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 33 } } ]
   },
   {
-    "id": "cp33mag_50",
+    "id": "cp33_mag_50",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "high capacity 50 round .22 magazine" },
@@ -369,7 +369,7 @@
     "variant_type": "gun",
     "variants": [
       {
-        "id": "cp33mag_50",
+        "id": "cp33_mag_50",
         "name": { "str": "CP33 50-round magazine" },
         "description": "CP33 33-round magazine has the ability to accept extensions, and this one has a 17-round extension to bring the total up to a staggering 50 rounds of .22 ammunition."
       }
