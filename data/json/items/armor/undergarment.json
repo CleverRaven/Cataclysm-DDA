@@ -690,7 +690,7 @@
     "looks_like": "leggings",
     "color": "light_gray",
     "warmth": 20,
-    "material_thickness": 0.5,
+    "material_thickness": 0.1,
     "flags": [ "SKINTIGHT" ],
     "armor": [
       {
