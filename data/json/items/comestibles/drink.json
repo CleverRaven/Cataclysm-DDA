@@ -1518,7 +1518,7 @@
     "phase": "liquid",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
