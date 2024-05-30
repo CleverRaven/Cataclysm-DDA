@@ -12,7 +12,7 @@
     "description": "A crude pointed wooden shaft with a notch at the back.",
     "material": [ "wood" ],
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_2" ]
+    "recovery_chance": 2
   },
   {
     "type": "AMMO",
@@ -33,7 +33,7 @@
     "dispersion": 150,
     "loudness": 0,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 30,
     "melee_damage": { "bash": 3 }
   },
   {
@@ -50,7 +50,8 @@
     "material": [ { "type": "wood", "portion": 81 }, { "type": "rubber", "portion": 19 } ],
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.2 },
     "critical_multiplier": 1,
-    "effects": [ "RECOVER_35", "BEANBAG" ]
+    "recovery_chance": 35,
+    "effects": [ "BEANBAG" ]
   },
   {
     "type": "AMMO",
@@ -63,7 +64,8 @@
     "copy-from": "arrow_field_point_fletched",
     "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_10", "NOGIB" ]
+    "recovery_chance": 10,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -76,7 +78,7 @@
     "relative": { "dispersion": -40 },
     "price": "20 USD",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
-    "effects": [ "RECOVER_25" ],
+    "recovery_chance": 25,
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
@@ -90,7 +92,7 @@
     "material": [ "wood" ],
     "copy-from": "arrow_field_point_fletched",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_6" ]
+    "recovery_chance": 6
   },
   {
     "type": "AMMO",
@@ -103,7 +105,8 @@
     "copy-from": "arrow_field_point_fletched",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "recovery_chance": 35,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -118,7 +121,7 @@
     "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
-    "effects": [ "RECOVER_8" ]
+    "recovery_chance": 8
   },
   {
     "type": "AMMO",
@@ -132,7 +135,7 @@
     "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 1 },
     "show_stats": true,
-    "effects": [ "RECOVER_20" ],
+    "recovery_chance": 20,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -148,7 +151,7 @@
     "price_postapoc": "40 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "range": 2,
-    "effects": [ "RECOVER_35" ],
+    "recovery_chance": 35,
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
@@ -164,7 +167,7 @@
     "price_postapoc": "40 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "range": 2,
-    "effects": [ "RECOVER_40" ],
+    "recovery_chance": 40,
     "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
@@ -181,7 +184,8 @@
     "relative": { "dispersion": -75 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
-    "effects": [ "RECOVER_45", "NOGIB" ]
+    "recovery_chance": 45,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -197,7 +201,7 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 30,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -220,7 +224,7 @@
     "dispersion": 120,
     "loudness": 0,
     "critical_multiplier": 6,
-    "effects": [ "RECOVER_1000000" ],
+    "recovery_chance": 100,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 10, "stab": 26 }
@@ -245,7 +249,7 @@
     "count": 1,
     "stack_size": 1,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_35" ],
+    "recovery_chance": 35,
     "use_action": {
       "target": "arrow_flamming",
       "target_timer": "20 seconds",
@@ -266,7 +270,8 @@
     "symbol": "=",
     "color": "brown",
     "revert_to": "arrow_field_point_fletched",
-    "effects": [ "IGNITE", "RECOVER_35" ],
+    "recovery_chance": 35,
+    "effects": [ "IGNITE" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
