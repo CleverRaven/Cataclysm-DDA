@@ -312,7 +312,7 @@ class overmap
         void place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
                                    om_direction::type dir );
         // Whether the tripoint's point is true in city_tiles
-        bool is_in_city( const tripoint_om_omt &p );
+        bool is_in_city( const tripoint_om_omt &p ) const;
     private:
         // Any point that is part of or surrounded by a city
         std::unordered_set<point_om_omt> city_tiles;

@@ -2660,7 +2660,8 @@ bool overmap_special::requires_city() const
            constraints_.city_distance.max < std::max( OMAPX, OMAPY );
 }
 
-bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const
+bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &cit,
+        const overmap &omap ) const
 {
     if( !requires_city() ) {
         return true;
@@ -2668,7 +2669,12 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     if( !cit || !constraints_.city_size.contains( cit.size ) ) {
         return false;
     }
-    return constraints_.city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
+    for( const tripoint_om_omt &tile : closest_points_first( p, constraints_.city_distance.max ) ) {
+        if( omap.is_in_city( tile ) ) {
+            return constraints_.city_distance.contains( rl_dist( p, tile ) );
+        }
+    }
+    return false;
 }
 
 bool overmap_special::has_flag( const std::string &flag ) const
@@ -3941,7 +3947,7 @@ void overmap::clear_connections_out()
     connections_out.clear();
 }
 
-bool overmap::is_in_city( const tripoint_om_omt &p )
+bool overmap::is_in_city( const tripoint_om_omt &p ) const
 {
     return city_tiles.find( p.xy() ) != city_tiles.end();
 }
@@ -6769,7 +6775,7 @@ bool overmap::place_special_attempt(
                 continue;
             }
             // City check is the fastest => it goes first.
-            if( !special.can_belong_to_city( p, nearest_city ) ) {
+            if( !special.can_belong_to_city( p, nearest_city, *this ) ) {
                 continue;
             }
             // See if we can actually place the special there.
