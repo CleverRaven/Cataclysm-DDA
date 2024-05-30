@@ -8373,7 +8373,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 
             smallmap tmp_map;
             tmp_map.main_cleanup_override( false );
-            tmp_map.generate( grid_abs_omt, calendar::turn );
+            tmp_map.generate( grid_abs_omt, calendar::turn, true );
             _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
         }
 

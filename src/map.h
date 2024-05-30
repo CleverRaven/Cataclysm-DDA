@@ -1862,7 +1862,7 @@ class map
         // mapgen.cpp functions
         // The code relies on the submap coordinate falling on omt boundaries, so taking a
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
-        void generate( const tripoint_abs_omt &p, const time_point &when );
+        void generate( const tripoint_abs_omt &p, const time_point &when, bool save_results );
         void place_spawns( const mongroup_id &group, int chance,
                            const point_bub_ms &p1, const point_bub_ms &p2, int z_level, float density,
                            bool individual = false, bool friendly = false,

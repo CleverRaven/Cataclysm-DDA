@@ -210,137 +210,162 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 
-void map::generate( const tripoint_abs_omt &p, const time_point &when )
+// Assumptions:
+// - The map supplied is empty, i.e. no grid entries are in use
+// - The map supports Z levels.
+void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save_results )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
-    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
-    set_abs_sub( p_sm );
-
-    // First we have to create new submaps and initialize them to 0 all over
-    // We create all the submaps, even if we're not a tinymap, so that map
-    //  generation which overflows won't cause a crash.  At the bottom of this
-    //  function, we save the upper-left 4 submaps, plus the ones that were
-    //  generated and modified, and delete the rest.
-
+    // Prepare the canvas...
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                const size_t grid_pos = get_nonant( { gridx, gridy, gridz } );
-                setsubmap( grid_pos, new submap() );
-                // TODO: memory leak if the code below throws before the submaps get stored/deleted!
-            }
-        }
-    }
-    oter_id terrain_type = overmap_buffer.ter( p );
-
-    // This attempts to scale density of zombies inversely with distance from the nearest city.
-    // In other words, make city centers dense and perimeters sparse.
-    float density = 0.0f;
-    for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
-        for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
-        }
-    }
-    density = density / 100;
-
-    mapgendata dat( p, *this, density, when, nullptr );
-    draw_map( dat );
-
-    // At some point, we should add region information so we can grab the appropriate extras
-    map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-    map_extras ex = this_ex.filtered_by( dat );
-    if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
-        DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
-                                         " (extra type \"" << terrain_type->get_extras() <<
-                                         "\") zlevel = " << p.z() <<
-                                         " is out of range of all assigned map extras.  Skipping map extra generation.";
-    } else if( ex.chance > 0 && one_in( ex.chance ) ) {
-        map_extra_id *extra = ex.values.pick();
-        if( extra == nullptr ) {
-            debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
-                      terrain_type->get_type_id().str() );
-        } else {
-            MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
-        }
-    }
-
-    const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
-
-    float spawn_density = 1.0f;
-    if( MonsterGroupManager::is_animal( spawns.group ) ) {
-        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
-    } else {
-        spawn_density = get_option< float >( "SPAWN_DENSITY" );
-    }
-
-    // Apply a multiplier to the number of monsters for really high densities.
-    float odds_after_density = spawns.chance * spawn_density;
-    const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
-    float density_multiplier = 1.0f;
-    if( odds_after_density > max_odds ) {
-        density_multiplier = 1.0f * odds_after_density / max_odds;
-        odds_after_density = max_odds;
-    }
-    const int spawn_count = roll_remainder( density_multiplier );
-
-    if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
-        int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
-        for( ; pop > 0; pop-- ) {
-            std::vector<MonsterGroupResult> spawn_details =
-                MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-            for( const MonsterGroupResult &mgr : spawn_details ) {
-                if( !mgr.name ) {
-                    continue;
-                }
-                if( const std::optional<tripoint> pt =
-                random_point( *this, [this]( const tripoint & n ) {
-                return passable( n );
-                } ) ) {
-                    const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
-                    add_spawn( mgr, pnt );
-                }
-            }
-        }
-    }
-
-    // Okay, we know who our neighbors are.  Let's draw!
-    // And finally save used submaps and delete the rest.
-
-    for( int i = 0; i < my_MAPSIZE; i++ ) {
-        for( int j = 0; j < my_MAPSIZE; j++ ) {
-            for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << "," << k << ")";
-
-                const tripoint pos( i, j, k );
-                submap *old_sub = MAPBUFFER.lookup_submap( abs_sub.xy() + tripoint{ i, j, k } );
-                submap *new_sub = getsubmap( get_nonant( tripoint{ i, j, k } ) );
-
-                // We have to merge the data generated now with data generated earlier through
-                // Z level offsets.
-
-                if( old_sub != nullptr && !new_sub->is_uniform() ) {
-                    if( k == p.z() ) {
-                        old_sub->merge_submaps( new_sub, false );
-                    } else {
-                        // We've generated an overlay and merge it with other overlays if this
-                        // is at a higher Z level, or with the base map (possibly overlayed) if below.
-                        old_sub->merge_submaps( new_sub, true );
-                    }
-                }
-
-                if( i <= 1 && j <= 1 && k == p_sm.z() ) {
-                    if( old_sub == nullptr ) {
-                        saven( pos );
-                    } else {
-                        delete new_sub;
-                    }
+                const tripoint pos( gridx, gridy, gridz );
+                const size_t grid_pos = get_nonant( pos );
+                if( !save_results || MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
+                    setsubmap( grid_pos, new submap() );
                 } else {
-                    if( old_sub == nullptr && !new_sub->is_uniform() ) {
-                        saven( pos );
+                    setsubmap( grid_pos, MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) );
+                }
+            }
+        }
+    }
+
+    const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
+    std::vector<submap *> saved_overlay;
+    saved_overlay.reserve( 4 );
+    for( size_t index = 0; index <= 3; index++ ) {
+        saved_overlay.emplace_back( nullptr );
+    }
+
+    // We're generating all Z levels in one go to be able to account for dependencies
+    // between levels. We iterate from the top down based on the assumption it is
+    // more common to add overlays on other Z levels upwards than downwards, so
+    // going downwards we can immediately apply overlays onto the already generated
+    // map, while overlays further down will have to be reapplied when the basic
+    // map exists.
+
+    for( int gridz = OVERMAP_HEIGHT; gridz >= -OVERMAP_DEPTH; gridz-- ) {
+        const tripoint_abs_sm p_sm = {p_sm_base.xy(), gridz};
+        set_abs_sub( p_sm );
+
+        for( int gridx = 0; gridx <= 1; gridx++ ) {
+            for( int gridy = 0; gridy <= 1; gridy++ ) {
+                const tripoint pos( gridx, gridy, gridz );
+                const size_t grid_pos = get_nonant( pos );
+                if( MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr &&
+                    !getsubmap( grid_pos )->is_uniform() ) {
+                    saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
+                    setsubmap( grid_pos, new submap() );
+                }
+            }
+        }
+
+        oter_id terrain_type = overmap_buffer.ter( tripoint_abs_omt( p.xy(), gridz ) );
+
+        // This attempts to scale density of zombies inversely with distance from the nearest city.
+        // In other words, make city centers dense and perimeters sparse.
+        float density = 0.0f;
+        for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
+            for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
+                density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
+            }
+        }
+        density = density / 100;
+
+        mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
+        if( !save_results || MAPBUFFER.lookup_submap( p_sm ) == nullptr ) {
+            draw_map( dat );
+        }
+
+        // Merge the overlays generated earlier into the current Z level now we have the base map on it.
+        for( int gridx = 0; gridx <= 1; gridx++ ) {
+            for( int gridy = 0; gridy <= 1; gridy++ ) {
+                const tripoint pos( gridx, gridy, gridz );
+                const size_t index = gridx + gridy * 2;
+                if( saved_overlay.at( index ) != nullptr ) {
+                    const size_t grid_pos = get_nonant( pos );
+                    getsubmap( grid_pos )->merge_submaps( saved_overlay.at( index ), true );
+                    delete saved_overlay.at( index );
+                    saved_overlay[index] = nullptr;
+                }
+            }
+        }
+
+        // At some point, we should add region information so we can grab the appropriate extras
+        map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+        map_extras ex = this_ex.filtered_by( dat );
+        if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+            DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                             " (extra type \"" << terrain_type->get_extras() <<
+                                             "\") zlevel = " << p.z() <<
+                                             " is out of range of all assigned map extras.  Skipping map extra generation.";
+        } else if( ex.chance > 0 && one_in( ex.chance ) ) {
+            map_extra_id *extra = ex.values.pick();
+            if( extra == nullptr ) {
+                debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                          terrain_type->get_type_id().str() );
+            } else {
+                MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+            }
+        }
+
+        const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
+
+        float spawn_density = 1.0f;
+        if( MonsterGroupManager::is_animal( spawns.group ) ) {
+            spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+        } else {
+            spawn_density = get_option< float >( "SPAWN_DENSITY" );
+        }
+
+        // Apply a multiplier to the number of monsters for really high densities.
+        float odds_after_density = spawns.chance * spawn_density;
+        const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
+        float density_multiplier = 1.0f;
+        if( odds_after_density > max_odds ) {
+            density_multiplier = 1.0f * odds_after_density / max_odds;
+            odds_after_density = max_odds;
+        }
+        const int spawn_count = roll_remainder( density_multiplier );
+
+        if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+            int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
+            for( ; pop > 0; pop-- ) {
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    if( !mgr.name ) {
+                        continue;
+                    }
+                    if( const std::optional<tripoint> pt =
+                    random_point( *this, [this]( const tripoint & n ) {
+                    return passable( n );
+                    } ) ) {
+                        const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
+                        add_spawn( mgr, pnt );
+                    }
+                }
+            }
+        }
+    }
+
+    if( save_results ) {
+        for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+            for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                    const tripoint pos( gridx, gridy, gridz );
+                    const size_t grid_pos = get_nonant( pos );
+                    if( gridx <= 1 && gridy <= 1 ) {
+                        if( MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
+                            saven( {gridx, gridy, gridz} );
+                        }
                     } else {
-                        delete new_sub;
+                        if( MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
+                            delete getsubmap( grid_pos );
+                        }
                     }
                 }
             }

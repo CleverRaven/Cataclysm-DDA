@@ -1844,10 +1844,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
-    tinymap tmpmap;
+    smallmap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    tmpmap.generate( omt_pos, calendar::turn );
+    tmpmap.generate( omt_pos, calendar::turn, false );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1891,7 +1891,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos,
-                             calendar::turn );
+                             calendar::turn, false );
         }
 
         if( showpreview ) {
@@ -1916,7 +1916,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos,
-                             calendar::turn );
+                             calendar::turn, false );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
@@ -1932,27 +1932,29 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
-                    // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
-                    // functions that would alter the results
-                    const tripoint dest_pos = target_sub + tripoint( x, y, target.z() );
-                    const tripoint src_pos = tripoint{ x, y, target.z()};
+                    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                        // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                        // functions that would alter the results
+                        const tripoint dest_pos = target_sub + tripoint( x, y, z );
+                        const tripoint src_pos = tripoint{ x, y, z };
 
-                    submap *destsm = here.get_submap_at_grid( dest_pos );
-                    submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
-                    if( srcsm == nullptr || destsm == nullptr ) {
-                        debugmsg( "Tried to apply previewed mapgen at (%d,%d,%d) but the submap is not loaded", src_pos.x,
-                                  src_pos.y, src_pos.z );
-                        continue;
-                    }
+                        submap *destsm = here.get_submap_at_grid( dest_pos );
+                        submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+                        if( srcsm == nullptr || destsm == nullptr ) {
+                            debugmsg( "Tried to apply previewed mapgen at (%d,%d,%d) but the submap is not loaded", src_pos.x,
+                                      src_pos.y, src_pos.z );
+                            continue;
+                        }
 
-                    std::swap( *destsm, *srcsm );
+                        std::swap( *destsm, *srcsm );
 
-                    for( auto &veh : destsm->vehicles ) {
-                        veh->sm_pos = dest_pos;
-                    }
+                        for( auto &veh : destsm->vehicles ) {
+                            veh->sm_pos = dest_pos;
+                        }
 
-                    if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
-                        here.spawn_monsters( true );
+                        if( !destsm->spawns.empty() ) {                             // trigger spawnpoints
+                            here.spawn_monsters( true );
+                        }
                     }
                 }
             }
@@ -2216,8 +2218,10 @@ void editmap::cleartmpmap( tinymap &tmpmap ) const
         smap = nullptr;
     }
 
-    level_cache &ch = tmpmap.get_cache( target.z() );
-    ch.clear_vehicle_cache();
-    ch.vehicle_list.clear();
-    ch.zone_vehicles.clear();
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        level_cache &ch = tmpmap.get_cache( z );
+        ch.clear_vehicle_cache();
+        ch.vehicle_list.clear();
+        ch.zone_vehicles.clear();
+    }
 }
