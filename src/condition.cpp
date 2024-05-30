@@ -1667,10 +1667,13 @@ conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member
 {
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [target]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        city_reference c = overmap_buffer.closest_city( project_to<coords::sm>( target_pos ) );
-        c.distance = rl_dist( c.abs_sm_pos, project_to<coords::sm>( target_pos ) );
-        return c && c.get_distance_from_bounds() <= 0;
+        tripoint_abs_omt target_pos = project_to<coords::omt>( tripoint_abs_ms( tripoint::from_string(
+                                          target.evaluate( d ) ) ) );
+        point_abs_om overmap_pos;
+        tripoint_om_omt potential_city_tile;
+        std::tie( overmap_pos, potential_city_tile ) = project_remain<coords::om>( target_pos );
+        overmap &target_overmap = overmap_buffer.get( overmap_pos );
+        return target_overmap.is_in_city( potential_city_tile );
     };
 }
 
