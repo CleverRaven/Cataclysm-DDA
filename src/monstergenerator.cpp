@@ -1463,8 +1463,6 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
-
     // Legacy support
     if( !jo.has_string( "id" ) ) {
         id = jo.get_string( "type" );
