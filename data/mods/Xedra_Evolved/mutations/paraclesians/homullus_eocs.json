@@ -13,6 +13,7 @@
             "condition": {
               "or": [
                 { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+                { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
                 { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
               ]
             },
@@ -28,7 +29,6 @@
     "id": "EOC_CONDITION_HOMULLUS_NEAR_FACTION",
     "condition": {
       "or": [
-        { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
         { "u_near_om_location": "evac_center_13", "range": 3 },
         { "u_near_om_location": "evac_center_18", "range": 6 },
         { "u_near_om_location": "isolated_road_field_0", "range": 2 },
