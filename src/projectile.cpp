@@ -185,11 +185,11 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
                 foamcrete_build( p );
             }
             //cast ammo effect spells
-                const spell ammo_spell = ae.spell_data.get_spell();
-                if (ammo_spell.is_valid()) {
-                ammo_spell.cast_all_effects( *const_cast<Creature*>(source), p );
-                ammo_spell.make_sound( p, *const_cast<Creature*>(source) );       
-                } 
+            const spell ammo_spell = ae.spell_data.get_spell();
+            if( ammo_spell.is_valid() ) {
+                ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
+                ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
+            }
         }
     }
 }

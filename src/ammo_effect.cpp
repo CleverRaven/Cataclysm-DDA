@@ -89,7 +89,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
     if( jo.has_member( "explosion" ) ) {
         JsonObject joe = jo.get_object( "explosion" );
         aoe_explosion_data = load_explosion_data( joe );
-    } 
+    }
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
