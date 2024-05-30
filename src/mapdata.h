@@ -87,8 +87,6 @@ struct map_deconstruct_skill {
     double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
 };
 struct map_common_deconstruct_info {
-        // Only if true, the terrain/furniture can be deconstructed
-        bool can_do = false; //TODO: replace with std::optional
         // This terrain provided a roof, we need to tear it down now
         bool deconstruct_above = false;
         // items you get when deconstructing.
@@ -566,7 +564,7 @@ struct ter_t : map_data_common_t {
     ter_str_id close; // Close action: transform into terrain with matching id
 
     map_ter_bash_info bash;
-    map_ter_deconstruct_info deconstruct;
+    std::optional<map_ter_deconstruct_info> deconstruct;
 
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
 
@@ -610,7 +608,7 @@ struct furn_t : map_data_common_t {
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     map_furn_bash_info bash;
-    map_furn_deconstruct_info deconstruct;
+    std::optional<map_furn_deconstruct_info> deconstruct;
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
 

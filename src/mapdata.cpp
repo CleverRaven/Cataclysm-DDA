@@ -382,7 +382,6 @@ void map_common_deconstruct_info::load( const JsonObject &jo, const bool was_loa
         JsonObject jos = jo.get_object( "skill" );
         skill = { skill_id( jos.get_string( "skill" ) ), jos.get_int( "min", 0 ), jos.get_int( "max", 10 ), jos.get_float( "multiplier", 1.0 ) };
     }
-    can_do = true;
     optional( jo, was_loaded, "deconstruct_above", deconstruct_above, false );
     if( jo.has_member( "items" ) ) {
         drop_group = item_group::load_item_group( jo.get_member( "items" ), "collection",
@@ -931,7 +930,10 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
                    id.str() ); //TODO: Make overwriting these with "bash": { } works while still allowing overwriting single values ie for "ter_set"
     }
     if( jo.has_object( "deconstruct" ) ) {
-        deconstruct.load( jo.get_object( "deconstruct" ), was_loaded, "terrain " + id.str() );
+        if( !deconstruct ) {
+            deconstruct.emplace();
+        }
+        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "terrain " + id.str() );
     }
 }
 
@@ -969,9 +971,6 @@ void map_fd_bash_info::check( const std::string &id ) const
 
 void map_common_deconstruct_info::check( const std::string &id ) const
 {
-    if( !can_do ) {
-        return;
-    }
     if( !item_group::group_is_defined( drop_group ) ) {
         debugmsg( "%s: deconstruct result item group %s does not exist", id, drop_group.c_str() );
     }
@@ -997,7 +996,9 @@ void ter_t::check() const
 {
     map_data_common_t::check();
     bash.check( id.c_str() );
-    deconstruct.check( id.c_str() );
+    if( deconstruct ) {
+        deconstruct->check( id.c_str() );
+    }
 
     if( !transforms_into.is_valid() ) {
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
@@ -1098,7 +1099,10 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         bash.load( jo.get_object( "bash" ), was_loaded, "furniture " + id.str() );
     }
     if( jo.has_object( "deconstruct" ) ) {
-        deconstruct.load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
+        if( !deconstruct ) {
+            deconstruct.emplace();
+        }
+        deconstruct->load( jo.get_object( "deconstruct" ), was_loaded, "furniture " + id.str() );
     }
 
     if( jo.has_object( "workbench" ) ) { //TODO: Does this support copy-from?
@@ -1118,7 +1122,9 @@ void furn_t::check() const
 {
     map_data_common_t::check();
     bash.check( id.c_str() );
-    deconstruct.check( id.c_str() );
+    if( deconstruct ) {
+        deconstruct->check( id.c_str() );
+    }
 
     if( !open.is_valid() ) {
         debugmsg( "invalid furniture %s for opening %s", open.c_str(), id.c_str() );
