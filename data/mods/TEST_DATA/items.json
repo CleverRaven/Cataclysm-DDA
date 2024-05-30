@@ -82,7 +82,8 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "recovery_chance": 80,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "variant_type": "generic",
@@ -2120,7 +2121,7 @@
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_25" ],
+    "recovery_chance": 25,
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
