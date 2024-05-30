@@ -1008,6 +1008,7 @@
         "covers": [ "eyes" ]
       }
     ],
-    "extend": { "flags": [ "FIX_NEARSIGHT", "FIX_FARSIGHT", "SKINTIGHT" ] }
+    "delete": { "flags": [ "PANORAMIC_OUTSERT" ] },
+    "extend": { "flags": [ "PANORAMIC_INSERT", "FIX_NEARSIGHT", "FIX_FARSIGHT", "SKINTIGHT" ] }
   }
 ]

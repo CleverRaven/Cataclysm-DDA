@@ -1,5 +1,57 @@
 [
   {
+    "id": "gasmask_inserts",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "outsert_clear", "prob": 100 },
+          { "item": "outsert_sunlight", "prob": 50 },
+          { "item": "outsert_breach", "prob": 25 }
+        ]
+      },
+      { "item": "insert_vision_correction", "prob": 30 }
+    ]
+  },
+  {
+    "id": "gasmask_bag_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "This is a stowed-away gas mask in its carrier, packed with all its equipment but unused and unassembled. Groups together a gas mask, with or without accessories pre-installed, a spare filter, and loose accessories.",
+    "//2": "The gas mask doesn’t have its own filter installed, so a second one is sitting ready in the pouch for the user to assemble.",
+    "ammo": 100,
+    "magazine": 0,
+    "container-item": "gas_mask_pouch",
+    "on_overflow": "spill",
+    "items": [
+      {
+        "distribution": [ { "item": "mask_gas", "prob": 60 }, { "item": "mask_gas", "contents-group": "gasmask_inserts", "prob": 40 } ]
+      },
+      { "item": "gasfilter_med" },
+      { "group": "gasmask_inserts", "count": [ 1, 2 ], "prob": 100 }
+    ]
+  },
+  {
+    "id": "gasmask_bag_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A gas mask left in its carrier, but that was in use prior to being found: assumed that the former user had required it or anticipated needing it and assembled it in readiness. The spare filter may be absent, a canister's already been loaded into the gas mask, and there’s a greater chance that the loose attachments have already been added to the mask.",
+    "ammo": 100,
+    "container-item": "gas_mask_pouch",
+    "on_overflow": "spill",
+    "items": [
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 40 },
+          { "item": "mask_gas", "charges": [ 0, 100 ], "contents-group": "gasmask_inserts", "prob": 60 }
+        ]
+      },
+      { "item": "gasfilter_med", "prob": 50 },
+      { "group": "gasmask_inserts", "prob": 55 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "swat_gear",
     "subtype": "distribution",
@@ -26,7 +78,7 @@
       [ "pockknife", 10 ],
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       { "group": "swat_ballistic_vest", "prob": 15 },
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
