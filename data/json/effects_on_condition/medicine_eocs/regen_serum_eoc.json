@@ -50,10 +50,12 @@
   {
     "type": "effect_type",
     "id": "regen_serum_main",
-    "name": [ "regen_serum_main" ],
-    "desc": [ "regen_serum_main." ],
-    "apply_message": "Injected Serum",
-    "remove_message": "You just take a shot of some weird stuff.  You feel sleepiness, nauseous, and overall weakened, but you wounds close up at unnatural pace.",
+    "name": [ "Injected Serum" ],
+    "desc": [
+      "You just take a shot of some weird stuff.  You feel sleepiness, nauseous, and overall weakened, but you wounds close up at unnatural pace."
+    ],
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release an air, and put right into your veins, in hope it won't kill you.",
+    "remove_message": "You feel your rapid regeneration turn back to normal, but some negative effects are still presented.",
     "rating": "mixed",
     "flags": [ "MEND_ALL" ],
     "enchantments": [
@@ -61,6 +63,7 @@
         "values": [
           { "value": "REGEN_HP", "multiply": 50 },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "add": 1 },
           { "value": "METABOLISM", "multiply": 2 },
           { "value": "HUNGER", "multiply": 2 },
           { "value": "SLEEPINESS", "multiply": 1 },
