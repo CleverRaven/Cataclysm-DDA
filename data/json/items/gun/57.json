@@ -125,6 +125,7 @@
     "dispersion": 380,
     "durability": 8,
     "min_cycle_recoil": 81,
+    "reload": 500,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
