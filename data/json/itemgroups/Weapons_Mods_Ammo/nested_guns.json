@@ -255,6 +255,19 @@
     ]
   },
   {
+    "id": "nested_cp33",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "cp33", "charges": [ 0, 33 ] },
+      { "item": "cp33_mag" },
+      { "item": "cp33_mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_sw_610",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

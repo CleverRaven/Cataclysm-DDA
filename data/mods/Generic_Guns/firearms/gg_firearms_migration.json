@@ -185,7 +185,18 @@
     "replace": "pistol_tiny_rifle"
   },
   {
-    "id": [ "marlin_9a", "kp32", "ruger_lcr_22", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk", "pressin" ],
+    "id": [
+      "marlin_9a",
+      "kp32",
+      "ruger_lcr_22",
+      "sig_mosquito",
+      "sw_22",
+      "walther_p22",
+      "sig_p230",
+      "walther_ppk",
+      "pressin",
+      "cp33"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
   },
