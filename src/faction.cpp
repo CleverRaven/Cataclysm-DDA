@@ -152,23 +152,23 @@ std::string faction::describe() const
     return ret;
 }
 
-void faction_power_spec::deserialize(const JsonObject& jo)
+void faction_power_spec::deserialize( const JsonObject &jo )
 {
-    mandatory(jo, false, "faction", faction); // from generic_factory.h
-    optional(jo, false, "power_min", power_min);
-    optional(jo, false, "power_max", power_max);
+    mandatory( jo, false, "faction", faction ); // from generic_factory.h
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
 
-    if (!power_min.has_value() && !power_max.has_value()) {
-        jo.throw_error("must have either a power_min or a power_max");
+    if( !power_min.has_value() && !power_max.has_value() ) {
+        jo.throw_error( "must have either a power_min or a power_max" );
     }
 }
 
-void faction_epilogue_data::deserialize(const JsonObject& jo)
+void faction_epilogue_data::deserialize( const JsonObject &jo )
 {
-    optional(jo, false, "power_min", power_min);
-    optional(jo, false, "power_max", power_max);
-    optional(jo, false, "dynamic", dynamic_conditions);
-    mandatory(jo, false, "faction", epilogue);
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+    optional( jo, false, "dynamic", dynamic_conditions );
+    mandatory( jo, false, "faction", epilogue );
 }
 
 //bool faction::check_relations( std::optional<std::vector<faction_power_spec>> jo ) const
@@ -184,11 +184,12 @@ void faction_epilogue_data::deserialize(const JsonObject& jo)
 //    return true;
 //}
 
-bool faction::check_relations(const std::vector<faction_power_spec> faction_power_specs) const
+bool faction::check_relations( const std::vector<faction_power_spec> faction_power_specs ) const
 {
-    if (!faction_power_specs.empty()) {
-        for (const faction_power_spec& spec : faction_power_specs) {
-            if ((!!spec.power_min && spec.faction->power < spec.power_min.value()) || (!!spec.power_max && spec.faction->power >= spec.power_max.value())) {
+    if( !faction_power_specs.empty() ) {
+        for( const faction_power_spec &spec : faction_power_specs ) {
+            if( ( !!spec.power_min && spec.faction->power < spec.power_min.value() ) || ( !!spec.power_max &&
+                    spec.faction->power >= spec.power_max.value() ) ) {
                 return false;
             }
         }
@@ -201,7 +202,7 @@ std::vector<std::string> faction::epilogue() const
     std::vector<std::string> ret;
     for( auto it = epilogue_data.cbegin(), next_it = it; it != epilogue_data.cend(); it = next_it ) {
         if( power >= it->power_min && power < it->power_max ) {
-            if( !it->dynamic_conditions.empty() ) { 
+            if( !it->dynamic_conditions.empty() ) {
                 if( check_relations( it->dynamic_conditions ) ) {
                     ret.emplace_back( it->epilogue->translated() );
                 }
