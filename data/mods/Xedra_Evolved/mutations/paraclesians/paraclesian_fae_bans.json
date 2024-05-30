@@ -71,38 +71,24 @@
     "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "u_has_trait": "THRESH_ARVORE" },
+    "condition": {
+      "and": [
+        { "u_has_trait": "THRESH_ARVORE" },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+            { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+          ]
+        }
+      ]
+    },
     "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      { "math": [ "u_val('sleepiness')", "+=", "150" ] },
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
-        "target_var": { "context_val": "arvore_location" }
-      },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY_2",
-            "//": "This EoC is required because map_in_city cannot check talker location directly.",
-            "condition": {
-              "or": [
-                { "u_near_om_location": "evac_center_13", "range": 3 },
-                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-                { "u_near_om_location": "ranch_camp_41", "range": 3 },
-                { "u_near_om_location": "godco_5", "range": 3 },
-                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
-              ]
-            },
-            "effect": [
-              { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
-              { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
-              { "math": [ "u_val('sleepiness')", "+=", "150" ] },
-              {
-                "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
-                "type": "bad"
-              }
-            ]
-          }
-        ]
+        "u_message": "You awaken with a groggy head, blinking bleary eyes.  Sleeping near the remnants of civilization away from the bounty of nature, your sleep was not as restful as it should have been.",
+        "type": "bad"
       }
     ]
   },
