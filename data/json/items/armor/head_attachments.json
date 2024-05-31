@@ -925,6 +925,7 @@
     "description": "A simple and flexible transparent lens of plastic that clips into place over a panoramic gas mask’s solitary eyepiece, providing extra protection from scratches, abrasions, and ballistic threats.",
     "weight": "136 g",
     "volume": "46 ml",
+    "longest_side": "17 cm",
     "price": "69 USD 50 cent",
     "price_postapoc": "1 USD",
     "//": "Simulating https://shop.avon-protection.com/products/clear-outsert?variant=44365968310509",
