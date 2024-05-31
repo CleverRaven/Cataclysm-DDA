@@ -159,8 +159,8 @@ void faction_power_spec::deserialize(const JsonObject& jo)
     optional(jo, false, "power_min", power_min);
     optional(jo, false, "power_max", power_max);
 
-    if (!power_min.has_value() && !power_max.has_value()) {
-        jo.throw_error("Must have either a power_min or a power_max");
+    if( !power_min.has_value() && !power_max.has_value() ) {
+        jo.throw_error( "Must have either a power_min or a power_max" );
     }
 }
 
