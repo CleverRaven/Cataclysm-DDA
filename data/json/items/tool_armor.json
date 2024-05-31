@@ -1963,7 +1963,7 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "gas mask" },
-    "description": "A full-face, industrial-grade respirator made from a solid black silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask’s single-element vizor and 6-point head harness.  Provided that a filter canister’s been screwed into the right-side filter port and the respirator’s been prepared, it’ll do an admirable job at preventing smoke, gas, and contaminants derived from chemical and lab work from taking up residence in your organs.",
+    "description": "A full-face, industrial-grade respirator made from a solid black silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask’s single-element visor and 6-point head harness.  Provided that a filter canister’s been screwed into the right-side filter port and the respirator’s been prepared, it’ll do an admirable job at preventing smoke, gas, and contaminants derived from chemical and lab work from taking up residence in your organs.",
     "weight": "490 g",
     "volume": "1536 ml",
     "longest_side": "27 cm",
