@@ -1978,6 +1978,11 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        if( !temp_camp->allowed_access_by( you ) ) {
+            you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
+            return;
+        }
+
         temp_camp->validate_bb_pos( here.getglobal( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();

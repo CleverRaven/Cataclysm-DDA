@@ -15,7 +15,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "craft_command.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -210,7 +210,8 @@ class basecamp
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
-        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type );
+        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type,
+                          bool player_founded = true );
 
         std::string expansion_tab( const point &dir ) const;
         // check whether the point is the part of camp
@@ -273,6 +274,7 @@ class basecamp
         /// Changes the faction opinion for you by @ref change, returns opinion
         int camp_morale( int change = 0 ) const;
 
+        bool allowed_access_by( Character &guy, bool water_request = false ) const;
         // recipes, gathering, and craft support functions
         // from a direction
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;

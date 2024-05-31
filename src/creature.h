@@ -21,7 +21,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "compatibility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"

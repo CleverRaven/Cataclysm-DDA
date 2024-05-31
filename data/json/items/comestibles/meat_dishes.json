@@ -2001,5 +2001,26 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
     "vitamins": [ [ "calcium", "423 mg" ], [ "iron", "8 mg" ] ]
+  },
+  {
+    "id": "scrapple",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "scrapple" },
+    "symbol": "%",
+    "looks_like": "offal_cooked",
+    "description": "A dry mush of meat scraps and grain, sliced and pan-fried; better than it sounds and looks.  A staple food of the Mid-Atlantic United States.",
+    "price_postapoc": "40 cent",
+    "material": [ "flesh", "wheat" ],
+    "primary_material": "flesh",
+    "color": "brown",
+    "weight": "58 g",
+    "volume": "56 ml",
+    "spoils_in": "5 days",
+    "calories": 127,
+    "fun": 1,
+    "quench": -8,
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 8 ] ]
   }
 ]

@@ -371,9 +371,9 @@ str_translation_or_var get_str_translation_or_var(
     return ret_val;
 }
 
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d )
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d, bool is_npc )
 {
-    tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
+    tripoint_abs_ms target_pos = get_map().getglobal( d.actor( is_npc )->pos() );
     if( var.has_value() ) {
         std::string value = read_var_value( var.value(), d );
         if( !value.empty() ) {
@@ -1634,7 +1634,7 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( dialogue const & d ) {
-        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d, false ) );
         if( terrain ) {
             return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
@@ -1654,7 +1654,7 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( dialogue const & d ) {
-        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d, false ) );
         if( terrain ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else {
@@ -1770,7 +1770,17 @@ conditional_t::func f_math( const JsonObject &jo, const std::string_view member 
 conditional_t::func f_u_has_camp()
 {
     return []( dialogue const & ) {
-        return !get_player_character().camps.empty();
+        for( const tripoint_abs_omt &camp_tripoint : get_player_character().camps ) {
+            std::optional<basecamp *> camp = overmap_buffer.find_camp( camp_tripoint.xy() );
+            if( !camp ) {
+                continue;
+            }
+            basecamp *bcp = *camp;
+            if( bcp->get_owner() == get_player_character().get_faction()->id ) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 

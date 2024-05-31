@@ -47,6 +47,11 @@
     "aoe": { "field_type": "fd_toxic_foam", "intensity_min": 1, "intensity_max": 4, "chance": 70, "radius": 1 }
   },
   {
+    "id": "ELECTRIC_CHAIN",
+    "type": "ammo_effect",
+    "spell_data": { "id": "spell_electric_chain" }
+  },
+  {
     "id": "MULTI_EFFECTS",
     "type": "ammo_effect",
     "//": "Applies multi_projectile_effects to all ammo used by this weapon, even if the ammo doesn't normally have it. Hardcoded in projectile_attack (ranged.cpp)"

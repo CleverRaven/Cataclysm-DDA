@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 
 class input_context;
 struct input_event;

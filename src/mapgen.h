@@ -13,7 +13,7 @@
 #include <vector>
 
 #include "cata_variant.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "dialogue_helpers.h"
 #include "jmapgen_flags.h"
 #include "json.h"

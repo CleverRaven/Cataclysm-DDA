@@ -10,7 +10,7 @@
 
 #include "bodypart.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "translations.h"
 #include "widget.h"
 
