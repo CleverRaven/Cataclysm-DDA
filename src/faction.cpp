@@ -176,7 +176,7 @@ void faction_epilogue_data::deserialize(const JsonObject& jo)
 bool faction::check_relations( std::vector<faction_power_spec> faction_power_specs ) const
 {
     if( !faction_power_specs.empty() ) {
-        for( const faction_power_spec& spec : faction_power_specs ) {
+        for( const faction_power_spec &spec : faction_power_specs ) {
             if( spec.power_min.has_value() ) {
                 if( spec.faction->power < spec.power_min.value() ) {
                     return false;
