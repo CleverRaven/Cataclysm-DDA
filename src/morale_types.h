@@ -34,8 +34,6 @@ class morale_type_data
         static void load_type( const JsonObject &jo, const std::string &src );
         static void check_all();
         static void reset();
-
-        static const morale_type &convert_legacy( int lmt );
 };
 
 extern const morale_type MORALE_NULL;
