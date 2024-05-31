@@ -2342,7 +2342,7 @@
   {
     "id": "PANORAMIC_INSERT",
     "type": "json_flag",
-    "info": "This item is intended to be inserted behind the visor of a single-Lenz gas mask.",
+    "info": "This item is intended to be inserted behind the visor of a single-lens gas mask.",
     "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
   },
   {
