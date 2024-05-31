@@ -25,9 +25,35 @@
     "mon_faction": "player",
     "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
     "epilogues": [ { "power_min": 150, "id": "epilogue_faction_your_followers_150" } ],
-    "epilogues": [ { "power_min": 150, "dynamic": [ { "faction": "free_merchants", "power_min": 150 }, { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_min": 150 } ], "id": "epilogue_faction_your_followers_FM" } ],
-    "epilogues": [ { "power_min": 150, "dynamic": [ { "faction": "free_merchants", "power_max": 150 }, { "faction": "tacoma_commune", "power_min": 150 } ], "id": "epilogue_faction_your_followers_revolt" } ],
-    "epilogues": [ { "power_min": 150, "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "robofac", "power_min": 150 } ], "id": "epilogue_faction_your_followers_OG" } ],
+    "epilogues": [
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "free_merchants", "power_min": 150 },
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_your_followers_FM"
+      }
+    ],
+    "epilogues": [
+      {
+        "power_min": 150,
+        "dynamic": [ { "faction": "free_merchants", "power_max": 150 }, { "faction": "tacoma_commune", "power_min": 150 } ],
+        "id": "epilogue_faction_your_followers_revolt"
+      }
+    ],
+    "epilogues": [
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_your_followers_OG"
+      }
+    ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
