@@ -451,6 +451,7 @@
   },
   {
     "id": "rugermk4",
+    "//": "Stats are from the 5.5 inch target version https://ruger.com/products/markIVTarget/specSheets/40101.html",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
@@ -496,6 +497,4 @@
     "pocket_data": [ { "rigid": false, "magazine_well": "96 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugermk4_mag" ] } ],
     "melee_damage": { "bash": 7 }
   }
-]
-
 ]
