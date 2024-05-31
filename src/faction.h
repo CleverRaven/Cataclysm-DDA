@@ -98,7 +98,7 @@ struct faction_power_spec {
     std::optional<int> power_min;
     std::optional<int> power_max;
 
-    void deserialize( const JsonObject& jo );
+    void deserialize( const JsonObject &jo );
 };
 
 
@@ -161,7 +161,7 @@ class faction : public faction_template
 
 
         std::string describe() const;
-        bool check_relations(std::vector<faction_power_spec> jo) const;
+        bool check_relations( std::vector<faction_power_spec> jo ) const;
         std::vector<std::string> epilogue() const;
 
         std::string food_supply_text();
