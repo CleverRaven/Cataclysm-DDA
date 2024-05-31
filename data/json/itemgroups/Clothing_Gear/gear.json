@@ -41,7 +41,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "This is a stowed-away gas mask in its carrier, packed with all its equipment but unused and unassembled. Groups together a gas mask, a spare filter, and loose accessories.",
-    "//2": "The gas mask doesn’t have its own filter installed, so a second one is sitting ready in the pouch for the user to assemble.",
+    "//2": "The gas mask doesn’t have its own filter installed, so a second one is sitting ready in the pouch for the user to assemble.",
     "ammo": 100,
     "magazine": 0,
     "container-item": "gas_mask_pouch",
