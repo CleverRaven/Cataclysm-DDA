@@ -152,24 +152,7 @@ if (CURSES)
                 SYSTEM
                 PUBLIC
                 ${THIRD_PARTY_SOURCE_DIR}
-                ${CURSES_INCLUDE_DIR}
-                ${NCURSES_INCLUDE_DIRS}
-                )
-        if (CURSES_NEED_WIDE)
-                target_include_directories(
-                        imtui
-                        SYSTEM
-                        PUBLIC
-                        ${CURSES_INCLUDE_DIR}/ncursesw
-                )
-        else ()
-                target_include_directories(
-                        imtui
-                        SYSTEM
-                        PUBLIC
-                        ${CURSES_INCLUDE_DIR}/ncurses
-                )
-        endif ()
+        )
         target_compile_options(
                 imtui
                 PRIVATE
@@ -200,6 +183,15 @@ if (CURSES)
                 PUBLIC
                 PDC_WIDE
                 NCURSES_MOUSE_VERSION
+            )
+        else() # FindCurses.cmake does not create targets
+            target_include_directories(
+                    imtui
+                    SYSTEM
+                    PUBLIC
+                    ${CURSES_INCLUDE_DIR}
+                    ${NCURSES_INCLUDE_DIRS}
+                    ${CURSES_INCLUDE_DIR}/ncurses$<$<BOOL:${CURSES_NEED_WIDE}>:w>
             )
         endif()
 endif ()
