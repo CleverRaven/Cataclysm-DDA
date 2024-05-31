@@ -1965,7 +1965,7 @@
     "name": { "str": "gas mask" },
     "description": "A full-face, industrial-grade respirator made from a solid black silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask’s single-element vizor and 6-point head harness.  Provided that a filter canister’s been screwed into the right-side filter port and the respirator’s been prepared, it’ll do an admirable job at preventing smoke, gas, and contaminants derived from chemical and lab work from taking up residence in your organs.",
     "weight": "490 g",
-    "volume": "1 L",
+    "volume": "1536 ml",
     "longest_side": "27 cm",
     "//": "Based on https://www.avon-protection.com/products/c50/",
     "//2": "While it’s based on the C50, this could equally be the FM53, CM8, or an assortment of other gas masks that fall into the same category.",
@@ -1974,7 +1974,7 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ { "type": "rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
     "symbol": "[",
-    "color": "dark_gray",
+    "color": "black",
     "armor": [
       {
         "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 } ],
@@ -1987,12 +1987,13 @@
         "volume_encumber_modifier": 0
       },
       {
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead" ],
         "coverage": 100,
         "encumbrance": 20,
-        "volume_encumber_modifier": 0
+        "volume_encumber_modifier": 0,
+        "layers": [ "SKINTIGHT" ]
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
@@ -2001,11 +2002,12 @@
         "coverage": 100,
         "encumbrance": 10,
         "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
         "volume_encumber_modifier": 0
       },
       {
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2 },
           { "type": "plastic", "covered_by_mat": 30, "thickness": 1 }
         ],
         "//": "The exhale valve, speech diaphragm, and, if a mask has them, the communications unit and drinking tube, are located over the mouth and nose sections. They’re represented by the plastic content.",
@@ -2013,11 +2015,11 @@
         "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
         "coverage": 100,
         "encumbrance": [ 20, 40 ],
-        "layers": [ "NORMAL", "OUTER" ]
+        "layers": [ "SKINTIGHT", "NORMAL" ]
       },
       {
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 2 },
           { "type": "plastic", "covered_by_mat": 25, "thickness": 1 }
         ],
         "//": "Most modern gas masks possess plastic filter mounts on either one or both of the cheek sections, which this plastic represents. Again, we can tactically handwave away the outliers.",
@@ -2025,7 +2027,7 @@
         "specifically_covers": [ "mouth_cheeks" ],
         "coverage": 100,
         "encumbrance": 20,
-        "layers": [ "NORMAL", "OUTER" ],
+        "layers": [ "SKINTIGHT", "NORMAL", "OUTER" ],
         "volume_encumber_modifier": 0
       }
     ],
@@ -2064,7 +2066,7 @@
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "flags": [ "SLEEP_IGNORE", "SOFT" ]
+    "flags": [ "SLEEP_IGNORE", "VARSIZE", "PADDED" ]
   },
   {
     "id": "mask_gas_xl",
