@@ -167,5 +167,35 @@
         ]
       }
     ]
+  },
+  {
+    "id": "silent_one_drain_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Silent One Draining attack",
+    "description": "Silent One's draining attack.  It's a bug if you have it.",
+    "valid_targets": [ "hostile" ],
+    "message": "",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SILENT_ONE_DRAINING_POWER",
+    "shape": "blast",
+    "min_range": 10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SILENT_ONE_DRAINING_POWER",
+    "condition": "u_is_character",
+    "effect": [
+      { "math": [ "u_val('focus')", "--" ] },
+      {
+        "u_add_morale": "morale_silent_one_drain",
+        "bonus": -4,
+        "max_bonus": -100,
+        "duration": "24 hours",
+        "decay_start": "12 hours"
+      },
+      { "math": [ "u_val('health')", "-=", "rand(2) + 1" ] }
+    ],
+    "false_effect": [ { "u_cast_spell": { "id": "eater_drain_health", "hit_self": true } } ]
   }
 ]
