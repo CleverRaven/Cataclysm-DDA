@@ -740,8 +740,30 @@
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isherwoods_0" },
-      { "power_min": 150, "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "free_merchants", "power_min": 150 }, { "faction": "robofac", "power_min": 150 }, { "faction": "exodii", "power_min": 150 },{ "faction": "the_great_library", "power_min": 150 } ], "id": "epilogue_faction_isherwoods_OG_FM" },
-      { "power_min": 150, "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "free_merchants", "power_max": 150 }, { "faction": "robofac", "power_min": 150 }, { "faction": "exodii", "power_min": 150 },{ "faction": "the_great_library", "power_min": 150 } ], "id": "epilogue_faction_isherwoods_OG" },
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "free_merchants", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 },
+          { "faction": "exodii", "power_min": 150 },
+          { "faction": "the_great_library", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_isherwoods_OG_FM"
+      },
+      {
+        "power_min": 150,
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "free_merchants", "power_max": 150 },
+          { "faction": "robofac", "power_min": 150 },
+          { "faction": "exodii", "power_min": 150 },
+          { "faction": "the_great_library", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_isherwoods_OG"
+      },
       { "power_min": 150, "id": "epilogue_faction_isherwoods_150" }
     ],
     "description": "A small family surviving on their generational land."
