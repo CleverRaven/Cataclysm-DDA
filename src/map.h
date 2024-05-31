@@ -2047,7 +2047,6 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles );
         void loadn( const point &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
@@ -2514,7 +2513,9 @@ template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
-bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter );
+// Returns the terrain to apply if the terrain is uniform, and t_null otherwise.
+ter_str_id uniform_terrain( const oter_id &oter );
+bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter );
 bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 
 /**

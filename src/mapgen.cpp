@@ -226,6 +226,14 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 const size_t grid_pos = get_nonant( pos );
                 if( !save_results || MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
                     setsubmap( grid_pos, new submap() );
+
+                    // Generate uniform submaps immediately and cheaply.
+                    // This causes them to be available for "proper" overlays even if on a lower Z level.
+                    const ter_str_id ter = uniform_terrain( overmap_buffer.ter( p ) );
+                    if( ter != t_null.id() ) {
+                        getsubmap( grid_pos )->set_all_ter( ter, true );
+                        getsubmap( grid_pos )->last_touched = calendar::turn;
+                    }
                 } else {
                     setsubmap( grid_pos, MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) );
                 }
@@ -276,7 +284,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
-        if( !save_results || MAPBUFFER.lookup_submap( p_sm ) == nullptr ) {
+        if( ( !save_results || MAPBUFFER.lookup_submap( p_sm ) == nullptr ) &&
+            uniform_terrain( overmap_buffer.ter( p ) ) == t_null.id() ) {
             draw_map( dat );
         }
 
