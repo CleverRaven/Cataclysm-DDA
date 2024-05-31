@@ -184,6 +184,8 @@ if (CURSES)
                 PDC_WIDE
                 NCURSES_MOUSE_VERSION
             )
+        elseif(TARGET pdcurses)
+            target_link_libraries(imtui PUBLIC pdcurses)
         else() # FindCurses.cmake does not create targets
             target_include_directories(
                     imtui

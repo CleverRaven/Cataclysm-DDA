@@ -319,6 +319,25 @@ if (CURSES)
         if(TARGET unofficial::pdcurses::pdcurses)
             set(USE_PDCURSES TRUE)
         endif()
+    elseif(MSYS2)
+        if(True) # GNU NCURSES: mingw-w64-ucrt-x86_64-ncurses
+            add_library(pdcurses STATIC IMPORTED)
+            set_target_properties(pdcurses PROPERTIES
+                IMPORTED_LOCATION $ENV{MSYSTEM_PREFIX}/lib/libncursesw.a
+                INTERFACE_INCLUDE_DIRECTORIES $ENV{MSYSTEM_PREFIX}/include/ncursesw
+            )
+            set(USE_PDCURSES FALSE)
+        else() # PDCursesMOD: mingw-w64-ucrt-x86_64-pdcurses
+            add_library(pdcurses STATIC IMPORTED)
+            set_target_properties(pdcurses PROPERTIES
+                IMPORTED_LOCATION $ENV{MSYSTEM_PREFIX}/lib/libpdcurses_wingui.a
+                INTERFACE_INCLUDE_DIRECTORIES $ENV{MSYSTEM_PREFIX}/include/pdcurses
+                INTERFACE_COMPILE_DEFINITIONS
+                "PDC_WIDE;PDC_FORCE_UTF8;PDC_NCMOUSE;PDC_RGB;CHTYPE_32"
+            )
+            set(USE_PDCURSES TRUE)
+        endif()
+        set(CURSES_FOUND True)
     else ()
         find_package(Curses)
     endif ()
