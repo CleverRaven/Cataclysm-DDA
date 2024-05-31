@@ -93,8 +93,7 @@ class faction_price_rules_reader : public generic_typed_reader<faction_price_rul
 };
 
 
-struct faction_power_spec
-{
+struct faction_power_spec {
     faction_id faction;
     std::optional<int> power_min;
     std::optional<int> power_max;
