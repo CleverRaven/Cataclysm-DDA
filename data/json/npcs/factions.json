@@ -598,11 +598,32 @@
       "your_followers": { "kill on sight": true }
     },
     "epilogues": [
-      { "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "hells_raiders", "power_max": 150 } ], "id": "epilogue_faction_hells_raiders_0" },
-      { "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "hells_raiders", "power_min": 150 } ], "id": "epilogue_faction_hells_raiders_150" },
-      { "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "hells_raiders", "power_max": 150 } ], "id": "epilogue_faction_hells_raiders_stalemate" },
-      { "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "hells_raiders", "power_min": 150 } ], "id": "epilogue_faction_hells_raiders_stalemate" },
-      { "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "tacoma_commune", "power_min": 150 }, { "faction": "robofac", "power_min": 150 }, { "faction": "exodii", "power_min": 150 },{ "faction": "the_great_library", "power_min": 150 } ], "id": "epilogue_faction_hells_raiders_collapse" }
+      {
+        "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "hells_raiders", "power_max": 150 } ],
+        "id": "epilogue_faction_hells_raiders_0"
+      },
+      {
+        "dynamic": [ { "faction": "old_guard", "power_max": 150 }, { "faction": "hells_raiders", "power_min": 150 } ],
+        "id": "epilogue_faction_hells_raiders_150"
+      },
+      {
+        "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "hells_raiders", "power_max": 150 } ],
+        "id": "epilogue_faction_hells_raiders_stalemate"
+      },
+      {
+        "dynamic": [ { "faction": "old_guard", "power_min": 150 }, { "faction": "hells_raiders", "power_min": 150 } ],
+        "id": "epilogue_faction_hells_raiders_stalemate"
+      },
+      {
+        "dynamic": [
+          { "faction": "old_guard", "power_min": 150 },
+          { "faction": "tacoma_commune", "power_min": 150 },
+          { "faction": "robofac", "power_min": 150 },
+          { "faction": "exodii", "power_min": 150 },
+          { "faction": "the_great_library", "power_min": 150 }
+        ],
+        "id": "epilogue_faction_hells_raiders_collapse"
+      }
     ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
