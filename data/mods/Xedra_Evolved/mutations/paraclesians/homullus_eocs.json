@@ -142,7 +142,7 @@
     "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
     "effect": [
       {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
         "target_var": { "context_val": "homullus_location" }
       },
       {
@@ -158,7 +158,7 @@
                 { "u_near_om_location": "ranch_camp_41", "range": 3 },
                 { "u_near_om_location": "godco_5", "range": 3 },
                 { "u_at_om_location": "FACTION_CAMP_ANY" },
-                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
               ]
             },
             "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
