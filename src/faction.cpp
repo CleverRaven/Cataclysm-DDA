@@ -154,12 +154,12 @@ std::string faction::describe() const
 
 void faction_power_spec::deserialize(const JsonObject& jo)
 {
-    mandatory(jo, false, "faction", faction); // from generic_factory.h
+    mandatory(jo, false, "faction", faction);
     optional(jo, false, "power_min", power_min);
     optional(jo, false, "power_max", power_max);
 
     if (!power_min.has_value() && !power_max.has_value()) {
-        jo.throw_error("must have either a power_min or a power_max");
+        jo.throw_error("Must have either a power_min or a power_max");
     }
 }
 
@@ -168,48 +168,43 @@ void faction_epilogue_data::deserialize(const JsonObject& jo)
     optional(jo, false, "power_min", power_min);
     optional(jo, false, "power_max", power_max);
     optional(jo, false, "dynamic", dynamic_conditions);
-    mandatory(jo, false, "faction", epilogue);
+    mandatory(jo, false, "id", epilogue);
 }
 
-//bool faction::check_relations( std::optional<std::vector<faction_power_spec>> jo ) const
-//{
-//    for( auto it = jo->cbegin(), next_it = it; it != jo->cend(); it = next_it ) {
-//        if( it->power_min.has_value() && it->faction->power < it->power_min.value() ) {
-//            return false;
-//        }
-//        else if( it->power_max.has_value() && it->faction->power >= it->power_max.value() ) {
-//            return false;
-//        }
-//    }
-//    return true;
-//}
 
-bool faction::check_relations(const std::vector<faction_power_spec> faction_power_specs) const
+bool faction::check_relations( std::vector<faction_power_spec> faction_power_specs ) const
 {
-    if (!faction_power_specs.empty()) {
-        for (const faction_power_spec& spec : faction_power_specs) {
-            if ((!!spec.power_min && spec.faction->power < spec.power_min.value()) || (!!spec.power_max && spec.faction->power >= spec.power_max.value())) {
-                return false;
+    if( !faction_power_specs.empty() ) {
+        for( const faction_power_spec& spec : faction_power_specs ) {
+            if( spec.power_min.has_value() ) {
+                if( spec.faction->power < spec.power_min.value() ) {
+                    return false;
+                }
+            }
+            if( spec.power_max.has_value() ) {
+                if( spec.faction->power >= spec.power_max.value() ) {
+                    return false;
+                }
             }
         }
     }
     return true;
 }
 
+
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( auto it = epilogue_data.cbegin(), next_it = it; it != epilogue_data.cend(); it = next_it ) {
-        if( power >= it->power_min && power < it->power_max ) {
-            if( !it->dynamic_conditions.empty() ) { 
-                if( check_relations( it->dynamic_conditions ) ) {
-                    ret.emplace_back( it->epilogue->translated() );
-                }
+    for( const faction_epilogue_data& epi : epilogue_data ) {
+        if ( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() || power < epi.power_max ) ) {
+            if( check_relations( epi.dynamic_conditions ) ) {
+                ret.emplace_back( epi.epilogue->translated() );
             }
         }
     }
     return ret;
 }
+
 
 void faction::add_to_membership( const character_id &guy_id, const std::string &guy_name,
                                  const bool known )

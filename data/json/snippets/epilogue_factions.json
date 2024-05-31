@@ -7,10 +7,25 @@
         "id": "epilogue_faction_default",
         "text": "    You and everyone who followed you are forgotten among the billions lost in the Cataclysm…"
       },
-      { "id": "epilogue_faction_dynamic_default", "text": "    " },
       {
         "id": "epilogue_faction_your_followers_0",
         "text": "    You and everyone who followed you are forgotten among the billions lost in the Cataclysm…"
+      },
+      {
+        "id": "epilogue_faction_your_followers_150",
+        "text": "    Your followers will not forget you.  Through years struggle, they survive the terrors of the Cataclysm.  For this, the legacy of your deeds will live on in the generations your efforts gave a fighting chance…"
+      },
+      {
+        "id": "epilogue_faction_your_followers_FM",
+        "text": "    The Free Merchants will not forget you.  For your support in their time of need, the they contribute greatly to the development of the community established by you and your followers…"
+      },
+      {
+        "id": "epilogue_faction_your_followers_revolt",
+        "text": "    The people of Tacoma will not forget you.  As you helped them develop the facilities needed to survive the apocalypse, they too help your followers harness the means of production…"
+      },
+      {
+        "id": "epilogue_faction_your_followers_OG",
+        "text": "    The American people will not forget you.  In bringing together the survivors of the Cataclysm, you have sown the seeds for a new birth of Freedom.  For this, your legend is forever entwined in the national mythos and your likeness etched in marble at the heart of Old Washington, many long years later…"
       },
       {
         "id": "epilogue_faction_old_guard_0",
@@ -81,8 +96,12 @@
         "text": "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to overthrow the last strongholds of the Old Guard.  The costly victories brought the warlords abundant territory and slaves but little in the way of stability.  Within weeks, infighting led to civil war as tribes vied for leadership of the faction.  When only one warlord finally secured control, there was nothing left to fight for… just endless cities full of the dead."
       },
       {
+        "id": "epilogue_faction_hells_raiders_stalemate",
+        "text": "    Unable to overcome the forces of the Old Guard, the Hell's Raiders found themselves trapped in a grueling war of attrition…"
+      },
+      {
         "id": "epilogue_faction_hells_raiders_collapse",
-        "text": "    With the survivors of the wasteland becoming more organized by the day, the Hell's Raiders found it more and more difficult to find easy prey to loot and pillage.  Before long, the once feared raiders found themselves on the defensive as the resurgent Old Guard began to assault their outposts and dismantle their hierarchy of command.  Those that weren't killed were forced to flee into the untamed west, the memory of their terror slowly fading like a bad dream."
+        "text": "    …though in the end, they simply couldn't keep up. With the survivors of the wasteland becoming more organized by the day, the Hell's Raiders found it more and more difficult to find easy prey to loot and pillage.  Before long, the once feared raiders found themselves on the defensive as the resurgent Old Guard began to assault their outposts and dismantle their hierarchy of command.  Those that weren't killed were forced to flee into the untamed west, the memory of their terror slowly fading like a bad dream."
       },
       {
         "id": "epilogue_faction_robofac_0",
@@ -114,7 +133,7 @@
       },
       {
         "id": "epilogue_faction_isherwoods_OG",
-        "text": "    After they shot an Old Guard envoy to the farm, a bounty was placed on the Isherwood family.  When the father pleaded guilty to killing the man, the remaining Isherwoods were allowed to return to their farm, albeit with planners from Tacoma looking to build a new settlement…"
+        "text": "    After they shot an Old Guard envoy to the farm, a bounty was placed on the Isherwood family.  When the father pleaded guilty to killing the man, the remaining Isherwoods were allowed to return to their farm, albeit with planners from Tacoma…"
       },
       {
         "id": "epilogue_faction_lapin_0",
