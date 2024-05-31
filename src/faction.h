@@ -103,8 +103,7 @@ struct faction_power_spec
 };
 
 
-struct faction_epilogue_data
-{
+struct faction_epilogue_data {
     std::optional<int> power_min;
     std::optional<int> power_max;
 
