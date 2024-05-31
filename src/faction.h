@@ -140,11 +140,11 @@ public:
     int size; // How big is our sphere of influence?
     int power; // General measure of our power
     nutrients food_supply; //Total nutritional value held
+    bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
     int wealth;  //Total trade currency
     bool lone_wolf_faction; // is this a faction for just one person?
     itype_id currency; // id of the faction currency
     std::vector<faction_price_rule> price_rules; // additional pricing rules
-    bool consumes_food;
     std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
     mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
     std::vector<faction_epilogue_data> epilogue_data;
