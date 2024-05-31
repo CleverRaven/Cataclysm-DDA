@@ -1085,7 +1085,7 @@
     "id": "gas_mask_pouch",
     "type": "ARMOR",
     "looks_like": "holster",
-    "//": " stats taken from: https://condoroutdoor.com/ma11.html this one is much larger than an in game gas mask so I've take some liberties on size",
+    "//": " stats taken from: https://condoroutdoor.com/ma11.html",
     "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
     "description": "A large pouch capable of holding a gas mask and an additional filter, keeping both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
     "weight": "300 g",

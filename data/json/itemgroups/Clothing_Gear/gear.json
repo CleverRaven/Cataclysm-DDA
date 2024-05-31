@@ -1,7 +1,29 @@
 [
   {
-    "id": "gasmask_inserts",
+    "id": "wrapped_gasmask_filter",
     "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "container-item": "wrapping_vacuumed",
+    "on_overflow": "spill",
+    "items": [ { "item": "gasfilter_med" } ]
+  },
+  {
+    "id": "gasmask_inserts_stowed",
+    "type": "item_group",
+    "//": "These are accessories grouped together for use in stashed-away or unused gas mask bags.",
+    "//2": "Vision correction assemblies have been omitted for handling within the gas mask bag item group itself.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "outsert_clear", "prob": 100 },
+      { "item": "outsert_sunlight", "prob": 50 },
+      { "item": "outsert_breach", "prob": 25 }
+    ]
+  },
+  {
+    "id": "gasmask_inserts_in_use",
+    "type": "item_group",
+    "//": "Accessories grouped together for use as pre-installed spawnes within gas masks.",
     "subtype": "distribution",
     "items": [
       {
@@ -18,18 +40,17 @@
     "id": "gasmask_bag_full",
     "type": "item_group",
     "subtype": "collection",
-    "//": "This is a stowed-away gas mask in its carrier, packed with all its equipment but unused and unassembled. Groups together a gas mask, with or without accessories pre-installed, a spare filter, and loose accessories.",
+    "//": "This is a stowed-away gas mask in its carrier, packed with all its equipment but unused and unassembled. Groups together a gas mask, a spare filter, and loose accessories.",
     "//2": "The gas mask doesn’t have its own filter installed, so a second one is sitting ready in the pouch for the user to assemble.",
     "ammo": 100,
     "magazine": 0,
     "container-item": "gas_mask_pouch",
     "on_overflow": "spill",
     "items": [
-      {
-        "distribution": [ { "item": "mask_gas", "prob": 60 }, { "item": "mask_gas", "contents-group": "gasmask_inserts", "prob": 40 } ]
-      },
-      { "item": "gasfilter_med" },
-      { "group": "gasmask_inserts", "count": [ 1, 2 ], "prob": 100 }
+      { "item": "mask_gas" },
+      { "group": "wrapped_gasmask_filter", "count": 2 },
+      { "group": "gasmask_inserts_stowed", "prob": 90 },
+      { "item": "insert_vision_correction", "prob": 30 }
     ]
   },
   {
@@ -44,11 +65,11 @@
       {
         "distribution": [
           { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 40 },
-          { "item": "mask_gas", "charges": [ 0, 100 ], "contents-group": "gasmask_inserts", "prob": 60 }
+          { "item": "mask_gas", "charges": [ 0, 100 ], "contents-group": "gasmask_inserts_in_use", "prob": 60 }
         ]
       },
-      { "item": "gasfilter_med", "prob": 50 },
-      { "group": "gasmask_inserts", "prob": 55 }
+      { "group": "wrapped_gasmask_filter", "prob": 50 },
+      { "group": "gasmask_inserts_stowed", "prob": 55 }
     ]
   },
   {

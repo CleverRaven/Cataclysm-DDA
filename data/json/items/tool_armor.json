@@ -1963,11 +1963,12 @@
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "gas mask" },
-    "description": "A full gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
+    "description": "A full-face, industrial-grade respirator made from a solid black silicon and butyl rubber blend, providing decent user comfort in addition to a clear field of view and a secure fit thanks to the mask’s single-element vizor and 6-point head harness.  Provided that a filter canister’s been screwed into the right-side filter port and the respirator’s been prepared, it’ll do an admirable job at preventing smoke, gas, and contaminants derived from chemical and lab work from taking up residence in your organs.",
     "weight": "490 g",
     "volume": "1 L",
-    "longest_side": "279 mm",
+    "longest_side": "27 cm",
     "//": "Based on https://www.avon-protection.com/products/c50/",
+    "//2": "While it’s based on the C50, this could equally be the FM53, CM8, or an assortment of other gas masks that fall into the same category.",
     "price": "499 USD 50 cent",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1991,7 +1992,6 @@
         "specifically_covers": [ "head_forehead" ],
         "coverage": 100,
         "encumbrance": 20,
-        "layers": [ "NORMAL", "OUTER" ],
         "volume_encumber_modifier": 0
       },
       {
@@ -2012,7 +2012,7 @@
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_lips", "mouth_nose", "mouth_chin" ],
         "coverage": 100,
-        "encumbrance": [ 20, 45 ],
+        "encumbrance": [ 20, 40 ],
         "layers": [ "NORMAL", "OUTER" ]
       },
       {
@@ -2029,7 +2029,7 @@
         "volume_encumber_modifier": 0
       }
     ],
-    "warmth": 20,
+    "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 16,

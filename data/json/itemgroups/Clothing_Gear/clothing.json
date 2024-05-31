@@ -892,8 +892,9 @@
       {
         "distribution": [
           { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
           { "group": "gasmask_bag_full", "prob": 25 },
-          { "group": "gasmask_bag_used", "prob": 50 }
+          { "group": "gasmask_bag_used", "prob": 60 }
         ],
         "prob": 60
       }
@@ -3111,7 +3112,11 @@
       { "item": "mask_bunker", "prob": 70, "charges": [ 0, -1 ] },
       [ "mask_dust", 30 ],
       {
-        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 50 }
+        ],
         "prob": 20
       },
       { "item": "mask_filter", "prob": 10, "charges": [ 0, -1 ] },
@@ -3146,7 +3151,11 @@
       [ "mask_dust", 80 ],
       { "item": "mask_filter", "prob": 20, "charges": [ 0, -1 ] },
       {
-        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 25 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 50 }
+        ],
         "prob": 10
       }
     ]
