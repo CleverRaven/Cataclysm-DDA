@@ -153,7 +153,7 @@ std::string faction::describe() const
     return ret;
 }
 
-void faction_power_spec::deserialize( const JsonObject& jo )
+void faction_power_spec::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "faction", faction );
     optional( jo, false, "power_min", power_min );
