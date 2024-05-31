@@ -36,6 +36,4 @@ class morale_type_data
         static void reset();
 };
 
-extern const morale_type MORALE_NULL;
-
 #endif // CATA_SRC_MORALE_TYPES_H

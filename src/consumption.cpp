@@ -785,7 +785,7 @@ morale_type Character::allergy_type( const item &food ) const
         }
     }
 
-    return MORALE_NULL;
+    return morale_type::NULL_ID();
 }
 
 ret_val<edible_rating> Character::can_eat( const item &food ) const
@@ -996,7 +996,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
     }
 
-    if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( flag_ALLERGEN_JUNK ) &&
+    if( ( allergy_type( food ) != morale_type::NULL_ID() ) || ( carnivore &&
+            food.has_flag( flag_ALLERGEN_JUNK ) &&
             !food.has_flag( flag_CARNIVORE_OK ) ) ) {
         add_consequence( _( "Your stomach won't be happy (allergy)." ), ALLERGY );
     }
@@ -1289,7 +1290,7 @@ void Character::modify_addiction( const islot_comestible &comest )
 {
     for( const std::pair<const addiction_id, int> &add : comest.addictions ) {
         add_addiction( add.first, add.second );
-        if( !add.first.is_null() && add.first->get_craving_morale() != MORALE_NULL ) {
+        if( !add.first.is_null() && add.first->get_craving_morale() != morale_type::NULL_ID() ) {
             rem_morale( add.first->get_craving_morale() );
         }
     }
@@ -1434,7 +1435,7 @@ void Character::modify_morale( item &food, const int nutr )
     // Allergy check for food that is ingested (not gum)
     if( !food.has_flag( flag_NO_INGEST ) ) {
         const morale_type allergy = allergy_type( food );
-        if( allergy != MORALE_NULL ) {
+        if( allergy != morale_type::NULL_ID() ) {
             add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
             add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
         }

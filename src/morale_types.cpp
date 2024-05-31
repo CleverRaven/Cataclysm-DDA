@@ -10,8 +10,6 @@
 #include "string_formatter.h"
 #include "debug.h"
 
-const morale_type MORALE_NULL( "morale_null" );
-
 namespace
 {
 
