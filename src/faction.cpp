@@ -196,8 +196,9 @@ bool faction::check_relations( std::vector<faction_power_spec> faction_power_spe
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const faction_epilogue_data& epi : epilogue_data ) {
-        if ( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() || power < epi.power_max ) ) {
+    for( const faction_epilogue_data &epi : epilogue_data ) {
+        if( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() ||
+                power < epi.power_max ) ) {
             if( check_relations( epi.dynamic_conditions ) ) {
                 ret.emplace_back( epi.epilogue->translated() );
             }
