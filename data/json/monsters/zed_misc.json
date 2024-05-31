@@ -1241,7 +1241,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "smoker_stream_increase", "min_level": 1, "hit_self": true },
-        "cooldown": 35,
+        "cooldown": 30,
         "monster_message": "smoke starts billowing out of the %s at a rapid rate!"
       }
     ],
@@ -1278,7 +1278,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "smoker_stream_increase", "min_level": 1, "hit_self": true },
-        "cooldown": 35,
+        "cooldown": 100,
         "monster_message": "smoke starts billowing out of the %s at a rapid rate!"
       }
     ],

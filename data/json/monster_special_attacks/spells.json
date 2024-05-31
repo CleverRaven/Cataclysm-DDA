@@ -258,6 +258,8 @@
     "effect": "emit",
     "effect_str": "emit_smoke_stream",
     "shape": "blast",
+    "min_duration": 700,
+    "max_duration": 700,
     "min_aoe": 1,
     "max_aoe": 1,
     "min_range": 1,

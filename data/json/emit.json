@@ -70,7 +70,7 @@
     "//": "Steady stream of thick smoke (example: smoke bomb)",
     "field": "fd_smoke",
     "intensity": 3,
-    "qty": 34
+    "qty": 24
   },
   {
     "id": "emit_tear_gas_stream",
