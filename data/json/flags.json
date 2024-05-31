@@ -2336,7 +2336,7 @@
   {
     "id": "PANORAMIC_OUTSERT",
     "type": "json_flag",
-    "info": "This item is meant to be externally attached to the eyepiece of a single-Lenz gas mask.",
+    "info": "This item is meant to be externally attached to the eyepiece of a single-lens gas mask.",
     "restriction": "Item must be designed to clip onto the external Lenz brackets of a panoramic-view gas mask."
   },
   {
