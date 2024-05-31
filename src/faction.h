@@ -92,38 +92,62 @@ class faction_price_rules_reader : public generic_typed_reader<faction_price_rul
         static faction_price_rule get_next( JsonValue &jv );
 };
 
+
+struct faction_power_spec
+{
+    faction_id faction;
+    std::optional<int> power_min;
+    std::optional<int> power_max;
+
+    void deserialize( const JsonObject& jo );
+};
+
+
+struct faction_epilogue_data
+{
+    std::optional<int> power_min;
+    std::optional<int> power_max;
+
+    std::vector<faction_power_spec> dynamic_conditions;
+
+    snippet_id epilogue;
+
+    void deserialize( const JsonObject &jo );
+};
+
+
 class faction_template
 {
-    protected:
-        faction_template();
-        void load_relations( const JsonObject &jsobj );
+protected:
+    faction_template();
+    void load_relations(const JsonObject& jsobj);
 
-    private:
-        explicit faction_template( const JsonObject &jsobj );
+private:
+    explicit faction_template(const JsonObject& jsobj);
 
-    public:
-        static void load( const JsonObject &jsobj );
-        static void check_consistency();
-        static void reset();
 
-        std::string name;
-        int likes_u;
-        int respects_u;
-        int trusts_u; // Determines which item groups are available for trading
-        bool known_by_u;
-        faction_id id;
-        translation desc;
-        int size; // How big is our sphere of influence?
-        int power; // General measure of our power
-        nutrients food_supply; //Total nutritional value held
-        bool consumes_food; //Whether this faction actually draws down the food_supply when eating from it
-        int wealth;  //Total trade currency
-        bool lone_wolf_faction; // is this a faction for just one person?
-        itype_id currency; // id of the faction currency
-        std::vector<faction_price_rule> price_rules; // additional pricing rules
-        std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
-        mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
-        std::set<std::tuple<int, int, snippet_id>> epilogue_data;
+public:
+    static void load(const JsonObject& jsobj);
+    static void check_consistency();
+    static void reset();
+
+    std::string name;
+    int likes_u;
+    int respects_u;
+    int trusts_u; // Determines which item groups are available for trading
+    bool known_by_u;
+    faction_id id;
+    translation desc;
+    int size; // How big is our sphere of influence?
+    int power; // General measure of our power
+    nutrients food_supply; //Total nutritional value held
+    int wealth;  //Total trade currency
+    bool lone_wolf_faction; // is this a faction for just one person?
+    itype_id currency; // id of the faction currency
+    std::vector<faction_price_rule> price_rules; // additional pricing rules
+    std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
+    mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
+    std::vector<faction_epilogue_data> epilogue_data;
 };
 
 class faction : public faction_template
@@ -136,7 +160,9 @@ class faction : public faction_template
         void serialize( JsonOut &json ) const;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
+
         std::string describe() const;
+        bool check_relations(std::vector<faction_power_spec> jo) const;
         std::vector<std::string> epilogue() const;
 
         std::string food_supply_text();
