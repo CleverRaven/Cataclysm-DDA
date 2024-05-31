@@ -68,7 +68,7 @@
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "((u_spell_level('windrun') * 2) + 10)" ] } } ] } ],
-    "base_mods": {"stamina_min": [ 10 ] }
+    "base_mods": { "stamina_min": [ 10 ] }
   },
   {
     "type": "effect_type",
