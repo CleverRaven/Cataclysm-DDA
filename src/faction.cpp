@@ -164,7 +164,7 @@ void faction_power_spec::deserialize( const JsonObject &jo )
     }
 }
 
-void faction_epilogue_data::deserialize( const JsonObject& jo )
+void faction_epilogue_data::deserialize( const JsonObject &jo )
 {
     optional( jo, false, "power_min", power_min );
     optional( jo, false, "power_max", power_max );
