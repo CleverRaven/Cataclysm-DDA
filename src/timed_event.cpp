@@ -41,6 +41,8 @@ static const itype_id itype_petrified_eye( "petrified_eye" );
 
 static const map_extra_id map_extra_mx_dsa_alrp( "mx_dsa_alrp" );
 
+static const morale_type morale_scream( "morale_scream" );
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
@@ -130,7 +132,7 @@ void timed_event::actualize()
                                "scream_tortured" );
                 if( !player_character.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    player_character.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
+                    player_character.add_morale( morale_scream, -15, 0, 30_minutes, 30_seconds );
                 }
             }
 
