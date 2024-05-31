@@ -195,6 +195,100 @@ void Creature::setpos( const tripoint &p )
     on_move( old_loc );
 }
 
+void Creature::setpos( const tripoint_bub_ms &p )
+{
+    Creature::setpos( p.raw() );
+}
+
+static units::volume size_to_volume( creature_size size_class )
+{
+    // returns midpoint of size from volume_to_size, minus 1_ml
+    // e.g. max tiny size is 7500, max small size is 46250, we return
+    // 46250+7500 / 2 - 1_ml = 26875_ml - 1ml
+    // This is still stupid and both of these functions should be merged into one single source of truth.
+    if( size_class == creature_size::tiny ) {
+        return 3749_ml;
+    } else if( size_class == creature_size::small ) {
+        return 26874_ml;
+    } else if( size_class == creature_size::medium ) {
+        return 77124_ml;
+    } else if( size_class == creature_size::large ) {
+        return 295874_ml;
+    }
+    return 741874_ml;
+}
+
+bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
+{
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( loc );
+    if( !vp_there ) {
+        return true;
+    }
+
+    const monster *mon = as_monster();
+
+    vehicle &veh = vp_there->vehicle();
+
+    std::vector<vehicle_part *> cargo_parts;
+    cargo_parts = veh.get_parts_at( here.bub_from_abs( loc ), "CARGO", part_status_flag::any );
+
+    units::volume capacity = 0_ml;
+    units::volume free_cargo = 0_ml;
+    for( vehicle_part *part : cargo_parts ) {
+        vehicle_stack contents = veh.get_items( *part );
+        if( !vp_there.part_with_feature( "CARGO_PASSABLE", false ) &&
+            !vp_there.part_with_feature( "APPLIANCE", false ) &&
+            !vp_there.part_with_feature( "OBSTACLE", false ) ) {
+            capacity += contents.max_volume();
+            free_cargo += contents.free_volume();
+        }
+    }
+    if( capacity > 0_ml ) {
+        // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
+        if( !veh.enclosed_at( here.getlocal( loc ) ) ) {
+            free_cargo *= 1.2;
+        }
+        const creature_size size = get_size();
+        units::volume critter_volume;
+        if( mon ) {
+            critter_volume = mon->get_volume();
+        } else {
+            critter_volume = size_to_volume( size );
+        }
+
+        if( critter_volume > free_cargo ) {
+            return false;
+        }
+
+        if( critter_volume > size_to_volume( creature_size::large ) &&
+            !vp_there.part_with_feature( "HUGE_OK", false ) ) {
+            return false;
+        }
+
+        if( critter_volume < free_cargo * 1.33 ) {
+            if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
+                           mon->type->bodytype == "fish" ||
+                           has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
+                cramped = true;
+            }
+        }
+
+        if( size == creature_size::huge && !vp_there.part_with_feature( "AISLE", false ) &&
+            !vp_there.part_with_feature( "HUGE_OK", false ) ) {
+            cramped = true;
+        }
+    }
+
+    return true;
+}
+
+bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const
+{
+    bool dummy = false;
+    return can_move_to_vehicle_tile( loc, dummy );
+}
+
 void Creature::move_to( const tripoint_abs_ms &loc )
 {
     const tripoint_abs_ms old_loc = get_location();

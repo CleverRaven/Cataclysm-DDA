@@ -1653,6 +1653,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
   "skills": { "mechanics": 1 }, // skills required to apply fix
   "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "adjust_variables_multiply": { "dirt": ".8" }, // adjusts the variables on the item when fix is applied using MULTIPLICATION
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
@@ -4035,7 +4036,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
 
-    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
+    "inherits_flags": true // Items in this pocket pass their flags to the parent item.
   }
 ]
 ```

@@ -862,6 +862,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "fermentable_fish_mixture",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "2 m",
+    "charges": 3,
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ] ],
+    "using": [ [ "sugar_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fertilizer_liquid",
     "id_suffix": "simple",
     "category": "CC_CHEM",

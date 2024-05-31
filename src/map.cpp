@@ -5220,7 +5220,7 @@ item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflo
     int copies = 1;
     std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), copies, overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
-        return item_location { map_cursor{ ret.second }, ret.first };
+        return item_location { map_cursor{ tripoint_bub_ms( ret.second ) }, ret.first };
     }
 
     return {};
@@ -6038,7 +6038,7 @@ std::list<item_location> map::items_with( const tripoint &p,
     }
     for( item &it : i_at( p ) ) {
         if( filter( it ) ) {
-            ret.emplace_back( map_cursor( p ), &it );
+            ret.emplace_back( map_cursor( tripoint_bub_ms( p ) ), &it );
         }
     }
     return ret;
@@ -6862,6 +6862,11 @@ void map::remove_submap_camp( const tripoint &p )
     current_submap->camp.reset();
 }
 
+void map::remove_submap_camp( const tripoint_bub_ms &p )
+{
+    map::remove_submap_camp( p.raw() );
+}
+
 basecamp map::hoist_submap_camp( const tripoint &p )
 {
     submap *const current_submap = get_submap_at( p );
@@ -6873,12 +6878,15 @@ basecamp map::hoist_submap_camp( const tripoint &p )
     return pcamp ? *pcamp : basecamp();
 }
 
-void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
+void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name, bool need_validate )
 {
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     get_player_character().camps.insert( omt_pos );
-    g->validate_camps();
+    // Mapgen-spawned camps never need or want to validate, since they'll always be on newly generated OMTs
+    if( need_validate ) {
+        g->validate_camps();
+    }
 }
 
 void map::update_submaps_with_active_items()
@@ -9760,16 +9768,9 @@ tripoint_abs_ms map::getglobal( const tripoint_bub_ms &p ) const
     return project_to<coords::ms>( abs_sub.xy() ) + p.raw();
 }
 
-tripoint map::getlocal( const tripoint &p ) const
-{
-    // TODO: fix point types
-    return p - sm_to_ms_copy( abs_sub.xy().raw() );
-}
-
 tripoint map::getlocal( const tripoint_abs_ms &p ) const
 {
-    // TODO: fix point types
-    return getlocal( p.raw() );
+    return ( p - sm_to_ms_copy( abs_sub.xy().raw() ) ).raw();
 }
 
 tripoint_bub_ms map::bub_from_abs( const tripoint &p ) const
@@ -9833,6 +9834,11 @@ submap *map::get_submap_at( const tripoint &p )
         return nullptr;
     }
     return unsafe_get_submap_at( p );
+}
+
+submap *map::get_submap_at( const tripoint_bub_ms &p )
+{
+    return map::get_submap_at( p.raw() );
 }
 
 const submap *map::get_submap_at( const tripoint &p ) const
@@ -10334,7 +10340,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
             }
 
             if( elem.item_ref ) {
-                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
+                result.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), elem.item_ref.get() );
             }
         }
     }
@@ -10685,7 +10691,7 @@ std::vector<item_location> map::get_haulable_items( const tripoint &pos )
     target_items.reserve( items.size() );
     for( item &it : items ) {
         if( is_haulable( it ) ) {
-            target_items.emplace_back( map_cursor( pos ), &it );
+            target_items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
         }
     }
     return target_items;

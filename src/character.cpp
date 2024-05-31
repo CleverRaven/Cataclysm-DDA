@@ -252,7 +252,6 @@ static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
-static const efftype_id effect_mute( "mute" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -445,7 +444,6 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
@@ -559,6 +557,11 @@ Character::Character() :
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
+    ppen_str = 0;
+    ppen_dex = 0;
+    ppen_int = 0;
+    ppen_per = 0;
+    ppen_spd = 0;
     lifestyle = 0;
     daily_health = 0;
     health_tally = 0;
@@ -1553,7 +1556,7 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
           !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
+                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -3008,7 +3011,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const map_cursor &cur : map_selector( pos(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos_bub(), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3116,7 +3119,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
         }
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
-                                   map_selector( this->pos(), PICKUP_RANGE ).max_quality( qual_LIFT ),
+                                   map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
                                    vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
@@ -4623,10 +4626,9 @@ bool Character::is_deaf() const
 
 bool Character::is_mute() const
 {
-    return get_effect_int( effect_mute ) || worn_with_flag( flag_MUTE ) ||
+    return has_flag( flag_MUTE ) || worn_with_flag( flag_MUTE ) ||
            ( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
-                   is_wearing( itype_foodperson_mask_on ) ) ) ||
-           has_trait( trait_MUTE );
+                   is_wearing( itype_foodperson_mask_on ) ) );
 }
 
 void Character::on_damage_of_type( const effect_source &source, int adjusted_damage,
@@ -4986,9 +4988,7 @@ float Character::activity_level() const
 
 bool Character::needs_food() const
 {
-    // Before the mechanism for non-player faction NPCs to obtain food is set up, it is unreasonable to require them to consume food.
-    return ( !get_option<bool>( "NO_NPC_FOOD" ) && get_faction() == get_avatar().get_faction() ) ||
-           !is_npc();
+    return !( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) );
 }
 
 void Character::update_needs( int rate_multiplier )
@@ -5893,7 +5893,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
                worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
                is_wearing( itype_rm13_armor_on ) || is_deaf();
-    } else if( eff == effect_mute ) {
+    } else if( eff->has_flag( flag_MUTE ) ) {
         return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
         return is_immune_damage( damage_acid ) || has_trait( trait_SLIMY ) ||
@@ -8022,63 +8022,6 @@ std::string Character::weapname_ammo() const
     } else {
         return "";
     }
-}
-
-// Tests to see if a character has room to enter a vehicle tile.
-bool Character::move_in_vehicle( Creature *c, const tripoint &dest_loc ) const
-{
-    map &m = get_map();
-    const optional_vpart_position vp_there = m.veh_at( dest_loc );
-    if( vp_there ) {
-        vehicle &veh = vp_there->vehicle();
-        units::volume capacity = 0_ml;
-        units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( dest_loc, "CARGO", part_status_flag::any );
-        for( vehicle_part *&part : cargo_parts ) {
-            vehicle_stack contents = veh.get_items( *part );
-            const optional_vpart_position vp = m.veh_at( dest_loc );
-            // Check for obstacles and appliances to prevent squishing when the part is
-            // not a vehicle or when the player is not actually entering the tile IE grabbing.
-            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) &&
-                !vp.part_with_feature( "APPLIANCE", false ) && !vp.part_with_feature( "OBSTACLE", false ) ) {
-                capacity += contents.max_volume();
-                free_cargo += contents.free_volume();
-            }
-        }
-        if( capacity > 0_ml ) {
-            // First, we'll try to squeeze in. Open-topped vehicle parts have more room for us.
-            if( !veh.enclosed_at( dest_loc ) ) {
-                free_cargo *= 1.2;
-            }
-            const creature_size size = get_size();
-            if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
-                ( size == creature_size::small && free_cargo < 31250_ml ) ||
-                ( size == creature_size::medium && free_cargo < 62500_ml ) ||
-                ( size == creature_size::large && free_cargo < 125000_ml ) ||
-                ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                if( ( size == creature_size::tiny && free_cargo < 11719_ml ) ||
-                    ( size == creature_size::small && free_cargo < 23438_ml ) ||
-                    ( size == creature_size::medium && free_cargo < 46875_ml ) ||
-                    ( size == creature_size::large && free_cargo < 93750_ml ) ||
-                    ( size == creature_size::huge && free_cargo < 187500_ml ) ) {
-                    add_msg_if_player( m_warning, _( "There's not enough room for you to fit there." ) );
-                    return false; // Even if we squeeze, there's no room.
-                }
-                c->add_effect( effect_cramped_space, 2_turns, true );
-                return true;
-            }
-        }
-        const optional_vpart_position vp = m.veh_at( dest_loc );
-        // Sufficiently gigantic characters aren't comfortable in stock seats, roof or no.
-        if( in_vehicle && get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
-            !vp.part_with_feature( "HUGE_OK", false ) && !has_effect( effect_cramped_space ) ) {
-            add_msg_if_player( m_warning, _( "You barely fit in this tiny human vehicle." ) );
-            add_msg_if_npc( m_warning, _( "%s has to really cram their huge body to fit." ), c->disp_name() );
-            c->add_effect( effect_cramped_space, 2_turns, true );
-            return true;
-        }
-    }
-    return true;
 }
 
 void Character::on_hit( Creature *source, bodypart_id bp_hit,
@@ -11130,52 +11073,16 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( has_effect( effect_cramped_space ) ) {
-        map &here = get_map();
-        const tripoint your_pos = pos();
-        const optional_vpart_position vp_there = here.veh_at( your_pos );
-        if( !vp_there ) {
-            remove_effect( effect_cramped_space );
-            return;
-        }
-        if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
+    bool cramped = false;
+    // return is intentionally discarded, sets cramped if appropriate
+    can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
+    if( cramped ) {
+        if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
         }
-        bool is_cramped_space = false;
-        vehicle &veh = vp_there->vehicle();
-        units::volume capacity = 0_ml;
-        units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
-        for( vehicle_part *&part : cargo_parts ) {
-            vehicle_stack contents = veh.get_items( *part );
-            const optional_vpart_position vp = here.veh_at( your_pos );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
-                capacity += contents.max_volume();
-                free_cargo += contents.free_volume();
-            }
-            const creature_size size = get_size();
-            if( capacity > 0_ml ) {
-                // Open-topped vehicle parts have more room.
-                if( !veh.enclosed_at( your_pos ) ) {
-                    free_cargo *= 1.2;
-                }
-                if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
-                    ( size == creature_size::small && free_cargo < 31250_ml ) ||
-                    ( size == creature_size::medium && free_cargo < 62500_ml ) ||
-                    ( size == creature_size::large && free_cargo < 125000_ml ) ||
-                    ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    is_cramped_space = true;
-                }
-            }
-            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
-                !vp.part_with_feature( "HUGE_OK", false ) ) {
-                is_cramped_space = true;
-            }
-        }
-        if( !is_cramped_space ) {
-            remove_effect( effect_cramped_space );
-        }
+    } else {
+        remove_effect( effect_cramped_space );
     }
 
     Creature::process_effects();
@@ -11476,7 +11383,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos() == get_map().getlocal( *destination_point );
+           pos_bub() == get_map().bub_from_abs( *destination_point );
 }
 
 void Character::start_destination_activity()
@@ -12439,10 +12346,10 @@ stat_mod Character::get_pain_penalty() const
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
     // Also not make character has 0 stats
-    ret.strength = std::max( ret.strength, 1 );
-    ret.dexterity = std::max( ret.dexterity, 1 );
-    ret.intelligence = std::max( ret.intelligence, 1 );
-    ret.perception = std::max( ret.perception, 1 );
+    ret.strength = std::clamp( ret.strength, 1, get_str() - 1 );
+    ret.dexterity = std::clamp( ret.dexterity, 1, get_dex() - 1 );
+    ret.intelligence = std::clamp( ret.intelligence, 1, get_int() - 1 );
+    ret.perception = std::clamp( ret.perception, 1, get_per() - 1 );
 
 
     int speed_penalty = std::pow( pain, 0.7f );
@@ -12451,6 +12358,17 @@ stat_mod Character::get_pain_penalty() const
                           speed_penalty ), 0.0 );
 
     ret.speed = std::min( ret.speed, 50 );
+    return ret;
+}
+
+stat_mod Character::read_pain_penalty() const
+{
+    stat_mod ret;
+    ret.strength = ppen_str;
+    ret.dexterity = ppen_dex;
+    ret.intelligence = ppen_int;
+    ret.perception = ppen_per;
+    ret.speed = ppen_spd;
     return ret;
 }
 

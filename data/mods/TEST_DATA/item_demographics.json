@@ -697,7 +697,8 @@
             "sig_mosquito": 10,
             "sw_22": 10,
             "j22": 10,
-            "walther_p22": 10
+            "walther_p22": 10,
+            "cp33": 10
           }
         },
         {
@@ -853,7 +854,11 @@
           "weight": 8,
           "items": { "combination_gun": 1, "browning_blr": 1, "garand": 1, "m1903": 1, "m1918": 1, "remington_700": 1, "ruger_m77": 1 }
         },
-        { "type": "45colt", "weight": 8, "items": { "colt_lightning": 1, "colt_saa": 1, "bond_410": 1 } },
+        {
+          "type": "45colt",
+          "weight": 8,
+          "items": { "colt_lightning": 1, "colt_saa": 1, "bond_410": 1, "taurus_judge": 1 }
+        },
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "saiga_410": 1, "shotgun_410": 1 } },

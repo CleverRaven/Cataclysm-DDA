@@ -28,17 +28,7 @@
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
         },
-        { "not": { "u_near_om_location": "road_curved", "range": 2 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 2 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 2 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 2 } },
-        { "not": { "u_near_om_location": "road_end", "range": 2 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 2 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 2 } },
-        { "not": { "u_near_om_location": "road", "range": 2 } },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" },
         {
           "or": [
             {
@@ -57,36 +47,8 @@
                 { "not": { "u_at_om_location": "field" } }
               ]
             },
-            { "u_at_om_location": "arvore_genius_loci_NW" },
-            { "u_at_om_location": "arvore_genius_loci_NE" },
-            { "u_at_om_location": "arvore_genius_loci_SW" },
-            { "u_at_om_location": "arvore_genius_loci_SE" },
-            { "u_is_on_terrain": "t_barkfloor" },
-            { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z0_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z1_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z2_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z3_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z3_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z4_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z4_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z5_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z5_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z7_se", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_06", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_11", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
-            { "u_near_om_location": "great_tree_roots", "range": 2 },
-            { "u_near_om_location": "great_tree_roots_se", "range": 2 },
-            { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+            { "u_is_on_terrain": "t_barkfloor" }
           ]
         }
       ]

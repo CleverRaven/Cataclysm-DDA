@@ -34,6 +34,7 @@
     "entries": [
       { "item": "blanket", "prob": 2500 },
       { "item": "down_blanket", "prob": 1300 },
+      { "item": "blanket_weighted", "prob": 650 },
       { "item": "pillow", "prob": 3000 },
       { "item": "down_pillow", "prob": 1500 },
       { "item": "electric_blanket", "prob": 400 },

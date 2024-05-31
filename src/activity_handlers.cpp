@@ -482,7 +482,12 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     const butcher_type action = get_butcher_type( act );
     const double progress = static_cast<double>( act->moves_total - act->moves_left ) /
                             act->moves_total;
-    item &corpse_item = *act->targets.back();
+    item_location target = act->targets.back();
+    if( !target || !target->is_corpse() ) {
+        act->set_to_null();
+        return;
+    }
+    item &corpse_item = *target;
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
@@ -2118,7 +2123,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( act->values[0],
+    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
     veh_interact::complete_vehicle( *you );
@@ -2738,6 +2743,11 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
+    }
+    for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
+        const double var_value_multiplier = var_value;
+        const double var_oldvalue = target.get_var( var_name, 0.0 );
+        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
     }
 
     const std::string start_durability = target.durability_indicator( true );
@@ -3867,7 +3877,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
     // choose target for spell before continuing
     const std::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
-            you ) : get_map().getlocal( act->coords.front() );
+            you ) : get_map().bub_from_abs( act->coords.front() ).raw();
     if( target ) {
         // npcs check for target viability
         if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {

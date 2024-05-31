@@ -1981,7 +1981,12 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
-        temp_camp->validate_bb_pos( here.getabs( examp ) );
+        if( !temp_camp->allowed_access_by( you ) ) {
+            you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
+            return;
+        }
+
+        temp_camp->validate_bb_pos( here.getglobal( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
         temp_camp->scan_pseudo_items();
@@ -4066,10 +4071,12 @@ void iexamine::keg( Character &you, const tripoint &examp )
     const std::string keg_name = here.name( examp );
     const units::volume keg_cap = get_keg_capacity( examp );
 
-    const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
+    const bool has_container_with_liquid = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
+    const item & it ) {
         return !it.is_container_empty() && it.can_unload();
     } );
-    const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
+    const bool liquid_present = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
+    const item & it ) {
         return it.made_of_from_type( phase_id::LIQUID );
     } );
 
@@ -4774,7 +4781,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
                 for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
                     if( itm->typeId() == ammo_itypeID ) {
                         if( you.can_stash( *itm ) ) {
-                            std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
+                            std::vector<item_location> target_items{ item_location( map_cursor( tripoint_bub_ms( examp ) ), &*itm ) };
                             you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos_bub(), false ) );
                             return;
                         } else {
@@ -4804,7 +4811,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     item pseudo( pseudo_type );
     // maybe at some point we need a pseudo item_location or something
     // but for now this should at least work as intended
-    item_location pseudo_loc( map_cursor( examp ), &pseudo );
+    item_location pseudo_loc( map_cursor( tripoint_bub_ms( examp ) ), &pseudo );
 
     // used to only allow one type of ammo, changed with move to inventory_selector
     // todo: use furniture name instead of pseudo item name
@@ -7202,7 +7209,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( map_cursor( examp ), &it );
+                crafts.emplace_back( map_cursor( tripoint_bub_ms( examp ) ), &it );
             }
         }
     }

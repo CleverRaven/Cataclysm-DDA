@@ -26,6 +26,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_afs_broken_treads",
+    "name": "broken treads",
+    "description": "A large set of broken and frozen over vehicle treads.",
+    "flags": [ "NOITEM", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT", "SHORT" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 5,
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_afs_gun_ship_hull_wall",
     "name": "gunship hull",
     "description": "A hull segment from a combat rated civilian gunship.  Provides some defense against weapons fire.",

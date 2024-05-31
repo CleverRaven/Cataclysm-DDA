@@ -119,6 +119,7 @@ Unhardcode and limbify attack vectors
 Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
+The player can swap between defined outfits with the 'set of clothes' item
 
 
 ## Content:
@@ -244,6 +245,9 @@ Add XL and XS versions for french maid clothes/aprons/hats
 Fridges and freezers. What do you mean 'we already have some'?
 New portal monsters: unviable life forms
 Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
+Adds a new  globally unique special to spawn in the ocean : an Oil Platform !
+Overhaul and flesh out Barry Isherwood's rescue mission
+Prepper Militia Community
 
 
 ## Interface:
@@ -306,6 +310,7 @@ Show NEW! in List Items menu
 Adding spell name to the casting... widget
 Adding Classless as a supernatural category
 Mission UI migrated to imGUI
+Provide a visual UI for changing vehicle part shapes
 
 
 
@@ -460,6 +465,9 @@ Aftershock: New combat bionics
 Aftershock: Add a space station clothes store
 [MoM] Using psionics in or near the Nether is more powerful, but also more risky
 [No Hope] Adds a difficulty setting prompt to determine item spawn rates
+[MoM] Add triffid psions
+Aftershock: Add poison based bullets, grenades and 'toxic flamethrower'
+Give Liam opinions in XE
 
 
 ## Balance:
@@ -529,6 +537,7 @@ Unattended crops that are ready to harvest will die if not harvested before thei
 Make Quadcopter Drones Produce Sound
 Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
+The average skill level of NPCs will rise over time
 
 
 ## Bugfixes:
@@ -692,6 +701,9 @@ Maybe prevent rare crater generation error
 AIM: Now moving all items will not move favourite items, if other items are present.
 Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
 Fixed issue where Android gesture inputs were not recognized by ImGui windows
+Fixed arrows disappearing when unwielded
+Fix for massive slowdown when NPC crafting speed drops below 0.0
+Pseudo terrain appearing in fields when using mods is fixed (won't affect existing fields)
 
 
 ## Performance:
@@ -719,6 +731,7 @@ Skip MGOAL_Find_Item if the player is busy.
 Avoid wasteful loop in map special road connections
 Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
 Faster ascii overmap drawing
+Optimize item::stacks as well as allocation patterns in item and elsewhere
 
 
 ## Infrastructure:
@@ -793,6 +806,7 @@ CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
+Update Flatpak manifest to use clang and include the default soundpack
 
 
 ## I18N and A11Y:
