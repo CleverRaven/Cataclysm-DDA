@@ -388,7 +388,7 @@
   },
 [
   {
-    "id": "rugermk4_mag",
+    "id": "ruger_mk4_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "ruger target pistol magazine" },
@@ -396,7 +396,7 @@
     "variant_type": "gun",
     "variants": [
       {
-        "id": "rugermk4_mag",
+        "id": "ruger_mk4_mag",
         "name": { "str": "Ruger Mark IV magazine" },
         "description": "A Ruger Mark IV magazine, lightweight and with a magazine follower button to allow easier reloading.  Holds 10 rounds of .22, and is interchangeable with Mark II and Mark III varieties as well."
       }
