@@ -96,6 +96,11 @@ static const ter_str_id ter_t_rock_red( "t_rock_red" );
 
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
+static const trap_str_id tr_pit( "tr_pit" );
+static const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
+static const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
+static const trap_str_id tr_temple_flood( "tr_temple_flood" );
+
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
 {

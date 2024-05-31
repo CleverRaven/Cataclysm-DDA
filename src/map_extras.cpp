@@ -186,7 +186,10 @@ static const ter_str_id ter_t_water_moving_dp( "t_water_moving_dp" );
 static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
+static const trap_str_id tr_blade( "tr_blade" );
 static const trap_str_id tr_engine( "tr_engine" );
+static const trap_str_id tr_landmine( "tr_landmine" );
+static const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
 
