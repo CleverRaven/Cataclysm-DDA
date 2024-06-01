@@ -1845,8 +1845,6 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     const oter_id orig_oters = omt_ref;
     overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
     smallmap tmpmap;
-    // TODO: add a do-not-save-generated-submaps parameter
-    // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
     tmpmap.generate( omt_pos, calendar::turn, false );
 
     gmenu.border_color = c_light_gray;
