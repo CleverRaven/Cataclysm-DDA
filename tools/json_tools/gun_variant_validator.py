@@ -142,8 +142,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "walther_ppk",
-    "kp32",
     "1895sbl",
     "bfr",
     "sharps",
