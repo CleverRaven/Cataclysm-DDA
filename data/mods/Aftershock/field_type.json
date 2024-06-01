@@ -115,12 +115,9 @@
     "decay_amount_factor": 5,
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
-    "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": {
-      "flags": [ "POISON_IMMUNE" ],
-      "body_part_env_resistance": [ [ "torso", 15 ], [ "leg", 15 ], [ "foot", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ]
-    },
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 15 ], [ "leg", 15 ], [ "foot", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ] },
     "priority": 2,
     "half_life": "1 hours",
     "phase": "solid",

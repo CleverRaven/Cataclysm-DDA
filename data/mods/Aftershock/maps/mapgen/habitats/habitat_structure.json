@@ -1,0 +1,187 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_modular_habitat_pillars_ground_walkway",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "formless_ruins_empty1", 5 ],
+            [ "formless_ruins_empty2", 5 ],
+            [ "formless_ruins_empty3", 5 ],
+            [ "formless_ruins_empty4", 5 ]
+          ],
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "formless_ruins_empty1", 5 ],
+            [ "formless_ruins_empty2", 5 ],
+            [ "formless_ruins_empty3", 5 ],
+            [ "formless_ruins_empty4", 5 ]
+          ],
+          "x": 12,
+          "y": 0
+        },
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "formless_ruins_empty1", 5 ],
+            [ "formless_ruins_empty2", 5 ],
+            [ "formless_ruins_empty3", 5 ],
+            [ "formless_ruins_empty4", 5 ]
+          ],
+          "x": 0,
+          "y": 12
+        },
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "formless_ruins_empty1", 5 ],
+            [ "formless_ruins_empty2", 5 ],
+            [ "formless_ruins_empty3", 5 ],
+            [ "formless_ruins_empty4", 5 ]
+          ],
+          "x": 12,
+          "y": 12
+        },
+        { "chunks": [ "afs_modular_habitat_end_pillars_ground_walkway" ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_modular_habitat_end_pillars_above_walkway",
+    "object": {
+      "fill_ter": "t_open_air",
+      "place_nested": [ { "chunks": [ "afs_modular_habitat_end_pillars_above_walkway" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_modular_habitat_pillars",
+    "object": { "fill_ter": "t_open_air", "place_nested": [ { "chunks": [ "afs_modular_habitat_end_pillars" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_end_pillars",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  //                //  ",
+        "  /                  /  ",
+        "  //                //  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  //                //  ",
+        "  /                  /  ",
+        "  /                  /  ",
+        "  //                //  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  //                //  ",
+        "  /                  /  ",
+        "  //                //  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "/": "t_wall_metal" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_end_pillars_ground_walkway",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        " 1]]1                   ",
+        " 1__1                   ",
+        " 1__1                   ",
+        " /__/               //  ",
+        " /../2              2/  ",
+        " /__/               //  ",
+        " 1__1                   ",
+        "/1__1/                  ",
+        " 1__1                   ",
+        " /__/               //  ",
+        " /../                /  ",
+        " /../2              2/  ",
+        " /__/               //  ",
+        " 1__1                   ",
+        "/1__1/                  ",
+        " 1__1                   ",
+        " /__/               //  ",
+        " /../2              2/  ",
+        " /__/               //  ",
+        " 1__1                   ",
+        "/1__1/                  ",
+        " 1__1                   ",
+        " 1__1                   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "/": "t_wall_metal",
+        "1": "t_wall_glass",
+        "_": "t_metal_floor_no_roof",
+        "]": "t_door_glass_c",
+        ".": "t_metal_floor_olight"
+      },
+      "furniture": { "2": "f_habitat_floodlight" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "afs_modular_habitat_end_pillars_above_walkway",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        " 1111                   ",
+        " 1111                   ",
+        " 1111                   ",
+        " 1//.               //  ",
+        " 1/..                /  ",
+        " 1//.               //  ",
+        " 1111                   ",
+        ".1111.                  ",
+        " 1111                   ",
+        " 1//.               //  ",
+        " 1/..                /  ",
+        " 1/..                /  ",
+        " 1//.               //  ",
+        " 1111                   ",
+        ".1111.                  ",
+        " 1111                   ",
+        " 1//.               //  ",
+        " 1/..                /  ",
+        " 1//.               //  ",
+        " 1111                   ",
+        ".1111.                  ",
+        " 1111                   ",
+        " 1111                   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "/": "t_wall_metal", "1": "t_glass_roof", ".": "t_metal_floor_no_roof" }
+    }
+  }
+]
