@@ -111,8 +111,8 @@ struct overmap_special_placement {
 // Could be used to determine entry/exit points for boats across overmaps.
 // Could also contain name.
 struct overmap_river_node {
-    const point p1; // position, overmap origin node.
-    const point p2; // position, overmap exit node.
+    const point_om_omt p1; // position, overmap origin node.
+    const point_om_omt p2; // position, overmap exit node.
     const size_t size; // total omt of this river
 };
 
@@ -307,10 +307,10 @@ class overmap
         bool is_omt_generated( const tripoint_om_omt &loc ) const;
 
         /* Returns true if position is an entry/exit position of a river node. */
-        bool is_river_node( const point &p ) const;
+        bool is_river_node( const point_om_omt &p ) const;
 
         /* Returns the overmap river node if the position is an entry/exit node of river. */
-        overmap_river_node get_river_node_at( const point &p ) const;
+        std::optional<overmap_river_node> get_river_node_at( const point_om_omt &p ) const;
 
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point_abs_omt global_base_point() const;

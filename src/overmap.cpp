@@ -4895,20 +4895,19 @@ void overmap::place_oceans()
     }
 }
 
-bool overmap::is_river_node( const point &p ) const
+bool overmap::is_river_node( const point_om_omt &p ) const
 {
-    overmap_river_node *n = &get_river_node_at( p );
-    return !( n->p1 == p && n->p2 == p );
+    return !!get_river_node_at( p );
 }
 
-overmap_river_node overmap::get_river_node_at( const point &p ) const
+std::optional<overmap_river_node> overmap::get_river_node_at( const point_om_omt &p ) const
 {
-    for( overmap_river_node n : rivers ) {
+    for( const overmap_river_node &n : rivers ) {
         if( n.p1 == p || n.p2 == p ) {
-            return n;
+            return n; //TODO: Would returning a pointer be more appropriate?
         }
     }
-    return overmap_river_node{ p, p, 0 };
+    return {};
 }
 
 void overmap::place_rivers( const overmap *north, const overmap *east, const overmap *south,
@@ -4917,7 +4916,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     if( settings->river_scale == 0.0 ) {
         return;
     }
-    int river_scale = 1.0 + static_cast<int>( std::max( 1.0, settings.river_scale ) );
+    int river_scale = 1.0 + static_cast<int>( std::max( 1.0, settings->river_scale ) );
     const size_t max_rivers = 2;
     std::vector<point_om_omt> river_start;
     std::vector<point_om_omt> river_end;
@@ -4981,17 +4980,17 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     if( river_start.size() < river_end.size() || river_start.size() < max_rivers ) {
         while( river_start.size() < river_end.size() || river_start.size() < max_rivers ) {
-            point ns;
+            point_om_omt ns;
             if( north == nullptr && one_in( 2 ) ) {
-                ns = point( rng( 10, OMAPX - 11 ), 0 );
+                ns = point_om_omt( rng( 10, OMAPX - 11 ), 0 );
             } else if( west == nullptr ) {
-                ns = point( 0, rng( 10, OMAPY - 11 ) );
+                ns = point_om_omt( 0, rng( 10, OMAPY - 11 ) );
             }
 
             if( river_start.size() > river_end.size() && !one_in( 25 ) ) {
                 break;
             }
-            if( ns.x == 0 && ns.y == 0 ) {
+            if( ns.x() == 0 && ns.y() == 0 ) {
                 continue;
             }
             river_start.push_back( ns );
@@ -5000,18 +4999,18 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
 
     if( river_end.size() < river_start.size() ) {
         while( river_end.size() < river_start.size() ) {
-            point ne;
+            point_om_omt ne;
             if( east == nullptr && one_in( 2 ) ) {
-                ne = point( OMAPX - 1, rng( 10, OMAPY - 11 ) );
+                ne = point_om_omt( OMAPX - 1, rng( 10, OMAPY - 11 ) );
             } else if( south == nullptr ) {
-                ne = point( rng( 10, OMAPX - 11 ), OMAPY - 1 );
+                ne = point_om_omt( rng( 10, OMAPX - 11 ), OMAPY - 1 );
             }
 
             if( east != nullptr && south != nullptr ) {
-                ne = point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                            rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) );
+                ne = point_om_omt( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
+                                   rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) );
             }
-            if( ne.x == 0 && ne.y == 0 ) {
+            if( ne.x() == 0 && ne.y() == 0 ) {
                 continue;
             }
 
@@ -5020,8 +5019,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     }
 
     for( size_t i = 0; i < river_start.size(); i++ ) {
-        point pa = river_start.at( i );
-        point pb = river_end.at( i );
+        point_om_omt pa = river_start.at( i );
+        point_om_omt pb = river_end.at( i );
         place_river( pa, pb, river_scale );
     }
 }
@@ -5236,24 +5235,25 @@ void overmap::place_railroads( const overmap *north, const overmap *east, const 
 void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int river_scale )
 {
     const int n_segs = 64;
-    std::vector<point> points;
-    std::vector<point> sub_ends;
+    std::vector<point_om_omt> points;
+    std::vector<point_om_omt> sub_ends;
     size_t size = 0;
 
     if( river_scale <= 0 ) {
         return;
     }
 
-    const auto cubic_bezier = [&]( point & pa, point & pb, point & pc, point & pd, const int n_segs ) {
-        std::vector<point> pts;
+    const auto cubic_bezier = [&]( const point_om_omt & pa, const point_om_omt & pb,
+    const point_om_omt & pc, const point_om_omt & pd, const int n_segs ) {
+        std::vector<point_om_omt> pts;
         for( int i = 0; i <= n_segs; ++i ) {
             double t = static_cast<double>( i ) / static_cast<double>( n_segs );
-            int x = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.x + ( 3.0 * t * pow( ( 1.0 - t ),
-                                      2.0 ) ) * pb.x + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.x + pow( t, 3.0 ) * pd.x );
+            int x = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.x() + ( 3.0 * t * pow( ( 1.0 - t ),
+                                      2.0 ) ) * pb.x() + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.x() + pow( t, 3.0 ) * pd.x() );
 
-            int y = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.y + ( 3.0 * t * pow( ( 1.0 - t ),
-                                      2.0 ) ) * pb.y + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.y + pow( t, 3.0 ) * pd.y );
-            pts.push_back( point{ x, y } );
+            int y = static_cast<int>( pow( ( 1.0 - t ), 3.0 ) * pa.y() + ( 3.0 * t * pow( ( 1.0 - t ),
+                                      2.0 ) ) * pb.y() + ( 3.0 * pow( t, 2.0 ) * ( 1.0 - t ) ) * pc.y() + pow( t, 3.0 ) * pd.y() );
+            pts.push_back( point_om_omt{ x, y } );
         }
         return pts;
     };
@@ -5261,27 +5261,28 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int r
     // Generate control points
     // TODO: A lot of work needed on these yet.
     int amplitude = rl_dist( pa, pb ) / 2;
-    point cpm = point( ( pa.x + pb.x ) / 2, ( pa.y + pb.y ) / 2 );
-    point cpa = point( ( pa.x + cpm.x ) / 2, ( pa.y + cpm.y ) / 2 );
-    point cpb = point( ( pb.x + cpm.x ) / 2, ( pb.y + cpm.y ) / 2 );
+    point_om_omt cpm = point_om_omt( ( pa.x() + pb.x() ) / 2, ( pa.y() + pb.y() ) / 2 );
+    point_om_omt cpa = point_om_omt( ( pa.x() + cpm.x() ) / 2, ( pa.y() + cpm.y() ) / 2 );
+    //point_om_omt cpb = point_om_omt( ( pb.x() + cpm.x() ) / 2, ( pb.y() + cpm.y() ) / 2 );
 
-    point cpmap1 = point( clamp( cpa.x + rng( 0, amplitude ), 0, OMAPX - 1 ), clamp( cpa.y + rng( 0,
-                          amplitude ), 0, OMAPY - 1 ) );
-    point cpmap2 = point( clamp( cpm.x + rng( -amplitude, 0 ), 0, OMAPX - 1 ),
-                          clamp( cpm.y + rng( -amplitude, 0 ), 0, OMAPY - 1 ) );
+    point_om_omt cpmap1 = point_om_omt( clamp( cpa.x() + rng( 0, amplitude ), 0, OMAPX - 1 ),
+                                        clamp( cpa.y() + rng( 0,
+                                                amplitude ), 0, OMAPY - 1 ) );
+    point_om_omt cpmap2 = point_om_omt( clamp( cpm.x() + rng( -amplitude, 0 ), 0, OMAPX - 1 ),
+                                        clamp( cpm.y() + rng( -amplitude, 0 ), 0, OMAPY - 1 ) );
 
     sub_ends = cubic_bezier( pa, cpmap1, cpmap2, pb, n_segs );
     sub_ends.insert( sub_ends.begin(), pa );
     sub_ends.push_back( pb );
 
-    std::vector<point> tmp;
-    std::vector<point> center_points; //Contains center line of river
-    point last;
-    int orig_scale = river_scale;
+    std::vector<point_om_omt> tmp;
+    std::vector<point_om_omt> center_points; //Contains center line of river
+    point_om_omt last;
+    //int orig_scale = river_scale;
     for( size_t i = 0; i < sub_ends.size(); i++ ) {
         tmp.clear();
-        int x = 0, y = 0; //offsets
-        int j = i + 1;
+        int x = 0, y = 0; //offsets //TODO: Why are these defined early
+        size_t j = i + 1;
 
         if( j >= sub_ends.size() - 1 ) {
             break;
@@ -5289,22 +5290,22 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int r
         tmp = line_to( sub_ends.at( i ), sub_ends.at( j ), 0 );
 
         // fill points in line
-        for( point p : tmp ) {
-            x = p.x;
-            y = p.y;
+        for( point_om_omt p : tmp ) {
+            x = p.x();
+            y = p.y();
             last = p;
             center_points.push_back( p );
             // create branches
             // TODO: Retain river_scale for the river node and allow branches to extend overmaps.
             if( inbounds( p, river_scale + 1 ) && one_in( 100 ) ) {
-                point ep;
+                point_om_omt ep;
 
                 if( one_in( 4 ) && i + 4 < ( sub_ends.size() - 1 ) ) {
                     ep = sub_ends.at( rng( i, sub_ends.size() - 1 ) );
                 } else {
                     const int rad = 64;
-                    int x1 = rng( p.x - rad, p.x + rad );
-                    int y1 = rng( p.y - rad, p.y + rad );
+                    int x1 = rng( p.x() - rad, p.x() + rad );
+                    int y1 = rng( p.y() - rad, p.y() + rad );
 
                     ep = { x1, y1 };
                 }
@@ -5315,24 +5316,24 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int r
             }
 
 
-            if( pb.x > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                              ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x - x &&
-                                rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
+            if( pb.x() > x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < pb.x() - x ||
+                                ( rng( 0, int( OMAPX * .2 ) - 1 ) > pb.x() - x &&
+                                  rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y() - y ) ) ) ) {
                 x++;
             }
-            if( pb.x < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                              ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x &&
-                                rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y - y ) ) ) ) {
+            if( pb.x() < x && ( rng( 0, int( OMAPX * 1.2 ) - 1 ) < x - pb.x() ||
+                                ( rng( 0, int( OMAPX * .2 ) - 1 ) > x - pb.x() &&
+                                  rng( 0, int( OMAPY * .2 ) - 1 ) > abs( pb.y() - y ) ) ) ) {
                 x--;
             }
-            if( pb.y > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                              ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y - y &&
-                                rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
+            if( pb.y() > y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < pb.y() - y ||
+                                ( rng( 0, int( OMAPY * .2 ) - 1 ) > pb.y() - y &&
+                                  rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x() ) ) ) ) {
                 y++;
             }
-            if( pb.y < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                              ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y &&
-                                rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x ) ) ) ) {
+            if( pb.y() < y && ( rng( 0, int( OMAPY * 1.2 ) - 1 ) < y - pb.y() ||
+                                ( rng( 0, int( OMAPY * .2 ) - 1 ) > y - pb.y() &&
+                                  rng( 0, int( OMAPX * .2 ) - 1 ) > abs( x - pb.x() ) ) ) ) {
                 y--;
             }
 
@@ -5355,10 +5356,10 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int r
             // Staggered step, weighing towards destination
             for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
                 for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                    tripoint pt = { j + x, i + y, 0 };
+                    tripoint_om_omt pt = { j + x, i + y, 0 };
                     if( inbounds( pt, 1 ) && !ter( pt )->is_lake() && !ter( pt )->is_river() ) {
                         size++;
-                        ter_set( pt, river_center );
+                        ter_set( pt, oter_river_center );
                     }
                 }
             }
@@ -5366,13 +5367,15 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int r
             // Normal step in direction required
             for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
                 for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                    tripoint pt = { p.x + j, p.y + i, 0};
-                    if( inbounds( pt, 1 ) ||
-                        ( ( abs( pb.y - ( p.y + i ) ) <= river_scale && abs( pb.x - ( p.x + j ) ) <= river_scale ) ) ||
-                        ( ( abs( pa.y - ( p.y + i ) ) <= river_scale && abs( pa.x - ( p.x + j ) ) <= river_scale ) ) &&
-                        !ter( pt )->is_lake() && !ter( pt )->is_river() ) {
+                    tripoint_om_omt pt = { p.x() + j, p.y() + i, 0};
+                    if( !is_lake_or_river( ter( pt ) ) &&
+                        ( inbounds( pt, 1 ) ||
+                          ( ( abs( pb.y() - ( p.y() + i ) ) <= river_scale &&
+                              abs( pb.x() - ( p.x() + j ) ) <= river_scale ) ) ||
+                          ( ( abs( pa.y() - ( p.y() + i ) ) <= river_scale &&
+                              abs( pa.x() - ( p.x() + j ) ) <= river_scale ) ) ) ) {
                         size++;
-                        ter_set( pt, river_center );
+                        ter_set( pt, oter_river_center );
                     }
                 }
             }
@@ -5388,12 +5391,12 @@ void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb, int r
                     int x1, y1;
                     x1 = rng( -1, 1 );
                     y1 = rng( -1, 1 );
-                    tripoint pt2 = { last.x + j + x1, last.y + i + y1, 0 };
-                    ter_set( pt2, river_center );
+                    tripoint_om_omt pt2 = { last.x() + j + x1, last.y() + i + y1, 0 };
+                    ter_set( pt2, oter_river_center );
                 }
 
-                tripoint pt1 = { last.x + j, last.y + i, 0 };
-                ter_set( pt1, river_center );
+                tripoint_om_omt pt1 = { last.x() + j, last.y() + i, 0 };
+                ter_set( pt1, oter_river_center );
             }
         }
     }
@@ -6388,22 +6391,22 @@ void overmap::good_river( const tripoint_om_omt &p )
        TODO: Most of this can probably be made generic for things likes roads etc.
     */
     std::vector<bool> neighbours;
-    for( int y = p.y + 1; y >= p.y - 1; y-- ) {
-        for( int x = p.x - 1; x <= p.x + 1; x++ ) {
+    for( int y = p.y() + 1; y >= p.y() - 1; y-- ) {
+        for( int x = p.x() - 1; x <= p.x() + 1; x++ ) {
 
             //Skip our own position, as we already know we are a river.
-            if( x == p.x && y == p.y ) {
+            if( x == p.x() && y == p.y() ) {
                 continue;
             }
 
             //We don't want corners for now.
-            if( ( x == ( p.x - 1 ) || x == ( p.x + 1 ) ) && ( y == ( p.y - 1 ) || y == ( p.y + 1 ) ) ) {
+            if( ( x == ( p.x() - 1 ) || x == ( p.x() + 1 ) ) && ( y == ( p.y() - 1 ) || y == ( p.y() + 1 ) ) ) {
                 continue;
             }
 
             // We check whether a river or lake is present, but if out of bounds and we are already a river then we...
             // assume that we were placed because of a neighbouring overmap river.
-            if( is_river_or_lake( ter( { x, y, 0 } ) ) || ( x  > ( OMAPX - 1 ) ) || x  < 0 ||
+            if( is_water_body( ter( { x, y, 0 } ) ) || ( x  > ( OMAPX - 1 ) ) || x  < 0 ||
                 ( y > ( OMAPY - 1 ) ) ||
                 y < 0 ) {
                 neighbours.push_back( true );
@@ -6422,7 +6425,7 @@ void overmap::good_river( const tripoint_om_omt &p )
         multiplier *= 2;
     }
 
-    const std::map<int, oter_id> riv_ters = {
+    const std::map<int, oter_id> riv_ters = { // TODO: Change to oter_str_id.id()
         {0, oter_id( "forest_water" )}, //Default, no neighbours or unable to match.
         {1, oter_id( "river_north" )},
         {2, oter_id( "river_west" )},
@@ -6446,15 +6449,15 @@ void overmap::good_river( const tripoint_om_omt &p )
         if( mask == nesw ) {
             // Trim corners if neccessary
             // We assume if corner are not inbounds then we are placed because of neighbouring overmap river
-            if( !is_river_or_lake( ter( p + point_north_west ) ) && ( inbounds( p + point_north_west ) ) ) {
+            if( !is_water_body( ter( p + point_north_west ) ) && ( inbounds( p + point_north_west ) ) ) {
                 ter_set( p, oter_id( "river_c_not_nw" ) );
-            } else if( !is_river_or_lake( ter( p + point_north_east ) ) &&
+            } else if( !is_water_body( ter( p + point_north_east ) ) &&
                        ( inbounds( p + point_north_east ) ) ) {
                 ter_set( p, oter_id( "river_c_not_ne" ) );
-            } else if( !is_river_or_lake( ter( p + point_south_west ) ) &&
+            } else if( !is_water_body( ter( p + point_south_west ) ) &&
                        ( inbounds( p + point_south_west ) ) ) {
                 ter_set( p, oter_id( "river_c_not_sw" ) );
-            } else if( !is_river_or_lake( ter( p + point_south_east ) ) &&
+            } else if( !is_water_body( ter( p + point_south_east ) ) &&
                        ( inbounds( p + point_south_east ) ) ) {
                 ter_set( p, oter_id( "river_c_not_se" ) );
             } else {

@@ -498,29 +498,14 @@ void overmap::unserialize( const JsonObject &jsobj )
                 cities.push_back( new_city );
             }
         } else if( name == "rivers" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
-
-                point p1;
-                point p2;
+            JsonArray rivers_json = om_member;
+            for( JsonObject river_json : rivers_json ) {
+                point_om_omt p1;
+                point_om_omt p2;
                 size_t size;
-
-                while( !jsin.end_object() ) {
-                    std::string river_member_name = jsin.get_member_name();
-
-                    if( river_member_name == "entry" ) {
-                        jsin.read( p1 );
-                    }
-
-                    if( river_member_name == "exit" ) {
-                        jsin.read( p2 );
-                    }
-
-                    if( river_member_name == "size" ) {
-                        jsin.read( size );
-                    }
-                }
+                mandatory( river_json, false, "entry", p1 );
+                mandatory( river_json, false, "exit", p2 );
+                mandatory( river_json, false, "size", size );
                 rivers.push_back( overmap_river_node{ p1, p2, size } );
             }
         } else if( name == "connections_out" ) {
@@ -1224,7 +1209,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "rivers" );
     json.start_array();
-    for( auto &i : rivers ) {
+    for( const overmap_river_node &i : rivers ) {
         json.start_object();
         json.member( "entry", i.p1 );
         json.member( "exit", i.p2 );
