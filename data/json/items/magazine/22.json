@@ -386,7 +386,6 @@
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 50 } } ]
   },
-[
   {
     "id": "ruger_mk4_mag",
     "looks_like": "glock17_17",
