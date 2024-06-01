@@ -29,9 +29,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "weapon_category": [
-      "AUTOMATIC_RIFLES"
-    ],
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "flags": [ "NEVER_JAMS", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ],
     "melee_damage": { "bash": 12 }
