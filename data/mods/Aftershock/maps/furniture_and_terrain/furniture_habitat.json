@@ -105,7 +105,7 @@
   {
     "type": "furniture",
     "id": "f_habitat_floodlight",
-    "name": "industrial_floodlight",
+    "name": "industrial floodlight",
     "description": "A wall mountable floodlight, designed to illuminate large areas with a bright, white light.  Still functional thanks to some unknown backup power source.",
     "symbol": "!",
     "color": "brown",
