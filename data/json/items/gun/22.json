@@ -497,6 +497,6 @@
     "pocket_data": [
       { "rigid": false, "magazine_well": "96 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_mk4_mag" ] }
     ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 8 }
   }
 ]
