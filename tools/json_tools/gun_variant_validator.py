@@ -39,6 +39,7 @@ INHERITED_KEYS = [
     "ranged_damage",
     "reload",
     "longest_side",
+    "linkage",
     "pocket_data",
     "dispersion",
     "recoil",
@@ -95,18 +96,13 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "rm614_lmg",
     "rm88_battle_rifle",
     "bigun",
-    "m2browning",
     "american_180",
     "sig_mosquito",
     "fn_p90",
     "p50",
     "fn_ps90",
     "fn_fal_semi",
-    "m134",
     "m1a",
-    "m240",
-    "m60",
-    "m60_semi",
     "m110a1",
     "ak308",
     "rfb_308",
@@ -126,8 +122,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "draco",
     "mk47",
     "m1918",
-    "m249",
-    "m249_semi",
     "ak556",
     "minidraco556",
     "mdrx",
@@ -150,7 +144,6 @@ NAME_CHECK_BLACKLIST = {
     "tac50",
     "bfg50",
     "fn_p90",
-    "m134",
     "hk_mp7",
     "obrez",
     "pressin",
@@ -158,7 +151,6 @@ NAME_CHECK_BLACKLIST = {
     "m2010",
     "weatherby_5",
     "win70",
-    "ruger_pr",
     "2_shot_special",
     "cop_38",
     "model_10_revolver",
@@ -170,12 +162,10 @@ NAME_CHECK_BLACKLIST = {
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
     "bond_410",
-    "colt_lightning",
     "colt_saa",
     "p226_357sig",
     "glock_31",
     "p320_357sig",
-    "famas",
     "fs2000",
     "scar_l",
     "brogyaga",
@@ -186,7 +176,6 @@ NAME_CHECK_BLACKLIST = {
     "shotgun_410",
     "mgl",
     "pseudo_m203",
-    "ak74",
     "kord",
     "colt_army",
     "atgm_launcher",
@@ -203,14 +192,9 @@ NAME_CHECK_BLACKLIST = {
     "af2011a1_38super",
     "m1911a1_38super",
     "colt_navy",
-    "ruger_arr",
     "plasma_gun",
     "bbgun",
     "LAW",
-    "needlegun",
-    "needlepistol",
-    "RPG",
-    "skorpion_61",
 }
 BAD_IDENTIFIERS = [
     "10mm",
@@ -252,6 +236,7 @@ TYPE_DESCRIPTORS = [
     "lever gun",
     "LMG",
     "machine gun",
+    "minigun",
     # This is as close as you can get without a giant name
     "operational briefcase",
     "pistol",
@@ -711,8 +696,8 @@ def find_identifiers(all_guns):
         # Add all the magazine names in
         for mag in mags:
             name = name_of(all_jos[mag])
-            # Skip STANAG, because those are uber generic
-            if "STANAG" not in name:
+            # Skip STANAG, because those are uber generic, also linkages
+            if "STANAG" not in name and "linkage" not in all_jos[mag]:
                 names.append(name)
         # If it didn't have any mags, we can skip it
         if len(names) < 2:
@@ -739,7 +724,7 @@ def find_bad_names(all_guns):
         name = name_of(gun)
         good = False
         for type_descriptor in TYPE_DESCRIPTORS:
-            if type_descriptor in name:
+            if type_descriptor.upper() in name.upper():
                 good = True
                 break
         if not good:
