@@ -24,7 +24,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "oven" }, { "id": "hotplate", "hotkey": "h" } ],
+    "pseudo_tools": [ { "id": "oven" }, { "id": "hotplate_legacy", "hotkey": "h" } ],
     "item": "oven",
     "looks_like": "f_oven",
     "breaks_into": [

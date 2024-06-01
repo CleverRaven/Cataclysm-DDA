@@ -510,6 +510,14 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "hotplate_legacy",
+    "type": "TOOL",
+    "name": { "str": "hotplate" },
+    "copy-from": "hotplate",
+    "use_action": [ "HOTPLATE" ],
+    "//": "legacy hotplate for handling furniture/VP pseudo_tools"
+  },
+  {
     "id": "hotplate_induction",
     "type": "TOOL",
     "name": { "str": "induction hotplate" },
