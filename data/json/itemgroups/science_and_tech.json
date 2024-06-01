@@ -265,7 +265,7 @@
       [ "recipe_animal", 4 ],
       [ "recipe_maiar", 4 ],
       [ "recipe_labchem", 6 ],
-      { "group": "mutagen_kits", "prob": 1 },
+      { "group": "mutagen_or_serum_kit", "prob": 1 },
       [ "syringe", 8 ],
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "ammonia_liquid", "prob": 50, "charges": [ 6, -1 ] },
@@ -277,6 +277,12 @@
       [ "slime_scrap", 8 ],
       { "item": "chem_nitric_acid", "prob": 5, "charges": [ 1, -1 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagen_or_serum_kit",
+    "//": "odds of serum kit is so low for there is only one at this moment, would be very reperative.  TODO increase odds to get serum once there would be more of them.",
+    "items": [ { "group": "mutagen_kits", "prob": 100 }, { "group": "serum_kits", "prob": 15 } ]
   },
   {
     "type": "item_group",
@@ -433,6 +439,24 @@
     "subtype": "collection",
     "items": [
       { "item": "mutagen", "prob": 100, "container-item": "30gal_barrel_mutagen", "charges": [ 30, 50 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "serum_kits",
+    "items": [ { "group": "regen_serum_kit", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "regen_serum_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "syringe", "prob": 100, "count": 1 },
+      { "item": "serum_regen", "prob": 100, "count": 1 },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
       { "item": "lab_file_mutagen_guide", "prob": 100 },
       { "item": "lab_file_mutation_testing", "prob": 100 }
     ]

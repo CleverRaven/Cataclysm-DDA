@@ -211,7 +211,9 @@
       "sw22mag",
       "j22mag",
       "wp22mag",
-      "kp32mag"
+      "kp32mag",
+      "cp33_mag",
+      "cp33_mag_50"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
