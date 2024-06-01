@@ -626,8 +626,16 @@
     "id": "rm121aux",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",
-    "name": { "str": "RM121 aux shotgun" },
-    "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
+    "name": { "str": "caseless aux shotgun" },
+    "description": "Designated the Rivtech RM121 auxiliary weapon system, this is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm121aux",
+        "name": { "str": "RM121 aux shotgun" },
+        "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines."
+      }
+    ],
     "weight": "1140 g",
     "volume": "750 ml",
     "longest_side": "380 mm",
