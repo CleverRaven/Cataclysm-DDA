@@ -2,44 +2,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "campus_test_stair_up",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "Ö" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "Ö": "t_stairs_up" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "campus_test_chair",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "Ä" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": {  },
-      "furniture": { "Ä": "f_armchair" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "campus_test_stair_down",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "rows": [ "Ö" ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "Ö": "t_stairs_down" },
-      "place_nested": [
-        { "chunks": [ "campus_test_stair_up" ], "x": 0, "y": 0, "z": -1 },
-        { "chunks": [ "campus_test_chair" ], "x": 1, "y": 1, "z": -1 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "campus_admin_0_0_1" ], [ "campus_admin_0_1_1" ], [ "campus_admin_0_2_1" ] ],
     "weight": 250,
     "object": {
@@ -104,7 +66,7 @@
         " |,,|||||,,,,|||||      ",
         " |EE|>,,0,,,,:          ",
         " |EE|<,,0,,,,:          ",
-        " ||||||||,,Ö,|          ",
+        " ||||||||,,,,|          ",
         "        |,,,,|          ",
         "        |,,,,|          ",
         "        ||||||          ",
@@ -120,8 +82,7 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "campus_common" ],
-      "nested": { "Ö": { "chunks": [ "campus_test_stair_down" ] } }
+      "palettes": [ "campus_common" ]
     }
   }
 ]

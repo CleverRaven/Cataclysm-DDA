@@ -2,52 +2,12 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "campus_shack",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rows": [
-        "wwwwwww ",
-        "w,,,,,w ",
-        "w,,,,,w ",
-        "w,,,,,w ",
-        "w,,,,,w ",
-        "w,,,,,w ",
-        "w,,,,,w ",
-        "w     w "
-      ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "fbml_2_metal_palette" ],
-      "place_nested": [ { "chunks": [ "campus_shack_roof" ], "x": 0, "y": 0, "z": 1 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "campus_shack_roof",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rows": [
-        "rrrrrrr ",
-        "rrrrrrr ",
-        "rrrrrrr ",
-        "rrrrrrr ",
-        "rrrrrrr ",
-        "rrrrrrr ",
-        "rrrrrrr ",
-        "r     r "
-      ],
-      "palettes": [ "fbml_2_metal_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": [ [ "pedestrian_9_8", "pedestrian_10_8" ] ],
     "weight": 250,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
-        "1...............................................",
+        "................................................",
         "................................................",
         "................................................",
         "................................................",
@@ -74,8 +34,7 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "campus_common" ],
-      "nested": { "1": { "chunks": [ "campus_shack" ] } }
+      "palettes": [ "campus_common" ]
     }
   },
   {
