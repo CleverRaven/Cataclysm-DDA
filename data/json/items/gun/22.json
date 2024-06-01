@@ -455,7 +455,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "ruger target pistol" },
+    "name": { "str": "Ruger target pistol" },
     "description": "A light and handy .22 LR handgun from Ruger, this handgun is one of the most popular .22 handguns ever created.",
     "variant_type": "gun",
     "variants": [
@@ -489,7 +489,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "22" ],
-    "dispersion": 480,
+    "dispersion": 400,
     "durability": 8,
     "min_cycle_recoil": 100,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
