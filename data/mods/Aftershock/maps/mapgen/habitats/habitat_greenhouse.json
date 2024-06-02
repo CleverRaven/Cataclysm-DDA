@@ -71,7 +71,7 @@
         "}": "t_metal_railing",
         "¡": "t_door_metal_locked"
       },
-      "furniture": { "ú": "f_bench", "1": "f_locker", "Í": "f_rack", "8": "f_ancient_processor", "t": "f_rack" },
+      "furniture": { "ú": "f_bench", "1": "f_locker", "í": "f_rack", "8": "f_ancient_processor", "t": "f_rack" },
       "items": {
         "1": [ { "item": "afs_civilian_hazard_outfit", "chance": 60 }, { "item": "afs_colonist_outfit", "chance": 20 } ],
         "í": { "item": "afs_tools_agricultural_hazardous", "chance": 90 },
