@@ -84,7 +84,7 @@ void faction_template::load( const JsonObject &jsobj )
 void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
-        for( const auto &epi : fac.epilogue_data ) {
+        for( const faction_epilogue_data &epi : fac.epilogue_data ) {
             if( !epi.epilogue.is_valid() ) {
                 debugmsg( "There's no snippet with id %s", epi.epilogue.str() );
             }
