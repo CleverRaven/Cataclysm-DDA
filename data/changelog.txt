@@ -248,6 +248,10 @@ Challenge start - hunted forever. Starts with the nemesis, but it comes back str
 Adds a new  globally unique special to spawn in the ocean : an Oil Platform !
 Overhaul and flesh out Barry Isherwood's rescue mission
 Prepper Militia Community
+Add Snow Cones and Snow Machines
+Add three new locations to Aftershock
+New jewelry added
+Night vision helmet attachments
 
 
 ## Interface:
@@ -311,6 +315,7 @@ Adding spell name to the casting... widget
 Adding Classless as a supernatural category
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
+Display RAS weapon reload time in aim ui
 
 
 
@@ -468,6 +473,12 @@ Aftershock: Add a space station clothes store
 [MoM] Add triffid psions
 Aftershock: Add poison based bullets, grenades and 'toxic flamethrower'
 Give Liam opinions in XE
+Add new homullus mutations that increase equipment durability
+Being mute prevents casting VERBAL spells
+[Magiclysm] Being grabbed makes SOMATIC spells harder to cast
+[Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
+Aftershock: Basic Hacking EOCs
+[Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
 
 
 ## Balance:
@@ -538,6 +549,8 @@ Make Quadcopter Drones Produce Sound
 Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
 The average skill level of NPCs will rise over time
+Random NPCs have the same starting skills and proficiencies as the average new character
+Food continues to rot at temp above 63C
 
 
 ## Bugfixes:
@@ -704,6 +717,12 @@ Fixed issue where Android gesture inputs were not recognized by ImGui windows
 Fixed arrows disappearing when unwielded
 Fix for massive slowdown when NPC crafting speed drops below 0.0
 Pseudo terrain appearing in fields when using mods is fixed (won't affect existing fields)
+Fixes issue where loading a forge with coal does not work
+Characters' spellbooks will not load invalid spells
+Prevent segfault when butcher target disappears
+Make Skunks Less Bloodthirsty
+Oops - remove cramped space when no longer cramped
+Correctly display the cost to learn the proficiency
 
 
 ## Performance:
@@ -788,6 +807,7 @@ Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
+refactor cataimgui::draw_colored_text
 
 
 ## Build:
