@@ -407,5 +407,46 @@
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "cp33",
+    "copy-from": "pistol_base",
+    "looks_like": "ar_pistol",
+    "type": "GUN",
+    "name": { "str": "high capacity handgun" },
+    "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "cp33",
+        "name": { "str": "CP33" },
+        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
+      }
+    ],
+    "weight": "669 g",
+    "volume": "525 ml",
+    "price": "495 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": -2,
+    "longest_side": "273 mm",
+    "barrel_length": "140 mm",
+    "material": [ "steel", "plastic", "aluminum" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "22" ],
+    "dispersion": 480,
+    "durability": 6,
+    "min_cycle_recoil": 100,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [
+      {
+        "rigid": false,
+        "magazine_well": "123 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "cp33_mag", "cp33_mag_50" ]
+      }
+    ],
+    "melee_damage": { "bash": 7 }
   }
 ]

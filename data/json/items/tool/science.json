@@ -1028,6 +1028,15 @@
     "material": [ "glass" ],
     "symbol": "|",
     "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "25 ml",
+        "max_contains_weight": "100 g",
+        "watertight": true
+      }
+    ],
     "melee_damage": { "bash": 1 }
   },
   {

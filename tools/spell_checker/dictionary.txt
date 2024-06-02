@@ -3409,6 +3409,7 @@ LMES
 LMG
 LMGs
 LMOE
+Locutus
 loadout
 loadouts
 lobotomizer

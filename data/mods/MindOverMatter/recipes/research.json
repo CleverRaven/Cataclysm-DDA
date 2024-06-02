@@ -227,7 +227,7 @@
     "time": "14 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
     "flags": [ "SECRET", "BLIND_HARD" ],

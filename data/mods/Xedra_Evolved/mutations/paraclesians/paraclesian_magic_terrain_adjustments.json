@@ -9,24 +9,8 @@
         {
           "and": [
             "u_is_outside",
-            {
-              "or": [
-                { "u_is_on_terrain_with_flag": "SHRUB" },
-                { "u_is_on_terrain_with_flag": "DIGGABLE" },
-                { "u_is_on_terrain_with_flag": "YOUNG" }
-              ]
-            },
-            { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-            { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-            { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-            { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-            { "not": { "u_near_om_location": "road_end", "range": 1 } },
-            { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-            { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
-            { "not": { "u_near_om_location": "road", "range": 1 } }
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
           ]
         },
         { "u_has_trait": "ARVORE" }
@@ -78,17 +62,7 @@
                 { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
               ]
             },
-            { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-            { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-            { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-            { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-            { "not": { "u_near_om_location": "road_end", "range": 1 } },
-            { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-            { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-            { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
-            { "not": { "u_near_om_location": "road", "range": 1 } }
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
           ]
         },
         { "u_has_trait": "ARVORE" }
@@ -160,32 +134,8 @@
     "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_IN_CIVILIZATION",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
-    "effect": [
-      {
-        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
-        "target_var": { "context_val": "homullus_location" }
-      },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_HOMULLUS_MAGIC_ADJUSTMENT_IN_CIVILIZATION_2",
-            "//": "This EoC is required because map_in_city cannot check talker location directly.",
-            "condition": {
-              "or": [
-                { "u_near_om_location": "evac_center_13", "range": 3 },
-                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-                { "u_near_om_location": "ranch_camp_41", "range": 3 },
-                { "u_near_om_location": "godco_5", "range": 3 },
-                { "u_at_om_location": "FACTION_CAMP_ANY" },
-                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
-              ]
-            },
-            "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "-2" ] } ]
-          }
-        ]
-      }
-    ]
+    "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+    "effect": [ { "math": [ "u_spellcasting_adjustment('difficulty', 'school': 'HOMULLUS' )", "=", "-2" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -210,14 +160,7 @@
       "and": [
         {
           "and": [
-            "u_is_outside",
-            {
-              "or": [
-                { "u_is_on_terrain_with_flag": "SHRUB" },
-                { "u_is_on_terrain_with_flag": "DIGGABLE" },
-                { "u_is_on_terrain_with_flag": "YOUNG" }
-              ]
-            },
+            { "not": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" } },
             { "not": { "u_near_om_location": "road_curved", "range": 1 } },
             { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
             { "not": { "u_near_om_location": "road_tee", "range": 1 } },

@@ -9109,6 +9109,19 @@
     "components": [ [ [ "corn", 1 ] ] ]
   },
   {
+    "result": "popcorn_raw",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "byproducts": [ [ "empty_corn_cob", 1 ] ],
+    "skill_used": "cooking",
+    "time": "20 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "popcorn_cob", 1 ] ] ]
+  },
+  {
     "result": "cattlefodder",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -9132,6 +9145,7 @@
         [ "dry_lentils", 1 ],
         [ "dry_corn", 1 ],
         [ "corn", 1 ],
+        [ "popcorn_cob", 1 ],
         [ "seed_canola", 1 ],
         [ "corn_kernels", 1 ],
         [ "soybean", 2 ],
@@ -9169,6 +9183,7 @@
         [ "dry_lentils", 7 ],
         [ "dry_corn", 7 ],
         [ "corn", 7 ],
+        [ "popcorn_cob", 7 ],
         [ "seed_canola", 4 ],
         [ "corn_kernels", 4 ],
         [ "soybean", 14 ],
@@ -9206,6 +9221,7 @@
         [ "dry_lentils", 26 ],
         [ "dry_corn", 46 ],
         [ "corn", 46 ],
+        [ "popcorn_cob", 46 ],
         [ "seed_canola", 26 ],
         [ "corn_kernels", 46 ],
         [ "soybean", 107 ],
@@ -9817,7 +9833,6 @@
     "charges": 1,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
-    "//": "153g of corn to be turned into kernels",
     "components": [ [ [ "popcorn_raw", 1 ] ] ]
   },
   {

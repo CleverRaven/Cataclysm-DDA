@@ -61,6 +61,7 @@ from .parsers.morale_type import parse_morale_type
 from .parsers.movement_mode import parse_movement_mode
 from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
+from .parsers.overmap_special import parse_overmap_special
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
@@ -114,6 +115,7 @@ parsers = {
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
+    "camp_migration": dummy_parser,
     "character_mod": parse_character_mod,
     "charge_removal_blacklist": dummy_parser,
     "city": parse_city,
@@ -193,7 +195,7 @@ parsers = {
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
     "overmap_location": dummy_parser,
-    "overmap_special": dummy_parser,
+    "overmap_special": parse_overmap_special,
     "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,

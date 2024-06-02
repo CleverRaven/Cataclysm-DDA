@@ -59,24 +59,29 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "popcorn_cob",
+    "name": { "str": "popcorn cob" },
+    "comestible_type": "FOOD",
+    "copy-from": "corn",
+    "fun": -2,
+    "description": "A popcorn cob full of popcorn kernels.  You can eat them on the cob or shell it for cooking.",
+    "use_action": { "type": "consume_drug", "used_up_item": "empty_corn_cob", "moves": 500 }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "popcorn_raw",
     "name": { "str_sp": "raw popcorn" },
-    "weight": "140 g",
+    "copy-from": "corn_kernels",
     "color": "light_green",
-    "spoils_in": "5 days",
     "comestible_type": "FOOD",
-    "symbol": "%",
     "calories": 120,
     "description": "A special variety of corn which could be used for making popcorn, after it's dried.  Unlike normal corn, it's not sweet and is more dry.",
     "price": "1 USD 70 cent",
-    "material": [ "veggy" ],
-    "volume": "195 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "smoking_result": "kernels",
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT", "SMOKABLE", "RAW", "PLANTABLE_SEED", "CATTLE", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -96,7 +101,7 @@
     "fun": -6,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "NUTRIENT_OVERRIDE", "EDIBLE_FROZEN", "PLANTABLE_SEED", "INEDIBLE", "CATTLE", "BIRD", "RAT", "MOUSE" ],
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

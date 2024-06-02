@@ -2575,6 +2575,8 @@ std::string melee_message( const ma_technique &tec, Character &p,
         message = npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type.first == damage_bash ) {
         message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
+    } else {
+        message = npc ? _( "<npcname> hits %s" ) : _( "You hit %s" );
     }
     if( ddi.wp_hit.empty() ) {
         return message;

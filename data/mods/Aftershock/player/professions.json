@@ -447,12 +447,6 @@
           { "item": "e_tool" },
           { "item": "knife_hunting" },
           {
-            "item": "medium_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 600,
-            "container-item": "multi_cooker"
-          },
-          {
             "item": "m2010",
             "ammo-item": "300_winmag",
             "charges": 5,

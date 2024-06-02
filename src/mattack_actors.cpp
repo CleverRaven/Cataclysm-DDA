@@ -77,7 +77,6 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     // Optional:
     min_range = obj.get_float( "min_range", 1.0f );
     allow_no_target = obj.get_bool( "allow_no_target", false );
-    optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "prefer_leap", prefer_leap, false );
     optional( obj, was_loaded, "random_leap", random_leap, false );
     optional( obj, was_loaded, "ignore_dest_terrain", ignore_dest_terrain, false );
@@ -256,7 +255,6 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               //~ "<Monster Display name> cast <Spell Name> on <Target name>!"
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data.trigger_message = monster_message;
-    optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "allow_no_target", allow_no_target, false );
 
     if( obj.has_member( "condition" ) ) {
@@ -353,7 +351,6 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         damage_max_instance = load_damage_instance( obj );
     }
 
-    optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
@@ -1160,9 +1157,8 @@ bool gun_actor::call( monster &z ) const
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
             if( untargeted || try_target( z, *target ) ) {
-                shoot( z, aim_at, e.second );
+                return shoot( z, aim_at, e.second );
             }
-            return true;
         }
     }
     return false;
@@ -1216,11 +1212,9 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
     return true;
 }
 
-void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+bool gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
-    z.mod_moves( -move_cost );
-
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );
     item gun( mig_gun_type );
     gun.gun_set_mode( mode );
@@ -1246,7 +1240,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 
     if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
         z.has_effect( effect_sensor_stun ) ) {
-        return;
+        return false;
     }
 
     add_msg_debug( debugmode::DF_MATTACK, "%d ammo (%s) remaining", z.ammo[ammo_type],
@@ -1256,9 +1250,9 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
         }
-        return;
+        return false;
     }
-
+    z.mod_moves( -move_cost );
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
     tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
@@ -1289,4 +1283,5 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     } else {
         z.ammo[ammo_type] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
+    return true;
 }
