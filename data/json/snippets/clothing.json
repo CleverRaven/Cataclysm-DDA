@@ -22,9 +22,9 @@
       { "id": "chickens", "text": "chickens" },
       { "id": "cows", "text": "cows" },
       { "id": "horses", "text": "horses" },
-	  { "id": "kittens", "text": "kittens" },
-	  { "id": "mice", "text": "mice" },
-	  { "id": "puppies", "text": "puppies" }
+      { "id": "kittens", "text": "kittens" },
+      { "id": "mice", "text": "mice" },
+      { "id": "puppies", "text": "puppies" }
     ]
   }
 ]
