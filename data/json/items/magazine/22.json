@@ -390,8 +390,8 @@
     "id": "ruger_mk4_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "ruger target pistol magazine" },
-    "description": "A 10-round magazine for a ruger target pistol.",
+    "name": { "str": "Ruger target pistol magazine" },
+    "description": "A 10-round magazine for a Ruger target pistol.",
     "variant_type": "gun",
     "variants": [
       {
