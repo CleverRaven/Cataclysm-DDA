@@ -85,11 +85,11 @@
       },
       { "result": [ [ "t_sandbox", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_sandbox" ], "message": "" },
       {
-        "result": [ [ "t_null", 10 ], [ "t_dirt", 1 ], [ "t_pit", 1 ] ],
+        "result": [ [ "t_pit_shallow", 10 ], [ "t_dirt", 1 ], [ "t_pit", 1 ] ],
         "valid_terrain": [ "t_pit_shallow" ],
         "message": ""
       },
-      { "result": [ [ "t_null", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_pit" ], "message": "" }
+      { "result": [ [ "t_pit", 10 ], [ "t_pit_shallow", 1 ] ], "valid_terrain": [ "t_pit" ], "message": "" }
     ]
   },
   {
