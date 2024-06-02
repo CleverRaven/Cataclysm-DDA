@@ -16,7 +16,7 @@
   {
     "type": "snippet",
     "category": "<animals>",
-	"//": "This category was originally made for underwear, so should be appropriate animals that appear on boxers, for example.  Should be plural.",
+    "//": "This category was originally made for underwear, so should be appropriate animals that appear on boxers, for example.  Should be plural.",
     "text": [
       { "id": "dolphins", "text": "dolphins" },
       { "id": "chickens", "text": "chickens" },
