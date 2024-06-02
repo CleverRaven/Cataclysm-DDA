@@ -394,7 +394,7 @@
     "dispersion": 850,
     "durability": 6,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "extend": { "flags": [ "USE_UPS" ] },
     "melee_damage": { "bash": 12 }
   },

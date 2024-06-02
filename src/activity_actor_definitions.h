@@ -51,6 +51,7 @@ class aim_activity_actor : public activity_actor
         std::string action;
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
+        bool should_unload_RAS = false;
         bool snap_to_target = false;
         /* Item location for RAS weapon reload */
         item_location reload_loc = item_location();
