@@ -137,9 +137,9 @@
     "using": [ [ "tailoring_cotton", 3 ] ],
     "byproducts": [ [ "cotton_patchwork", 6 ], [ "scrap_cotton", 3 ] ]
   },
- {
+  {
     "result": "boxer_briefs",
-  	"variant": "boxer_brief_makeshift",
+    "variant": "boxer_brief_makeshift",
     "type": "recipe",
     "copy-from": "boy_shorts"
   },
