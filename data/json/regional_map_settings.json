@@ -650,6 +650,7 @@
           "mx_golden_monoliths": 1
         }
       },
+      "ocean_bed": { "chance": 30, "extras": { "mx_kelp_patch": 1 } },
       "road": {
         "chance": 100,
         "extras": {
