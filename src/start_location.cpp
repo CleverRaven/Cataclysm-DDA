@@ -143,6 +143,23 @@ void start_location::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "allowed_z_levels" ) ) {
         assign( jo, "allowed_z_levels", constraints_.allowed_z_levels, strict );
     }
+    if( jo.has_string( "ocean_direction" ) ) {
+        mandatory( jo, was_loaded, "ocean_offset", ocean_offset );
+        std::string direction;
+        direction = jo.get_string( "ocean_direction" );
+        if( direction == "random" ) {
+            ocean_dir_random = true;
+        } else {
+            ocean_dir = static_cast<int>( io::string_to_enum<om_direction::type>( direction ) );
+            if( ocean_dir < 0 || ocean_dir > 3 ) {
+                jo.throw_error_at( "ocean_direction", string_format( "Ocean direction %s not recognised.",
+                                   direction ) );
+                ocean_dir = -1;
+            }
+        }
+    } else {
+        optional( jo, was_loaded, "ocean_offset", ocean_offset );
+    }
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
@@ -252,6 +269,31 @@ void start_location::prepare_map( tinymap &m ) const
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
+}
+
+bool start_location::offset_search_location( point_abs_om &origin ) const
+{
+    if( ocean_offset != INT_MAX ) {
+        overmap &omap = overmap_buffer.get( origin );
+
+        const auto offset_dir = [&]() {
+            if( om_direction::type{ocean_dir} == om_direction::type::invalid ) {
+                if( ocean_dir_random ) {
+                    return omap.find_dir_random_ocean_origin();
+                } else {
+                    return omap.find_dir_nearest_ocean_origin();
+                }
+            }
+            return om_direction::type{ocean_dir};
+        };
+        const int distance_to_ocean = omap.find_dist_ocean_origin( offset_dir() );
+        if( distance_to_ocean == 0 ) {
+            cata_fatal( string_format( "Start location %s specified a disabled ocean direction", id.c_str() ) );
+        }
+        origin += om_direction::displace( offset_dir() ) * ( ocean_offset + distance_to_ocean );
+        return true;
+    }
+    return false;
 }
 
 std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>

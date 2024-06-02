@@ -895,7 +895,14 @@ bool game::start_game()
             omtstart = ret.first;
             associated_parameters = ret.second;
         } else {
-            auto ret = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            point_abs_om search_location = u.world_origin.value_or( point_abs_om() );
+            // Potentially offset the search based on start location
+            if( start_loc.offset_search_location( search_location ) ) {
+                // Had to load the origin overmap to get region settings
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
+            }
+            auto ret = start_loc.find_player_initial_location( search_location );
             omtstart = ret.first;
             associated_parameters = ret.second;
         }
