@@ -557,12 +557,18 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
             entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
-        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.addentry( npc_count, true, 'e', _( "Everyone" ) );
+        nmenu.addentry( npc_count + 1, true, 'f', _( "Finish selection" ) );
         nmenu.selected = nmenu.fselected = last_index;
         nmenu.query();
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
-        } else if( nmenu.ret >= npc_count ) {
+        } else if( nmenu.ret == npc_count ) {
+            picked.resize( npc_count );
+            std::iota( picked.begin(), picked.end(), 0 );
+            last_index = nmenu.fselected;
+            continue;
+        } else if( nmenu.ret > npc_count ) {
             break;
         }
         std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
@@ -3244,7 +3250,7 @@ talk_effect_fun_t f_spawn_item( const JsonObject &jo, std::string_view member )
     talk_effect_fun_t ret( [item_name, count, container_name, use_item_group, suppress_message,
                add_talker, loc_var, force_equip, flags]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
-        const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
+        const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d, false );
         std::vector<std::string> flags_str;
         flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
@@ -3736,7 +3742,7 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
     }
     return [input_var, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override,
                output_var, overmap_tile ]( dialogue & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d, false );
 
         if( overmap_tile ) {
             target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ) * coords::map_squares_per(
@@ -3779,7 +3785,7 @@ talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_vi
     return [dov, transform, target_var, dov_time_in_future, key, is_npc]( dialogue & d ) {
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
-            target_pos = get_tripoint_from_var( target_var, d );
+            target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
 
         int radius = dov.evaluate( d );
@@ -3811,8 +3817,8 @@ talk_effect_fun_t::func f_transform_line( const JsonObject &jo, std::string_view
     var_info second = read_var_info( jo.get_object( "second" ) );
 
     return [transform, first, second]( dialogue const & d ) {
-        tripoint_abs_ms const t_first = get_tripoint_from_var( first, d );
-        tripoint_abs_ms const t_second = get_tripoint_from_var( second, d );
+        tripoint_abs_ms const t_first = get_tripoint_from_var( first, d, false );
+        tripoint_abs_ms const t_second = get_tripoint_from_var( second, d, false );
         tripoint_abs_ms const orig = coord_min( t_first, t_second );
         map tm;
         tm.load( project_to<coords::sm>( orig ), false );
@@ -3864,7 +3870,7 @@ talk_effect_fun_t::func f_mapgen_update( const JsonObject &jo, std::string_view 
     return [target_params, update_ids, target_var, dov_time_in_future, key]( dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
-            const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d ) );
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d, false ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
             mission_target_params update_params = target_params;
@@ -3914,7 +3920,7 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
     }
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
     return [target_var, dov_time_in_future, key]( dialogue & d ) {
-        const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d ) );
+        const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d, false ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
         // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
@@ -3987,7 +3993,7 @@ talk_effect_fun_t::func f_guard_pos( const JsonObject &jo, std::string_view memb
                 //12 since it should start with npctalk_var
                 cur_var.name.insert( 12, guy->get_unique_id() );
             }
-            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d );
+            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d, is_npc );
             guy->set_guard_pos( target_location );
         }
     };
@@ -4256,9 +4262,11 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string,
                      popup_msg, popup_w_interrupt_query_msg, interrupt_type, global, is_npc]
     ( dialogue const & d ) {
-        Character *target = d.actor( is_npc )->get_character();
+        Character *target;
         if( global ) {
             target = &get_player_character();
+        } else {
+            target = d.actor( is_npc )->get_character();
         }
         if( !target || target->is_npc() ) {
             return;
@@ -4569,7 +4577,7 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
                 }
             } else {
                 const tripoint target_pos = loc_var ?
-                                            get_map().getlocal( get_tripoint_from_var( loc_var, d ) ) : caster->pos();
+                                            get_map().getlocal( get_tripoint_from_var( loc_var, d, is_npc ) ) : caster->pos();
                 sp.cast_all_effects( *caster, target_pos );
                 caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
             }
@@ -4845,7 +4853,7 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                     return;
                 }
                 if( target_var.has_value() ) {
-                    tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+                    tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
                     if( get_map().inbounds( target_pos ) ) {
                         guy->invoke_item( it->get_item(), method_str, get_map().getlocal( target_pos ) );
                         return;
@@ -4939,7 +4947,7 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
     }
     return [is_npc, snip_id, message, volume, ambient, type, target_var, snippet,
             same_snippet]( dialogue & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         std::string translated_message;
         if( snippet ) {
             if( same_snippet ) {
@@ -5431,7 +5439,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
 
     return [is_npc, option, true_eocs, false_eocs, data, loc_var, dov_min_radius, dov_max_radius,
             title]( dialogue & d ) {
-        tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
+        tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d, is_npc );
         std::vector<item_location> items;
         map &here = get_map();
         tripoint center = here.getlocal( target_location );
@@ -5976,7 +5984,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d ) );
+            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d, is_npc ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -6111,7 +6119,7 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d ) );
+            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d, is_npc ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -6191,7 +6199,7 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
 
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
-            target_pos = get_tripoint_from_var( target_var, d );
+            target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
@@ -6225,7 +6233,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     }
     bool force = jo.get_bool( "force", false );
     return [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,

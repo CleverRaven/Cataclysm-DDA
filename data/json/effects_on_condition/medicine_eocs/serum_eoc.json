@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HAS_SERUM",
+    "condition": { "u_has_any_effect": [ "regen_serum_main", "regen_serum_crash_cardio", "regen_serum_crash_fatigue" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HAS_SYRINGE",
+    "condition": { "or": [ { "u_has_item": "syringe" }, { "u_has_bionics": "bio_syringe" } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_GENERIFIED",
+    "condition": { "test_eoc": "EOC_HAS_SYRINGE" },
+    "effect": [ { "run_eocs": "EOC_SERUM_GENERIFIED_2" } ],
+    "false_effect": [ { "u_message": "You need a syringe to inject the liquid.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_GENERIFIED_2",
+    "condition": { "not": { "test_eoc": "EOC_HAS_SERUM" } },
+    "effect": [ { "run_eocs": [ { "context_val": "eoc" } ] } ],
+    "false_effect": [ { "u_message": "You would not dare to inject two of them at once.", "type": "bad" } ]
+  }
+]

@@ -31,28 +31,6 @@ static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const skill_id skill_traps( "traps" );
 
-const trap_str_id tr_beartrap_buried( "tr_beartrap_buried" );
-const trap_str_id tr_blade( "tr_blade" );
-const trap_str_id tr_dissector( "tr_dissector" );
-const trap_str_id tr_drain( "tr_drain" );
-const trap_str_id tr_glow( "tr_glow" );
-const trap_str_id tr_goo( "tr_goo" );
-const trap_str_id tr_hum( "tr_hum" );
-const trap_str_id tr_landmine( "tr_landmine" );
-const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
-const trap_str_id tr_lava( "tr_lava" );
-const trap_str_id tr_ledge( "tr_ledge" );
-const trap_str_id tr_pit( "tr_pit" );
-const trap_str_id tr_portal( "tr_portal" );
-const trap_str_id tr_shadow( "tr_shadow" );
-const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
-const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
-const trap_str_id tr_sinkhole( "tr_sinkhole" );
-const trap_str_id tr_snake( "tr_snake" );
-const trap_str_id tr_telepad( "tr_telepad" );
-const trap_str_id tr_temple_flood( "tr_temple_flood" );
-const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
-
 static const update_mapgen_id update_mapgen_none( "none" );
 
 namespace
@@ -428,6 +406,12 @@ void trap::check_consistency()
             if( !item::type_is_defined( item_type ) ) {
                 debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );
             }
+        }
+        if( t.sound_threshold.first > t.sound_threshold.second ) {
+            debugmsg( "trap %s has higher min sound threshold than max and can never trigger", t.id.str() );
+        }
+        if( ( t.sound_threshold.first > 0 ) != ( t.sound_threshold.second > 0 ) ) {
+            debugmsg( "trap %s has bad sound threshold of 0 and will trigger on anything", t.id.str() );
         }
     }
 }

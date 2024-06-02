@@ -210,7 +210,6 @@ TEST_CASE( "Having_all_mutations_give_correct_highest_category", "[mutations][st
 // If a category breach power falls below 55, it suggests that category lacks enough pre-threshold mutations
 // to comfortably cross the Threshold
 //
-// Alpha threshold is intentionally meant to be harder to breach, so the permitted range is 35-60
 //
 // When creating or editing a category, remember that 55 is a limit, not suggestion
 // 65+ is the suggested range
@@ -239,14 +238,7 @@ TEST_CASE( "Having_all_pre-threshold_mutations_gives_a_sensible_threshold_breach
             dummy.give_all_mutations( cur_cat, false );
 
             const int breach_chance = dummy.mutation_category_level[cat_id];
-            if( cat_id == mutation_category_ALPHA ) {
-                THEN( "Alpha Threshold breach power is between 35 and 60" ) {
-                    INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
-                    CHECK( breach_chance >= 35 );
-                    CHECK( breach_chance <= 60 );
-                }
-                continue;
-            } else if( cat_id == mutation_category_CHIMERA ) {
+            if( cat_id == mutation_category_CHIMERA ) {
                 THEN( "Chimera Threshold breach power is 100+" ) {
                     INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                     CHECK( breach_chance >= 100 );

@@ -333,5 +333,83 @@
     "ammo_type": [ "22" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
+  },
+  {
+    "id": "cp33_mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "high capacity 33 round magazine" },
+    "description": "A 33-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "cp33_mag",
+        "name": { "str": "CP33 33-round magazine" },
+        "description": "The CP33's magazine is a polymer body quad stack with 4 rows of .22 rounds, which gives it the ability to cram in 33 rounds into the magazine."
+      }
+    ],
+    "weight": "48 g",
+    "volume": "123 ml",
+    "longest_side": "126 mm",
+    "price": "51 USD 50 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 33 } } ]
+  },
+  {
+    "id": "cp33_mag_50",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "high capacity 50 round magazine" },
+    "description": "A 50-round capacity magazine for .22 ammunition, for use in a high capacity handgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "cp33_mag_50",
+        "name": { "str": "CP33 50-round magazine" },
+        "description": "CP33 33-round magazine has the ability to accept extensions, and this one has a 17-round extension to bring the total up to a staggering 50 rounds of .22 ammunition."
+      }
+    ],
+    "weight": "84 g",
+    "volume": "186 ml",
+    "longest_side": "211 mm",
+    "price": "83 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 50 } } ]
+  },
+  {
+    "id": "ruger_mk4_mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Ruger target pistol magazine" },
+    "description": "A 10-round magazine for a Ruger target pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_mk4_mag",
+        "name": { "str": "Ruger Mark IV magazine" },
+        "description": "A Ruger Mark IV magazine, lightweight and with a magazine follower button to allow easier reloading.  Holds 10 rounds of .22, and is interchangeable with Mark II and Mark III varieties as well."
+      }
+    ],
+    "weight": "73 g",
+    "volume": "98 ml",
+    "longest_side": "152 mm",
+    "price": "32 USD 95 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   }
 ]

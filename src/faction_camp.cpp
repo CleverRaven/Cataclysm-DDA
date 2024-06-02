@@ -2165,6 +2165,10 @@ void basecamp::abandon_camp()
     for( npc_ptr &guy : get_npcs_assigned() ) {
         talk_function::stop_guard( *guy );
     }
+    // We must send this message early, before the name is erased.
+    add_msg( m_info, _( "You abandon %s." ), name );
+    std::set<tripoint_abs_omt> &known_camps = get_player_character().camps;
+    known_camps.erase( omt_pos );
     overmap_buffer.remove_camp( *this );
     map &here = get_map();
     const tripoint sm_pos = omt_to_sm_copy( omt_pos.raw() );
@@ -2172,7 +2176,6 @@ void basecamp::abandon_camp()
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
     here.remove_submap_camp( here.bub_from_abs( ms_pos ) );
-    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::scan_pseudo_items()
@@ -5527,7 +5530,7 @@ nutrients basecamp::camp_food_supply( nutrients &change )
         double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
                                   fac()->food_supply.calories;
         consumed = fac()->food_supply;
-        if( std::abs( change.calories ) > fac()->food_supply.calories ) {
+        if( std::abs( change.calories ) > fac()->food_supply.calories && fac()->consumes_food ) {
             //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
             fac()->food_supply += change;
             faction *yours = get_player_character().get_faction();
@@ -5540,8 +5543,10 @@ nutrients basecamp::camp_food_supply( nutrients &change )
             return consumed;
         }
         consumed *= percent_consumed;
-        // Subtraction since we use the absolute value of change's calories to get the percent
-        fac()->food_supply -= consumed;
+        if( fac()->consumes_food ) {
+            // Subtraction since we use the absolute value of change's calories to get the percent
+            fac()->food_supply -= consumed;
+        }
         return consumed;
     }
     fac()->food_supply += change;
@@ -5578,6 +5583,10 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
     food /= num_workers;
     for( const auto &worker_reference : workers ) {
         Character &worker = worker_reference.get();
+        if( !allowed_access_by( worker ) ) {
+            debugmsg( "Character %s improperly tried to access food stores at camp %s, please report this error.",
+                      worker.disp_name(), name );
+        }
         item food_item = make_fake_food( food );
         // Handle allergies and other stuff
         bool query_player = !worker.is_npc();
@@ -5587,6 +5596,7 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
                 // I'd like to use consume_activity_actor here, but our little trick with make_fake_food() requires that the
                 // item be consumed immediately.
                 worker.consume( food_item );
+                worker.update_stomach( calendar::turn, calendar::turn ); //Handles setting hunger appropriately
                 break;
             case TOO_FULL:
                 worker.add_msg_player_or_npc( m_neutral,

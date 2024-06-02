@@ -2365,6 +2365,9 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             if( auto ret = find_tile_looks_like( looks_like, category, variant, lljl ) ) {
                 return ret;
             }
+            if( auto ret = find_tile_looks_like( looks_like, TILE_CATEGORY::FURNITURE, variant, lljl ) ) {
+                return ret;
+            }
             return std::nullopt;
         }
 

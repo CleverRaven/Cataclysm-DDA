@@ -488,6 +488,8 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+static const trap_str_id tr_ledge( "tr_ledge" );
+
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
@@ -557,6 +559,11 @@ Character::Character() :
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
+    ppen_str = 0;
+    ppen_dex = 0;
+    ppen_int = 0;
+    ppen_per = 0;
+    ppen_spd = 0;
     lifestyle = 0;
     daily_health = 0;
     health_tally = 0;
@@ -3085,6 +3092,27 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
     }
 }
 
+units::volume Character::get_total_volume() const
+{
+    item_location wep = get_wielded_item();
+    units::volume wep_volume = wep ? wep->volume() : 0_ml;
+    // Note: Does not measure volume of worn items that do not themselves contain anything
+    return get_base_volume() + volume_carried() + wep_volume;
+}
+
+units::volume Character::get_base_volume() const
+{
+    const int your_height = height(); // avg 175cm
+    // Arbitrary number picked relative to aisle (100L), not necessarily accurate
+    const units::volume avg_human_volume = 70_liter;
+
+    // Very scientific video game size to metric human volume calculation. Avg height == avg_human_volume;
+    units::volume your_base_volume = units::from_liter( static_cast<double>( your_height ) / 2.5 );
+    double volume_proport = units::to_liter( your_base_volume ) / units::to_liter( avg_human_volume );
+
+    return std::pow( volume_proport, 3.0 ) * avg_human_volume;
+}
+
 units::mass Character::weight_carried() const
 {
     if( cached_weight_carried ) {
@@ -4983,9 +5011,7 @@ float Character::activity_level() const
 
 bool Character::needs_food() const
 {
-    // Before the mechanism for non-player faction NPCs to obtain food is set up, it is unreasonable to require them to consume food.
-    return ( !get_option<bool>( "NO_NPC_FOOD" ) && get_faction() == get_avatar().get_faction() ) ||
-           !is_npc();
+    return !( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) );
 }
 
 void Character::update_needs( int rate_multiplier )
@@ -12343,10 +12369,14 @@ stat_mod Character::get_pain_penalty() const
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
     // Also not make character has 0 stats
-    ret.strength = std::max( ret.strength, 1 );
-    ret.dexterity = std::max( ret.dexterity, 1 );
-    ret.intelligence = std::max( ret.intelligence, 1 );
-    ret.perception = std::max( ret.perception, 1 );
+    ret.strength = get_str() > 2 ? std::clamp( ret.strength, 1, get_str() - 1 ) :
+                   std::max( 0, get_str() - 1 );
+    ret.dexterity = get_dex() > 2 ? std::clamp( ret.dexterity, 1, get_dex() - 1 ) :
+                    std::max( 0, get_dex() - 1 );
+    ret.intelligence = get_int() > 2 ? std::clamp( ret.intelligence, 1, get_int() - 1 ) :
+                       std::max( 0, get_int() - 1 );
+    ret.perception = get_per() > 2 ? std::clamp( ret.perception, 1, get_per() - 1 ) :
+                     std::max( 0, get_per() - 1 );
 
 
     int speed_penalty = std::pow( pain, 0.7f );
@@ -12355,6 +12385,17 @@ stat_mod Character::get_pain_penalty() const
                           speed_penalty ), 0.0 );
 
     ret.speed = std::min( ret.speed, 50 );
+    return ret;
+}
+
+stat_mod Character::read_pain_penalty() const
+{
+    stat_mod ret;
+    ret.strength = ppen_str;
+    ret.dexterity = ppen_dex;
+    ret.intelligence = ppen_int;
+    ret.perception = ppen_per;
+    ret.speed = ppen_spd;
     return ret;
 }
 

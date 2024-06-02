@@ -202,6 +202,16 @@ static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
+static const trap_str_id tr_dissector( "tr_dissector" );
+static const trap_str_id tr_drain( "tr_drain" );
+static const trap_str_id tr_glow( "tr_glow" );
+static const trap_str_id tr_goo( "tr_goo" );
+static const trap_str_id tr_hum( "tr_hum" );
+static const trap_str_id tr_portal( "tr_portal" );
+static const trap_str_id tr_shadow( "tr_shadow" );
+static const trap_str_id tr_snake( "tr_snake" );
+static const trap_str_id tr_telepad( "tr_telepad" );
+
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "

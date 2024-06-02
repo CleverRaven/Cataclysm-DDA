@@ -1434,6 +1434,7 @@ dementias
 Demeter
 demi
 demihuman
+Demilled
 demining
 Demir
 demisexuality
@@ -3409,6 +3410,7 @@ LMES
 LMG
 LMGs
 LMOE
+Locutus
 loadout
 loadouts
 lobotomizer

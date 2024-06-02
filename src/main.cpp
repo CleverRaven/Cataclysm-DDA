@@ -4,7 +4,7 @@
  * Who knows
  */
 
-// KG: Yes the above is inaccurate now, it's also a poem, it's stays.
+// KG: Yes, the above is inaccurate now. It's also a poem, it stays.
 
 // IWYU pragma: no_include <sys/signal.h>
 #include <algorithm>

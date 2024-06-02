@@ -2500,7 +2500,8 @@ void monster::load( const JsonObject &data )
                 if( ptimeout >= 0 ) {
                     entry.cooldown = ptimeout;
                 } else { // -1 means disabled, unclear what <-1 values mean in old saves
-                    entry.cooldown = type->special_attacks.at( aname )->cooldown;
+                    dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
+                    entry.cooldown = type->special_attacks.at( aname )->cooldown.evaluate( d );
                     entry.enabled = false;
                 }
             }
@@ -2523,7 +2524,8 @@ void monster::load( const JsonObject &data )
         const std::string &aname = sa.first;
         if( special_attacks.find( aname ) == special_attacks.end() ) {
             auto &entry = special_attacks[aname];
-            entry.cooldown = rng( 0, sa.second->cooldown );
+            dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
+            entry.cooldown = rng( 0, sa.second->cooldown.evaluate( d ) );
         }
     }
 

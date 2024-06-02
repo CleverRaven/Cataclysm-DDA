@@ -10,7 +10,7 @@
 #include <random>
 #include <type_traits>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class map;

@@ -10,7 +10,6 @@
     "price": "1 kUSD",
     "price_postapoc": "20 USD",
     "material": [ "superalloy", "qt_steel" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "symbol": "[",
     "looks_like": "PR24-extended",
     "color": "light_gray",
@@ -59,7 +58,6 @@
     "color": "light_blue",
     "looks_like": "arming_sword",
     "turns_per_charge": 4,
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "to_hit": 2,
     "flags": [ "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
@@ -70,7 +68,7 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade stops humming, and its edge dissipates into a smooth curve as it cools."
     },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8, "cut": 18, "afs_heat_melee": 35 }
   },
   {
     "id": "afs_hardlight_longbow",
@@ -396,7 +394,7 @@
     "dispersion": 850,
     "durability": 6,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "extend": { "flags": [ "USE_UPS" ] },
     "melee_damage": { "bash": 12 }
   },

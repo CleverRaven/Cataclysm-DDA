@@ -13,18 +13,20 @@
       { "group": "nested_walther_ppq_9mm", "prob": 4 },
       { "group": "nested_cz75", "prob": 1 },
       { "group": "nested_kpf9", "prob": 13 },
-      { "group": "nested_hptc9", "prob": 2 }
+      { "group": "nested_hptc9", "prob": 2 },
+      { "group": "nested_walther_ccp", "prob": 7 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_22",
     "items": [
-      { "group": "nested_walther_ccp", "prob": 7 },
       { "group": "nested_walther_p22", "prob": 30 },
       { "group": "nested_ruger_lcr_22", "prob": 30 },
       { "group": "nested_sig_mosquito", "prob": 15 },
-      { "group": "nested_sw_22", "prob": 40 }
+      { "group": "nested_sw_22", "prob": 40 },
+      { "group": "nested_cp33", "prob": 8 },
+      { "group": "nested_ruger_mk4", "prob": 60 }
     ]
   },
   {
@@ -85,7 +87,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_other",
-    "items": [ { "group": "nested_kp32", "prob": 5 } ]
+    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 9 } ]
   },
   {
     "type": "item_group",
@@ -99,18 +101,19 @@
       { "item": "walther_ppq_9mm", "prob": 4, "charges": [ 0, -1 ] },
       { "item": "kpf9", "prob": 24, "charges": [ 0, -1 ] },
       { "item": "hptc9", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "cz75", "prob": 7, "charges": [ 0, -1 ] }
+      { "item": "cz75", "prob": 7, "charges": [ 0, -1 ] },
+      { "item": "walther_ccp", "prob": 5, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_22",
     "items": [
-      { "item": "walther_ccp", "prob": 6, "charges": [ 0, -1 ] },
       { "item": "sig_mosquito", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "sw_22", "prob": 40, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 30, "charges": [ 0, -1 ] },
-      { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] }
+      { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] },
+      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -195,7 +198,9 @@
       { "item": "sig_mosquito", "prob": 15 },
       { "item": "sw_22", "prob": 40 },
       { "item": "walther_p22", "prob": 35 },
-      { "item": "ruger_lcr_22", "prob": 70 }
+      { "item": "ruger_lcr_22", "prob": 70 },
+      { "item": "cp33", "prob": 11 },
+      { "item": "ruger_mk4", "prob": 60 }
     ]
   },
   {
@@ -257,7 +262,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_other",
-    "items": [ { "item": "kp32", "prob": 5 } ]
+    "items": [ { "item": "kp32", "prob": 5 }, { "item": "taurus_judge", "prob": 9 } ]
   },
   {
     "type": "item_group",

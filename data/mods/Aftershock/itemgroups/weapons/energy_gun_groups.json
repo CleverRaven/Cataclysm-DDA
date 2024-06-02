@@ -91,7 +91,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [ [ "afs_electro_anomaly_rifle", 1 ], [ "afs_voltaic_pistol", 90 ] ]
+    "items": [ [ "afs_electro_anomaly_rifle", 1 ], [ "afs_voltaic_pistol", 90 ], [ "afs_archangel_enr", 9 ] ]
   },
   {
     "id": "afs_any_voltaic_mag",

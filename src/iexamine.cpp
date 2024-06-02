@@ -297,6 +297,9 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
+static const trap_str_id tr_ledge( "tr_ledge" );
+static const trap_str_id tr_telepad( "tr_telepad" );
+
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
 
@@ -1978,6 +1981,11 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        if( !temp_camp->allowed_access_by( you ) ) {
+            you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
+            return;
+        }
+
         temp_camp->validate_bb_pos( here.getglobal( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
