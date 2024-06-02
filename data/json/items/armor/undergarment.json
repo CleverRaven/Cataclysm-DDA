@@ -331,28 +331,28 @@
       },
       {
         "id": "boxer_brief_makeshift",
-        "name": { "str": "boxer briefs, homemade" },
+        "name": { "str": "homemade boxer briefs" },
         "description": "A pair of homemade boxer briefs, a marvel of basic sewing skills.",
         "expand_snippets": true,
         "weight": 0
       },
       {
         "id": "boxer_brief_color",
-        "name": { "str": "boxer briefs, colored" },
+        "name": { "str": "solid boxer briefs" },
         "description": "A pair of boxer briefs, these are a solid <color> color.",
         "expand_snippets": true,
         "weight": 300
       },
       {
         "id": "boxer_brief_hearts",
-        "name": { "str": "boxer briefs, hearts" },
+        "name": { "str": "heart boxer briefs" },
         "description": "A pair of boxer briefs, adorned with little <color> hearts.",
         "expand_snippets": true,
         "weight": 100
       },
       {
         "id": "boxer_brief_day",
-        "name": { "str": "boxer briefs, day" },
+        "name": { "str": "day boxer briefs" },
         "description": "A pair of boxer briefs.  Printed across the bottom, in bubble letters, is the word \"<day>.\"",
         "expand_snippets": true,
         "weight": 30
@@ -398,49 +398,49 @@
       },
       {
         "id": "boxer_shorts_makeshift",
-        "name": { "str": "boxer shorts, homemade" },
+        "name": { "str": "homemade boxer shorts" },
         "description": "A pair of homemade boxer shorts, a marvel of basic sewing skills.",
         "expand_snippets": true,
         "weight": 0
       },
       {
         "id": "boxer_shorts_color",
-        "name": { "str": "boxer shorts, colored" },
+        "name": { "str": "solid boxer shorts" },
         "description": "A pair of boxer shorts, these are a solid <color> color.",
         "expand_snippets": true,
         "weight": 400
       },
       {
         "id": "boxer_shorts_hearts",
-        "name": { "str": "boxer shorts, hearts" },
+        "name": { "str": "heart boxer shorts" },
         "description": "A pair of boxer shorts, adorned with little <color> hearts.",
         "expand_snippets": true,
         "weight": 200
       },
       {
         "id": "boxer_shorts_day",
-        "name": { "str": "boxer shorts, day" },
+        "name": { "str": "day boxer shorts" },
         "description": "A pair of boxer shorts.  Printed across the bottom, in bubble letters, is the word \"<day>.\"",
         "expand_snippets": true,
         "weight": 30
       },
       {
         "id": "boxer_shorts_money",
-        "name": { "str": "boxer shorts, money" },
+        "name": { "str": "money boxer shorts" },
         "description": "A pair of boxer shorts adorned with images of hundred dollar bills.",
         "expand_snippets": true,
         "weight": 70
       },
       {
         "id": "boxer_shorts_animal",
-        "name": { "str": "boxer shorts, animal" },
+        "name": { "str": "animal boxer shorts" },
         "description": "A pair of boxer shorts, these are adorned with little <animals> in a pattern across the entire garment.",
         "expand_snippets": true,
         "weight": 70
       },
       {
         "id": "boxer_shorts_cartoon",
-        "name": { "str": "boxer shorts, cartoon" },
+        "name": { "str": "cartoon boxer shorts" },
         "description": "A pair of boxer shorts, merchandise for a famous cartoon.  It features <cartoon_blanket>.",
         "expand_snippets": true,
         "weight": 70
