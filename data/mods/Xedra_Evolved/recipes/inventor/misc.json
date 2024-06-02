@@ -162,6 +162,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 4 ] ],
+      [ [ "scrap_dreamdross", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "paint", 2, "LIST" ] ],
       [ [ "amplifier", 1 ] ]
@@ -185,6 +186,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "cable", 4 ] ],
+      [ [ "scrap_dreamdross", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
       [ [ "paint", 2, "LIST" ] ],
       [ [ "amplifier", 1 ] ]
