@@ -431,9 +431,7 @@
           { "faction": "old_guard", "power_min": 150 },
           { "faction": "tacoma_commune", "power_min": 150 },
           { "faction": "free_merchants", "power_min": 150 },
-          { "faction": "robofac", "power_min": 150 },
-          { "faction": "exodii", "power_min": 150 },
-          { "faction": "the_great_library", "power_min": 150 }
+          { "faction": "robofac", "power_min": 150 }
         ],
         "id": "epilogue_faction_tacoma_commune_150_OG"
       },
@@ -446,9 +444,7 @@
           { "faction": "old_guard", "power_min": 150 },
           { "faction": "tacoma_commune", "power_min": 150 },
           { "faction": "free_merchants", "power_max": 150 },
-          { "faction": "robofac", "power_min": 150 },
-          { "faction": "exodii", "power_min": 150 },
-          { "faction": "the_great_library", "power_min": 150 }
+          { "faction": "robofac", "power_min": 150 }
         ],
         "id": "epilogue_faction_tacoma_commune_revolt_OG"
       }
@@ -761,9 +757,7 @@
           { "faction": "old_guard", "power_min": 150 },
           { "faction": "tacoma_commune", "power_min": 150 },
           { "faction": "free_merchants", "power_min": 150 },
-          { "faction": "robofac", "power_min": 150 },
-          { "faction": "exodii", "power_min": 150 },
-          { "faction": "the_great_library", "power_min": 150 }
+          { "faction": "robofac", "power_min": 150 }
         ],
         "id": "epilogue_faction_isherwoods_OG_FM"
       },
@@ -773,9 +767,7 @@
           { "faction": "old_guard", "power_min": 150 },
           { "faction": "tacoma_commune", "power_min": 150 },
           { "faction": "free_merchants", "power_max": 150 },
-          { "faction": "robofac", "power_min": 150 },
-          { "faction": "exodii", "power_min": 150 },
-          { "faction": "the_great_library", "power_min": 150 }
+          { "faction": "robofac", "power_min": 150 }
         ],
         "id": "epilogue_faction_isherwoods_OG"
       },
