@@ -661,6 +661,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
+    update_link_traits();
     update_prefix_suffix_flags();
     return *this;
 }
