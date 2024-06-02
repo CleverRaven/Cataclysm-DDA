@@ -256,7 +256,7 @@
     "name": "display chest freezer",
     "looks_like": "f_fridge",
     "symbol": "{",
-    "description": "A commercial chest freezer, used to show off ice creams, frozen veggies, pizza, or anything else a consumer may want frozen and preserved.  Deconstruct it if you want to connect it to the grid.",
+    "description": "A commercial chest freezer, used to show off ice creams, frozen veggies, pizza, or anything else a consumer may want frozen and preserved.  Conveniently tall enough for any curious child to gaze in at the sweets.  Deconstruct it if you want to connect it to the grid.",
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 90,
