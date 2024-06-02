@@ -2,7 +2,7 @@
   {
     "type": "snippet",
     "category": "<day>",
-	"//": "This is a snippet category originally made for undergarments, containing the days of the week.",
+    "//": "This is a snippet category originally made for undergarments, containing the days of the week.",
     "text": [
       { "id": "monday", "text": "Monday" },
       { "id": "tuesday", "text": "Tuesday" },
