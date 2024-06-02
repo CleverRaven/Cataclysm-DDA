@@ -427,7 +427,7 @@
       {
         "id": "boxer_shorts_money",
         "name": { "str": "boxer shorts, money" },
-        "description": "A pair of boxer shorts adorned with hundred dollar bills.",
+        "description": "A pair of boxer shorts adorned with images of hundred dollar bills.",
         "expand_snippets": true,
         "weight": 70
       },
