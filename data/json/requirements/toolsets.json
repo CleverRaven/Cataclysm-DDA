@@ -3,7 +3,7 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "hotplate_legacy", 2 ], [ "integrated_welder", 2 ] ] ]
   },
   {
     "id": "shot_forming",
@@ -20,7 +20,7 @@
         [ "clay_teapot", -1 ],
         [ "can_food", -1 ]
       ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "hotplate_legacy", 2 ], [ "integrated_welder", 2 ] ]
     ]
   },
   {
