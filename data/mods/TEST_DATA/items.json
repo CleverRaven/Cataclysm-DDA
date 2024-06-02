@@ -5053,5 +5053,12 @@
     "material": [ "foodplace_foodstuff" ],
     "fun": 20,
     "monotony_penalty": 4
+  },
+  {
+    "type": "AMMO",
+    "id": "rock_volume_test",
+    "name": { "str": "10L rock" },
+    "copy-from": "rock",
+    "volume": "10 L"
   }
 ]
