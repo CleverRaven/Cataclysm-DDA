@@ -758,5 +758,19 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "plastic_sheet", 4 ] ] ]
+  },
+  {
+    "result": "dry_seaweed_pile",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "components": [ [ [ "dry_seaweed", 20 ] ] ]
+  },
+  {
+    "result": "seaweed_pile",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "components": [ [ [ "seaweed", 20 ] ] ]
   }
 ]

@@ -676,6 +676,8 @@ blacksmithy
 Blackstone
 blackwood
 Blacky
+bladderwrack
+bladelike
 bladesmithing
 blam
 Blandford
@@ -3173,6 +3175,7 @@ Kohler
 koi
 koji
 Kojiki
+kombu
 komodo
 kompot
 Kool
