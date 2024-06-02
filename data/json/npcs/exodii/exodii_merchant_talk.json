@@ -1352,7 +1352,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
     "type": "talk_topic",
-    "dynamic_line": "[okie dokie you got 20 days to pay me back.]",
+    "dynamic_line": "If'n you survive, We can give you a fortnight and six odd days to pay us'n back.",
     "responses": [
       {
         "text": "[thanks bro.]",
