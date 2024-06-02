@@ -11,7 +11,7 @@
     "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "apartment_fridge",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "apartment_fridge" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -28,7 +28,7 @@
     "description": "A minifridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "minifridge",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "minifridge" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -45,7 +45,7 @@
     "description": "A food truck fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "big_portable_fridge",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "minifridge" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -62,7 +62,7 @@
     "description": "A single glass door fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.  Careful with the glass!",
     "item": "glass_fridge",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "glass_fridge" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -79,7 +79,7 @@
     "description": "A double glass door fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.  Careful with the glass!",
     "item": "glass_fridge_double",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "glass_fridge_double" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -96,7 +96,7 @@
     "description": "A heavy duty fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "heavy_duty_fridge",
     "location": "on_roof",
-    "requirements": { "install": { "time": "15 m", "using": [ [ "tool_rope_long", 2 ] ] }, "removal": { "time": "10 m" } },
+    "requirements": { "install": { "time": "15 m", "using": [ [ "rope_natural", 2 ] ] }, "removal": { "time": "10 m" } },
     "breaks_into": [ { "item": "heavy_duty_fridge" }, { "item": "rope_30", "count": [ 2, 2 ] } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -113,7 +113,7 @@
     "description": "A display fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "display_fridge",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "display_fridge" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -130,7 +130,7 @@
     "description": "A household freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "apartment_freezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "apartment_freezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -147,7 +147,7 @@
     "description": "A minifreezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "minifreezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "minifreezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -164,7 +164,7 @@
     "description": "A chest minifreezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "chest_minifreezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "chest_minifreezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -181,7 +181,7 @@
     "description": "A food truck freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "big_portable_freezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "big_portable_freezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -198,7 +198,7 @@
     "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "chest_freezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "chest_freezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -215,7 +215,7 @@
     "description": "A heavy-duty freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "heavy_duty_freezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "15 m", "using": [ [ "tool_rope_long", 2 ] ] }, "removal": { "time": "10 m" } },
+    "requirements": { "install": { "time": "15 m", "using": [ [ "rope_natural", 2 ] ] }, "removal": { "time": "10 m" } },
     "breaks_into": [ { "item": "heavy_duty_freezer" }, { "item": "rope_30", "count": [ 2, 2 ] } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -232,7 +232,7 @@
     "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "glass_freezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "glass_freezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
@@ -249,7 +249,7 @@
     "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
     "item": "display_freezer",
     "location": "on_roof",
-    "requirements": { "install": { "time": "10 m", "using": [ [ "tool_rope_long", 1 ] ] }, "removal": { "time": "5 m" } },
+    "requirements": { "install": { "time": "10 m", "using": [ [ "rope_natural", 1 ] ] }, "removal": { "time": "5 m" } },
     "breaks_into": [ { "item": "display_freezer" }, { "item": "rope_30" } ],
     "flags": [ "EXTRA_DRAG" ],
     "variants": [ { "symbols": "F", "symbols_broken": "*" } ]
