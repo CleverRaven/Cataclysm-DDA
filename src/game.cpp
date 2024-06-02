@@ -3627,7 +3627,6 @@ void game::disp_NPC_epilogues()
     }
 }
 
-
 void game::display_faction_epilogues()
 {
     for( const auto &elem : faction_manager_ptr->all() ) {
