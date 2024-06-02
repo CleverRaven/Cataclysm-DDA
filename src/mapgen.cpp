@@ -218,30 +218,31 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
+    const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
+
     // Prepare the canvas...
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 const tripoint pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                if( !save_results || MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
+                if( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
                     setsubmap( grid_pos, new submap() );
 
                     // Generate uniform submaps immediately and cheaply.
                     // This causes them to be available for "proper" overlays even if on a lower Z level.
-                    const ter_str_id ter = uniform_terrain( overmap_buffer.ter( p ) );
+                    const ter_str_id ter = uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) );
                     if( ter != t_null.id() ) {
                         getsubmap( grid_pos )->set_all_ter( ter, true );
                         getsubmap( grid_pos )->last_touched = calendar::turn;
                     }
                 } else {
-                    setsubmap( grid_pos, MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) );
+                    setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
                 }
             }
         }
     }
 
-    const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
     std::vector<submap *> saved_overlay;
     saved_overlay.reserve( 4 );
     for( size_t index = 0; index <= 3; index++ ) {
@@ -263,8 +264,9 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             for( int gridy = 0; gridy <= 1; gridy++ ) {
                 const tripoint pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                if( MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr &&
-                    !getsubmap( grid_pos )->is_uniform() ) {
+                if( ( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) &&
+                    !getsubmap( grid_pos )->is_uniform() &&
+                    uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
                     saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
                     setsubmap( grid_pos, new submap() );
                 }
@@ -283,9 +285,15 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
         density = density / 100;
 
+        // Not sure if we actually have to check all submaps.
+        const bool any_missing = MAPBUFFER.lookup_submap( p_sm ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point{ 1, 0 } ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point{ 0, 1 } ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point{ 1, 1 } ) == nullptr;
+
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
-        if( ( !save_results || MAPBUFFER.lookup_submap( p_sm ) == nullptr ) &&
-            uniform_terrain( overmap_buffer.ter( p ) ) == t_null.id() ) {
+        if( ( !save_results || any_missing ) &&
+            uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
             draw_map( dat );
         }
 
@@ -368,11 +376,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                     const tripoint pos( gridx, gridy, gridz );
                     const size_t grid_pos = get_nonant( pos );
                     if( gridx <= 1 && gridy <= 1 ) {
-                        if( MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
+                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
                             saven( {gridx, gridy, gridz} );
                         }
                     } else {
-                        if( MAPBUFFER.lookup_submap( abs_sub.xy() + pos ) == nullptr ) {
+                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
                             delete getsubmap( grid_pos );
                         }
                     }
@@ -380,6 +388,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             }
         }
     }
+
+    set_abs_sub( p_sm_base );
 }
 
 void mapgen_function_builtin::generate( mapgendata &mgd )
@@ -1911,9 +1921,9 @@ class jmapgen_field : public jmapgen_piece
                 return;
             }
             if( remove ) {
-                dat.m.remove_field( tripoint( x.get(), y.get(), z.get() ), chosen_id );
+                dat.m.remove_field( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
             } else {
-                dat.m.add_field( tripoint( x.get(), y.get(), z.get() ), chosen_id,
+                dat.m.add_field( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
                                  random_entry( intensities ), age );
             }
         }
@@ -1958,7 +1968,7 @@ class jmapgen_npc : public jmapgen_piece
                 add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
                 return;
             }
-            tripoint const dst( x.get(), y.get(), z.get() );
+            tripoint const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             // TODO: Make place_npc 3D aware.
             character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
             if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
@@ -2039,7 +2049,7 @@ class jmapgen_sign : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            const tripoint_bub_ms r( x.get(), y.get(), z.get() );
+            const tripoint_bub_ms r( x.get(), y.get(), dat.zlevel() + z.get() );
             dat.m.furn_set( r, furn_str_id::NULL_ID() );
             dat.m.furn_set( r, sign_furniture );
 
@@ -5878,7 +5888,7 @@ void map::draw_lab( mapgendata &dat )
         } // end aboveground vs belowground
 
         // Ants will totally wreck up the place
-        if( is_ot_match( "ants", terrain_type, ot_match_type::contains ) ) {
+        if( true ) { //###is_ot_match( "ants", terrain_type, ot_match_type::contains ) ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     // Carve out a diamond area that covers 2 spaces on each edge.
