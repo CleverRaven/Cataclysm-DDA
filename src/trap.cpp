@@ -407,6 +407,12 @@ void trap::check_consistency()
                 debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );
             }
         }
+        if( t.sound_threshold.first > t.sound_threshold.second ) {
+            debugmsg( "trap %s has higher min sound threshold than max and can never trigger", t.id.str() );
+        }
+        if( ( t.sound_threshold.first > 0 ) != ( t.sound_threshold.second > 0 ) ) {
+            debugmsg( "trap %s has bad sound threshold of 0 and will trigger on anything", t.id.str() );
+        }
     }
 }
 

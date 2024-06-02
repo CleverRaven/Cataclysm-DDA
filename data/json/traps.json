@@ -1170,18 +1170,6 @@
   },
   {
     "type": "trap",
-    "id": "tr_noisetest",
-    "name": "noise test trap",
-    "color": "light_cyan",
-    "symbol": "_",
-    "visibility": 0,
-    "avoidance": 8,
-    "difficulty": 0,
-    "action": "sound_detect",
-    "sound_threshold": [ 15, 25 ]
-  },
-  {
-    "type": "trap",
     "id": "tr_teeth",
     "name": "scattered monster teeth",
     "color": "light_cyan",
