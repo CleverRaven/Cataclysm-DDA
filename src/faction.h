@@ -161,7 +161,7 @@ class faction : public faction_template
 
 
         std::string describe() const;
-        bool check_relations( std::vector<faction_power_spec> jo ) const;
+        bool check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const;
         std::vector<std::string> epilogue() const;
 
         std::string food_supply_text();
