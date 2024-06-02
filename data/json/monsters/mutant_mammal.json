@@ -682,7 +682,7 @@
     "id": "mon_raccoon_mutant",
     "type": "MONSTER",
     "name": { "str": "dextrous raccoon" },
-    "description": "Their paws have grown to be longer, also enabling them to briefly stand on their back legs.  You wonder if these sleazy beasts are able to open doors yet.",
+    "description": "Its paws have grown to be longer, and it seems capable of briefly standing on its hindlimbs.  You wonder if this sleazy beast is able to open doors yet.",
     "copy-from": "mon_raccoon",
     "volume": "10 L",
     "weight": "10 kg",

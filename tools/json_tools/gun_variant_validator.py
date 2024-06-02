@@ -828,11 +828,19 @@ def check_identifiers(all_guns):
             # multiple guns, those guns all take the same mags, etc
             print("The following valid identifiers were found.",
                   "Please check to ensure they make sense.")
-            good_tokens = []
+            good_tokens = [[]]
+            idx = 0
+            len_so_far = 0
             for token in good_token_list:
                 guns_str = string_listify(good_token_list[token], " ")
-                good_tokens.append(f"{token} ({guns_str})")
-            print(string_listify(good_tokens, ", "))
+                good_tokens[idx].append(f"{token} ({guns_str})")
+                len_so_far += len(good_tokens[idx][-1])
+                if len_so_far > 100:
+                    len_so_far = 0
+                    idx += 1
+                    good_tokens.append([])
+            for string in good_tokens:
+                print(" -", string_listify(string, ", "))
 
     return len(bad_tokens) > 0
 

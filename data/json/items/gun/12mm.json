@@ -19,6 +19,7 @@
     "dispersion": 45,
     "durability": 8,
     "energy_drain": "5 kJ",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "mechanism", 2 ],

@@ -190,10 +190,10 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
                 continue;
             }
 
-            gunactor->shoot( m, fire_point, gun_mode_DEFAULT, dispersion );
-
-            // We only return fire once with one gun.
-            return;
+            if( gunactor->shoot( m, fire_point, gun_mode_DEFAULT, dispersion ) ) {
+                // We only return fire once with one gun.
+                return;
+            }
         }
     }
 }
