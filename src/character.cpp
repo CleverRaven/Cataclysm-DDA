@@ -2623,7 +2623,7 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] || 
+    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
@@ -3859,7 +3859,7 @@ bool Character::has_nv()
         nv_cached = true;
         nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
                has_flag( json_flag_NIGHT_VISION ) ||
-               cache_has_item_with_flag( json_flag_NVG_GREEN ));
+               cache_has_item_with_flag( json_flag_NVG_GREEN ) );
 
     }
 
