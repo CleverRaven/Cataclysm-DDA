@@ -32,7 +32,13 @@
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": [ "EOC_CONCENTRATION_SUCCESS_PROFICIENCY", "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE" ] },
+      {
+        "run_eocs": [
+          "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
+          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
+        ]
+      },
       {
         "queue_eocs": "EOC_AFS_TELEPATH_SHIELD_MAINTENANCE",
         "time_in_future": [
@@ -78,7 +84,13 @@
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
-      { "run_eocs": [ "EOC_CONCENTRATION_SUCCESS_PROFICIENCY", "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE" ] },
+      {
+        "run_eocs": [
+          "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
+          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
+        ]
+      },
       {
         "queue_eocs": "EOC_AFS_TELEPATH_SENSE_MINDS_MAINTENANCE",
         "time_in_future": [
@@ -126,7 +138,13 @@
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_suggestion')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": [ "EOC_CONCENTRATION_SUCCESS_PROFICIENCY", "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE" ] },
+      {
+        "run_eocs": [
+          "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
+          "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
+        ]
+      },
       {
         "queue_eocs": "EOC_AFS_TELEPATH_SUGGESTION_MAINTENANCE",
         "time_in_future": [

@@ -36,6 +36,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_CHANNEL_COSTS_FOCUS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "and": [ { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" }, { "math": [ "u_val('focus')", ">=", "15" ] } ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_CONCENTRATION_COSTS_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "15" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
