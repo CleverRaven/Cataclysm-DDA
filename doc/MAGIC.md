@@ -964,5 +964,5 @@ Character status value  | Description
   { "value": "ARMOR_HEAT", "multiply": 0.4 }  // increases damage taken from fire by 40%
   { "value": "ARMOR_CUT", "add": 2 }          // increases incoming cut damage by 2
   { "value": "ARMOR_BIO", "multiply": -1.4 }  // subtracts 100 percent of incoming biological damage, heals for the remaining 40%
-  { "value": "ARMOR_ACID", "multiply": 1.4 }  // increases incoming acid damage by 140% 
+  { "value": "ARMOR_ACID", "multiply": 1.4 }  // increases incoming acid damage by 140%
 ```
