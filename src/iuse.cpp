@@ -8291,7 +8291,7 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, true, true ) ) {
+    if( heat_items( p, it, false, true ) ) {
         return 0;
     }
     return std::nullopt;
@@ -8311,7 +8311,7 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, true, true ) ) {
+    if( heat_items( p, it, true, false ) ) {
         return 0;
     }
     return std::nullopt;
