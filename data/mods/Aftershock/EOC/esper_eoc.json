@@ -1,0 +1,38 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST",
+    "condition": {
+      "and": [ { "u_has_trait": "ESPER" }, { "or": [ { "compare_string": [ "AFS_TELEPATH", { "context_val": "school" } ] } ] } ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ESPER_CONSEQUENCES_INCREASER",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ESPER_CONSEQUENCES_INCREASER_2",
+            "condition": { "math": [ "u_esper_repeated_channeling_value", "<", "20" ] },
+            "effect": [ { "math": [ "u_esper_repeated_channeling_value", "+=", "rng(1,5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_CONDUIT_VALUE_DECREASER",
+    "recurrence": [ "3 seconds", "15 seconds" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "math": [ "u_esper_repeated_channeling_value", ">", "0" ] },
+    "effect": [ { "math": [ "u_esper_repeated_channeling_value", "-=", "1" ] } ],
+    "false_effect": [ { "math": [ "u_esper_repeated_channeling_value", "=", "0" ] } ]
+  }
+]

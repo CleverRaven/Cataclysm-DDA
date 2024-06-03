@@ -635,5 +635,32 @@
     "copy-from": "afs_rating",
     "name": "Escaping Crew",
     "description": "You awake in your cabin to the sound of emergency sirens and the ship's computer calmly announcing in a posh English voice 'Abandon the vessel immediately.', and then counting down from five minutes.  You've got just enough time to hit a supply locker before you need to activate the escape pod down the hall."
+  },
+  {
+    "type": "profession",
+    "id": "afs_esper_telepath",
+    "name": "Telepath",
+    "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 3, "name": "metaphysics" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "spacer_cap" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "duct_tape" },
+          { "item": "screwdriver" },
+          { "item": "wristwatch" },
+          { "item": "hat_hard", "variant": "orange_hat_hard" },
+          { "item": "wrench", "container-item": "tool_belt" },
+          { "item": "cream_prot_cold" },
+          { "item": "cream_prot_cold" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
   }
 ]
