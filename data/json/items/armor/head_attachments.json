@@ -366,7 +366,6 @@
     "copy-from": "enhanced_nvg",
     "name": { "str_sp": "enhanced night vision goggles (on)" },
     "description": "New and rare high-resolution thermal NVG device, designed to be mounted to a helmet.  The advanced imaging system allows you to see far in the dark.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-    "extend": { "flags": [ "IR_EFFECT" ] },
     "//": "AN/PSQ-42",
     "power_draw": "220 mW",
     "revert_to": "enhanced_nvg",

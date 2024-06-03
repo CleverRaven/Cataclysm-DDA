@@ -3855,9 +3855,12 @@ bool Character::has_nv()
     static bool nv = false;
 
     if( !nv_cached ) {
+        float testValue = 10;
         nv_cached = true;
         nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_flag( json_flag_NIGHT_VISION ) );
+               has_flag( json_flag_NIGHT_VISION ) ||
+               (enchantment_cache->modify_value(enchant_vals::mod::NIGHT_VIS, testValue) != testValue));
+
     }
 
     return nv;
