@@ -6374,9 +6374,8 @@ void overmap::good_river( const tripoint_om_omt &p )
     // Find and assign shores where they need to be.
     int mask = 0;
     int multiplier = 1;
-    // TODO: Rearrange river_ters so this can iterate NESW using four_adjacent_offsets or expand to eight_horizontal_neighbors dealing with corners here instead of afterwards
-    const std::array<point, 4> four_adjacent_offsets_alt{ point_north, point_west, point_east, point_south };
-    for( const point &offset : four_adjacent_offsets_alt ) {
+    // TODO: Expand to eight_horizontal_neighbors dealing with corners here instead of afterwards?
+    for( const point &offset : four_adjacent_offsets ) {
         const tripoint_om_omt p_offset = p + offset;
         // We check whether a river or lake is present, but if out of bounds and we are already a river then
         // assume that we were placed because of a neighbouring overmap river.
@@ -6387,24 +6386,23 @@ void overmap::good_river( const tripoint_om_omt &p )
     }
 
     auto river_ter = [&]() {
-        // TODO: Fill out comments
         const std::array<oter_str_id, 16> river_ters = {
             oter_forest_water, // 0 = no adjacent rivers.
-            oter_river_north, // 1 = N adjacent river
-            oter_river_west, // 2
-            oter_river_ne, // 3
-            oter_river_east, // 4
-            oter_river_nw, // 5
-            oter_forest_water, // 6 = No map for west and east
-            oter_river_north, // 7
-            oter_river_south, // 8
-            oter_forest_water, // 9 = No map for north and south
-            oter_river_se, // 10
-            oter_river_east, // 11
-            oter_river_sw, // 12
-            oter_river_west, // 13
-            oter_river_south, // 14
-            oter_river_center // 15 = N+E+S+W adjacent rivers.
+            oter_river_south, // 1 = N adjacent river
+            oter_river_west, // 2 = E adjacent river
+            oter_river_sw, // 3 = 1+2 = N+E adjacent rivers
+            oter_river_north, // 4 = S adjacent river
+            oter_forest_water, // 5 = 1+4 = N+S adjacent rivers, no map though
+            oter_river_nw, // 6 = 2+4 = E+S adjacent rivers
+            oter_river_west, // 7 = 1+2+4 = N+E+S adjacent rivers
+            oter_river_east, // 8 = W adjacent river
+            oter_river_se, // 9 = 1+8 = N+W adjacent rivers
+            oter_forest_water, // 10 = 2+8 = E+W adjacent rivers, no map though
+            oter_river_south, // 11 = 1+2+8 = N+E+W adjacent rivers
+            oter_river_ne, // 12 = 4+8 = S+W adjacent rivers
+            oter_river_east, // 13 = 1+4+8 = N+S+W adjacent rivers
+            oter_river_north, // 14 = 2+4+8 = E+S+W adjacent rivers
+            oter_river_center // 15 = 1+2+4+8 = N+E+S+W adjacent rivers.
         };
 
         if( mask == 15 ) {
