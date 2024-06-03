@@ -1140,11 +1140,11 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
             }
             filterlist();
         } else if( iter != keymap.end() ) {
-            if ( allow_unfiltered_hotkeys ) {
-                    const bool enabled = entries[iter->second].enabled;
-                    if (enabled || allow_disabled) {
-                        ret = entries[iter->second].retval;
-                    }
+            if( allow_unfiltered_hotkeys ) {
+                const bool enabled = entries[iter->second].enabled;
+                if( enabled || allow_disabled ) {
+                    ret = entries[iter->second].retval;
+                }
             } else {
                 const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
                 if( it != fentries.end() ) {
