@@ -101,14 +101,3 @@ int city::get_distance_from( const tripoint_om_omt &p ) const
 {
     return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
 }
-
-bool city::add_unique_building( const overmap_special_id &building )
-{
-    return placed_unique_buildings.emplace( building );
-}
-
-bool city::has_unique_building( const overmap_special_id &building ) const
-{
-    return placed_unique_buildings.find( building ) != placed_unique_buildings.end();
-}
-
