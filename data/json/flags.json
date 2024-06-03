@@ -1691,6 +1691,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NVG_GREEN",
+    "type": "json_flag"
+  },
+  {
     "id": "ORGANIC",
     "type": "json_flag"
   },

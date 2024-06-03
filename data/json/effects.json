@@ -4627,6 +4627,12 @@
   },
   {
     "type": "effect_type",
+    "id": "nvg_green",
+    "name": [ "Night Vision Goggles (Green)" ],
+    "desc": [ "Your night vision goggles give a green tint to the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "glowing_gas",
     "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
     "desc": [

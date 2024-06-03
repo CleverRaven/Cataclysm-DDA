@@ -321,6 +321,7 @@ static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
+static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
@@ -2622,11 +2623,12 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
-        vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
+    if( vision_mode_cache[NIGHTVISION_3] || vision_mode_cache[FULL_ELFA_VISION] ||
+        vision_mode_cache[CEPH_VISION] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
-               vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ) {
+               vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ||
+               vision_mode_cache[NV_GOGGLES] ) {
         range += 4.5;
     } else if( vision_mode_cache[NIGHTVISION_1] ) {
         range += 2;
@@ -3855,11 +3857,10 @@ bool Character::has_nv()
     static bool nv = false;
 
     if( !nv_cached ) {
-        float testValue = 10;
         nv_cached = true;
         nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
                has_flag( json_flag_NIGHT_VISION ) ||
-               (enchantment_cache->modify_value(enchant_vals::mod::NIGHT_VIS, testValue) != testValue));
+               cache_has_item_with_flag( json_flag_NVG_GREEN ));
 
     }
 
