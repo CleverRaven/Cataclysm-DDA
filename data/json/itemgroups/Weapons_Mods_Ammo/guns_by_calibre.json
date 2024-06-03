@@ -87,7 +87,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_other",
-    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 9 } ]
+    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 3 } ]
   },
   {
     "type": "item_group",
@@ -561,7 +561,7 @@
       { "item": "bren2_556", "prob": 10 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10 },
       { "item": "modular_ar15", "prob": 45 },
-      { "item": "ruger_mini", "prob": 45 },
+      { "item": "ruger_mini", "prob": 9 },
       { "item": "mdrx", "prob": 10 },
       { "item": "cz600", "prob": 10 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
