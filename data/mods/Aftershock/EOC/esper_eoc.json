@@ -9,7 +9,34 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ESPER_CONSEQUENCES_VALUE_INCREASER",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD",
+    "condition": { "math": [ "u_val('focus')", ">=", "75" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "50" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_2",
+    "condition": { "math": [ "u_val('focus')", ">=", "50" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "25" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_3",
+    "condition": { "math": [ "u_val('focus')", ">=", "34" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "10" ] } ],
+    "false_effect": [ { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_4" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD_4",
+    "condition": { "math": [ "u_val('focus')", ">=", "30" ] },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
@@ -17,7 +44,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_ESPER_CONSEQUENCES_VALUE_INCREASER_2",
+            "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_INCREASER_2",
             "condition": { "math": [ "u_esper_repeated_channeling_value", "<", "20" ] },
             "effect": [ { "math": [ "u_esper_repeated_channeling_value", "+=", "rng(1,5)" ] } ]
           }
@@ -27,7 +54,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ESPER_CONSEQUENCES_VALUE_DECREASER",
+    "id": "EOC_AFS_ESPER_CONSEQUENCES_VALUE_DECREASER",
     "recurrence": [ "3 seconds", "30 seconds" ],
     "global": true,
     "run_for_npcs": true,
@@ -65,7 +92,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
-        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+        { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }
       ]
     },
     "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
@@ -77,7 +104,7 @@
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
-              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+              { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }
             ]
           },
           "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
@@ -88,7 +115,7 @@
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },
-                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+                    { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", ">", "0" ] }
                   ]
                 },
                 "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
@@ -121,7 +148,11 @@
     "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_NOSEBLEED",
     "condition": {
       "x_in_y_chance": {
-        "x": { "math": [ "(u_esper_repeated_channeling_value * 4) + (u_latest_channeled_power_difficulty * 5)" ] },
+        "x": {
+          "math": [
+            "(u_esper_repeated_channeling_value * 8) + (u_latest_channeled_power_difficulty * 3) + ((vitamin_afs_maintained_powers * 8) * vitamin_afs_maintained_powers)"
+          ]
+        },
         "y": 1000
       }
     },
@@ -136,7 +167,11 @@
     "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEADACHE",
     "condition": {
       "x_in_y_chance": {
-        "x": { "math": [ "(u_esper_repeated_channeling_value * 3) + (u_latest_channeled_power_difficulty * 5)" ] },
+        "x": {
+          "math": [
+            "(u_esper_repeated_channeling_value * 8) + (u_latest_channeled_power_difficulty * 3) + ((vitamin_afs_maintained_powers * 8) * vitamin_afs_maintained_powers)"
+          ]
+        },
         "y": 1000
       }
     },
@@ -150,13 +185,17 @@
     "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEALTH_PENALTY",
     "condition": {
       "x_in_y_chance": {
-        "x": { "math": [ "(u_esper_repeated_channeling_value * 2) + (u_latest_channeled_power_difficulty * 5)" ] },
+        "x": {
+          "math": [
+            "(u_esper_repeated_channeling_value * 8) + (u_latest_channeled_power_difficulty * 3) + ((vitamin_afs_maintained_powers * 8) * vitamin_afs_maintained_powers)"
+          ]
+        },
         "y": 1000
       }
     },
     "effect": [
-      { "u_add_effect": "effect_afs_esper_health_penalty", "duration": "30 seconds" },
-      { "u_message": "As you unleash your powers, you feel enervated.", "type": "bad" }
+      { "u_message": "As you unleash your powers, you feel enervated.", "type": "bad" },
+      { "u_add_effect": "effect_afs_esper_health_penalty", "duration": "30 seconds" }
     ]
   }
 ]
