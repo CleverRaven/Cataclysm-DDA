@@ -44,5 +44,19 @@
     "type": "effect_on_condition",
     "id": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE",
     "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_END_PSI_POWERS_MAINTAINED",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
+          "EOC_AFS_TELEPATH_REMOVE_SENSE_MINDS",
+          "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SUGGESTION"
+        ]
+      },
+      { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "=", "0" ] }
+    ]
   }
 ]

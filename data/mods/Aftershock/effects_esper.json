@@ -28,9 +28,7 @@
     "type": "effect_type",
     "id": "effect_telepathic_suggestion",
     "name": [ "Mind Trick" ],
-    "desc": [
-      "You are editing out your most negative thoughts.  When you think about it, is being on this frozen hellhole really the worst thing that could have happened?"
-    ],
+    "desc": [ "You are preparing to influence the minds of others to make them more amenable to your point of view." ],
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
