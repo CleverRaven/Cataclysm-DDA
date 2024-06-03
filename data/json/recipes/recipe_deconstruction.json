@@ -2904,6 +2904,30 @@
     "components": [ [ [ "gold_small", 3 ] ], [ [ "emerald", 1 ] ] ]
   },
   {
+    "result": "alexandrite_gold_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 3 ] ], [ [ "alexandrite", 1 ] ] ]
+  },
+  {
+    "result": "ruby_gold_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 3 ] ], [ [ "ruby", 1 ] ] ]
+  },
+  {
+    "result": "peridot_gold_earring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 3 ] ], [ [ "peridot", 1 ] ] ]
+  },
+  {
     "result": "tourmaline_gold_earring",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
