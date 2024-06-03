@@ -44,6 +44,7 @@ enum class debug_menu_index : int {
     CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
+    SPAWN_HORDE,
     MAP_EDITOR,
     CHANGE_WEATHER,
     WIND_DIRECTION,
