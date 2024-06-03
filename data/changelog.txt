@@ -120,6 +120,12 @@ Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
 The player can swap between defined outfits with the 'set of clothes' item
+Add bionic multimeter and bench electronics kit
+Add scrapple as a comestible
+Allow ammo effects to cast spells
+Automatic turrets will not fire guns if they are going to overheat
+Unholy Debug Angel Cake added to the game. 10k calories for easy calories gain and for basecamp companions
+Hold your arrow
 
 
 ## Content:
@@ -252,6 +258,17 @@ Add Snow Cones and Snow Machines
 Add three new locations to Aftershock
 New jewelry added
 Night vision helmet attachments
+Add weighted blankets and variants for them and for regular blankets.
+fish emulsion
+Adds Taurus Judge
+Updated terminology in lore doc.
+Static NPC factions have their own camps and food stores
+Adds one variant of Habitat Block to the Aftershock Exoplanet. Also adds hackable display cases and doors.
+Adds the CP33
+Regen serum
+Vitamin Cost per mutation
+Ruger MK IV
+More tie-able fridges/freezers
 
 
 ## Interface:
@@ -316,6 +333,7 @@ Adding Classless as a supernatural category
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
 Display RAS weapon reload time in aim ui
+support selecting all npcs
 
 
 
@@ -479,6 +497,16 @@ Being mute prevents casting VERBAL spells
 [Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
 Aftershock: Basic Hacking EOCs
 [Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
+Aftershock: Fix several low priority issues.
+Psionic powers say "Power level" instead of "Spell level" in the UI
+[MoM] Update chance to bypass prerequisites when learning psionic powers to use `test_eoc`
+[Xedra Evolved] Update Homullus civilization checker to run once per OMT
+[Xedra Evolved] Update Undine water-checking EoCs to use `test_eoc`
+[Xedra Evolved] Update Arvore forest-checking EoCs to use `test_eoc`
+[MoM] Torrential channeling research no longer has required proficiencies
+Aftershock: Add urban farms as town buildings
+Summon Mojocycle gets better at lvl 10
+[Magiclysm] Add more enchants to effect scaling
 
 
 ## Balance:
@@ -551,6 +579,9 @@ Added limb blocking to bionic styles
 The average skill level of NPCs will rise over time
 Random NPCs have the same starting skills and proficiencies as the average new character
 Food continues to rot at temp above 63C
+Adjust Alpha to make breach harder while supporting future mutations
+Lower the warmth values of some undergarments and thin clothes.
+Switched Reload Speeds for Plasma Rifle and PPA
 
 
 ## Bugfixes:
@@ -723,6 +754,23 @@ Prevent segfault when butcher target disappears
 Make Skunks Less Bloodthirsty
 Oops - remove cramped space when no longer cramped
 Correctly display the cost to learn the proficiency
+Fixes a grammatical error within the cataclysm poem. It is now perfect.
+Correctly display pain penalties.
+Change coverage for heavy survivor boots and gloves
+make wood rails flammable
+Make salvaged exoskeletons actually non functional
+Adjust P50 Reload Time
+[Magiclysm] Reduce preserved food in druid tower
+Remove 9mm from .22 spawns
+Fix inconsistencies in corn and popcorn
+Fix Various Typos/Mistakes in Flier Snippets
+Added a weapon category to the G80
+fix sort armor ui list indexing
+Fix an assertion failure
+Fix Foam Guns and Hazardous foam not spawning on shelves in Aftershock Urban Farms.
+Fix cata-static-string_id-constants in char_volume_test
+Readjust descriptions for fridges/freezers
+Removes Railgun Fouling
 
 
 ## Performance:
@@ -751,6 +799,7 @@ Avoid wasteful loop in map special road connections
 Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
+cache available recipe list in craft menu
 
 
 ## Infrastructure:
@@ -808,6 +857,7 @@ Use test enumerating item spawns to make assertions about the rate of appearance
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
 refactor cataimgui::draw_colored_text
+Create header for forward declarations of point types
 
 
 ## Build:
@@ -827,6 +877,7 @@ Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
 Update Flatpak manifest to use clang and include the default soundpack
+stl_emulation span::count_ is not const anymore
 
 
 ## I18N and A11Y:
