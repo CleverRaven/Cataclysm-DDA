@@ -641,8 +641,16 @@
     "id": "afs_esper_telepath",
     "name": "Telepath",
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "traits": [ "AFS_TELEPATH" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 3, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "afs_telepathic_shield", "level": 8 },
+      { "id": "afs_telepathic_mind_sense", "level": 6 },
+      { "id": "afs_telepathic_suggestion", "level": 6 },
+      { "id": "afs_telepathic_confusion", "level": 5 },
+      { "id": "afs_telepathic_blast", "level": 3 }
+    ],
     "items": {
       "both": {
         "entries": [

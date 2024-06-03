@@ -4,7 +4,7 @@
     "id": "ESPER",
     "name": "Esper",
     "points": 0,
-    "description": "The ability to read thoughts and influence others' minds.",
+    "description": "You are an esper, capable of accessing the hidden powers of the human mind.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false
