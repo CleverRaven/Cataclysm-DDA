@@ -1275,6 +1275,10 @@ See [Character](#character)
 - ```URBAN```
 - ```WILDERNESS``` Locations that have no road connection.
 
+#### City buildings
+
+- ```CITY_UNIQUE``` Location will only occur once per city.
+
 ### Overmap terrains
 
 - ```KNOWN_DOWN``` There's a known way down.

@@ -5554,7 +5554,7 @@ void overmap::place_cities()
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size ) const
+overmap_special_id overmap::pick_random_building_to_place( const city &town, int town_dist ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -5585,14 +5585,23 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     };
     auto pick_building = building_type_to_pick();
     overmap_special_id ret;
+    bool existing_unique;
     do {
         ret = pick_building( city_spec );
-    } while( !ret->get_constraints().city_size.contains( town_size ) );
+        if( ret->has_flag( "CITY_UNIQUE" ) ) {
+            existing_unique = town.has_unique_building( ret );
+        } else if( ret->has_flag( "OVERMAP_UNIQUE" ) ) {
+            existing_unique = false; // This doesn't seem to be kept track of in an ideal way
+        } else if( ret->has_flag( "GLOBALLY_UNIQUE" ) ) {
+            existing_unique = overmap_buffer.contains_unique_special( ret );
+        } else {
+            existing_unique = false;
+        }
+    } while( existing_unique || !ret->get_constraints().city_size.contains( town.size ) );
     return ret;
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
-                              const city &town )
+void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
@@ -5600,9 +5609,12 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size );
+        const overmap_special_id building_tid = pick_random_building_to_place( town, town_dist );
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
+            if( building_tid->has_flag( "CITY_UNIQUE" ) ) {
+                town.add_unique_building( special.id );
+            }
             break;
         }
     }
@@ -6624,12 +6636,13 @@ std::vector<tripoint_om_omt> overmap::place_special(
     if( !force ) {
         cata_assert( can_place_special( special, p, dir, must_be_unexplored ) );
     }
+
     if( special.has_flag( "GLOBALLY_UNIQUE" ) ) {
         overmap_buffer.add_unique_special( special.id );
-    }
-    if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
+    } else if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
         overmap_buffer.log_unique_special( special.id );
     }
+    // CITY_UNIQUE is handled in place_building()
 
     const bool is_safe_zone = special.has_flag( "SAFE_AT_WORLDGEN" );
 
