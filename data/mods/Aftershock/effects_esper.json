@@ -1,6 +1,71 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_afs_esper_headache",
+    "name": [
+      "Headache",
+      "Headache",
+      "Headache",
+      "Bad Headache",
+      "Bad Headache",
+      "Splitting Headache",
+      "Splitting Headache",
+      "Excruciating Headache",
+      "Excruciating Headache",
+      "Pure Agony"
+    ],
+    "desc": [
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head is pounding and you feel unwell.",
+      "Your head throbs and it's hard to see straight.",
+      "Your head throbs and it's hard to see straight.",
+      "You can barely think through the pain in your head.",
+      "You can barely think through the pain in your head.",
+      "Your skull feels like it's going to explode.",
+      "Your skull feels like it's going to explode.",
+      "The agony is the only thing in the world that matters."
+    ],
+    "rating": "bad",
+    "int_add_val": 1,
+    "max_intensity": 10,
+    "max_duration": "24 hours",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "pain_chance": [ 100 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 1 ],
+      "pain_max_val": [ 20 ],
+      "pain_tick": [ 200 ],
+      "vomit_chance": [ 100 ],
+      "vomit_tick": [ 200 ],
+      "hurt_chance": [ 300 ],
+      "hurt_amount": [ 0 ],
+      "hurt_tick": [ 200 ]
+    },
+    "scaling_mods": {
+      "per_mod": [ -0.8 ],
+      "int_mod": [ -0.6 ],
+      "pain_min": [ 0 ],
+      "pain_max": [ 0 ],
+      "pain_max_val": [ 5 ],
+      "vomit_chance": [ -2 ],
+      "hurt_chance": [ -5 ],
+      "hurt_amount": [ 2, 1 ],
+      "hurt_tick": [ -15 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_afs_esper_health_penalty",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "bad",
+    "max_duration": "30 seconds",
+    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_telepath_sense_minds",
     "name": [ "Sensing Minds" ],
     "desc": [ "You are looking out for other minds." ],

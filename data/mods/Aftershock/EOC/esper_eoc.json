@@ -98,5 +98,65 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENTS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "and": [ { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" } ] },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_NOSEBLEED", 1 ],
+          [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEADACHE", 1 ],
+          [ "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEALTH_PENALTY", 1 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_NOSEBLEED",
+    "condition": {
+      "x_in_y_chance": {
+        "x": { "math": [ "(u_esper_repeated_channeling_value * 4) + (u_latest_channeled_power_difficulty * 5)" ] },
+        "y": 1000
+      }
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+      { "math": [ "u_hp('head')", "-=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEADACHE",
+    "condition": {
+      "x_in_y_chance": {
+        "x": { "math": [ "(u_esper_repeated_channeling_value * 3) + (u_latest_channeled_power_difficulty * 5)" ] },
+        "y": 1000
+      }
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your head begins to throb.", "type": "bad" },
+      { "u_add_effect": "effect_afs_esper_headache", "duration": { "math": [ "rng(900,3600)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_PSIONICS_ADVERSE_EVENT_HEALTH_PENALTY",
+    "condition": {
+      "x_in_y_chance": {
+        "x": { "math": [ "(u_esper_repeated_channeling_value * 2) + (u_latest_channeled_power_difficulty * 5)" ] },
+        "y": 1000
+      }
+    },
+    "effect": [
+      { "u_add_effect": "effect_afs_esper_health_penalty", "duration": "30 seconds" },
+      { "u_message": "As you unleash your powers, you feel enervated.", "type": "bad" }
+    ]
   }
 ]
