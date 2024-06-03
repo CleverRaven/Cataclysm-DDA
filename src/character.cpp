@@ -2623,12 +2623,11 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NIGHTVISION_3] || vision_mode_cache[FULL_ELFA_VISION] ||
-        vision_mode_cache[CEPH_VISION] ) {
+    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] || 
+        vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
-               vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ||
-               vision_mode_cache[NV_GOGGLES] ) {
+               vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ) {
         range += 4.5;
     } else if( vision_mode_cache[NIGHTVISION_1] ) {
         range += 2;

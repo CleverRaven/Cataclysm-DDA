@@ -241,7 +241,10 @@
     ],
     "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
-    "armor": [ { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] } ]
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0 },
+      { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
+    ]
   },
   {
     "id": "military_nvg_on",
@@ -298,7 +301,13 @@
     "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "armor": [
-      { "covers": [ "head" ], "encumbrance": 12, "coverage": 80, "specifically_covers": [ "head_forehead", "head_crown" ] }
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0 },
+      {
+        "covers": [ "head" ],
+        "encumbrance": 12,
+        "coverage": 80,
+        "specifically_covers": [ "head_forehead", "head_crown" ]
+      }
     ]
   },
   {
@@ -359,7 +368,13 @@
     "relic_data": { "passive_effects": [ { "id": "nvg_great" } ] },
     "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
     "armor": [
-      { "covers": [ "head" ], "encumbrance": 10, "coverage": 70, "specifically_covers": [ "head_forehead", "head_crown" ] }
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0 },
+      {
+        "covers": [ "head" ],
+        "encumbrance": 10,
+        "coverage": 70,
+        "specifically_covers": [ "head_forehead", "head_crown" ]
+      }
     ]
   },
   {
