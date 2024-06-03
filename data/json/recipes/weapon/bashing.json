@@ -990,9 +990,8 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "skill_penalty": 4 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "using": [ [ "plastic_molding", 6 ] ],
+    "components": [ [ [ "plastic_chunk", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -1020,7 +1019,7 @@
     "difficulty": 6,
     "time": "2 h",
     "book_learn": [ [ "recipe_melee", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 1 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering", "skill_penalty": 0.5 },
@@ -1028,7 +1027,7 @@
       { "proficiency": "prof_plasticworking", "skill_penalty": 0.5 }
     ],
     "components": [
-      [ [ "plastic_chunk", 10 ] ],
+      [ [ "plastic_chunk", 8 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],

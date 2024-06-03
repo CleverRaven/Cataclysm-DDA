@@ -103,7 +103,7 @@
     "type": "TOOL",
     "name": { "str": "ketene lamp" },
     "description": "A section of glass pipe with a bulb in the middle, which contains an electrical heating element.  It is used for producing ketene via pyrolysis of acetone or 1,3-butadiene from cyclohexane, for use in other chemical reactions.  Due to the instability of ketene, it can't be stored and must be used immediately.",
-    "weight": "3 kg",
+    "weight": "1800 g",
     "volume": "2 L",
     "price": "200 USD",
     "price_postapoc": "10 USD",

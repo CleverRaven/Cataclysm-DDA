@@ -161,9 +161,8 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -177,7 +176,6 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
@@ -193,7 +191,6 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -209,9 +206,8 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 8 ] ] ]
+    "using": [ [ "plastic_molding", 2 ] ],
+    "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -392,7 +388,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 98 ] ],
-    "components": [ [ [ "plastic_chunk", 136 ] ] ]
+    "components": [ [ [ "plastic_chunk", 77 ] ] ]
   },
   {
     "type": "recipe",
@@ -670,9 +666,8 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ] ]
+    "using": [ [ "plastic_molding", 2 ] ],
+    "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -747,8 +742,7 @@
     "using": [ [ "sewing_standard", 4 ], [ "plastic_molding", 2 ] ],
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -763,8 +757,7 @@
     "using": [ [ "sewing_standard", 4 ], [ "plastic_molding", 2 ] ],
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "type": "recipe",
