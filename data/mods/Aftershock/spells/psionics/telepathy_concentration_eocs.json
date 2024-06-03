@@ -31,6 +31,7 @@
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" },
       {
         "queue_eocs": "EOC_AFS_TELEPATH_SHIELD_MAINTENANCE",
         "time_in_future": [
@@ -75,6 +76,7 @@
     "condition": { "u_has_effect": "effect_telepath_sense_minds" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" },
       {
         "queue_eocs": "EOC_AFS_TELEPATH_SENSE_MINDS_MAINTENANCE",
         "time_in_future": [
@@ -121,6 +123,7 @@
     "condition": { "u_has_effect": "effect_telepathic_suggestion" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_suggestion')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" },
       {
         "queue_eocs": "EOC_AFS_TELEPATH_SUGGESTION_MAINTENANCE",
         "time_in_future": [
