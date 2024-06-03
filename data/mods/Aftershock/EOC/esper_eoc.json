@@ -9,7 +9,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ESPER_CONSEQUENCES_INCREASER",
+    "id": "EOC_ESPER_CONSEQUENCES_VALUE_INCREASER",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": { "test_eoc": "EOC_CONDITION_ESPER_TRAIT_AND_SCHOOL_LIST" },
@@ -17,7 +17,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_ESPER_CONSEQUENCES_INCREASER_2",
+            "id": "EOC_ESPER_CONSEQUENCES_VALUE_INCREASER_2",
             "condition": { "math": [ "u_esper_repeated_channeling_value", "<", "20" ] },
             "effect": [ { "math": [ "u_esper_repeated_channeling_value", "+=", "rng(1,5)" ] } ]
           }
@@ -27,12 +27,22 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NETHER_CONDUIT_VALUE_DECREASER",
-    "recurrence": [ "3 seconds", "15 seconds" ],
+    "id": "EOC_ESPER_CONSEQUENCES_VALUE_DECREASER",
+    "recurrence": [ "3 seconds", "30 seconds" ],
     "global": true,
     "run_for_npcs": true,
     "condition": { "math": [ "u_esper_repeated_channeling_value", ">", "0" ] },
     "effect": [ { "math": [ "u_esper_repeated_channeling_value", "-=", "1" ] } ],
     "false_effect": [ { "math": [ "u_esper_repeated_channeling_value", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE",
+    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE",
+    "effect": [ { "math": [ "u_vitamin('vitamin_afs_maintained_powers')", "-=", "1" ] } ]
   }
 ]

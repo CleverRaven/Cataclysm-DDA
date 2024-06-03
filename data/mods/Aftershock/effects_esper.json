@@ -1,0 +1,80 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_sense_minds",
+    "name": [ "Sensing Minds" ],
+    "desc": [ "You are looking out for other minds." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of other minds fades away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 50,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SIGHT_RANGE_MINDS",
+            "add": {
+              "math": [
+                "( ( u_spell_level('telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_suggestion",
+    "name": [ "Mind Trick" ],
+    "desc": [
+      "You are editing out your most negative thoughts.  When you think about it, is being on this frozen hellhole really the worst thing that could have happened?"
+    ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SOCIAL_INTIMIDATE",
+            "add": { "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 2.5) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] }
+          },
+          {
+            "value": "SOCIAL_LIE",
+            "add": { "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 2.5) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] }
+          },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": { "math": [ "( (u_spell_level('afs_telepathic_suggestion') * 2.5) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepathic_psi_armor",
+    "name": [ "Telepathic Shield" ],
+    "desc": [ "Your mind is warded against telepathic attack or detection." ],
+    "apply_message": "",
+    "remove_message": "Your thoughts are once again unguarded.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 17,
+    "removes_effects": [
+      "taint",
+      "tindrift",
+      "hallu",
+      "hallucination_attacks",
+      "visuals",
+      "fearparalyze",
+      "amigara",
+      "psi_stunned",
+      "telepathic_ignorance"
+    ],
+    "flags": [ "TEEPSHIELD" ]
+  }
+]
