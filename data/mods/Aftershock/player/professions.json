@@ -641,6 +641,7 @@
     "id": "afs_esper_telepath",
     "name": "Telepath",
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
+    "points": 7,
     "traits": [ "AFS_TELEPATH" ],
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 4, "name": "metaphysics" } ],
@@ -663,7 +664,8 @@
           { "item": "cream_prot_cold" },
           { "item": "cream_prot_cold" },
           { "group": "charged_smart_phone" },
-          { "item": "afs_40g_plasma_civ", "ammo-item": "afs_shydrogen", "charges": 40 }
+          { "item": "XL_holster" },
+          { "item": "afs_cartridge", "ammo-item": "battery", "charges": [ 900, 1485 ], "container-item": "afs_v29" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
