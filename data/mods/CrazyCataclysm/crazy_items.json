@@ -407,7 +407,7 @@
     "id": "party_rock",
     "symbol": "*",
     "color": "pink",
-    "name": { "str": "party rock", "str_pl": "party rocks" },
+    "name": { "str": "party rock" },
     "description": "Party rock condensed into physical form.  This should be too much for any mere mortal to handle.",
     "category": "spare_parts",
     "material": [ "stone" ],
