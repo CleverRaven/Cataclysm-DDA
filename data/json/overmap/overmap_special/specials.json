@@ -2482,6 +2482,7 @@
       { "point": [ 0, 5, 1 ], "overmap": "godco_7_1_north" },
       { "point": [ -1, 3, 2 ], "overmap": "godco_2_2_north" },
       { "point": [ 0, 3, 2 ], "overmap": "godco_1_2_north" },
+      { "point": [ 0, 3, 3 ], "overmap": "godco_1_3_north" },
       { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] }
     ],
     "locations": [ "forest" ],

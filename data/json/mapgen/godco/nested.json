@@ -34,6 +34,32 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "darryl_coop_roof",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": 1,
+      "rows": [
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "       rrrrrrr",
+        "              ",
+        "              "
+      ],
+      "terrain": { "r": "t_wood_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "darryl_coop",
     "object": {
       "mapgensize": [ 14, 14 ],
@@ -57,7 +83,33 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "farm_horse" ],
       "terrain": { ";": "t_rock_floor" },
-      "place_monster": [ { "monster": "mon_chicken", "x": 10, "y": 5, "repeat": [ 5, 7 ], "chance": 100 } ]
+      "place_monster": [ { "monster": "mon_chicken", "x": 10, "y": 5, "repeat": [ 5, 7 ], "chance": 100 } ],
+      "place_nested": [ { "chunks": [ "darryl_coop_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "eddie_food_storage_roof",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrr"
+      ],
+      "terrain": { "r": "t_wood_roof" }
     }
   },
   {
