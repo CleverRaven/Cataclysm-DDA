@@ -448,5 +448,55 @@
       }
     ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "ruger_mk4",
+    "//": "Stats are from the 5.5 inch target version https://ruger.com/products/markIVTarget/specSheets/40101.html",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Ruger target pistol" },
+    "description": "A light and handy .22 LR handgun from Ruger, this handgun is one of the most popular .22 handguns ever created.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_mk2",
+        "name": { "str": "Ruger Mark II" },
+        "description": "The 2nd version of the Ruger Standard, which replaced production of the Standard in 1982 and continued until 2005 with the main feature of having adjustable sights.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
+        "weight": 17
+      },
+      {
+        "id": "ruger_mk3",
+        "name": { "str": "Ruger Mark III" },
+        "description": "The 3rd version of the Ruger Standard, which replaced production of the Mark II in 2005 and continued until 2016.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
+        "weight": 19
+      },
+      {
+        "id": "ruger_mk4",
+        "name": { "str": "Ruger Mark IV" },
+        "description": "The 4th, and most modern version of the Ruger Standard.  Still in production since 2016, and has a simplified disassembly feature.  Has a 5.5 inch barrel and feeds from a 10 round magazine.",
+        "weight": 135
+      }
+    ],
+    "weight": "1001 g",
+    "volume": "392 ml",
+    "price": "679 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": -2,
+    "longest_side": "266 mm",
+    "barrel_length": "140 mm",
+    "material": [ "steel", "plastic", "aluminum" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "22" ],
+    "dispersion": 400,
+    "durability": 8,
+    "min_cycle_recoil": 100,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [
+      { "rigid": false, "magazine_well": "96 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_mk4_mag" ] }
+    ],
+    "melee_damage": { "bash": 8 }
   }
 ]

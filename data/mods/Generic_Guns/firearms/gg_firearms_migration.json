@@ -195,7 +195,8 @@
       "sig_p230",
       "walther_ppk",
       "pressin",
-      "cp33"
+      "cp33",
+      "ruger_mk4"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"

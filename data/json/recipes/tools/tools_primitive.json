@@ -496,5 +496,24 @@
     ],
     "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "2x4", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_filter_sand",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ [ "survival", 2 ] ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [
+      [ [ "bucket_5gal", 1 ] ],
+      [ [ "material_sand", 1250 ] ],
+      [ [ "material_gravel", 500 ] ],
+      [ [ "cotton_patchwork", 4 ], [ "wire_mesh", 4 ] ]
+    ]
   }
 ]

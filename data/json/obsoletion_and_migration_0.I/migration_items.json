@@ -1403,5 +1403,20 @@
     "id": "moss_brownie",
     "type": "MIGRATION",
     "replace": "ruger_lcr_22"
+  },
+  {
+    "id": "stowed_fridge",
+    "type": "MIGRATION",
+    "replace": "apartment_fridge"
+  },
+  {
+    "id": "stowed_freezer",
+    "type": "MIGRATION",
+    "replace": "apartment_freezer"
+  },
+  {
+    "id": "stowed_glass_fridge",
+    "type": "MIGRATION",
+    "replace": "glass_fridge"
   }
 ]

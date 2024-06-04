@@ -213,7 +213,8 @@
       "wp22mag",
       "kp32mag",
       "cp33_mag",
-      "cp33_mag_50"
+      "cp33_mag_50",
+      "ruger_mk4_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"

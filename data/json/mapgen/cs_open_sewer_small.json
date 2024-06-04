@@ -44,6 +44,7 @@
       [ "glasses_safety", 30 ],
       [ "crowbar", 15 ],
       [ "mask_filter", 30 ],
+      { "item": "mask_gas_half", "prob": 25, "charges": [ 0, 100 ] },
       [ "electric_lantern", 30 ]
     ]
   },
