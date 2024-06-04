@@ -7001,6 +7001,7 @@
     "id": "Occupied Scrap Yard",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north", "camp": "wasteland_scavengers", "camp_name": "Scrapper" },
+      { "point": [ 0, 0, 1 ], "overmap": "smallscrapyard_ocu_roof_north" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
