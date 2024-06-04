@@ -1854,9 +1854,9 @@
   },
   {
     "type": "material",
-    "id": "butyl _rubber",
+    "id": "butyl_rubber",
     "copy-from": "rubber",
-    "name": "Butyl rubber",
+    "name": "malleable rubber",
     "density": 1.2,
     "soft": true,
     "chip_resist": 5,
