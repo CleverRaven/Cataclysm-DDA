@@ -1,5 +1,15 @@
 [
   {
+    "abstract": "base_kitchen_knife",
+    "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
+    "description": "generic item template",
+    "category": "weapons",
+    "type": "GENERIC",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "id": "copper_knife",
     "type": "TOOL",
     "name": { "str": "copper knife", "str_pl": "copper knives" },
