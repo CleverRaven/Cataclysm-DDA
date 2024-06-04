@@ -5660,7 +5660,7 @@ item basecamp::make_fake_food( const nutrients &to_use ) const
 {
     // This is dumb, but effective.
     std::string food_id = "camp_meal_small";
-    if( to_use.kcal() > 3000 ) {
+    if( to_use.kcal() > 2999 ) {
         food_id = "camp_meal_large";
     } else if( to_use.kcal() > 1000 ) {
         food_id = "camp_meal_medium";
