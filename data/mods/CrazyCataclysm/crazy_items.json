@@ -401,5 +401,27 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray"
+  },
+    {
+    "type": "AMMO",
+    "id": "party_rock",
+    "symbol": "*",
+    "color": "pink",
+    "name": { "str": "party rock", "str_pl": "party rocks" },
+    "description": ".",
+    "category": "spare_parts",
+    "material": [ "stone" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "damage": { "damage_type": "bash", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80", "PYROTECHNIC_DISPLAY" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 7 }
   }
 ]
