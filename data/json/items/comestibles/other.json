@@ -1420,7 +1420,7 @@
     "volume": "250 ml",
     "price": "100 cent",
     "price_postapoc": "100 cent",
-    "material": [ "foodplace_foodstuff" ],
+    "material": [ "foodplace_foodstuff", "fake_dense_food" ],
     "symbol": "F",
     "color": "brown",
     "spoils_in": "300 days",

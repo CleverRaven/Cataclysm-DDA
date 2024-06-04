@@ -2281,6 +2281,13 @@
   },
   {
     "type": "material",
+    "id": "fake_dense_food",
+    "name": "pseudo dense food",
+    "edible": true,
+    "copy-from": "monolith"
+  },
+  {
+    "type": "material",
     "id": "superalloy",
     "name": "Superalloy",
     "//": "Density based on superalloy sheet",
