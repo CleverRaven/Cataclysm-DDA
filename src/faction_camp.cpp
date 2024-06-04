@@ -1695,13 +1695,23 @@ void basecamp::choose_new_leader()
 
 void basecamp::player_eats_meal()
 {
-    int kcal_to_eat = 3000;
+    int kcal_to_eat = 500;
     Character &you = get_player_character();
+    // 83% of stomach capacity is the point where full jumps over to engorged. if the
+    // remaining space before that is less than the meal we're about to eat, downsize
+    units::volume stomach_left_to_engorged = 0.83 * you.stomach.capacity( you ) - you.stomach.contains();
     const int &food_available = fac()->food_supply.kcal();
     if( food_available <= 0 ) {
         popup( _( "You check storage for some food, but there is nothing but dust and cobwebs…" ) );
         return;
-    } else if( food_available <= kcal_to_eat ) {
+    } else if( stomach_left_to_engorged > 1200_ml ) {
+        // can the character eat a large meal
+        kcal_to_eat = 3000;
+    } else if( stomach_left_to_engorged > 600_ml ) {
+        // can the character eat a medium meal
+        kcal_to_eat = 1500;
+    }
+    if( food_available <= kcal_to_eat ) {
         add_msg( _( "There's only one meal left.  Guess that's dinner!" ) );
         kcal_to_eat = food_available;
     }
