@@ -25,7 +25,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"

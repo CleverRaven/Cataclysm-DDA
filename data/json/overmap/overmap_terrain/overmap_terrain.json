@@ -984,6 +984,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu_roof" ],
+    "name": "scrap yard roof",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
     "name": "lumbermill",
     "sym": "L",

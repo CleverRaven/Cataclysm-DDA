@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "monster.h"
 #include "talker.h"
 #include "type_id.h"

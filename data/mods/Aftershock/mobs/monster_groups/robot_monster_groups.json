@@ -32,5 +32,16 @@
       { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
       { "monster": "mon_scavbot_needle", "weight": 100, "cost_multiplier": 70 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT_FARM_HOSTILE",
+    "default": "mon_manhack",
+    "monsters": [
+      { "monster": "mon_utilibot_hostile", "weight": 500, "cost_multiplier": 70 },
+      { "monster": "mon_fumigator", "weight": 200, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
+      { "monster": "mon_scavbot_needle", "weight": 3, "cost_multiplier": 70 }
+    ]
   }
 ]

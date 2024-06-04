@@ -71,7 +71,7 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "BIOLOGICALPROOF", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
     "armor": { "bash": 18, "cut": 14, "bullet": 11 }
   },
   {
@@ -105,6 +105,7 @@
       "SEES",
       "HEARS",
       "GOODHEARING",
+      "BIOLOGICALPROOF",
       "NOHEAD",
       "BASHES",
       "DESTROYS",
@@ -161,7 +162,18 @@
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "BASHES",
+      "NO_BREATHE",
+      "BIOLOGICALPROOF",
+      "ELECTRONIC",
+      "CLIMBS",
+      "PRIORITIZE_TARGETS",
+      "FIREPROOF"
+    ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6 }
   },
   {
@@ -207,6 +219,7 @@
       "SEES",
       "HEARS",
       "BASHES",
+      "BIOLOGICALPROOF",
       "ELECTRONIC",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
@@ -262,7 +275,7 @@
     "vision_day": 50,
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "BIOLOGICALPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
     "armor": { "bash": 8, "cut": 8, "acid": 6, "heat": 4 }
   },
   {
@@ -287,10 +300,14 @@
     "name": "TsKBEM Udarnik",
     "description": "A highly customizable light industrial and agricultural robot.  Its original design dates back to the ancient Soviet Union; the aptly named Udarnik \"shock worker\" was the trigger behind the automation revolution, and with subsequent adaptations, became the workhorse of early human space colonization.  Although outdated by modern standards, the Udarnik is still commonly seen in frontier worlds - thanks to its easily obtainable fabrication schematics.\n\nThis particular version is equipped with a mix of construction and heavy cargo-handling tools and was likely involved in the construction of colony buildings.",
     "color": "yellow",
+    "volume": "680388 ml",
+    "weight": "680388 g",
     "luminance": 10,
     "melee_skill": 2,
     "melee_dice": 4,
     "melee_dice_sides": 6,
+    "hp": 400,
+    "armor": { "bash": 12, "cut": 20, "bullet": 12, "acid": 80, "heat": 20 },
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "starting_ammo": { "nail": 1000 },
     "special_attacks": [
@@ -304,6 +321,24 @@
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] }
+  },
+  {
+    "id": "mon_utilibot_hostile",
+    "type": "MONSTER",
+    "copy-from": "mon_utilibot",
+    "name": "rampant Udarnik",
+    "description": "An erratic and dangerous Udarnik that mistakenly attempts to hammer everything on its sights.  Although this corrupted robot is not built for combat, its sheer size and hydraulic strength make it extremely dangerous up close.",
+    "default_faction": "rampant_machine",
+    "color": "yellow",
+    "luminance": 10,
+    "melee_skill": 4,
+    "morale": 20,
+    "aggression": 50,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "speed": 80,
+    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
+    "extend": { "flags": [ "BASHES", "DESTROYS", "ATTACKMON" ] }
   },
   {
     "id": "mon_utilibot_fire",
@@ -331,6 +366,40 @@
     "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
   },
   {
+    "id": "mon_fumigator",
+    "type": "MONSTER",
+    "copy-from": "base_drone",
+    "name": "Croplord 2SPL",
+    "description": "Twin linked rotors allow this ubiquitous EINAC drone to comfortably hover above fields and deploy pesticides at prodigious rates.  They have no ability to detect humans within their work areas and will readily disperse lethal pesticides near them.",
+    "default_faction": "rampant_machine",
+    "symbol": "y",
+    "diff": 40,
+    "speed": 100,
+    "volume": "1750 ml",
+    "weight": "1 kg",
+    "color": "green",
+    "melee_skill": 8,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "morale": 20,
+    "starting_ammo": { "afs_foamtoxic": 400 },
+    "death_function": { "corpse_type": "BROKEN", "message": "The Croplord crahses into the ground." },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "move_cost": 80,
+        "cooldown": 3,
+        "gun_type": "afs_foamgun",
+        "ammo_type": "afs_foamtoxic",
+        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_dex": 8,
+        "ranges": [ [ 0, 6, "DEFAULT" ] ]
+      }
+    ],
+    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 },
+    "extend": { "flags": [ "DROPS_AMMO" ] }
+  },
+  {
     "id": "mon_medibot",
     "type": "MONSTER",
     "name": "faulty surgical droid",
@@ -356,7 +425,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "BIOLOGICALPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
     "armor": { "bash": 6, "cut": 6, "acid": 6, "heat": 2 }
   },
   {
@@ -822,6 +891,7 @@
       "BASHES",
       "PUSH_MON",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "NO_BREATHE",
       "PET_MOUNTABLE",
       "PATH_AVOID_DANGER_2",

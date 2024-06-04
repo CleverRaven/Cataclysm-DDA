@@ -560,6 +560,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "debug_calories",
+    "name": { "str": "unholy debug angel cake" },
+    "spoils_in": "4 days",
+    "copy-from": "jihelucake",
+    "calories": 10000,
+    "description": "This unholy confection of delight does not lie, it packs a heavenly amount of calories in each sinful bite.  For debug use only.",
+    "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "choco_coffee_beans",
     "name": { "str_sp": "chocolate-covered coffee beans" },
     "weight": "30 g",

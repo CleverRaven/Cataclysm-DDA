@@ -5,7 +5,7 @@
     "name": { "str": "bird egg" },
     "weight": "50 g",
     "color": "brown",
-    "spoils_in": "7 days",
+    "spoils_in": "10 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -25,6 +25,7 @@
     "type": "COMESTIBLE",
     "id": "egg_chicken",
     "name": { "str": "chicken egg" },
+    "spoils_in": "11 days",
     "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CHICKEN",
     "rot_spawn_chance": 70
@@ -49,6 +50,7 @@
     "type": "COMESTIBLE",
     "id": "egg_pigeon",
     "name": { "str": "feral pigeon egg" },
+    "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.3, "weight": 0.3, "calories": 0.3 },
     "rot_spawn": "GROUP_EGG_PIGEON"
@@ -57,6 +59,7 @@
     "type": "COMESTIBLE",
     "id": "egg_crow",
     "name": { "str": "American crow egg" },
+    "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.34, "weight": 0.34, "calories": 0.34 },
     "rot_spawn": "GROUP_EGG_CROW"
@@ -65,6 +68,7 @@
     "type": "COMESTIBLE",
     "id": "egg_raven",
     "name": { "str": "raven egg" },
+    "spoils_in": "11 days",
     "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_RAVEN"
   },
@@ -72,6 +76,7 @@
     "type": "COMESTIBLE",
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
+    "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.18, "weight": 0.18, "calories": 0.18 },
     "rot_spawn": "GROUP_EGG_BLUEJAY"
@@ -80,6 +85,7 @@
     "type": "COMESTIBLE",
     "id": "egg_cardinal",
     "name": { "str": "cardinal egg" },
+    "spoils_in": "7 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.09, "weight": 0.09, "calories": 0.09 },
     "rot_spawn": "GROUP_EGG_CARDINAL"
@@ -88,6 +94,7 @@
     "type": "COMESTIBLE",
     "id": "egg_robin",
     "name": { "str": "American robin egg" },
+    "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
     "color": "light_blue",
@@ -98,6 +105,7 @@
     "type": "COMESTIBLE",
     "id": "egg_sparrow",
     "name": { "str": "sparrow egg" },
+    "spoils_in": "7 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_SPARROW"
@@ -106,6 +114,7 @@
     "type": "COMESTIBLE",
     "id": "egg_chickadee",
     "name": { "str": "black-capped chickadee egg" },
+    "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.03, "weight": 0.03, "calories": 0.03 },
     "rot_spawn": "GROUP_EGG_CHICKADEE"
@@ -114,6 +123,7 @@
     "type": "COMESTIBLE",
     "id": "egg_waxwing",
     "name": { "str": "cedar waxwing egg" },
+    "spoils_in": "8 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_WAXWING"
@@ -123,6 +133,7 @@
     "id": "egg_duck",
     "name": { "str": "duck egg" },
     "copy-from": "egg_chicken",
+    "spoils_in": "14 days",
     "calories": 130,
     "volume": "83 ml",
     "weight": "70 g",
@@ -133,6 +144,7 @@
     "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
     "name": { "str": "goose egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "calories": 266,
     "volume": "130 ml",
@@ -144,6 +156,7 @@
     "type": "COMESTIBLE",
     "id": "egg_turkey",
     "name": { "str": "turkey egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "volume": "83 ml",
     "weight": "79 g",
@@ -155,6 +168,7 @@
     "type": "COMESTIBLE",
     "id": "egg_pheasant",
     "name": { "str": "pheasant egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_PHEASANT"
   },
@@ -1214,6 +1228,7 @@
     "type": "COMESTIBLE",
     "id": "egg_hummingbird",
     "name": "hummingbird egg",
+    "spoils_in": "8 days",
     "copy-from": "egg_crow",
     "volume": "1 ml",
     "weight": "1 g",
@@ -1223,6 +1238,7 @@
     "type": "COMESTIBLE",
     "id": "egg_woodpecker",
     "name": "woodpecker egg",
+    "spoils_in": "7 days",
     "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_WOODPECKER"
   },
@@ -1230,6 +1246,7 @@
     "type": "COMESTIBLE",
     "id": "egg_coot",
     "name": "coot egg",
+    "spoils_in": "12 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_COOT"
   },
@@ -1237,6 +1254,7 @@
     "type": "COMESTIBLE",
     "id": "egg_cormorant",
     "name": "cormorant egg",
+    "spoils_in": "13 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CORMORANT"
   },
@@ -1244,6 +1262,7 @@
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
     "name": "moorhen egg",
+    "spoils_in": "10 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_MOORHEN"
   },
@@ -1251,6 +1270,7 @@
     "type": "COMESTIBLE",
     "id": "egg_grebe",
     "name": "grebe egg",
+    "spoils_in": "12 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GREBE"
   },

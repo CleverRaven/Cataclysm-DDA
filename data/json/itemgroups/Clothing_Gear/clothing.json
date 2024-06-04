@@ -711,7 +711,11 @@
     "type": "item_group",
     "//": "Protective masks often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [ { "item": "mask_dust", "prob": 90 }, { "item": "mask_filter", "prob": 10, "charges": [ 0, 100 ] } ]
+    "entries": [
+      { "item": "mask_dust", "prob": 90 },
+      { "item": "mask_filter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "mask_gas_half", "prob": 10, "charges": [ 0, 100 ] }
+    ]
   },
   {
     "id": "clothing_work_pants",
@@ -788,6 +792,7 @@
         "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
         "prob": 15
       },
+      { "item": "mask_gas_half", "prob": 30, "charges": [ 0, 100 ] },
       [ "glasses_safety", 30 ],
       [ "ear_plugs", 35 ],
       [ "apron_cut_resistant", 5 ],
@@ -897,7 +902,8 @@
           { "group": "gasmask_bag_used", "prob": 60 }
         ],
         "prob": 60
-      }
+      },
+      { "item": "mask_gas_half", "prob": 60, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -3119,6 +3125,7 @@
         ],
         "prob": 20
       },
+      { "item": "mask_gas_half", "prob": 20, "charges": [ 0, -1 ] },
       { "item": "mask_filter", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "goggles_nv", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] }
@@ -3361,6 +3368,7 @@
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
       { "group": "gasmask_bag_full", "prob": 24 },
+      { "item": "mask_gas_half", "prob": 24, "charges": [ 0, 100 ] },
       { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },
       [ "mask_bunker", 2 ],
       [ "mask_fsurvivor", 2 ],
@@ -4608,7 +4616,10 @@
       { "item": "gold_anklet", "prob": 30 },
       { "item": "silver_anklet", "prob": 50 },
       { "item": "gold_toe_ring", "prob": 30 },
-      { "item": "silver_toe_ring", "prob": 50 }
+      { "item": "silver_toe_ring", "prob": 50 },
+      { "item": "woven_anklet", "prob": 30 },
+      { "item": "bat_anklet", "prob": 30 },
+      { "item": "flower_anklet", "prob": 30 }
     ]
   },
   {

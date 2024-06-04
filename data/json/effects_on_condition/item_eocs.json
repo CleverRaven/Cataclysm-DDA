@@ -99,13 +99,13 @@
   {
     "id": "EOC_toolweapon_running",
     "type": "effect_on_condition",
-    "condition": { "not": "u_is_underwater" },
+    "condition": { "not": "npc_is_underwater" },
     "effect": {
       "if": { "one_in_chance": { "context_val": "sound_chance" } },
       "then": [
-        { "u_message": { "context_val": "sound_message" }, "sound": true },
+        { "message": { "context_val": "sound_message" }, "sound": true },
         {
-          "u_make_sound": { "context_val": "sound_message" },
+          "npc_make_sound": { "context_val": "sound_message" },
           "type": "activity",
           "volume": { "context_val": "volume" },
           "ambient": true

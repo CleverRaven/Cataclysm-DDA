@@ -292,7 +292,7 @@
       { "item": "boxcutter", "prob": 20 },
       { "item": "feather", "prob": 20, "charges": 1 },
       { "item": "tailors_kit", "prob": 12, "charges": [ 50, 350 ] },
-      { "item": "electric_spinwheel", "prob": 12, "charges": [ 0, 100 ] },
+      { "item": "electric_spinwheel", "prob": 12 },
       { "item": "polaroid_photo", "prob": 10 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "chopsticks", "prob": 10 },
@@ -1076,7 +1076,9 @@
       { "group": "hats_unisex", "prob": 20 },
       { "group": "scarfs_unisex", "prob": 20 },
       { "item": "crutches", "prob": 1 },
-      { "item": "woven_anklet", "prob": 5 }
+      { "item": "woven_anklet", "prob": 5 },
+      { "item": "bat_anklet", "prob": 5 },
+      { "item": "flower_anklet", "prob": 5 }
     ]
   },
   {
