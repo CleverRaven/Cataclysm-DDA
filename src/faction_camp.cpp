@@ -1699,7 +1699,8 @@ void basecamp::player_eats_meal()
     Character &you = get_player_character();
     // 83% of stomach capacity is the point where full jumps over to engorged. if the
     // remaining space before that is less than the meal we're about to eat, downsize
-    units::volume stomach_left_to_engorged = 0.83 * you.stomach.capacity( you ) - you.stomach.contains();
+    units::volume stomach_left_to_engorged = 0.83 * you.stomach.capacity( you ) -
+            you.stomach.contains();
     const int &food_available = fac()->food_supply.kcal();
     if( food_available <= 0 ) {
         popup( _( "You check storage for some food, but there is nothing but dust and cobwebs…" ) );
