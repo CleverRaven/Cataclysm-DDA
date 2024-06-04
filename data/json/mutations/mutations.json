@@ -10174,7 +10174,6 @@
         {
           "condition": {
               { "math": [ "time_since(u_transform_time)", ">", "time('36 h')" ] }
-            ]
           },
           "msg_on": { "text": "As the well deserved shame of your behaviour finally sets in.", "rating": "good" }
         }
