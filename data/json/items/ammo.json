@@ -1186,7 +1186,7 @@
     "color": "light_gray",
     "ammo_type": "gasfilter_m",
     "count": 1,
-    "//": "Obviously, activated carbon isn’t magically weightless, but it’s used as ammunition within gas mask filters, and the filters shouldn’t equally magically grow lighter as the coal binds with chemicals. Considering that this is never found beyond gas mask canisters, having zero weight should make no difference to the player.",
+    "//": "Obviously, activated carbon isn't magically weightless, but it's used as ammunition within gas mask filters, and the filters shouldn't equally magically grow lighter as the coal binds with chemicals. Considering that this is never found beyond gas mask canisters, having zero weight should make no difference to the player.",
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
