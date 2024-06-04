@@ -84,8 +84,6 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
-static furn_id f_null;
-
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_counter( "f_counter" );
@@ -297,9 +295,9 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
 
         // Not sure if we actually have to check all submaps.
         const bool any_missing = MAPBUFFER.lookup_submap( p_sm ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point{ 1, 0 } ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point{ 0, 1 } ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point{ 1, 1 } ) == nullptr;
+                                 MAPBUFFER.lookup_submap( p_sm + point_east ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point_south_east ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point_south ) == nullptr;
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( !save_results || any_missing ) &&

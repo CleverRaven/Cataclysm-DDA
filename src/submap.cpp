@@ -437,11 +437,10 @@ void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
     for( const submap::cosmetic_t &cos : copy_from->cosmetics ) {
         bool found = false;
 
-        for( size_t i = 0; i < this->cosmetics.size(); ++i ) {
-            if( this->cosmetics[i].pos == cos.pos &&
-                this->cosmetics[i].type == cos.type ) {
-                if( this->cosmetics[i].str == cos.str || !copy_from_is_overlay ) {
-                    this->cosmetics[i].str = cos.str;
+        for( submap::cosmetic_t &cosmetic : this->cosmetics ) {
+            if( cosmetic.pos == cos.pos && cosmetic.type == cos.type ) {
+                if( copy_from_is_overlay ) {
+                    cosmetic.str = cos.str;
                 }
                 found = true;
                 break;
