@@ -273,18 +273,7 @@
     "death_drops": "wisp_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "FLIES",
-      "PATH_AVOID_DANGER",
-      "ELECTRIC",
-      "HARDTOSHOOT",
-      "NOGIB",
-      "NOHEAD",
-      "NO_BREATHE",
-      "SWARMS"
-    ]
+    "flags": [ "SEES", "HEARS", "FLIES", "PATH_AVOID_DANGER", "ELECTRIC", "HARDTOSHOOT", "NOGIB", "NOHEAD", "NO_BREATHE", "SWARMS" ]
   },
   {
     "id": "mon_troll",

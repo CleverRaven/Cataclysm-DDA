@@ -345,18 +345,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "dissect": "dissect_raptor_sample_single",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "ANIMAL",
-      "PATH_AVOID_DANGER",
-      "WARM",
-      "CANPLAY",
-      "NO_BREED",
-      "CAN_BE_CULLED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CANPLAY", "NO_BREED", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_utahraptor_juvenile",

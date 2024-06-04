@@ -49,9 +49,6 @@
       "NOGIB",
       "TEEP_IMMUNE"
     ],
-    "path_settings": {
-      "avoid_traps": true,
-      "avoid_dangerous_fields": true
-    }
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   }
 ]

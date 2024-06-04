@@ -660,7 +660,14 @@
     "melee_training_cap": 0,
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 6,
-    "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true, "avoid_dangerous_fields": true },
+    "path_settings": {
+      "max_dist": 40,
+      "allow_open_doors": true,
+      "avoid_traps": true,
+      "avoid_sharp": true,
+      "allow_climb_stairs": true,
+      "avoid_dangerous_fields": true
+    },
     "special_attacks": [
       [ "UPGRADE", 0 ],
       [ "RESURRECT", 0 ],

@@ -505,10 +505,7 @@
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ],
-    "path_settings": {
-      "avoid_traps": true,
-      "avoid_dangerous_fields": true
-    }
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   },
   {
     "type": "MONSTER",
