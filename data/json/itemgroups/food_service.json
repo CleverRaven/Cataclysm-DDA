@@ -597,7 +597,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_butcher", "prob": 30 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
       { "prob": 50, "group": "bread_bag_plastic_14" },
       { "prob": 50, "group": "seasoning_salt_bulk" },
       { "prob": 50, "group": "seasoning_italian_bulk" },
@@ -1074,7 +1074,7 @@
       [ "lasagne_raw", 20 ],
       [ "macaroni_raw", 20 ],
       [ "foodplace_food", 5 ],
-      [ "knife_butcher", 10 ]
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 }
     ]
   },
   {
@@ -1110,7 +1110,7 @@
       { "prob": 15, "group": "chilly-p_various" },
       { "prob": 15, "group": "curry_powder_various" },
       [ "macaroni_raw", 20 ],
-      [ "knife_butcher", 10 ]
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 }
     ]
   },
   {
@@ -1350,8 +1350,8 @@
     "id": "butcher_tools",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_butcher", "prob": 30 },
       { "item": "knife_small", "variant": "knife_steak", "prob": 20 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
       { "item": "butchering_kit", "prob": 5 },
       { "item": "tongs", "prob": 10 },
       { "item": "carver_off", "prob": 5, "charges": [ 0, 500 ] },

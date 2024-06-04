@@ -937,7 +937,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
+        [ "knife_huge", 1 ],
         [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
@@ -973,7 +973,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
+        [ "knife_huge", 1 ],
         [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
@@ -1029,7 +1029,7 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
+        [ "knife_huge", 1 ],
         [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],

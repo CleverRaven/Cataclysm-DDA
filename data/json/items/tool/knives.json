@@ -76,6 +76,30 @@
     "melee_damage": { "bash": 1, "stab": 18 }
   },
   {
+    "id": "knife_huge",
+    "name": { "str": "huge kitchen knife", "str_pl": "huge kitchen knives" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_butcher",
+        "name": { "str": "butcher knife", "str_pl": "butcher knives" },
+        "description": "A sharp, heavy knife.  It makes a good melee weapon, and is an ideal item for butchering corpses.",
+        "ascii_picture": "knife_butcher"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "380 g",
+    "volume": "300 ml",
+    "longest_side": "35 cm",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 14 }
+  },
+  {
     "id": "copper_knife",
     "type": "TOOL",
     "name": { "str": "copper knife", "str_pl": "copper knives" },

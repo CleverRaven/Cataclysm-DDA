@@ -98,9 +98,9 @@
         [ "tanto_inferior", -1 ],
         [ "kirpan_cheap", -1 ],
         [ "enfield_bayonet", -1 ],
-        [ "knife_butcher", -1 ],
         [ "knife_vegetable_cleaver", -1 ],
         [ "knife_meat_cleaver", -1 ]
+        [ "knife_huge", -1 ],
         [ "knife_large", -1 ],
       ]
     ]

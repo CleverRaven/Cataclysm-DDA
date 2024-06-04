@@ -809,7 +809,7 @@
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ],
       { "group": "tinware", "prob": 10 },
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "funnel", 50 ],
       [ "jar_glass_sealed", 50 ],
       [ "jar_3l_glass_sealed", 40 ],
@@ -1673,7 +1673,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "knife_butcher", 35 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 35 },
       [ "cane", 25 ],
       [ "sinister_cane", 2 ],
       [ "wizard_cane", 1 ],

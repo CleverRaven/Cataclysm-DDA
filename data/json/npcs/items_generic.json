@@ -706,7 +706,7 @@
       [ "ketchup", 4 ],
       [ "sheet_kevlar_layered", 1 ],
       [ "knee_pads", 4 ],
-      [ "knife_butcher", 6 ],
+      [ "knife_huge", 6 ],
       [ "knife_butter", 4 ],
       [ "knife_combat", 4 ],
       { "item": "knife_small", "variant": "knife_steak", "prob": 8 },

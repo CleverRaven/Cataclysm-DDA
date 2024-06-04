@@ -2153,7 +2153,7 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
     tools.insert( tools.end(), 10, tool_with_ammo( "popcan_stove", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
     tools.emplace_back( "pot_canning" );
-    tools.emplace_back( "knife_butcher" );
+    tools.emplace_back( "knife_huge" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 

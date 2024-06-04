@@ -1124,7 +1124,8 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "knife_butcher",
+    "result": "knife_huge",
+    "variant": "knife_butcher",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",

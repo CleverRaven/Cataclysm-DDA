@@ -1450,6 +1450,12 @@
     "variant": "knife_bread"
   },
   {
+    "id": "knife_butcher",
+    "type": "MIGRATION",
+    "replace": "knife_huge",
+    "variant": "knife_butcher"
+  },
+  {
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"

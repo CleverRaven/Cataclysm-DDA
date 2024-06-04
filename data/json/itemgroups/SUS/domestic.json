@@ -88,7 +88,7 @@
       { "item": "knife_large", "variant": "knife_bread", "prob": 45 },
       {
         "distribution": [
-          { "item": "knife_butcher", "prob": 10 },
+          { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
           { "item": "knife_meat_cleaver", "prob": 10 }
         ],
         "prob": 65

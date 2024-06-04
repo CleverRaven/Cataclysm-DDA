@@ -454,7 +454,7 @@
       { "item": "knife_small", "variant": "knife_steak", "prob": 85 },
       [ "fork", 90 ],
       [ "spoon", 90 ],
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       { "item": "extinguisher", "prob": 20, "charges": [ 0, 5 ] },
       [ "hose", 15 ],
       [ "water_faucet", 20 ],
