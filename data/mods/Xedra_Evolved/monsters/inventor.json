@@ -49,14 +49,16 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
+      "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
-    ]
+    ],
+    "path_settings": {
+      "avoid_traps": true,
+      "avoid_dangerous_fields": true
+    }
   },
   {
     "id": "mon_shotgunbot",
@@ -108,7 +110,7 @@
     "armor": { "bash": 14, "cut": 14, "bullet": 11, "electric": 5 },
     "vision_day": 50,
     "revert_to_itype": "bot_meleebot",
-    "path_settings": { "max_dist": 9 },
+    "path_settings": { "max_dist": 9, "avoid_dangerous_fields": true, "avoid_traps": true },
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
@@ -117,9 +119,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
-      "PATH_AVOID_FALL",
+      "PATH_AVOID_DANGER_1",
       "STUN_IMMUNE"
     ]
   }

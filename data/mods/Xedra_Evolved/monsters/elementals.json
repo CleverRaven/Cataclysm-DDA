@@ -502,10 +502,13 @@
       "PUSH_VEH",
       "KEENNOSE",
       "NO_FUNG_DMG",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "path_settings": {
+      "avoid_traps": true,
+      "avoid_dangerous_fields": true
+    }
   },
   {
     "type": "MONSTER",

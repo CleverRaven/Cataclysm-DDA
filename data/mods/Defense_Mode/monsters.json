@@ -660,7 +660,7 @@
     "melee_training_cap": 0,
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 6,
-    "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "path_settings": { "max_dist": 40, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true, "avoid_dangerous_fields": true },
     "special_attacks": [
       [ "UPGRADE", 0 ],
       [ "RESURRECT", 0 ],
@@ -711,7 +711,7 @@
       "FILTHY",
       "STUN_IMMUNE",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER_1"
     ],
     "//3": "Because it's Defense Mode, you can hurt it with bullets.  Otherwise, It'd be too hard to fight.",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 25, "heat": 25, "cold": 25, "electric": 25, "acid": 25 }

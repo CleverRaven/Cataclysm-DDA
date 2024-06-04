@@ -410,11 +410,6 @@
     "//": "This monster will path around some dangers instead of through them"
   },
   {
-    "id": "PATH_AVOID_DANGER_2",
-    "type": "monster_flag",
-    "//": "This monster will path around most dangers instead of through them"
-  },
-  {
     "id": "PATH_AVOID_FIRE",
     "type": "monster_flag",
     "//": "This monster will path around heat-related dangers instead of through them"
