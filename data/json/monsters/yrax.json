@@ -52,7 +52,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "ELECTRONIC"
@@ -130,7 +130,7 @@
       "GOODHEARING",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "FLIES",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC"
@@ -210,7 +210,7 @@
       "GOODHEARING",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "ELECTRONIC"
@@ -245,7 +245,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "PACIFIST",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC",
       "CLIMBS",

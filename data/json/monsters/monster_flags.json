@@ -405,7 +405,7 @@
     "//": "This monster can't be revived by necros.  It will still rise on its own."
   },
   {
-    "id": "PATH_AVOID_DANGER_1",
+    "id": "PATH_AVOID_DANGER",
     "type": "monster_flag",
     "//": "This monster will path around some dangers instead of through them"
   },

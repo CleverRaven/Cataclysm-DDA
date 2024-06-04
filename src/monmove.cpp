@@ -182,7 +182,7 @@ bool monster::know_danger_at( const tripoint &p ) const
 
     // Various avoiding behaviors.
 
-    bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER_1 );
+    bool avoid_simple = has_flag( mon_flag_PATH_AVOID_DANGER );
 
     bool avoid_fire = avoid_simple || has_flag( mon_flag_PATH_AVOID_FIRE );
     bool avoid_fall = avoid_simple || has_flag( mon_flag_PATH_AVOID_FALL );

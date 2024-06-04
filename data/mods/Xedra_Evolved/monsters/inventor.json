@@ -49,7 +49,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "LOUDMOVES",
       "DROPS_AMMO",
@@ -119,7 +119,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ]
   }

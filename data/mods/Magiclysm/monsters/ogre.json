@@ -50,7 +50,7 @@
     "vision_day": 45,
     "vision_night": 3,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 5, "cut": 2, "stab": 2, "psionic": 20 }
   },
   {
@@ -122,7 +122,7 @@
       "avoid_traps": true,
       "avoid_dangerous_fields": true
     },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_ogre_twoheaded",
@@ -145,7 +145,7 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
@@ -183,7 +183,7 @@
       [ "EAT_FOOD", 120 ]
     ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "FILTHY", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 5, "cut": 8, "stab": 8, "poison": 35 }
   },
   {
@@ -216,6 +216,6 @@
       { "id": "smash", "throw_strength": 70 },
       [ "EAT_FOOD", 120 ]
     ],
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER" ]
   }
 ]
