@@ -2556,7 +2556,7 @@ void Character::recalc_sight_limits()
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() ) {
+    if( has_nv_goggles() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
@@ -2623,8 +2623,8 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
-        vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
+    if( vision_mode_cache[NIGHTVISION_3] || vision_mode_cache[FULL_ELFA_VISION] ||
+        vision_mode_cache[CEPH_VISION] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
                vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ) {
@@ -2637,6 +2637,10 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
+    // bionic night vision and other old night vision flagged items
+    if( worn_with_flag( flag_GNV_EFFECT ) || has_flag( json_flag_NIGHT_VISION ) ) {
+        range += 10;
+    }
     range = enchantment_cache->modify_value( enchant_vals::mod::NIGHT_VIS, range );
 
     // Clamp range to 1+, so that we can always see where we are
@@ -3851,19 +3855,17 @@ void Character::reset()
     reset_stats();
 }
 
-bool Character::has_nv()
+bool Character::has_nv_goggles()
 {
     static bool nv = false;
 
-    if( !nv_cached ) {
-        nv_cached = true;
-        nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_flag( json_flag_NIGHT_VISION ) ||
-               cache_has_item_with_flag( json_flag_NVG_GREEN ) );
-
+    if (!nv_cached) {
+    nv_cached = true;
+    std::vector<item *> nv_green_items = cache_get_items_with(json_flag_NVG_GREEN);
+    nv = worn_with_flag(flag_GNV_EFFECT) || has_flag(json_flag_NIGHT_VISION) ||
+         std::any_of(nv_green_items.begin(), nv_green_items.end(),
+                     [this](item* nvg_itm) { return is_worn_module(*nvg_itm); });
     }
-
-    return nv;
 }
 
 void Character::calc_discomfort()

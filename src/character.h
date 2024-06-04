@@ -2607,8 +2607,8 @@ class Character : public Creature, public visitable
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        /** Returns true if the player has some form of night vision */
-        bool has_nv();
+        /** Returns true if the player has some form of night vision with green overlay */
+        bool has_nv_goggles();
 
         int get_lift_assist() const;
 
