@@ -124,6 +124,17 @@ bool itype::has_any_quality( const std::string_view quality ) const
     } );
 }
 
+bool itype::has_any_quality_level( const std::string_view quality, int level ) const
+{
+    return std::any_of( qualities.begin(),
+    qualities.end(), [&quality, &level]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality ) && ( e.second == level );
+    } ) || std::any_of( charged_qualities.begin(),
+    charged_qualities.end(), [&quality, &level]( const std::pair<quality_id, int> &e ) {
+        return lcmatch( e.first->name, quality ) && ( e.second == level );
+    } );
+}
+
 int itype::charges_default() const
 {
     if( tool ) {

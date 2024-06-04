@@ -8273,6 +8273,9 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
+    if( h.loc.get_item()->has_flag( flag_PSEUDO ) ) {
+        h.loc.get_item()->countdown_point = calendar::turn + time_duration::from_moves( required.time );
+    };
     p->assign_activity( heat_activity_actor( to_heat, required, h ) );
     return true;
 }

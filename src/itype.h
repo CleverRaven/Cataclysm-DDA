@@ -1290,6 +1290,9 @@ struct itype {
         // True if this has given quality or charged_quality (regardless of current charge).
         bool has_any_quality( std::string_view quality ) const;
 
+        // True if this has given quality or charged_quality with certain level (regardless of current charge).
+        bool has_any_quality_level( std::string_view quality, int level ) const;
+
         // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
 

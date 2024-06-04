@@ -56,7 +56,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
 
@@ -137,16 +136,15 @@ item_location game::inv_map_splice_with_pseudo( const item_filter &fliter, const
     inv_s.set_display_stats( false );
     u.inv->restack( u );
     inv_s.clear_items();
-    for( const tripoint &pt : points_in_radius( u.pos(), 1 ) ) {
+    for( const tripoint &pt : points_in_radius( u.pos(), radius ) ) {
         if( optional_vpart_position vp = m.veh_at( pt ) ) {
             const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
             const vpart_info vp_info = vp_toolstation->info();
             if( vp_info.toolkit_info ) {
-                std::set<itype_id> builtin_tool_types;
                 for( const auto &[tool_type, _] : vp_info.get_pseudo_tools() ) {
-                    builtin_tool_types.insert( tool_type );
+                    tool_type->has_any_quality_level( "HOTPLATE", 2 );
+                    u.inv->provide_pseudo_item( tool_type );
                 }
-                std::vector<item> &stored_tools = vp_toolstation->part().tools;
             }
         }
     }
