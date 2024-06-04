@@ -60,6 +60,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "npctalk_rules.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -3494,6 +3495,14 @@ talk_effect_fun_t::func f_add_debt( const JsonObject &jo, std::string_view membe
     };
 }
 
+talk_effect_fun_t::func f_npc_rules_menu()
+{
+    return []( dialogue const & d ) {
+        follower_rules_ui new_ui;
+        new_ui.draw_follower_rules_ui( d.actor( true )->get_npc() );
+    };
+}
+
 talk_effect_fun_t::func f_toggle_npc_rule( const JsonObject &jo, std::string_view member,
         const std::string_view )
 {
@@ -6725,6 +6734,10 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "npc_wants_to_talk" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_wants_to_talk( true ) ) );
+        return;
+    }
+    if( effect_id == "npc_rules_menu" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_npc_rules_menu() ) );
         return;
     }
     jo.throw_error_at( effect_id, "unknown effect string" );
