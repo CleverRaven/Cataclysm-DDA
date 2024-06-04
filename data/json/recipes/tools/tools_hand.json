@@ -1105,7 +1105,8 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_steak",
+    "result": "knife_small",
+    "variant": "knife_steak",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -1161,7 +1162,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_paring",
+    "result": "knife_small",
+    "variant": "knife_paring",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

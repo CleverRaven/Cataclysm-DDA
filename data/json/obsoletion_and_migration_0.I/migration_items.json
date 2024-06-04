@@ -1420,6 +1420,18 @@
     "replace": "glass_fridge"
   },
   {
+    "id": "knife_steak",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_steak"
+  },
+  {
+    "id": "knife_paring",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_paring"
+  },
+  {
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"

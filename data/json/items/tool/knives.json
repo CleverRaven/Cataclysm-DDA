@@ -10,6 +10,36 @@
     "color": "light_gray"
   },
   {
+    "id": "knife_small",
+    "name": { "str": "small kitchen knife", "str_pl": "small kitchen knives" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_steak",
+        "name": { "str": "steak knife", "str_pl": "steak knives" },
+        "description": "A sharp knife designed for cutting meat.  It makes a poor melee weapon, but is decent at butchering corpses.",
+        "ascii_picture": "knife_steak"
+      },
+      {
+        "id": "knife_paring",
+        "name": { "str": "paring knife", "str_pl": "paring knives" },
+        "description": "A short-bladed knife with a sharp blade, made for fine controlled cuts to vegetables without using a cutting board.",
+        "ascii_picture": "knife_paring"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "112 g",
+    "volume": "100 ml",
+    "longest_side": "25 cm",
+    "price": "2 USD 50 cent",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 2, "stab": 7 }
+  },
+  {
     "id": "copper_knife",
     "type": "TOOL",
     "name": { "str": "copper knife", "str_pl": "copper knives" },

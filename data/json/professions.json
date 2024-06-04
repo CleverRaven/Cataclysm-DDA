@@ -1864,7 +1864,9 @@
     "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "cooking" }, { "level": 3, "name": "driving" } ],
     "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knife_skills", "prof_knives_familiar" ],
     "items": {
-      "both": { "entries": [ { "item": "pocketwatch" }, { "item": "knife_steak" }, { "group": "charged_smart_phone" } ] },
+      "both": {
+        "entries": [ { "item": "pocketwatch" }, { "item": "knife_small", "variant": "knife_steak" }, { "group": "charged_smart_phone" } ]
+      },
       "male": {
         "entries": [
           { "item": "briefs" },
@@ -3406,7 +3408,7 @@
         "entries": [
           { "item": "sneakers" },
           { "item": "socks" },
-          { "item": "knife_steak" },
+          { "item": "knife_small", "variant": "knife_steak" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "pants", "variant": "pants_black" }
