@@ -1456,6 +1456,18 @@
     "variant": "knife_butcher"
   },
   {
+    "id": "knife_meat_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_meat_cleaver"
+  },
+  {
+    "id": "knife_vegetable_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_vegetable_cleaver"
+  },
+  {
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"

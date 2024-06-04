@@ -100,6 +100,35 @@
     "melee_damage": { "bash": 2, "stab": 14 }
   },
   {
+    "id": "knife_cleaver",
+    "name": { "str": "cleaver" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_meat_cleaver",
+        "name": { "str": "meat cleaver" },
+        "description": "A menacing-looking knife with a broad, square-shaped blade.  Its heft and sharpness would make it a very effective melee weapon and an excellent butchering tool.",
+        "ascii_picture": "knife_meat_cleaver"
+      },
+      {
+        "id": "knife_vegetable_cleaver",
+        "name": { "str": "vegetable cleaver" },
+        "description": "A menacing-looking knife with a broad, square shaped blade, curved for fast vegetable chopping.  Its heft and sharpness make it a decent weapon as well, although not as good as a meat cleaver.",
+        "ascii_picture": "knife_vegetable_cleaver"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "450 g",
+    "volume": "1 L",
+    "longest_side": "30 cm",
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 6, "cut": 16 }
+  },
+  {
     "id": "copper_knife",
     "type": "TOOL",
     "name": { "str": "copper knife", "str_pl": "copper knives" },

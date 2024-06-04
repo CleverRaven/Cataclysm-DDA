@@ -203,7 +203,7 @@
       { "item": "knife_small", "variant": "knife_steak", "prob": 35 },
       { "group": "knife_rambo_cont", "prob": 15 },
       [ "knife_hunting", 10 ],
-      [ "knife_meat_cleaver", 10 ]
+      { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 }
     ]
   },
   {

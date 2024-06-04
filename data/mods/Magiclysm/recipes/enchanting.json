@@ -111,7 +111,7 @@
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "knife_meat_cleaver_plus_one",
-    "components": [ [ [ "knife_meat_cleaver", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
+    "components": [ [ [ "knife_cleaver", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
   },
   {
     "type": "recipe",

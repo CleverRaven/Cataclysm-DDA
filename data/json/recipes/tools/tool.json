@@ -227,9 +227,9 @@
     "time": "30 s",
     "autolearn": true,
     "components": [
-      [ [ "knife_meat_cleaver", 1 ] ],
       [ [ "knife_huge", 1 ] ],
       [ [ "knife_large", 1 ] ],
+      [ [ "knife_cleaver", 1 ] ],
       [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "cordage_short", 2, "LIST" ] ]
     ]

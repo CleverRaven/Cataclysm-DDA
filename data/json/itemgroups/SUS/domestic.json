@@ -79,7 +79,7 @@
       {
         "distribution": [
           { "item": "knife_large", "variant": "knife_chef", "prob": 10 },
-          { "item": "knife_vegetable_cleaver", "prob": 3 }
+          { "item": "knife_cleaver", "variant": "knife_vegetable_cleaver", "prob": 3 }
         ]
       },
       { "item": "knife_small", "variant": "knife_paring" },
@@ -89,7 +89,7 @@
       {
         "distribution": [
           { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
-          { "item": "knife_meat_cleaver", "prob": 10 }
+          { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 }
         ],
         "prob": 65
       },

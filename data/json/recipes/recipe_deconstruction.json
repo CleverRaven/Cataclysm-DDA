@@ -3102,7 +3102,7 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_meat_cleaver",
+    "result": "knife_cleaver",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "blade", 1 ], [ "scrap", 10 ] ] ]
@@ -3114,14 +3114,6 @@
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_vegetable_cleaver",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "laptop",
