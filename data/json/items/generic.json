@@ -2403,6 +2403,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "pinecone_pig",
+    "name": { "str": "pinecone amulet" },
+    "category": "other",
+    "weight": "300 g",
+    "color": "brown",
+    "symbol": ",",
+    "description": "An amulet of good luck and fortune, good thing it's so easy to make.",
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "wood" ],
+    "flags": [ "TRADER_AVOID" ],
+    "volume": "290 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "brew_sake_koji",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "unfinished koji rice" },

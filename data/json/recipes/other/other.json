@@ -350,5 +350,18 @@
     "reversible": true,
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "pinecone_pig",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "pinecone", 1 ], [ "stick", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
