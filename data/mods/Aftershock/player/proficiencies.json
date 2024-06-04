@@ -35,7 +35,7 @@
     "id": "prof_concentration_intermediate",
     "category": "prof_concentration",
     "name": { "str": "Concentration (Expert)" },
-    "description": "You can maintain your concentration even if outside in winter without a coat or while in combat with a zombie.",
+    "description": "You can maintain your concentration even if outside in winter without a coat or in the middle of a fight.",
     "can_learn": true,
     "time_to_learn": "32 h",
     "default_time_multiplier": 2.5,
