@@ -604,7 +604,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
         double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
     private:
