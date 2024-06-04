@@ -7691,18 +7691,27 @@ void heat_activity_actor::start( player_activity &act, Character & )
 void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
     if( !h.loc ) {
+        if( h.loc.get_item()->has_flag( flag_PSEUDO ) ) {
+            h.loc.get_item()->countdown_point = calendar::turn_zero;
+        };
         p.add_msg_if_player( _( "You can't find the heater any more." ) );
         act.set_to_null();
         return;
     }
     for( drop_location &ait : to_heat ) {
         if( !ait.first ) {
+            if( h.loc.get_item()->has_flag( flag_PSEUDO ) ) {
+                h.loc.get_item()->countdown_point = calendar::turn_zero;
+            };
             p.add_msg_if_player( _( "Some of the food you selected is gone." ) );
             act.set_to_null();
             return;
         }
     }
     if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+        if( h.loc.get_item()->has_flag( flag_PSEUDO ) ) {
+            h.loc.get_item()->countdown_point = calendar::turn_zero;
+        };
         p.add_msg_if_player( _( "You need more energy to heat these items." ) );
         act.set_to_null();
         return;

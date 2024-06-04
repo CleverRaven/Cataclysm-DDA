@@ -8144,7 +8144,7 @@ heater find_heater( Character *p, item *it )
             }
             return false;
         };
-        loc = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
+        loc = g->inv_map_splice_with_pseudo( filter, _( "Select a tool to heat:" ), 1,
                                  _( "You don't have proper heating source." ) );
         if( !loc ) {
             return {loc, true, -1, 0};
