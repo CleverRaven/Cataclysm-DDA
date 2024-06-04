@@ -1432,6 +1432,24 @@
     "variant": "knife_paring"
   },
   {
+    "id": "knife_chef",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_chef"
+  },
+  {
+    "id": "knife_carving",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_carving"
+  },
+  {
+    "id": "knife_bread",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_bread"
+  },
+  {
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"

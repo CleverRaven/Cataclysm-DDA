@@ -196,8 +196,8 @@
     "type": "item_group",
     "items": [
       [ "knife_butcher", 15 ],
-      [ "knife_chef", 15 ],
-      [ "knife_carving", 15 ],
+      { "item": "knife_large", "variant": "knife_chef", "prob": 15 },
+      { "item": "knife_large", "variant": "knife_carving", "prob": 15 },
       [ "knife_folding", 10 ],
       [ "makeshift_knife", 1 ],
       { "item": "knife_small", "variant": "knife_steak", "prob": 35 },

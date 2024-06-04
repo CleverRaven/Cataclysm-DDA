@@ -228,8 +228,8 @@
     "autolearn": true,
     "components": [
       [ [ "knife_butcher", 1 ] ],
-      [ [ "knife_carving", 1 ] ],
       [ [ "knife_meat_cleaver", 1 ] ],
+      [ [ "knife_large", 1 ] ],
       [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "cordage_short", 2, "LIST" ] ]
     ]

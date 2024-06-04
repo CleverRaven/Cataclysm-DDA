@@ -1279,7 +1279,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_chef",
+    "result": "knife_large",
+    "variant": "knife_chef",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1299,7 +1300,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_carving",
+    "result": "knife_large",
+    "variant": "knife_carving",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1319,7 +1321,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_bread",
+    "result": "knife_large",
+    "variant": "knife_bread",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

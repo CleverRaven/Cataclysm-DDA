@@ -938,8 +938,7 @@
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
         [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -975,8 +974,7 @@
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
         [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -1032,8 +1030,7 @@
       [ [ "spear_shaft", 1 ] ],
       [
         [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],

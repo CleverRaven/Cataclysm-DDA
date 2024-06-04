@@ -40,6 +40,42 @@
     "melee_damage": { "bash": 2, "stab": 7 }
   },
   {
+    "id": "knife_large",
+    "name": { "str": "large kitchen knife", "str_pl": "large kitchen knives" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_chef",
+        "name": { "str": "chef knife", "str_pl": "chef knives" },
+        "description": "A long-bladed kitchen knife.  The blade is wider than the handle, giving room for the wielder's knuckles, and it has a characteristic curve for a fast rocking action for chopping vegetables.  It makes an acceptable melee weapon, but the wide blade is unwieldy for butchering.",
+        "ascii_picture": "knife_chef"
+      },
+      {
+        "id": "knife_carving",
+        "name": { "str": "carving knife", "str_pl": "carving knives" },
+        "description": "A long-bladed kitchen knife with a thin, slightly curved blade for deftly slicing meat either in flat sheets or around the bone.  It makes a decent melee weapon, and is excellent for butchery.",
+        "ascii_picture": "knife_carving"
+      },
+      {
+        "id": "knife_bread",
+        "name": { "str": "bread knife", "str_pl": "bread knives" },
+        "description": "This knife has quite a long blade with a scalloped edge for cutting bread.  It's not that sharp, but its length and heft mean it could do a bit of damage and cause some nasty tearing.",
+        "ascii_picture": "knife_bread"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "140 g",
+    "volume": "200 ml",
+    "longest_side": "30 cm",
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 1, "stab": 18 }
+  },
+  {
     "id": "copper_knife",
     "type": "TOOL",
     "name": { "str": "copper knife", "str_pl": "copper knives" },
