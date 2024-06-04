@@ -1972,7 +1972,7 @@
     "price": "499 USD 50 cent",
     "price_postapoc": "7 USD 50 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ { "type": "rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
+    "material": [ { "type": "butyl _rubber", "portion": 3 }, { "type": "plastic", "portion": 2 } ],
     "symbol": "[",
     "color": "black",
     "armor": [
