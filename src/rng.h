@@ -10,6 +10,7 @@
 #include <random>
 #include <type_traits>
 
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class map;
@@ -193,12 +194,20 @@ inline V random_entry_removed( C &container )
 }
 
 /// Returns a range enclosing all valid points of the map.
+// TODO: Remove untyped overload
 tripoint_range<tripoint> points_in_range( const map &m );
+tripoint_range<tripoint_bub_ms> points_in_range_bub( const map &m );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
+// TODO: Remove untyped overload
 std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
                                       const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_ms> &range,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
 /// Same as other random_point with a range enclosing all valid points of the map.
+// TODO: Remove untyped overload
 std::optional<tripoint> random_point( const map &m,
                                       const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint_bub_ms> random_point( const map &m,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
 
 #endif // CATA_SRC_RNG_H

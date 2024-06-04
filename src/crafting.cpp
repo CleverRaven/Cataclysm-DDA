@@ -788,7 +788,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &get_map().add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
-            return item_location( map_cursor( tile ), it_on_map );
+            return item_location( map_cursor( tripoint_bub_ms( tile ) ), it_on_map );
         }
     }
     debugmsg( "Could not place %s on map near (%d, %d, %d)", newit.tname(), loc.x, loc.y, loc.z );
@@ -2736,7 +2736,7 @@ void Character::disassemble_all( bool one_pass )
     bool found_any = false;
     std::vector<item_location> to_disassemble;
     for( item &it : get_map().i_at( pos() ) ) {
-        to_disassemble.emplace_back( map_cursor( pos() ), &it );
+        to_disassemble.emplace_back( map_cursor( pos_bub() ), &it );
     }
     for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
@@ -3143,7 +3143,7 @@ item_location npc::get_item_to_craft()
         }
         for( item &itm : here.i_at( adj ) ) {
             if( itm.get_var( "crafter", "" ) == name ) {
-                to_craft = item_location( map_cursor( adj ), &itm );
+                to_craft = item_location( map_cursor( tripoint_bub_ms( adj ) ), &itm );
                 if( !is_anyone_crafting( to_craft, this ) ) {
                     return to_craft;
                 }
@@ -3185,7 +3185,7 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
         }
         for( item &itm : here.i_at( adj ) ) {
             if( itm.is_craft() && itm.get_making().npc_can_craft( dummy ) ) {
-                item_location to_craft = item_location( map_cursor( adj ), &itm );
+                item_location to_craft = item_location( map_cursor( tripoint_bub_ms( adj ) ), &itm );
                 if( !is_anyone_crafting( to_craft, this ) ) {
                     craft_item_list.push_back( to_craft );
                 }

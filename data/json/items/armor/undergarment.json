@@ -802,7 +802,7 @@
     "symbol": "[",
     "looks_like": "leggings",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 3, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
@@ -820,7 +820,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
@@ -846,7 +846,7 @@
     "symbol": "[",
     "looks_like": "long_undertop",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
@@ -990,7 +990,7 @@
     "id": "under_armor",
     "type": "ARMOR",
     "name": { "str": "compression top" },
-    "description": "Nylon sportswear that clings to your chest and maintains body temperature.",
+    "description": "Nylon sportswear that clings to your chest and wicks away sweat.",
     "weight": "92 g",
     "volume": "250 ml",
     "price": "20 USD",
@@ -999,7 +999,7 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 4,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [ { "coverage": 100, "covers": [ "torso" ] } ]
@@ -1008,7 +1008,7 @@
     "id": "under_armor_shorts",
     "type": "ARMOR",
     "name": { "str_sp": "compression shorts" },
-    "description": "Nylon sportswear that clings to your upper legs, aiding muscle tone and maintaining warmth.",
+    "description": "Nylon sportswear that clings to your upper legs, aiding muscle tone and wicking away sweat.",
     "weight": "82 g",
     "volume": "250 ml",
     "price": "20 USD",
@@ -1017,7 +1017,7 @@
     "symbol": "[",
     "looks_like": "shorts",
     "color": "dark_gray",
-    "warmth": 20,
+    "warmth": 4,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
@@ -1038,7 +1038,7 @@
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "white",
-    "warmth": 10,
+    "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [

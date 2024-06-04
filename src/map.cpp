@@ -113,8 +113,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
 
-static const diseasetype_id disease_bad_food( "bad_food" );
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
@@ -141,6 +139,8 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_murky( "water_murky" );
 
 static const material_id material_glass( "glass" );
 
@@ -207,6 +207,7 @@ static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
+static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -2301,18 +2302,13 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         set_seen_cache_dirty( p );
     }
 
-    if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
-        if( new_t.has_flag( "FRESH_WATER" ) ) {
-            item water( "water", calendar::start_of_cataclysm );
-            // TODO: Move all numeric values to json
-            water.charges = rng( 40, 240 );
-            if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
-                water.poison = rng( 1, 6 );
-                water.get_comestible()->parasites = 5;
-                water.get_comestible()->contamination = { { disease_bad_food, 5 } };
-            }
-            add_item( p, water );
-        }
+    if( new_t.has_flag( "SPAWN_WITH_WATER" ) ) {
+        itype_id water_type = new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ? itype_water_murky :
+                              itype_water;
+        item water( water_type, calendar::start_of_cataclysm );
+        // TODO: Move all numeric values to json
+        water.charges = rng( 40, 240 );
+        add_item( p, water );
     }
 
     invalidate_max_populated_zlev( p.z );
@@ -5220,7 +5216,7 @@ item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflo
     int copies = 1;
     std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), copies, overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
-        return item_location { map_cursor{ ret.second }, ret.first };
+        return item_location { map_cursor{ tripoint_bub_ms( ret.second ) }, ret.first };
     }
 
     return {};
@@ -5492,64 +5488,21 @@ item map::water_from( const tripoint &p )
         return ret;
     }
 
-    if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
-        for( item &ret : get_map().i_at( p ) ) {
-            if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( std::max( weather.get_temperature( p ),
-                                                    temperatures::cold ) );
-                ret.poison = rng( 1, 6 );
-                ret.get_comestible()->parasites = 5;
-                ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
-                return ret;
-            }
-        }
-    }
-
-    if( has_flag( ter_furn_flag::TFLAG_TOILET_WATER, p ) ) {
-        for( item &ret : get_map().i_at( p ) ) {
-            if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( std::max( weather.get_temperature( p ),
-                                                    temperatures::cold ) );
-                ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
-                return ret;
-            }
-        }
-    }
-
     const ter_id terrain_id = ter( p );
     if( terrain_id == ter_t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             temperatures::cold ) );
-        ret.poison = rng( 1, 7 );
         return ret;
     }
 
-    item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( std::max( weather.get_temperature( p ),
-                                        temperatures::cold ) );
     // iexamine::water_source requires a valid liquid from this function.
-    if( terrain_id->has_examine( iexamine::water_source ) ) {
-        int poison_chance = 0;
-        if( terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
-            if( terrain_id.obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ) {
-                poison_chance = 20;
-            } else {
-                poison_chance = 4;
-            }
-        } else {
-            if( terrain_id.obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ) {
-                poison_chance = 10;
-            } else {
-                poison_chance = 3;
-            }
-        }
-        if( one_in( poison_chance ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( furn( p )->has_examine( iexamine::water_source ) ) {
+    if( terrain_id->has_examine( iexamine::water_source ) ||
+        furn( p )->has_examine( iexamine::water_source ) ) {
+        itype_id liquid_id = has_flag( ter_furn_flag::TFLAG_MURKY, p ) ? itype_water_murky : itype_water;
+        item ret( liquid_id, calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( std::max( weather.get_temperature( p ),
+                                            temperatures::cold ) );
         return ret;
     }
     return item();
@@ -6038,7 +5991,7 @@ std::list<item_location> map::items_with( const tripoint &p,
     }
     for( item &it : i_at( p ) ) {
         if( filter( it ) ) {
-            ret.emplace_back( map_cursor( p ), &it );
+            ret.emplace_back( map_cursor( tripoint_bub_ms( p ) ), &it );
         }
     }
     return ret;
@@ -6862,6 +6815,11 @@ void map::remove_submap_camp( const tripoint &p )
     current_submap->camp.reset();
 }
 
+void map::remove_submap_camp( const tripoint_bub_ms &p )
+{
+    map::remove_submap_camp( p.raw() );
+}
+
 basecamp map::hoist_submap_camp( const tripoint &p )
 {
     submap *const current_submap = get_submap_at( p );
@@ -6873,12 +6831,15 @@ basecamp map::hoist_submap_camp( const tripoint &p )
     return pcamp ? *pcamp : basecamp();
 }
 
-void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
+void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name, bool need_validate )
 {
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     get_player_character().camps.insert( omt_pos );
-    g->validate_camps();
+    // Mapgen-spawned camps never need or want to validate, since they'll always be on newly generated OMTs
+    if( need_validate ) {
+        g->validate_camps();
+    }
 }
 
 void map::update_submaps_with_active_items()
@@ -9760,16 +9721,9 @@ tripoint_abs_ms map::getglobal( const tripoint_bub_ms &p ) const
     return project_to<coords::ms>( abs_sub.xy() ) + p.raw();
 }
 
-tripoint map::getlocal( const tripoint &p ) const
-{
-    // TODO: fix point types
-    return p - sm_to_ms_copy( abs_sub.xy().raw() );
-}
-
 tripoint map::getlocal( const tripoint_abs_ms &p ) const
 {
-    // TODO: fix point types
-    return getlocal( p.raw() );
+    return ( p - sm_to_ms_copy( abs_sub.xy().raw() ) ).raw();
 }
 
 tripoint_bub_ms map::bub_from_abs( const tripoint &p ) const
@@ -9833,6 +9787,11 @@ submap *map::get_submap_at( const tripoint &p )
         return nullptr;
     }
     return unsafe_get_submap_at( p );
+}
+
+submap *map::get_submap_at( const tripoint_bub_ms &p )
+{
+    return map::get_submap_at( p.raw() );
 }
 
 const submap *map::get_submap_at( const tripoint &p ) const
@@ -10334,7 +10293,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
             }
 
             if( elem.item_ref ) {
-                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
+                result.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), elem.item_ref.get() );
             }
         }
     }
@@ -10685,7 +10644,7 @@ std::vector<item_location> map::get_haulable_items( const tripoint &pos )
     target_items.reserve( items.size() );
     for( item &it : items ) {
         if( is_haulable( it ) ) {
-            target_items.emplace_back( map_cursor( pos ), &it );
+            target_items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
         }
     }
     return target_items;

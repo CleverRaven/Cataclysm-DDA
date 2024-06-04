@@ -328,7 +328,9 @@
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
-      [ "bondage_mask", 20 ]
+      [ "bondage_mask", 20 ],
+      [ "gold_anklet", 25 ],
+      [ "silver_anklet", 25 ]
     ]
   },
   {

@@ -334,7 +334,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                return item_location( map_cursor( pos_bub() ), &get_map().add_item_or_charges( pos(), it ) );
             } else {
                 return added;
             }
@@ -368,7 +368,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( pos() ), &map_added );
+            added = added ? added : item_location( map_cursor( pos_bub() ), &map_added );
         }
     }
     return added;
@@ -394,7 +394,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                    loc = item_location( map_cursor( pos_bub() ), &get_map().add_item_or_charges( pos(), it ) );
                 }
             } else {
                 loc = item_location( *this, &weapon );

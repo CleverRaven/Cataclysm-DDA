@@ -165,6 +165,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_serum_testing",
+    "name": { "str_sp": "production tests" },
+    "description": "Accompanying document, that describes tests performed on different subjects.",
+    "expand_snippets": true,
+    "variants": [
+      {
+        "id": "lab_file_serum_testing_regen",
+        "name": { "str_sp": "production tests" },
+        "description": "\n\n<serum_testing_regen>",
+        "append": true,
+        "expand_snippets": true
+      }
+    ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_sec",
     "name": { "str": "security protocol" },
     "copy-from": "file",

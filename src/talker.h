@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "effect.h"
 #include "item.h"
 #include "messages.h"

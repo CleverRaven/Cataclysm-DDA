@@ -31,7 +31,7 @@
     "dispersion": 500,
     "sight_dispersion": 90,
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "atlatl": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "atlatl": 1 }, "open_container": true } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 12 }
   },

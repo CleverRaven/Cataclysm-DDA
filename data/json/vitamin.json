@@ -186,9 +186,9 @@
     "name": { "str": "Alpha Primer" },
     "excess": "mutagen_alpha",
     "min": 0,
-    "max": 2500,
+    "max": 5000,
     "rate": "1 h",
-    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 5000 ] ]
   },
   {
     "id": "mutagen_batrachian",

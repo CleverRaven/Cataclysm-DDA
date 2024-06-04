@@ -1436,6 +1436,7 @@ dementias
 Demeter
 demi
 demihuman
+Demilled
 demining
 Demir
 demisexuality
@@ -2310,6 +2311,7 @@ gov
 gozu
 gozus
 GPMG
+GPNVG
 GR
 gr
 graboid
@@ -3411,6 +3413,7 @@ LMES
 LMG
 LMGs
 LMOE
+Locutus
 loadout
 loadouts
 lobotomizer
@@ -4325,6 +4328,8 @@ numpad
 nums
 Nunez
 NV
+NVG
+NVGs
 NW
 NY
 Nyâyis
