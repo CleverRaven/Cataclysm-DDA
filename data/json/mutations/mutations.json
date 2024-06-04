@@ -10173,7 +10173,6 @@
       [
         {
           "condition": {
-            "and": [
               { "math": [ "time_since(u_transform_time)", ">", "time('36 h')" ] }
             ]
           },
