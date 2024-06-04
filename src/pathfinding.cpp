@@ -242,9 +242,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
     pf.reset( min.z, max.z );
 
-    // Start and end must not be closed
-    pf.unclose_point( f );
-    pf.unclose_point( t );
     pf.add_point( 0, 0, f, f );
 
     bool done = false;
