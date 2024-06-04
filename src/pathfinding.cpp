@@ -256,12 +256,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             continue;
         }
 
-        if( cur != f && cur != t && avoid( cur ) ) {
-            layer.closed[parent_index] = true;
-            continue;
-        }
-
-
         if( layer.gscore[parent_index] > max_length ) {
             // Shortest path would be too long, return empty vector
             return std::vector<tripoint>();
@@ -288,6 +282,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < min.x || p.x >= max.x || p.y < min.y || p.y >= max.y ) {
+                continue;
+            }
+
+            if( p != t && avoid( p ) ) {
+                layer.closed[index] = true;
                 continue;
             }
 
