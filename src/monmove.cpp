@@ -1027,8 +1027,7 @@ void monster::move()
                 } else {
                     path = here.straight_route( pos(), local_dest );
                     if( !path.empty() ) {
-                        const auto &avoid = get_path_avoid();
-                        if( std::any_of( path.begin(), path.end(), avoid ) ) {
+                        if( std::any_of( path.begin(), path.end(), get_path_avoid() ) ) {
                             path.clear();
                         }
                     }
