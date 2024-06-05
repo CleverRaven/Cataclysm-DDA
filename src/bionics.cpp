@@ -159,8 +159,8 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 
 static const morale_type morale_feeling_good( "morale_feeling_good" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 

@@ -124,8 +124,8 @@ static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
 
-static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
 static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );

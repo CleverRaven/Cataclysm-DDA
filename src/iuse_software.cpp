@@ -11,9 +11,6 @@
 #include "iuse_software_sokoban.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "type_id.h"
-
-static const morale_type morale_game_found_kitten( "morale_game_found_kitten" );
 
 bool play_videogame( const std::string &function_name,
                      std::map<std::string, std::string> &game_data,
