@@ -682,8 +682,6 @@ class game
                                       const std::string &none_message = "" );
         item_location inv_map_splice( const item_location_filter &filter, const std::string &title,
                                       int radius = 0, const std::string &none_message = "" );
-        item_location inv_map_splice_with_pseudo( const item_filter &filter, const std::string &title,
-                int radius = 0, const std::string &none_message = "" );
 
         bool has_gametype() const;
         special_game_type gametype() const;
