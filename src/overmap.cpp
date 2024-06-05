@@ -6144,8 +6144,8 @@ void overmap::build_connection(
                 } else if( pos.xy() == start.pos || pos.xy() == end.pos ) {
                     // Only automatically connect to out of bounds locations if we're the start or end of this path.
                     new_line = om_lines::set_segment( new_line, dir );
-
                     // Save calcing unnecessary paths
+                    // TODO: Add differentiation to connections_out based on side?
                     auto side = []( const tripoint_om_omt & p ) {
                         return p.x() == 0 ? 3 : p.x() == OMAPX - 1 ? 1 : p.y() == 0 ? 0 : 2;
                     };
@@ -6153,12 +6153,14 @@ void overmap::build_connection(
                     std::vector<tripoint_om_omt> &outs = connections_out[connection.id];
                     auto should_add_out_connection = [&]( bool is_road ) {
                         // TODO: Replace with a method that works for all JSON defined connections not just this road hack
-                        for( const tripoint_om_omt &out_connection : outs ) {
+                        for( const tripoint_om_omt &c : outs ) {
                             // If the point already exists in connections_out for this connection type or the distance via the connection type to an existing point on the same side is the same as the direct distance there don't add it
-                            if( out_connection == pos || !is_road ||
-                                ( side( out_connection ) == side( pos ) &&
-                                  static_cast<int>( lay_out_connection( connection, out_connection.xy(), pos.xy(), z,
-                                                    false ).nodes.size() ) - 1 != rl_dist( out_connection, pos ) ) ) {
+                            if( c == pos || ( !is_road &&
+                                              side( c ) == side( pos ) &&
+                                              static_cast<int>( overmap_buffer.get_travel_path(
+                                                                    project_combine( loc, c ), project_combine( loc, pos ),
+                                                                    overmap_path_params::tmp_road_connection_params() )
+                                                                .size() ) - 1 != rl_dist( c, pos ) ) ) {
                                 return false;
                             }
                         }
