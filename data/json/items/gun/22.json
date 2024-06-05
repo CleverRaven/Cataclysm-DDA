@@ -528,7 +528,7 @@
     "color": "brown",
     "range": 3,
     "ammo": [ "22" ],
-    "skill": "rifle",
+    "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 140,
     "durability": 8,
