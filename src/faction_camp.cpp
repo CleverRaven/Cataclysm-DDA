@@ -3543,8 +3543,8 @@ static bool farm_valid_seed( const item &itm )
     return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
-static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
-        const npc_ptr &comp = nullptr )
+std::pair<size_t, std::string> basecamp::farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
+        const npc_ptr &comp )
 {
     size_t plots_cnt = 0;
     std::string crops;

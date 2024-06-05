@@ -443,6 +443,8 @@ class basecamp
         * @param op whether to plow, plant, or harvest
         */
         bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
+        std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
+                                                    const npc_ptr &comp = nullptr );
         void fortifications_return( const mission_id &miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
                                            const comp_list &npc_list );
