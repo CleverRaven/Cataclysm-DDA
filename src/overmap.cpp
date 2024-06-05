@@ -3134,7 +3134,6 @@ point_om_omt overmap::get_fallback_road_connection_point() const
     if( fallback_road_connection_point ) {
         return *fallback_road_connection_point;
     } else {
-        debugmsg( "fallback_road_connection_point wasn't set" );
         return point_om_omt( rng( OMAPX / 4, ( 3 * OMAPX ) / 4 ),
                              rng( OMAPY / 4, ( 3 * OMAPY ) / 4 ) );
     }
