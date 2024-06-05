@@ -1080,6 +1080,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "dissect", dissect );
 
+    optional( jo, was_loaded, "decay", decay );
+
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
         for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
