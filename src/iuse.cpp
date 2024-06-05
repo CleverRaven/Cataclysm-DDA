@@ -8109,12 +8109,17 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 heater find_heater( Character *p, item *it )
 {
     bool consume_flag = true;
+    bool pseudo_flag = false;
     int available_heater = 1;
     int heating_effect = 0;
     item_location loc = item_location( *p, it );
+    optional_vpart_position vp = get_map().veh_at( loc.position() );
+    if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
+        pseudo_flag = true;
+    }
     if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
-        return {loc, false, 1, 0};
+        return {loc, false, 1, 0, vp, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
         if( it->ammo_remaining() >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
@@ -8125,7 +8130,7 @@ heater find_heater( Character *p, item *it )
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else {
             p->add_msg_if_player( m_info, _( "The %s has been used up." ), it->tname() );
-            return {loc, true, -1, 0};
+            return {loc, true, -1, 0, vp, pseudo_flag};
         }
     } else if( !it->has_quality( qual_HOTPLATE ) ) {
         auto filter = [p]( const item & e ) {
@@ -8144,10 +8149,10 @@ heater find_heater( Character *p, item *it )
             }
             return false;
         };
-        loc = g->inv_map_splice_with_pseudo( filter, _( "Select a tool to heat:" ), 1,
+        loc = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
                                              _( "You don't have proper heating source." ) );
         if( !loc ) {
-            return {loc, true, -1, 0};
+            return {loc, true, -1, 0, vp, pseudo_flag};
         }
         p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
                               loc->tname() );
@@ -8160,7 +8165,8 @@ heater find_heater( Character *p, item *it )
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p->available_ups() );
     }
-    return {loc, consume_flag, available_heater, heating_effect};
+    return {loc, consume_flag, available_heater, heating_effect, vp, pseudo_flag};
+
 }
 
 static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
@@ -8273,9 +8279,6 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    if( h.loc.get_item()->has_flag( flag_PSEUDO ) ) {
-        h.loc.get_item()->countdown_point = calendar::turn + time_duration::from_moves( required.time );
-    };
     p->assign_activity( heat_activity_actor( to_heat, required, h ) );
     return true;
 }

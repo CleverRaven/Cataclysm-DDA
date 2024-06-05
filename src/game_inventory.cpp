@@ -126,43 +126,6 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
-item_location game::inv_map_splice_with_pseudo( const item_filter &fliter, const std::string &title,
-        int radius, const std::string &none_message )
-{
-    inventory_selector_preset preset = inventory_filter_preset( convert_filter( fliter ) );
-    inventory_pick_selector inv_s( u, preset );
-
-    inv_s.set_title( title );
-    inv_s.set_display_stats( false );
-    u.inv->restack( u );
-    inv_s.clear_items();
-    for( const tripoint &pt : points_in_radius( u.pos(), radius ) ) {
-        if( optional_vpart_position vp = m.veh_at( pt ) ) {
-            const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
-            const vpart_info vp_info = vp_toolstation->info();
-            if( vp_info.toolkit_info ) {
-                for( const auto &[tool_type, _] : vp_info.get_pseudo_tools() ) {
-                    tool_type->has_any_quality_level( "HOTPLATE", 2 );
-                    u.inv->provide_pseudo_item( tool_type );
-                }
-            }
-        }
-    }
-    inv_s.add_character_items( u );
-    inv_s.add_nearby_items( radius );
-
-
-    if( inv_s.empty() ) {
-        const std::string msg = none_message.empty()
-                                ? _( "You don't have the necessary item at hand." )
-                                : none_message;
-        popup( msg, PF_GET_KEY );
-        return item_location();
-    }
-    item_location location = inv_s.execute();
-    return location;
-}
-
 static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,

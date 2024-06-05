@@ -60,6 +60,7 @@
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -1806,6 +1807,9 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
         act.index = INT_MIN; // tell activity the item doesn't really exist
         act.coords.push_back( vp_pos.raw() ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
+    }
+    if( act.id() == ACT_HEATING ) {
+        act.coords.push_back( vp_pos.raw() );
     }
 
     const int used_charges = ammo_in_tool - tool.ammo_remaining();
