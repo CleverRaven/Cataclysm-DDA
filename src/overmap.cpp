@@ -5591,11 +5591,9 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     bool existing_unique;
     do {
         ret = pick_building( city_spec );
+        // TODO: Add OVERMAP_UNIQUE handling, doesn't seem to be kept track of in an ideal way atm
         if( ret->has_flag( "CITY_UNIQUE" ) ) {
             existing_unique = placed_unique_buildings.find( ret ) != placed_unique_buildings.end();
-        } else if( ret->has_flag( "OVERMAP_UNIQUE" ) ) {
-            // TODO: Add handling, this doesn't seem to be kept track of in an ideal way atm
-            existing_unique = false;
         } else if( ret->has_flag( "GLOBALLY_UNIQUE" ) ) {
             existing_unique = overmap_buffer.contains_unique_special( ret );
         } else {
