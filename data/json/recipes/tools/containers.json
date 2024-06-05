@@ -1346,7 +1346,7 @@
     "time": "5 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_GLASS", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 5 ] ], [ [ "silicone", 9 ] ], [ [ "duct_tape", 120 ] ] ]
+    "components": [ [ [ "glass_sheet", 5 ] ], [ [ "silicone", 9 ] ], [ [ "duct_tape", 53 ] ] ]
   },
   {
     "type": "recipe",
@@ -1359,7 +1359,7 @@
     "time": "4 h 15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT_GLASS", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 3 ] ], [ [ "silicone", 7 ] ], [ [ "duct_tape", 94 ] ] ]
+    "components": [ [ [ "glass_sheet", 3 ] ], [ [ "silicone", 7 ] ], [ [ "duct_tape", 42 ] ] ]
   },
   {
     "type": "recipe",
@@ -1372,7 +1372,7 @@
     "time": "8 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_GLASS", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 8 ] ], [ [ "silicone", 12 ] ], [ [ "duct_tape", 158 ] ] ]
+    "components": [ [ [ "glass_sheet", 8 ] ], [ [ "silicone", 12 ] ], [ [ "duct_tape", 70 ] ] ]
   },
   {
     "type": "recipe",
