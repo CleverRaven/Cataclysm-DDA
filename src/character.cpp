@@ -2589,7 +2589,7 @@ void Character::recalc_sight_limits()
     }
 
     // Not exactly a sight limit thing, but related enough
-    if( has_flag( json_flag_INFRARED ) ||
+    if( has_flag( json_flag_INFRARED ) || has_worn_module_with_flag( flag_IR_EFFECT ) ||
         worn_with_flag( flag_IR_EFFECT ) || ( is_mounted() &&
                 mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
@@ -3859,13 +3859,20 @@ bool Character::has_nv_goggles()
 {
     static bool nv = false;
 
-    if (!nv_cached) {
-    nv_cached = true;
-    std::vector<item *> nv_green_items = cache_get_items_with(json_flag_NVG_GREEN);
-    nv = worn_with_flag(flag_GNV_EFFECT) || has_flag(json_flag_NIGHT_VISION) ||
-         std::any_of(nv_green_items.begin(), nv_green_items.end(),
-                     [this](item* nvg_itm) { return is_worn_module(*nvg_itm); });
+    if( !nv_cached ) {
+        nv_cached = true;
+        nv = worn_with_flag( flag_GNV_EFFECT ) || has_flag( json_flag_NIGHT_VISION ) ||
+             worn_with_flag( json_flag_NVG_GREEN ) || has_worn_module_with_flag( json_flag_NVG_GREEN );
     }
+}
+
+bool Character::has_worn_module_with_flag( const flag_id &f )
+{
+    std::vector<item *> flag_items = cache_get_items_with( f );
+    return std::any_of( flag_items.begin(), flag_items.end(),
+    [this]( item * i ) {
+        return is_worn_module( *i );
+    } );
 }
 
 void Character::calc_discomfort()
