@@ -2016,10 +2016,18 @@
   {
     "result": "cable",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "8 s",
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "copper_wire", 1 ] ] ]
+  },
+  {
+    "result": "copper_wire",
+    "type": "uncraft",
+    "time": "1 s",
+    "//": "I made this a near instant conversion.  Raw copper wire is essentially just copper and imo should be freely converted without a huge time investment or tool requirement, they are effectively identical items.",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [ [ [ "copper", 1 ] ] ]
   },
   {

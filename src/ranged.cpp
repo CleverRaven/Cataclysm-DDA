@@ -286,6 +286,7 @@ class target_ui
         // Snap camera to cursor. Can be permanently toggled in settings
         // or temporarily in this window
         bool snap_to_target = false;
+        bool unload_RAS_weapon = true;
         // If true, LEVEL_UP, LEVEL_DOWN and directional keys
         // responsible for moving cursor will shift view instead.
         bool shifting_view = false;
@@ -2515,6 +2516,7 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
+    unload_RAS_weapon = get_option<bool>( "UNLOAD_RAS_WEAPON" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -2562,6 +2564,7 @@ target_handler::trajectory target_ui::run()
             attack_was_confirmed = true;
         }
         // Load state to keep the ui consistent across turns
+        unload_RAS_weapon = activity->should_unload_RAS;
         snap_to_target = activity->snap_to_target;
         shifting_view = activity->shifting_view;
         resume_critter = activity->aiming_at_critter;
@@ -2642,6 +2645,9 @@ target_handler::trajectory target_ui::run()
         // Handle received input
         if( handle_cursor_movement( action, skip_redraw ) ) {
             continue;
+        } else if( action == "TOGGLE_UNLOAD_RAS_WEAPON" ) {
+            unload_RAS_weapon = !unload_RAS_weapon;
+            activity->should_unload_RAS = unload_RAS_weapon;
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target();
         } else if( action == "TOGGLE_TURRET_LINES" ) {
@@ -2736,6 +2742,7 @@ target_handler::trajectory target_ui::run()
             traj.clear();
             if( mode == TargetMode::Fire || ( mode == TargetMode::Reach && activity ) ) {
                 activity->aborted = true;
+                activity->should_unload_RAS = unload_RAS_weapon;
             }
             break;
         }
@@ -2751,6 +2758,7 @@ target_handler::trajectory target_ui::run()
             activity->acceptable_losses = list_friendlies_in_lof();
             traj.clear();
             activity->action = timed_out_action;
+            activity->should_unload_RAS = unload_RAS_weapon;
             activity->snap_to_target = snap_to_target;
             activity->shifting_view = shifting_view;
             activity->aiming_at_critter = !!dst_critter;
@@ -2809,6 +2817,7 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "NEXT_TARGET" );
     ctxt.register_action( "PREV_TARGET" );
     ctxt.register_action( "CENTER" );
+    ctxt.register_action( "TOGGLE_UNLOAD_RAS_WEAPON" );
     ctxt.register_action( "TOGGLE_SNAP_TO_TARGET" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -3501,8 +3510,10 @@ bool target_ui::action_switch_ammo()
     } else if( mode == TargetMode::Fire && relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         item_location gun = you->get_wielded_item();
         item::reload_option opt = you->select_ammo( gun );
-        activity->reload_loc = opt.ammo;
-        update_ammo_range_from_gun_mode();
+        if( opt ) {
+            activity->reload_loc = opt.ammo;
+            update_ammo_range_from_gun_mode();
+        }
     } else {
         // Leave aiming UI and open reloading UI since
         // reloading annihilates our aim anyway
@@ -3831,10 +3842,23 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
                                       bound_key( "SWITCH_MODE" ).short_description() ) )
                          } );
-        if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
+        if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) &&
+            ( !relevant->ammo_remaining() || !relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) ) {
             lines.push_back( { 6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
                                            bound_key( "SWITCH_AMMO" ).short_description() ) )
                              } );
+        } else {
+            if( !unload_RAS_weapon ) {
+                std::string unload = string_format( _( "[%s] Unload the %s after quitting." ),
+                                                    bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
+                                                    relevant->tname() );
+                lines.push_back( {3, colored( col_disabled, unload )} );
+            } else {
+                std::string unload = string_format( _( "[%s] Keep the %s loaded after quitting." ),
+                                                    bound_key( "TOGGLE_UNLOAD_RAS_WEAPON" ).short_description(),
+                                                    relevant->tname() );
+                lines.push_back( {3, colored( col_enabled, unload )} );
+            }
         }
     }
     if( mode == TargetMode::Turrets ) {

@@ -39,6 +39,7 @@ INHERITED_KEYS = [
     "ranged_damage",
     "reload",
     "longest_side",
+    "linkage",
     "pocket_data",
     "dispersion",
     "recoil",
@@ -88,25 +89,14 @@ VARIANT_CHECK_PAIR_BLACKLIST = {
 }
 IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "rm103a_pistol",
-    "rm11b_sniper_rifle",
-    "rm2000_smg",
-    "rm51_assault_rifle",
-    "rm614_lmg",
-    "rm88_battle_rifle",
     "bigun",
-    "m2browning",
     "american_180",
     "sig_mosquito",
     "fn_p90",
     "p50",
     "fn_ps90",
     "fn_fal_semi",
-    "m134",
     "m1a",
-    "m240",
-    "m60",
-    "m60_semi",
     "m110a1",
     "ak308",
     "rfb_308",
@@ -125,25 +115,17 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "arx160",
     "draco",
     "mk47",
-    "m1918",
-    "m249",
-    "m249_semi",
     "ak556",
     "minidraco556",
     "mdrx",
     "sapra",
-    "m202_flash",
     "STI_DS_10",
-    "kord",
     "hpt3895",
     "m2carbine",
     "smg_40",
-    "rm228",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
-    "walther_ppk",
-    "kp32",
     "1895sbl",
     "bfr",
     "sharps",
@@ -152,7 +134,6 @@ NAME_CHECK_BLACKLIST = {
     "tac50",
     "bfg50",
     "fn_p90",
-    "m134",
     "hk_mp7",
     "obrez",
     "pressin",
@@ -160,36 +141,29 @@ NAME_CHECK_BLACKLIST = {
     "m2010",
     "weatherby_5",
     "win70",
-    "ruger_pr",
     "2_shot_special",
     "cop_38",
     "model_10_revolver",
     "mr73",
     "ruger_lcr_38",
     "sw_619",
-    "m1918",
     "acr_300blk",
     "iwi_tavor_x95_300blk",
     "sig_mcx_rattler_sbr",
     "bond_410",
-    "colt_lightning",
     "colt_saa",
     "p226_357sig",
     "glock_31",
     "p320_357sig",
-    "famas",
     "fs2000",
     "scar_l",
     "brogyaga",
     "raging_bull",
     "raging_judge",
-    "m202_flash",
     "saiga_410",
     "shotgun_410",
     "mgl",
     "pseudo_m203",
-    "ak74",
-    "kord",
     "colt_army",
     "atgm_launcher",
     "xedra_gun",
@@ -200,19 +174,13 @@ NAME_CHECK_BLACKLIST = {
     "hi_power_40",
     "walther_ppq_40",
     "hptjcp",
-    "rm228",
     "AT4",
     "af2011a1_38super",
     "m1911a1_38super",
     "colt_navy",
-    "ruger_arr",
     "plasma_gun",
     "bbgun",
     "LAW",
-    "needlegun",
-    "needlepistol",
-    "RPG",
-    "skorpion_61",
 }
 BAD_IDENTIFIERS = [
     "10mm",
@@ -254,6 +222,7 @@ TYPE_DESCRIPTORS = [
     "lever gun",
     "LMG",
     "machine gun",
+    "minigun",
     # This is as close as you can get without a giant name
     "operational briefcase",
     "pistol",
@@ -713,8 +682,8 @@ def find_identifiers(all_guns):
         # Add all the magazine names in
         for mag in mags:
             name = name_of(all_jos[mag])
-            # Skip STANAG, because those are uber generic
-            if "STANAG" not in name:
+            # Skip STANAG, because those are uber generic, also linkages
+            if "STANAG" not in name and "linkage" not in all_jos[mag]:
                 names.append(name)
         # If it didn't have any mags, we can skip it
         if len(names) < 2:
@@ -741,7 +710,7 @@ def find_bad_names(all_guns):
         name = name_of(gun)
         good = False
         for type_descriptor in TYPE_DESCRIPTORS:
-            if type_descriptor in name:
+            if type_descriptor.upper() in name.upper():
                 good = True
                 break
         if not good:
@@ -828,11 +797,19 @@ def check_identifiers(all_guns):
             # multiple guns, those guns all take the same mags, etc
             print("The following valid identifiers were found.",
                   "Please check to ensure they make sense.")
-            good_tokens = []
+            good_tokens = [[]]
+            idx = 0
+            len_so_far = 0
             for token in good_token_list:
                 guns_str = string_listify(good_token_list[token], " ")
-                good_tokens.append(f"{token} ({guns_str})")
-            print(string_listify(good_tokens, ", "))
+                good_tokens[idx].append(f"{token} ({guns_str})")
+                len_so_far += len(good_tokens[idx][-1])
+                if len_so_far > 100:
+                    len_so_far = 0
+                    idx += 1
+                    good_tokens.append([])
+            for string in good_tokens:
+                print(" -", string_listify(string, ", "))
 
     return len(bad_tokens) > 0
 

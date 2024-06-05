@@ -1225,8 +1225,8 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
-    for( const std::pair<const diseasetype_id, int> &elem : food.get_comestible()->contamination ) {
-        if( rng( 1, 100 ) <= elem.second ) {
+    for( const std::pair<const diseasetype_id, float> &elem : food.get_comestible()->contamination ) {
+        if( rng_float( 0, 100 ) < elem.second ) {
             you.expose_to_disease( elem.first );
         }
     }

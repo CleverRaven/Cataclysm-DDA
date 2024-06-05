@@ -1105,9 +1105,8 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 2 ] ] ]
+    "using": [ [ "plastic_molding", 2 ] ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1254,7 +1253,7 @@
     "difficulty": 5,
     "time": "8 h",
     "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ], [ "plastic_molding", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_molding", 7 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },

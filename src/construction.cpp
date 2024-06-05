@@ -141,6 +141,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const vpart_id vpart_frame( "frame" );

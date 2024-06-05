@@ -438,7 +438,8 @@
     "time": " 2 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "plastic_molding", 10 ] ]
+    "using": [ [ "plastic_molding", 5 ] ],
+    "components": [ [ [ "plastic_chunk", 7 ] ] ]
   },
   {
     "result": "hat_hard_hooded",

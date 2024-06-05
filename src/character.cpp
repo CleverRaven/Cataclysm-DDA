@@ -488,6 +488,8 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+static const trap_str_id tr_ledge( "tr_ledge" );
+
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
 
@@ -3088,6 +3090,27 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
     if( using_lifting_assist ) {
         invalidate_weight_carried_cache();
     }
+}
+
+units::volume Character::get_total_volume() const
+{
+    item_location wep = get_wielded_item();
+    units::volume wep_volume = wep ? wep->volume() : 0_ml;
+    // Note: Does not measure volume of worn items that do not themselves contain anything
+    return get_base_volume() + volume_carried() + wep_volume;
+}
+
+units::volume Character::get_base_volume() const
+{
+    const int your_height = height(); // avg 175cm
+    // Arbitrary number picked relative to aisle (100L), not necessarily accurate
+    const units::volume avg_human_volume = 70_liter;
+
+    // Very scientific video game size to metric human volume calculation. Avg height == avg_human_volume;
+    units::volume your_base_volume = units::from_liter( static_cast<double>( your_height ) / 2.5 );
+    double volume_proport = units::to_liter( your_base_volume ) / units::to_liter( avg_human_volume );
+
+    return std::pow( volume_proport, 3.0 ) * avg_human_volume;
 }
 
 units::mass Character::weight_carried() const
@@ -12346,10 +12369,14 @@ stat_mod Character::get_pain_penalty() const
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
     // Also not make character has 0 stats
-    ret.strength = std::clamp( ret.strength, 1, get_str() - 1 );
-    ret.dexterity = std::clamp( ret.dexterity, 1, get_dex() - 1 );
-    ret.intelligence = std::clamp( ret.intelligence, 1, get_int() - 1 );
-    ret.perception = std::clamp( ret.perception, 1, get_per() - 1 );
+    ret.strength = get_str() > 2 ? std::clamp( ret.strength, 1, get_str() - 1 ) :
+                   std::max( 0, get_str() - 1 );
+    ret.dexterity = get_dex() > 2 ? std::clamp( ret.dexterity, 1, get_dex() - 1 ) :
+                    std::max( 0, get_dex() - 1 );
+    ret.intelligence = get_int() > 2 ? std::clamp( ret.intelligence, 1, get_int() - 1 ) :
+                       std::max( 0, get_int() - 1 );
+    ret.perception = get_per() > 2 ? std::clamp( ret.perception, 1, get_per() - 1 ) :
+                     std::max( 0, get_per() - 1 );
 
 
     int speed_penalty = std::pow( pain, 0.7f );

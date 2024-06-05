@@ -293,9 +293,10 @@ monster::monster( const mtype_id &id ) : monster()
     moves = type->speed;
     Creature::set_speed_base( type->speed );
     hp = type->hp;
+    dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
     for( const auto &sa : type->special_attacks ) {
         mon_special_attack &entry = special_attacks[sa.first];
-        entry.cooldown = rng( 0, sa.second->cooldown );
+        entry.cooldown = rng( 0, sa.second->cooldown.evaluate( d ) );
     }
     anger = type->agro;
     morale = type->morale;
@@ -387,9 +388,10 @@ void monster::poly( const mtype_id &id )
     morale = type->morale;
     hp = static_cast<int>( hp_percentage * type->hp );
     special_attacks.clear();
+    dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
     for( const auto &sa : type->special_attacks ) {
         mon_special_attack &entry = special_attacks[sa.first];
-        entry.cooldown = sa.second->cooldown;
+        entry.cooldown = sa.second->cooldown.evaluate( d );
     }
     faction = type->default_faction;
     upgrades = type->upgrades;
@@ -2587,12 +2589,15 @@ void monster::reset_stats()
 
 void monster::reset_special( const std::string &special_name )
 {
-    set_special( special_name, type->special_attacks.at( special_name )->cooldown );
+    dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
+    set_special( special_name, type->special_attacks.at( special_name )->cooldown.evaluate( d ) );
 }
 
 void monster::reset_special_rng( const std::string &special_name )
 {
-    set_special( special_name, rng( 0, type->special_attacks.at( special_name )->cooldown ) );
+    dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
+    set_special( special_name, rng( 0,
+                                    type->special_attacks.at( special_name )->cooldown.evaluate( d ) ) );
 }
 
 void monster::set_special( const std::string &special_name, int time )

@@ -2482,6 +2482,7 @@
       { "point": [ 0, 5, 1 ], "overmap": "godco_7_1_north" },
       { "point": [ -1, 3, 2 ], "overmap": "godco_2_2_north" },
       { "point": [ 0, 3, 2 ], "overmap": "godco_1_2_north" },
+      { "point": [ 0, 3, 3 ], "overmap": "godco_1_3_north" },
       { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] }
     ],
     "locations": [ "forest" ],
@@ -7001,6 +7002,7 @@
     "id": "Occupied Scrap Yard",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "smallscrapyard_ocu_north", "camp": "wasteland_scavengers", "camp_name": "Scrapper" },
+      { "point": [ 0, 0, 1 ], "overmap": "smallscrapyard_ocu_roof_north" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],

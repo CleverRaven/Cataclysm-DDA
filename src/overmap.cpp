@@ -7319,6 +7319,11 @@ void overmap::spawn_mon_group( const mongroup &group, int radius )
     add_mon_group( group, radius );
 }
 
+void overmap::debug_force_add_group( const mongroup &group )
+{
+    add_mon_group( group, 1 );
+}
+
 void overmap::add_mon_group( const mongroup &group )
 {
     zg.emplace( group.rel_pos(), group );

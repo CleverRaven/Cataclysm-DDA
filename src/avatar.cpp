@@ -1261,6 +1261,9 @@ bool avatar::cant_see( const tripoint_bub_ms &p )
 
 void avatar::rebuild_aim_cache()
 {
+    aim_cache_dirty =
+        false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
+
     double pi = 2 * acos( 0.0 );
 
     const tripoint local_last_target = get_map().bub_from_abs( last_target_pos.value() ).raw();
@@ -1276,7 +1279,7 @@ void avatar::rebuild_aim_cache()
     // todo: this is not the correct weapon when aiming with fake items
     item *weapon = get_wielded_item() ? &*get_wielded_item() : &null_item_reference();
     // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
-    float range = 3.0f - 2.8f * calc_steadiness( *this, *weapon, last_target_pos.value(), recoil );
+    float range = 3.0f - 2.8f * calc_steadiness( *this, *weapon, local_last_target, recoil );
 
     // pin between pi and negative pi
     float upper_bound = base_angle + range;
@@ -1315,7 +1318,6 @@ void avatar::rebuild_aim_cache()
     }
 
     // set cache as no longer dirty
-    aim_cache_dirty = false;
 }
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )

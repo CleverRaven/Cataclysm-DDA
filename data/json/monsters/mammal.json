@@ -807,7 +807,19 @@
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "GRAZE", 20 ], [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED", "EATS" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "CANPLAY",
+      "PET_WONT_FOLLOW",
+      "CAN_BE_CULLED",
+      "EATS"
+    ],
     "armor": { "bash": 2 }
   },
   {
@@ -856,7 +868,9 @@
       "PET_MOUNTABLE",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
       "WARM",
+      "CANPLAY",
       "PET_WONT_FOLLOW",
       "MILKABLE",
       "CAN_BE_CULLED",
@@ -3372,7 +3386,7 @@
   {
     "id": "mon_llama",
     "type": "MONSTER",
-    "name": { "str_sp": "llama" },
+    "name": { "str": "llama" },
     "description": "A big and wooly herbivore domesticated by the Andean cultures of South America.  Llamas and their kin are distant relatives to camels and are adapted to mountain environments.",
     "default_faction": "herbivore_domestic",
     "bodytype": "horse",

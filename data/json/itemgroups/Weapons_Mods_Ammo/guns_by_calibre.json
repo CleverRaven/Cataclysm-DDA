@@ -25,7 +25,8 @@
       { "group": "nested_ruger_lcr_22", "prob": 30 },
       { "group": "nested_sig_mosquito", "prob": 15 },
       { "group": "nested_sw_22", "prob": 40 },
-      { "group": "nested_cp33", "prob": 8 }
+      { "group": "nested_cp33", "prob": 8 },
+      { "group": "nested_ruger_mk4", "prob": 60 }
     ]
   },
   {
@@ -86,7 +87,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_other",
-    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 9 } ]
+    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 3 } ]
   },
   {
     "type": "item_group",
@@ -111,7 +112,8 @@
       { "item": "sig_mosquito", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "sw_22", "prob": 40, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 30, "charges": [ 0, -1 ] },
-      { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] }
+      { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] },
+      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -197,7 +199,8 @@
       { "item": "sw_22", "prob": 40 },
       { "item": "walther_p22", "prob": 35 },
       { "item": "ruger_lcr_22", "prob": 70 },
-      { "item": "cp33", "prob": 11 }
+      { "item": "cp33", "prob": 11 },
+      { "item": "ruger_mk4", "prob": 60 }
     ]
   },
   {
@@ -558,7 +561,7 @@
       { "item": "bren2_556", "prob": 10 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10 },
       { "item": "modular_ar15", "prob": 45 },
-      { "item": "ruger_mini", "prob": 45 },
+      { "item": "ruger_mini", "prob": 9 },
       { "item": "mdrx", "prob": 10 },
       { "item": "cz600", "prob": 10 },
       { "group": "nested_ar15_with_kits", "prob": 15 },

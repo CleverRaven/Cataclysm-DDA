@@ -756,7 +756,7 @@
     "symbol": "[",
     "looks_like": "gloves_leather",
     "color": "light_blue",
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
@@ -792,7 +792,7 @@
     "symbol": "[",
     "looks_like": "gloves_light",
     "color": "light_gray",
-    "warmth": 15,
+    "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ],
     "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]

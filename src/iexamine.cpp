@@ -299,6 +299,9 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
+static const trap_str_id tr_ledge( "tr_ledge" );
+static const trap_str_id tr_telepad( "tr_telepad" );
+
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
 

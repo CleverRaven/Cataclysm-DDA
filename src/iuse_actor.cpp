@@ -4619,7 +4619,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             } else if( it.link().source == link_state::solarpack ) {
                 state_desc_lhs = _( "\nConnecting solar backpack to " );
             }
-            if( it.link().t_veh ) {
+            if( it.link().t_veh && it.link().source != link_state::needs_reeling ) {
                 state_desc_rhs = it.link().t_veh->name;
             } else if( it.link().target == link_state::bio_cable ) {
                 state_desc_rhs = _( "Cable Charger System" );

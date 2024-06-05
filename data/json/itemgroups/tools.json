@@ -682,7 +682,7 @@
       { "item": "sewing_kit", "prob": 120, "charges": [ 0, -1 ] },
       { "item": "shed_stick", "prob": 5 },
       { "item": "tailors_kit", "prob": 10, "charges": [ 0, -1 ] },
-      { "item": "electric_spinwheel", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "electric_spinwheel", "prob": 10 },
       [ "knitting_needles", 20 ],
       [ "kevlar_shears", 100 ]
     ]
@@ -739,6 +739,7 @@
       [ "mask_dust", 5 ],
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "gasfilter_sm", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "mask_gas_half", "prob": 5, "charges": [ 0, 100 ] },
       [ "glasses_safety", 5 ],
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],

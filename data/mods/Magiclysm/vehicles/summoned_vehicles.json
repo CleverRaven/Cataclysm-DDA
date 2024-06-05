@@ -40,6 +40,20 @@
     ]
   },
   {
+    "id": "magic_comcycle",
+    "type": "vehicle",
+    "copy-from": "magic_motorcycle",
+    "name": "Co-op cycle",
+    "blueprint": [
+      [ "o#>o" ],
+      [ " #> " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 1, "parts": [ "frame#cross", "wheel_mount_light", "wheel_motorbike", "seat" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_handle", "box" ] }
+    ]
+  },
+  {
     "type": "vehicle_part",
     "id": "mana_frame",
     "copy-from": "frame_abstract",

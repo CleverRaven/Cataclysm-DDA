@@ -2225,6 +2225,11 @@ class Character : public Creature, public visitable
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
         std::vector<const item *> inv_dump() const;
+
+        // TODO: Cache this like weight carried?
+        units::volume get_total_volume() const;
+        units::volume get_base_volume() const;
+
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
@@ -3517,7 +3522,7 @@ class Character : public Creature, public visitable
         /**
           * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
           */
-        recipe_subset get_group_available_recipes() const;
+        recipe_subset &get_group_available_recipes() const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
@@ -4123,6 +4128,11 @@ class Character : public Creature, public visitable
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchant_cache> enchantment_cache;
+
+    private:
+        /* cached recipes, which are invalidated if the turn changes */
+        mutable time_point cached_recipe_turn;
+        pimpl<recipe_subset> cached_recipe_subset;
 };
 
 Character &get_player_character();
