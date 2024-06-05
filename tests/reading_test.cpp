@@ -12,7 +12,6 @@
 #include "item.h"
 #include "itype.h"
 #include "map_helpers.h"
-#include "morale_types.h"
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"

@@ -49,7 +49,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"

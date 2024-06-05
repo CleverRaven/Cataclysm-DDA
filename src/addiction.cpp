@@ -21,7 +21,6 @@
 #include "generic_factory.h"
 #include "init.h"
 #include "json_error.h"
-#include "morale_types.h"
 #include "rng.h"
 #include "talker.h"
 #include "text_snippets.h"

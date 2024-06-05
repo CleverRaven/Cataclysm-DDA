@@ -30,7 +30,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"

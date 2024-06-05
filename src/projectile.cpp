@@ -17,7 +17,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"

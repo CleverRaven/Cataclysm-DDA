@@ -17,7 +17,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "pimpl.h"
 #include "type_id.h"
 #include "units.h"

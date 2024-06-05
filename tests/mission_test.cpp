@@ -5,7 +5,6 @@
 #include "player_helpers.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 
 static const itype_id itype_test_rock( "test_rock" );

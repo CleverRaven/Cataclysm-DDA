@@ -29,7 +29,6 @@
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"

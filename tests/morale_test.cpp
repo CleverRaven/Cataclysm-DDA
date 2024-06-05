@@ -7,7 +7,6 @@
 #include "character.h"
 #include "item.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "calendar.h"

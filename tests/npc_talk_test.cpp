@@ -23,7 +23,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"

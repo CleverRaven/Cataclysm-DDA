@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "morale_types.h"
 #include "type_id.h"
 
 class JsonObject;

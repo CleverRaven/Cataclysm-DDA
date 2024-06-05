@@ -62,7 +62,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "mission_companion.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
