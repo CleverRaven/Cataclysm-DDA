@@ -31,12 +31,13 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing", "afs_habitat_residential_furnishing", "afs_habitat_life_support" ],
-      "terrain": {
-        "ñ": "t_afs_broken_treads",
-        "1": "t_door_metal_locked",
-        "ê": "t_nuclear_reactor"
-      },
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_mech_furnishing",
+        "afs_habitat_residential_furnishing",
+        "afs_habitat_life_support"
+      ],
+      "terrain": { "ñ": "t_afs_broken_treads", "1": "t_door_metal_locked", "ê": "t_nuclear_reactor" },
       "furniture": {
         "I": "f_sealed_intermodal_crate",
         "4": "f_monomolecularsaw",
