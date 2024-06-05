@@ -361,7 +361,7 @@
     "time": "10 s",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "pinecone", 1 ], [ "stick", 1 ] ] ],
+    "components": [ [ [ "pinecone", 1 ], [ "twig", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   }
 ]
