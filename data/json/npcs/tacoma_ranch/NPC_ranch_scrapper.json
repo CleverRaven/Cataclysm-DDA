@@ -22,9 +22,7 @@
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
             { "not": { "u_has_mission": "MISSION_RANCH_SCRAPPER_TOOLS_FOR_SCRAP" } },
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scrappers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
           ]
         }
       },
@@ -48,7 +46,10 @@
   {
     "id": "TALK_RANCH_SCRAPPER_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
-    "dynamic_line": "Hmm, let me think.  There might be a few things I could scrounge up to help, but it's going to take some time to sort through the scrap to find exactly what you need.  How about this… some of my tools are getting a bit worn and are in need of replacement.  If you could bring me a new angle grinder and a hacksaw, I should be able to find all the parts you need by the time you get back.",
+    "dynamic_line": {
+      "gendered_line": "Hmm, let me think.  There might be a few things I could scrounge up to help, but it's going to take some time to sort through the scrap to find exactly what you need.  How about this… some of my tools are getting a bit worn and are in need of replacement.  If you could bring me a new angle grinder and a hacksaw, I should be able to find all the parts you need by the time you get back.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "An angle grinder and a hacksaw?  I'll see what I can do.",
@@ -86,12 +87,7 @@
       "effect": [
         { "u_consume_item": "angle_grinder" },
         { "u_consume_item": "hacksaw" },
-        {
-          "u_add_var": "doctor_anesthetic_scrappers_helped",
-          "type": "mission",
-          "context": "tacoma_ranch",
-          "value": "yes"
-        }
+        { "u_add_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
       ]
     }
   }

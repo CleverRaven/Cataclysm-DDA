@@ -1,12 +1,13 @@
 #!/bin/bash
 set -exo pipefail
 
+CCACHE=${CCACHE:-0}
+
 emsdk install 3.1.51
 emsdk activate 3.1.51
+if [ "$CCACHE" == "1" ]
+then
+    emsdk activate ccache-git-emscripten-64bit
+fi
 
-ccache --zero-stats
-# Increase cache size because debug builds generate large object files
-ccache -M 5G
-ccache --show-stats --verbose
-
-make -j`nproc` NATIVE=emscripten BACKTRACE=0 TILES=1 TESTS=0 RUNTESTS=0 RELEASE=1 CCACHE=1 LINTJSON=0 cataclysm-tiles.js
+make -j`nproc` NATIVE=emscripten BACKTRACE=0 TILES=1 TESTS=0 RUNTESTS=0 RELEASE=1 CCACHE="$CCACHE" LINTJSON=0 cataclysm-tiles.js

@@ -2867,7 +2867,6 @@
         { "id": "rift", "fg": 220 },
         { "id": "hellmouth", "fg": 218 },
         { "id": "anthill", "fg": 140 },
-        { "id": "ants", "fg": 211 },
         { "id": "ants_food", "fg": 145 },
         { "id": "ants_larvae", "fg": 146 },
         { "id": "ants_queen", "fg": 145 },
@@ -6196,19 +6195,20 @@
         { "id": [ "portal_storm", "close_portal_storm" ], "fg": 220 },
         { "id": [ "early_portal_storm", "distant_portal_storm" ], "fg": 218 },
         {
-          "id": [ "dirt_road", "dirt_road_forest", "rural_road", "rural_road_forest" ],
-          "fg": [ 82, 81, 82, 81 ],
-          "rotates": true
+          "id": [ "ants", "ants_acid", "rural_road", "rural_road_forest" ],
+          "fg": 91,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 76 },
+            { "id": "corner", "fg": [ 78, 80, 79, 77 ] },
+            { "id": "t_connection", "fg": [ 88, 90, 89, 87 ] },
+            { "id": "edge", "fg": [ 82, 81 ] },
+            { "id": "end_piece", "fg": [ 84, 83, 85, 86 ] },
+            { "id": "unconnected", "fg": [ 91, 91 ] }
+          ]
         },
         {
-          "id": [ "dirt_road_3way", "dirt_road_3way_forest", "rural_road_3way", "rural_road_3way_forest" ],
-          "fg": [ 88, 87, 89, 90 ],
-          "rotates": true
-        },
-        { "id": "dirt_road_turn_forest", "fg": [ 77, 79, 80, 78 ], "rotates": true },
-        { "id": "dirt_road_turn1_forest", "fg": [ 78, 77, 79, 80 ], "rotates": true },
-        {
-          "id": "forest_trail",
+          "id": [ "forest_trail", "sewer" ],
           "fg": 113,
           "multitile": true,
           "additional_tiles": [
@@ -6224,7 +6224,7 @@
         { "id": [ "player_male", "player_female" ], "fg": 209, "rotates": false },
         { "id": "overmap_remembered_vehicle", "fg": 229, "rotates": false },
         {
-          "id": "road",
+          "id": [ "road", "mine_tunnel", "subway" ],
           "fg": 246,
           "multitile": true,
           "additional_tiles": [
@@ -6238,12 +6238,6 @@
         },
         { "id": "anchor_brown", "fg": 1 },
         { "id": "cursor", "fg": 75 },
-        { "id": "dirt_road_center", "fg": 76 },
-        { "id": "dirt_road_end_piece_e", "fg": 83 },
-        { "id": "dirt_road_end_piece_n", "fg": 84 },
-        { "id": "dirt_road_end_piece_s", "fg": 85 },
-        { "id": "dirt_road_end_piece_w", "fg": 86 },
-        { "id": "dirt_road_unconnected", "fg": 91 },
         { "id": "highlight", "fg": 139 },
         { "id": "hive_magenta", "fg": 143 },
         { "id": "house_light_green", "fg": 154 },
@@ -6260,6 +6254,7 @@
         { "id": "mission_cursor", "fg": 186 },
         { "id": "open_air_brown", "fg": 191 },
         { "id": "parking_light_blue", "fg": 205 },
+        { "id": "pond_brown", "fg": 211 },
         { "id": "v_runway", "fg": 253 },
         { "id": "two_story_light_green", "fg": 316 },
         { "id": "unknown_terrain", "fg": 318 },

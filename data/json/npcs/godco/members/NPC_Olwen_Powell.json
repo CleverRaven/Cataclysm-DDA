@@ -13,9 +13,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_olwen",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_olwen",
       "value": "yes",
       "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
       "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."
@@ -23,14 +21,14 @@
     "responses": [
       {
         "text": "I'm just a traveler.",
-        "effect": { "npc_add_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_olwen", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" } },
         "topic": "TALK_GODCO_Olwen_Firstmeet"
       },
       {
         "text": "Hi, Olwen.  What's up?",
         "topic": "TALK_GODCO_Olwen_2",
-        "condition": { "npc_has_var": "u_met_godco_olwen", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_olwen", "value": "yes" }
       },
       { "text": "Hey, Olwen.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
@@ -44,8 +42,8 @@
         "text": "I'm just a curious traveler.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Traveler"
@@ -54,8 +52,8 @@
         "text": "I'm seeking asylum here.",
         "condition": {
           "and": [
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Joinee"
@@ -64,8 +62,8 @@
         "text": "I'm just a curious traveler.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Olwen_Mutant_Traveler"
@@ -108,7 +106,7 @@
     "responses": [
       {
         "text": "Can you teach me anything?",
-        "condition": { "npc_has_var": "olwen_can_teach", "type": "general", "context": "training", "value": "yes" },
+        "condition": { "npc_has_var": "general_training_olwen_can_teach", "value": "yes" },
         "topic": "TALK_TRAIN"
       },
       { "text": "Is there anything I can help you with?", "topic": "TALK_MISSION_LIST" },
@@ -156,7 +154,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_Skills",
     "dynamic_line": "Yeah, I got a master's in computer science from the University of Rhode Island.  Everyone around here comes to me when they want to keep their computers running.  Corrie works more with the hardware portion of these things; I'd recommend visiting her.",
-    "speaker_effect": { "effect": { "npc_add_var": "olwen_can_teach", "type": "general", "context": "training", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "general_training_olwen_can_teach", "value": "yes" } },
     "responses": [
       { "text": "Could you teach me anything?", "topic": "TALK_TRAIN" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Olwen_2" },

@@ -714,7 +714,7 @@
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
-      "RISK_HIGH",
+      "RISK_EXTREME",
       "SOURCE_FOOD",
       "SOURCE_DRINK",
       "SOURCE_GUN",
@@ -1477,6 +1477,14 @@
     "type": "overmap_terrain",
     "id": "cs_market_small",
     "name": "small market",
+    "copy-from": "generic_city_building",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_market_small_roof",
+    "name": "small market roof",
     "copy-from": "generic_city_building",
     "sym": "m",
     "color": "i_light_gray"

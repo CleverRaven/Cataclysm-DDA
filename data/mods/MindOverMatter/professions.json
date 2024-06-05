@@ -195,7 +195,7 @@
           { "item": "sneakers" },
           { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "deck_of_cards" },
+          { "item": "deck_of_cards", "variant": "generic_deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
@@ -270,7 +270,7 @@
         "entries": [
           { "item": "pants_army" },
           { "item": "gloves_tactical" },
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -285,7 +285,7 @@
   {
     "type": "profession",
     "id": "psi_telepath_interrogater",
-    "name": "Government Interrogater (DECEASED)",
+    "name": "Government Interrogator (DECEASED)",
     "description": "You did not die in the Cataclysm because on paper, you are already dead.  You assumed a new identity as part of an experimental program designed to produce psychic interrogators.  They told you that you were serving your country, that your gifts would be the key to winning the new Cold War that was surely developing, but they didn't consider the ramifications of having a telepath on the base.  You knew right away that things were much worse than the brass was telling you, and your gifts let you \"persuade\" the guards to let you out even in the face of the lockdown.  You had thought to go somewhere else, to get away from New England, but the end came much faster than even you thought it would.",
     "points": 3,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 3, "name": "metaphysics" } ],
@@ -328,7 +328,7 @@
     "type": "profession",
     "id": "psi_teleporter_slider",
     "name": "Itzcuauhtli Corps Liaison, Yohualli Èhecatl Division",
-    "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli.  You need to find your way back home, but first you need to find a way to survive.",
+    "description": "The last thing you remember was inputting the jump coordinates into the tliltilhuicaātl drive and reaching out to initiate the transfer when there was a power surge and it felt like the entire ship was turning inside out.  Now, you have no idea where you are.",
     "points": 15,
     "skills": [
       { "level": 3, "name": "computer" },
@@ -374,7 +374,8 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",

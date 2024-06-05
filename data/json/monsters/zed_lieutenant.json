@@ -8,7 +8,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 500,
-    "volume": "100 L",
+    "volume": "108500 ml",
     "weight": "100 kg",
     "phase": "GAS",
     "hp": 250,
@@ -105,7 +105,7 @@
     "name": { "str": "Life Drain" },
     "description": "When even the grass rises against you, what hope do you have?",
     "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "hostile" ],
+    "valid_targets": [ "hostile" ],
     "shape": "blast",
     "min_accuracy": 20,
     "max_accuracy": 20,
@@ -165,6 +165,7 @@
         "outdoor_only": true,
         "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
+        "temporary_drop_items": true,
         "target_var": { "global_val": "drain_terrain" }
       },
       { "u_message": "The air rings out with a piercing shriek!", "type": "warning" }
@@ -364,6 +365,9 @@
         {
           "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
+        {
+          "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
+        },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -374,8 +378,16 @@
       { "math": [ "Shadow_Warnings", "+=", "1" ] },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
-        "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
-        "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true }
+        "then": {
+          "if": { "math": [ "Shadow_Warnings", "<", "2" ] },
+          "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
+          "else": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": false }
+        },
+        "else": {
+          "if": { "math": [ "Shadow_Warnings", "<", "2" ] },
+          "then": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true },
+          "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": false }
+        }
       }
     ]
   },
@@ -383,7 +395,13 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
     "effect": [
-      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
+      {
+        "u_message": "You shiver as the night closes in…",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
     ]
   },
   {
@@ -465,7 +483,7 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SHADOW_CATCHUP",
     "eoc_type": "ACTIVATION",
-    "condition": { "math": [ "distance('u', 'Shadow_monster')", ">=", "30" ] },
+    "condition": { "math": [ "distance('u', Shadow_monster)", ">=", "30" ] },
     "effect": [
       { "u_location_variable": { "global_val": "Shadow_Catchup_Pos" }, "min_radius": 3, "max_radius": 10 },
       {
@@ -480,7 +498,7 @@
     "category": "Shadow_Warnings_Snippets_early",
     "text": [
       "Even out here you can still see the burning cities lighting up the horizon.  What scares you most is not the gunshots you sometimes hear in the far distance, but the idea of what people keep shooting at.  Tonight you hear automatic gunfire winding down into single shots.\n\nJust what could make them shoot that much, all the way out here?",
-      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizeable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here."
+      "You suddenly realize this area seems almost devoid of life.  The few bits of blackened grass you can see are barely recognizable as grass, even discounting the night.  Sure the zombies might be tearing people apart, but what happened to the grass?  What, is the grass coming to life to eat people too?\nYou snort at the idea, but it doesn't feel safe out here."
     ]
   },
   {

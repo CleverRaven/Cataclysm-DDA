@@ -406,5 +406,34 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
     "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+  },
+  {
+    "id": "concrete_mix_tool",
+    "type": "TOOL",
+    "name": { "str": "concrete mixer" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 20
+  },
+  {
+    "id": "fake_dynamite_50lbs",
+    "//": "This is used exclusively in the rescue mission for Barry to blow a hole in the scout tower.",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fake 50lbs dynamite car bomb" },
+    "description": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "22680 g",
+    "volume": "15020 ml",
+    "price": 6000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ { "type": "tnt", "portion": 95 }, { "type": "paper", "portion": 5 } ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 18779 },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 18779, "max_noise": 0 } },
+    "countdown_interval": "1 seconds",
+    "flags": [ "BOMB" ],
+    "melee_damage": { "bash": 4 }
   }
 ]

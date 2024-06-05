@@ -3,11 +3,19 @@
     "type": "npc",
     "id": "isherwood_eddie",
     "//": "Dairy farmer of the Isherwood family.",
+    "//2": "Brother of Carlos, BIL of Jesse.  Uncle of Lisa and Chris, father of Luke.  Son of Claire and Jack, nephew of Barry.",
     "name_unique": "Eddie Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_EDDIE",
     "attitude": 0,
     "mission": 7,
+    "age": 41,
+    "height": 179,
+    "str": 9,
+    "dex": 7,
+    "int": 7,
+    "per": 8,
+    "personality": { "aggression": -4, "bravery": -1, "collector": 1, "altruism": 1 },
     "chat": "TALK_ISHERWOOD_EDDIE",
     "mission_offered": "MISSION_ISHERWOOD_EDDIE_1",
     "faction": "isherwood_family"
@@ -18,8 +26,12 @@
     "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "ASTHMA" },
+      { "trait": "JITTERY" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "hazel" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -47,7 +59,7 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 55, "group": "cheese_hard_wrapper_8" },
-      { "prob": 55, "group": "cheese_bag_plastic_8" },
+      { "prob": 55, "group": "cheese_bag_plastic" },
       { "prob": 55, "group": "butter_wrapper_32" },
       { "item": "meat_smoked", "prob": 45 },
       { "item": "fish_smoked", "prob": 25 },
@@ -56,40 +68,13 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_EDDIE",
-    "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
-      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
-    },
+    "id": [ "TALK_ISHERWOOD_EDDIE", "TALK_ISHERWOOD_EDDIE_ConvincedMarshal" ],
     "responses": [
-      {
-        "text": "Yeah, I'm a Marshal, what are you going to do about it?",
-        "topic": "TALK_LEAVE_NOW_MARSHAL",
-        "effect": "hostile",
-        "opinion": { "trust": -20, "value": -20 },
-        "condition": { "u_is_wearing": "badge_marshal" }
-      },
-      {
-        "text": "…",
-        "topic": "TALK_LEAVE_NOW_MARSHAL",
-        "opinion": { "trust": -20, "value": -20 },
-        "condition": { "u_is_wearing": "badge_marshal" }
-      },
       {
         "text": "Nice dairy, must be tough keeping it running.",
         "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
-        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-      },
-      {
-        "text": "Hi, Jack and Claire suggested I come down here and meet you.",
-        "topic": "TALK_JACK_CLAIRE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "effect": [ { "u_add_var": "u_met_Eddie_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Can I do anything for you?",
@@ -112,6 +97,141 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE",
+    "dynamic_line": {
+      "concatenate": [
+        "*is a sun-worn, middle-aged man with crows feet and graying hair.  He looks up as you approach, ",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": "then sneers as he spots the Old Guard Marshal badge gleaming on your chest.  \"I already told your kind not to come around here.  You need to keep on walking, straight off this property.\"",
+          "no": {
+            "u_male": true,
+            "yes": "then gives you a little greeting wave.  \"Hello Sir, what brings you here?\"",
+            "no": "then gives you a little greeting wave.  \"Hello Ma'am, what brings you here?\""
+          }
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "Yeah, I'm a Marshal, what are you going to do about it?",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "…(Leave)",
+        "topic": "TALK_DONE",
+        "opinion": { "trust": -20, "value": -20 },
+        "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_SawMarshal" },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Luke said you guys have some issues with the Old Guard.  What's up with that?",
+        "topic": "TALK_ISHERWOOD_EDDIE_Marshal",
+        "condition": {
+          "and": [
+            { "u_has_var": "isherwood_luke_marshal_questions", "value": "known" },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_SawMarshal",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "*glares at your marshal badge.  \"I said, keep *walking*, G-man.\"",
+      "no": "*spits on the ground, glancing at where your marshal badge would have been, and shaking his head.  \"Nice try.  You can take off the badge, but I know what you are, I'm not some country rube.  Get out.\""
+    },
+    "responses": [
+      {
+        "text": "<color_green>[SOCIAL]</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
+        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", ">=", "3" ] } ] }
+      },
+      {
+        "text": "<color_yellow>[SOCIAL]</color> I took it off man, what more do you want from me?",
+        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", "<", "3" ] } ] }
+      },
+      { "text": "Fine, I'm gone.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_ConvincedMarshal",
+    "dynamic_line": {
+      "concatenate": [
+        "*looks up warily as you approach",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": ", looking at your marshal badge immediately.  \"Nope.  Agreement or not, I'm not talking to you while you're wearing their sign, and I don't appreciate the disrespect.\"",
+          "no": ", his eyes darting to the spot where your marshal badge would be.  \"What now?\""
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "…(Leave)",
+        "topic": "TALK_DONE",
+        "opinion": { "trust": -10, "value": -10 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "What's the deal with you and the Old Guard, anyway?",
+        "topic": "TALK_ISHERWOOD_EDDIE_Marshal",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_Marshal",
+    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "Thanks for telling me.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
+    "dynamic_line": "*grimaces.  \"Fine, I'll give you a chance, but you don't mess with me or my family, you understand?  This is our land, not yours.  Or theirs.\"",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_ConvincedMarshal" } },
+    "responses": [
+      { "text": "Thanks for hearing me out.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "Thanks.  I'll give you space for now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
+    "dynamic_line": "I feel like maybe you didn't hear me right.  Get.  Off.  My.  Land.",
+    "responses": [
+      {
+        "text": "You can't make me.",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 }
+      },
+      { "text": "…(Leave)", "topic": "TALK_DONE", "opinion": { "trust": -20, "value": -20 } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_Marshal",
+    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "Thanks for telling me.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_RESTOCK",
     "dynamic_line": "If the cows don't get anything nasty it should be around <interval>.",
     "responses": [ { "text": "Cheers, bye.", "topic": "TALK_DONE" } ]
@@ -125,10 +245,7 @@
         "text": "I heard about Barry, such a tragedy.  Can you tell me more about what happened?",
         "topic": "TALK_ISHERWOOD_EDDIE2",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
@@ -138,7 +255,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE2",
-    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, you might be able to get Carlos to tell you the story, if he can bring himself to share what happened.",
+    "dynamic_line": "*speaks in a quiet monotone, like he's reading off a page.  \"Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, you might be able to get Carlos to tell you the story, if he can bring himself to share what happened.\"",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -158,7 +275,7 @@
     "type": "talk_topic",
     "id": "TALK_EDDIE_LUKE",
     "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery.  He's out in the old outbuilding right now, cleaning up the place.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_luke", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -177,7 +294,7 @@
     "type": "talk_topic",
     "id": "TALK_EDDIE_CARLOS",
     "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forge", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forge", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -281,7 +398,7 @@
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
+        { "u_add_var": "u_did_eddie_missions", "value": "yes" },
         { "u_spawn_item": "rope_6", "count": 1 },
         { "u_buy_monster": "mon_cow", "count": 1, "name": "Daisy" },
         { "u_spawn_item": "cattlefodder", "count": 3 }

@@ -27,8 +27,8 @@
       {
         "text": "If you still want to travel with me, let's go.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo", "value": "yes" },
-        "effect": [ "follow", { "npc_lose_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo" } ]
+        "condition": { "npc_has_var": "dialogue_pizzaiolo_u_helped_pizzaiolo", "value": "yes" },
+        "effect": [ "follow", { "npc_lose_var": "dialogue_pizzaiolo_u_helped_pizzaiolo" } ]
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
@@ -58,7 +58,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_celebrate",
-    "dynamic_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
+    "dynamic_line": {
+      "gendered_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "[*NOM-NOM*]", "topic": "TALK_pizzaiolo_celebrate1" } ]
   },
   {
@@ -73,7 +76,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "npc_first_topic": "TALK_pizzaiolo_1" },
-          { "npc_add_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo", "value": "yes" }
+          { "npc_add_var": "dialogue_pizzaiolo_u_helped_pizzaiolo", "value": "yes" }
         ]
       }
     ]
@@ -81,13 +84,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_Background",
-    "dynamic_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!"
+    "dynamic_line": {
+      "gendered_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some American <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!",
+      "relevant_genders": [ "npc" ]
+    }
   },
   {
     "id": "MISSION_pizzaiolo_1",
     "type": "mission_definition",
     "name": { "str": "Angry pizzaiolo" },
-    "description": "Bring the pizzaiolo to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring atleast 200 units of gasoline</color>.  After you got there, talk to the pizzaiolo to start burning the house.",
+    "description": "Bring the pizzaiolo to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring at least 200 units of gasoline</color>.  After you got there, talk to the pizzaiolo to start burning the house.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 10000,
@@ -140,7 +146,7 @@
     "followup": "MISSION_pizzaiolo_3",
     "dialogue": {
       "describe": "-",
-      "offer": "Ah, it's you, <name_g>.  Wanna continue on my revenge to all american <name_b>s?",
+      "offer": "Ah, it's you, <name_g>.  Wanna continue on my revenge to all American <name_b>s?",
       "accepted": "Good.  Next stop, Foodplace.  I always hated that place, especially that <swear> <name_b> in his <dumb> mask.  I know he's still alive, hiding in his <swear> <dumb> parody of a restaurant.  Take this bat.  Let's take a visit to him, <name_g>, and kick his <swear> ass!",
       "rejected": "What?!  Why do you… ah, forget it.",
       "advice": "I heard that these 'restaurants' use some kind of locking system for staff room, so we would need to find a way to get there.",

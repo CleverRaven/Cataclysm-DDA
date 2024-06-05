@@ -358,6 +358,9 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
+        if( !overmap_buffer.seen( elem ) ) {
+            continue;
+        }
         std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
@@ -371,16 +374,21 @@ void talk_function::goto_location( npc &p )
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
+    if( !player_character.omt_path.empty() ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My destination" ) );
+    }
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     int index = selection_menu.ret;
-    if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) ) {
+    if( index < 0 || index >= i ) {
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {
         destination = player_character.global_omt_location();
+    } else if( index == static_cast<int>( camps.size() ) + 1 ) {
+        // This looks nuts, but omt_path is emplaced in reverse order. So the front of the vector is our destination
+        destination = player_character.omt_path.front();
     } else {
         const basecamp *selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();

@@ -3,7 +3,6 @@
     "id": "mon_deep_one",
     "type": "MONSTER",
     "name": { "str": "deep one" },
-    "looks_like": "mon_irradiated_wanderer_2",
     "description": "A large, greenish-gray amphibious humanoid with webbed hands and feet.  It's wide, flabby head is distinctly fish like with wide staring eyes and its gangling limbs end in wickedly sharp claws.  It moves with an odd hopping gait, occasionally dropping down to walk on four limbs.",
     "default_faction": "deep_ones",
     "bodytype": "human",

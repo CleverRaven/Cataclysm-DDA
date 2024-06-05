@@ -92,6 +92,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
 
     // That constructor loads an existing overmap or creates a new one.
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
+    overmap_count++;
     new_om.populate();
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
@@ -111,6 +112,7 @@ void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_specia
         }
     }
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
+    overmap_count++;
     new_om.populate( specials );
 }
 
@@ -231,11 +233,19 @@ void overmapbuffer::save()
     }
 }
 
+void overmapbuffer::reset()
+{
+    overmaps.clear();
+    last_requested_overmap = nullptr;
+}
+
 void overmapbuffer::clear()
 {
     overmaps.clear();
     known_non_existing.clear();
     placed_unique_specials.clear();
+    unique_special_count.clear();
+    overmap_count = 0;
     last_requested_overmap = nullptr;
 }
 
@@ -385,6 +395,14 @@ const std::string &overmapbuffer::note( const tripoint_abs_omt &p )
     }
     static const std::string empty_string;
     return empty_string;
+}
+
+int overmapbuffer::note_danger_radius( const tripoint_abs_omt &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->note_danger_radius( om_loc.local );
+    }
+    return -1;
 }
 
 bool overmapbuffer::has_extra( const tripoint_abs_omt &p )
@@ -1554,7 +1572,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
         const map &here = get_map();
-        const tripoint local = here.getlocal( this_monster.get_location().raw() );
+        const tripoint local = here.bub_from_abs( this_monster.get_location() ).raw();
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );

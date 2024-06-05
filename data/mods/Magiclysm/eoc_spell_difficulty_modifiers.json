@@ -1,0 +1,44 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GRABBED_ARMS_MAKES_SOMATIC_SPELLS_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "grabbed", "bodypart": "arm_r" }, { "u_has_effect": "grabbed", "bodypart": "arm_l" } ] },
+        { "not": { "u_has_flag": "SUBTLE_SPELL" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )",
+          "=",
+          "(u_effect_intensity('grabbed', 'bodypart': 'arm_l') + u_effect_intensity('grabbed', 'bodypart': 'arm_r') ) / 10"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GRABBED_HANDS_MAKES_SOMATIC_SPELLS_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "grabbed", "bodypart": "hand_r" }, { "u_has_effect": "grabbed", "bodypart": "hand_l" } ] },
+        { "not": { "u_has_flag": "SUBTLE_SPELL" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )",
+          "=",
+          "(u_effect_intensity('grabbed', 'bodypart': 'hand_l') + u_effect_intensity('grabbed', 'bodypart': 'hand_r') ) / 5"
+        ]
+      }
+    ]
+  }
+]

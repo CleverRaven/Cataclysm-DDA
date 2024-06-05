@@ -290,6 +290,53 @@
       "predecessor_mapgen": "forest_thick",
       "rows": [
         "                        ",
+        "                        ",
+        "                        ",
+        "     %%%%%%%%%%%%%%%    ",
+        "    %||||||||||||||%%   ",
+        "    %|,,,,,,,,,,,,||%   ",
+        "    %|,,,||||||||,,|%   ",
+        "    %|,,|||||||||,,|%   ",
+        "    %|<||,,,,||||,,|%   ",
+        "    %|||,,||,,|||,,|%   ",
+        "    %|||,,|||,,,,,,|%   ",
+        "    %|||,,||||||||||%   ",
+        "    %|||F,,,,F||||||%   ",
+        "    %|||,,|||,,|||||%   ",
+        "    %|||,,||||,,||||%   ",
+        "    %||,,F|||||F,|||%   ",
+        "    %|F,,,|||||,,F||%   ",
+        "    %||F|||F,,,,F|||%   ",
+        "    %|||||,,||||||||%   ",
+        "    %%|||;;||||||||%%   ",
+        "     %%%%;;%%%%%%%%%    ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
+        ";": "t_region_soil",
+        ",": "t_rock_floor",
+        "F": "t_rock_floor",
+        "<": "t_slope_down"
+      },
+      "furniture": {  },
+      "monster": { "F": { "monster": "mon_pickerel_frog" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cave" ],
+    "weight": 1000,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest_thick",
+      "rows": [
+        "                        ",
         "         %%%%%%%        ",
         "        %|||||||%       ",
         "       %|||||||||%      ",

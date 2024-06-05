@@ -1,0 +1,181 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "mc_spell_exp_diff",
+    "num_args": 1,
+    "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
+    "return": "spell_exp_for_level(_0 + 1) - spell_exp_for_level(_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mc_spell_train_focus_factor",
+    "num_args": 2,
+    "//args": "_0=focus, _1=spell_level",
+    "//": "At level 15 focus factor is enabled, 50 focus = twice more spellcasts, 100 focus = same, 200 focus = twice less spellcasts",
+    "return": "_1 > 15 ? (max(20, _0) - 50) / 100 + 0.5 : 1"
+  },
+  {
+    "type": "jmath_function",
+    "id": "mc_spell_cost_train_factor",
+    "num_args": 3,
+    "//args": "_0=cost,_1=min_spellcasts,_2=max_spellcasts",
+    "//": "accept the spell _cost, return how many spellcasts are required to level the spell; formula assumes 16 spellcasts at 100% manapool cost, and 65 spellcasts at 1% manapool cost",
+    "return": "max(_1, min(_2, (_2 - (_1 * max(0, _0) / u_val('mana_max') * _2 / _1 ))))"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "//": "Regular classes levels some faster and needs 16-65 spellcasts to level up depends on spell cost",
+    "condition": {
+      "or": [
+        { "compare_string": [ "MANA_CRYST_MANA", { "context_val": "school" } ] },
+        { "compare_string": [ "MANA_SEEKER_BOLTS", { "context_val": "school" } ] },
+        { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
+        { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+        { "compare_string": [ "DRUID", { "context_val": "school" } ] },
+        { "compare_string": [ "EARTHSHAPER", { "context_val": "school" } ] },
+        { "compare_string": [ "KELVINIST", { "context_val": "school" } ] },
+        { "compare_string": [ "MAGUS", { "context_val": "school" } ] },
+        { "compare_string": [ "STORMSHAPER", { "context_val": "school" } ] },
+        { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] },
+        { "compare_string": [ "ALCHEMIST", { "context_val": "school" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST_ATTUNED",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "//": "Attuned classes need 20 to 75 casts to level",
+    "condition": {
+      "or": [
+        { "compare_string": [ "MANA_CRYST_MANA", { "context_val": "school" } ] },
+        { "compare_string": [ "MANA_SEEKER_BOLTS", { "context_val": "school" } ] },
+        { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
+        { "compare_string": [ "BIOMANCER", { "context_val": "school" } ] },
+        { "compare_string": [ "DRUID", { "context_val": "school" } ] },
+        { "compare_string": [ "EARTHSHAPER", { "context_val": "school" } ] },
+        { "compare_string": [ "KELVINIST", { "context_val": "school" } ] },
+        { "compare_string": [ "MAGUS", { "context_val": "school" } ] },
+        { "compare_string": [ "STORMSHAPER", { "context_val": "school" } ] },
+        { "compare_string": [ "TECHNOMANCER", { "context_val": "school" } ] },
+        { "compare_string": [ "ALCHEMIST", { "context_val": "school" } ] },
+        { "compare_string": [ "ARTIFICER", { "context_val": "school" } ] },
+        { "compare_string": [ "BLOOD_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "BOREAL_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "CLEANSING_FLAME", { "context_val": "school" } ] },
+        { "compare_string": [ "CRUSADER", { "context_val": "school" } ] },
+        { "compare_string": [ "EARTH_ELEMENTAL", { "context_val": "school" } ] },
+        { "compare_string": [ "FIRE_ELEMENTAL", { "context_val": "school" } ] },
+        { "compare_string": [ "FORCE_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "GAIAS_CHOSEN", { "context_val": "school" } ] },
+        { "compare_string": [ "GLACIER_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "GOLEMANCER", { "context_val": "school" } ] },
+        { "compare_string": [ "GRAVITY_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "ICE_ELEMENTAL", { "context_val": "school" } ] },
+        { "compare_string": [ "ILLUSIONIST", { "context_val": "school" } ] },
+        { "compare_string": [ "MAGNETISM_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "OVERCLOCKER", { "context_val": "school" } ] },
+        { "compare_string": [ "PERMAFROST_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "RADIATION_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "SHAMAN", { "context_val": "school" } ] },
+        { "compare_string": [ "SHAPESHIFTER", { "context_val": "school" } ] },
+        { "compare_string": [ "SOULFIRE", { "context_val": "school" } ] },
+        { "compare_string": [ "STORM_ELEMENTAL", { "context_val": "school" } ] },
+        { "compare_string": [ "STORMCALLER", { "context_val": "school" } ] },
+        { "compare_string": [ "SUN_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "TUNDRA_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "VOID_MAGE", { "context_val": "school" } ] },
+        { "compare_string": [ "VULCANIST", { "context_val": "school" } ] },
+        { "compare_string": [ "WITHER_MAGE", { "context_val": "school" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 20, 75) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST_BIOTEK",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "//": "Biotek levels faster since it need an energy to cast, so factor is always is energy_cost/5000 * focus_factor",
+    "condition": { "compare_string": [ "BIOTEK", { "context_val": "school" } ] },
+    "effect": [
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) * (_cost / 5000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST_CLASSLESS",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "//": "Classless every spell cuz a but when you lear debug spells",
+    "condition": {
+      "or": [
+        { "compare_string": [ "crystallize_mana", { "context_val": "spell" } ] },
+        { "compare_string": [ "dark_sight", { "context_val": "spell" } ] },
+        { "compare_string": [ "megablast", { "context_val": "spell" } ] },
+        { "compare_string": [ "create_atomic_light", { "context_val": "spell" } ] },
+        { "compare_string": [ "blinding_flash", { "context_val": "spell" } ] },
+        { "compare_string": [ "ethereal_grasp", { "context_val": "spell" } ] },
+        { "compare_string": [ "obfuscated_body", { "context_val": "spell" } ] },
+        { "compare_string": [ "obfuscated_body_plus", { "context_val": "spell" } ] },
+        { "compare_string": [ "protection_aura", { "context_val": "spell" } ] },
+        { "compare_string": [ "protection_aura_plus", { "context_val": "spell" } ] },
+        { "compare_string": [ "translocate_self", { "context_val": "spell" } ] },
+        { "compare_string": [ "acid_resistance", { "context_val": "spell" } ] },
+        { "compare_string": [ "acid_resistance_greater", { "context_val": "spell" } ] },
+        { "compare_string": [ "thought_shield", { "context_val": "spell" } ] },
+        { "compare_string": [ "thought_shield_plus", { "context_val": "spell" } ] },
+        { "compare_string": [ "sound_bomb", { "context_val": "spell" } ] },
+        { "compare_string": [ "classless_watch_spell", { "context_val": "spell" } ] },
+        { "compare_string": [ "classless_clean_clothing_and_self", { "context_val": "spell" } ] },
+        { "compare_string": [ "classless_easy_sleep_spell", { "context_val": "spell" } ] },
+        { "compare_string": [ "classless_dispel_magic", { "context_val": "spell" } ] },
+        { "compare_string": [ "classless_disjunction", { "context_val": "spell" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      },
+      {
+        "math": [
+          "debug_mc_additional_spell_xp",
+          "=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      },
+      { "u_message": "debug_mc_additional_spell_xp: <global_val:debug_mc_additional_spell_xp>", "type": "debug" }
+    ]
+  }
+]

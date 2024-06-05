@@ -5,7 +5,7 @@
     "name": "Warper",
     "flags": [ "LONE_START", "CHALLENGE" ],
     "points": 0,
-    "description": "As if the world ending wasn't enough, it seems some kind of extradimensional powers that be have taken an interest in you.  You have been placed on a floating island high above the Earth, safe but isolated.  Only by using the reality-bending powers of warp technology can you visit the world below in brief, randomly-targeted excursions below.  Venture down, gather supplies, and return with only what you can carry to build up your home base and your stash over time.  The powers of the warp make you unable to ever truly die, so on failing such an expedition, you will simply lose all items and equipment you were carrying and be swiftly returned home at low health.",
+    "description": "As if the world ending wasn't enough, it seems some kind of extradimensional powers that be have taken an interest in you.  You have been placed on a floating island high above the Earth, safe but isolated.  Only by using the reality-bending powers of warp technology can you visit the world below in brief, randomly-targeted excursions.  Venture down, gather supplies, and return with only what you can carry to upgrade your home base and your stash over time.  The powers of the warp make you unable to ever truly die, so on failing such an expedition, you will simply lose all items and equipment you were carrying and be swiftly returned home at low health.",
     "start_name": "Warper",
     "allowed_locs": [ "sloc_skyisland" ],
     "eoc": [ "scenario_warp_begins" ]

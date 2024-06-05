@@ -1,0 +1,252 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_saltworks_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_saltpan_construction",
+    "object": {
+      "parameters": {
+        "fbmsw_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmsw_log_palette",
+              "fbmsw_metal_palette",
+              "fbmsw_migo_resin_palette",
+              "fbmsw_rammed_earth_palette",
+              "fbmsw_rock_palette",
+              "fbmsw_wad_palette",
+              "fbmsw_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwowww",
+        "w.....w",
+        "w.c.c.w",
+        "o.~t~.o",
+        "w.~#~.w",
+        "w.....w",
+        "www+www"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbmsw_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_saltpan_construction_roof",
+    "object": {
+      "parameters": {
+        "fbmsw_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmsw_log_palette",
+              "fbmsw_metal_palette",
+              "fbmsw_migo_resin_palette",
+              "fbmsw_rammed_earth_palette",
+              "fbmsw_rock_palette",
+              "fbmsw_wad_palette",
+              "fbmsw_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR"
+      ],
+      "palettes": [ { "param": "fbmsw_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_saltpan_construction_northeast",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmsw_saltpan_construction" ], "x": 14, "y": 3, "z": 0 },
+        { "chunks": [ "fbmsw_saltpan_construction_roof" ], "x": 14, "y": 3, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_shack_construction",
+    "object": {
+      "parameters": {
+        "fbmsw_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmsw_log_palette",
+              "fbmsw_metal_palette",
+              "fbmsw_migo_resin_palette",
+              "fbmsw_rammed_earth_palette",
+              "fbmsw_rock_palette",
+              "fbmsw_wad_palette",
+              "fbmsw_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbmsw_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_shack_construction_roof",
+    "object": {
+      "parameters": {
+        "fbmsw_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmsw_log_palette",
+              "fbmsw_metal_palette",
+              "fbmsw_migo_resin_palette",
+              "fbmsw_rammed_earth_palette",
+              "fbmsw_rock_palette",
+              "fbmsw_wad_palette",
+              "fbmsw_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  RRRR",
+        " RRRRR",
+        " RRRRR",
+        " RRRRR",
+        " RRRRR"
+      ],
+      "palettes": [ { "param": "fbmsw_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_shack_construction_southeast",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmsw_shack_construction" ], "x": 15, "y": 15, "z": 0 },
+        { "chunks": [ "fbmsw_shack_construction_roof" ], "x": 15, "y": 15, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_brewery0_construction",
+    "object": {
+      "parameters": {
+        "fbmsw_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmsw_log_palette",
+              "fbmsw_metal_palette",
+              "fbmsw_migo_resin_palette",
+              "fbmsw_rammed_earth_palette",
+              "fbmsw_rock_palette",
+              "fbmsw_wad_palette",
+              "fbmsw_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO....w",
+        "o.....w",
+        "w.....w",
+        "wwwwwww"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbmsw_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_brewery0_construction_roof",
+    "object": {
+      "parameters": {
+        "fbmsw_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmsw_log_palette",
+              "fbmsw_metal_palette",
+              "fbmsw_migo_resin_palette",
+              "fbmsw_rammed_earth_palette",
+              "fbmsw_rock_palette",
+              "fbmsw_wad_palette",
+              "fbmsw_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR",
+        "RRRRRRR"
+      ],
+      "palettes": [ { "param": "fbmsw_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_brewery0_construction_southwest",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmsw_brewery0_construction" ], "x": 3, "y": 14, "z": 0 },
+        { "chunks": [ "fbmsw_brewery0_construction_roof" ], "x": 3, "y": 14, "z": 1 }
+      ]
+    }
+  }
+]

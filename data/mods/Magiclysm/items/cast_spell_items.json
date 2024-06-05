@@ -17,7 +17,7 @@
     "comestible_type": "DRINK",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 2500,
+    "price": "25 USD",
     "freezing_point": 4
   },
   {
@@ -27,7 +27,7 @@
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
     "calories": 0,
-    "price": 10000
+    "price": "100 USD"
   },
   {
     "id": "mana_potion_greater",
@@ -36,7 +36,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
-    "price": 30000
+    "price": "300 USD"
   },
   {
     "id": "cats_grace_potion",
@@ -47,7 +47,7 @@
     "calories": 25,
     "use_action": { "type": "cast_spell", "spell_id": "cats_grace", "no_fail": true, "level": 25 },
     "color": "yellow",
-    "price": 3000
+    "price": "30 USD"
   },
   {
     "id": "ogres_strength_potion",
@@ -87,7 +87,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 86,
     "use_action": { "type": "cast_spell", "spell_id": "flask_clairvoyance", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_spear",
@@ -97,7 +97,7 @@
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "flask_spear", "no_fail": true, "level": 0 },
     "calories": 0,
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_confusion",
@@ -107,7 +107,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_confusion", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_teleport_rand",
@@ -117,7 +117,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 220,
     "use_action": { "type": "cast_spell", "spell_id": "flask_teleport_rand", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_teleport",
@@ -127,7 +127,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 260,
     "use_action": { "type": "cast_spell", "spell_id": "flask_teleport", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_shadow_field",
@@ -137,17 +137,17 @@
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "flask_shadow_field", "no_fail": true, "level": 0 },
     "calories": 0,
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_fireball",
     "type": "COMESTIBLE",
     "name": { "str_sp": "\"Fire in the flask\"" },
-    "description": "They were really useful in middle ages, but the price was too high, and they were supplanted with another incendiary weapon and, long after, with molotov cocktails.",
+    "description": "They were really useful in middle ages, but the price was too high, and they were supplanted with another incendiary weapon and, long after, with Molotov cocktails.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_fireball", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_invisibility",
@@ -157,7 +157,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 77,
     "use_action": { "type": "cast_spell", "spell_id": "flask_invisibility", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_healing",
@@ -167,7 +167,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 358,
     "use_action": { "type": "cast_spell", "spell_id": "flask_healing", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_feather",
@@ -177,7 +177,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 57,
     "use_action": { "type": "cast_spell", "spell_id": "flask_feather", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_night_vision",
@@ -187,7 +187,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 56,
     "use_action": { "type": "cast_spell", "spell_id": "flask_night_vision", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_charm",
@@ -197,7 +197,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 21,
     "use_action": { "type": "cast_spell", "spell_id": "flask_charm", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_sludge_field",
@@ -207,17 +207,17 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_sludge_field", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_speed",
     "type": "COMESTIBLE",
     "name": { "str": "potion of sprint", "str_pl": "potions of sprint" },
-    "description": "They count as doping in olympic games.  Luckily you are not in a stadium.",
+    "description": "They count as doping in Olympic games.  Luckily you are not in a stadium.",
     "copy-from": "mana_potion_lesser",
     "calories": 26,
     "use_action": { "type": "cast_spell", "spell_id": "flask_speed", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_stamina",
@@ -227,7 +227,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 156,
     "use_action": { "type": "cast_spell", "spell_id": "flask_stamina", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_rebreather",
@@ -237,7 +237,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 121,
     "use_action": { "type": "cast_spell", "spell_id": "flask_rebreather", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_excitement",
@@ -247,7 +247,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 89,
     "use_action": { "type": "cast_spell", "spell_id": "flask_excitement", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_resistance",
@@ -257,7 +257,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 211,
     "use_action": { "type": "cast_spell", "spell_id": "flask_resistance", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_illumination",
@@ -267,7 +267,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 7,
     "use_action": { "type": "cast_spell", "spell_id": "flask_illumination", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_mana_regen",
@@ -277,7 +277,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 66,
     "use_action": { "type": "cast_spell", "spell_id": "flask_mana_regen", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_max_mana",
@@ -287,7 +287,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 76,
     "use_action": { "type": "cast_spell", "spell_id": "flask_max_mana", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_regeneration",
@@ -297,7 +297,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 344,
     "use_action": { "type": "cast_spell", "spell_id": "flask_regeneration", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_mood",
@@ -307,7 +307,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 65,
     "use_action": { "type": "cast_spell", "spell_id": "flask_mood", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_toxin",
@@ -317,7 +317,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_toxin", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_venom",
@@ -327,7 +327,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_venom", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "animist_doll_zombie",
@@ -384,7 +384,7 @@
     "comestible_type": "DRINK",
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 2500,
+    "price": "25 USD",
     "freezing_point": -12
   },
   {

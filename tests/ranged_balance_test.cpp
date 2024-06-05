@@ -125,7 +125,7 @@ static dispersion_sources get_dispersion( npc &shooter, const int aim_time, int 
     item_location gun = shooter.get_wielded_item();
     dispersion_sources dispersion = shooter.get_weapon_dispersion( *gun );
 
-    shooter.moves = aim_time;
+    shooter.set_moves( aim_time );
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
     shooter.aim( Target_attributes( range, 0.5, 0.0f, true ) );

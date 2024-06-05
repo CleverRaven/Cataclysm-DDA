@@ -3,9 +3,7 @@
     "id": "TALK_GODCO_chloe",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "u_met_chloe",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_chloe",
       "value": "yes",
       "yes": "Aw hey, it's you again, <u_name>.",
       "no": "Oh… hi.  I don't know you.  My name's Chloe."
@@ -14,52 +12,52 @@
       {
         "text": "Nice to meet you, Chloe.  What's up?",
         "topic": "TALK_GODCO_chloe_2",
-        "condition": { "not": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "npc_add_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Hi.  I can't stay and chat right now.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "npc_add_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_idle_chat",
-        "condition": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Do you need any help?",
-        "condition": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" },
         "topic": "TALK_GODCO_chloe_help"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" }
       }
     ]
   },
   {
     "id": "TALK_GODCO_chloe_idle_chat",
     "type": "talk_topic",
-    "dynamic_line": [ "Shoot." ],
+    "dynamic_line": "Shoot.",
     "responses": [
       {
         "text": "Really, what's your story?",
-        "condition": { "not": { "npc_has_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "failure": { "topic": "TALK_GODCO_chloe_nochat" },
         "success": { "topic": "TALK_GODCO_chloe_past_2" }
       },
       {
         "text": "How'd you and Sonia come to meet?",
-        "condition": { "not": { "npc_has_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } },
         "topic": "TALK_GODCO_chloe_sonia"
       },
       {
         "text": "How'd you and Sonia come to meet again?",
-        "condition": { "npc_has_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_GODCO_chloe_sonia"
       },
       { "text": "Aren't you a bit young to be carrying a knife?", "topic": "TALK_GODCO_chloe_knife" },
@@ -70,15 +68,13 @@
   {
     "id": "TALK_GODCO_chloe_2",
     "type": "talk_topic",
-    "dynamic_line": [ "Things suck right now, but you know that anyway.  I don't even know why you bother asking these stupid questions." ],
+    "dynamic_line": "Things suck right now, but you know that anyway.  I don't even know why you bother asking these stupid questions.",
     "responses": [ { "text": "What's your story?", "topic": "TALK_GODCO_chloe_past" }, { "text": "I gotta go.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_GODCO_chloe_help",
     "type": "talk_topic",
-    "dynamic_line": [
-      "I'm not a baby you know, I don't need a babysitter.  Sonia looks out for me though.  She's not so weird, I guess.  She promised to give me guitar lessons and she even signed me an autograph.  I know she's only nice to me because I saved her, but that's okay; we're equal now."
-    ],
+    "dynamic_line": "I'm not a baby you know, I don't need a babysitter.  Sonia looks out for me though.  She's not so weird, I guess.  She promised to give me guitar lessons and she even signed me an autograph.  I know she's only nice to me because I saved her, but that's okay; we're equal now.",
     "responses": [
       { "text": "How'd you and Sonia come to meet?", "topic": "TALK_GODCO_chloe_sonia" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
@@ -87,24 +83,23 @@
   {
     "id": "TALK_GODCO_chloe_past",
     "type": "talk_topic",
-    "dynamic_line": [
-      "You're creepy.  I'm sorry for your lack of friends but, like, I'm literally a kid.  Everyone on Earth turned into a zombie, we're running out of toilet paper and everything, and my parents are gone.  I know they're still alive and they're looking for me.  I miss them.  Is that enough personal stuff for you?"
-    ],
+    "dynamic_line": {
+      "gendered_line": "You're creepy.  I'm sorry for your lack of friends but, like, I'm literally a kid.  Everyone on Earth turned into a zombie, we're running out of toilet paper and everything, and my parents are gone.  I know they're still alive and they're looking for me.  I miss them.  Is that enough personal stuff for you?",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
-      { "text": "I'm sorry for your loss.  Mabey we should talk about something else.", "topic": "TALK_GODCO_chloe" },
+      { "text": "I'm sorry for your loss.  Maybe we should talk about something else.", "topic": "TALK_GODCO_chloe" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "TALK_GODCO_chloe_past_2",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Well, I grew up in the city.  My parents were always out of town on some business meeting or another, so I had plenty of time to myself.  They're great people; mom's a wonderful cook, she makes an amazing fish casserole.  Dad's a hot shot for military contracts, he handled business deals for DARPA and whatnot.  He's an ex-marine, and taught me how to defend myself with a knife."
-    ],
+    "dynamic_line": "Well, I grew up in the city.  My parents were always out of town on some business meeting or another, so I had plenty of time to myself.  They're great people; mom's a wonderful cook, she makes an amazing fish casserole.  Dad's a hot shot for military contracts, he handled business deals for DARPA and whatnot.  He's an ex-marine, and taught me how to defend myself with a knife.",
     "responses": [
       {
         "text": "Where do you think your parents are now?",
-        "effect": { "npc_add_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_backstory", "value": "yes" },
         "topic": "TALK_GODCO_chloe_parents_where"
       }
     ]
@@ -112,23 +107,21 @@
   {
     "id": "TALK_GODCO_chloe_sonia",
     "type": "talk_topic",
-    "dynamic_line": [
-      "I was home alone during the ongoing riots.  My parents chose the worst possible time to reconnect, which sucks, but I'm also kinda happy for them.  Anyway, they were part of the NECC people, so they knew about this place and their plans and all.  Thing is, it was, like, really far away.  I kinda didn't want to go alone but I also didn't want the rioters to eat me, so I asked Sonia - my neighbor - to evacuate with me, I guess.  So that was fun; escaping my hometown, walking down the country road, waiting for a horror to ambush us.  Spoiler alert: we were attacked.  So this zombie shambles in front of us and Sonia whacks it real hard with her guitar!  Its brain splatters all over the pavement, I threw up 'cause it was so disgusting.  We got here soon after that.  My parents weren't here, obviously.  Oh man, they must worry about me so much…"
-    ],
+    "dynamic_line": "I was home alone during the ongoing riots.  My parents chose the worst possible time to reconnect, which sucks, but I'm also kinda happy for them.  Anyway, they were part of the NECC people, so they knew about this place and their plans and all.  Thing is, it was, like, really far away.  I kinda didn't want to go alone but I also didn't want the rioters to eat me, so I asked Sonia - my neighbor - to evacuate with me, I guess.  So that was fun; escaping my hometown, walking down the country road, waiting for a horror to ambush us.  Spoiler alert: we were attacked.  So this zombie shambles in front of us and Sonia whacks it real hard with her guitar!  Its brain splatters all over the pavement, I threw up 'cause it was so disgusting.  We got here soon after that.  My parents weren't here, obviously.  Oh man, they must worry about me so much…",
     "responses": [
       {
         "text": "Aren't you a bit young to be carrying a knife?",
-        "effect": { "npc_add_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_GODCO_chloe_knife"
       },
       {
         "text": "Thanks for the info.  Let's chat about something else.",
-        "effect": { "npc_add_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_GODCO_chloe_idle_chat"
       },
       {
         "text": "Thanks for the info.",
-        "effect": { "npc_add_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -136,9 +129,7 @@
   {
     "id": "TALK_GODCO_chloe_parents_where",
     "type": "talk_topic",
-    "dynamic_line": [
-      "I don't know.  They were going to a contract deal before the riots broke out, at one of military bases I think.  I don't know what happened to them from there."
-    ],
+    "dynamic_line": "I don't know.  They were going to a contract deal before the riots broke out, at one of military bases I think.  I don't know what happened to them from there.",
     "responses": [
       { "text": "I'll let you know if anything turns up.", "topic": "TALK_GODCO_chloe_idle_chat" },
       { "text": "I'll let you know if anything turns up.  See you around.", "topic": "TALK_DONE" }
@@ -147,21 +138,19 @@
   {
     "id": "TALK_GODCO_chloe_knife",
     "type": "talk_topic",
-    "dynamic_line": [
-      "Aren't you a bit too old not to realize how dangerous the world is for a kid like me?  I know how to handle one without hurting myself!  My dad taught me everything, he's a real pro."
-    ],
+    "dynamic_line": "Aren't you a bit too old not to realize how dangerous the world is for a kid like me?  I know how to handle one without hurting myself!  My dad taught me everything, he's a real pro.",
     "responses": [ { "text": "That makes sense.", "topic": "TALK_GODCO_chloe_idle_chat" } ]
   },
   {
     "id": "TALK_GODCO_chloe_loss",
     "type": "talk_topic",
-    "dynamic_line": [ "They're not dead." ],
+    "dynamic_line": "They're not dead.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_GODCO_chloe_nochat",
     "type": "talk_topic",
-    "dynamic_line": [ "I don't wanna talk about it right now." ],
+    "dynamic_line": "I don't wanna talk about it right now.",
     "responses": [ { "text": "Alright, let's change the subject.", "topic": "TALK_GODCO_chloe_idle_chat" } ]
   }
 ]

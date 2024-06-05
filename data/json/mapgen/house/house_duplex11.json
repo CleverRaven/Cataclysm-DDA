@@ -38,7 +38,6 @@
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
-        "#": "t_adobe_brick_wall",
         "t": "t_linoleum_gray",
         "S": "t_linoleum_gray",
         "Q": "t_linoleum_gray",
@@ -49,9 +48,9 @@
         "=": "t_screen_door_c",
         "/": "t_water_pool_shallow"
       },
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 4, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "rolling_trash_can", "x": 20, "y": 1, "chance": 80, "status": 0 }
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 4, "y": 1 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 20, "y": 1 }
       ],
       "furniture": { "!": "f_region_flower" },
       "place_loot": [

@@ -85,7 +85,6 @@ jobs:
             os: ubuntu-20.04
             tiles: 0
             sound: 0
-            release: 1
             cmake: 0
             localize: 1
             test-stage: 1
@@ -102,7 +101,6 @@ jobs:
 
           - compiler: clang++
             os: macos-12
-            release: 1
             cmake: 0
             native: osx
             pch: 0
@@ -116,7 +114,6 @@ jobs:
 
           - compiler: g++-9
             os: ubuntu-latest
-            release: 1
             cmake: 0
             tiles: 0
             sound: 0
@@ -126,6 +123,7 @@ jobs:
             libbacktrace: 1
             native: linux64
             pch: 1
+            cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
@@ -135,7 +133,6 @@ jobs:
 
           - compiler: clang++-12
             os: ubuntu-22.04
-            release: 0
             cmake: 0
             tiles: 1
             sound: 0
@@ -155,7 +152,6 @@ jobs:
 
           - compiler: g++-11
             os: ubuntu-latest
-            release: 0
             cmake: 0
             tiles: 0
             sound: 0
@@ -172,7 +168,6 @@ jobs:
 
           - compiler: g++
             os: ubuntu-latest
-            release: 0
             cmake: 0
             native:
             pch: 1
@@ -192,7 +187,6 @@ jobs:
 
           - compiler: g++-9
             os: ubuntu-latest
-            release: 1
             cmake: 1
             tiles: 1
             sound: 1
@@ -235,7 +229,7 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         LIBBACKTRACE: ${{ matrix.libbacktrace }}
-        RELEASE: ${{ matrix.release }}
+        RELEASE: 1
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
         CCACHE_FILECLONE: true
@@ -333,20 +327,26 @@ jobs:
         echo ${{ github.event.number }} > pull_request_id
         echo "false" > ${{ env.ARCHIVE_SUCCESS }}
       if: ${{ env.ARCHIVE_SUCCESS && failure() }}
-    - uses: actions/upload-artifact@v3.1.2
+    - uses: actions/upload-artifact@v4
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: pull_request_id
         path: pull_request_id
-    - uses: actions/upload-artifact@v3.1.2
+    - uses: actions/upload-artifact@v4
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: ${{ env.ARCHIVE_SUCCESS }}
         path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
+        retention-days: 9
+  emscripten:
+    needs: [ varied_builds ]
+    uses: ./.github/workflows/emscripten.yml
+    if: ${{ success() && github.event.pull_request.draft == false }}
+    secrets: inherit

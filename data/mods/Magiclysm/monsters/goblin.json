@@ -3,52 +3,74 @@
     "id": "mon_goblin_warrior",
     "type": "MONSTER",
     "name": { "str": "goblin warrior" },
-    "description": "This short humanoid is covered in filth and shouts slurs at you as it brandishes a cudgel.",
+    "description": "A goblin, but like something out of history.  Over the dirty, tattered remnants of their street clothes, they're wearing improvised armor and carrying a heavy club.  They look at you like a wolf seeing a particularly juicy hunk of lamb.",
     "default_faction": "goblin",
     "bodytype": "human",
     "species": [ "GOBLIN" ],
     "volume": "32 L",
     "weight": "42 kg",
     "hp": 40,
-    "speed": 105,
+    "speed": 90,
     "material": [ "flesh" ],
     "symbol": "g",
     "color": "brown",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 2,
+    "melee_skill": 3,
+    "melee_dice": 1,
     "melee_dice_sides": 4,
-    "dodge": 5,
+    "dodge": 4,
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "vision_day": 30,
-    "vision_night": 8,
+    "vision_day": 8,
+    "vision_night": 25,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "goblin_cudgel_attack",
+        "cooldown": 1,
+        "move_cost": 80,
+        "accuracy": 5,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "effects": [ { "id": "stunned", "duration": 2, "chance": 5 } ],
+        "hit_dmg_u": "%1$s hits your %2$s with a cudgel!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a cudgel!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "items": [
-        { "item": "helmet_scrap", "prob": 40 },
-        { "item": "legguard_scrap", "prob": 40 },
-        { "item": "boots_scrap", "prob": 40 },
-        { "item": "armguard_scrap", "prob": 40 },
-        { "item": "cuirass_scrap", "prob": 40 },
+        { "group": "feral_goblin_death_drops", "prob": 100 },
+        { "item": "helmet_scrap_xs", "prob": 40 },
+        { "item": "xs_legguard_scrap", "prob": 40 },
+        { "item": "xs_boots_scrap", "prob": 40 },
+        { "item": "xs_armguard_scrap", "prob": 40 },
+        { "item": "xs_cuirass_scrap", "prob": 40 },
         { "item": "cudgel", "prob": 95 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "WIELDED_WEAPON" ]
+    "armor": { "bash": 12, "cut": 12, "bullet": 4 },
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
     "id": "mon_goblin_slinger",
     "name": { "str": "goblin slinger" },
-    "description": "An ugly creature that slings rocks almost as well as it slings insults.",
+    "description": "A goblin, but like something out of history.  Over the dirty, tattered remnants of their street clothes, they're wearing improvised armor and carrying a sling with a pouch for extra stones.  They look at you like a wolf seeing a particularly juicy hunk of lamb.",
     "copy-from": "mon_goblin_warrior",
     "melee_skill": 2,
     "death_drops": {
       "subtype": "collection",
       "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
         { "item": "helmet_scrap", "prob": 40 },
         { "item": "legguard_scrap", "prob": 40 },
         { "item": "boots_scrap", "prob": 40 },
@@ -69,7 +91,7 @@
           "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
           "fake_dex": 8,
           "fake_per": 8,
-          "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+          "condition": { "test_eoc": "is_disarmed" },
           "require_targeting_player": false,
           "description": "The goblin slings a rock at you!",
           "ranges": [ [ 2, 10, "DEFAULT" ] ],
@@ -82,28 +104,301 @@
     "id": "mon_goblin_chieftain",
     "type": "MONSTER",
     "copy-from": "mon_goblin_warrior",
-    "name": { "str": "goblin chieftain" },
-    "description": "An ugly creature that was promoted to chieftain because it figured out which end of the weapon is pointy.",
-    "hp": 135,
-    "dodge": 6,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "name": { "str": "goblin leader" },
+    "description": "A goblin, slightly larger than the others and bearing a weapon with more craftsmanship.  The goblins around them scurry to obey their orders.",
+    "hp": 80,
+    "dodge": 3,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "goblin_boss_attack",
+        "cooldown": 1,
+        "move_cost": 110,
+        "accuracy": 4,
+        "range": 2,
+        "//": "attack based on knife spear",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 26 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hit_dmg_u": "%1$s hits your %2$s with their spear!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their spear!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
         { "item": "helmet_scrap", "prob": 40 },
         { "item": "legguard_scrap", "prob": 40 },
         { "item": "boots_scrap", "prob": 40 },
         { "item": "armguard_scrap", "prob": 40 },
         { "item": "cuirass_scrap", "prob": 40 },
-        { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
+        {
+          "distribution": [
+            { "group": "survivor_stabbing", "prob": 96 },
+            { "item": "spear_steel_plus_one", "prob": 3 },
+            { "item": "rune_biomancer_weapon", "prob": 1 }
+          ],
+          "prob": 100
+        }
       ]
     }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_goblin_mage_poison",
+    "name": { "str": "goblin thornweaver" },
+    "description": "A goblin in tattered clothing, muttering to themselves.  Occasionally, they wave a hand and an eldritch viridian glow trails after it.",
+    "copy-from": "mon_goblin_warrior",
+    "color": "light_green",
+    "melee_skill": 4,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_goblin_mage_poison_thorn_spell",
+        "cooldown": 15,
+        "move_cost": 100,
+        "range": 7,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 10 } ],
+        "effects": [ { "id": "poison", "duration": 60, "chance": 33, "affect_hit_bp": false } ],
+        "uncanny_dodgeable": true,
+        "dodgeable": false,
+        "blockable": false,
+        "hit_dmg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns!",
+        "hit_dmg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns!",
+        "miss_msg_u": "%1$s chatters words of magic and you narrowly avoid a cloud of scratching thorns!",
+        "miss_msg_npc": "%1$s chatters words of magic and <npcname> narrowly avoids a cloud of scratching thorns!",
+        "no_dmg_msg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns, but they do no damage."
+      },
+      {
+        "id": "mon_goblin_mage_poison_veggrasp_spell",
+        "type": "spell",
+        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "cooldown": 20,
+        "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
+      },
+      {
+        "id": "mon_goblin_mage_poison_gas_spell",
+        "type": "spell",
+        "spell_data": { "id": "monster_ranged_gas_attack", "min_level": 5 },
+        "cooldown": 30,
+        "monster_message": "%1$s waves their hands and %1$s is surrounded in greenish vapors."
+      }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
+        { "group": "potions_common", "prob": 30, "count": [ 1, 2 ] },
+        { "group": "enchanted_rings_common", "prob": 10 },
+        { "group": "enchanted_wands_disposable_combat", "prob": 10 }
+      ]
+    },
+    "extend": { "armor": { "poison": 25 } }
   },
   {
     "id": "mon_troll_goblin_tamed",
     "type": "MONSTER",
     "copy-from": "mon_troll",
     "default_faction": "goblin"
+  },
+  {
+    "id": "mon_wolf_goblin",
+    "type": "MONSTER",
+    "name": { "str": "warg" },
+    "description": "An enormous wolf, a meter and a half high at the shoulder, as large as a young horse.  Tamed wargs were common as pets before the Cataclysm, but this one looks anything but tame.",
+    "default_faction": "goblin",
+    "bodytype": "dog",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "200000 ml",
+    "weight": "200000 g",
+    "hp": 175,
+    "speed": 140,
+    "material": [ "flesh" ],
+    "symbol": "W",
+    "color": "light_gray",
+    "looks_like": "mon_wolf_mutant_huge",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
+    "aggression": 20,
+    "morale": 70,
+    "melee_skill": 7,
+    "melee_dice": 2,
+    "melee_dice_sides": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "dodge": 2,
+    "bleed_rate": 60,
+    "vision_day": 50,
+    "vision_night": 5,
+    "stomach_size": 800,
+    "harvest": "mammal_large_fur",
+    "dissect": "dissect_lupine_sample_large",
+    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "path_settings": { "max_dist": 10 },
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 10 } ]
+      },
+      [ "SHRIEK", 12 ],
+      [ "EAT_FOOD", 60 ]
+    ],
+    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "zombify_into": "mon_zombie_dog_fungus",
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
+    "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_goblin_bugbear",
+    "type": "MONSTER",
+    "name": { "str": "bugbear" },
+    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature no longer has much resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long bladed weapon in their hand.",
+    "default_faction": "goblin",
+    "bodytype": "human",
+    "species": [ "GOBLIN" ],
+    "volume": "60 L",
+    "weight": "70 kg",
+    "hp": 125,
+    "speed": 105,
+    "material": [ "flesh" ],
+    "symbol": "G",
+    "color": "green",
+    "aggression": 75,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+    "dodge": 4,
+    "harvest": "orc",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
+    "vision_day": 8,
+    "vision_night": 25,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "bugbear_combat_machete",
+        "cooldown": 1,
+        "move_cost": 110,
+        "accuracy": 6,
+        "//": "attack based on combat machete",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hit_dmg_u": "%1$s hits your %2$s with their blade!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "bugbear_combat_machete_rapid_strike",
+        "cooldown": 12,
+        "move_cost": 45,
+        "accuracy": 6,
+        "//": "attack based on combat machete + rapid strike",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hit_dmg_u": "%1$s hits your %2$s with their blade!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "xl_helmet_larmor", "prob": 20 },
+        { "item": "xl_gauntlets_larmor", "prob": 20 },
+        { "item": "xl_boots_larmor", "prob": 20 },
+        { "item": "xl_armguard_larmor", "prob": 20 },
+        { "item": "xl_armor_larmor_chest", "prob": 10 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
+        {
+          "distribution": [ { "item": "survivor_machete", "prob": 98 }, { "item": "broadsword_plus_one", "prob": 2 } ],
+          "prob": 100
+        }
+      ]
+    },
+    "armor": { "bash": 4, "cut": 12, "bullet": 8 },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "WARM",
+      "BASHES",
+      "PATH_AVOID_DANGER_1",
+      "QUIETMOVES",
+      "SWARMS",
+      "GROUP_MORALE",
+      "WIELDED_WEAPON"
+    ]
+  },
+  {
+    "id": "mon_goblin_bugbear_stalker",
+    "type": "MONSTER",
+    "copy-from": "mon_goblin_bugbear",
+    "name": { "str": "bugbear stalker" },
+    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature no longer has much resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long spear in their hand.  Strangely, you can only see them when you're looking directly at them; when in the corner of your vision they simply fade from sight.",
+    "color": "dark_gray",
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "bugbear_stalker_attack",
+        "cooldown": 1,
+        "move_cost": 110,
+        "accuracy": 6,
+        "range": 2,
+        "//": "attack based on knife spear",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 26 } ],
+        "condition": { "test_eoc": "is_disarmed" },
+        "hit_dmg_u": "%1$s hits your %2$s with their spear!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their spear!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "xl_helmet_larmor", "prob": 20 },
+        { "item": "xl_gauntlets_larmor", "prob": 20 },
+        { "item": "xl_boots_larmor", "prob": 20 },
+        { "item": "xl_armguard_larmor", "prob": 20 },
+        { "item": "xl_armor_larmor_chest", "prob": 10 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
+        {
+          "distribution": [ { "group": "survivor_stabbing", "prob": 97 }, { "item": "spear_steel_plus_one", "prob": 3 } ],
+          "prob": 100
+        }
+      ]
+    },
+    "extend": { "flags": [ "CAMOUFLAGE", "SILENTMOVES" ] }
   }
 ]

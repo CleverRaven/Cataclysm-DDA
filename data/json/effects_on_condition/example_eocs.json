@@ -3,9 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_selector_test",
     "effect": [
-      { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" } },
+      { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" }, "i18n": true },
       { "set_string_var": "name_3", "target_var": { "context_val": "name" } },
-      { "set_string_var": "option 3", "target_var": { "context_val": "description" } },
+      { "set_string_var": "option 3", "target_var": { "context_val": "description" }, "i18n": true },
       {
         "run_eoc_selector": [ "EOC_selector_test_1", "EOC_selector_test_2", "EOC_selector_test_3", "EOC_selector_test_4" ],
         "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
@@ -68,15 +68,15 @@
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_1",
     "effect": [
-      { "u_location_variable": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } },
-      { "u_add_var": "set_coordinates", "type": "eoc_sample", "context": "item_transporter", "value": "yes" },
+      { "u_location_variable": { "u_val": "eoc_item_transporter_sample_loc" } },
+      { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
       { "u_message": "Set coordinates: <u_val:eoc_sample_item_transporter_loc>" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_2",
-    "condition": { "u_has_var": "set_coordinates", "type": "eoc_sample", "context": "item_transporter", "value": "yes" },
+    "condition": { "u_has_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
     "effect": [
       {
         "u_run_inv_eocs": "manual_mult",
@@ -84,10 +84,7 @@
         "true_eocs": [
           {
             "id": "EOC_item_transporter_test_2_run",
-            "effect": [
-              { "u_message": "Transported: <npc_name>" },
-              { "npc_teleport": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } }
-            ]
+            "effect": [ { "u_message": "Transported: <npc_name>" }, { "npc_teleport": { "u_val": "eoc_sample_item_transporter_loc" } } ]
           }
         ]
       }
@@ -131,16 +128,13 @@
     "id": "EOC_if_else_test",
     "effect": [
       {
-        "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
         "then": { "u_message": "You have variable." },
         "else": [
           { "u_message": "You don't have variable." },
           {
-            "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
-            "then": [
-              { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
-              { "u_message": "Vriable added." }
-            ]
+            "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
+            "then": [ { "u_add_var": "eoc_sample_if_else_test", "value": "yes" }, { "u_message": "Variable added." } ]
           }
         ]
       }

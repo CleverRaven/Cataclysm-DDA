@@ -329,7 +329,7 @@ bool init_sound()
                                static_cast<int>( sfx::group::context_themes ) );
             Mix_GroupChannels( static_cast<int>( sfx::channel::stamina_75 ),
                                static_cast<int>( sfx::channel::stamina_35 ),
-                               static_cast<int>( sfx::group::fatigue ) );
+                               static_cast<int>( sfx::group::sleepiness ) );
 
             sound_init_success = true;
         } else {

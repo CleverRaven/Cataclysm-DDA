@@ -544,6 +544,10 @@ class pocket_data
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
+        // Parent item of this pocket has flag NO_UNLOAD
+        bool _no_unload = false; // NOLINT(cata-serialize)
+        // Parent item of this pocket  has flag NO_RELOAD
+        bool _no_reload = false; // NOLINT(cata-serialize)
         // if true, the pocket cannot be used by the player
         bool forbidden = false;
 

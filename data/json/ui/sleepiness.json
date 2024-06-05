@@ -1,0 +1,58 @@
+[
+  {
+    "id": "sleepiness_desc_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "id": "tired",
+        "text": "Tired",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "191" ] }, { "math": [ "u_val('sleepiness')", "<", "383" ] } ] }
+      },
+      {
+        "id": "dead_tired",
+        "text": "Dead Tired",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "383" ] }, { "math": [ "u_val('sleepiness')", "<", "575" ] } ] }
+      },
+      {
+        "id": "exhausted",
+        "text": "Exhausted",
+        "color": "red",
+        "condition": { "math": [ "u_val('sleepiness')", ">=", "575" ] }
+      }
+    ]
+  },
+  {
+    "id": "sleepiness_num",
+    "type": "widget",
+    "label": "Sleepiness",
+    "var": "sleepiness",
+    "style": "number"
+  },
+  {
+    "id": "sleepiness_graph",
+    "type": "widget",
+    "label": "Fatig",
+    "var": "sleepiness",
+    "style": "graph",
+    "fill": "bucket",
+    "width": 5,
+    "symbols": "-fF",
+    "colors": [ "c_green", "c_yellow", "c_red" ]
+  },
+  {
+    "id": "sleepiness_desc_label",
+    "type": "widget",
+    "label": "Rest",
+    "style": "text",
+    "copy-from": "sleepiness_desc_template"
+  },
+  {
+    "id": "sleepiness_desc_no_label",
+    "type": "widget",
+    "copy-from": "sleepiness_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

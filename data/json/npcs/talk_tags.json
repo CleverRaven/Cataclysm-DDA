@@ -941,7 +941,7 @@
     "category": "<move>",
     "//": "Generic orders to move,mostly used as part of firing warnings.",
     "text": [
-      "Move",
+      { "text": { "ctxt": "<move>", "str": "Move" } },
       "Move your ass",
       "Get out of the way",
       "Shift it",
@@ -1023,7 +1023,7 @@
       "There's not enough room for me here.",
       "This spot is squeezing the life out of me.",
       "I can hardly breathe, crammed in like this.",
-      "I'm like a sardine over here!.",
+      "I'm like a sardine over here!",
       "Ugh, I'm getting squashed.",
       "How about we stop and stretch our legs?",
       "I could use a break from being wedged in like this.",

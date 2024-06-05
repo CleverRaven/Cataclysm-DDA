@@ -196,7 +196,7 @@
   {
     "id": "mon_crows_m240",
     "type": "MONSTER",
-    "name": { "str": "M240 autonomous CROWS II" },
+    "name": { "str_sp": "M240 autonomous CROWS II" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -488,7 +488,7 @@
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
-    "special_attacks": [ [ "STARE", 12 ] ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "stare" }, "monster_message": "", "cooldown": 12 } ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ],
     "armor": { "bash": 4 }
   },
@@ -564,7 +564,7 @@
   {
     "id": "mon_mech_recon",
     "type": "MONSTER",
-    "name": { "str": "X-03: 'Spectre' Recon Mech" },
+    "name": { "str": "X-03: 'Specter' Recon Mech" },
     "description": "The Boeing-Daewoo RMES (Recon Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a scout-recon-sniper role, due to its mobility, integrated laser sniper rifle, and suite of optics for target designation and battlefield awareness.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],

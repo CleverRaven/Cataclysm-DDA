@@ -1,0 +1,265 @@
+[
+  {
+    "type": "snippet",
+    "category": "LIXA_lab_files",
+    "text": [
+      {
+        "id": "LIXA_lab_files_1",
+        "text": "After last week's decompression event, all onsite personnel must find a spot on the weekly schedule for offsite transit and further testing.  This schedule will be rotated in five-hour blocks.  You may consider your requests for a timeline update to accommodate these interruptions already filed.  I'm working on it, people."
+      },
+      {
+        "id": "LIXA_lab_files_2",
+        "text": "Personnel are reminded that unmonitored outside contact will result in disciplinary measures.  I understand that you are upset, but as has been stressed before, this is a temporary measure until the situation stabilizes."
+      },
+      {
+        "id": "LIXA_lab_files_3",
+        "text": "The equipment malfunction has been resolved.  The return waveform was delayed by 39h 26m 12s.  Adjusting from beat frequency, this is a displacement of 4.24e10 km."
+      },
+      {
+        "id": "LIXA_lab_files_4",
+        "text": "The phase difference between the cesium clocks on the device floor and at surface level has lowered to 6 seconds, suggesting a cyclic temporal displacement.  As the displacement remains under the caution threshold of 10 seconds, operation and maintenance will continue as normal."
+      },
+      {
+        "id": "LIXA_lab_files_5",
+        "text": "After analysis, the signal extracted from the beat frequency run S2848 has been judged to be a statistical anomaly of the sort expected in exodimensional transit compressions.  Requests for testing halt have been denied.  I know it was spooky, but it didn't mean anything.  Stay focused."
+      },
+      {
+        "id": "LIXA_lab_files_6",
+        "text": "The source of the testing wavelength shift has been identified.  A fault had developed in the vacuum casing of the laser chambers, allowing a small amount of ambient atmosphere in.  These were subsequently expanded on crossing the resonator threshold.  (I don't know what a stretched air molecule looks like either.)  Further tests awaiting approval."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "LIXA_lab_notes",
+    "text": [
+      {
+        "name": "cyan postit 1",
+        "id": "lab_postit_LIXA_1",
+        "text": "Word's in.  We're not DARPA funded anymore.  I don't know what that means.  Come talk to me, please."
+      },
+      {
+        "name": "cyan postit 2",
+        "id": "lab_postit_LIXA_2",
+        "text": "Coordinate distension not to exceed 7 steps under ANY CIRCUMSTANCES."
+      },
+      {
+        "name": "cyan postit 3",
+        "id": "lab_postit_LIXA_3",
+        "text": "Mirror three's developed a nm fault again.  However we're machining them, we need them to do better."
+      },
+      { "name": "cyan postit 4", "id": "lab_postit_LIXA_4", "text": "POKER NIGHT THURSDAY" },
+      {
+        "name": "cyan postit 5",
+        "id": "lab_postit_LIXA_5",
+        "text": "New stuff's coming in.  It's inside the battery housings of the new soldering irons.  REMEMBER TO BURN THIS NOTE."
+      },
+      {
+        "name": "cyan postit 6",
+        "id": "lab_postit_LIXA_6",
+        "text": "There is an intricate pen drawing of a whale on this post-it note."
+      },
+      {
+        "name": "cyan postit 7",
+        "id": "lab_postit_LIXA_7",
+        "text": "Corporal Dickass is on the warpath about something.  For god's sake, keep your mouth SHUT during the debrief this week."
+      },
+      {
+        "name": "cyan postit 8",
+        "id": "lab_postit_LIXA_8",
+        "text": "This is a cartoony pen drawing of a pigtailed woman in a dirndl, smiling a gaptoothed grin while playing an accordion.  Underneath are the words 'LIXA PLAYS THE CLASSICS!!!'"
+      },
+      {
+        "name": "cyan postit 9",
+        "id": "lab_postit_LIXA_9",
+        "text": "I've got a keycard for the stairwell.  Meet me tonight, usual location.  REMEMBER TO BURN THIS NOTE."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "LIXA_mil_files",
+    "text": [
+      {
+        "id": "LIXA_mil_files_1",
+        "text": "Offsite leisure has been suspended for the duration of this change of command.  Leisure hours will not accrue during this time."
+      },
+      {
+        "id": "LIXA_mil_files_2",
+        "text": "Protection of onsite research personnel is still considered a primary objective.  Termination of research personnel via action or negligence will be grounds for immediate discharge."
+      },
+      {
+        "id": "LIXA_mil_files_3",
+        "text": "Deliveries of food and goods from civilian sources is being suspended as of Thursday, March 17th.  Offsite control has agreed to arrange one more handoff before suspension.  Personnel are advised to make it count."
+      },
+      {
+        "id": "LIXA_mil_files_4",
+        "text": "In the interest of squad cohesion, all investigation into the perpetrators of Tuesday's incident has been suspended.  The new duty roster reflects an understanding that it will not, under any circumstances, be repeated.  The eggheads are not replaceable.  You are."
+      },
+      {
+        "id": "LIXA_mil_files_5",
+        "text": "Effective immediately, all offsite transit has been suspended indefinitely."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_1>",
+    "text": [
+      "\"-they said that the temporal distortion will never reach more than 10 seconds.  It's been Saturday for three days.\"",
+      "\"They've been telling us the lockdown is temporary for three weeks.  Now they're saying we need escorts to even go to the surface level and get some damn sun.  How much more-\"",
+      "\"-look, I know we're all wigging out.  But you have got to remember to eat something.  Set an alarm if you have to, just-\"",
+      "\"Dear mom.  How are you doing?  I hope this message finds you alive, because by the time it gets to you I will be fuckin' dead.\"",
+      "You open an application that turns out to be a top-down strategy game of some sort, set in space.  Shortly after selecting anything in the menu, the game freezes and crashes to desktop.",
+      "\"Listen, I know it's upsetting, and I agree.  You're right that there's no way a cat could cause any real problems down here.  But, and I apologize for the cold comfort; this way, you can be sure Yujin will see the sun again.  Cats need sun to be happy.\"",
+      "\"-how are you recovering?  They tried to get on us about testing times, I told them they can eat my entire ass.  If they don't want delays they will keep those jackboot bastards from breaking someone's fucking jaw.  I also put in an order for-\"",
+      "\"Had the dream again.  An ocean, as far as the eye can see.  Gently rolling waves.  All of it, photons.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_2>",
+    "text": [
+      "\"It's getting bad up there.  The soldiers seem tense, a little shocked.  I don't think they're allowed any news either, so it must be something they can see happening.\"",
+      "This is a saved file that opens in a digital painting program.  The linework, and some shading, has been done on a painting of a long-furred cat.",
+      "\"They must have done something to Keaton.  The soldiers seem very upset with us.  As though it's our fault he couldn't keep his temper?\"",
+      "\"I can answer that for you, actually.  He's what those of us who took two semesters of psych 12 years ago call a 'fucking asshole'.\"",
+      "\"-for understanding.  I was too jumbled up to find the right words, so I want to make it clear now:  I don't want to end our arrangement, I just need a break.  I actually think I could use physical intimacy now more than ever, so if you're alright with just cuddling-\"",
+      "\"I can't remember loving this project.  I know that I did; I was so excited.  We were going to change the world.  But I cannot remember the feeling of anything other than hate.\"",
+      "\"I wiped the last of the documentation drives last night.  I think we all know that if they replace us, it won't be because we've been let go and allowed to resume our lives.  Now they no longer have that option.\"",
+      "This is a spreadsheet that passes several cells of what look like poker hands through a mathematical function, directing them to a cell with the heading CHEATCHANCE and the number 77.",
+      "This is an entire folder of video files, apparently the complete first season of an animated series called The Shepherd House.  Every file crashes to desktop ten seconds into the opening credits, so all you can tell is that the theme music seems interesting."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_3>",
+    "text": [
+      "\"I just don't get what's in this for Kim.  He says he won't be in any more trouble if they bust him for smuggling stuff for us on top of his own, but we have nothing to offer him in exchange.  I'd like to believe he's just a good guy, but I don't have that luxury anymore.\"",
+      "This is a saved file that opens in a digital painting program.  All it contains are the words THEY BURIED US ALIVE in shaky handwriting.",
+      "\"The last I heard, dad was very sick.  That was 8 months ago.  What am I SUPPOSED to think?\"",
+      "This is a text file containing a very large ASCII image of a dog wearing glasses.",
+      "This is a spreadsheet containing the info for a Blobs & Bandits character named Antigone.  They are apparently some sort of psychic specializing in area-of-effect attacks, and have a pet 'shrike worm' named Scylla.",
+      "\"I never believed I would miss fast food at all, let alone this much.  I would do terrible things for a single bite of cheap, dubious hamburger.\"",
+      "\"Finished refitting the experiment chamber card readers.  It's just us in there now.  I don't think the soldiers want to risk undoing it, if it means possibly compromising the device.\"",
+      "\"How do you stop a coordinate transformer from squeaking?  Make sure you have an Euler handy!'",
+      "\"At this point?  The only reason I haven't killed myself is because they'd make you guys work even harder to make up for me.  So yeah.  Not doing great.\"",
+      "\"I wonder what they've told my children.  I hope it's that I am dead.  The alternative, that they think I abandoned them?  I would rather BE dead.\"",
+      "\"Whatever is happening up there, it's not our fault.  We cannot be responsible for the ways other people use our research.  Any scientist who has ever lived has only been able to hope their work is used well.  The work must be done, regardless.\"",
+      "This is a random page from what appears to be an original work of erotic fiction.  The things described here seem anatomically unlikely, at best."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<LIXA_personal_snip_4>",
+    "text": [
+      "\"Something is wrong.  I don't think the compression factor numbers are a bug or error.  I think we've lost control of this thing entirely.\"",
+      "This is a text document.  All it contains are the words SPACE IS A WASTE TIME IS A CRIME several thousand times.",
+      "\"Kim spent his last takeout order on us, enough to give us leftovers for days.  He got it from Ping's.  He remembers I said their siu mai are made the real way.  I don't understand.\"",
+      "\"I've got a cask of the finest paradimensional research in my cellar.  Would you like a taste, Fortunato?\"",
+      "\"Listen, I am very pleased for you two, in the abstract.  I just would like you to remember that your room shares a ventilation duct with mine.  A note on my door would be nice if you have plans for an evening.\"",
+      "\"No, you can't get high off air freshener, you dumbass.  I just miss the smell of living things.  Cheap fake pine in close enough.\"",
+      "\"I hate to be the devil's advocate, but; they're trapped as well.  It's easy to resent them for at least having the sun, but isn't having freedom that much closer and still beyond reach maddening as well?\"",
+      "\"If there was a nuclear war, would anyone remember we're down here?  Has there been one already, and they just haven't told us?\"",
+      "This is a saved file that opens in a digital painting program.  It is a crude cartoon of a woman in a suit with a manic expression, and a word balloon saying \"WIBBLEY WOBBLEY, SPACEY-WACEY, STUFF\".",
+      "\"Because it's a stupid fucking acronym, is why.  Someone sat down and thought 'how do we make people take our DOUBLE SECRET agency seriously?  I know!  X's are super cool, right?  It's embarrassing.\"",
+      "\"Yeah, now I'm sure.  Someone has been stealing my underwear.  Next briefing, we tell them we either get onsite laundry installed, or we forget to turn the device off and they can deal with the power bill.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "LIXA_lab_graffiti_sad_snips",
+    "text": [
+      {
+        "id": "LIXA_lab_graffiti_sad_1",
+        "text": "This is a very large and extremely detailed drawing of a long-furred black cat.  It must have taken a very long time.  Underneath are the words 'someone still remembers yu'."
+      },
+      {
+        "id": "LIXA_lab_graffiti_sad_2",
+        "text": "\"And when we saw the vastness of our works, we wept.  For there was no more death to become.\""
+      },
+      {
+        "id": "LIXA_lab_graffiti_sad_3",
+        "text": "Written in a neat script, side by side in Somali and English, are the words \"But now, after everything, I am too afraid to face you.\""
+      },
+      {
+        "id": "LIXA_lab_graffiti_sad_4",
+        "text": "\"AT LEAST PROMETHEUS HAD A NICE VIEW AND A FUCKING EAGLE FOR COMPANY\""
+      },
+      {
+        "id": "LIXA_lab_graffiti_sad_5",
+        "text": "This is a sketchy portrait in permanent marker of a man in military body armor.  His face is blotted out by an angry snarl of ink.  Underneath is the word KIM."
+      },
+      { "id": "LIXA_lab_graffiti_sad_6", "text": "\"WHAT was WRONG with just doing EINSTEIN?\"" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "LIXA_lab_graffiti_bored_snips",
+    "text": [
+      {
+        "id": "LIXA_lab_graffiti_bored_1",
+        "text": "This is is a very large circle, filled with hundreds and hundreds of delicate spirals in yellow and orange marker."
+      },
+      {
+        "id": "LIXA_lab_graffiti_bored_2",
+        "text": "\"The outside has been closed for repairs.  Thank you for your patience.\""
+      },
+      {
+        "id": "LIXA_lab_graffiti_bored_3",
+        "text": "This wall is covered in games of tic-tac-toe, with Xs and Os in different colors.  Some sketching on the side suggests that it is all one game, played on a 6 dimensional grid.  Underneath that are the words THIS WAS FUCKING STUPID."
+      },
+      {
+        "id": "LIXA_lab_graffiti_bored_4",
+        "text": "This is a detailed drawing of a humpback whale.  An obvious addition from a different artist has added what looks like sunglasses.  The visible arm is comically short, and the nose bridge extends over the top of the whale.  Possibly a third hand has added the words \"From hell's heart I chill with thee!\""
+      },
+      { "id": "LIXA_lab_graffiti_bored_5", "text": "\"BEWARE THE PHANTOM OF THE ASSAY\"" },
+      {
+        "id": "LIXA_lab_graffiti_bored_6",
+        "text": "This wall is covered in paired tables of tally marks, under headings such as NEWTON/LEIBNITZ, CAKE/PIE, TRITE/MOIST, and ORIGINAL/REBOOT."
+      },
+      {
+        "id": "LIXA_lab_graffiti_bored_7",
+        "text": "There is a large line sketch, in marker, of a tall wardrobe's closed doors here."
+      },
+      { "id": "LIXA_lab_graffiti_bored_8", "text": "\"If anyone finds this message; send more fucking tomatoes.\"" },
+      {
+        "id": "LIXA_lab_graffiti_bored_9",
+        "text": "This is a drawing, combined together from several people's contributions.  The result is a deeply unflattering caricature of a soldier skipping down a road, alongside the words KEATON ON HIS WAY TO BUY MORE PAINT CHIPS."
+      },
+      {
+        "id": "LIXA_lab_graffiti_bored_10",
+        "text": "This is an adorable drawing of a troll-like creature with a snout like an aardvark.  Next to it are the words \"Please don't tell anyone I'm down here!\""
+      },
+      {
+        "id": "LIXA_lab_graffiti_bored_11",
+        "text": "This is a drawing of a horned, ogre-like creature sitting in an arm chair, wearing a small pair of reading glasses and holding what is presumably a normal sized book delicately between each finger and thumb.  Underneath are the words \"But how does he turn the pages?\", followed, in a different hand, by \"Carefully.\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "LIXA_lab_graffiti_raving_snips",
+    "text": [
+      { "id": "LIXA_lab_graffiti_raving_1", "text": "\"THEY BURIED US ALIVE\"" },
+      { "id": "LIXA_lab_graffiti_raving_2", "text": "\"It's EtERNITy in there\"" },
+      {
+        "id": "LIXA_lab_graffiti_raving_3",
+        "text": "\"To whoever finds this; tell my children I loved them.  You owe me that.  you owe me that YOU OWE ME THAT\""
+      },
+      { "id": "LIXA_lab_graffiti_raving_4", "text": "\"I'm NOT fucking sorry.\"" },
+      { "id": "LIXA_lab_graffiti_raving_5", "text": "\"Whoever leaves last, please get the lights before you go.\"" },
+      { "id": "LIXA_lab_graffiti_raving_6", "text": "\"I just wanted to help\"" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "LIXA_lab_graffiti_goodbye",
+    "text": [
+      {
+        "id": "LIXA_lab_graffiti_sadbye",
+        "text": "We went in.  We're going to try to fix it.  If someone finds this; we were here.  We tried to make it right."
+      }
+    ]
+  }
+]

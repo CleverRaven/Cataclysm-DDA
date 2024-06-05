@@ -57,7 +57,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     // Verify consistency between different implementations
     CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
     CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.getlocal( test_abs.raw() ) );
+    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
     CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
 
     CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
@@ -125,7 +125,8 @@ TEST_CASE( "tinymap_bounds_checking" )
     clear_map();
     tinymap m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
-    m.load( point_away_from_real_map, false );
+    m.load( project_to<coords::omt>( point_away_from_real_map + point_east ),
+            false ); // Add submap to ensure to OMT lies beyond the reality bubble
     for( int x = -1; x <= SEEX * 2; ++x ) {
         for( int y = -1; y <= SEEY * 2; ++y ) {
             for( int z = -OVERMAP_DEPTH - 1; z <= OVERMAP_HEIGHT + 1; ++z ) {
@@ -196,7 +197,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
 
     item &bp = here.add_item( test_loc, bottle_plastic );
     here.update_submaps_with_active_items();
-    item_location bp_loc( map_cursor( test_loc ), &bp );
+    item_location bp_loc( map_cursor( tripoint_bub_ms( test_loc ) ), &bp );
     item_location dis_loc( bp_loc, &bp.only_item() );
 
     REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );

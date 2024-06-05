@@ -56,12 +56,15 @@ endif ()
 add_definitions(-DCMAKE)
 
 # Retrieve version from git into GIT_VERSION and creates VERSION.txt
-execute_process(COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+execute_process(COMMAND ${CMAKE_COMMAND}
+    -DGIT_BINARY=${GIT_BINARY}
+    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
     ERROR_VARIABLE GIT_VERSION
+    ERROR_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
+if (GIT_VERSION)
     message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
     add_definitions(-DGIT_VERSION)
 else()
@@ -75,8 +78,10 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
-    set(_OS_FREEBSD_ 1)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")
+    set(_OS_BSD_ 1)
 endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
@@ -347,6 +352,9 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
+    endif ()
+    if (_OS_BSD_)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lexecinfo")
     endif ()
 endif ()
 

@@ -119,6 +119,26 @@ std::string burn( item const &it, unsigned int /* quantity */,
     return {};
 }
 
+std::string custom_item_prefix( item const &it, unsigned int /* quantity */,
+                                segment_bitset const &/* segments */ )
+{
+    std::string prefix;
+    for( const flag_id &f : it.get_prefix_flags() ) {
+        prefix += f->item_prefix().translated();
+    }
+    return prefix;
+}
+
+std::string custom_item_suffix( item const &it, unsigned int /* quantity */,
+                                segment_bitset const &/* segments */ )
+{
+    std::string suffix;
+    for( const flag_id &f : it.get_suffix_flags() ) {
+        suffix.insert( 0, f->item_suffix().translated() );
+    }
+    return suffix;
+}
+
 std::string label( item const &it, unsigned int quantity, segment_bitset const &segments )
 {
     if( !it.is_craft() ) {
@@ -223,11 +243,18 @@ std::string contents( item const &it, unsigned int /* quantity */,
         // (eg: quivers), as they format their own counts.
         if( total_count > 1 && it.ammo_types().empty() ) {
             if( total_count == aggi_count ) {
-                return string_format( " > %1$zd %2$s", total_count, ctnc );
+                return string_format(
+                           segments[tname::segments::CONTENTS_COUNT]
+                           //~ [container item name] " > [count] [type]"
+                           ? npgettext( "item name", " > %1$zd %2$s", " > %1$zd %2$s", total_count )
+                           : " > %2$s",
+                           total_count, ctnc );
             }
             return string_format(
+                       segments[tname::segments::CONTENTS_COUNT]
                        //~ [container item name] " > [count] [type] / [total] items"
-                       npgettext( "item name", " > %1$zd %2$s / %3$zd item", " > %1$zd %2$s / %3$zd items", total_count ),
+                       ? npgettext( "item name", " > %1$zd %2$s / %3$zd item", " > %1$zd %2$s / %3$zd items", total_count )
+                       : " > %2$s",
                        aggi_count, ctnc, total_count );
         }
         return string_format( " > %1$s", ctnc );
@@ -235,9 +262,11 @@ std::string contents( item const &it, unsigned int /* quantity */,
     } else if( segments[tname::segments::CONTENTS_ABREV] && !contents.empty_container() &&
                contents.num_item_stacks() != 0 ) {
         std::string const suffix =
-            npgettext( "item name",
-                       //~ [container item name] " > [count] item"
-                       " > %1$zd item", " > %1$zd items", contents.num_item_stacks() );
+            segments[tname::segments::CONTENTS_COUNT]
+            ? npgettext( "item name",
+                         //~ [container item name] " > [count] item"
+                         " > %1$zd item", " > %1$zd items", contents.num_item_stacks() )
+            : _( " > items" );
         return string_format( suffix, contents.num_item_stacks() );
     }
     return {};
@@ -508,13 +537,13 @@ std::string relic_charges( item const &it, unsigned int /* quantity */,
     return {};
 }
 
-std::string category( item const &it, unsigned int /* quantity */,
+std::string category( item const &it, unsigned int quantity,
                       segment_bitset const &segments )
 {
     nc_color const &color = segments[tname::segments::FOOD_PERISHABLE] && it.is_food()
                             ? it.color_in_inventory( &get_avatar() )
                             : c_magenta;
-    return colorize( it.get_category_of_contents().name(), color );
+    return colorize( it.get_category_of_contents().name_noun( quantity ), color );
 }
 
 // function type that prints an element of tname::segments
@@ -533,8 +562,10 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::WHEEL_DIAMETER ) ] = wheel_diameter;
     arr[static_cast<size_t>( tname::segments::BURN ) ] = burn;
     arr[static_cast<size_t>( tname::segments::WEAPON_MODS ) ] = weapon_mods;
+    arr[static_cast<size_t>( tname::segments::CUSTOM_ITEM_PREFIX )] = custom_item_prefix;
     arr[static_cast<size_t>( tname::segments::TYPE ) ] = label;
     arr[static_cast<size_t>( tname::segments::CATEGORY ) ] = category;
+    arr[static_cast<size_t>( tname::segments::CUSTOM_ITEM_SUFFIX )] = custom_item_suffix;
     arr[static_cast<size_t>( tname::segments::MODS ) ] = mods;
     arr[static_cast<size_t>( tname::segments::CRAFT ) ] = craft;
     arr[static_cast<size_t>( tname::segments::WHITEBLACKLIST ) ] = wbl_mark;

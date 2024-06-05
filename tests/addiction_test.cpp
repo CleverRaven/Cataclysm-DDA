@@ -27,7 +27,7 @@ static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static constexpr int max_iters = 100000;
 
 struct addict_effect_totals {
-    int fatigue = 0;
+    int sleepiness = 0;
     int morale = 0;
     int stim = 0;
     int str_bonus = 0;
@@ -42,7 +42,7 @@ struct addict_effect_totals {
     int focus = 0;
 
     void after_update( Character &u ) {
-        fatigue += u.get_fatigue();
+        sleepiness += u.get_sleepiness();
         morale += u.get_morale_level();
         stim += u.get_stim();
         str_bonus += u.str_cur;
@@ -62,7 +62,7 @@ static void clear_addictions( Character &u )
 {
     u.addictions.clear();
     u.clear_effects();
-    u.moves = 100;
+    u.set_moves( u.get_speed() );
     u.set_daily_health( 0 );
     u.str_max = 8;
     u.dex_max = 8;
@@ -73,13 +73,13 @@ static void clear_addictions( Character &u )
     u.set_int_bonus( 0 );
     u.set_per_bonus( 0 );
     u.clear_morale();
-    u.set_fatigue( 0 );
+    u.set_sleepiness( 0 );
     u.set_stim( 0 );
     u.set_painkiller( 0 );
     u.set_pain( 0 );
     u.set_focus( 100 );
 
-    REQUIRE( u.get_fatigue() == 0 );
+    REQUIRE( u.get_sleepiness() == 0 );
     REQUIRE( u.get_morale_level() == 0 );
     REQUIRE( u.get_stim() == 0 );
     REQUIRE( !u.has_effect( effect_hallu ) );
@@ -123,7 +123,7 @@ TEST_CASE( "hardcoded_and_json_addictions", "[addiction]" )
     SECTION( "caffeine json test, intensity 5" ) {
         int res = suffer_addiction( addiction_test_caffeine, 5, u, max_iters, totals );
         CHECK( res == Approx( 50 ).margin( 40 ) );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         // Morale & stim very rarely get decremented in the effect
         // Just check that they aren't positive
         CHECK( totals.morale <= 0 );
@@ -134,7 +134,7 @@ TEST_CASE( "hardcoded_and_json_addictions", "[addiction]" )
     SECTION( "caffeine json test, intensity 20" ) {
         int res = suffer_addiction( addiction_test_caffeine, 20, u, max_iters, totals );
         CHECK( res == Approx( 50 ).margin( 40 ) );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
     }
@@ -142,7 +142,7 @@ TEST_CASE( "hardcoded_and_json_addictions", "[addiction]" )
     SECTION( "nicotine hardcoded test, intensity 5" ) {
         int res = suffer_addiction( addiction_test_nicotine, 5, u, max_iters, totals );
         CHECK( res == Approx( 60 ).margin( 40 ) );
-        CHECK( totals.fatigue >= 0 );
+        CHECK( totals.sleepiness >= 0 );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
     }
@@ -150,7 +150,7 @@ TEST_CASE( "hardcoded_and_json_addictions", "[addiction]" )
     SECTION( "nicotine hardcoded test, intensity 20" ) {
         int res = suffer_addiction( addiction_test_nicotine, 20, u, max_iters, totals );
         CHECK( res == Approx( 70 ).margin( 40 ) );
-        CHECK( totals.fatigue == Approx( 70 ).margin( 35 ) );
+        CHECK( totals.sleepiness == Approx( 70 ).margin( 35 ) );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
     }
@@ -168,7 +168,7 @@ TEST_CASE( "check_caffeine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_caffeine, 5, u, max_iters, totals );
         CHECK( res == Approx( 50 ).margin( 40 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
         CHECK( totals.pkiller == 0 );
@@ -186,7 +186,7 @@ TEST_CASE( "check_caffeine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_caffeine, 20, u, max_iters, totals );
         CHECK( res == Approx( 50 ).margin( 40 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
         CHECK( totals.pkiller == 0 );
@@ -213,7 +213,7 @@ TEST_CASE( "check_nicotine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_nicotine, 5, u, max_iters, totals );
         CHECK( res == Approx( 60 ).margin( 40 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue >= 0 );
+        CHECK( totals.sleepiness >= 0 );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
         CHECK( totals.pkiller == 0 );
@@ -231,7 +231,7 @@ TEST_CASE( "check_nicotine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_nicotine, 20, u, max_iters, totals );
         CHECK( res == Approx( 70 ).margin( 40 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == Approx( 70 ).margin( 35 ) );
+        CHECK( totals.sleepiness == Approx( 70 ).margin( 35 ) );
         CHECK( totals.morale <= 0 );
         CHECK( totals.stim <= 0 );
         CHECK( totals.pkiller == 0 );
@@ -258,7 +258,7 @@ TEST_CASE( "check_alcohol_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_alcohol, 5, u, max_iters, totals );
         CHECK( res == Approx( 1300 ).margin( 500 ) );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale == Approx( -40000 ).margin( 20000 ) );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -276,7 +276,7 @@ TEST_CASE( "check_alcohol_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_alcohol, 20, u, max_iters, totals );
         CHECK( res == Approx( 9000 ).margin( 2000 ) );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale == Approx( -300000 ).margin( 100000 ) );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -303,7 +303,7 @@ TEST_CASE( "check_diazepam_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_diazepam, 5, u, max_iters, totals );
         CHECK( res == Approx( 1300 ).margin( 500 ) );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale == Approx( -40000 ).margin( 20000 ) );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -321,7 +321,7 @@ TEST_CASE( "check_diazepam_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_diazepam, 20, u, max_iters, totals );
         CHECK( res == Approx( 9000 ).margin( 2000 ) );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale == Approx( -300000 ).margin( 100000 ) );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -348,7 +348,7 @@ TEST_CASE( "check_opiate_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_opiate, 5, u, max_iters, totals );
         CHECK( res == max_iters );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -366,7 +366,7 @@ TEST_CASE( "check_opiate_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_opiate, 20, u, max_iters, totals );
         CHECK( res == max_iters );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -393,7 +393,7 @@ TEST_CASE( "check_amphetamine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_amphetamine, 5, u, max_iters, totals );
         CHECK( res == Approx( 30000 ).margin( 10000 ) );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim < 0 );
         CHECK( totals.pkiller == 0 );
@@ -411,7 +411,7 @@ TEST_CASE( "check_amphetamine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_amphetamine, 20, u, max_iters, totals );
         CHECK( res == max_iters );
         CHECK( totals.health_mod < 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == -max_iters );
         CHECK( totals.pkiller == 0 );
@@ -438,7 +438,7 @@ TEST_CASE( "check_cocaine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_cocaine, 5, u, max_iters, totals );
         CHECK( res == Approx( 300 ).margin( 100 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim < 0 );
         CHECK( totals.pkiller == 0 );
@@ -456,7 +456,7 @@ TEST_CASE( "check_cocaine_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_cocaine, 20, u, max_iters, totals );
         CHECK( res == Approx( 3000 ).margin( 1000 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim < 0 );
         CHECK( totals.pkiller == 0 );
@@ -483,7 +483,7 @@ TEST_CASE( "check_crack_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_crack, 5, u, max_iters, totals );
         CHECK( res == Approx( 300 ).margin( 100 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim < 0 );
         CHECK( totals.pkiller == 0 );
@@ -501,7 +501,7 @@ TEST_CASE( "check_crack_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_crack, 20, u, max_iters, totals );
         CHECK( res == Approx( 3000 ).margin( 1000 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim < 0 );
         CHECK( totals.pkiller == 0 );
@@ -528,7 +528,7 @@ TEST_CASE( "check_mutagen_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_mutagen, 5, u, max_iters, totals );
         CHECK( res == 0 );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -546,7 +546,7 @@ TEST_CASE( "check_mutagen_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_mutagen, 20, u, max_iters, totals );
         CHECK( res == 0 );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -566,7 +566,7 @@ TEST_CASE( "check_mutagen_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_mutagen, 5, u, max_iters, totals );
         CHECK( res == max_iters );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -586,7 +586,7 @@ TEST_CASE( "check_mutagen_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_mutagen, 20, u, max_iters, totals );
         CHECK( res == max_iters );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -613,7 +613,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_marloss_r, 5, u, max_iters, totals );
         CHECK( res == Approx( 120 ).margin( 100 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -631,7 +631,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_marloss_r, 20, u, max_iters, totals );
         CHECK( res == Approx( 250 ).margin( 150 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -649,7 +649,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_marloss_b, 5, u, max_iters, totals );
         CHECK( res == Approx( 120 ).margin( 100 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -667,7 +667,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_marloss_b, 20, u, max_iters, totals );
         CHECK( res == Approx( 250 ).margin( 150 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -685,7 +685,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_marloss_y, 5, u, max_iters, totals );
         CHECK( res == Approx( 120 ).margin( 100 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );
@@ -703,7 +703,7 @@ TEST_CASE( "check_marloss_addiction_effects", "[addiction]" )
         int res = suffer_addiction( addiction_marloss_y, 20, u, max_iters, totals );
         CHECK( res == Approx( 250 ).margin( 150 ) );
         CHECK( totals.health_mod == 0 );
-        CHECK( totals.fatigue == 0 );
+        CHECK( totals.sleepiness == 0 );
         CHECK( totals.morale < 0 );
         CHECK( totals.stim == 0 );
         CHECK( totals.pkiller == 0 );

@@ -20,6 +20,7 @@
 #include "veh_type.h"
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+static const vproto_id vehicle_prototype_obstacle_test( "obstacle_test" );
 static const vproto_id vehicle_prototype_schoolbus( "schoolbus" );
 static const vproto_id vehicle_prototype_suv( "suv" );
 static const vproto_id vehicle_prototype_test_van( "test_van" );
@@ -320,6 +321,30 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
             }
         }
     }
+}
+
+TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle_fake]" )
+{
+    clear_avatar();
+    really_clear_map();
+    map &here = get_map();
+    Character &you = get_player_character();
+    const tripoint test_origin( 30, 30, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_obstacle_test,
+                                     test_origin, 315_degrees, 100, 0 );
+    REQUIRE( veh != nullptr );
+    veh->refresh();
+    here.set_seen_cache_dirty( 0 );
+    here.build_map_cache( 0 );
+    validate_part_count( *veh, 0, 315_degrees, 11, 6, 5 );
+    std::vector<tripoint_bub_ms> route = here.route(
+            tripoint_bub_ms( test_origin - point( 2, 0 ) ),
+            tripoint_bub_ms( test_origin + point( 2, 0 ) ),
+            you.get_pathfinding_settings(),
+            {} );
+    REQUIRE( !route.empty() );
+    CAPTURE( route );
+    REQUIRE( route.size() == 7 );
 }
 
 TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )

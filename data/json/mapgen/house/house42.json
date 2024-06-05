@@ -17,14 +17,14 @@
         "..#||||| hfh      HHHs#.",
         "..o8tS|  hfh          o.",
         "..#9''+      ÷T|  yRRR#.",
-        "..#||||'''###¶##  ||||#.",
-        "..#F'JJ'AJ#jj~~#  + dD#.",
-        "..o5''''AJ#j~~~#|+|   o.",
-        "..#1'''''J#j~~~#S'|  ¤#.",
-        "..#23O47'Y#~~~~ot'| @@o.",
-        "..##o##|'|#$$/$#BB|b ¤#.",
-        ".....^#W'6#````#####o##.",
-        "......#Z'6#.............",
+        "..#||||===###¶##  ||||#.",
+        "..#F=JJ=AJ#jj~~#  + dD#.",
+        "..o5====AJ#j~~~#|+|   o.",
+        "..#1=====J#j~~~#S'|  ¤#.",
+        "..#23O47=Y#~~~~ot'| @@o.",
+        "..##o##|=|#$$/$#BB|b ¤#.",
+        ".....^#W=6#````#####o##.",
+        "......#Z=6#.............",
         "......##*##.............",
         "...[...............[....",
         "........................",
@@ -40,11 +40,11 @@
       "terrain": {
         "~": "t_thconc_floor",
         "j": "t_thconc_floor",
-        "'": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "$": "t_screened_porch_wall",
         "/": "t_screen_door_c"
       },
@@ -54,10 +54,8 @@
         { "item": "television", "x": 16, "y": 5, "chance": 35 },
         { "item": "stereo", "x": 16, "y": 6, "chance": 35 }
       ],
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "tricycle", "x": 13, "y": 14, "chance": 35, "rotation": 270 }
-      ]
+      "place_vehicles": [ { "vehicle": "tricycle", "x": 13, "y": 14, "chance": 35, "rotation": 270 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ]
     }
   },
   {

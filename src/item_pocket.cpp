@@ -411,14 +411,14 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return false;
     }
 
-    if( rhs.data->extra_encumbrance < data->extra_encumbrance ) {
+    if( rhs.data->extra_encumbrance != data->extra_encumbrance ) {
         // pockets with less extra encumbrance should be prioritized
-        return true;
+        return rhs.data->extra_encumbrance < data->extra_encumbrance;
     }
 
-    if( data->ripoff > rhs.data->ripoff ) {
+    if( data->ripoff != rhs.data->ripoff ) {
         // pockets without ripoff chance should be prioritized
-        return true;
+        return rhs.data->ripoff < data->ripoff;
     }
 
     if( data->rigid != rhs.data->rigid ) {
@@ -2222,12 +2222,12 @@ std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     std::pair<item_location, item_pocket *> ret( this_loc, nullptr );
-    // If the current pocket has restrictions or blacklists the item,
+    // If the current pocket has restrictions or blacklists the item or is a holster,
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
         !settings.accepts_item( it ) ||
         !get_pocket_data()->get_flag_restrictions().empty() ||
-        settings.priority() > 0;
+        settings.priority() > 0 || is_holster();
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {

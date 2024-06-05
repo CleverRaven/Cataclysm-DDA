@@ -82,6 +82,15 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, parabolan wool sewn in a way to extend its already great protectiveness.",
+    "id": "parabolan_wool_quilted",
+    "name": "Quilted Parabolan Wool",
+    "copy-from": "parabolan_wool",
+    "repaired_with": "null",
+    "resist": { "bash": 2, "cut": 6, "acid": 5, "heat": 0, "bullet": 15, "electric": 3 }
+  },
+  {
+    "type": "material",
     "id": "demon_chitin",
     "name": "Demon Chitin",
     "density": 15,
@@ -198,7 +207,7 @@
   },
   {
     "type": "material",
-    "id": "tainted_blood",
+    "id": "blood_tainted",
     "name": "Tainted blood",
     "copy-from": "blood",
     "fuel_data": { "energy": "5 kJ" }

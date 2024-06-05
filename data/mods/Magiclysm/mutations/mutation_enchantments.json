@@ -10,6 +10,7 @@
     "id": "dragon_leg_strength",
     "condition": "ALWAYS",
     "values": [
+      { "value": "MOVE_COST", "multiply": 0.05 },
       { "value": "CARRY_WEIGHT", "multiply": 1.1 },
       { "value": "FOOTSTEP_NOISE", "add": 5 },
       { "value": "REGEN_STAMINA", "multiply": 1.05 }

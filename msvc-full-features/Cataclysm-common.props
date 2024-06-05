@@ -14,7 +14,7 @@
     <_CDDA_RELEASE_BUILD>false</_CDDA_RELEASE_BUILD>
     <_CDDA_RELEASE_BUILD Condition="'$(CDDA_RELEASE_BUILD)'!=''">true</_CDDA_RELEASE_BUILD>
     <_CDDA_LLVM_BIN_PATH>$(VCInstallDir)Tools\Llvm\bin\</_CDDA_LLVM_BIN_PATH>
-    <_CDDA_LLVM_BIN_PATH Condition="'$(LLVMInstallDir)'!=''">$(LLVMInstallDir)bin\</_CDDA_LLVM_BIN_PATH>
+    <_CDDA_LLVM_BIN_PATH Condition="'$(LLVMInstallDir)'!=''">$(LLVMInstallDir)\bin\</_CDDA_LLVM_BIN_PATH>
     <CDDA_LLVM_LIB_PATH Condition="'$(CDDA_LLVM_LIB_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLVM_LIB_PATH>
     <CDDA_LLD_LINK_PATH Condition="'$(CDDA_LLD_LINK_PATH)'==''">$(_CDDA_LLVM_BIN_PATH)</CDDA_LLD_LINK_PATH>
     <_CDDA_ENABLE_THIN_ARCHIVES>false</_CDDA_ENABLE_THIN_ARCHIVES>
@@ -51,12 +51,13 @@
       <CompileAsManaged>false</CompileAsManaged>
       <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\src;$(MSBuildThisFileDirectory)..\src\third-party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\pch;$(MSBuildThisFileDirectory)..\src;$(MSBuildThisFileDirectory)..\src\third-party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles>$(MSBuildThisFileDirectory)..\pch\main-pch.hpp</ForcedIncludeFiles>
       <DisableSpecificWarnings>4661;4819;4146;26495;26444;26451;4068;6319;6237</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;LOCALIZE;USE_VCPKG;IMGUI_DISABLE_OBSOLETE_KEYIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>$(MSBuildThisFileDirectory)..\pch\main-pch.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Condition="$(Configuration.StartsWith(Release))">
       <PreprocessorDefinitions>RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -145,7 +146,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)stdafx.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\pch\main-pch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)stdafx.cpp">

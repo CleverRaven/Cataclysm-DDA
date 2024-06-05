@@ -1,0 +1,54 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "dynamic_line": {
+      "follower_present": "NC_ISHERWOOD_BARRY",
+      "no": [
+        "What's up?  Change of plans?",
+        "Everything OK?",
+        "Not really a good time for a chat.",
+        "I can't believe this is happening."
+      ],
+      "yes": [ "Barry!  Oh my god, you found him!", "Barry!  You're okay!", "Oh god, oh thank god.  Let's get Barry out of here." ]
+    },
+    "responses": [
+      {
+        "text": "We've got him, let's get out of here.",
+        "condition": {
+          "and": [
+            { "math": [ "isherwood_family_coming", "==", "1" ] },
+            { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        },
+        "effect": [
+          { "u_lose_var": "barry_following", "type": "general", "context": "meeting" },
+          { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+          { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 },
+          { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          {
+            "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "furniture": "f_sofa",
+            "target_max_radius": 30,
+            "min_radius": 0,
+            "max_radius": 0
+          },
+          { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Right.  Let's do this.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
+    "dynamic_line": "*eyes you up and down with a nervous smile.  \"I almost didn't expect you to show up.\"  He hesitates, letting out a soft laugh.  \"That sounds bad.  I just mean, I can't really believe we're doing this.  Thank you… for doing this.  You ready to get Uncle Barry?\"",
+    "responses": [
+      { "text": "You got it, let's go!", "effect": "follow_only", "topic": "TALK_DONE" },
+      { "text": "Not yet, just give me a minute.", "topic": "TALK_DONE" }
+    ]
+  }
+]

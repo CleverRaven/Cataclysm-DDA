@@ -35,7 +35,7 @@ cd vcpkg
 .\vcpkg integrate install
 ```
 In a Git Bash shell, the commands are almost the same except the filesystem path separator is `/` instead of `\`.
-```
+```cmd
 # cd to the appropriate folder first
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
@@ -47,12 +47,14 @@ cd vcpkg
 
 1. Clone Cataclysm-DDA repository with following command line:
 
-**Note:** This will download the entire CDDA repository; about three gigs of data. If you're just testing you should probably add `--depth=1`.
-
 ```cmd
 git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
+
+**Note:** This will download the entire CDDA repository; about three gigs of data. If you're just testing you should probably add `--depth=1`.
+
+**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CONTRIBUTING.md#example-workflow).
 
 2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`.
 
@@ -63,7 +65,7 @@ cd Cataclysm-DDA
 
 4. Start the build process by selecting either `Build > Build Solution` or `Build > Build > 1 Cataclysm-vcpkg-static`. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :) The first build of each architecture will also download and install dependencies through vcpkg, which can take an especially long time.
 
-5. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
+5. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 3 above.
 
 Even if you do not need languages other than English, you may still want to execute `lang/compile_mo.sh` to compile the language files if you're planning to run the unit tests, since those rely on the language files existing.
 
@@ -146,8 +148,8 @@ It is possible to use `llvm-lib.exe` and `lld-link.exe` to speed up your local b
 <Project>
   <PropertyGroup>
     <CDDA_ENABLE_THIN_ARCHIVES>true</CDDA_ENABLE_THIN_ARCHIVES>
-    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\</CDDA_LLVM_LIB_PATH>
-    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\</CDDA_LLD_LINK_PATH>
+    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\bin\</CDDA_LLVM_LIB_PATH>
+    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\bin\</CDDA_LLD_LINK_PATH>
   </PropertyGroup>
 </Project>
 ```

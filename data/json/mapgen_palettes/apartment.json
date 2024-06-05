@@ -271,7 +271,7 @@
         { "item": "home_display_case", "chance": 1 },
         { "item": "maps", "chance": 4 },
         { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "toy_store", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "toy_box", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "camping", "chance": 10 }
       ],

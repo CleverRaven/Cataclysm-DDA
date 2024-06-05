@@ -2,16 +2,24 @@
 #include <climits>
 #include <cstddef>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
+#include "body_part_set.h"
 #include "bodypart.h"
-#include "catacharset.h" // used for utf8_width()
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -20,14 +28,21 @@
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -709,6 +724,18 @@ void outfit::sort_armor( Character &guy )
             }
         }
 
+        leftListSize = tmp_worn.size();
+        if( leftListLines > leftListSize ) {
+            leftListOffset = 0;
+        } else if( leftListOffset + leftListLines > leftListSize ) {
+            leftListOffset = leftListSize - leftListLines;
+        }
+        if( leftListOffset > leftListIndex ) {
+            leftListOffset = leftListIndex;
+        } else if( leftListOffset + leftListLines <= leftListIndex ) {
+            leftListOffset = leftListIndex + 1 - leftListLines;
+        }
+
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, leftListSize - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
@@ -737,18 +764,6 @@ void outfit::sort_armor( Character &guy )
                          ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ), getmaxx( w_sort_cat ) - keyhint_offset ) );
-
-        leftListSize = tmp_worn.size();
-        if( leftListLines > leftListSize ) {
-            leftListOffset = 0;
-        } else if( leftListOffset + leftListLines > leftListSize ) {
-            leftListOffset = leftListSize - leftListLines;
-        }
-        if( leftListOffset > leftListIndex ) {
-            leftListOffset = leftListIndex;
-        } else if( leftListOffset + leftListLines <= leftListIndex ) {
-            leftListOffset = leftListIndex + 1 - leftListLines;
-        }
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
@@ -914,7 +929,7 @@ void outfit::sort_armor( Character &guy )
     while( !exit ) {
         if( guy.is_avatar() ) {
             // Totally hoisted this from advanced_inv
-            if( player_character.moves < 0 ) {
+            if( player_character.get_moves() < 0 ) {
                 do_return_entry();
                 return;
             }

@@ -1,0 +1,140 @@
+[
+  {
+    "id": "helmet_cardboard",
+    "type": "ARMOR",
+    "category": "armor",
+    "looks_like": "helmet_larmor",
+    "name": { "str": "cardboard 'great' helm" },
+    "description": "A cardboard helmet shaped to look like a medieval great helm.  Very unencumbering in comparison to actual helmets, with rather obvious drawbacks in exchange.  The interior is lined with aluminum, apparently to 'divert the zombie beta rays'.  It sure doesn't help with comfort.",
+    "weight": "1250 g",
+    "volume": "2750 ml",
+    "price": "400 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "cardboard", "aluminum" ],
+    "symbol": "[",
+    "color": "brown_yellow",
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 95, "encumbrance": 15 }
+    ],
+    "warmth": 15,
+    "material_thickness": 5,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "WATER_DISSOLVE", "VARSIZE", "HARD", "PSYSHIELD_PARTIAL", "FRAGILE" ],
+    "melee_damage": { "bash": 0 }
+  },
+  {
+    "id": "armor_cardboard",
+    "type": "ARMOR",
+    "category": "armor",
+    "looks_like": "armor_larmor",
+    "name": { "str": "cardboard 'plate' armor" },
+    "description": "A set of cardboard armor that's been duct taped and superglued into place, with paper padding the interior in an unsuccessful attempt to increase comfort.  Despite the triple-layering, tensile and shear strength diagrams, and careful design considerations, there's just no way this is going to hold up to a single attack.",
+    "weight": "3450 g",
+    "volume": "17500 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -5,
+    "material": [ "cardboard", "paper" ],
+    "symbol": "[",
+    "color": "brown_yellow",
+    "warmth": 15,
+    "longest_side": "120 cm",
+    "material_thickness": 2,
+    "flags": [ "WATER_DISSOLVE", "OUTER", "BLOCK_WHILE_WORN", "HARD", "FRAGILE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cardboard", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "paper", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 18
+      },
+      {
+        "material": [
+          { "type": "cardboard", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "paper", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 21
+      },
+      {
+        "material": [
+          { "type": "cardboard", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "paper", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 23
+      }
+    ],
+    "melee_damage": { "bash": 0 }
+  },
+  {
+    "id": "armor_cardboard_cuirass",
+    "type": "ARMOR",
+    "looks_like": "hoodie_brown",
+    "name": { "str": "cardboard cuirass", "str_pl": "cardboard cuirasses" },
+    "category": "armor",
+    "description": "While this isn't quite the 'heavy ballistic vest' the blueprints pretend it is, the layering makes it almost passable as a form of extremely rudimentary armor.  It's still nowhere near as good as basically any other choice, while still being hard to move around in.",
+    "weight": "2105 g",
+    "volume": "6 L",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -5,
+    "material": [ "cardboard", "paper" ],
+    "symbol": "[",
+    "color": "brown_yellow",
+    "longest_side": "60 cm",
+    "warmth": 15,
+    "material_thickness": 6,
+    "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "VARSIZE", "OUTER", "HARD" ],
+    "armor": [ { "encumbrance": 12, "coverage": 90, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 0 }
+  },
+  {
+    "id": "cardboard_crown",
+    "type": "ARMOR",
+    "name": { "str": "cardboard crown" },
+    "description": "A piece of cardboard crudely bent into shape and cut to look like a crown.",
+    "weight": "200 g",
+    "volume": "100 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "cardboard" ],
+    "looks_like": "crown_golden",
+    "symbol": "[",
+    "color": "brown_yellow",
+    "material_thickness": 1,
+    "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "NO_WEAR_EFFECT", "FRAGILE", "SOFT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Loosen",
+      "target": "cardboard_crown_loose",
+      "msg": "You loosen your cardboard crown."
+    }
+  },
+  {
+    "id": "cardboard_crown_loose",
+    "type": "ARMOR",
+    "name": { "str": "cardboard crown (loosened)", "str_pl": "cardboard crowns (loosened)" },
+    "description": "A piece of cardboard crudely bent into shape and cut to look like a crown.  This one's been loosened up somewhat, allowing it to be worn over some headgear comfortably.",
+    "copy-from": "cardboard_crown",
+    "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "NO_WEAR_EFFECT", "FRAGILE", "OUTER", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "use_action": { "type": "transform", "menu_text": "Adjust", "target": "cardboard_crown", "msg": "You adjust your cardboard crown." }
+  },
+  {
+    "id": "badge_cardboard",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "cardboard badge" },
+    "description": "An honorable badge identifying the owner as a \"Knight Errant\" of \"House Da\".  The large letters slowly dwindle in size as the badge runs out of space, leaving out the last two letters of Dino Dave's name.",
+    "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "NO_WEAR_EFFECT", "FRAGILE" ]
+  }
+]

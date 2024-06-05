@@ -1,0 +1,281 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_concrete_ramp_high",
+    "group": "build_high_end_of_a_concrete_ramp",
+    "//": "Builds a high end of a concrete ramp going up on this level and down on the level above.",
+    "pre_note": "Build a concrete ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  It must be built next to a low end of a ramp to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "150 m",
+    "tools": [ [ [ "concrete_mix_tool", 125 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above", "check_ramp_high" ],
+    "post_terrain": "t_ramp_up_high",
+    "post_special": "done_ramp_high"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_ramp_low",
+    "group": "build_low_end_of_a_concrete_ramp",
+    "//": "Builds a low end of a concrete ramp going up on this level and down on the level above.",
+    "pre_note": "Build a concrete ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  The high end of a ramp must be built adjacent to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "150 m",
+    "tools": [ [ [ "concrete_mix_tool", 125 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ],
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above" ],
+    "post_terrain": "t_ramp_up_low",
+    "post_special": "done_ramp_low"
+  },
+  {
+    "type": "construction",
+    "id": "constr_dig_downstair",
+    "group": "dig_downstair",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
+    "time": "420 m",
+    "qualities": [
+      [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "DIG", "level": 2 } ]
+    ],
+    "tools": [
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
+      [ [ "tool_rope_long", 1, "LIST" ] ]
+    ],
+    "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_down_OK",
+    "post_special": "done_dig_stair",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_earth_ramp_high",
+    "group": "build_high_end_of_an_earth_ramp",
+    "//": "Builds a high end of an earth ramp going up on this level and down on the level above.",
+    "pre_note": "Build an earth ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  It must be built next to a low end of a ramp to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "300 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 10 ], [ "2x4", 8 ] ], [ [ "rock", 20 ] ] ],
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above", "check_ramp_high" ],
+    "post_terrain": "t_earth_ramp_up_high",
+    "post_special": "done_ramp_high"
+  },
+  {
+    "type": "construction",
+    "id": "constr_earth_ramp_low",
+    "group": "build_low_end_of_an_earth_ramp",
+    "//": "Builds a low end of an earth ramp going up on this level and down on the level above.",
+    "pre_note": "Build an earth ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  The high end of a ramp must be built adjacent to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "300 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 12 ], [ "stick_long", 6 ], [ "2x4", 6 ] ], [ [ "rock", 20 ] ] ],
+    "pre_special": [ "check_empty", "check_stable", "check_up_OK", "check_nofloor_above" ],
+    "post_terrain": "t_earth_ramp_up_low",
+    "post_special": "done_ramp_low"
+  },
+  {
+    "type": "construction",
+    "id": "constr_manhole_cover",
+    "group": "cover_manhole",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "mechanics", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "manhole_cover", 1 ] ] ],
+    "pre_terrain": "t_manhole",
+    "post_terrain": "t_manhole_cover"
+  },
+  {
+    "type": "construction",
+    "id": "constr_mine_downstair",
+    "group": "mine_downstair",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 4 ] ],
+    "time": "480 m",
+    "qualities": [
+      [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "DIG", "level": 2 } ]
+    ],
+    "tools": [
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
+      [ [ "tool_rope_long", 1, "LIST" ] ]
+    ],
+    "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],
+    "byproducts": [ { "group": "mining_rock" } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_special": "check_down_OK",
+    "pre_terrain": "t_rock_floor",
+    "post_special": "done_mine_downstair"
+  },
+  {
+    "type": "construction",
+    "id": "constr_mine_upstair",
+    "group": "mine_upstair",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 4 ] ],
+    "time": "480 m",
+    "qualities": [
+      [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "DIG", "level": 2 } ]
+    ],
+    "tools": [
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
+      [ [ "tool_rope_long", 1, "LIST" ] ],
+      [
+        "miner_hat",
+        "hat_hard",
+        "firehelmet",
+        "helmet_ball",
+        "helmet_army",
+        "helmet_riot",
+        "tac_helmet",
+        "miner_hat_on"
+      ]
+    ],
+    "//": "Helmets are essential because you're digging up and things may fall on you.",
+    "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],
+    "pre_special": "check_up_OK",
+    "pre_terrain": "t_rock",
+    "post_special": "done_mine_upstair",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_repair_wood_stairs_up",
+    "group": "repair_wooden_staircase",
+    "//": "Fix the broken back to normal",
+    "category": "REPAIR",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "wood_panel", 3 ] ] ],
+    "pre_special": "check_nofloor_above",
+    "pre_terrain": "t_wood_stairs_up_broken",
+    "post_terrain": "t_wood_stairs_up",
+    "post_special": "done_wood_stairs"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_down",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+      [ [ "pipe", 46 ] ],
+      [ [ "pipe_fittings", 55 ] ],
+      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
+      [ [ "stick", 2 ] ],
+      [ [ "rope_natural", 2, "LIST" ] ]
+    ],
+    "pre_note": "Builds another scaffolding level.",
+    "pre_terrain": "t_scaffolding_pipe_down",
+    "pre_special": [ "check_up_OK", "check_nofloor_above" ],
+    "post_terrain": "t_scaffolding_pipe_updown",
+    "post_special": "add_matching_down_above"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_up",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+      [ [ "pipe", 46 ] ],
+      [ [ "pipe_fittings", 55 ] ],
+      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
+      [ [ "stick", 2 ] ],
+      [ [ "rope_natural", 2, "LIST" ] ]
+    ],
+    "pre_note": "Constructs scaffolding on the tile and provides a platform on the Z level above.",
+    "pre_special": [ "check_empty", "check_up_OK", "check_nofloor_above" ],
+    "post_special": "add_roof",
+    "post_terrain": "t_scaffolding_pipe_up"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_stairs_up",
+    "group": "build_wooden_staircase",
+    "//": "Step 2: complete the half made stairs by putting paneling on it",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "360 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_panel", 4 ] ], [ [ "nails", 30, "LIST" ] ] ],
+    "pre_special": "check_nofloor_above",
+    "pre_terrain": "t_wood_stairs_up_half",
+    "post_terrain": "t_wood_stairs_up",
+    "post_special": "done_wood_stairs"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_stairs_up_half",
+    "group": "build_wooden_staircase",
+    "//": "Step 1: stairs frame in an empty space",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "360 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nails", 24, "LIST" ] ] ],
+    "pre_special": [ "check_empty", "check_up_OK" ],
+    "post_terrain": "t_wood_stairs_up_half"
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_down_above_updown",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "pre_note": "Removes down scaffolding from directly above the construction tile.",
+    "pre_terrain": "t_scaffolding_pipe_updown",
+    "pre_special": "check_matching_down_above",
+    "post_special": "remove_above",
+    "post_terrain": "t_scaffolding_pipe_down",
+    "byproducts": [
+      { "item": "pipe", "count": 46 },
+      { "item": "pipe_fittings", "count": 55 },
+      { "item": "2x4", "count": 4 },
+      { "item": "stick", "count": 2 },
+      { "item": "rope_30", "count": 2 }
+    ]
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_up",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "pre_note": "Removes scaffolding.",
+    "pre_terrain": "t_scaffolding_pipe_up",
+    "pre_special": "check_matching_down_above",
+    "post_special": "remove_above",
+    "post_terrain": "t_dirt",
+    "byproducts": [
+      { "item": "pipe", "count": 46 },
+      { "item": "pipe_fittings", "count": 55 },
+      { "item": "2x4", "count": 4 },
+      { "item": "stick", "count": 2 },
+      { "item": "rope_30", "count": 2 }
+    ]
+  }
+]

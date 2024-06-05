@@ -1,7 +1,29 @@
+#include <cmath>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "effect.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
-#include "map_iterator.h"
+#include "morale_types.h"
+#include "pimpl.h"
+#include "type_id.h"
+#include "units.h"
+
+class item;
+struct itype;
 
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
@@ -170,7 +192,7 @@ void Character::check_and_recover_morale()
 
     test_morale.on_stat_change( "hunger", get_hunger() );
     test_morale.on_stat_change( "thirst", get_thirst() );
-    test_morale.on_stat_change( "fatigue", get_fatigue() );
+    test_morale.on_stat_change( "sleepiness", get_sleepiness() );
     test_morale.on_stat_change( "pain", get_pain() );
     test_morale.on_stat_change( "pkill", get_painkiller() );
     test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );

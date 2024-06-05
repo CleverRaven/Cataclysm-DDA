@@ -25,7 +25,7 @@
     "skills_required": [ [ "spellcraft", 7 ], [ "gun", 4 ] ],
     "time": "3 h",
     "book_learn": [ [ "techno_basic", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 20 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [
       [

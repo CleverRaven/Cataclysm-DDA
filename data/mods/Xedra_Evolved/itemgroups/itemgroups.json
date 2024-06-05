@@ -219,11 +219,24 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mt_chainmail_arms", "prob": 20 },
+      { "group": "banner_group", "prob": 20 },
       { "item": "mt_chainmail_hood", "prob": 20 },
       { "item": "mt_chainmail_hands", "prob": 20 },
       { "item": "mt_chainmail_legs", "prob": 20 },
       { "item": "mt_chainmail_vest", "prob": 20 },
       { "item": "mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "banner_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "banner_dark_forest", "prob": 20 },
+      { "item": "banner_butterfly_knight", "prob": 20 },
+      { "item": "banner_angry_darkness", "prob": 20 },
+      { "item": "banner_starry_wisdom", "prob": 20 },
+      { "item": "banner_thunderous_rush", "prob": 20 }
     ]
   },
   {
@@ -371,7 +384,25 @@
     "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "homebooks",
     "subtype": "distribution",
-    "extend": { "entries": [ { "item": "firmament_driver_book", "prob": 1 }, { "item": "eater_book_artifact", "prob": 1 } ] }
+    "extend": {
+      "entries": [
+        { "item": "firmament_driver_book", "prob": 1 },
+        { "item": "eater_book_artifact", "prob": 1 },
+        { "group": "hedge_magic_books", "prob": 1 }
+      ]
+    }
+  },
+  {
+    "id": "hedge_magic_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spellbook_hedge_farm", "prob": 1 },
+      { "item": "spellbook_hedge_ward_demons", "prob": 1 },
+      { "item": "spellbook_hedge_doctor_book", "prob": 1 },
+      { "item": "spellbook_hedge_blood_book", "prob": 1 },
+      { "item": "spellbook_hedge_ward_dreams", "prob": 1 }
+    ]
   },
   {
     "id": "renfield_glock_mags",

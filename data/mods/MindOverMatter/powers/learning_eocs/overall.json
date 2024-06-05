@@ -14,5 +14,72 @@
     "required_event": "spellcasting_finish",
     "condition": { "u_has_effect": "effect_psi_learning_new_power" },
     "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_CANCELLING_ACTIVITY_CANCELS_RESEARCH",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_PSI_LEARNING_NEW_POWER", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_LEARNING_BANNED_EFFECTS",
+    "condition": {
+      "not": {
+        "u_has_any_effect": [
+          "sleep",
+          "effect_psi_learning_new_power",
+          "effect_vitakin_wakeful_resting",
+          "infected",
+          "spores",
+          "taint",
+          "visuals",
+          "hallu",
+          "motor_seizure",
+          "frostbite",
+          "blisters",
+          "formication",
+          "pre_common_cold",
+          "common_cold",
+          "pre_flu",
+          "flu",
+          "pre_conjunctivitis_viral",
+          "conjunctivitis_viral",
+          "pre_conjunctivitis_bacterial",
+          "conjunctivitis_bacterial",
+          "asthma",
+          "brainworms",
+          "bloodworms",
+          "grabbed",
+          "lack_sleep",
+          "sleep_deprived",
+          "under_operation",
+          "zapped",
+          "electrocuted",
+          "anemia",
+          "redcells_anemia",
+          "scurvy",
+          "toxin_buildup",
+          "bad_food_ennui",
+          "hypovolemia",
+          "disabled",
+          "foodpoison",
+          "venom_pain",
+          "venom_dmg",
+          "badpoison",
+          "onfire",
+          "dazed",
+          "stunned"
+        ]
+      }
+    },
+    "effect": [  ]
   }
 ]

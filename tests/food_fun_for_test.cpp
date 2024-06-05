@@ -367,12 +367,15 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
     std::pair<int, int> actual_fun;
 
     // A big box of tasty toast-ems
-    item toastem( "toastem", calendar::turn, 10 );
+    item toastem( "toastem_test", calendar::turn );
     REQUIRE( toastem.is_comestible() );
 
     // Base fun value and monotony penalty for toast-em
     int toastem_fun = toastem.get_comestible_fun();
     int toastem_penalty = toastem.get_comestible()->monotony_penalty;
+
+    REQUIRE( toastem_fun > 0 );
+    REQUIRE( toastem_penalty > 0 );
 
     // Will do 2 rounds of penalty testing, so base fun needs to be at least 2x that
     REQUIRE( toastem_fun > 2 * toastem_penalty );
@@ -427,7 +430,8 @@ TEST_CASE( "fun_for_bionic_bio_taste_blocker", "[fun_for][food][bionic]" )
                 // Needs 1 kJ per negative fun unit to nullify bad taste
                 dummy.set_power_level( 10_kJ );
                 REQUIRE( garlic_fun < -10 );
-                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
+                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( static_cast<std::int64_t>( std::abs(
+                                   garlic_fun ) ) ) );
 
                 THEN( "the bad taste remains" ) {
                     actual_fun = dummy.fun_for( garlic );
@@ -438,7 +442,8 @@ TEST_CASE( "fun_for_bionic_bio_taste_blocker", "[fun_for][food][bionic]" )
             WHEN( "it has enough power" ) {
                 REQUIRE( garlic_fun >= -20 );
                 dummy.set_power_level( 20_kJ );
-                REQUIRE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
+                REQUIRE( dummy.get_power_level() > units::from_kilojoule( static_cast<std::int64_t>( std::abs(
+                             garlic_fun ) ) ) );
 
                 THEN( "the bad taste is nullified" ) {
                     actual_fun = dummy.fun_for( garlic );
