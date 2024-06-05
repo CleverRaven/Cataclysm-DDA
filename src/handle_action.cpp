@@ -666,6 +666,19 @@ static void close()
     }
 }
 
+static void auto_features_warn()
+{
+    if( !get_option<bool>( "AUTO_FEATURES" ) ) {
+        const options_manager::cOpt &auto_features = get_options().get_option( "AUTO_FEATURES" );
+        add_msg( _( "Warning: Options > %s > %s > %s set to %s." ),
+                 auto_features.getPage(),
+                 auto_features.getGroupName(),
+                 auto_features.getMenuText(),
+                 auto_features.getValueName()  // false in locale
+               );
+    }
+}
+
 // Establish or release a grab on a vehicle
 static void grab()
 {
@@ -2835,6 +2848,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             add_msg( _( "%s is now set to %s." ),
                      get_options().get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
                      get_options().get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_MINING:
@@ -2844,6 +2858,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             add_msg( _( "%s is now %s." ),
                      get_options().get_option( "AUTO_MINING" ).getMenuText(),
                      get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_THIEF_MODE:
@@ -2876,6 +2891,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             add_msg( _( "%s is now set to %s." ),
                      get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
                      get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_PICKUP:
