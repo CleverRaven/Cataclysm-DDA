@@ -191,7 +191,7 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
 
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                   const pathfinding_settings &settings,
-                                  std::function<bool( const tripoint & )> avoid ) const
+                                  const std::function<bool( const tripoint & )> &avoid ) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
@@ -212,9 +212,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     if( f.z == t.z ) {
         auto line_path = straight_route( f, t );
         if( !line_path.empty() ) {
-            if( std::none_of( line_path.begin(), line_path.end(), [&avoid]( const tripoint & p ) {
-            return avoid( p );
-            } ) ) {
+            if( std::none_of( line_path.begin(), line_path.end(), avoid ) ) {
                 return line_path;
             }
         }
@@ -547,9 +545,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
 std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
         const pathfinding_settings &settings,
-        std::function<bool( const tripoint & )> avoid ) const
+        const std::function<bool( const tripoint & )> &avoid ) const
 {
-    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, std::move( avoid ) );
+    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, avoid );
     std::vector<tripoint_bub_ms> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const tripoint & p ) {

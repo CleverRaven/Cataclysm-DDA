@@ -730,12 +730,12 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        std::function<bool( const tripoint & )> avoid = []( const tripoint & ) {
+        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
             return false;
         } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        std::function<bool( const tripoint & )> avoid = []( const tripoint & ) {
+        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
             return false;
         } ) const;
 
