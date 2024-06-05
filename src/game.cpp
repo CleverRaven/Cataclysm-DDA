@@ -3396,6 +3396,7 @@ bool game::save_achievements()
     const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
 
     std::ostringstream achievement_file_path;
+
     achievement_file_path << achievement_dir;
 
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
@@ -3417,33 +3418,13 @@ bool game::save_achievements()
     // Add a ~ if the player name was actually truncated.
     achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
     const int character_id = get_player_character().getID().get_value();
-
-    // Add a timestamp for uniqueness.
-
-#if defined(_WIN32)
-    SYSTEMTIME current_time;
-    GetLocalTime( &current_time );
-    achievement_file_path << string_format( "%d-%02d-%02d-%02d-%02d-%02d",
-                                            current_time.wYear, current_time.wMonth, current_time.wDay,
-                                            current_time.wHour, current_time.wMinute, current_time.wSecond );
-#else
-    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
-    char buffer[suffix_len] {};
-    std::time_t t = std::time( nullptr );
-    tm current_time;
-    localtime_r( &t, &current_time );
-    size_t result = std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", &current_time );
-    if( result == 0 ) {
-        cata_fatal( "Could not construct filename" );
-    }
-    achievement_file_path << buffer;
-#endif
-
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
+
     return write_to_file( json_path_string, [&]( std::ostream & fout ) {
         get_achievements().write_json_achievements( fout, u.name );
     }, _( "player achievements" ) );
+
 }
 
 event_bus &game::events()
@@ -3590,7 +3571,7 @@ void game::write_memorial_file( std::string sLastWords )
 
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         // Use the default locale to replace non-printable characters with _ in the player name.
-        std::locale locale{ "C" };
+        std::locale locale {"C"};
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
         [&]( const char c ) {
