@@ -5167,7 +5167,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     for( const auto &elem : roads_out ) {
         road_points.emplace_back( elem.xy() );
     }
-    if( cities.size() == 0 ) {
+    if( cities.empty() ) {
         // If there's no cities in the overmap chose a random central point that special's road connections should path to
         fallback_road_connection_point = point_om_omt( rng( OMAPX / 4, ( 3 * OMAPX ) / 4 ),
                                          rng( OMAPY / 4, ( 3 * OMAPY ) / 4 ) );

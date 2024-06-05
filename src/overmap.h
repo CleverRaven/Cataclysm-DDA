@@ -348,7 +348,7 @@ class overmap
         bool nullbool = false; // NOLINT(cata-serialize)
         point_abs_om loc; // NOLINT(cata-serialize)
         // Random point used for special connections if there's no cities on the overmap, joins to all roads_out
-        std::optional<point_om_omt> fallback_road_connection_point;
+        std::optional<point_om_omt> fallback_road_connection_point; // NOLINT(cata-serialize)
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
