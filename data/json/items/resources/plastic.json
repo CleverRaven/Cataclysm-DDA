@@ -200,7 +200,7 @@
     "//": "Assuming a 17x6x0.2 cm polycarbonate sheet with a density of 1200 kg/m.",
     "price": "0 cent",
     "price_postapoc": "5 cent",
-    "material": [ "plastic" ],
+    "material": [ "hard_plastic_transp" ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]
@@ -233,7 +233,7 @@
     "//": "Numbers sourced from measuring the filter housing of a size 1 PMK 2 gas mask and assuming a polycarbonate density of 1200 kg/m for a 4.5x3.5 cm cylinder.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "plastic", "steel" ],
+    "material": [ "", "steel" ],
     "symbol": ",",
     "color": "light_blue",
     "flags": [ "NO_SALVAGE" ]

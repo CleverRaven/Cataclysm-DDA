@@ -1996,7 +1996,7 @@
         "layers": [ "SKINTIGHT" ]
       },
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 2 } ],
         "//": "While some older gas masks had lenses made from glass, most modern ones are fabricated with plastic eyepieces or visors. We can hand-wave away the outliers.",
         "covers": [ "eyes" ],
         "coverage": 100,
