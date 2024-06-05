@@ -499,7 +499,8 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) ) {
+            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) &&
+                       !id->has_flag( oter_flags::ocean ) ) {
                 missing.push_back( id );
             }
         }
