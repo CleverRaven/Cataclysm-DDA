@@ -3864,15 +3864,17 @@ bool Character::has_nv_goggles()
         nv = worn_with_flag( flag_GNV_EFFECT ) || has_flag( json_flag_NIGHT_VISION ) ||
              worn_with_flag( json_flag_NVG_GREEN ) || has_worn_module_with_flag( json_flag_NVG_GREEN );
     }
+    return nv;
 }
 
 bool Character::has_worn_module_with_flag( const flag_id &f )
 {
     std::vector<item *> flag_items = cache_get_items_with( f );
-    return std::any_of( flag_items.begin(), flag_items.end(),
+    bool has_flag = std::any_of( flag_items.begin(), flag_items.end(),
     [this]( item * i ) {
         return is_worn_module( *i );
     } );
+    return has_flag;
 }
 
 void Character::calc_discomfort()
