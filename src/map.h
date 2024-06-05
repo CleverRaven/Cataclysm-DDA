@@ -1,5 +1,4 @@
 #pragma once
-#include "map_iterator.h"
 #ifndef CATA_SRC_MAP_H
 #define CATA_SRC_MAP_H
 
@@ -37,6 +36,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
