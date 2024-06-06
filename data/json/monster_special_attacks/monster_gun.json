@@ -100,7 +100,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "gene_sting",
+    "id": "gene_sting_launcher",
     "type": "GUN",
     "symbol": "%",
     "color": "red",
@@ -120,7 +120,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "pistol",
-    "ammo": [ "barb" ],
+    "ammo": [ "gene_sting_barb" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750 ml",

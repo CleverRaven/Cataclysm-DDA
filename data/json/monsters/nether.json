@@ -1432,9 +1432,9 @@
       {
         "type": "gun",
         "cooldown": 2,
-        "gun_type": "gene_sting",
+        "gun_type": "gene_sting_launcher",
         "ranges": [ [ 2, 24, "DEFAULT" ] ],
-        "description": "The impaler launches a viscous barb!"
+        "description": "The yugg launches a viscous barb!"
       }
     ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
