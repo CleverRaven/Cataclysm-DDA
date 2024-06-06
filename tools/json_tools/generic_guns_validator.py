@@ -25,6 +25,7 @@ AMMO_TYPE_WHITELIST = {
     'chemical_spray',
     'fishspear',
     'flammable',
+    'gene_sting',
     'm235',  # Rocket
     'metal_rail',
     'nail',
