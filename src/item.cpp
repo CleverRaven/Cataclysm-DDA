@@ -8025,11 +8025,12 @@ void item::calc_rot_while_processing( time_duration processing_duration )
     last_temp_check += processing_duration;
 }
 
-bool item::process_decay_in_air( map& here, Character *carrier, const tripoint& pos, int max_air_exposure_hours,
+bool item::process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+                                 int max_air_exposure_hours,
                                  time_duration time_delta )
 {
     if( !has_own_flag( flag_FROZEN ) ) {
-        double environment_multiplier = here.is_outside(pos) ? 2.0 : 1.0;
+        double environment_multiplier = here.is_outside( pos ) ? 2.0 : 1.0;
         time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
                                          rng_normal( 0.9, 1.1 ) * environment_multiplier;
         if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
