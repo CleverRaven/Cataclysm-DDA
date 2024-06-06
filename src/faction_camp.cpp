@@ -3582,9 +3582,41 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                 if( !farm_json ) {
                     farm_json = std::make_unique<fake_map>();
                     mapgendata dat( omt_tgt, *farm_json->cast_to_map(), 0, calendar::turn, nullptr );
-                    if( !run_mapgen_func( dat.terrain_type()->get_mapgen_id(), dat ) ) {
+                    std::string omt_id = dat.terrain_type()->get_mapgen_id();
+                    if( !run_mapgen_func( omt_id, dat ) ) {
                         debugmsg( "Failed to run mapgen for farm map" );
                         break;
+                    }
+                    // Add mapgen from expansion upgrades to fake_map
+                    for( auto const &provide : e_data->second.provides ) {
+                        if ( !recipe_id( provide.first ).is_valid() ) {
+                            continue;
+                        }
+                        const recipe &making = *recipe_id( provide.first );
+                        const update_mapgen_id update_id = making.get_blueprint();
+                        if ( !has_update_mapgen_for( update_id )) {
+                            continue;
+                        }
+                        bool mirror_horizontal;
+                        bool mirror_vertical;
+                        int rotation;
+                        if( !extract_and_check_orientation_flags( making.ident(),
+                                dir,
+                                mirror_horizontal,
+                                mirror_vertical,
+                                rotation,
+                                "farm_action failed to apply orientation flags to the %s upgrade",
+                                "" ) ) {
+                            continue;
+                        }
+                        farm_json->rotate( 4 - rotation );
+                        farm_json->mirror( mirror_horizontal, mirror_vertical );
+                        if ( !run_mapgen_update_func( update_id, dat, false ) ) {
+                            debugmsg( "farm_action failed to apply the %s map update to %s",
+                                      provide.first, omt_id );
+                        }
+                        farm_json->rotate( rotation );
+                        farm_json->mirror( mirror_horizontal, mirror_vertical );
                     }
                 }
                 // Needs to be plowed to match json
