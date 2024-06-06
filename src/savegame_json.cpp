@@ -1615,11 +1615,6 @@ void avatar::load( const JsonObject &data )
     Character::load( data );
 
     // TEMPORARY until 0.G
-    if( !data.has_member( "location" ) ) {
-        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-    }
-
-    // TEMPORARY until 0.G
     if( !data.has_member( "kill_xp" ) ) {
         kill_xp = g->get_kill_tracker().legacy_kill_xp();
     }
