@@ -591,7 +591,17 @@
     "id": "spell_gene_sting",
     "name": { "str": "Gene Sting" },
     "description": "Yugg attack which causes random mutation.",
-    "copy-from": "base_portal",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "min_range": 2,
+    "max_range": 24,
+    "range_increment": 0.5,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "base_casting_time": 85,
+    "final_casting_time": 85,
+    "sound_description": "ssszziiipp"
     "min_damage": 1,
     "max_damage": 1,
     "effect_str": "EOC_gene_sting_selector"
