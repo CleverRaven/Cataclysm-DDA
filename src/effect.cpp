@@ -1697,14 +1697,7 @@ void effect::deserialize( const JsonObject &jo )
     jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-
-    // TEMPORARY until 0.F
-    if( jo.has_int( "bp" ) ) {
-        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
-    } else {
-        jo.read( "bp", bp );
-    }
-
+    jo.read( "bp", bp );
     jo.read( "permanent", permanent );
     jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
