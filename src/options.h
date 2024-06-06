@@ -91,6 +91,8 @@ class options_manager
 
                 std::string getName() const;
                 std::string getPage() const;
+                /// The translated group name. If not in a group, an empty string.
+                std::string getGroupName() const;
                 /// The translated displayed option name.
                 std::string getMenuText() const;
                 /// The translated displayed option tool tip.
