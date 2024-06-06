@@ -12833,7 +12833,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             }
             last_temp_check = time;
 
-            if( decays_in_air && process_decay_in_air( carrier, max_air_exposure_hours, time_delta ) ) {
+            if( decays_in_air &&
+                process_decay_in_air( here, carrier, pos, max_air_exposure_hours, time_delta ) ) {
                 return false;
             }
 
@@ -12855,7 +12856,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         calc_temp( temp, insulation, now - time );
         last_temp_check = now;
 
-        if( decays_in_air && process_decay_in_air( carrier, max_air_exposure_hours, now - time ) ) {
+        if( decays_in_air &&
+            process_decay_in_air( here, carrier, pos, max_air_exposure_hours, now - time ) ) {
             return false;
         }
 
