@@ -2034,6 +2034,13 @@ class map
         void spawn_monsters( bool ignore_sight, bool spawn_nonlocal = false );
 
         /**
+        * Checks to see if the corpse that is rotting away generates items when it does.
+        * @param it item that is spawning creatures
+        * @param pnt The point on this map where the item is and where bones/etc will be
+        */
+        void handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt );
+
+        /**
         * Checks to see if the item that is rotting away generates a creature when it does.
         * @param item item that is spawning creatures
         * @param p The point on this map where the item is and creature will be

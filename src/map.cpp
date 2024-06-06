@@ -8367,6 +8367,56 @@ void map::loadn( const point &grid, bool update_vehicles )
     }
 }
 
+void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
+{
+    if( !it.is_corpse() ) {
+        debugmsg( "Tried to decay a non-corpse item %s. Aborted", it.tname() );
+        return;
+    }
+    const mtype *dead_monster = it.get_corpse_mon();
+    if( !dead_monster ) {
+        debugmsg( "Corpse at abs_ms %s has no associated monster?!", pnt.to_string() );
+        return;
+    }
+
+    if( dead_monster->decay.is_null() ) {
+        return;
+    }
+    int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
+    decayed_weight_grams += std::round( decayed_weight_grams * rng_float( -0.1, 0.1 ) );
+    bool notify_player = false;
+    if( calendar::once_every( 30_minutes ) ) {
+        //one corpse max in 30 minutes will notify if seen, for *all* the items it left
+        notify_player = true;
+    }
+
+    bool anything_left = false;
+    for( const harvest_entry &entry : dead_monster->decay.obj() ) {
+        item harvest = item( entry.drop );
+        const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
+        const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
+        const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
+        int roll = 0;
+        if( entry.mass_ratio != 0.00f ) {
+            roll = static_cast<int>( std::round( entry.mass_ratio * decayed_weight_grams ) );
+            roll = std::ceil( static_cast<double>( roll ) / to_gram( harvest.type->weight ) );
+        } else {
+            roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+        }
+        anything_left = roll > 0;
+        for( int i = 0; i < roll; i++ ) {
+            if( harvest.has_temperature() ) {
+                harvest.set_item_temperature( get_weather().get_temperature( project_to<coords::omt>( pnt ) ) );
+            }
+            add_item_or_charges( bub_from_abs( pnt ), harvest, false );
+            if( anything_left && notify_player ) {
+                add_msg_if_player_sees( getlocal( pnt ), _( "You notice a %1$s has rotted away, leaving a %2$s." ),
+                                        it.tname(), harvest.tname() );
+            }
+        }
+    }
+}
+
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
 {
     if( get_creature_tracker().creature_at( pnt ) != nullptr ) {
