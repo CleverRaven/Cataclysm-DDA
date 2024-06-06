@@ -601,7 +601,7 @@
     "base_energy_cost": 250,
     "base_casting_time": 85,
     "final_casting_time": 85,
-    "sound_description": "ssszziiipp"
+    "sound_description": "ssszziiipp",
     "min_damage": 1,
     "max_damage": 1,
     "effect_str": "EOC_gene_sting_selector"
