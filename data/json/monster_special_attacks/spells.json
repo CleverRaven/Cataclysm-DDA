@@ -604,7 +604,7 @@
     "sound_description": "ssszziiipp",
     "min_damage": 1,
     "max_damage": 1,
-    "effect_str": "EOC_gene_sting_selector"
+    "extra_effects": [ { "id": "spell_gene_sting_selector" } ]
   },
   {
     "type": "effect_on_condition",
