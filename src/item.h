@@ -3074,7 +3074,7 @@ class item : public visitable
         bool process_blackpowder_fouling( Character *carrier );
         bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
-        bool process_decay_in_air( Character *carrier, int max_air_exposure_hours,
+        bool process_decay_in_air( map& here, Character *carrier, const tripoint& pos, int max_air_exposure_hours,
                                    time_duration time_delta );
 
 

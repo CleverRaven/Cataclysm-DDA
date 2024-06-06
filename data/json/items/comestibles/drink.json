@@ -1524,9 +1524,10 @@
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
     "sealed": true,
-    "revert_to": "water",
+    "color": "light_cyan",
+    "//": "Clean water becomes regular water in about 4 weeks if exposed to air (1 week if outdoors).",
     "properties": { "max_air_exposure_hours": "720" },
-    "color": "light_cyan"
+    "revert_to": "water"
   },
   {
     "id": "water_spring",
