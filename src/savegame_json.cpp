@@ -1626,15 +1626,6 @@ void avatar::load( const JsonObject &data )
         kill_xp = g->get_kill_tracker().legacy_kill_xp();
     }
 
-    // Remove after 0.F
-    // Exists to prevent failed to visit member errors
-    if( data.has_member( "reactor_plut" ) ) {
-        data.get_int( "reactor_plut" );
-    }
-    if( data.has_member( "tank_plut" ) ) {
-        data.get_int( "tank_plut" );
-    }
-
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
         prof = &string_id<profession>( prof_ident ).obj();
@@ -2087,15 +2078,6 @@ void npc::load( const JsonObject &data )
     time_point companion_mission_t = calendar::turn_zero;
     time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
-
-    // Remove after 0.F
-    // Exists to prevent failed to visit member errors
-    if( data.has_member( "reactor_plut" ) ) {
-        data.get_int( "reactor_plut" );
-    }
-    if( data.has_member( "tank_plut" ) ) {
-        data.get_int( "tank_plut" );
-    }
 
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
