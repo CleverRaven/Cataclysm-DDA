@@ -1428,7 +1428,15 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "meatslug",
-    "special_attacks": [ [ "GENE_STING", 20 ] ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 2,
+        "gun_type": "gene_sting",
+        "ranges": [ [ 2, 24, "DEFAULT" ] ],
+        "description": "The impaler launches a viscous barb!"
+      }
+    ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
     "armor": { "bash": 6, "electric": 3 }
   },

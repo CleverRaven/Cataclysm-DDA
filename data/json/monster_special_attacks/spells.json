@@ -588,6 +588,288 @@
   },
   {
     "type": "SPELL",
+    "id": "spell_gene_sting",
+    "name": { "str": "Gene Sting" },
+    "description": "Yugg attack which causes random mutation.",
+    "copy-from": "base_portal",
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect_str": "EOC_gene_sting_selector"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_selector",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "The Yugg's barb injects you with something!", "type": "bad" },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_gene_sting_chimera", 6 ],
+          [ "EOC_gene_sting_insect", 2 ],
+          [ "EOC_gene_sting_alpha", 1 ],
+          [ "EOC_gene_sting_ursine", 2 ],
+          [ "EOC_gene_sting_chiropteran", 2 ],
+          [ "EOC_gene_sting_medical", 1 ],
+          [ "EOC_gene_sting_bird", 2 ],
+          [ "EOC_gene_sting_lupine", 2 ],
+          [ "EOC_gene_sting_slime", 1 ],
+          [ "EOC_gene_sting_rat", 2 ],
+          [ "EOC_gene_sting_plant", 2 ],
+          [ "EOC_gene_sting_raptor", 1 ],
+          [ "EOC_gene_sting_batrachian", 2 ],
+          [ "EOC_gene_sting_mouse", 2 ],
+          [ "EOC_gene_sting_elfa", 1 ],
+          [ "EOC_gene_sting_cepholapod", 2 ],
+          [ "EOC_gene_sting_fish", 2 ],
+          [ "EOC_gene_sting_gastropod", 2 ],
+          [ "EOC_gene_sting_rabbit", 2 ],
+          [ "EOC_gene_sting_human", 2 ],
+          [ "EOC_gene_sting_beast", 2 ],
+          [ "EOC_gene_sting_feline", 2 ],
+          [ "EOC_gene_sting_cattle", 2 ],
+          [ "EOC_gene_sting_lizard", 2 ],
+          [ "EOC_gene_sting_troglobite", 2 ],
+          [ "EOC_gene_sting_crustacean", 2 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_chimera",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "CHIMERA", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_insect",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "INSECT", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_alpha",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "ALPHA", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_ursine",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "URSINE", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_chiropteran",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "CHIROPTERAN", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_medical",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "MEDICAL", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_lupine",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "LUPINE", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_bird",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "BIRD", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_slime",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "SLIME", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_rat",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "RAT", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_plant",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "PLANT", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_raptor",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "RAPTOR", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_batrachian",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "BATRACHIAN", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_elfa",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "ELFA", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_mouse",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "MOUSE", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_cepholapod",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "CEPHALOPOD", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_gastropod",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "GASTROPOD", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_fish",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "FISH", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_rabbit",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "RABBIT", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_human",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "HUMAN", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_beast",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "BEAST", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_feline",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "FELINE", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_cattle",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "CATTLE", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_lizard",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "LIZARD", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_troglobite",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "TROGLOBITE", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_gene_sting_crustacean",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
+      { "u_mutate_category": "CRUSTACEAN", "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "SPELL",
     "id": "base_portal",
     "name": { "str": "Base characteristics of portal spells" },
     "description": "Base portal stats.",
