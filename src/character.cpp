@@ -10050,7 +10050,7 @@ std::function<bool( const tripoint & )> Character::get_path_avoid() const
 
     return [this]( const tripoint & p ) {
         Creature *critter = get_creature_tracker().creature_at( p, true );
-        return critter->is_npc() && this->sees( *critter );
+        return critter && critter->is_npc() && this->sees( *critter );
     };
 }
 
