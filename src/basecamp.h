@@ -444,7 +444,7 @@ class basecamp
         */
         bool farm_return( const mission_id &miss_id, const point &dir );
         std::pair<size_t, std::string> farm_action( const point &dir, farm_ops op,
-                                                    const npc_ptr &comp = nullptr );
+                const npc_ptr &comp = nullptr );
         void fortifications_return( const mission_id &miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
                                            const comp_list &npc_list );

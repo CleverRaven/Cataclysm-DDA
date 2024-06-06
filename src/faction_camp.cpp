@@ -3589,12 +3589,12 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                     }
                     // Add mapgen from expansion upgrades to fake_map
                     for( auto const &provide : e_data->second.provides ) {
-                        if ( !recipe_id( provide.first ).is_valid() ) {
+                        if( !recipe_id( provide.first ).is_valid() ) {
                             continue;
                         }
                         const recipe &making = *recipe_id( provide.first );
                         const update_mapgen_id update_id = making.get_blueprint();
-                        if ( !has_update_mapgen_for( update_id )) {
+                        if( !has_update_mapgen_for( update_id ) ) {
                             continue;
                         }
                         bool mirror_horizontal;
@@ -3611,7 +3611,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                         }
                         farm_json->rotate( 4 - rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
-                        if ( !run_mapgen_update_func( update_id, dat, false ) ) {
+                        if( !run_mapgen_update_func( update_id, dat, false ) ) {
                             debugmsg( "farm_action failed to apply the %s map update to %s",
                                       provide.first, omt_id );
                         }
