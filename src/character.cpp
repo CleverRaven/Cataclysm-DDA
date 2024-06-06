@@ -3102,13 +3102,22 @@ units::volume Character::get_total_volume() const
 
 units::volume Character::get_base_volume() const
 {
-    const int your_height = height(); // avg 175cm
-    const double your_weight = units::to_gram<double>( bodyweight() ) * 1000;
+    // The formula used here to calculate base volume for a human body is
+    //     BV = W / BD
+    // Where:
+    // * BV is the body volume in liters
+    // * W  is the weight in kilograms
+    // * BD is the body density (kg/L), estimated using the Brozek formula:
+    //     BD = 1.097 – 0.00046971 * W + 0.00000056 * W^2 – 0.00012828 * H
+    // See
+    //   https://en.wikipedia.org/wiki/Body_fat_percentage
+    //   https://calculator.academy/body-volume-calculator/
+    const int your_height = height();
+    const double your_weight = units::to_kilogram( bodyweight() );
     const double your_density = 1.097 - 0.00046971 * your_weight
                                 + 0.00000056 * std::pow( your_weight, 2 )
                                 - 0.00012828 * your_height;
-    units::volume your_base_volume = units::from_liter( static_cast<double>
-                                     ( your_weight ) / your_density );
+    units::volume your_base_volume = units::from_liter( your_weight / your_density );
     return your_base_volume;
 }
 
