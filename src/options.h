@@ -367,6 +367,9 @@ class options_manager
         /** Add empty line to page. */
         void add_empty_line( const std::string &sPageIn );
 
+        /** Find page by id. */
+        Page &find_page( const std::string &id );
+
         /** Find group by id. */
         const Group &find_group( const std::string &id ) const;
 };

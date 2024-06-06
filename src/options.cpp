@@ -267,18 +267,14 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 
 void options_manager::addOptionToPage( const std::string &name, const std::string &page )
 {
-    for( Page &p : pages_ ) {
-        if( p.id_ == page ) {
-            // Don't add duplicate options to the page
-            for( const PageItem &i : p.items_ ) {
-                if( i.type == ItemType::Option && i.data == name ) {
-                    return;
-                }
-            }
-            p.items_.emplace_back( ItemType::Option, name, adding_to_group_ );
+    Page &p = find_page( page );
+    // Don't add duplicate options to the page
+    for( const PageItem &i : p.items_ ) {
+        if( i.type == ItemType::Option && i.data == name ) {
             return;
         }
     }
+    p.items_.emplace_back( ItemType::Option, name, adding_to_group_ );
     // @TODO handle the case when an option has no valid page id (note: consider hidden external options as well)
 }
 
@@ -550,12 +546,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
 void options_manager::add_empty_line( const std::string &sPageIn )
 {
-    for( Page &p : pages_ ) {
-        if( p.id_ == sPageIn ) {
-            p.items_.emplace_back( ItemType::BlankLine, "", adding_to_group_ );
-            break;
-        }
-    }
+    find_page( sPageIn ).items_.emplace_back( ItemType::BlankLine, "", adding_to_group_ );
 }
 
 void options_manager::add_option_group( const std::string &page_id,
@@ -577,16 +568,21 @@ void options_manager::add_option_group( const std::string &page_id,
     groups_.push_back( group );
     adding_to_group_ = groups_.back().id_;
 
-    for( Page &p : pages_ ) {
-        if( p.id_ == page_id ) {
-            p.items_.emplace_back( ItemType::GroupHeader, group.id_, adding_to_group_ );
-            break;
-        }
-    }
-
+    find_page( page_id ).items_.emplace_back( ItemType::GroupHeader, group.id_, adding_to_group_ );
     entries( page_id );
 
     adding_to_group_.clear();
+}
+
+options_manager::Page &options_manager::find_page( const std::string &id )
+{
+    for( Page &p : pages_ ) {
+        if( p.id_ == id ) {
+            return p;
+        }
+    }
+    static Page null_page( "This page is invalid", to_translation( "This page is invalid" ) );
+    return null_page;
 }
 
 const options_manager::Group &options_manager::find_group( const std::string &id ) const
@@ -936,15 +932,9 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
 
 std::string options_manager::cOpt::getGroupName() const
 {
-    const std::string page_id = getPage();
-    for( Page &p : get_options().pages_ ) {
-        if( p.id_ == page_id ) {
-            for( const PageItem &i : p.items_ ) {
-                if( i.type == ItemType::Option && i.data == getName() ) {
-                    return get_options().find_group( i.group ).name_.translated();
-                }
-            }
-            break;
+    for( const PageItem &i : get_options().find_page( getPage() ).items_ ) {
+        if( i.type == ItemType::Option && i.data == getName() ) {
+            return get_options().find_group( i.group ).name_.translated();
         }
     }
     return "";
