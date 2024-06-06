@@ -1491,6 +1491,7 @@
     "color": "light_blue",
     "container": "bottle_plastic",
     "sealed": false,
+    "delete": { "flags": [ "DECAYS_IN_AIR" ] },
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
   },
   {
@@ -1518,11 +1519,13 @@
     "phase": "liquid",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
     "sealed": true,
+    "revert_to": "water",
+    "properties": { "max_air_exposure_hours": "720" },
     "color": "light_cyan"
   },
   {

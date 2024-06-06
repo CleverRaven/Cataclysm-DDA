@@ -5561,10 +5561,11 @@ void map::update_lum( item_location &loc, bool add )
 }
 
 static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
-                               item *parent, const tripoint &location, const float insulation,
-                               const temperature_flag flag, const float spoil_multiplier )
+                               item *parent, const tripoint &location, float insulation,
+                               temperature_flag flag, float spoil_multiplier, bool watertight_container )
 {
-    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier, false ) ) {
+    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier,
+                           watertight_container, false ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -5760,7 +5761,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
                            map_location, 1, flag,
-                           spoil_multiplier * active_item_ref.spoil_multiplier() );
+                           spoil_multiplier * active_item_ref.spoil_multiplier(),
+                           active_item_ref.has_watertight_container() );
     }
 }
 
@@ -5841,7 +5843,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         }
         if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
                                 item_loc, it_insulation, flag,
-                                active_item_ref.spoil_multiplier() ) ) {
+                                active_item_ref.spoil_multiplier(), active_item_ref.has_watertight_container() ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;

@@ -2470,5 +2470,9 @@
     "id": "PREFIX_XS",
     "type": "json_flag",
     "item_prefix": "XS "
+  },
+  {
+    "id": "DECAYS_IN_AIR",
+    "type": "json_flag"
   }
 ]

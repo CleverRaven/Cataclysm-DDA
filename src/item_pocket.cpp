@@ -899,7 +899,7 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
 }
 
 bool item_pocket::process( const itype &type, map &here, Character *carrier, const tripoint &pos,
-                           float insulation, const temperature_flag flag )
+                           float insulation, temperature_flag flag, bool watertight_container )
 {
     bool processed = false;
     float spoil_multiplier = 1.0f;
@@ -908,7 +908,7 @@ bool item_pocket::process( const itype &type, map &here, Character *carrier, con
             spoil_multiplier = 0.0f;
         }
         if( it->process( here, carrier, pos, type.insulation_factor * insulation, flag,
-                         spoil_multiplier ) ) {
+                         spoil_multiplier, watertight_container ) ) {
             it->spill_contents( pos );
             it = contents.erase( it );
             processed = true;
@@ -1983,12 +1983,13 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
 }
 
 void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                           temperature_flag flag, float spoil_multiplier_parent )
+                           temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->process( here, carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
-                           std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
+                           std::min( spoil_multiplier_parent, spoil_multiplier() ),
+                           watertight_container || can_contain_liquid( false ) ) ) {
             iter->spill_contents( pos );
             iter = contents.erase( iter );
         } else {
