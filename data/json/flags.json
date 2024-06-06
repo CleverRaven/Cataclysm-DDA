@@ -2473,6 +2473,7 @@
   },
   {
     "id": "DECAYS_IN_AIR",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "This will eventually <bad>go bad</bad> if left in open air too long."
   }
 ]
