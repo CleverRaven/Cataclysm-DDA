@@ -786,7 +786,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
-    const tripoint_abs_omt omt_trg = omt_pos + dir;
 
     {
         // return legacy workers. How old is this legacy?...
@@ -1307,7 +1306,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( npc_list.empty() ) {
             entry = _( "Notes:\n"
                        "Plow any spaces that have reverted to dirt or grass.\n\n" ) +
-                    farm_description( omt_trg, plots, farm_ops::plow ) +
+                    farm_description( dir, plots, farm_ops::plow ) +
                     _( "\n\n"
                        "Skill used: fabrication\n"
                        "Difficulty: N/A\n"
@@ -1335,7 +1334,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             entry = _( "Notes:\n"
                        "Plant designated seeds in the spaces that have already been "
                        "tilled.\n\n" ) +
-                    farm_description( omt_trg, plots, farm_ops::plant ) +
+                    farm_description( dir, plots, farm_ops::plant ) +
                     _( "\n\n"
                        "Skill used: survival\n"
                        "Difficulty: N/A\n"
@@ -1349,7 +1348,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                        "Positions: 0/1\n" );
             mission_key.add_start( miss_id,
                                    name_display_of( miss_id ), entry,
-                                   plots > 0 && warm_enough_to_plant( omt_trg ) );
+                                   plots > 0 && warm_enough_to_plant( omt_pos + dir ) );
         } else {
             entry = action_of( miss_id.id );
             bool avail = update_time_left( entry, npc_list );
@@ -1364,7 +1363,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         if( npc_list.empty() ) {
             entry = _( "Notes:\n"
                        "Harvest any plants that are ripe and bring the produce back.\n\n" ) +
-                    farm_description( omt_trg, plots, farm_ops::harvest ) +
+                    farm_description( dir, plots, farm_ops::harvest ) +
                     _( "\n\n"
                        "Skill used: survival\n"
                        "Difficulty: N/A\n"
@@ -1718,8 +1717,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
     const point &miss_dir = miss_id.id.dir.value();
     //  All missions should supply dir. Bug if they don't, so blow up during testing.
 
-    const tripoint_abs_omt omt_trg = omt_pos + miss_dir;
-
     switch( miss_id.id.id ) {
         case Camp_Distribute_Food:
             distribute_food();
@@ -1943,9 +1940,9 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
         case Camp_Plant:
         case Camp_Harvest:
             if( miss_id.ret ) {
-                farm_return( miss_id.id, omt_trg );
+                farm_return( miss_id.id, miss_dir );
             } else {
-                start_farm_op( omt_trg, miss_id.id, MODERATE_EXERCISE );
+                start_farm_op( miss_dir, miss_id.id, MODERATE_EXERCISE );
             }
             break;
 
@@ -3543,11 +3540,14 @@ static bool farm_valid_seed( const item &itm )
     return itm.is_seed() && itm.typeId() != itype_marloss_seed && itm.typeId() != itype_fungal_seeds;
 }
 
-std::pair<size_t, std::string> basecamp::farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
+std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops op,
         const npc_ptr &comp )
 {
     size_t plots_cnt = 0;
     std::string crops;
+
+    const auto e_data = expansions.find( dir );
+    const tripoint_abs_omt omt_tgt = e_data->second.pos;
 
     const auto is_dirtmound = []( const tripoint & pos, tinymap & bay1, tinymap & bay2 ) {
         return ( bay1.ter( pos ) == ter_t_dirtmound ) && ( !bay2.has_furn( pos ) );
@@ -3675,7 +3675,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const tripoint_abs_omt &om
     return std::make_pair( plots_cnt, crops );
 }
 
-void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id,
+void basecamp::start_farm_op( const point &dir, const mission_id &miss_id,
                               float exertion_level )
 {
     farm_ops op = farm_ops::plow;
@@ -3690,7 +3690,7 @@ void basecamp::start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id 
         return;
     }
 
-    std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
+    std::pair<size_t, std::string> farm_data = farm_action( dir, op );
     size_t plots_cnt = farm_data.first;
     if( !plots_cnt ) {
         return;
@@ -4591,7 +4591,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
     return true;
 }
 
-bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt )
+bool basecamp::farm_return( const mission_id &miss_id, const point &dir )
 {
     farm_ops op;
     if( miss_id.id == Camp_Plow ) {
@@ -4612,7 +4612,7 @@ bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &o
         return false;
     }
 
-    farm_action( omt_tgt, op, comp );
+    farm_action( dir, op, comp );
 
     Character &player_character = get_player_character();
     //Give any seeds the NPC didn't use back to you.
@@ -5488,10 +5488,10 @@ std::string basecamp::gathering_description()
     return output;
 }
 
-std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
+std::string basecamp::farm_description( const point &dir, size_t &plots_count,
                                         farm_ops operation )
 {
-    std::pair<size_t, std::string> farm_data = farm_action( farm_pos, operation );
+    std::pair<size_t, std::string> farm_data = farm_action( dir, operation );
     std::string entry;
     plots_count = farm_data.first;
     switch( operation ) {
