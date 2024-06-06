@@ -320,7 +320,7 @@ class options_manager
                 PageItem( ItemType type, const std::string &data, const std::string &group )
                     : type( type ), data( data ), group( group ) { }
 
-                std::string fmt_tooltip( const Group &group, const options_container &cont ) const;
+                std::string fmt_tooltip( const std::string &group_id, const options_container &cont ) const;
         };
 
         /**

@@ -271,11 +271,11 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
     // Don't add duplicate options to the page
     for( const PageItem &i : p.items_ ) {
         if( i.type == ItemType::Option && i.data == name ) {
+            debugmsg( "Option with id '%s' already assigned.", page );
             return;
         }
     }
     p.items_.emplace_back( ItemType::Option, name, adding_to_group_ );
-    // @TODO handle the case when an option has no valid page id (note: consider hidden external options as well)
 }
 
 options_manager::cOpt::cOpt()
@@ -342,8 +342,6 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
     }
 
     thisOpt.hide = COPT_ALWAYS_HIDE;
-    addOptionToPage( sNameIn, sPageIn );
-
     options[sNameIn] = thisOpt;
 }
 
@@ -581,6 +579,7 @@ options_manager::Page &options_manager::find_page( const std::string &id )
             return p;
         }
     }
+    debugmsg( "Option page with id '%s' does not exist.", id );
     static Page null_page( "This page is invalid", to_translation( "This page is invalid" ) );
     return null_page;
 }
@@ -588,9 +587,6 @@ options_manager::Page &options_manager::find_page( const std::string &id )
 const options_manager::Group &options_manager::find_group( const std::string &id ) const
 {
     static Group null_group;
-    if( id.empty() ) {
-        return null_group;
-    }
     for( const Group &g : groups_ ) {
         if( g.id_ == id ) {
             return g;
@@ -1424,6 +1420,9 @@ void options_manager::Page::removeRepeatedEmptyLines()
     }
     while( !items_.empty() && empty( items_.back() ) ) {
         items_.erase( items_.end() - 1 );
+    }
+    if( items_.size() < 2 ) {
+        return;
     }
     for( auto iter = std::next( items_.begin() ); iter != items_.end(); ) {
         if( empty( *std::prev( iter ) ) && empty( *iter ) ) {
@@ -3346,14 +3345,14 @@ static void draw_borders_internal( const catacurses::window &w, std::set<int> &v
 }
 
 std::string
-options_manager::PageItem::fmt_tooltip( const Group &group,
+options_manager::PageItem::fmt_tooltip( const std::string &group_id,
                                         const options_manager::options_container &cont ) const
 {
     switch( type ) {
         case ItemType::BlankLine:
             return "";
         case ItemType::GroupHeader: {
-            return group.tooltip_.translated();
+            return get_options().find_group( group_id ).tooltip_.translated();
         }
         case ItemType::Option: {
             const std::string &opt_name = data;
@@ -3681,7 +3680,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         wnoutrefresh( w_options_header );
 
         const PageItem &curr_item = page_items[iCurrentLine];
-        std::string tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
+        std::string tooltip = curr_item.fmt_tooltip( curr_item.group, cOPTIONS );
         fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
