@@ -75,11 +75,7 @@
     "reach_ok": false,
     "attack_vectors": [ "vector_bite" ],
     "condition": {
-      "and": [
-        {
-          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
-        }
-      ]
+      "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
     },
     "tech_effects": [
       {
@@ -123,7 +119,7 @@
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unar,ed", "scale": 1 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
@@ -184,11 +180,7 @@
       }
     ],
     "condition": {
-      "and": [
-        {
-          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
-        }
-      ]
+      "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
     },
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
