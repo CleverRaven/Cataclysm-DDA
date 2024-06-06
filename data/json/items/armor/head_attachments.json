@@ -993,15 +993,15 @@
     "copy-from": "outsert_clear",
     "name": { "str": "vision correction assembly", "str_pl": "vision correction assemblies" },
     "description": "A detachable frame of prescription lenses intended for installation behind a panoramic gas mask's visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",
-    "weight": "34 g",
-    "volume": "11 ml",
+    "weight": "33 g",
+    "volume": "17 ml",
     "longest_side": "10 cm",
     "//": "Simulating https://www.avon-protection.com/media/drxes0hg/avon-protection_vision-correction-assembly_data-sheet_en.pdf",
     "//2": "According to Avon's datasheet, the weight of the frame, without any lenses, is 8-gramms. Calculating the mass of 2 glass lenses of 4.6x3.7x0.3mm with a cubic density of 2500 kg per m3 and adding that to the weight of the frame yields our final result.",
     "//3": "According to Avon's datasheet, the individual lenses are 46mm in horizontal width and 50mm in diagonal width, with 64mm inter-pupillary. Adding the horizontal width of two lenses doesn't add up to the total weight of the frame with the nose bridge factored in, so we sum it up to a round ten cm for the overall length.",
     "price": "119 USD 70 cent",
     "price_postapoc": "1 USD 25 cent",
-    "material": [ "glass" ],
+    "material": [ { "type": "glass", "portion": 6 }, { "type": "hard_plastic_transp", "portion": 4 } ],
     "material_thickness": 3,
     "armor": [
       {
