@@ -9,7 +9,17 @@
     "occurrences": [ 35, 100 ],
     "flags": [ "FARM", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ],
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -10, 0, 0 ], "to": [ 7, 26, 0 ] } ],
-    "joins": [ "root_to_road", "road_to_building", "road_to_extra", "house_to_extension", "farm_to_farm" ],
+    "joins": [
+      "root_to_road",
+      "road_to_building",
+      "road_to_extra",
+      "house_to_extension",
+      "farm_to_farm",
+      "building_house_farm",
+      "building_farm_horse",
+      "building_dairy_farm",
+      "building_cabin"
+    ],
     "overmaps": {
       "dirt_road_ns_root_s": { "overmap": "rural_road_ns", "south": "root_to_road", "connections": { "north": { "connection": "local_road" } } },
       "dirt_road_ns_root_n": { "overmap": "rural_road_ns", "north": "root_to_road" },
@@ -25,16 +35,24 @@
       "dirt_road_new": { "overmap": "rural_road_new" },
       "dirt_road_nes": { "overmap": "rural_road_nes" },
       "dirt_road_nesw": { "overmap": "rural_road_nesw" },
+      "dirt_road_turnback_w": { "overmap": "rural_road_end_west" },
       "air_farm_ending": { "overmap": "open_air", "north": { "id": "farm_to_farm", "alternatives": [ "road_to_building", "road_to_extra" ] } },
       "air_farm_n": { "overmap": "open_air", "north": "farm_to_farm" },
       "air_farm_e": { "overmap": "open_air", "east": "farm_to_farm" },
       "air_farm_s": { "overmap": "open_air", "south": "farm_to_farm" },
       "air_farm_w": { "overmap": "open_air", "west": "farm_to_farm" },
-      "air_farm_s_house_e": { "overmap": "open_air", "south": "farm_to_farm", "east": "road_to_building" },
       "air_building_n": { "overmap": "open_air", "north": "road_to_building" },
       "air_building_e": { "overmap": "open_air", "east": "road_to_building" },
       "air_building_s": { "overmap": "open_air", "south": "road_to_building" },
       "air_building_w": { "overmap": "open_air", "west": "road_to_building" },
+      "air_building_n_house_farm_s": { "overmap": "open_air", "north": "road_to_building", "south": "building_house_farm" },
+      "air_building_n_farm_horse_s": { "overmap": "open_air", "north": "road_to_building", "south": "building_farm_horse" },
+      "air_building_n_dairy_farm_s": { "overmap": "open_air", "north": "road_to_building", "south": "building_dairy_farm" },
+      "air_building_n_cabin_s": { "overmap": "open_air", "north": "road_to_building", "south": "building_cabin" },
+      "air_farm_house_n": { "overmap": "open_air", "north": "building_house_farm" },
+      "air_horse_farm_s": { "overmap": "open_air", "south": "building_farm_horse" },
+      "air_dairy_farm_s": { "overmap": "open_air", "south": "building_dairy_farm" },
+      "air_cabin_n": { "overmap": "open_air", "north": "building_cabin" },
       "air_extra_n": { "overmap": "open_air", "north": "road_to_extra" },
       "air_extra_e": { "overmap": "open_air", "east": "road_to_extra" },
       "air_extra_s": { "overmap": "open_air", "south": "road_to_extra" },
@@ -157,7 +175,7 @@
             { "overmap": "air_building_n", "pos": [ 2, 7, 10 ] },
             { "overmap": "dirt_road_ew", "pos": [ 3, 7, 0 ] },
             { "overmap": "air_building_s", "pos": [ 3, 7, 10 ] },
-            { "overmap": "dirt_road_ew", "pos": [ 4, 7, 0 ] },
+            { "overmap": "dirt_road_turnback_w", "pos": [ 4, 7, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 8, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 9, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ 0, 10, 0 ] },
@@ -171,8 +189,8 @@
             { "overmap": "dirt_road_ew", "pos": [ -2, 15, 0 ] },
             { "overmap": "dirt_road_se", "pos": [ -3, 15, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ -3, 16, 0 ] },
-            { "overmap": "air_building_w", "pos": [ -3, 16, 10 ] },
             { "overmap": "dirt_road_ns", "pos": [ -3, 17, 0 ] },
+            { "overmap": "air_building_w", "pos": [ -3, 17, 10 ] },
             { "overmap": "dirt_road_ns", "pos": [ -3, 18, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ -3, 19, 0 ] },
             { "overmap": "dirt_road_ns", "pos": [ -3, 20, 0 ] },
@@ -506,6 +524,25 @@
       ],
       [
         {
+          "name": "farm_house_join",
+          "//": "Decide which type of building should go where for some randomness",
+          "chunk": [ { "overmap": "air_building_n_house_farm_s", "pos": [ 0, 0, 10 ] } ],
+          "max": 1
+        },
+        {
+          "name": "farm_horse_join",
+          "chunk": [ { "overmap": "air_building_n_farm_horse_s", "pos": [ 0, 0, 10 ] } ],
+          "max": 1
+        },
+        {
+          "name": "dairy_farm_join",
+          "chunk": [ { "overmap": "air_building_n_dairy_farm_s", "pos": [ 0, 0, 10 ] } ],
+          "max": 1
+        },
+        { "name": "cabin_join", "chunk": [ { "overmap": "air_building_n_cabin_s", "pos": [ 0, 0, 10 ] } ], "max": 1 }
+      ],
+      [
+        {
           "name": "farm_house",
           "chunk": [
             { "overmap": "farm_isherwood_3_north", "pos": [ -1, 0, 0 ] },
@@ -521,10 +558,12 @@
             { "overmap": "farm_isherwood_9_north", "pos": [ -1, 2, 0 ] },
             { "overmap": "farm_isherwood_8_north", "pos": [ 0, 2, 0 ] },
             { "overmap": "farm_isherwood_7_north", "pos": [ 1, 2, 0 ] },
-            { "overmap": "air_building_n", "pos": [ 0, 0, 10 ] }
+            { "overmap": "air_farm_house_n", "pos": [ 0, 1, 10 ] }
           ],
           "max": 1
-        },
+        }
+      ],
+      [
         {
           "name": "horse_farm_isherwood",
           "chunk": [
@@ -551,12 +590,63 @@
             { "overmap": "horse_farm_isherwood_14_north", "pos": [ 0, 3, 0 ] },
             { "overmap": "horse_farm_isherwood_15_north", "pos": [ 1, 3, 0 ] },
             { "overmap": "horse_farm_isherwood_16_north", "pos": [ 2, 3, 0 ] },
-            { "overmap": "air_building_s", "pos": [ 0, 3, 10 ] }
+            { "overmap": "air_horse_farm_s", "pos": [ 0, 2, 10 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "cabin_isherwood",
+          "chunk": [
+            { "overmap": "cabin_isherwood_north", "pos": [ 0, 0, 0 ] },
+            { "overmap": "cabin_lake_roof_north", "pos": [ 0, 0, 1 ] },
+            { "overmap": "air_cabin_n", "pos": [ 0, 1, 10 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "dairy_farm_isherwood_1",
+          "chunk": [
+            { "overmap": "smokehouse_south", "pos": [ -2, 2, 0 ] },
+            { "overmap": "smokehouse_roof_south", "pos": [ -2, 2, 1 ] },
+            { "overmap": "rural_outbuilding_north", "pos": [ -1, 2, 0 ] },
+            { "overmap": "rural_outbuilding_roof_north", "pos": [ -1, 2, 1 ] },
+            { "overmap": "dairy_farm_isherwood_NW_north", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dairy_farm_isherwood_NE_north", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dairy_farm_isherwood_W_north", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dairy_farm_isherwood_E_north", "pos": [ 1, 1, 0 ] },
+            { "overmap": "dairy_farm_isherwood_SW_north", "pos": [ 0, 2, 0 ] },
+            { "overmap": "dairy_farm_isherwood_SW_roof_north", "pos": [ 0, 2, 1 ] },
+            { "overmap": "dairy_farm_isherwood_SE_north", "pos": [ 1, 2, 0 ] },
+            { "overmap": "dairy_farm_isherwood_SE_roof_north", "pos": [ 1, 2, 1 ] },
+            { "overmap": "air_dairy_farm_s", "pos": [ 0, 1, 10 ] }
           ],
           "max": 1
         },
         {
-          "name": "dairy_farm_isherwood",
+          "name": "dairy_farm_isherwood_2",
+          "chunk": [
+            { "overmap": "smokehouse_south", "pos": [ -1, 2, 0 ] },
+            { "overmap": "smokehouse_roof_south", "pos": [ -1, 2, 1 ] },
+            { "overmap": "dairy_farm_isherwood_NW_north", "pos": [ 0, 0, 0 ] },
+            { "overmap": "dairy_farm_isherwood_NE_north", "pos": [ 1, 0, 0 ] },
+            { "overmap": "dairy_farm_isherwood_W_north", "pos": [ 0, 1, 0 ] },
+            { "overmap": "dairy_farm_isherwood_E_north", "pos": [ 1, 1, 0 ] },
+            { "overmap": "dairy_farm_isherwood_SW_north", "pos": [ 0, 2, 0 ] },
+            { "overmap": "dairy_farm_isherwood_SW_roof_north", "pos": [ 0, 2, 1 ] },
+            { "overmap": "dairy_farm_isherwood_SE_north", "pos": [ 1, 2, 0 ] },
+            { "overmap": "dairy_farm_isherwood_SE_roof_north", "pos": [ 1, 2, 1 ] },
+            { "overmap": "rural_outbuilding_north", "pos": [ 2, 2, 0 ] },
+            { "overmap": "rural_outbuilding_roof_north", "pos": [ 2, 2, 1 ] },
+            { "overmap": "air_dairy_farm_s", "pos": [ 0, 1, 10 ] }
+          ],
+          "max": 1
+        },
+        {
+          "name": "dairy_farm_isherwood_3",
           "chunk": [
             { "overmap": "dairy_farm_isherwood_NW_north", "pos": [ 0, 0, 0 ] },
             { "overmap": "dairy_farm_isherwood_NE_north", "pos": [ 1, 0, 0 ] },
@@ -566,20 +656,11 @@
             { "overmap": "dairy_farm_isherwood_SW_roof_north", "pos": [ 0, 2, 1 ] },
             { "overmap": "dairy_farm_isherwood_SE_north", "pos": [ 1, 2, 0 ] },
             { "overmap": "dairy_farm_isherwood_SE_roof_north", "pos": [ 1, 2, 1 ] },
-            { "overmap": "smokehouse_south", "pos": [ -1, 2, 0 ] },
-            { "overmap": "smokehouse_roof_south", "pos": [ -1, 2, 1 ] },
-            { "overmap": "rural_outbuilding_north", "pos": [ 2, 2, 0 ] },
-            { "overmap": "rural_outbuilding_roof_north", "pos": [ 2, 2, 1 ] },
-            { "overmap": "air_building_s", "pos": [ 0, 2, 10 ] }
-          ],
-          "max": 1
-        },
-        {
-          "name": "cabin_isherwood",
-          "chunk": [
-            { "overmap": "cabin_isherwood_north", "pos": [ 0, 0, 0 ] },
-            { "overmap": "cabin_lake_roof_north", "pos": [ 0, 0, 1 ] },
-            { "overmap": "air_building_n", "pos": [ 0, 0, 10 ] }
+            { "overmap": "smokehouse_south", "pos": [ 2, 2, 0 ] },
+            { "overmap": "smokehouse_roof_south", "pos": [ 2, 2, 1 ] },
+            { "overmap": "rural_outbuilding_north", "pos": [ 3, 2, 0 ] },
+            { "overmap": "rural_outbuilding_roof_north", "pos": [ 3, 2, 1 ] },
+            { "overmap": "air_dairy_farm_s", "pos": [ 0, 1, 10 ] }
           ],
           "max": 1
         }
