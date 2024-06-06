@@ -673,8 +673,6 @@ void Character::load( const JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "sleepiness", sleepiness );
     data.read( "cardio_acc", cardio_acc );
-    // Legacy read, remove after 0.F
-    data.read( "weary", activity_history );
     data.read( "activity_history", activity_history );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
