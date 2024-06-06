@@ -1614,11 +1614,6 @@ void avatar::load( const JsonObject &data )
 {
     Character::load( data );
 
-    // TEMPORARY until 0.G
-    if( !data.has_member( "kill_xp" ) ) {
-        kill_xp = g->get_kill_tracker().legacy_kill_xp();
-    }
-
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
         prof = &string_id<profession>( prof_ident ).obj();
