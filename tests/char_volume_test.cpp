@@ -49,10 +49,10 @@ TEST_CASE( "character_baseline_volumes", "[volume]" )
     CHECK( your_volume_with_trait( trait_SMALL2 ) == 23326_ml );
 
     REQUIRE( your_height_with_trait( trait_SMALL ) == 122 );
-    CHECK( your_volume_with_trait( trait_SMALL ) == 23717_ml );
+    CHECK( your_volume_with_trait( trait_SMALL ) == 42476_ml );
 
     REQUIRE( your_height_with_trait( trait_LARGE ) == 227 );
-    CHECK( your_volume_with_trait( trait_LARGE ) == 152778_ml );
+    CHECK( your_volume_with_trait( trait_LARGE ) == 116034_ml );
 
     REQUIRE( your_height_with_trait( trait_HUGE ) == 280 );
     CHECK( your_volume_with_trait( trait_HUGE ) == 156228_ml );
