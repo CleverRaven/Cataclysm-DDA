@@ -663,7 +663,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
-    set_var( "air_exposure_hours", 0 );
+    item_counter = 0;
     update_prefix_suffix_flags();
     return *this;
 }
@@ -8019,17 +8019,17 @@ void item::calc_rot_while_processing( time_duration processing_duration )
     last_temp_check += processing_duration;
 }
 
-bool item::calc_decay_in_air( Character *carrier, int max_air_exposure_hours,
-                              time_duration time_delta )
+bool item::process_decay_in_air( Character *carrier, int max_air_exposure_hours,
+                                 time_duration time_delta )
 {
     if( !has_own_flag( flag_FROZEN ) ) {
-        double new_air_exposure_hours = get_var( "air_exposure_hours",
-                                        0 ) + to_hours<double>( time_delta ) * rng_normal( 0.9, 1.1 );
-        if( new_air_exposure_hours >= max_air_exposure_hours ) {
+        time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
+                                         rng_normal( 0.9, 1.1 );
+        if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
             convert( *type->revert_to, carrier );
             return true;
         }
-        set_var( "air_exposure_hours", new_air_exposure_hours );
+        item_counter = to_seconds<int>( new_air_exposure );
     }
     return false;
 }
@@ -12825,7 +12825,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             }
             last_temp_check = time;
 
-            if( decays_in_air && calc_decay_in_air( carrier, max_air_exposure_hours, time_delta ) ) {
+            if( decays_in_air && process_decay_in_air( carrier, max_air_exposure_hours, time_delta ) ) {
                 return false;
             }
 
@@ -12847,7 +12847,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         calc_temp( temp, insulation, now - time );
         last_temp_check = now;
 
-        if( decays_in_air && calc_decay_in_air( carrier, max_air_exposure_hours, now - time ) ) {
+        if( decays_in_air && process_decay_in_air( carrier, max_air_exposure_hours, now - time ) ) {
             return false;
         }
 

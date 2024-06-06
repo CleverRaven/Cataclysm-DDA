@@ -1040,9 +1040,6 @@ class item : public visitable
          */
         void calc_rot_while_processing( time_duration processing_duration );
 
-        bool calc_decay_in_air( Character *carrier, int max_air_exposure_hours,
-                                time_duration processing_duration );
-
         /**
          * Update temperature for things like food
          * Update rot for things that perish
@@ -3077,6 +3074,9 @@ class item : public visitable
         bool process_blackpowder_fouling( Character *carrier );
         bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
+        bool process_decay_in_air( Character *carrier, int max_air_exposure_hours,
+                                   time_duration time_delta );
+
 
     public:
         static const int INFINITE_CHARGES;
