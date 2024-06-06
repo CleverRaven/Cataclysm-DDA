@@ -195,7 +195,7 @@
   {
     "id": "spell_components_spirit_walking",
     "type": "requirement",
-    "//": "Spell components for the Spirit Walking spell",
+    "//": "Spell components for the Body of Spirit spell",
     "components": [ [ [ "lead", 1 ] ], [ [ "gold_small", 1 ] ] ]
   },
   {
@@ -246,5 +246,54 @@
     "type": "requirement",
     "//": "A wire for the Machine Mind spell",
     "components": [ [ [ "cable", 1 ], [ "copper_wire", 1 ], [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_baking_hands",
+    "type": "requirement",
+    "//": "Coal or charcoal for the Baking Hands spell",
+    "components": [ [ [ "coal_lump", 1 ], [ "charcoal", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_diamond_imbuement",
+    "type": "requirement",
+    "//": "Diamonds for the Diamond Imbuement spell",
+    "components": [ [ [ "diamond", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_slow_food_rotting",
+    "type": "requirement",
+    "//": "Herbs and sulfur for the Abjure Spirits of Rot spell",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "chem_sulphur", 20 ] ] ]
+  },
+  {
+    "id": "spell_components_repair_metal_stone",
+    "type": "requirement",
+    "//": "Metal, stone, and dirt for the Fault-Mending Chant spell",
+    "components": [
+      [ [ "material_soil", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [
+        [ "lead", 5 ],
+        [ "platinum_small", 5 ],
+        [ "copper", 5 ],
+        [ "gold_small", 5 ],
+        [ "silver_small", 5 ],
+        [ "scrap_cast_iron", 5 ],
+        [ "chunk_cast_iron", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_create_ups_connection",
+    "type": "requirement",
+    "//": "Fuel oils for the Power Linkage spell",
+    "components": [ [ [ "crude_lamp_oil", 120 ], [ "lamp_oil", 120 ], [ "gasoline", 120 ], [ "diesel", 120 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_far_sight",
+    "type": "requirement",
+    "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "lens", 1 ] ] ]
   }
 ]

@@ -10,7 +10,7 @@ users:
     - casswedson
     # curator
     - Maleclypse
-    # voluntiers
+    # volunteers
     - Termineitor244
     - Faalagorn
     - Ilysen
@@ -45,6 +45,10 @@ users:
     - harakka
     - Karol1223
     - Bobtron
+    - DPavonis
+    - Amnestasia
+    - TealcOneill
+    - Holli-Git
 
 keywords:
   - name: confirm-bug
@@ -61,6 +65,5 @@ keywords:
     value: '\/(G|g)ood[\s-]*(F|f)irst[\s-]*(I|i)ssue.*'
 
   - name: help-wanted
-    # - only works in PRs
     # example: /help-wanted
     value: '\/(H|h)elp[\s-]*(W|w)anted.*'

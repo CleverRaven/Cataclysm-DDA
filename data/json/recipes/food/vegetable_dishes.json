@@ -258,22 +258,6 @@
   },
   {
     "type": "recipe",
-    "result": "hazelnut_shelled",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
-    "autolearn": true,
-    "charges": 20,
-    "qualities": [ { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
-    "components": [ [ [ "hazelnut", 20 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "chestnut_shelled",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
@@ -287,22 +271,6 @@
     "qualities": [ { "id": "ANVIL", "level": 1 } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "chestnut", 20 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hazelnut_shelled",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "10 m",
-    "batch_time_factors": [ 20, 1 ],
-    "autolearn": true,
-    "charges": 20,
-    "qualities": [ { "id": "ANVIL", "level": 1 } ],
-    "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
-    "components": [ [ [ "hazelnut", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -492,5 +460,22 @@
       ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "onion_sauteed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 1 ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "//": "3u for 250g onion, and 1u for oil.",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [ [ [ "onion", 1 ] ], [ [ "any_butter_or_oil", 2, "LIST" ] ], [ [ "seasoning_mild", 1, "LIST" ], [ "salt", 1 ] ] ]
   }
 ]

@@ -35,7 +35,8 @@
       " ": "t_water_dp",
       "g": "t_switchgear_s",
       "ω": "t_metal_floor",
-      "ξ": "t_deck_coating_no_roof"
+      "ξ": "t_deck_coating_no_roof",
+      "ö": "t_metal_roof"
     },
     "furniture": {
       "θ": "f_rack",
@@ -114,7 +115,9 @@
       "Λ": "f_bed",
       "μ": "f_rack",
       "β": "f_counter",
-      "Δ": "f_counter"
+      "Δ": "f_counter",
+      "Ö": "f_small_satellite_dish",
+      "Ä": "f_cellphone_booster"
     },
     "items": {
       "M": [

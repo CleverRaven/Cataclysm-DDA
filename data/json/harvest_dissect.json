@@ -672,6 +672,30 @@
     ]
   },
   {
+    "id": "dissect_chiropteran_sample_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "chiropteran_sample_single", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_chiropteran_sample_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "chiropteran_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_chiropteran_sample_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "chiropteran_sample_large", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_chiropteran_sample_huge",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "chiropteran_sample_huge", "type": "mutagen_group" } ]
+  },
+  {
     "id": "dissect_flying_rodent_small",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
@@ -693,6 +717,15 @@
     "entries": [
       { "drop": "cattle_sample_single", "type": "mutagen_group" },
       { "drop": "spider_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_worm_frog_single",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "batrachian_sample_single", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_single", "type": "mutagen_group" }
     ]
   },
   {

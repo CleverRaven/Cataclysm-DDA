@@ -1,22 +1,48 @@
+#include "display.h"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <tuple>
+#include <type_traits>
+#include <vector>
+
 #include "avatar.h"
 #include "bodygraph.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "display.h"
+#include "creature.h"
+#include "debug.h"
+#include "effect.h"
 #include "game.h"
-#include "options.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
+#include "game_constants.h"
 #include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "omdata.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -718,22 +744,22 @@ std::string display::health_string( const Character &u )
     return colorize( health_pair.first, health_pair.second );
 }
 
-std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
+std::pair<std::string, nc_color> display::sleepiness_text_color( const Character &u )
 {
-    int fatigue = u.get_fatigue();
-    std::string fatigue_string;
-    nc_color fatigue_color = c_white;
-    if( fatigue >= fatigue_levels::EXHAUSTED ) {
-        fatigue_color = c_red;
-        fatigue_string = translate_marker( "Exhausted" );
-    } else if( fatigue >= fatigue_levels::DEAD_TIRED ) {
-        fatigue_color = c_light_red;
-        fatigue_string = translate_marker( "Dead Tired" );
-    } else if( fatigue >= fatigue_levels::TIRED ) {
-        fatigue_color = c_yellow;
-        fatigue_string = translate_marker( "Tired" );
+    int sleepiness = u.get_sleepiness();
+    std::string sleepiness_string;
+    nc_color sleepiness_color = c_white;
+    if( sleepiness >= sleepiness_levels::EXHAUSTED ) {
+        sleepiness_color = c_red;
+        sleepiness_string = translate_marker( "Exhausted" );
+    } else if( sleepiness >= sleepiness_levels::DEAD_TIRED ) {
+        sleepiness_color = c_light_red;
+        sleepiness_string = translate_marker( "Dead Tired" );
+    } else if( sleepiness >= sleepiness_levels::TIRED ) {
+        sleepiness_color = c_yellow;
+        sleepiness_string = translate_marker( "Tired" );
     }
-    return std::make_pair( _( fatigue_string ), fatigue_color );
+    return std::make_pair( _( sleepiness_string ), sleepiness_color );
 }
 
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
@@ -960,7 +986,14 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
 // Weight carried, relative to capacity, in %, like "90%".
 std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
 {
-    int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    int carry_wt;
+
+    if( u.weight_capacity() > 0_gram ) {
+        carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    } else {
+        carry_wt = 100;
+    }
+
     std::string weight_text = string_format( "%d%%", carry_wt );
 
     nc_color weight_color = c_green;

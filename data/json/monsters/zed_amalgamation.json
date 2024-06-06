@@ -9,6 +9,7 @@
     "volume": "20 L",
     "weight": "20 kg",
     "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_TINY" },
+    "death_drops": "explode_innards_small",
     "death_function": {
       "message": "The %s explodes in a shower of gore!",
       "corpse_type": "NO_CORPSE",
@@ -34,6 +35,7 @@
     "hp": 100,
     "speed": 100,
     "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_SMALL", "multiple_spawns": true, "spawn_range": 5 },
+    "death_drops": "explode_innards_small",
     "death_function": {
       "message": "The %s explodes in a shower of gore!",
       "corpse_type": "NO_CORPSE",
@@ -54,6 +56,7 @@
     "weight": "200 kg",
     "hp": 200,
     "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED_1", "multiple_spawns": true, "spawn_range": 5 },
+    "death_drops": "explode_innards",
     "death_function": {
       "message": "The %s explodes in a shower of gore!",
       "corpse_type": "NO_CORPSE",
@@ -72,6 +75,7 @@
     "weight": "450 kg",
     "hp": 600,
     "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_LARGE", "multiple_spawns": true, "spawn_range": 5 },
+    "death_drops": "explode_innards",
     "death_function": {
       "message": "The %s explodes in a shower of gore!",
       "corpse_type": "NO_CORPSE",
@@ -319,9 +323,9 @@
     "vision_night": 8,
     "extend": {
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ],
-      "families": [ "prof_wp_nat_armored" ]
+      "families": [ "prof_wp_nat_armored" ],
+      "flags": [ "GRABS" ]
     },
-    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 },
-    "flags": [ "GRABS" ]
+    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
   }
 ]

@@ -15,6 +15,7 @@
       { "id": "tool_storage" },
       { "id": "gathering" },
       { "id": "firewood" },
+      { "id": "foraging" },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "kitchen" },
@@ -122,7 +123,11 @@
       "time": "1 d",
       "skills": [ [ "electronics", 8 ] ],
       "inline": {
-        "tools": [ [ [ "hazmat_suit", -1 ] ], [ [ "mask_gas", 50 ] ], [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ] ] ],
+        "tools": [
+          [ [ "hazmat_suit", -1 ] ],
+          [ [ "mask_gas", 50 ] ],
+          [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ], [ "integrated_electrokit", 50 ] ]
+        ],
         "qualities": [ [ { "id": "SCREW" } ], [ { "id": "SCREW_FINE" } ], [ { "id": "WRENCH" } ], [ { "id": "WRENCH_FINE" } ] ],
         "components": [
           [ [ "solder_wire", 50 ] ],

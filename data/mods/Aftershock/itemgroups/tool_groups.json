@@ -146,6 +146,22 @@
   },
   {
     "type": "item_group",
+    "id": "afs_tools_agricultural_hazardous",
+    "//": "tools used by large farms",
+    "subtype": "distribution",
+    "items": [
+      {
+        "collection": [
+          { "item": "afs_foamgun", "prob": 100 },
+          { "item": "afs_foam_tank", "ammo-item": "afs_foamtoxic", "charges": 30, "prob": 100, "count": [ 1, 2 ] },
+          { "item": "prophylactic_antivenom", "prob": 1, "count": 5 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_tools_pocket",
     "//": "General use tools that fit in small pockets.",
     "subtype": "distribution",
@@ -196,6 +212,45 @@
       { "item": "emf_detector", "prob": 50 },
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "item": "tskbem_master_keycard", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "farming_tools",
+    "items": [
+      [ "hoe", 60 ],
+      [ "shovel", 60 ],
+      [ "g_shovel", 60 ],
+      [ "trimmer_off", 60 ],
+      [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
+      [ "gloves_rubber", 60 ],
+      [ "fertilizer_liquid", 20 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
+      [ "fungicide", 20 ],
+      { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] },
+      [ "sickle", 40 ],
+      { "group": "tools_toolbox", "prob": 10 },
+      [ "bullwhip", 30 ],
+      [ "distaff_spindle", 2 ],
+      [ "carding_paddles", 2 ],
+      [ "scythe", 40 ],
+      [ "scythe_fake", 1 ],
+      [ "shears", 20 ],
+      [ "elec_shears", 10 ],
+      [ "tree_spile", 40 ],
+      { "group": "quicklime_bag", "prob": 30 },
+      [ "pitchfork", 40 ],
+      [ "v_plow_item", 41 ],
+      [ "v_planter_item", 41 ],
+      [ "v_reaper_item", 41 ],
+      [ "v_reaper_item_advanced", 8 ],
+      [ "v_planter_item_advanced", 8 ],
+      [ "rake", 40 ],
+      [ "rake_plastic", 50 ],
+      [ "shovel_snow", 40 ],
+      [ "shovel_snow_plastic", 50 ],
+      [ "hose_garden", 60 ]
     ]
   }
 ]

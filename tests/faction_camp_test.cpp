@@ -35,6 +35,7 @@ TEST_CASE( "camp_calorie_counting", "[camp]" )
     m.add_camp( this_omt, "faction_camp" );
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( this_omt.xy() );
     basecamp *test_camp = *bcp;
+    test_camp->set_owner( your_fac );
     nutrients &food_supply = camp_faction->food_supply;
     WHEN( "a base item is added to larder" ) {
         food_supply *= 0;

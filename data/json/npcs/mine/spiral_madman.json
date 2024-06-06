@@ -52,7 +52,7 @@
     "items": [
       [ "pickaxe", 50 ],
       [ "shovel", 50 ],
-      [ "bucket", 20 ],
+      [ "bucket_5gal", 20 ],
       [ "gasoline_lantern", 10 ],
       [ "electric_lantern", 10 ],
       [ "oil_lamp", 10 ],
@@ -64,22 +64,22 @@
     "id": "TALK_SPIRAL_MADMAN_FIRST_MEETING",
     "type": "talk_topic",
     "dynamic_line": "Spirals?",
-    "speaker_effect": { "effect": { "u_add_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_first_meeting", "value": "yes" } },
     "responses": [
       {
         "text": "Hello there!",
         "topic": "TALK_SPIRAL_MADMAN_GENERIC",
-        "condition": { "not": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" } }
       },
       {
         "text": "I'm outta here.  Bye.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" } }
       },
       {
         "text": "Poor fellow - looks like you're out of your mind.  Can't help you, sorry.  I'm outta here.  Bye.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_first_meeting", "value": "yes" }
       }
     ]
   },

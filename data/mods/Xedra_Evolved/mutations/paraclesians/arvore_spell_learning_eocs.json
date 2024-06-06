@@ -28,17 +28,7 @@
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
         },
-        { "not": { "u_near_om_location": "road_curved", "range": 2 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 2 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 2 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 2 } },
-        { "not": { "u_near_om_location": "road_end", "range": 2 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 2 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 2 } },
-        { "not": { "u_near_om_location": "road", "range": 2 } },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" },
         {
           "or": [
             {
@@ -57,36 +47,8 @@
                 { "not": { "u_at_om_location": "field" } }
               ]
             },
-            { "u_at_om_location": "arvore_genius_loci_NW" },
-            { "u_at_om_location": "arvore_genius_loci_NE" },
-            { "u_at_om_location": "arvore_genius_loci_SW" },
-            { "u_at_om_location": "arvore_genius_loci_SE" },
-            { "u_is_on_terrain": "t_barkfloor" },
-            { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z0_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z1_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z2_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z3_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z3_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z4_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z4_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z5_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z5_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z7_se", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_06", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_11", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
-            { "u_near_om_location": "great_tree_roots", "range": 2 },
-            { "u_near_om_location": "great_tree_roots_se", "range": 2 },
-            { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+            { "u_is_on_terrain": "t_barkfloor" }
           ]
         }
       ]
@@ -106,6 +68,7 @@
         { "math": [ "u_spell_level('arvore_summon_briars')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_traverse_the_wilds')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_cause_decay')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_create_living_tent_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_preservation_container')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_wood_spirit')", "<", "35" ] },
         { "math": [ "u_spell_level('arvore_roots_crack_the_foundation')", "<", "per_to_level(1)" ] },
@@ -116,6 +79,7 @@
         { "math": [ "u_spell_level('arvore_climbing_vine_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_anti_plant_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_damage_zombies_heal_living')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_turn_into_tree')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_tree_singing_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus')", "<", "25" ] },
@@ -138,8 +102,10 @@
         [ "EOC_LEVELER_ARVORE_VERDANT_INFUSION", 6 ],
         [ "EOC_LEVELER_ARVORE_ROOTS_SPELL", 8 ],
         [ "EOC_LEVELER_ARVORE_CLIMBING_VINE_SPELL", 8 ],
+        [ "EOC_LEVELER_ARVORE_LIVING_TENT_SPELL", 6 ],
         [ "EOC_LEVELER_ARVORE_ANTI_PLANT_SPELL", 7 ],
         [ "EOC_LEVELER_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING", 1 ],
+        [ "EOC_LEVELER_ARVORE_TREE_TRANSFORM", 1 ],
         [ "EOC_LEVELER_ARVORE_TREE_SINGING_SPELL", 5 ],
         [ "EOC_LEVELER_ARVORE_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_ARVORE_WIND_BLOWS_WILLOW_BENDS", 6 ],
@@ -401,6 +367,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_LIVING_TENT_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_create_living_tent_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('arvore_create_living_tent_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('arvore_create_living_tent_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LEVELER_ARVORE_ANTI_PLANT_SPELL",
     "condition": {
       "and": [
@@ -432,6 +416,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('arvore_damage_zombies_heal_living')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_TREE_TRANSFORM",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_turn_into_tree')", ">=", "0" ] },
+        { "math": [ "u_spell_level('arvore_turn_into_tree')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('arvore_turn_into_tree')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

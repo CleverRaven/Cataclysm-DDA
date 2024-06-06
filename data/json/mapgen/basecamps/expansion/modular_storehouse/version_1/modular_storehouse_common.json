@@ -3,19 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ "fbms_common_palette" ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ], "palettes": [ "fbms_common_palette" ] }
   },
   {
     "type": "mapgen",

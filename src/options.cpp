@@ -934,6 +934,22 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
+std::string options_manager::cOpt::getGroupName() const
+{
+    const std::string page_id = getPage();
+    for( Page &p : get_options().pages_ ) {
+        if( p.id_ == page_id ) {
+            for( const PageItem &i : p.items_ ) {
+                if( i.type == ItemType::Option && i.data == getName() ) {
+                    return get_options().find_group( i.group ).name_.translated();
+                }
+            }
+            break;
+        }
+    }
+    return "";
+}
+
 std::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
     const int iSearch ) const
 {
@@ -1753,6 +1769,8 @@ void options_manager::add_options_interface()
         this->add_empty_line( "interface" );
     };
 
+    add_empty_line();
+
     add( "USE_LANG", "interface", to_translation( "Language" ),
          to_translation( "Switch language.  Each percentage is the fraction of strings translated "
                          "for that language." ),
@@ -1894,6 +1912,11 @@ void options_manager::add_options_interface()
              to_translation( "If true, after firing automatically aim again if targets are available." ),
              true
            );
+        add( "UNLOAD_RAS_WEAPON", page_id,
+             to_translation( "Unload your bow etc after canceling shooting" ),
+             to_translation( "If true, weapons like bow and slingshot will be unloaded when quitting aim UI." ),
+             true
+           );
 
         add( "QUERY_DISASSEMBLE", page_id, to_translation( "Query on disassembly while butchering" ),
              to_translation( "If true, will query before disassembling items while butchering." ),
@@ -1944,6 +1967,18 @@ void options_manager::add_options_interface()
              to_translation( "Highlight unread recipes" ),
              to_translation( "If true, highlight unread recipes to allow tracking of newly learned recipes." ),
              true
+           );
+
+        add( "HIGHLIGHT_UNREAD_ITEMS", page_id,
+             to_translation( "Highlight unread items" ),
+             to_translation( "If true, highlight unread items to allow tracking of newly discovered items." ),
+             true
+           );
+
+        add( "SCREEN_READER_MODE", page_id, to_translation( "Screen reader mode" ),
+             to_translation( "On supported UI screens, tweaks display of text to optimize for screen readers.  Targeted towards using the open-source screen reader 'orca' using curses for display." ),
+             // See doc/USER_INTERFACE_AND_ACCESSIBILITY.md for testing and implementation notes
+             false
            );
     } );
 
@@ -2746,8 +2781,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "Spawn Time Options" ),
-                      to_translation( "Options regarding spawn time." ) ),
+    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World Time Options" ),
+                      to_translation( "Options regarding the passage of time in the world." ) ),
     [&]( const std::string & page_id ) {
         add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
              to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),

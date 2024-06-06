@@ -337,5 +337,20 @@
     "type": "effect_on_condition",
     "id": "EOC_LOSE_COMMUNE_OAKS",
     "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
+  },
+  {
+    "id": "arvore_forest_translocate_real",
+    "type": "SPELL",
+    "name": "From Root to Root the Forest Is Joined Real",
+    "description": "The actual spell that transports you for From Root to Root the Forest Is Joined.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ARVORE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "translocate",
+    "shape": "blast"
   }
 ]

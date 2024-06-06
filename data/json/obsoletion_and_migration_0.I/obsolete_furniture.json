@@ -1,0 +1,91 @@
+[
+  {
+    "//": "Obsoleted during 0.H, if I am still obsolete at the time of 0.I stable please migrate me.",
+    "type": "furniture",
+    "id": "f_mutant_tree_adult",
+    "name": "mutant tree",
+    "description": "This bizarre tree spreads its twisted branches at odd angles toward the sky.  If you squint, it almost looks like a human figure with its arms raised to catch the sun.",
+    "symbol": "7",
+    "color": "light_green",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_HARVEST",
+      "MUTANT_TREE",
+      "TREE",
+      "OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "stick_long", "count": [ 1, 2 ] },
+        { "item": "bone", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 1, 5 ] },
+        { "item": "twig", "count": [ 2, 5 ] },
+        { "item": "leaves", "count": [ 5, 25 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_null", "base": "f_null" }
+  },
+  {
+    "//": "Obsoleted during 0.H, if I am still obsolete at the time of 0.I stable please migrate me.",
+    "type": "furniture",
+    "id": "f_mutant_tree_sapling",
+    "name": "mutant sapling",
+    "description": "A twisted and gnarled little tree.  Its shape is at once alien and familiar.",
+    "symbol": "1",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_MATURE",
+      "SMALL_HIDE",
+      "YOUNG"
+    ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 50,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "stick_long", "count": [ 0, 2 ] },
+        { "item": "bone", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 0, 2 ] },
+        { "item": "twig", "count": [ 1, 3 ] },
+        { "item": "leaves", "count": [ 5, 20 ] }
+      ]
+    },
+    "plant_data": { "transform": "f_mutant_tree_adult", "base": "f_null" }
+  },
+  {
+    "//": "Obsoleted during 0.H, if I am still obsolete at the time of 0.I stable please migrate me.",
+    "type": "furniture",
+    "id": "f_mutant_tree_sprout",
+    "name": "sprout",
+    "description": "A tiny little sprout that has just begun to grow.",
+    "symbol": "^",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "bash": { "str_min": 6, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_mutant_tree_sapling", "base": "f_null" }
+  }
+]

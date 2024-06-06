@@ -1,5 +1,10 @@
-/* Entry point and main loop for Cataclysm
+/* Main Loop for cataclysm
+ * Linux only I guess
+ * But maybe not
+ * Who knows
  */
+
+// KG: Yes, the above is inaccurate now. It's also a poem, it stays.
 
 // IWYU pragma: no_include <sys/signal.h>
 #include <algorithm>
@@ -55,6 +60,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "cata_imgui.h"
 #if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
 #endif
@@ -167,6 +173,7 @@ void exit_handler( int s )
         } else
 #endif
         {
+            imclient.reset();
             exit( exit_status );
         }
     }
@@ -592,7 +599,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 reject( err );
             } else {
-                console.log( "Succesfully mounted IDBFS." );
+                console.log( "Successfully mounted IDBFS." );
                 resolve();
             }
         } );
@@ -615,7 +622,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 console.error( err );
             } else {
-                console.log( "Succesfully persisted to IDBFS..." );
+                console.log( "Successfully persisted to IDBFS..." );
             }
         } );
     }

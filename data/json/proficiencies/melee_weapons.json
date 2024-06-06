@@ -8,7 +8,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -19,7 +21,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_auto_rifles_familiar" ]
   },
   {
@@ -31,7 +35,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_auto_rifles_pro" ]
   },
   {
@@ -43,7 +49,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -54,7 +62,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_auto_pistols_familiar" ]
   },
   {
@@ -66,7 +76,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_auto_pistols_pro" ]
   },
   {
@@ -78,7 +90,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -89,7 +103,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_knives_familiar" ]
   },
   {
@@ -101,7 +117,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_knives_pro" ]
   },
   {
@@ -113,7 +131,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -124,7 +144,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_shivs_familiar" ]
   },
   {
@@ -136,7 +158,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_shivs_pro" ]
   },
   {
@@ -148,7 +172,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -159,7 +185,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_batons_familiar" ]
   },
   {
@@ -171,7 +199,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_batons_pro" ]
   },
   {
@@ -183,7 +213,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -194,7 +226,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_medium_swords_familiar" ]
   },
   {
@@ -206,7 +240,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_medium_swords_pro" ]
   },
   {
@@ -218,7 +254,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -229,7 +267,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_short_swords_familiar" ]
   },
   {
@@ -241,7 +281,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_short_swords_pro" ]
   },
   {
@@ -253,7 +295,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -264,7 +308,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_quarterstaves_familiar" ]
   },
   {
@@ -276,7 +322,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_quarterstaves_pro" ]
   },
   {
@@ -288,7 +336,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -299,7 +349,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_fencing_weapons_familiar" ]
   },
   {
@@ -311,7 +363,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_fencing_weapons_pro" ]
   },
   {
@@ -323,7 +377,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -334,7 +390,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_claws_familiar" ]
   },
   {
@@ -346,7 +404,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_claws_pro" ]
   },
   {
@@ -358,7 +418,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -369,7 +431,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_hooking_familiar" ]
   },
   {
@@ -381,7 +445,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_hooking_pro" ]
   },
   {
@@ -393,7 +459,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -404,7 +472,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_polearms_familiar" ]
   },
   {
@@ -416,7 +486,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_polearms_pro" ]
   },
   {
@@ -428,7 +500,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -439,7 +513,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_bionics_familiar" ]
   },
   {
@@ -451,7 +527,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_bionics_pro" ]
   },
   {
@@ -463,7 +541,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -474,7 +554,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_spears_familiar" ]
   },
   {
@@ -486,7 +568,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_spears_pro" ]
   },
   {
@@ -498,7 +582,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -509,7 +595,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_thrusting_swords_familiar" ]
   },
   {
@@ -521,7 +609,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_thrusting_swords_pro" ]
   },
   {
@@ -533,7 +623,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -544,7 +636,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_long_swords_familiar" ]
   },
   {
@@ -556,7 +650,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_long_swords_pro" ]
   },
   {
@@ -568,7 +664,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -579,7 +677,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_bionic_swords_familiar" ]
   },
   {
@@ -591,7 +691,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_bionic_swords_pro" ]
   },
   {
@@ -603,7 +705,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -614,7 +718,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_flails_familiar" ]
   },
   {
@@ -626,7 +732,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_flails_pro" ]
   },
   {
@@ -638,7 +746,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -649,7 +759,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_maces_familiar" ]
   },
   {
@@ -661,7 +773,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_maces_pro" ]
   },
   {
@@ -673,7 +787,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -684,7 +800,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_great_swords_familiar" ]
   },
   {
@@ -696,7 +814,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_great_swords_pro" ]
   },
   {
@@ -708,7 +828,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -719,7 +841,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_great_hammers_familiar" ]
   },
   {
@@ -731,7 +855,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_great_hammers_pro" ]
   },
   {
@@ -743,7 +869,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -754,7 +882,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_great_axes_familiar" ]
   },
   {
@@ -766,7 +896,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_great_axes_pro" ]
   },
   {
@@ -778,7 +910,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -789,7 +923,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_hand_axes_familiar" ]
   },
   {
@@ -801,7 +937,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_hand_axes_pro" ]
   },
   {
@@ -813,7 +951,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "8 h"
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "800 s"
   },
   {
     "type": "proficiency",
@@ -824,7 +964,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "16 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.025 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "1600 s",
     "required_proficiencies": [ "prof_unarmed_familiar" ]
   },
   {
@@ -836,7 +978,9 @@
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
-    "time_to_learn": "32 h",
+    "bonuses": { "melee_attack": [ { "type": "stamina", "value": 0.05 } ] },
+    "//": "Code assumes each attack is 1s",
+    "time_to_learn": "3200 s",
     "required_proficiencies": [ "prof_unarmed_pro" ]
   }
 ]

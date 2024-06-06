@@ -2,11 +2,12 @@
 #ifndef CATA_SRC_CONTENTS_CHANGE_HANDLER_H
 #define CATA_SRC_CONTENTS_CHANGE_HANDLER_H
 
-#include <functional>
 #include <vector>
 
 #include "item_location.h"
 
+class Character;
+class JsonOut;
 class JsonValue;
 
 /**

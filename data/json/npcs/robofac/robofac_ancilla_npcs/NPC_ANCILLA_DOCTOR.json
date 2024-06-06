@@ -80,9 +80,7 @@
       "u_has_faction_trust": 10,
       "yes": "Oh, what can I do for you today?",
       "no": {
-        "u_has_var": "first_meet",
-        "type": "dialogue",
-        "context": "ancilla_doctor",
+        "u_has_var": "dialogue_ancilla_doctor_first_meet",
         "value": "yes",
         "yes": [
           "Try not to touch anything.  Keeping this place clean is a full time job.",
@@ -94,7 +92,7 @@
       }
     },
     "speaker_effect": {
-      "effect": [ { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_doctor", "value": "yes" } ],
+      "effect": [ { "u_add_var": "dialogue_ancilla_doctor_first_meet", "value": "yes" } ],
       "sentinel": "ancilla_doctor_meet"
     },
     "responses": [

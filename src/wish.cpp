@@ -466,7 +466,7 @@ void debug_menu::wishbionics( Character *you )
     }
 }
 
-void debug_menu::wisheffect( Character &p )
+void debug_menu::wisheffect( Creature &p )
 {
     static bodypart_str_id effectbp = bodypart_str_id::NULL_ID();
     std::vector<effect> effects;
@@ -1136,10 +1136,11 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     } while( wmenu.ret >= 0 );
 }
 
-/*
- * Set skill on any Character object; player character or NPC
- * Can change skill theory level
- */
+void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
+{
+    debug_menu::wishitem( you, pos.raw() );
+}
+
 void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
@@ -1261,9 +1262,6 @@ void debug_menu::wishskill( Character *you, bool change_theory )
     } while( skmenu.ret != UILIST_CANCEL );
 }
 
-/*
- * Set proficiency on any Character object; player character or NPC
- */
 void debug_menu::wishproficiency( Character *you )
 {
     bool know_all = true;

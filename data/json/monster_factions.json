@@ -95,13 +95,20 @@
     "base_faction": "animal",
     "friendly": [ "attack_player_only" ],
     "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "yrax", "passive_machine" ],
-    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
+    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf", "dog_small" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ]
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ],
+    "by_mood": [ "herbivore_domestic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore_domestic",
+    "base_faction": "herbivore",
+    "by_mood": [ "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -133,12 +140,20 @@
     "type": "MONSTER_FACTION",
     "name": "cat",
     "base_faction": "small_animal",
+    "neutral": [ "dog_small" ],
     "hate": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dog",
     "base_faction": "animal",
+    "hate": [ "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dog_small",
+    "base_faction": "small_animal",
+    "neutral": [ "cat" ],
     "hate": [ "small_animal" ]
   },
   {
@@ -278,11 +293,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "worm",
-    "base_faction": "mutant"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "slug",
     "base_faction": "mutant"
   },
@@ -294,11 +304,6 @@
     "base_faction": "mutant",
     "by_mood": [ "mutant", "mutant_piscivores" ],
     "hate": [ "fish" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gator",
-    "base_faction": "mutant_piscivores"
   },
   {
     "type": "MONSTER_FACTION",
@@ -392,7 +397,6 @@
       "frog",
       "slug",
       "mutant_piscivores",
-      "gator",
       "molerat",
       "amigara",
       "mutant_with_vortex",
@@ -421,6 +425,11 @@
     "friendly": [ "attack_player_only" ],
     "neutral": [ "fish", "bot", "aquatic_predator" ],
     "by_mood": [ "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "worm",
+    "base_faction": "insect"
   },
   {
     "type": "MONSTER_FACTION",

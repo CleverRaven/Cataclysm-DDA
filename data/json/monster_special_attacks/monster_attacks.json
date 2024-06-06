@@ -317,7 +317,7 @@
   },
   {
     "type": "monster_attack",
-    "attack_type": "melee",
+    "attack_type": "bite",
     "id": "stretch_bite",
     "cooldown": 10,
     "move_cost": 300,

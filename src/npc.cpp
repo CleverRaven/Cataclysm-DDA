@@ -101,6 +101,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_amf( "amf" );
 static const faction_id faction_no_faction( "no_faction" );
@@ -143,7 +144,6 @@ static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
-static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
@@ -152,7 +152,6 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_KILLER( "KILLER" );
-static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -257,6 +256,9 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 {
     this->name = name;
     set_pos_only( pos );
+    if( !getID().is_valid() ) {
+        setID( g->assign_npc_id() );
+    }
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -605,16 +607,15 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         myclass = type;
     }
 
-    const npc_class &the_class = myclass.obj();
-    str_max += the_class.roll_strength();
-    dex_max += the_class.roll_dexterity();
-    int_max += the_class.roll_intelligence();
-    per_max += the_class.roll_perception();
+    str_max += myclass->roll_strength();
+    dex_max += myclass->roll_dexterity();
+    int_max += myclass->roll_intelligence();
+    per_max += myclass->roll_perception();
 
-    personality.aggression += the_class.roll_aggression();
-    personality.bravery += the_class.roll_bravery();
-    personality.collector += the_class.roll_collector();
-    personality.altruism += the_class.roll_altruism();
+    personality.aggression += myclass->roll_aggression();
+    personality.bravery += myclass->roll_bravery();
+    personality.collector += myclass->roll_collector();
+    personality.altruism += myclass->roll_altruism();
 
     personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
                                          NPC_PERSONALITY_MAX );
@@ -629,10 +630,24 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         set_skill_level( skill.ident(), level );
     }
 
-    //A universal barter boost to keep NPCs competitive with players
-    //The int boost from trade wasn't active... now that it is, most
-    //players will vastly outclass npcs in trade without a little help.
-    mod_skill_level( skill_speech, rng( 2, 4 ) );
+    const int cataclysm_days = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int level_cap = get_option<int>( "EXTRA_NPC_SKILL_LEVEL_CAP" );
+    const SkillLevelMap &skills_map = get_all_skills();
+    // Exp actually multiplied by 100 in Character::practice
+    const int min_exp = get_option<int>( "MIN_CATCHUP_EXP_PER_POST_CATA_DAY" );
+    const int max_exp = get_option<int>( "MAX_CATCHUP_EXP_PER_POST_CATA_DAY" );
+
+    for( int i = 0; i < cataclysm_days; i++ ) {
+        const int npc_exp_gained = rng( min_exp, max_exp );
+        const std::pair<const skill_id, SkillLevel> &pair = random_entry( skills_map );
+
+        // This resets focus to equilibrium before every practice, so NPCs with bonus learning/focus
+        // will have that reflected by the *actual* gained exp.
+        mod_focus( calc_focus_equilibrium( true ) - get_focus() );
+
+        practice( pair.first, npc_exp_gained, level_cap, false, true );
+    }
+
 
     set_body();
     recalc_hp();
@@ -658,27 +673,34 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     generate_personality_traits();
 
     // Run mutation rounds
-    for( const auto &mr : type->mutation_rounds ) {
+    for( const auto &mr : myclass->mutation_rounds ) {
         int rounds = mr.second.roll();
         for( int i = 0; i < rounds; ++i ) {
             mutate_category( mr.first );
         }
     }
     // Add bionics
-    for( const auto &bl : type->bionic_list ) {
+    for( const auto &bl : myclass->bionic_list ) {
         int chance = bl.second;
         if( rng( 0, 100 ) <= chance ) {
             add_bionic( bl.first );
         }
     }
     // Add proficiencies
-    for( const proficiency_id &prof : type->_starting_proficiencies ) {
-        add_proficiency( prof );
+    for( const proficiency_id &prof : myclass->_starting_proficiencies ) {
+        add_proficiency( prof, false, true );
     }
+    if( myclass->is_common() ) {
+        add_default_background();
+        set_skills_from_hobbies( true ); // Only trains skills that are still at 0 at this point
+        set_proficiencies_from_hobbies();
+        set_bionics_from_hobbies(); // Just in case, for mods
+    }
+
     // Add martial arts
     learn_ma_styles_from_traits();
     // Add spells for magiclysm mod
-    for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
+    for( std::pair<spell_id, int> spell_pair : myclass->_starting_spells ) {
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level( *this ) ) {
@@ -1303,7 +1325,7 @@ void npc::stow_item( item &it )
             add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), it.tname() );
         }
         remove_item( it );
-        moves -= 15;
+        mod_moves( -item_wear_cost( it ) );
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
@@ -1311,7 +1333,7 @@ void npc::stow_item( item &it )
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
-        moves -= 15;
+        mod_moves( -item_handling_cost( it ) );
     } else { // No room for weapon, so we drop it
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
@@ -1349,7 +1371,7 @@ bool npc::wield( item &it )
         return true;
     }
 
-    moves -= 15;
+    mod_moves( -to_wield.on_wield_cost( *this ) );
     if( weapon && to_wield.can_combine( *weapon ) ) {
         weapon->combine( to_wield );
     } else {
@@ -1477,6 +1499,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         }
         u_ugly += bp->ugliness_mandatory;
         u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
     }
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
@@ -1726,7 +1749,7 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     std::string formatted_line = line;
     Character &player_character = get_player_character();
     parse_tags( formatted_line, player_character, *this );
-    if( has_trait( trait_MUTE ) ) {
+    if( is_mute() ) {
         return;
     }
 
@@ -1751,9 +1774,51 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+        // Always shouting when in danger or short time since being in danger
+        sounds::sound( pos(), danger_assessment() > NPC_DANGER_VERY_LOW ?
+                       get_shout_volume() : indoor_voice(),
+                       sounds::sound_t::speech,
+                       sound, false, "speech",
                        male ? "NPC_m_loud" : "NPC_f_loud" );
     }
+}
+
+int npc::indoor_voice() const
+{
+    const int max_volume = get_shout_volume();
+    const int min_volume = 1;
+    // Actual hearing distance is incredibly dependent on ambient noise and our noise propagation model is... rather binary
+    // But we'll assume people normally want to project their voice about 6 meters away.
+    int wanted_volume = 6;
+    Character &player = get_player_character();
+    const int distance_to_player = rl_dist( pos(), player.pos() );
+    if( is_following() || is_ally( player ) ) {
+        wanted_volume = distance_to_player;
+    } else if( is_enemy() && sees( player.pos() ) ) {
+        // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
+        wanted_volume = max_volume;
+    }
+    // Possible fallthrough: neutral or unaware enemy NPCs talk at default wanted_volume
+
+    // Don't wake up friends when using our indoor voice
+    for( const auto &bunk_buddy : get_cached_friends() ) {
+        Character *char_buddy = nullptr;
+        if( auto buddy = bunk_buddy.lock() ) {
+            char_buddy = dynamic_cast<Character *>( buddy.get() );
+        }
+        if( !char_buddy ) {
+            continue;
+        }
+        if( char_buddy->has_effect( effect_sleep ) ) {
+            int distance_to_sleeper = rl_dist( pos(), char_buddy->pos() );
+            if( wanted_volume >= distance_to_sleeper ) {
+                // Speak just quietly enough to not disturb anyone
+                wanted_volume = distance_to_sleeper - 1;
+            }
+        }
+    }
+
+    return std::clamp( wanted_volume, min_volume, max_volume );
 }
 
 bool npc::wants_to_sell( const item_location &it ) const
@@ -1817,7 +1882,7 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
     if( bl != nullptr ) {
-        return ret_val<void>::make_failure( bl->message );
+        return ret_val<void>::make_failure( bl->message.translated() );
     }
 
     // TODO: Base on inventory
@@ -2438,7 +2503,7 @@ void npc::npc_dismount()
     mounted_creature->add_effect( effect_controlled, 5_turns );
     mounted_creature = nullptr;
     setpos( *pnt );
-    mod_moves( -100 );
+    mod_moves( -get_speed() );
 }
 
 int npc::smash_ability() const
@@ -2565,10 +2630,10 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     }
 
     // Worn gear list on following lines.
-    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::list<item_location> visible_worn_items = get_visible_worn_items();
     const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
-    visible_worn_items.end(), []( const item & it ) {
-        return it.tname();
+    visible_worn_items.end(), []( const item_location & it ) {
+        return it.get_item()->tname();
     } );
     if( !worn_str.empty() ) {
         std::vector<std::string> worn_lines = foldstring( _( "Wearing: " ) + worn_str, iWidth );
@@ -3039,7 +3104,7 @@ void npc::on_load()
     };
     const auto advance_focus = [this]( const int minutes ) {
         // scale to match focus_pool magnitude
-        const int equilibrium = 1000 * focus_equilibrium_fatigue_cap( calc_focus_equilibrium() );
+        const int equilibrium = 1000 * focus_equilibrium_sleepiness_cap( calc_focus_equilibrium() );
         const double focus_ratio = std::pow( 0.99, minutes );
         // Approximate new focus pool, every minute focus_pool contributes 99%, the remainder comes from equilibrium
         // This is pretty accurate as long as the equilibrium doesn't change too much during the period
@@ -3176,6 +3241,11 @@ bool npc::invoke_item( item *used, const tripoint &pt, int )
     return false;
 }
 
+bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+{
+    return npc::invoke_item( used, pt.raw(), pre_obtain_moves );
+}
+
 bool npc::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
@@ -3279,7 +3349,7 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
     if( rules.has_flag( ally_rule::avoid_locks ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( doors::can_unlock_door( here, *this, p ) ) {
+            if( doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
                 ret.insert( p );
             }
         }
@@ -3293,8 +3363,14 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
 
     for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
-        if( sees_dangerous_field( p ) || ( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) &&
-                                           !move_in_vehicle( const_cast<npc *>( this ), p ) ) ) {
+        if( sees_dangerous_field( p ) ) {
+            ret.insert( p );
+        }
+    }
+
+    // Why is this in path avoid if they can't move there at all?
+    for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
+        if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
             ret.insert( p );
         }
     }

@@ -423,5 +423,27 @@
     "occurrences": [ 66, 100 ],
     "flags": [ "CLASSIC", "UNIQUE" ],
     "spawns": { "group": "GROUP_GENIUS_ARVORE", "population": [ 150, 500 ], "radius": [ 5, 30 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "Tranquil Pool",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "undine_warp_pool_surface_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "undine_warp_pool_zneg_dirt_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -6 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -7 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -8 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -9 ], "overmap": "undine_warp_pool_zneg_north" },
+      { "point": [ 0, 0, -10 ], "overmap": "undine_warp_pool_warper_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 66, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE" ]
   }
 ]

@@ -7,7 +7,7 @@
 #include <list>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "npc.h"
 #include "talker.h"
 #include "type_id.h"
@@ -46,6 +46,7 @@ class talker_item_const: public talker_cloner<talker_item_const>
         int get_cur_hp( const bodypart_id & ) const override;
         int get_hp_max( const bodypart_id & ) const override;
 
+        int get_count() const override;
         int coverage_at( bodypart_id & ) const override;
         int encumbrance_at( bodypart_id & ) const override;
         int get_volume() const override;

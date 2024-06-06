@@ -1,0 +1,24 @@
+[
+  {
+    "id": "gift_shop_zoo",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "novel_pulp", "prob": 30, "count": [ 1, 5 ] },
+      { "item": "toy_figurine", "prob": 75, "count": [ 1, 10 ] },
+      { "item": "deck_of_cards", "prob": 60, "count": [ 1, 5 ] },
+      { "item": "monopoly", "prob": 5, "count": [ 1, 2 ] },
+      { "item": "teddy_bear", "prob": 25, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "shelves_zoo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_janitors_closet", "prob": 15 },
+      { "group": "gift_shop_zoo", "prob": 25 },
+      { "group": "tools_general", "prob": 10 }
+    ]
+  }
+]

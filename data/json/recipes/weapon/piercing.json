@@ -217,6 +217,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -241,6 +242,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -833,6 +835,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_homemade_halfpike",
+    "id_suffix": "from_spike",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -848,6 +851,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_homemade_halfpike",
+    "id_suffix": "from_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",

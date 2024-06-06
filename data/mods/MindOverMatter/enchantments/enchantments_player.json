@@ -4,7 +4,7 @@
     "id": "enchant_clair_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+    "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "HEARING_MULT", "multiply": 2.5 } ],
     "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_potion_clairvoyance" } ] } ] }
   },
   {
@@ -25,22 +25,6 @@
     "max_field_intensity": 1,
     "min_duration": 200,
     "max_duration": 200
-  },
-  {
-    "type": "enchantment",
-    "id": "enchant_clair_speed_read",
-    "condition": "ALWAYS",
-    "has": "HELD",
-    "values": [
-      {
-        "value": "READING_EXP",
-        "add": {
-          "math": [
-            "( ( u_spell_level('clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') ))) * u_nether_attunement_power_scaling"
-          ]
-        }
-      }
-    ]
   },
   {
     "type": "enchantment",

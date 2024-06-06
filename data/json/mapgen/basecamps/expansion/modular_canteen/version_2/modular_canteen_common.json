@@ -111,10 +111,12 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_fireplace", "x": 11, "y": 10 },
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 10 },
-        { "point": "furniture", "id": "f_fireplace", "x": 13, "y": 10 },
-        { "point": "furniture", "id": "f_counter", "x": 14, "y": 10 }
+        { "point": "furniture", "id": "f_fireplace", "x": 11, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 11, "y": 10, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_fireplace", "x": 13, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 13, "y": 10, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 14, "y": 10, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 10, "y": 10 }, { "item": "pan", "x": 10, "y": 10 } ]
     }
@@ -125,10 +127,12 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 10 },
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 10 },
-        { "point": "furniture", "id": "f_woodstove", "x": 13, "y": 10 },
-        { "point": "furniture", "id": "f_counter", "x": 14, "y": 10 }
+        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 11, "y": 10, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_woodstove", "x": 13, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 13, "y": 10, "z": 1 },
+        { "point": "furniture", "id": "f_counter", "x": 14, "y": 10, "z": 0 }
       ],
       "place_loot": [ { "item": "pot", "x": 10, "y": 10 }, { "item": "pan", "x": 10, "y": 10 } ]
     }
@@ -167,10 +171,11 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 19 },
-        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 20 },
-        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 21 },
-        { "point": "furniture", "id": "f_kiln_empty", "x": 17, "y": 18 }
+        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 19, "z": 0 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 20, "z": 0 },
+        { "point": "furniture", "id": "f_smoking_rack", "x": 19, "y": 21, "z": 0 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 17, "y": 18, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 17, "y": 18, "z": 1 }
       ]
     }
   },
@@ -363,9 +368,28 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "fbmk_2_still_vent_pipe",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "P  "
+      ],
+      "palettes": [ "fbmk_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbmk_2_still",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmk_2_still" ], "x": 2, "y": 19 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmk_2_still" ], "x": 2, "y": 19, "z": 0 },
+        { "chunks": [ "fbmk_2_still_vent_pipe" ], "x": 2, "y": 19, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",

@@ -13,10 +13,10 @@
 #include "test_data.h"
 #include "type_id.h"
 
-static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
 static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
@@ -121,7 +121,7 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     item good_sword( "test_balanced_sword" );
 
     SECTION( "against a debug monster with no armor or dodge" ) {
-        monster mummy( debug_mon );
+        monster mummy( pseudo_debug_mon );
 
         CHECK( clumsy_sword.effective_dps( dummy, mummy ) == Approx( 25.0f ).epsilon( 0.15f ) );
         CHECK( good_sword.effective_dps( dummy, mummy ) == Approx( 38.0f ).epsilon( 0.15f ) );
@@ -143,7 +143,7 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     }
 
     SECTION( "effect of STR and DEX on damage per second" ) {
-        monster mummy( debug_mon );
+        monster mummy( pseudo_debug_mon );
 
         SECTION( "STR 6, DEX 6" ) {
             dummy.str_max = 6;

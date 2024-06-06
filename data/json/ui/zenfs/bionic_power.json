@@ -1,0 +1,107 @@
+[
+  {
+    "id": "zenfs_bionic_bar_14_with_balance",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_bionicpower_label", "zenfs_bionicbalance_sym", "zenfs_bionicpower_bar_14_no_label" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_bionic_bar_15_with_balance",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_bionicpower_label", "zenfs_bionicbalance_sym", "zenfs_bionicpower_bar_15_no_label" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_bionic_num_with_balance",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_bionicpower_label", "zenfs_bionicbalance_sym", "zenfs_bionic_num_container" ],
+    "width": 12,
+    "padding": 0
+  },
+  {
+    "id": "zenfs_bionicpower_bar_14_no_label",
+    "type": "widget",
+    "style": "graph",
+    "var": "power_percentage",
+    "width": 14,
+    "symbols": "·−=≡≣",
+    "fill": "bucket",
+    "colors": [ "c_black", "c_red", "c_light_red", "c_pink", "c_light_blue" ],
+    "breaks": [ 1, 25, 33, 50 ],
+    "flags": [ "W_NO_LABEL", "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "zenfs_bionicpower_bar_15_no_label",
+    "type": "widget",
+    "copy-from": "zenfs_bionicpower_bar_14_no_label",
+    "width": 15
+  },
+  {
+    "id": "zenfs_bionicpower_num_no_label",
+    "type": "widget",
+    "style": "text",
+    "var": "power_text",
+    "width": 7,
+    "text_align": "right",
+    "colors": [ "c_light_blue" ],
+    "flags": [ "W_NO_LABEL", "W_DISABLED_WHEN_EMPTY" ]
+  },
+  {
+    "id": "zenfs_bionic_num_container",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "zenfs_bionicpower_num_no_label" ],
+    "width": 6
+  },
+  {
+    "id": "zenfs_bionicbalance_bar_1",
+    "type": "widget",
+    "style": "graph",
+    "var": "log_power_balance",
+    "width": 1,
+    "symbols": "⇊↓⇣ ⇡↑⇈",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_brown", "c_dark_gray", "c_green", "c_blue" ],
+    "flags": [ "W_NO_LABEL" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_bionicbalance_sym",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "widgets": [ "zenfs_bionicbalance_bar_1" ],
+    "padding": 3
+  },
+  {
+    "id": "zenfs_bionicpower_label",
+    "type": "widget",
+    "style": "text",
+    "string": "Power",
+    "width": 5,
+    "clauses": [
+      {
+        "id": "label_invisible",
+        "text": "     ",
+        "color": "c_black",
+        "condition": { "math": [ "u_val('power_max')", "<=", "0" ] }
+      },
+      {
+        "id": "label_visible",
+        "text": "Power",
+        "color": "c_light_gray",
+        "condition": { "math": [ "u_val('power_max')", ">", "0" ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ],
+    "padding": 0
+  }
+]

@@ -10,5 +10,17 @@
     "color": "white",
     "material_thickness": 0.3,
     "pocket_data": [  ]
+  },
+  {
+    "id": "afs_academy_cloak",
+    "repairs_like": "cloak",
+    "type": "ARMOR",
+    "copy-from": "cloak",
+    "looks_like": "cloak",
+    "name": { "str": "academy cloak" },
+    "description": "A short ochre cloak given to traveling faculty, still tailored in styles that echo down from previous millennia.",
+    "color": "red",
+    "material_thickness": 0.3,
+    "pocket_data": [  ]
   }
 ]

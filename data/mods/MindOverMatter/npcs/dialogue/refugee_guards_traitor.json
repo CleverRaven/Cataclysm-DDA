@@ -16,7 +16,7 @@
       {
         "text": "It's you.",
         "topic": "TALK_EVAC_GUARD3_direct_accusation",
-        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3", "value": "yes" }
       }
     ]
   },
@@ -50,7 +50,7 @@
     "responses": [
       {
         "text": "*Withdraw from <npc_name>'s mind*.",
-        "effect": { "u_add_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" },
+        "effect": { "u_add_var": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3", "value": "yes" },
         "topic": "TALK_EVAC_GUARD3_post_scan"
       }
     ]
@@ -64,7 +64,7 @@
       {
         "text": "It's you.",
         "topic": "TALK_EVAC_GUARD3_direct_accusation",
-        "condition": { "u_has_var": "deep_scanned_evac_guard_3", "type": "dialogue", "context": "refugee_center_traitor", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_refugee_center_traitor_deep_scanned_evac_guard_3", "value": "yes" }
       }
     ]
   },

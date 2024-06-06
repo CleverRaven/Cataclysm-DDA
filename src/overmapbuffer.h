@@ -144,6 +144,8 @@ class overmapbuffer
     public:
         overmapbuffer();
 
+        bool externally_set_args = false;
+
         static cata_path terrain_filename( const point_abs_om & );
         static cata_path player_filename( const point_abs_om & );
 
@@ -153,6 +155,12 @@ class overmapbuffer
          */
         overmap &get( const point_abs_om & );
         void save();
+        /**
+         * Just drop the generated overmaps without resetting
+         * the members tracking which specials we've placed.
+         * Should only be used in tests.
+         */
+        void reset();
         void clear();
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
@@ -521,6 +529,14 @@ class overmapbuffer
         bool place_special( const overmap_special_id &special_id, const tripoint_abs_omt &center,
                             int radius );
 
+        int get_unique_special_count( const overmap_special_id &id ) {
+            return unique_special_count[id];
+        }
+
+        int get_overmap_count() const {
+            return overmap_count;
+        }
+
     private:
         /**
          * Common function used by the find_closest/all/random to determine if the location is
@@ -540,6 +556,11 @@ class overmapbuffer
         overmap mutable *last_requested_overmap;
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
+        // This tracks the unique specials we have placed. It is used to
+        // Adjust weights of special spawns to correct for things like failure to spawn.
+        std::unordered_map<overmap_special_id, int> unique_special_count;
+        // Global count of number of overmaps generated for this world.
+        int overmap_count = 0;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -580,15 +601,25 @@ class overmapbuffer
          */
         void add_unique_special( const overmap_special_id &id );
         /**
+         * Logs the placement of the given unique overmap special.
+         */
+        void log_unique_special( const overmap_special_id &id ) {
+            unique_special_count[id]++;
+        }
+        /**
          * Returns true if the given globally unique overmap special has already been placed.
          */
         bool contains_unique_special( const overmap_special_id &id ) const;
         /**
-         * Writes the placed unique specials as a JSON value.
+         * Writes metadata about special placement as a JSON value.
          */
-        void serialize_placed_unique_specials( JsonOut &json ) const;
+        void serialize_overmap_global_state( JsonOut &json ) const;
         /**
-         * Reads placed unique specials from JSON and overwrites the global value.
+         * Reads metadata about special placement from JSON.
+         */
+        void deserialize_overmap_global_state( const JsonObject &json );
+        /**
+         * Reads deprecated placed unique specials data, replaced by overmap_global_state.
          */
         void deserialize_placed_unique_specials( const JsonValue &jsin );
     private:

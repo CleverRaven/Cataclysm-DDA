@@ -165,5 +165,270 @@
         { "item": "leaves", "count": [ 50, 150 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_spring",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_spring_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_spring_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_spring",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_summer",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_summer_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_summer_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_summer",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_autumn",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_autumn_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_autumn_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_autumn",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_winter",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_winter_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "winter" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_winter_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_winter",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mushroom_patch",
+    "name": "patch of mushrooms",
+    "looks_like": "t_fungus_colony",
+    "description": "A cluster of mushrooms, growing all together.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_arvore_living_tent",
+    "name": "den of brambles",
+    "description": "A structure made from quickly-grown vines and brambles, almost-entirely concealing the hollow inside.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_bramble_door_c",
+    "move_cost": 2,
+    "coverage": 80,
+    "floor_bedding_warmth": 2000,
+    "comfort": 3,
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "leaves", "count": [ 6, 18 ] } ]
+    }
   }
 ]

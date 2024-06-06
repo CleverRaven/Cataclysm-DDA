@@ -6,7 +6,7 @@
     "description": "An amalgamation of throbbing organs from various creatures have fused together into this lurching, vaguely-humanoid shape.  Its myriad roughly-formed mouths susurrate in a chorus of sibilant groans and whispers.",
     "default_faction": "jabberwock",
     "species": [ "ABERRATION" ],
-    "volume": "80000 ml",
+    "volume": "108500 ml",
     "weight": "90 kg",
     "hp": 100,
     "speed": 50,

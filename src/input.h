@@ -10,6 +10,7 @@
 #include "translation.h"
 
 class cata_path;
+class keybindings_ui;
 
 // Curses key constants
 constexpr int KEY_ESCAPE     = 27;
@@ -199,6 +200,7 @@ constexpr int JOY_LEFTDOWN  = 256 + 8;
  */
 class input_manager
 {
+        friend class keybindings_ui;
     public:
         // TODO: rewrite this to have several alternative input events for the same action
 
@@ -269,7 +271,7 @@ class input_manager
         void wait_for_any_key();
 
         /**
-         * Sets global input polling timeout as appropriate for the current interface system.
+         * Sets global input polling timeout in milliseconds as appropriate for the current interface system.
          * Use `input_context::(re)set_timeout()` when possible so timeout will be properly
          * reset when entering a new input context.
          */
@@ -327,7 +329,10 @@ class input_manager
 
         t_input_event_list &get_or_create_event_list( const std::string &action_descriptor,
                 const std::string &context );
-        void remove_input_for_action( const std::string &action_descriptor, const std::string &context );
+        /**
+         * @return true if `remove_input_for_action` uncovers potentially new global keys. These could cause conflicts.
+         */
+        bool remove_input_for_action( const std::string &action_descriptor, const std::string &context );
         void add_input_for_action( const std::string &action_descriptor, const std::string &context,
                                    const input_event &event );
 

@@ -264,7 +264,7 @@
     "points": -6,
     "description": "You will die in one hit, more or less.  Sneezing too hard will kill you.",
     "debug": true,
-    "hp_modifier": -0.999
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.999 } ] } ]
   },
   {
     "type": "mutation",
@@ -273,6 +273,6 @@
     "points": -6,
     "description": "You will die in one hit, more or less.  Sneezing too hard will kill you.",
     "debug": true,
-    "hp_modifier": -0.99
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.99 } ] } ]
   }
 ]

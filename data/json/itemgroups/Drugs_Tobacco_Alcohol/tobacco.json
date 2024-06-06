@@ -31,7 +31,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small_wood",
-    "items": [ { "item": "cigar", "count": [ 25, 25 ] }, { "item": "paper", "charges": [ 2, 2 ] } ]
+    "items": [ { "item": "cigar", "count": [ 25, 25 ] }, { "item": "paper", "charges": 2 } ]
   },
   {
     "id": "cigar_box_opened",
@@ -40,7 +40,7 @@
     "container-item": "box_small_wood",
     "entries": [
       { "item": "cigar", "count": [ 0, 25 ] },
-      { "item": "paper", "charges": [ 2, 2 ], "prob": 90 },
+      { "item": "paper", "charges": 2, "prob": 90 },
       {
         "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
         "prob": 50
@@ -58,9 +58,9 @@
           { "item": "cig", "prob": 75, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           {
             "collection": [
-              { "item": "tobacco", "count-min": 1, "count-max": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
+              { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20

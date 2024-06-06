@@ -249,8 +249,8 @@ void DynamicDataLoader::initialize()
     add( "jmath_function", &jmath_func::load_func );
     add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
-    add( "fault", &fault::load );
-    add( "fault_fix", &fault_fix::load );
+    add( "fault", &faults::load_fault );
+    add( "fault_fix", &faults::load_fix );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -280,6 +280,7 @@ void DynamicDataLoader::initialize()
     add( "mutation", &mutation_branch::load_trait );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
+    add( "ter_furn_migration", &ter_furn_migrations::load );
     add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );
     add( "MONSTER_BLACKLIST", &MonsterGroupManager::LoadMonsterBlacklist );
     add( "MONSTER_WHITELIST", &MonsterGroupManager::LoadMonsterWhitelist );
@@ -406,8 +407,10 @@ void DynamicDataLoader::initialize()
     add( "weapon_category", &weapon_category::load_weapon_categories );
     add( "martial_art", &load_martial_art );
     add( "climbing_aid", &climbing_aid::load_climbing_aid );
+    add( "attack_vector", &attack_vector::load_attack_vectors );
     add( "effect_type", &load_effect_type );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
+    add( "camp_migration", &overmap::load_oter_id_camp_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
@@ -577,8 +580,7 @@ void DynamicDataLoader::unload_data()
     effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
-    fault_fix::reset();
-    fault::reset();
+    faults::reset();
     field_types::reset();
     gates::reset();
     harvest_drop_type::reset();
@@ -612,6 +614,7 @@ void DynamicDataLoader::unload_data()
     overmap_special_migration::reset();
     overmap_terrains::reset();
     overmap::reset_oter_id_migrations();
+    overmap::reset_oter_id_camp_migrations();
     profession::reset();
     profession_blacklist::reset();
     proficiency::reset();
@@ -647,6 +650,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_migrations::reset();
     ter_furn_transform::reset();
     trap::reset();
     unload_talk_topics();
@@ -754,7 +758,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Achievements" ), &achievement::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
-            { _( "Fault fixes" ), &fault_fix::finalize },
+            { _( "Faults" ), &faults::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -793,6 +797,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
+            { _( "Weapon Categories" ), &weapon_category::verify_weapon_categories },
             { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
@@ -807,8 +812,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Materials" ), &materials::check },
-            { _( "Faults" ), &fault::check_consistency },
-            { _( "Fault fixes" ), &fault_fix::check_consistency },
+            { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },
@@ -830,6 +834,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
+            { _( "Terrain/Furniture migrations" ), &ter_furn_migrations::check },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },

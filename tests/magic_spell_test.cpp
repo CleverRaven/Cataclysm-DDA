@@ -15,6 +15,7 @@
 #include "type_id.h"
 
 static const spell_id spell_test_spell_box( "test_spell_box" );
+static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
 static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
 // Magic Spell tests
@@ -596,6 +597,22 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
+    spell ghost_spell( spell_test_spell_tp_ghost );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, ghost_spell ) );
+
+    // Summon the ghost in the adjacent space
+    ghost_spell.cast_spell_effect( dummy, mummy_loc );
+
+    CHECK( creatures.creature_at( mummy_loc ) );
+    CHECK( g->num_creatures() == 2 );
+
+    //kill the ghost
+    creatures.creature_at( mummy_loc )->die( nullptr );
+    g->cleanup_dead();
+
+    //a corpse was not created
+    CHECK( get_map().i_at( mummy_loc ).empty() );
+
     spell_id mummy_id( "test_spell_tp_mummy" );
 
     spell mummy_spell( mummy_id );
@@ -606,6 +623,14 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 
     CHECK( creatures.creature_at( mummy_loc ) );
     CHECK( g->num_creatures() == 2 );
+
+    //kill the mummy
+    creatures.creature_at( mummy_loc )->die( nullptr );
+    g->cleanup_dead();
+
+    //a corpse was created
+    CHECK( !get_map().i_at( mummy_loc ).empty() );
+
 }
 
 // spell_effect::recover_energy
@@ -621,7 +646,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
     // BIONIC: p.mod_power_level (positive) OR p.mod_stamina (negative)
     //
     // For these effects, negative "damage" is good (reducing the amount of a bad thing)
-    // FATIGUE: p.mod_fatigue
+    // sleepiness: p.mod_sleepiness
     // PAIN: p.mod_pain_resist or p_mod_pain
 
     // NOTE: This spell effect cannot be used for healing HP.

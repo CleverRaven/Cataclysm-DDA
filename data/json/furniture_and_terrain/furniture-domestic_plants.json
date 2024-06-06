@@ -73,12 +73,39 @@
   },
   {
     "type": "furniture",
+    "id": "f_plant_unharvested_overgrown",
+    "looks_like": "t_grass_tall",
+    "name": "overgrown plant",
+    "description": "This patch of green used to be a cultivated field or some sort of monocrop agriculture.  Neglected for too long, it has been overtaken by nature.",
+    "symbol": "#",
+    "color": "red",
+    "coverage": 50,
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_OVERGROWN",
+      "SMALL_HIDE"
+    ],
+    "examine_action": "clear_overgrown",
+    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_null" }
+  },
+  {
+    "type": "furniture",
     "id": "f_plant_harvest",
     "name": "harvestable plant",
     "description": "This plant is fully grown and ready to be harvested.  Identifying how to harvest it requires closer examination.",
     "symbol": "#",
     "color": "light_green",
-    "move_cost_mod": 0,
+    "coverage": 30,
+    "move_cost_mod": 1,
     "required_str": -1,
     "flags": [
       "PLANT",
@@ -93,7 +120,7 @@
     ],
     "examine_action": "harvest_plant_ex",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_null", "base": "f_null" }
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -139,92 +166,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_mutant_tree_adult",
-    "name": "mutant tree",
-    "description": "This bizarre tree spreads its twisted branches at odd angles toward the sky.  If you squint, it almost looks like a human figure with its arms raised to catch the sun.",
-    "symbol": "7",
-    "color": "light_green",
-    "required_str": -1,
-    "move_cost_mod": 0,
-    "flags": [
-      "PLANT",
-      "SEALED",
-      "TRANSPARENT",
-      "CONTAINER",
-      "NOITEM",
-      "TINY",
-      "DONT_REMOVE_ROTTEN",
-      "GROWTH_HARVEST",
-      "MUTANT_TREE",
-      "TREE",
-      "OBSTACLE"
-    ],
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "stick_long", "count": [ 1, 2 ] },
-        { "item": "bone", "count": [ 1, 2 ] },
-        { "item": "splinter", "count": [ 1, 5 ] },
-        { "item": "twig", "count": [ 2, 5 ] },
-        { "item": "leaves", "count": [ 5, 25 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_null", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_mutant_tree_sapling",
-    "name": "mutant sapling",
-    "description": "A twisted and gnarled little tree.  Its shape is at once alien and familiar.",
-    "symbol": "1",
-    "color": "green",
-    "move_cost_mod": 1,
-    "required_str": -1,
-    "flags": [
-      "PLANT",
-      "SEALED",
-      "TRANSPARENT",
-      "CONTAINER",
-      "NOITEM",
-      "TINY",
-      "DONT_REMOVE_ROTTEN",
-      "GROWTH_MATURE",
-      "SMALL_HIDE",
-      "YOUNG"
-    ],
-    "bash": {
-      "str_min": 8,
-      "str_max": 50,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "stick_long", "count": [ 0, 2 ] },
-        { "item": "bone", "count": [ 1, 2 ] },
-        { "item": "splinter", "count": [ 0, 2 ] },
-        { "item": "twig", "count": [ 1, 3 ] },
-        { "item": "leaves", "count": [ 5, 20 ] }
-      ]
-    },
-    "plant_data": { "transform": "f_mutant_tree_adult", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
-    "id": "f_mutant_tree_sprout",
-    "name": "sprout",
-    "description": "A tiny little sprout that has just begun to grow.",
-    "symbol": "^",
-    "color": "green",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
-    "bash": { "str_min": 6, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_mutant_tree_sapling", "base": "f_null" }
-  },
-  {
-    "type": "furniture",
     "id": "f_planter",
     "name": "planter",
     "description": "A garden planter full of soil and slatted to allow adequate drainage.  Can be used for planting crops.",
@@ -256,6 +197,47 @@
     },
     "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_unharvested_overgrown",
+    "name": "planter with dead plants",
+    "description": "Somewhere beneath this heap of dying plants you can see the shape of wooden furniture.  Left without care, the plants it used to nurture have shriveled and died.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "f_planter",
+    "move_cost_mod": 3,
+    "required_str": -1,
+    "examine_action": "clear_overgrown",
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_OVERGROWN",
+      "SMALL_HIDE"
+    ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 4,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 1,
+      "furn_set": "f_planter",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    },
+    "plant_data": { "transform": "f_planter_unharvested_overgrown", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -300,7 +282,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_planter", "base": "f_planter" }
+    "plant_data": { "transform": "f_planter_unharvested_overgrown", "base": "f_planter" }
   },
   {
     "type": "furniture",

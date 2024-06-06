@@ -3,23 +3,32 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
+#include <map>
 #include <memory>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "map.h"
 #include "json.h"
+#include "map.h"
+#include "map_selector.h"
 #include "material.h"
 #include "options.h"
 #include "output.h"
@@ -29,7 +38,9 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 
 using namespace auto_pickup;
 
@@ -238,7 +249,7 @@ drop_locations auto_pickup::select_items(
     const std::vector<item_stack::iterator> &from, const tripoint &location )
 {
     drop_locations result;
-    const map_cursor map_location = map_cursor( location );
+    const map_cursor map_location = map_cursor( tripoint_bub_ms( location ) );
 
     // iterate over all item stacks found in location
     for( const item_stack::iterator &stack : from ) {

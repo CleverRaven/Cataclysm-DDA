@@ -24,7 +24,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize",
     "type": "talk_topic",
     "dynamic_line": {
-      "math": [ "u_val('sold')", "==", "1" ],
+      "math": [ "n_val('sold')", ">=", "100" ],
       "yes": {
         "//~": "Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
         "str": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught."
@@ -45,28 +45,28 @@
       {
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe1",
-        "condition": { "or": [ { "math": [ "u_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
+        "condition": { "or": [ { "math": [ "n_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
       },
       {
         "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
         "topic": "TALK_EXODII_MERCHANT_ExodizeNope",
-        "condition": { "or": [ { "math": [ "u_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
+        "condition": { "or": [ { "math": [ "n_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
       },
       {
         "text": "Maybe try that clarity-draught?",
         "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate",
-        "condition": { "or": [ { "math": [ "u_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
+        "condition": { "or": [ { "math": [ "n_val('sold')", ">=", "100" ] }, { "u_has_faction_trust": 5 } ] }
       },
       {
         "text": "OK, well, I've got some stuff I could trade right now.",
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
-        "condition": { "and": [ { "math": [ "u_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
+        "condition": { "and": [ { "math": [ "n_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
       },
       {
         "text": "OK, maybe I'll come back when I've traded a bit more.",
         "topic": "TALK_DONE",
-        "condition": { "and": [ { "math": [ "u_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
+        "condition": { "and": [ { "math": [ "n_val('sold')", "<", "100" ] }, { "not": { "u_has_faction_trust": 5 } } ] }
       }
     ]
   },
@@ -79,7 +79,7 @@
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
@@ -90,7 +90,7 @@
         "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
         "condition": {
           "and": [
-            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
@@ -120,7 +120,7 @@
         "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+            { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", ">=", "time('2 d')" ] }
           ]
         },
@@ -131,7 +131,7 @@
         "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
         "condition": {
           "and": [
-            { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+            { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
             { "math": [ "time_since(u_timer_blobpsychosis_u_declined_exodization)", "<", "time('2 d')" ] }
           ]
         },
@@ -157,12 +157,7 @@
       {
         "text": "One thousand units of, uh, anesthetic, coming up.  Can we talk about something else?",
         "condition": {
-          "not": {
-            "or": [
-              { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
-            ]
-          }
+          "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
         },
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_EXODII_MERCHANT_Talk"
@@ -170,24 +165,14 @@
       {
         "text": "One thousand units of, uh, anesthetic, coming up.  I'd better start looking.",
         "condition": {
-          "not": {
-            "or": [
-              { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
-            ]
-          }
+          "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
         },
         "effect": { "assign_mission": "RUBIK_ANUS_FETICK" },
         "topic": "TALK_DONE"
       },
       {
         "text": "Something's weird, I shouldn't have ever reached this dialogue option.  I'd better go file a bug report.",
-        "condition": {
-          "or": [
-            { "u_has_mission": "RUBIK_ANUS_FETICK" },
-            { "u_has_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" }
-          ]
-        },
+        "condition": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] },
         "topic": "TALK_DONE"
       }
     ]
@@ -222,12 +207,12 @@
     },
     "speaker_effect": [
       {
-        "condition": { "not": { "u_has_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" } },
         "//": "Rubik considers it a good sign that you might be a bit unsure about diving into exodization.",
         "effect": [
           { "u_add_faction_trust": 2 },
           { "math": [ "u_counter_exodii_exodii_psychosis_judgment", "-=", "2" ] },
-          { "u_add_var": "u_declined_exodization", "type": "decisions", "context": "blobpsychosis", "value": "yes" },
+          { "u_add_var": "decisions_blobpsychosis_u_declined_exodization", "value": "yes" },
           { "math": [ "u_timer_blobpsychosis_u_declined_exodization", "=", "time('now')" ] }
         ]
       }

@@ -47,7 +47,6 @@
     "method": "json",
     "weight": 10,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "111111111111111111111111",
@@ -85,7 +84,6 @@
     "method": "json",
     "weight": 2,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "111111111111111111111111",
@@ -123,7 +121,6 @@
     "method": "json",
     "weight": 2,
     "object": {
-      "fill_ter": "t_region_groundcover",
       "fallback_predecessor_mapgen": "field",
       "rows": [
         "111111111111111111111111",

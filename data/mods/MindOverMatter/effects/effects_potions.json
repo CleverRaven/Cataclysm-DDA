@@ -49,7 +49,7 @@
     "max_duration": "30 hours",
     "max_intensity": 1,
     "base_mods": { "per_mod": [ 4 ] },
-    "flags": [ "SEESLEEP", "SUPER_HEARING", "IMMUNE_HEARING_DAMAGE" ],
+    "flags": [ "SEESLEEP", "SAFECRACK_NO_TOOL", "IMMUNE_HEARING_DAMAGE" ],
     "enchantments": [ "enchant_clair_potion" ]
   },
   {
@@ -226,9 +226,9 @@
     "type": "effect_type",
     "id": "effect_noetic_resilience",
     "name": [ "Noetic Resilience" ],
-    "desc": [ "You injected the formula and are now fortified against the unnatural fatigue caused by psionic channeling." ],
+    "desc": [ "You are fortified against too strong a connection with the Nether." ],
     "apply_message": "",
-    "remove_message": "The concoction's effects fade and you feel weak.",
+    "remove_message": "Your protection against too much connection to the Nether fades away.",
     "rating": "good",
     "max_duration": "30 hours",
     "max_intensity": 1
@@ -238,7 +238,7 @@
     "id": "effect_noetic_resilience_comedown",
     "name": [ "Noetically Fragile" ],
     "desc": [ "Your psionic capacity, and physical stamina, are reduced by the aftereffects of the noetic resilience treatment." ],
-    "apply_message": "",
+    "apply_message": "You feel a sudden weakness in your body.",
     "remove_message": "You feel your strength and ability to channel your powers finally return to normal.",
     "rating": "bad",
     "max_duration": "55 hours",

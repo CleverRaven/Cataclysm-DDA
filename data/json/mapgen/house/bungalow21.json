@@ -20,8 +20,8 @@
         "....#|||||||  |q,,,,,,#.",
         "....#@@   b|  |N,,,,zz#.",
         "....o@@    +  |||||||##.",
-        "...%#¤   dd|  +00000B#^.",
-        ".u.%#|+|||||  |88St0Bo%.",
+        "...%#¤   dd|  +~~~~~B#^.",
+        ".u.%#|+|||||  |88St~Bo%.",
         "...%#D |Z W|  |||||||#%.",
         ".---##|||+||  431JO5F#%.",
         ".-===#y    T         o..",
@@ -34,7 +34,6 @@
         "........................"
       ],
       "terrain": {
-        "0": "t_linoleum_gray",
         "=": "t_floor_noroof",
         "?": "t_shrub_lilac",
         "`": "t_railing_v",
@@ -51,14 +50,12 @@
       "furniture": { "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50, "repeat": [ 2, 3 ] } },
       "place_loot": [
-        { "group": "toy_store", "x": [ 5, 10 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 4, 6 ] },
+        { "group": "toy_box", "x": [ 5, 10 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 4, 6 ] },
         { "item": "backpack", "x": 7, "y": 5, "chance": 60 },
         { "item": "talking_doll", "x": 5, "y": 8, "chance": 60 }
       ],
-      "place_vehicles": [
-        { "vehicle": "car", "x": 19, "y": 7, "chance": 30, "rotation": 90 },
-        { "vehicle": "rolling_trash_can", "x": 8, "y": 1, "chance": 80, "status": 0 }
-      ]
+      "place_vehicles": [ { "vehicle": "car", "x": 19, "y": 7, "chance": 30, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 8, "y": 1 } ]
     }
   },
   {

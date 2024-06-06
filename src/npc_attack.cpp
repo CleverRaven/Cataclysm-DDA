@@ -58,7 +58,8 @@ static bool can_move( const npc &source )
 
 static bool can_move_melee( const npc &source )
 {
-    return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE;
+    return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE &&
+           source.rules.engagement != combat_engagement::NO_MOVE;
 }
 
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
@@ -285,9 +286,14 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
                     //add_msg_debug( debugmode::DF_NPC_MOVEAI,
                     //               "<color_light_gray>%s is at least %i away from allies, enemy within %i of ally.  Going for attack.</color>",
                     //               source.name, source.mem_combat.formation_distance, source.closest_enemy_to_friendly_distance() );
+                } else if( source.mem_combat.formation_distance <= source.mem_combat.engagement_distance ) {
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s can't path to melee target, and is staying close to ranged allies.  Stay in place.</color>",
+                                   source.name );
+                    source.move_pause();
                 } else {
                     add_msg_debug( debugmode::DF_NPC_MOVEAI,
-                                   "<color_light_gray>%s can't path to melee target, or is staying close to ranged allies.</color>",
+                                   "<color_light_gray>%s can't path to melee target, and is not staying close to ranged allies.  Get close to player.</color>",
                                    source.name );
                     source.look_for_player( get_player_character() );
                 }
@@ -719,6 +725,13 @@ npc_attack_rating npc_attack_throw::evaluate(
     npc_attack_rating effectiveness( std::nullopt, source.pos() );
     if( !can_use( source ) ) {
         // please don't throw your pants...
+        return effectiveness;
+    }
+    const inventory &available_weapons = source.crafting_inventory( tripoint_zero, -1 );
+    if( &thrown_item == source.evaluate_best_weapon() &&
+        available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
+        available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
+        // Don't throw if it's the best individual killy-thing we've got
         return effectiveness;
     }
     const int penalty = base_penalty( source );

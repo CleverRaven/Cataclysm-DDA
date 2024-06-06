@@ -37,6 +37,31 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "army_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "helmet_army", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tac_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "tac_helmet", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nvg_distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "military_nvg", "prob": 60, "charges": [ 0, 100 ] },
+          { "item": "advanced_gpnvg", "prob": 30, "charges": [ 0, 100 ] },
+          { "item": "enhanced_nvg", "prob": 10, "charges": [ 0, 100 ] }
+        ]
+      }
+    ]
+  },
+  {
     "id": "gear_medical",
     "type": "item_group",
     "//": "Medical equipment including consumables but not major painkillers",
@@ -158,16 +183,16 @@
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 10, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 10, "charges": [ 0, -1 ] },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],
-      { "item": "chainsaw_off", "prob": 1, "charges-min": 0 },
+      { "item": "chainsaw_off", "prob": 1, "charges": [ 0, -1 ] },
       [ "backpack", 15 ],
       [ "backpack_denim", 1 ],
       [ "rope_30", 10 ],
-      { "item": "rx12_injector", "prob": 1, "charges-min": 0 },
-      { "item": "rx11_stimpack", "prob": 1, "charges-min": 0 },
+      { "item": "rx12_injector", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "rx11_stimpack", "prob": 1, "charges": [ 0, -1 ] },
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
       { "item": "handflare", "prob": 20, "charges": 300 },
@@ -181,7 +206,7 @@
       [ "pocketwatch", 5 ],
       [ "wristwatch", 10 ],
       { "group": "tobacco_products", "prob": 32 },
-      { "item": "ref_lighter", "prob": 1, "charges-min": 0 },
+      { "item": "ref_lighter", "prob": 1, "charges": [ 0, -1 ] },
       [ "flask_hip", 1 ],
       [ "textbook_fireman", 10 ],
       [ "knee_pads", 5 ],
@@ -191,15 +216,15 @@
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
-      { "item": "oxygen_tank", "prob": 15, "charges-min": 4 },
+      { "item": "oxygen_tank", "prob": 15, "charges": [ 4, -1 ] },
       [ "fireman_belt", 15 ],
       [ "jack", 5 ],
       [ "throw_extinguisher", 10 ],
       [ "grapnel", 5 ],
-      { "item": "wearable_light", "prob": 5, "charges-min": 0 },
+      { "item": "wearable_light", "prob": 5, "charges": [ 0, -1 ] },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "smoxygen_tank", "prob": 35, "charges-min": 4 },
-      { "item": "watercannon", "prob": 10, "charges-min": 0 },
+      { "item": "smoxygen_tank", "prob": 35, "charges": [ 4, -1 ] },
+      { "item": "watercannon", "prob": 10, "charges": [ 0, -1 ] },
       [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
@@ -211,8 +236,8 @@
       [ "wrapped_rad_badge", 80 ],
       { "item": "geiger_off", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
-      { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
+      { "item": "oxygen_tank", "prob": 10, "charges": [ 4, -1 ] },
+      { "item": "smoxygen_tank", "prob": 15, "charges": [ 2, -1 ] },
       [ "UPS_OFF", 2 ],
       { "prob": 25, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "prob": 50, "group": "iodine_bottle_plastic_pill_supplement_1_10" }

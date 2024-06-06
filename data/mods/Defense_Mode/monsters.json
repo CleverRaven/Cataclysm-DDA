@@ -688,7 +688,7 @@
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": { "message": "Grapsing at the air, the shadow melts away and vanishes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "Grasping at the air, the shadow melts away and vanishes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",

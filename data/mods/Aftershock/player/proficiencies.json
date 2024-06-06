@@ -1,0 +1,16 @@
+[
+  {
+    "type": "proficiency_category",
+    "id": "prof_afs_social",
+    "name": "Social Standing",
+    "description": "Proficiencies related to your status within spacefaring culture in all its forms."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_armament_license",
+    "category": "prof_afs_social",
+    "name": { "str": "Armament License" },
+    "can_learn": false,
+    "description": "You have a license to own and operate military grade weaponry and can legally purchase such items without any difficulty."
+  }
+]

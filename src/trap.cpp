@@ -17,10 +17,12 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
 
+static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
 static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
 
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
@@ -28,28 +30,6 @@ static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const skill_id skill_traps( "traps" );
-
-const trap_str_id tr_beartrap_buried( "tr_beartrap_buried" );
-const trap_str_id tr_blade( "tr_blade" );
-const trap_str_id tr_dissector( "tr_dissector" );
-const trap_str_id tr_drain( "tr_drain" );
-const trap_str_id tr_glow( "tr_glow" );
-const trap_str_id tr_goo( "tr_goo" );
-const trap_str_id tr_hum( "tr_hum" );
-const trap_str_id tr_landmine( "tr_landmine" );
-const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
-const trap_str_id tr_lava( "tr_lava" );
-const trap_str_id tr_ledge( "tr_ledge" );
-const trap_str_id tr_pit( "tr_pit" );
-const trap_str_id tr_portal( "tr_portal" );
-const trap_str_id tr_shadow( "tr_shadow" );
-const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
-const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
-const trap_str_id tr_sinkhole( "tr_sinkhole" );
-const trap_str_id tr_snake( "tr_snake" );
-const trap_str_id tr_telepad( "tr_telepad" );
-const trap_str_id tr_temple_flood( "tr_temple_flood" );
-const trap_str_id tr_temple_toggle( "tr_temple_toggle" );
 
 static const update_mapgen_id update_mapgen_none( "none" );
 
@@ -246,9 +226,18 @@ bool trap::is_trivial_to_spot() const
     return visibility <= 0 && !is_always_invisible();
 }
 
+// SONAR refers to ground-penetrating sonar and detects traps buried in the ground
 bool trap::detected_by_ground_sonar() const
 {
     return has_flag( json_flag_SONAR_DETECTABLE );
+}
+
+// Echolocation refers to both bat-style echolocation and underwater SONAR, and
+// detects traps which are solid and unburied objects, aboveground or underwater.
+// Isn't fine enough to detect very small traps ie caltrops
+bool trap::detected_by_echolocation() const
+{
+    return has_flag( json_flag_ECHOLOCATION_DETECTABLE );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
@@ -291,10 +280,10 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // For every 1000 points of sleep deprivation, reduce your roll by 1.
     // As of this writing, sleep deprivation passively increases at the rate of 1 point per minute.
-    const float fatigue_penalty = p.get_sleep_deprivation() / 1000.0f;
+    const float sleepiness_penalty = p.get_sleep_deprivation() / 1000.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect - distance_penalty - sleepiness_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
 
@@ -417,6 +406,12 @@ void trap::check_consistency()
             if( !item::type_is_defined( item_type ) ) {
                 debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );
             }
+        }
+        if( t.sound_threshold.first > t.sound_threshold.second ) {
+            debugmsg( "trap %s has higher min sound threshold than max and can never trigger", t.id.str() );
+        }
+        if( ( t.sound_threshold.first > 0 ) != ( t.sound_threshold.second > 0 ) ) {
+            debugmsg( "trap %s has bad sound threshold of 0 and will trigger on anything", t.id.str() );
         }
     }
 }

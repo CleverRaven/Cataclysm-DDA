@@ -20,7 +20,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "special_field", "special_field_isherwood" ],
+    "om_terrain": [ "special_field", "pasture", "special_field_isherwood" ],
     "object": { "predecessor_mapgen": "field" }
   },
   {

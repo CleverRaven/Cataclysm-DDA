@@ -85,9 +85,9 @@
     "subtype": "hobby",
     "id": "dabbler_easy_sleep_spell",
     "name": "Dabbler (Peaceful Rest)",
-    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Peaceful Rest.  Ever since you were a child, you dreaded bedtime.  Falling asleep was an ordeal, a battle between you and the bed, and it seemed like no matter how many sheep you counted, sleep hygiene habits you practiced, or exhausted you felt, it was an hour or more until you final fell into sleep.  You became a mage because you were tired of having 5% of your life stuck staring at the ceiling while waiting for sleep to come, and ever since the world ended, you're even more grateful you can fall asleep whenever you need to.",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Peaceful Rest.  Ever since you were a child, you dreaded bedtime.  Falling asleep was an ordeal, a battle between you and the bed, and it seemed like no matter how many sheep you counted, sleep hygiene habits you practiced, or exhausted you felt, it was an hour or more until you finally fell into sleep.  You became a mage because you were tired of having 5% of your life stuck staring at the ceiling while waiting for sleep to come, and ever since the world ended, you're even more grateful you can fall asleep whenever you need to.",
     "points": 4,
-    "spells": [ { "id": "effect_classless_easy_sleep", "level": 5 } ]
+    "spells": [ { "id": "classless_easy_sleep_spell", "level": 5 } ]
   },
   {
     "type": "profession",

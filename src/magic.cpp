@@ -31,6 +31,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -56,6 +57,11 @@ static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
 static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+
+static const proficiency_id proficiency_prof_concentration_basic( "prof_concentration_basic" );
+static const proficiency_id
+proficiency_prof_concentration_intermediate( "prof_concentration_intermediate" );
+static const proficiency_id proficiency_prof_concentration_master( "prof_concentration_master" );
 
 static const skill_id skill_spellcraft( "spellcraft" );
 
@@ -129,7 +135,6 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
         case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
-        case spell_flag::LIQUID: return "LIQUID";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -153,6 +158,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
+        case spell_flag::NO_CORPSE_QUIET: return "NO_CORPSE_QUIET";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
@@ -1099,11 +1105,12 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
-    // only required because crafting_inventory always rebuilds the cache. maybe a const version doesn't write to cache.
-    Character &guy_inv = const_cast<Character &>( guy );
+    if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
+        return false;
+    }
 
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy_inv.crafting_inventory( guy.pos(), 0 ),
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0, false ),
                 return_true<item> ) ) {
         return false;
     }
@@ -1119,6 +1126,7 @@ void spell::use_components( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
+    map_inv.form_from_map( guy.pos(), 0, &guy, true, false );
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
         guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
     }
@@ -1175,7 +1183,8 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         casting_time = type->base_casting_time.evaluate( d );
     }
 
-    casting_time *= guy.mutation_value( "casting_time_multiplier" );
+    casting_time = guy.enchantment_cache->modify_value( enchant_vals::mod::CASTING_TIME_MULTIPLIER,
+                   casting_time );
 
     if( !ignore_encumb && temp_somatic_difficulty_multiplyer > 0 ) {
         if( !has_flag( spell_flag::NO_LEGS ) ) {
@@ -1241,9 +1250,28 @@ float spell::spell_fail( const Character &guy ) const
     const float two_thirds_power_level = static_cast<float>( get_effective_level() ) /
                                          static_cast<float>
                                          ( 1.5 );
+    float psi_effective_skill = 0;
+    if( is_psi ) {
+        const float psi_effective_skill_initial = 2 * ( ( guy.get_skill_level(
+                    skill() ) * 2 ) - get_difficulty(
+                    guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
 
-    const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
-            guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
+        if( !guy.has_proficiency( proficiency_prof_concentration_basic ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 24 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_basic ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_intermediate ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 31 ) );
+        } else if( guy.has_proficiency( proficiency_prof_concentration_intermediate ) &&
+                   !guy.has_proficiency( proficiency_prof_concentration_master ) ) {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 37 ) );
+        } else {
+            psi_effective_skill = clamp( psi_effective_skill_initial, static_cast<float>( 0 ),
+                                         static_cast<float>( 45 ) );
+        }
+    }
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
         return 0.0f;
@@ -1949,6 +1977,10 @@ void known_magic::deserialize( const JsonObject &data )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
+        if( !sp.is_valid() ) {
+            DebugLog( D_WARNING, D_MAIN ) << "Tried to load bad spell: " << sp.c_str();
+            continue;
+        }
         if( knows_spell( sp ) ) {
             spellbook[sp].set_exp( xp );
         } else {
@@ -2118,6 +2150,8 @@ spell &known_magic::get_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
         debugmsg( "ERROR: Tried to get unknown spell" );
+        static spell null_spell_reference( spell_id::NULL_ID() );
+        return null_spell_reference; // Don't make up new spells in our spellbook
     }
     spell &temp_spell = spellbook[ sp ];
     return temp_spell;
@@ -2151,12 +2185,14 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const int bionic_penalty = std::round( std::max( 0.0f,
-                                           units::to_kilojoule( guy.get_power_level() ) *
-                                           guy.mutation_value( "bionic_mana_penalty" ) ) );
+    int penalty_calc = std::round( std::max<int64_t>( 0,
+                                   units::to_kilojoule( guy.get_power_level() ) ) );
+
+    const int bionic_penalty = guy.enchantment_cache->modify_value(
+                                   enchant_vals::mod::BIONIC_MANA_PENALTY, penalty_calc );
+
     const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - bionic_penalty );
+                                   ( mana_base + int_bonus ) - bionic_penalty );
     return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
@@ -2166,8 +2202,7 @@ void known_magic::update_mana( const Character &guy, float turns )
     const double full_replenish = to_turns<double>( 8_hours );
     const double ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( static_cast<double>( max_mana(
-                                   guy ) ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
+                                   guy ) ), enchant_vals::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -2470,11 +2505,19 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     } else if( temp_level_adjust > 0 ) {
         temp_level_adjust_string = " (+" + std::to_string( temp_level_adjust ) + ")";
     }
+    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
-    info_txt.emplace_back(
-        colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
-                                            sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
-                             string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    if( is_psi ) {
+        info_txt.emplace_back(
+            colorize( columnize( string_format( "%s: %d%s%s", _( "Power Level" ), sp.get_effective_level(),
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    } else {
+        info_txt.emplace_back(
+            colorize( columnize( string_format( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
+                                                sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() ),
+                                 string_format( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) ) ), c_light_gray ) );
+    }
     info_txt.emplace_back(
         colorize( columnize( sp.colorized_fail_percent( pc ),
                              string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty( pc ) ) ), c_light_gray ) );
@@ -2487,23 +2530,44 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     info_txt.emplace_back( );
 
     const bool cost_encumb = sp.energy_cost_encumbered( pc );
-    std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-    std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
-    if( !pc.magic->has_enough_energy( pc, sp ) ) {
-        cost_string = colorize( _( "Not Enough Energy" ), c_red );
-        energy_cur.clear();
-    }
-    info_txt.emplace_back(
-        colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
-                                 sp.energy_string(), energy_cur ), c_light_gray ) );
-
+    if( is_psi ) {
+        std::string cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
+        std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        if( !pc.magic->has_enough_energy( pc, sp ) ) {
+            cost_string = colorize( _( "Not Enough Stamina" ), c_red );
+            energy_cur.clear();
+        }
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
+    } else {
+        std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
+        std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        if( !pc.magic->has_enough_energy( pc, sp ) ) {
+            cost_string = colorize( _( "Not Enough Energy" ), c_red );
+            energy_cur.clear();
+        }
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
+    };
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
-    info_txt.emplace_back(
-        colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+    if( is_psi ) {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s",
+                                     c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
 
-    info_txt.emplace_back( );
+        info_txt.emplace_back( );
+    } else {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+
+        info_txt.emplace_back( );
+    };
 
     std::string targets;
     if( sp.is_valid_target( spell_target::none ) ) {
@@ -2628,13 +2692,13 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 2, c_light_gray, pc.crafting_inventory(), return_true<item> ) ) {
+                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
                 info_txt.emplace_back( line );
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 2, c_light_gray, pc.crafting_inventory() ) ) {
+                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
                 info_txt.emplace_back( line );
             }
         }
@@ -2743,8 +2807,10 @@ int known_magic::select_spell( Character &guy )
 
     std::vector<std::pair<std::string, std::string>> categories;
     for( const spell *s : known_spells ) {
-        if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
-            categories.emplace_back( s->spell_class().str(), s->spell_class().obj().name() );
+        if( s->can_cast( guy ) && ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
+            const std::string spell_class_name = s->spell_class() == trait_NONE ? _( "Classless" ) :
+                                                 s->spell_class().obj().name();
+            categories.emplace_back( s->spell_class().str(), spell_class_name );
             std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
             const std::pair<std::string, std::string> &b ) {
                 return localized_compare( a.second, b.second );
@@ -2766,9 +2832,13 @@ int known_magic::select_spell( Character &guy )
         {
             return guy.magic->is_favorite( known_spells[entry.retval]->id() );
         }
-        return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
+        return ( known_spells[entry.retval]->spell_class().is_valid() || known_spells[entry.retval]->spell_class() == trait_NONE ) && known_spells[entry.retval]->spell_class().str() == key;
     } );
-    spell_menu.set_category( "all" );
+    if( !favorites.empty() ) {
+        spell_menu.set_category( "favorites" );
+    } else {
+        spell_menu.set_category( "all" );
+    }
 
     std::set<int> used_invlets{ cb.reserved_invlets };
 
@@ -2778,7 +2848,7 @@ int known_magic::select_spell( Character &guy )
     }
     reflesh_favorite( &spell_menu, known_spells );
 
-    spell_menu.query();
+    spell_menu.query( true, -1, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 

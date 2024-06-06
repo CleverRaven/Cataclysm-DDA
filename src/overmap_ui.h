@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_OVERMAP_UI_H
 #define CATA_SRC_OVERMAP_UI_H
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "regional_settings.h"
 #include "string_id.h"
 

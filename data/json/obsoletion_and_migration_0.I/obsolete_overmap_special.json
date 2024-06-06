@@ -23,6 +23,7 @@
     "type": "overmap_special",
     "id": "Isherwood Farms",
     "//new_id": "Isherwood Farm Mutable",
+    "//": "Migrated in 0.I",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "special_field" },
       { "point": [ 1, 0, 0 ], "overmap": "special_forest" },
@@ -949,5 +950,11 @@
     "occurrences": [ 0, 0 ],
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road", "connection": "local_road" } ],
     "flags": [ "FARM", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FakeSpecial_cs_market_small",
+    "new_id": "cs_market_small",
+    "//": "Migrated in 0.I"
   }
 ]

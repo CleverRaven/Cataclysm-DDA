@@ -6,7 +6,7 @@
     "category": "other",
     "weight": "8 g",
     "volume": "1 ml",
-    "price": 25000,
+    "price": "250 USD",
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray"
