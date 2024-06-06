@@ -73,12 +73,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "gene_sting_barb",
-    "name": "yugg stinger",
-    "default": "gene_sting_barb"
-  },
-  {
-    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"

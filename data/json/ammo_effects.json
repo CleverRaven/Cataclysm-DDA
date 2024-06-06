@@ -39,11 +39,6 @@
     "//": "Heavily stuns the target. Hardcoded"
   },
   {
-    "id": "GENE_STING",
-    "type": "ammo_effect",
-    "spell_data": { "id": "spell_gene_sting" }
-  },
-  {
     "id": "DRAW_AS_LINE",
     "type": "ammo_effect",
     "//": "Doesn't go through regular bullet animation; instead draws a line and the bullet on its end for one frame. Hardcoded"

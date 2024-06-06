@@ -1428,15 +1428,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "meatslug",
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 2,
-        "gun_type": "gene_sting_launcher",
-        "ranges": [ [ 2, 24, "DEFAULT" ] ],
-        "description": "The yugg launches a viscous barb!"
-      }
-    ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_gene_sting", "min_level": 5 }, "cooldown": 560 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
     "armor": { "bash": 6, "electric": 3 }
   },
