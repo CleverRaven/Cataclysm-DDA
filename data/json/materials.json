@@ -1677,6 +1677,7 @@
     "copy-from": "plastic",
     "name": "Transparent Impact Resistant Plastic",
     "//2": "This one represents various transparent impact-resistant plastics, like polycarbonate.  Prime material for visors and safety goggles.",
+    "density": 1.2,
     "resist": { "bash": 4, "cut": 3, "acid": 9, "heat": 1, "bullet": 1.5 },
     "repair_difficulty": 4
   },
