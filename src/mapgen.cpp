@@ -400,6 +400,28 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     set_abs_sub( p_sm_base );
 }
 
+void map::delete_unmerged_submaps()
+{
+    tripoint_abs_sm sm_base = get_abs_sub();
+
+    for( size_t index = 0; index < grid.size(); index++ ) {
+        tripoint offset;
+        const int ix = static_cast<int>( index );
+
+        // This is the inverse of get_nonant.
+        if( zlevels ) {
+            offset = { ( ix / OVERMAP_LAYERS ) % my_MAPSIZE, ix / OVERMAP_LAYERS / my_MAPSIZE, ix % OVERMAP_LAYERS - OVERMAP_DEPTH };
+        } else {
+            offset = { ix % my_MAPSIZE, ix / my_MAPSIZE, sm_base.z()};
+        }
+
+        if( grid[index] != nullptr && MAPBUFFER.lookup_submap( sm_base.xy() + offset ) != grid[index] ) {
+            delete grid[index];
+            grid[index] = nullptr;
+        }
+    }
+}
+
 void mapgen_function_builtin::generate( mapgendata &mgd )
 {
     ( *fptr )( mgd );

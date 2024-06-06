@@ -459,6 +459,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                         sample_size = goal_samples - p.second.samples;
                         p.second.found = true;
                     }
+                    tm.delete_unmerged_submaps();
                 }
             } );
             p.second.samples = goal_samples;

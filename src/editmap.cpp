@@ -2209,12 +2209,9 @@ void editmap::edit_mapgen()
 /*
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
-void editmap::cleartmpmap( tinymap &tmpmap ) const
+void editmap::cleartmpmap( smallmap &tmpmap ) const
 {
-    for( submap *&smap : tmpmap.grid ) {
-        delete smap;
-        smap = nullptr;
-    }
+    tmpmap.delete_unmerged_submaps();
 
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         level_cache &ch = tmpmap.get_cache( z );
