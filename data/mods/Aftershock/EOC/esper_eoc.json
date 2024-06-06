@@ -11,13 +11,11 @@
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST",
     "condition": {
-      "or": [  
-        
-            { "u_has_effect": "effect_telepath_sense_minds" },
-            { "u_has_effect": "effect_telepathic_suggestion" },
-            { "u_has_effect": "effect_telepathic_psi_armor" }
-    
-         ]
+      "or": [
+        { "u_has_effect": "effect_telepath_sense_minds" },
+        { "u_has_effect": "effect_telepathic_suggestion" },
+        { "u_has_effect": "effect_telepathic_psi_armor" }
+      ]
     },
     "effect": [  ]
   },
@@ -285,7 +283,7 @@
       { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
     ]
   },
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_AFS_ESPER_DAZED_ENDS_POWERS",
     "eoc_type": "EVENT",
@@ -307,7 +305,11 @@
           {
             "id": "EOC_AFS_ESPER_DAZED_ENDS_POWERS_2",
             "condition": {
-              "roll_contested": { "math": [ "(u_val('intelligence') / 2) + u_skill('metaphysics') + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate') * 2) + (u_has_proficiency('prof_concentration_master') * 3)" ] },
+              "roll_contested": {
+                "math": [
+                  "(u_val('intelligence') / 2) + u_skill('metaphysics') + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate') * 2) + (u_has_proficiency('prof_concentration_master') * 3)"
+                ]
+              },
               "difficulty": 20,
               "die_size": 12
             },
