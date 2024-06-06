@@ -59,7 +59,7 @@
     "description": "You are wearing night vision goggles which allow you to see quite well in the dark.",
     "condition": "ACTIVE",
     "has": "WORN",
-    "values": [ { "value": "NIGHT_VIS", "add": 11 } ]
+    "values": [ { "value": "NIGHT_VIS", "add": 12 } ]
   },
   {
     "type": "enchantment",
@@ -68,7 +68,7 @@
     "description": "You are wearing night vision goggles which allow you to see in the dark.",
     "condition": "ACTIVE",
     "has": "WORN",
-    "values": [ { "value": "NIGHT_VIS", "add": 9 } ]
+    "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
   },
   {
     "type": "enchantment",
@@ -77,7 +77,7 @@
     "description": "You are wearing night vision goggles which allow you to poorly see in the dark.",
     "condition": "ACTIVE",
     "has": "WORN",
-    "values": [ { "value": "NIGHT_VIS", "add": 6 } ]
+    "values": [ { "value": "NIGHT_VIS", "add": 8 } ]
   },
   {
     "id": "ench_climate_control_warm",
