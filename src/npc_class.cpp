@@ -22,49 +22,6 @@
 #include "skill.h"
 #include "trait_group.h"
 
-const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-const npc_class_id NC_COWBOY( "NC_COWBOY" );
-const npc_class_id NC_CYBORG( "NC_CYBORG" );
-const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-const npc_class_id NC_HACKER( "NC_HACKER" );
-const npc_class_id NC_HALLU( "NC_HALLU" );
-const npc_class_id NC_HUNTER( "NC_HUNTER" );
-const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
-const npc_class_id NC_NINJA( "NC_NINJA" );
-const npc_class_id NC_NONE( "NC_NONE" );
-const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-const npc_class_id NC_THUG( "NC_THUG" );
-const npc_class_id NC_TRADER( "NC_TRADER" );
-
-static const std::array<npc_class_id, 19> legacy_ids = {{
-        NC_NONE,
-        NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
-        NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
-        NC_HACKER,         // Weak in combat but has hacking skills and equipment
-        NC_CYBORG,         // Broken Cyborg rescued from a lab
-        NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
-        NC_TRADER,         // Roaming trader, journeying between towns.
-        NC_NINJA,          // Specializes in unarmed combat, carries few items
-        NC_COWBOY,         // Gunslinger and survivalist
-        NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
-        NC_BOUNTY_HUNTER,  // Resourceful and well-armored
-        NC_THUG,           // Moderate melee skills and poor equipment
-        NC_SCAVENGER,      // Good with pistols light weapons
-        NC_ARSONIST,       // Evacuation Center, restocks Molotovs and anarchist type stuff
-        NC_HUNTER,         // Survivor type good with bow or rifle
-        NC_SOLDIER,        // Well equipped and trained combatant, good with rifles and melee
-        NC_BARTENDER,      // Stocks alcohol
-        NC_JUNK_SHOPKEEP,   // Stocks wide range of items...
-        NC_HALLU           // Hallucinatory NPCs
-    }
-};
-
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
@@ -81,7 +38,7 @@ bool string_id<npc_class>::is_valid() const
     return npc_class_factory.is_valid( *this );
 }
 
-npc_class::npc_class() : id( NC_NONE )
+npc_class::npc_class() : id( npc_class_id::NULL_ID() )
 {
 }
 
@@ -134,13 +91,6 @@ void npc_class::finalize_all()
 
 void npc_class::check_consistency()
 {
-    for( const npc_class_id &legacy : legacy_ids ) {
-        if( !npc_class_factory.is_valid( legacy ) ) {
-            debugmsg( "Missing legacy npc class %s (at index %d)",
-                      legacy.c_str(), &legacy - legacy_ids.data() );
-        }
-    }
-
     for( const npc_class &cl : npc_class_factory.get_all() ) {
         for( const shopkeeper_item_group &ig : cl.shop_item_groups ) {
             if( !item_group::group_is_defined( ig.id ) ) {
@@ -378,16 +328,6 @@ void npc_class::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-const npc_class_id &npc_class::from_legacy_int( int i )
-{
-    if( i < 0 || static_cast<size_t>( i ) >= legacy_ids.size() ) {
-        debugmsg( "Invalid legacy class id: %d", i );
-        return npc_class_id::NULL_ID();
-    }
-
-    return legacy_ids[ i ];
-}
-
 const std::vector<npc_class> &npc_class::get_all()
 {
     return npc_class_factory.get_all();
@@ -403,7 +343,7 @@ const npc_class_id &npc_class::random_common()
     }
 
     if( common_classes.empty() || one_in( common_classes.size() ) ) {
-        return NC_NONE;
+        return npc_class_id::NULL_ID();
     }
 
     return *random_entry( common_classes );

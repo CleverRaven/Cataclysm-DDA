@@ -150,7 +150,6 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "npctrade.h"
 #include "omdata.h"
 #include "options.h"
@@ -310,6 +309,9 @@ static const mod_id MOD_INFORMATION_dda( "dda" );
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
+
+static const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
+static const npc_class_id NC_HALLU( "NC_HALLU" );
 
 static const overmap_special_id overmap_special_world( "world" );
 
@@ -1287,7 +1289,7 @@ void game::create_starting_npcs()
 
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
-    tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
+    tmp->randomize( one_in( 2 ) ? NC_DOCTOR : npc_class_id::NULL_ID() );
     // hardcoded, consistent NPC position
     // start_loc::place_player relies on this and must be updated if this is changed
     tmp->spawn_at_precise( u.get_location() + point_north_west );

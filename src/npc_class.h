@@ -142,8 +142,6 @@ class npc_class
 
         void load( const JsonObject &jo, std::string_view src );
 
-        static const npc_class_id &from_legacy_int( int i );
-
         static const npc_class_id &random_common();
 
         static void load_npc_class( const JsonObject &jo, const std::string &src );
@@ -156,26 +154,5 @@ class npc_class
 
         static void check_consistency();
 };
-
-// TODO: Get rid of that
-extern const npc_class_id NC_NONE;
-extern const npc_class_id NC_EVAC_SHOPKEEP;
-extern const npc_class_id NC_SHOPKEEP;
-extern const npc_class_id NC_HACKER;
-extern const npc_class_id NC_CYBORG;
-extern const npc_class_id NC_DOCTOR;
-extern const npc_class_id NC_TRADER;
-extern const npc_class_id NC_NINJA;
-extern const npc_class_id NC_COWBOY;
-extern const npc_class_id NC_SCIENTIST;
-extern const npc_class_id NC_BOUNTY_HUNTER;
-extern const npc_class_id NC_THUG;
-extern const npc_class_id NC_SCAVENGER;
-extern const npc_class_id NC_ARSONIST;
-extern const npc_class_id NC_HUNTER;
-extern const npc_class_id NC_SOLDIER;
-extern const npc_class_id NC_BARTENDER;
-extern const npc_class_id NC_JUNK_SHOPKEEP;
-extern const npc_class_id NC_HALLU;
 
 #endif // CATA_SRC_NPC_CLASS_H
