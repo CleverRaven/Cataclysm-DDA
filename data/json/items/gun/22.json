@@ -498,5 +498,59 @@
       { "rigid": false, "magazine_well": "96 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_mk4_mag" ] }
     ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "ruger_charger",
+    "looks_like": "ar_pistol",
+    "type": "GUN",
+    "//": "Stats are from https://ruger.com/products/22Charger/specSheets/4923.html",
+    "reload_noise_volume": 10,
+    "name": { "str": "varmint pistol" },
+    "description": "Essentially a varmint rifle with no stock and a shorter barrel, this gun loses out on a bit of energy with its shorter barrel and is a bit more uncomfortable to hold, but a fair bit lighter.  Includes a bipod.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_charger",
+        "name": { "str": "Ruger 22 Charger" },
+        "description": "This gun is essentially a shortened 10/22, feeding from the same magazines.  While it does feature a shorter barrel and a lack of a stock, it is a fair bit lighter, and comes included with a bipod to more steadily plink away at the undead."
+      }
+    ],
+    "ascii_picture": "ruger1022",
+    "weight": "1418 g",
+    "volume": "1358 ml",
+    "longest_side": "509 mm",
+    "barrel_length": "254 mm",
+    "price": "399 USD",
+    "price_postapoc": "4 USD",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 3,
+    "ammo": [ "22" ],
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 140,
+    "durability": 8,
+    "min_cycle_recoil": 39,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "built_in_mods": [ "bipod" ],
+    "pocket_data": [
+      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
+    ],
+    "melee_damage": { "bash": 12 }
   }
 ]
