@@ -444,6 +444,20 @@
   },
   {
     "type": "terrain",
+    "id": "t_stone_masonry_floor",
+    "name": "stone masonry floor",
+    "description": "A floor of carefully cut and laid stones, joined with mortar.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "connect_groups": "ROCKFLOOR",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_floor_warped",
     "name": "warped stone floor",
     "description": "A rough stone floor.  Its patterns constantly shift as if your mind can't quite understand what it's really seeing.",
