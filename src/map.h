@@ -101,6 +101,8 @@ template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
 
+enum pf_special : int;
+
 using relic_procgen_id = string_id<relic_procgen_data>;
 
 class map_stack : public item_stack
@@ -737,6 +739,20 @@ class map
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
         std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
+    private:
+        // Pathfinding cost helper that computes the cost of moving into |p| from |cur|.
+        // Includes climbing, bashing and opening doors.
+        int cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+                          pf_special p_special ) const;
+        // Pathfinding cost helper that computes the cost of moving into |p|
+        // from |cur| based on perceived danger.
+        // Includes moving through traps.
+        int cost_to_avoid( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+                           pf_special p_special ) const;
+        // Sum of cost_to_pass and cost_to_avoid.
+        int extra_cost( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+                        pf_special p_special ) const;
+    public:
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
