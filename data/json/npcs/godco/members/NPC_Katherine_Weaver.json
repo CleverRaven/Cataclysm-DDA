@@ -53,18 +53,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
-      "yes": "Oh well, yet another sinner.  Don't talk to me.",
+      "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "u_met_godco_katherine",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_katherine",
         "value": "yes",
         "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
-        "no": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine."
+        "no": { "gendered_line": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine.", "relevant_genders": [ "u" ] }
       }
     },
     "responses": [
@@ -73,30 +69,30 @@
         "topic": "TALK_GODCO_Katherine_2a",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
       },
       {
         "text": "Nice to meet you, Katherine.",
-        "effect": { "npc_add_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_katherine", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Katherine_Firstmeet"
       },
       {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, fuck you then.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -113,7 +109,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_2a",
-    "dynamic_line": [ "We have many things to pray for, I'm afraid." ],
+    "dynamic_line": "We have many things to pray for, I'm afraid.",
     "responses": [ { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" } ]
   },
   {
@@ -164,9 +160,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Corrie",
     "dynamic_line": {
-      "u_has_var": "godco_corrie_machine",
-      "type": "mission",
-      "context": "completed",
+      "u_has_var": "mission_completed_godco_corrie_machine",
       "value": "yes",
       "yes": "She knows this and that about electronics.  The generator we have here was made by her.  Nice to have one here, even though there's not much use for it yet.",
       "no": "I hear she knows this and that about electronics.    She keeps herself occupied by doing menial tasks around the camp, looking for payment."
@@ -196,9 +190,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Zachary",
     "dynamic_line": {
-      "u_has_var": "godco_corrie_machine",
-      "type": "mission",
-      "context": "completed",
+      "u_has_var": "mission_completed_godco_corrie_machine",
       "value": "yes",
       "yes": "He can keep his distance with his smug nothingness.  At least he's a bit more useful than some of the others.  He helped Corrie make that generator.",
       "no": "I'm not planning to communicate with him, that's for certain.  He can keep his distance with his smug nothingness.  At least he knows how to cut lumber."

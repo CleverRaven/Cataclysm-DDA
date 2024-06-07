@@ -1,8 +1,8 @@
 #include "damage.h"
 
 #include <algorithm>
-#include <cstdlib>
 #include <map>
+#include <memory>
 #include <numeric>
 #include <string>
 #include <utility>
@@ -10,15 +10,21 @@
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "creature.h"
-#include "effect_on_condition.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "item.h"
 #include "json.h"
+#include "json_error.h"
 #include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
-#include "translations.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "units.h"
 
 static std::map<damage_info_order::info_type, std::vector<damage_info_order>> sorted_order_lists;
@@ -418,8 +424,9 @@ void damage_instance::ondamage_effects( Creature *source, Creature *target,
         if( predamageunit != premitigated.end() ) {
             premit = predamageunit->amount;
         }
-
-        du.type->ondamage_effects( source, target, bp, premit, du.amount );
+        if( !target->is_immune_damage( du.type ) ) {
+            du.type->ondamage_effects( source, target, bp, premit, du.amount );
+        }
     }
 }
 
@@ -811,6 +818,16 @@ void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map,
         damage_map[td] = iter == damage_map.end() ? ( td->physical ? physical : non_phys ) :
                          iter->second * td->derived_from.second;
     }
+}
+
+resistances extend_resistances_instance( resistances ret, const JsonObject &jo )
+{
+    resistances ext;
+    ext.resist_vals = load_damage_map( jo );
+    for( const std::pair<const damage_type_id, float> &damage_pair : ext.resist_vals ) {
+        ret.resist_vals[damage_pair.first] += damage_pair.second;
+    }
+    return ret;
 }
 
 resistances load_resistances_instance( const JsonObject &jo,

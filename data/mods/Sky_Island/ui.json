@@ -39,7 +39,7 @@
   {
     "id": "sky_island_expedition_timer",
     "type": "widget",
-    "label": "Expedition Timer:",
+    "label": "Expedition Timer",
     "style": "text",
     "clauses": [
       {

@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "cata_catch.h"
 #include "clzones.h"
 #include "item.h"

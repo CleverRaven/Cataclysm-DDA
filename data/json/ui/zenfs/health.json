@@ -1,0 +1,343 @@
+[
+  {
+    "id": "zenfs_mood_focus_speed_sound",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 9,
+    "widgets": [ "mood_desc_label", "focus_num", "speed_num", "sound_num" ]
+  },
+  {
+    "id": "zenfs_weariness_trans_malus",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus", "zenfs_malus_trans_bar" ]
+  },
+  {
+    "id": "zenfs_weariness_trans_malus_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus", "zenfs_malus_trans_bar_alt" ]
+  },
+  {
+    "id": "zenfs_weariness_trans_malus_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus_trunc", "zenfs_malus_trans_num" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_weariness_trans_malus_num_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus", "zenfs_malus_trans_num" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_sleepiness_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_bar_12" ]
+  },
+  {
+    "id": "zenfs_sleepiness_bar_slim",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_bar_14" ]
+  },
+  {
+    "id": "zenfs_sleepiness_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_desc_no_label" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_sleepiness_desc_F",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sleepiness_label_F", "zenfs_sleepiness_desc_no_label" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_sleepiness_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_sleepiness_bar_label", "zenfs_sleepiness_num_no_label" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_stamina_bar_12",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_bar_label", "zenfs_stamina_bar_only_12" ]
+  },
+  {
+    "id": "zenfs_stamina_bar_14",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_bar_label", "zenfs_stamina_bar_only_14" ]
+  },
+  {
+    "id": "zenfs_stamina_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_bar_label", "zenfs_stamina_num_no_label" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_stamina_bar_template",
+    "type": "widget",
+    "copy-from": "stamina_widget",
+    "style": "graph",
+    "symbols": "·−=≡≣",
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "zenfs_stamina_bar_only_12",
+    "type": "widget",
+    "copy-from": "zenfs_stamina_bar_template",
+    "width": 12,
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "id": "zenfs_stamina_bar_only_14",
+    "type": "widget",
+    "copy-from": "zenfs_stamina_bar_template",
+    "width": 14,
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "id": "zenfs_stamina_num_no_label",
+    "type": "widget",
+    "copy-from": "stamina_num_label",
+    "width": 5,
+    "text_align": "right",
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_weariness_bar_10",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "graph",
+    "fill": "pool",
+    "width": 10,
+    "symbols": "·−=≡≣",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red", "i_red" ]
+  },
+  {
+    "id": "zenfs_weariness_bar_11",
+    "type": "widget",
+    "copy-from": "zenfs_weariness_bar_10",
+    "width": 11
+  },
+  {
+    "id": "zenfs_weariness_num",
+    "type": "widget",
+    "label": "Weary",
+    "var": "weariness_level",
+    "style": "number",
+    "width": 4,
+    "text_align": "right",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red", "i_red" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_sleepiness_bar_template",
+    "type": "widget",
+    "var": "sleepiness",
+    "style": "graph",
+    "symbols": "·−=≡≣",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ]
+  },
+  {
+    "id": "zenfs_sleepiness_num_no_label",
+    "type": "widget",
+    "var": "sleepiness",
+    "style": "number",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ],
+    "text_align": "right",
+    "flags": [ "W_NO_LABEL" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_sleepiness_bar_12",
+    "type": "widget",
+    "copy-from": "zenfs_sleepiness_bar_template",
+    "width": 12
+  },
+  {
+    "id": "zenfs_sleepiness_bar_14",
+    "type": "widget",
+    "copy-from": "zenfs_sleepiness_bar_template",
+    "width": 14
+  },
+  {
+    "id": "zenfs_sleepiness_desc_no_label",
+    "type": "widget",
+    "style": "text",
+    "text_align": "right",
+    "width": 11,
+    "clauses": [
+      {
+        "id": "well_rested",
+        "text": "Well Rested",
+        "color": "blue",
+        "condition": { "math": [ "u_val('sleepiness')", "<", "95" ] }
+      },
+      {
+        "id": "rested",
+        "text": "Rested",
+        "color": "green",
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "95" ] }, { "math": [ "u_val('sleepiness')", "<", "191" ] } ] }
+      },
+      {
+        "id": "tired",
+        "text": "Tired",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "191" ] }, { "math": [ "u_val('sleepiness')", "<", "383" ] } ] }
+      },
+      {
+        "id": "dead_tired",
+        "text": "Dead Tired",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "383" ] }, { "math": [ "u_val('sleepiness')", "<", "575" ] } ] }
+      },
+      {
+        "id": "exhausted",
+        "text": "Exhausted",
+        "color": "red",
+        "condition": { "math": [ "u_val('sleepiness')", ">=", "575" ] }
+      }
+    ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_stamina_bar_label",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_cyan>Stamina</color>",
+    "width": 7
+  },
+  {
+    "id": "zenfs_stamina_num_label",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_cyan>Stam</color>",
+    "width": 4
+  },
+  {
+    "id": "zenfs_sleepiness_label_F",
+    "type": "widget",
+    "style": "text",
+    "string": "F",
+    "width": 1,
+    "padding": 0,
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_sleepiness_bar_label",
+    "type": "widget",
+    "style": "text",
+    "string": "Sleepiness",
+    "width": 10
+  },
+  {
+    "id": "zenfs_sleepiness_num_label",
+    "type": "widget",
+    "style": "text",
+    "string": "Fatig",
+    "width": 5
+  },
+  {
+    "id": "zenfs_malus_trans_bar_8",
+    "type": "widget",
+    "label": "Malus",
+    "var": "weary_transition_level",
+    "style": "graph",
+    "fill": "pool",
+    "symbols": "≣≡=−·",
+    "width": 8,
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green", "c_dark_gray" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_malus_trans_bar_9",
+    "type": "widget",
+    "copy-from": "zenfs_malus_trans_bar_8",
+    "width": 9
+  },
+  {
+    "id": "zenfs_malus_trans_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 8,
+    "widgets": [ "zenfs_malus_trans_bar_8" ]
+  },
+  {
+    "id": "zenfs_malus_trans_bar_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 9,
+    "widgets": [ "zenfs_malus_trans_bar_9" ]
+  },
+  {
+    "id": "zenfs_malus_trans_num",
+    "type": "widget",
+    "label": "Malus",
+    "var": "weary_transition_level",
+    "style": "number",
+    "width": 5,
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green", "c_dark_gray" ],
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_weary_malus",
+    "type": "widget",
+    "label": "Malus",
+    "style": "text",
+    "var": "weary_malus_text",
+    "width": 11
+  },
+  {
+    "id": "zenfs_weary_malus_trunc",
+    "type": "widget",
+    "label": "",
+    "style": "text",
+    "var": "weary_malus_text",
+    "width": 5,
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "id": "zenfs_cardio_fit",
+    "type": "widget",
+    "style": "number",
+    "var": "cardio_fit",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_cardio_acc",
+    "type": "widget",
+    "style": "number",
+    "var": "cardio_acc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

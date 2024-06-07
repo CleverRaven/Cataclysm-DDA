@@ -6,7 +6,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_LIZARDFOLK_DM",
-        "real_count": { "math": [ "wave_spawn_number() * 3" ], "default": 3 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -22,7 +22,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_GOLEM_DM",
-        "real_count": { "math": [ "wave_spawn_number() * 3" ], "default": 3 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -38,7 +38,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_GOBLIN_STANDARD",
-        "real_count": { "math": [ "wave_spawn_number() * 3" ], "default": 3 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,
@@ -54,7 +54,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_ORC_DM",
-        "real_count": { "math": [ "wave_spawn_number() * 3" ], "default": 3 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,

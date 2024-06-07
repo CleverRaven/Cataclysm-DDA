@@ -3,14 +3,12 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>.",
-      "no": "Hey, stranger.  Glad to see a new face around here."
+      "no": { "gendered_line": "Hey, stranger.  Glad to see a new face around here.", "relevant_genders": [ "npc", "u" ] }
     },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       { "text": "<greet>", "topic": "TALK_NPC_CAMPER_SURVIVOR_INTRO" },
       {
@@ -18,7 +16,7 @@
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -29,6 +27,13 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_CAMPER_SURVIVOR_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
       { "text": "Care to trade?", "topic": "TALK_NPC_CAMPER_SURVIVOR_INTRO", "effect": "start_trade" },
       {
         "text": "Why don't you come with me?",
@@ -47,7 +52,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_SURVIVOR_STORY",
-    "dynamic_line": "I was out here camping when <the_cataclysm> disturbed me.  I didn't know anything was wrong until two <zombies> stumbled up here, and tried to kill me.  I figured staying here would be my best bet, away from the cities.",
+    "dynamic_line": {
+      "gendered_line": "I was out here camping when <the_cataclysm> disturbed me.  I didn't know anything was wrong until two <zombies> stumbled up here, and tried to kill me.  I figured staying here would be my best bet, away from the cities.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Wow.", "topic": "TALK_NONE" } ]
   }
 ]

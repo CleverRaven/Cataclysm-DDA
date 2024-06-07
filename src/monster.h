@@ -122,6 +122,7 @@ class monster : public Creature
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
+        std::vector<material_id> get_no_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -212,8 +213,6 @@ class monster : public Creature
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;
-
-        bool monster_move_in_vehicle( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -430,7 +429,7 @@ class monster : public Creature
 
         float stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, float difficulty ) override;
+        void on_dodge( Creature *source, float difficulty, float training_level = 0.0 ) override;
         void on_try_dodge() override {}
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
@@ -457,7 +456,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
-        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
+        void spawn_dissectables_on_death( item *corpse ) const; //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
 
@@ -508,16 +507,11 @@ class monster : public Creature
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
-        using Creature::add_msg_debug_if_npc;
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        using Creature::add_msg_debug_player_or_npc;
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg ) const override;
 
         // currently grabbed limbs
         std::unordered_set<bodypart_str_id> grabbed_limbs;
@@ -577,6 +571,8 @@ class monster : public Creature
 
         std::optional<time_point> lastseen_turn;
 
+        pimpl<enchant_cache> enchantment_cache;
+
         // Stair data.
         int staircount = 0;
 
@@ -595,7 +591,6 @@ class monster : public Creature
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( item &itm );
-
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -610,6 +605,8 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::unordered_set<tripoint> get_path_avoid() const override;
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
+                                         bool round_output = false ) const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

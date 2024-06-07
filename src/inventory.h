@@ -18,7 +18,7 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "proficiency.h"

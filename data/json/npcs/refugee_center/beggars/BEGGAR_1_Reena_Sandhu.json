@@ -68,14 +68,15 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1",
     "dynamic_line": {
-      "u_has_var": "reena_recruited",
-      "type": "general",
-      "context": "recruit",
+      "u_has_var": "general_recruit_reena_recruited",
       "value": "yes",
       "yes": {
         "npc_has_effect": "beggar_has_eaten",
         "yes": "So, any luck with convincing the others to come on your crazy adventure yet?",
-        "no": "I'm sorry to say it after all you've done for me, but… I don't suppose you've got anything to eat?"
+        "no": {
+          "gendered_line": "I'm sorry to say it after all you've done for me, but… I don't suppose you've got anything to eat?",
+          "relevant_genders": [ "u" ]
+        }
       },
       "no": {
         "npc_has_effect": "beggar_has_eaten",
@@ -89,7 +90,7 @@
     },
     "responses": [
       {
-        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "condition": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUITED"
       },
@@ -106,9 +107,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_INTRO",
     "dynamic_line": {
-      "npc_has_effect": "beggar_has_eaten",
-      "yes": "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss, but I'm reduced to begging to survive.",
-      "no": "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss, but I'm so hungry."
+      "concatenate": [
+        "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss",
+        {
+          "npc_has_effect": "beggar_has_eaten",
+          "yes": ", but I'm reduced to begging to survive.",
+          "no": ", but I'm so hungry."
+        }
+      ]
     },
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
@@ -174,9 +180,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_reena_recruited", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  You could come there.  There aren't many people left, we could use anyone regardless of skills.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -206,9 +210,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_reena_recruited", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  Maybe you can't scavenge, but we can use any warm bodies that can lift a tool.  You'd be safer and better fed there.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -238,9 +240,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": {
-          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
-        },
+        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_reena_recruited", "value": "yes" } } ] },
         "text": "I have a camp of my own, away from here.  Maybe they can't use your skills here, but I could.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -298,7 +298,7 @@
         },
         "success": {
           "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT2",
-          "effect": { "u_add_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" }
+          "effect": { "u_add_var": "general_recruit_reena_recruited", "value": "yes" }
         },
         "failure": { "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT_NO" }
       },
@@ -328,7 +328,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_RECRUIT2",
-    "dynamic_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+    "dynamic_line": {
+      "gendered_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "OK.  For now let's talk about something else.", "topic": "TALK_NONE" },
       { "text": "OK, I'll talk to them too.", "topic": "TALK_DONE" }
@@ -337,7 +340,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_RECRUITED",
-    "dynamic_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+    "dynamic_line": {
+      "gendered_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "All right!  Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

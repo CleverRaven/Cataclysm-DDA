@@ -235,7 +235,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
     item &thread = m.add_item_or_charges( spawn_pos, item( itype_thread ) );
     item &tailor = m.add_item_or_charges( spawn_pos, item( itype_tailors_kit ) );
     thread.charges = 400;
-    tailor.reload( u, { map_cursor( spawn_pos ), &thread }, 400 );
+    tailor.reload( u, { map_cursor( tripoint_bub_ms( spawn_pos ) ), &thread }, 400 );
     REQUIRE( m.i_at( spawn_pos ).begin()->typeId() == tailor.typeId() );
 
     // Setup materials
@@ -245,7 +245,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
 
     // Setup activity
     item_location fixloc( u, &fix );
-    item_location tailorloc( map_cursor( spawn_pos ), &tailor );
+    item_location tailorloc( map_cursor( tripoint_bub_ms( spawn_pos ) ), &tailor );
     act.values.emplace_back( /* repeat_type::FULL */ 3 );
     act.str_values.emplace_back( "repair_fabric" );
     act.targets.emplace_back( tailorloc );

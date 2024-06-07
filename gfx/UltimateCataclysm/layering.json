@@ -92,6 +92,20 @@
         { "field": "fd_fire", "sprite": [ { "id": "f_55gal_firebarrel_fd_fire", "weight": 2 } ] },
         { "field": "fd_smoke", "sprite": [ { "id": "fd_smoke_overlay", "weight": 2 } ] }
       ]
+    },
+    {
+      "context": "t_puddle",
+      "item_variants": [
+        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 100 },
+        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
+      ]
+    },
+    {
+      "context": "t_puddle_underground",
+      "item_variants": [
+        { "item": "water", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 100 },
+        { "item": "water_clean", "sprite": [ { "id": "puddle_water", "weight": 1 } ], "layer": 90 }
+      ]
     }
   ]
 }

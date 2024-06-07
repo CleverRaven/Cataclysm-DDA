@@ -21,12 +21,10 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } }
           ]
         },
-        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_ILL_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_ILL_1_HIRE" },
@@ -37,19 +35,28 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1_JOB",
-    "dynamic_line": "I was just a laborer till they could find me something a bit more permanent, but being constantly sick has prevented me from doing much of anything.",
+    "dynamic_line": {
+      "gendered_line": "I was just a laborer till they could find me something a bit more permanent, but being constantly sick has prevented me from doing much of anything.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "That's sad.", "topic": "TALK_RANCH_ILL_1" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1_HIRE",
-    "dynamic_line": "I don't know what you could do.  I've tried everything.  Just give me time…",
+    "dynamic_line": {
+      "gendered_line": "I don't know what you could do.  I've tried everything.  Just give me time…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "OK.", "topic": "TALK_RANCH_ILL_1" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1_SICK",
-    "dynamic_line": "I keep getting sick!  At first I thought it was something I ate, but now it seems like I can't keep anything down…",
+    "dynamic_line": {
+      "gendered_line": "I keep getting sick!  At first I thought it was something I ate, but now it seems like I can't keep anything down…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Uhm.", "topic": "TALK_RANCH_ILL_1" } ]
   },
   {

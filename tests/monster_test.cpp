@@ -48,11 +48,11 @@ static int moves_to_destination( const std::string &monster_type,
     int moves_spent = 0;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_monster.mod_moves( monster_speed );
-        while( test_monster.moves >= 0 ) {
+        while( test_monster.get_moves() >= 0 ) {
             test_monster.anger = 100;
-            const int moves_before = test_monster.moves;
+            const int moves_before = test_monster.get_moves();
             test_monster.move();
-            moves_spent += moves_before - test_monster.moves;
+            moves_spent += moves_before - test_monster.get_moves();
             if( test_monster.get_location() == test_monster.get_dest() ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
@@ -118,7 +118,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     std::vector<track> tracker;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
-        while( test_player.moves >= 0 ) {
+        while( test_player.get_moves() >= 0 ) {
             test_player.setpos( test_player.pos() + direction_of_flight );
             if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
                 test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
@@ -140,10 +140,10 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         get_map().clear_traps();
         test_monster.set_dest( test_player.get_location() );
         test_monster.mod_moves( monster_speed );
-        while( test_monster.moves >= 0 ) {
-            const int moves_before = test_monster.moves;
+        while( test_monster.get_moves() >= 0 ) {
+            const int moves_before = test_monster.get_moves();
             test_monster.move();
-            tracker.push_back( {'m', moves_before - test_monster.moves,
+            tracker.push_back( {'m', moves_before - test_monster.get_moves(),
                                 rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_monster.pos()
                                } );
@@ -300,6 +300,19 @@ static void monster_check()
     CHECK( can_catch_player( "mon_zombie", tripoint_south_east ) < 0 );
     CHECK( can_catch_player( "mon_zombie_dog", tripoint_east ) > 0 );
     CHECK( can_catch_player( "mon_zombie_dog", tripoint_south_east ) > 0 );
+}
+
+TEST_CASE( "check_mon_id" )
+{
+    for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() != "dda" ) {
+            continue;
+        }
+        std::string mon_id = mon.id.str();
+        std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+        INFO( "Now checking the id of " << mon.id.str() );
+        CHECK( ( suffix_id == "mon"  || suffix_id == "pseudo" ) );
+    }
 }
 
 // Write out a map of slope at which monster is moving to time required to reach their destination.

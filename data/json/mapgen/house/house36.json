@@ -12,14 +12,14 @@
         ".```````#RE   y##*#oo##.",
         ".```````o     d|L y xx#^",
         ".```````#     d|r     #.",
-        ".``````:# @@   |r  llE#.",
+        ".``````y# @@   |r  llE#.",
         ".```````#I@@I  |   HHs#.",
-        ".``````:#||||| |      #.",
+        ".``````y#||||| |      #.",
         ".&``````*  |>| |R    R#.",
         "##=====##i |+|+|R    R#.",
         "#&~~~~~U#i     ||    |#.",
         "o~~~~~~~#|+|y        T#.",
-        "#~~~~~~q#S_|||||||    #.",
+        "#~~~~~~q#S'|||||||    #.",
         "#~~~~~~q#t9|32F1O| hh #.",
         "#~~~~~~##|||4____J ff #.",
         "#~~~~~~*~~+______J ff #.",
@@ -31,37 +31,24 @@
         "....[...............[...",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen"
+      ],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "q": "t_thconc_floor",
         "U": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",
-        "`": "t_concrete",
-        ":": "t_concrete",
-        "_": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "2": "t_linoleum_white",
-        "3": "t_linoleum_white",
-        "4": "t_linoleum_white",
-        "5": "t_linoleum_white",
-        "7": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "O": "t_linoleum_white",
-        "F": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white"
+        "y": "t_concrete",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "!": "f_region_flower", ":": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [
         { "item": "hose", "x": 10, "y": 20 },
         { "item": "lawnmower", "x": 1, "y": 4 },
@@ -70,9 +57,9 @@
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 3, "y": 14, "chance": 60, "rotation": 270 },
-        { "vehicle": "rolling_trash_can", "x": 11, "y": 1, "chance": 80, "status": 0 },
         { "vehicle": "tricycle", "x": 4, "y": 7, "chance": 40, "status": 0 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 11, "y": 1 } ]
     }
   },
   {

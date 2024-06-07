@@ -505,6 +505,16 @@
     "//": "This monster makes move noises as if ~2 sizes louder, even if flying"
   },
   {
+    "id": "QUIETMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes move noises as if ~2 sizes quieter"
+  },
+  {
+    "id": "SILENTMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes no move noise at all"
+  },
+  {
     "id": "CAN_OPEN_DOORS",
     "type": "monster_flag",
     "//": "This monster can open doors"
@@ -628,5 +638,10 @@
     "id": "GUILT_OTHERS",
     "type": "monster_flag",
     "//": "Warning: Do not use without death_guilt function. This helps count the all the other kills that do not fit the other three (e.g blood sacrifice) before player goes numb."
+  },
+  {
+    "id": "DRACULIN_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to Chiropteran saliva. Use for any creature with nonstandard blood (ie mi-go, insects, but probably not zombies or fungalized animals, unless they have acid blood or something)."
   }
 ]

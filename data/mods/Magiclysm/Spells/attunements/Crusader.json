@@ -7,8 +7,8 @@
     "weight": "1905 g",
     "volume": "4 L",
     "longest_side": "100 cm",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": 3,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
@@ -55,19 +55,20 @@
     "description": "Crusaders have the ability to summon a magically enhanced shield to their arm to protect them in armed combat.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "effect": "spawn_item",
     "shape": "blast",
     "effect_str": "holy_shield",
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 360000,
-    "max_duration": 12960000,
-    "duration_increment": 360000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 2000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(12960000, 2000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(360000, 0.03)" ] },
     "spell_class": "CRUSADER",
     "difficulty": 4,
     "max_level": 35,
     "base_casting_time": 1500,
-    "base_energy_cost": 500,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 3)" ] },
     "energy_source": "MANA"
   },
   {
@@ -83,10 +84,10 @@
     "effect_str": "longsword_judgement",
     "shape": "blast",
     "base_casting_time": 1500,
-    "base_energy_cost": 500,
-    "min_duration": 360000,
-    "max_duration": 12960000,
-    "duration_increment": 360000,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 2)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 2000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(12960000, 2000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(360000, 0.03)" ] },
     "difficulty": 4,
     "max_level": 35,
     "spell_class": "CRUSADER",
@@ -112,8 +113,8 @@
     "looks_like": "longsword",
     "symbol": "/",
     "color": "light_gray",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "description": "A large sword made of glowing, radiant fire.  It explodes with radiance when striking enemies.",
     "material": [ "concentrated_mana" ],
     "weapon_category": [ "LONG_SWORDS", "GREAT_SWORDS" ],
@@ -134,7 +135,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 13, "cut": 45 }
+    "melee_damage": { "bash": 13, "cut": 45, "light": 15 }
   },
   {
     "id": "dagger_judgement",
@@ -163,7 +164,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 10, "stab": 28 }
+    "melee_damage": { "bash": 10, "stab": 28, "light": 12 }
   },
   {
     "id": "zwei_judgement",
@@ -202,7 +203,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 18, "cut": 51 }
+    "melee_damage": { "bash": 18, "cut": 51, "light": 22 }
   },
   {
     "id": "qiang_judgement",
@@ -241,7 +242,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 7, "stab": 34 }
+    "melee_damage": { "bash": 7, "stab": 34, "light": 10 }
   },
   {
     "id": "mace_judgement",
@@ -270,6 +271,6 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 45 }
+    "melee_damage": { "bash": 45, "light": 20 }
   }
 ]

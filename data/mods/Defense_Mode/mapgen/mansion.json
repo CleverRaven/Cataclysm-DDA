@@ -36,7 +36,7 @@
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
         "q": { "item": "tool_common_stack", "chance": 100 }
       }
@@ -132,7 +132,7 @@
       "furniture": { "=": "f_table", "?": "f_glass_fridge", "!": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 23, "y": 16, "chance": 100 }, { "item": "television", "x": 4, "y": 11, "chance": 100 } ],
       "items": {
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "=": { "item": "table_card", "chance": 40 },
         "J": { "item": "wetbar_counter", "chance": 30 },
         "?": { "item": "wetbar_fridge", "chance": 80 },
@@ -176,8 +176,8 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
       "terrain": { "?": "t_water_pool_shallow_outdoors", "~": "t_thconc_floor", "&": "t_column", "-": "t_carpet_red" },
       "items": {
-        " ": { "item": "clutter_mansion" },
-        ".": { "item": "clutter_yard" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "s": { "item": "table_foyer", "chance": 40 },
         "c": { "item": "suit_of_armor", "chance": 100 }
       }
@@ -230,7 +230,7 @@
       },
       "furniture": { "&": "f_sofa" },
       "items": {
-        " ": { "item": "clutter_mansion" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "c": { "item": "suit_of_armor", "chance": 10 },
         "s": { "item": "table_foyer", "chance": 40 },
         "l": { "item": "table_foyer", "chance": 40 }
@@ -317,7 +317,7 @@
       "furniture": { "&": "f_dive_block" },
       "items": {
         "j": { "item": "pool_side", "chance": 30 },
-        ".": { "item": "clutter_yard" },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "a": { "item": "fireplace_fill", "chance": 30 },
         "K": { "item": "wetbar_counter", "chance": 20 }
       }
@@ -404,7 +404,7 @@
       },
       "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
         "H": { "item": "mansion_ammo", "chance": 40 },
         "x": { "item": "a_television", "chance": 100 },
@@ -493,7 +493,7 @@
           { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
           { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
         ],
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "=": { "item": "sex_lair", "chance": 25, "repeat": [ 2, 4 ] },
         "!": { "item": "crate_stack", "chance": 100 },
         "D": { "item": "sex_lair", "chance": 55, "repeat": [ 2, 6 ] },
@@ -542,7 +542,7 @@
         ")": { "item": "bed", "chance": 40 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
         " ": { "item": "clutter_bedroom", "chance": 2 },
-        ".": { "item": "clutter_yard" },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "I": { "item": "vanity", "chance": 40 },
         "s": { "item": "nightstand", "chance": 40 },
@@ -590,7 +590,7 @@
         "v": { "item": "mansion_safe", "chance": 100 },
         ",": { "item": "clutter_bedroom", "chance": 2 },
         " ": { "item": "clutter_bedroom", "chance": 2 },
-        ".": { "item": "clutter_yard" },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         ")": { "item": "bed", "chance": 40 },
         "R": { "item": "mansion_bookcase", "chance": 100 },
@@ -763,7 +763,7 @@
         "!": { "item": "crate_stack", "chance": 100 },
         "0": { "item": "keg_wine", "chance": 100 },
         "&": { "item": "table_wine", "chance": 100, "repeat": [ 1, 4 ] },
-        ".": { "item": "clutter_basement" }
+        ".": { "item": "clutter_basement", "chance": 1 }
       }
     }
   },
@@ -810,8 +810,8 @@
       "furniture": { ")": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 18, "y": 0, "chance": 100 } ],
       "items": {
-        ".": { "item": "clutter_yard" },
-        " ": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_yard", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "J": { "item": "table_sideboard", "chance": 35 },
         "x": { "item": "table_livingroom", "chance": 35 }
       }
@@ -963,8 +963,8 @@
         { "item": "television", "x": 18, "y": 0, "chance": 100 }
       ],
       "items": {
-        ".": { "item": "clutter_yard" },
-        " ": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_yard", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "r": { "item": "art", "chance": 20 },
         "R": { "item": "mansion_bookcase", "chance": 100 },
         "&": { "item": "mansion_bookcase", "chance": 20 }
@@ -1135,9 +1135,9 @@
       },
       "furniture": { ")": "f_bed" },
       "items": {
-        ".": { "item": "clutter_yard" },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
-        " ": { "item": "clutter_mansion" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "a": { "item": "fireplace_fill", "chance": 30 },
         ")": { "item": "bed", "chance": 30 },
@@ -1203,7 +1203,7 @@
       "place_loot": [ { "item": "laptop", "x": 16, "y": 10, "chance": 100 }, { "item": "stereo", "x": 6, "y": 9, "chance": 100 } ],
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 3 },
-        " ": { "item": "clutter_mansion" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "v": { "item": "mansion_guns", "chance": 30 },
         ",": { "item": "clutter_bathroom", "chance": 10 },
         "D": { "item": "dresser_servant", "chance": 45 }
@@ -1255,8 +1255,8 @@
       },
       "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "?": "f_sofa" },
       "items": {
-        "-": { "item": "clutter_mansion" },
-        ".": { "item": "clutter_basement" },
+        "-": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "x": { "item": "a_television", "chance": 100 },
         "J": { "item": "fridgesnacks", "chance": 45 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -1302,8 +1302,8 @@
       "terrain": { "-": "t_carpet_green", "l": "t_carpet_green", "≠": "t_carpet_green", "‡": "t_carpet_green" },
       "furniture": { "‡": "f_sofa", "&": "f_table", ")": "f_speaker_cabinet" },
       "items": {
-        ".": { "item": "clutter_yard" },
-        " ": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_yard", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "l": { "item": "mansion_bookcase", "chance": 100 },
         "&": { "item": "table_card", "chance": 35 },
         "c": { "item": "suit_of_armor", "chance": 100 }
@@ -1403,7 +1403,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor" },
-      "items": { ".": { "item": "clutter_basement" } }
+      "items": { ".": { "item": "clutter_basement", "chance": 1 } }
     }
   },
   {
@@ -1443,8 +1443,8 @@
       "terrain": { "&": "t_door_glass_c", "~": "t_water_pool_shallow_outdoors" },
       "furniture": { "@": [ "f_statue", "f_statue", "f_statue", "f_null", "f_null" ] },
       "items": {
-        " ": { "item": "clutter_mansion" },
-        ".": { "item": "clutter_yard" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "C": { "item": "garden_shed", "chance": 40 },
         "G": { "item": "snacks_fancy", "chance": 20 }
       }
@@ -1484,7 +1484,7 @@
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": { "~": "t_open_air", "_": "t_floor_noroof", " ": "t_floor", "i": "t_floor", ")": "t_door_glass_c", "%": "t_railing" },
-      "items": { " ": { "item": "clutter_mansion" } }
+      "items": { " ": { "item": "clutter_mansion", "chance": 1 } }
     }
   },
   {
@@ -1542,7 +1542,7 @@
       },
       "items": {
         "$": { "item": "mansion_safe", "chance": 100 },
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
         "&": { "item": "snacks_fancy", "chance": 40 },
         "U": { "item": "home_hw", "chance": 25 },
@@ -1595,7 +1595,7 @@
       },
       "items": {
         "$": { "item": "mansion_gunsafe", "chance": 100 },
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
         "J": { "item": "hardware_plumbing", "chance": 35 },
         "&": { "item": "hardware_bulk", "chance": 30 },
@@ -1640,7 +1640,7 @@
       "terrain": { "=": "t_linoleum_gray", "Y": "t_linoleum_gray", "-": "t_floor_waxed_y", ";": "t_floor_waxed" },
       "furniture": { "&": "f_table", "?": "f_cardboard_box" },
       "items": {
-        " ": { "item": "clutter_ballroom" },
+        " ": { "item": "clutter_ballroom", "chance": 1 },
         "h": { "item": "clutter_ballroom", "chance": 20 },
         "=": { "item": "clutter_ballroom", "chance": 3 },
         "?": { "item": "dining", "chance": 45 },
@@ -1683,7 +1683,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "~": "t_open_air", "=": "t_open_air_rooved", "%": "t_railing" },
-      "items": { " ": { "item": "clutter_mansion" }, "K": { "item": "wetbar_counter", "chance": 35 } }
+      "items": { " ": { "item": "clutter_mansion", "chance": 1 }, "K": { "item": "wetbar_counter", "chance": 35 } }
     }
   },
   {
@@ -1744,7 +1744,7 @@
         "=": { "item": "clutter_gym", "chance": 2 },
         "z": { "item": "crate_sports", "chance": 100 },
         "?": { "item": "locker_gym", "chance": 45 },
-        "`": { "item": "clutter_gym" },
+        "`": { "item": "clutter_gym", "chance": 1 },
         "F": { "item": "vending_drink", "chance": 45 },
         "w": { "item": "sports", "chance": 35 }
       }
@@ -1784,7 +1784,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "=": "t_open_air_rooved", "%": "t_railing" },
-      "items": { " ": { "item": "clutter_mansion" }, "i": { "item": "snacks_fancy", "chance": 20 } }
+      "items": { " ": { "item": "clutter_mansion", "chance": 1 }, "i": { "item": "snacks_fancy", "chance": 20 } }
     }
   },
   {
@@ -1835,7 +1835,7 @@
       "furniture": { "!": [ "f_cardboard_box", "f_crate_c" ], "&": "f_console_broken", "?": "f_glass_fridge" },
       "items": {
         "t": { "item": "harddrugs", "chance": 30 },
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "J": { "item": "vending_food", "chance": 25 },
         "?": { "item": "fridgesnacks", "chance": 45 },
         "!": { "item": "crate_stack", "chance": 100 }
@@ -1888,8 +1888,8 @@
       },
       "furniture": { "?": "f_sofa" },
       "items": {
-        " ": { "item": "clutter_mansion" },
-        ".": { "item": "clutter_yard" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "x": { "item": "medieval", "chance": 20 },
         "l": { "item": "mansion_bookcase", "chance": 100 },
         "q": { "item": "garden_shed", "chance": 40 }
@@ -1962,7 +1962,11 @@
         "%": "t_railing"
       },
       "furniture": { "&": "f_sofa" },
-      "items": { "_": { "item": "clutter_mansion" }, " ": { "item": "clutter_mansion" }, "-": { "item": "clutter_mansion" } }
+      "items": {
+        "_": { "item": "clutter_mansion", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
+        "-": { "item": "clutter_mansion", "chance": 1 }
+      }
     }
   },
   {
@@ -2001,7 +2005,7 @@
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "=": "f_machinery_old", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "K": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "hardware_plumbing", "chance": 40 },
         "r": { "item": "pantry", "chance": 25 }
@@ -2044,7 +2048,7 @@
       "terrain": { "=": "t_linoleum_gray", "~": "t_water_pool", "M": "t_floor", "T": "t_floor", " ": "t_floor" },
       "furniture": { "&": "f_dive_block" },
       "items": {
-        ".": { "item": "clutter_yard" },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "i": { "item": "pool_side", "chance": 30 },
         "=": { "item": "pool_side", "chance": 2 }
       }
@@ -2101,7 +2105,7 @@
         { "item": "lawn_dart", "x": [ 11, 14 ], "y": [ 4, 6 ], "chance": 100, "repeat": [ 1, 2 ] }
       ],
       "items": {
-        " ": { "item": "clutter_mansion" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "J": { "item": "wetbar_counter", "chance": 25 },
         "m": { "item": "wetbar_fridge", "chance": 45 },
         "1": { "item": "wetbar_stack", "chance": 100 },
@@ -2144,7 +2148,7 @@
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
-      "items": { ".": { "item": "clutter_basement" }, "!": { "item": "crate_stack", "chance": 100 } }
+      "items": { ".": { "item": "clutter_basement", "chance": 1 }, "!": { "item": "crate_stack", "chance": 100 } }
     }
   },
   {
@@ -2190,8 +2194,8 @@
       },
       "place_loot": [ { "item": "stereo", "x": 8, "y": 14, "chance": 100 }, { "item": "television", "x": 9, "y": 14, "chance": 100 } ],
       "items": {
-        ".": { "item": "clutter_yard" },
-        " ": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_yard", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "x": { "item": "mansion_bookcase", "chance": 100 },
         "&": { "item": "table_card", "chance": 35 },
         "c": { "item": "suit_of_armor", "chance": 100 },
@@ -2296,7 +2300,7 @@
       "terrain": { " ": "t_soil", ".": "t_thconc_floor" },
       "furniture": { "=": "f_table", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
-        ".": { "item": "clutter_basement" },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
         "x": { "item": "a_television", "chance": 100 }
       }
@@ -2346,8 +2350,8 @@
       },
       "furniture": { ")": "f_table" },
       "items": {
-        ".": { "item": "clutter_yard" },
-        " ": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_yard", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "a": { "item": "fireplace_fill", "chance": 30 },
         "R": { "item": "mansion_bookcase", "chance": 100 },
         ")": { "item": "table_livingroom", "chance": 30 }
@@ -2405,7 +2409,7 @@
       "furniture": { "&": "f_speaker_cabinet" },
       "place_loot": [ { "item": "stereo", "x": 22, "y": 15, "chance": 100 } ],
       "items": {
-        " ": { "item": "clutter_mansion" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "M": { "item": "art", "chance": 100 },
         "s": { "item": "snacks_fancy", "chance": 20 },
         "∞": { "item": "mansion_guns", "chance": 100 }
@@ -2515,8 +2519,8 @@
       "terrain": { "-": "t_carpet_purple", "E": "t_carpet_purple", ")": "t_carpet_purple", "=": "t_linoleum_gray" },
       "furniture": { ")": "f_bed" },
       "items": {
-        ".": { "item": "clutter_yard" },
-        " ": { "item": "clutter_bedroom" },
+        ".": { "item": "clutter_yard", "chance": 1 },
+        " ": { "item": "clutter_bedroom", "chance": 1 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "i": { "item": "table_foyer", "chance": 20 },
         "R": { "item": "mansion_bookcase", "chance": 100 },
@@ -2560,7 +2564,7 @@
       "terrain": { "~": "t_open_air", "=": "t_open_air_rooved", ",": "t_linoleum_gray", "`": "t_shingle_flat_roof", "|": "t_wall_b" },
       "furniture": { "?": "f_dresser" },
       "items": {
-        " ": { "item": "clutter_mansion" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
         "s": { "item": "nightstand", "chance": 20 },
         ",": { "item": "softdrugs", "chance": 40 },
         "?": { "item": "dresser_servant", "chance": 45 }
@@ -2616,7 +2620,7 @@
         "m": { "item": "chilled_wine", "chance": 40, "repeat": [ 1, 4 ] },
         "0": { "item": "keg_wine", "chance": 100 },
         "&": { "item": "table_wine", "chance": 100, "repeat": [ 1, 4 ] },
-        ".": { "item": "clutter_basement" }
+        ".": { "item": "clutter_basement", "chance": 1 }
       }
     }
   },
@@ -2664,8 +2668,8 @@
         "f": "t_carpet_green"
       },
       "items": {
-        " ": { "item": "clutter_mansion" },
-        ".": { "item": "clutter_yard" },
+        " ": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_yard", "chance": 1 },
         "r": { "item": "table_sideboard", "chance": 40 }
       },
       "place_vehicles": [ { "vehicle": "cannon_3in", "x": 18, "y": 3, "chance": 1 } ]

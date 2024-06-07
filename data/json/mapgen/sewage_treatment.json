@@ -113,21 +113,9 @@
     "id": "treatment_chemicals",
     "type": "item_group",
     "items": [
-      { "item": "bleach", "container-item": "55gal_drum", "charges-min": 10, "charges-max": 126, "prob": 50 },
-      {
-        "item": "chem_sulphuric_acid",
-        "container-item": "55gal_drum",
-        "charges-min": 2,
-        "charges-max": 50,
-        "prob": 20
-      },
-      {
-        "item": "material_quicklime",
-        "container-item": "55gal_drum",
-        "charges-min": 2,
-        "charges-max": 50,
-        "prob": 20
-      },
+      { "item": "bleach", "container-item": "55gal_drum", "charges": [ 10, 126 ], "prob": 50 },
+      { "item": "chem_sulphuric_acid", "container-item": "55gal_drum", "charges": [ 2, 50 ], "prob": 20 },
+      { "item": "material_quicklime", "container-item": "55gal_drum", "charges": [ 2, 50 ], "prob": 20 },
       { "item": "55gal_drum", "prob": 50 }
     ]
   },
@@ -151,7 +139,6 @@
       { "monster": "mon_sewer_rat", "weight": 310, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_albino_penguin", "weight": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
-      { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "group": "GROUP_FROGS_SEWER", "weight": 250 },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3 }
@@ -598,11 +585,11 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "human_flesh", "prob": 70, "count-min": 1, "count-max": 10 },
+      { "item": "human_flesh", "prob": 70, "count": [ 1, 10 ] },
       { "item": "hstomach_large", "prob": 60 },
       { "item": "hstomach", "prob": 60 },
-      { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
-      { "item": "cotton_patchwork", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
+      { "item": "bone_human", "prob": 90, "count": [ 1, 5 ] },
+      { "item": "cotton_patchwork", "prob": 90, "count": [ 1, 4 ], "custom-flags": [ "FILTHY" ] }
     ]
   },
   {

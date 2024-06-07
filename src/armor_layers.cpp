@@ -1,35 +1,48 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <functional>
 #include <iterator>
+#include <list>
 #include <memory>
-#include <new>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
+#include "body_part_set.h"
 #include "bodypart.h"
-#include "catacharset.h" // used for utf8_width()
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -711,6 +724,18 @@ void outfit::sort_armor( Character &guy )
             }
         }
 
+        leftListSize = tmp_worn.size();
+        if( leftListLines > leftListSize ) {
+            leftListOffset = 0;
+        } else if( leftListOffset + leftListLines > leftListSize ) {
+            leftListOffset = leftListSize - leftListLines;
+        }
+        if( leftListOffset > leftListIndex ) {
+            leftListOffset = leftListIndex;
+        } else if( leftListOffset + leftListLines <= leftListIndex ) {
+            leftListOffset = leftListIndex + 1 - leftListLines;
+        }
+
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, leftListSize - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
@@ -724,10 +749,13 @@ void outfit::sort_armor( Character &guy )
         werase( w_encumb );
 
         // top bar
-        wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
+        std::string header_title = _( "Sort Armor" );
+        wprintz( w_sort_cat, c_white, header_title );
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
-        wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
-        right_print( w_sort_cat, 0, 0, c_white, string_format(
+        temp = string_format( "  << %s >>", temp );
+        wprintz( w_sort_cat, c_yellow, temp );
+        int keyhint_offset = utf8_width( header_title ) + utf8_width( temp ) + 1;
+        right_print( w_sort_cat, 0, 0, c_white, trim_by_length( string_format(
                          _( "[<color_yellow>%s</color>] Hide sprite.  "
                             "[<color_yellow>%s</color>] Change side.  "
                             "Press [<color_yellow>%s</color>] for help.  "
@@ -735,19 +763,7 @@ void outfit::sort_armor( Character &guy )
                          ctxt.get_desc( "TOGGLE_CLOTH" ),
                          ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
-
-        leftListSize = tmp_worn.size();
-        if( leftListLines > leftListSize ) {
-            leftListOffset = 0;
-        } else if( leftListOffset + leftListLines > leftListSize ) {
-            leftListOffset = leftListSize - leftListLines;
-        }
-        if( leftListOffset > leftListIndex ) {
-            leftListOffset = leftListIndex;
-        } else if( leftListOffset + leftListLines <= leftListIndex ) {
-            leftListOffset = leftListIndex + 1 - leftListLines;
-        }
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ), getmaxx( w_sort_cat ) - keyhint_offset ) );
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
@@ -913,7 +929,7 @@ void outfit::sort_armor( Character &guy )
     while( !exit ) {
         if( guy.is_avatar() ) {
             // Totally hoisted this from advanced_inv
-            if( player_character.moves < 0 ) {
+            if( player_character.get_moves() < 0 ) {
                 do_return_entry();
                 return;
             }

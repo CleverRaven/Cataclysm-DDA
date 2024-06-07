@@ -535,16 +535,16 @@
         { "group": "dry_beans_bag_plastic_6", "x": [ 41, 43 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "big_canned_food", "x": [ 36, 40 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "oatmeal_box_small_4", "x": [ 45, 46 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "flour_bag_paper_powder_70", "x": [ 43, 44 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "flour_bag_paper", "x": [ 43, 44 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "cornmeal_box_small_10", "x": [ 41, 42 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "coffee_raw_bag_plastic_20", "x": 40, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "tea_raw_bag_plastic_33", "x": 39, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "sugar_box_small_71", "x": 38, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "salt_bag_plastic_100", "x": 37, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "sugar_various", "x": 38, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "salt_various", "x": 37, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "cooking_oil", "x": 36, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "meat_salted", "x": [ 45, 46 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "salted_fish", "x": [ 43, 44 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "milk_powder_bag_plastic_4", "x": [ 41, 42 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "milk_powder_various", "x": [ 41, 42 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         {
           "group": "powder_eggs_bottle_plastic_small_16",
           "x": [ 39, 40 ],
@@ -675,9 +675,9 @@
         "V": [ { "item": "tools_common", "chance": 50, "repeat": [ 0, 1 ] } ],
         "U": [
           { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
-          { "item": "guns_obscure", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_obscure", "chance": 50, "repeat": [ 2, 4 ] },
-          { "item": "mags_obscure", "chance": 50, "repeat": [ 2, 3 ] }
+          { "item": "guns_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_common", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "mags_common", "chance": 50, "repeat": [ 2, 3 ] }
         ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
@@ -840,8 +840,11 @@
         { "item": "holo_sight", "x": 10, "y": 15, "chance": 75, "repeat": 50 },
         { "item": "acog_scope", "x": 11, "y": 15, "chance": 75, "repeat": 30 },
         { "item": "red_dot_sight", "x": 12, "y": 15, "chance": 75, "repeat": 20 },
-        { "item": "goggles_ir", "x": [ 14, 16 ], "y": 15, "chance": 75, "repeat": 50 },
-        { "item": "goggles_nv", "x": [ 17, 18 ], "y": 15, "chance": 75, "repeat": 40 },
+        { "item": "goggles_ir", "x": [ 14, 16 ], "y": 15, "chance": 20, "repeat": 50 },
+        { "item": "goggles_nv", "x": [ 17, 18 ], "y": 15, "chance": 20, "repeat": 40 },
+        { "item": "military_nvg", "x": [ 14, 16 ], "y": 15, "chance": 30, "repeat": 50 },
+        { "item": "advanced_gpnvg", "x": [ 14, 16 ], "y": 15, "chance": 30, "repeat": 50 },
+        { "item": "enhanced_nvg", "x": [ 17, 18 ], "y": 15, "chance": 10, "repeat": 40 },
         { "item": "sheath", "x": 24, "y": 15, "chance": 75, "repeat": 100 },
         { "item": "knife_combat", "x": [ 22, 23 ], "y": 15, "chance": 75, "repeat": 100 },
         { "item": "holster", "x": [ 20, 21 ], "y": 15, "chance": 75, "repeat": 100 },
@@ -1144,7 +1147,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 200000, 1000000 ] } },
+      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 2000, 10000 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },

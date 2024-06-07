@@ -21,8 +21,8 @@
         ".o4          6|TEs   I#.",
         ".#F12357OY    ||||#####.",
         ".#||||||||||  |QBB#^....",
-        ".oI  T@@   +  +--8o.....",
-        ".oIh  @@   |  |t-S#.....",
+        ".oI  T@@   +  +~~8o.....",
+        ".oIh  @@   |  |t~S#.....",
         ".#||     Ey|  ||||###...",
         ".#D+  ||||||   RRR >#...",
         ".###db|U |y        y#...",
@@ -33,23 +33,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
-      "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
-        "`": "t_concrete",
-        "]": "t_wall_glass",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "t": "t_linoleum_white"
-      },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 } ],
-      "furniture": { "!": "f_region_flower" }
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 0 } ]
     }
   },
   {

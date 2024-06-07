@@ -2,7 +2,7 @@
   {
     "id": "mon_mech_recon",
     "type": "MONSTER",
-    "name": { "str": "X-03: 'Spectre' Recon Mech" },
+    "name": { "str": "X-03: 'Specter' Recon Mech" },
     "description": "The Boeing-Daewoo RMES (Recon Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a scout-recon-sniper role, due to its mobility, integrated laser sniper rifle, and suite of optics for target designation and battlefield awareness.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],

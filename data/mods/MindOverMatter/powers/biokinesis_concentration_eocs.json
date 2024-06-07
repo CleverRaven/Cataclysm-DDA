@@ -7,7 +7,6 @@
       { "u_message": "You breathe deeply and your pain lessens.", "type": "good" },
       { "u_add_effect": "effect_biokin_overcome_pain", "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_BIOKIN_OVERCOME_PAIN_SWITCHER" ] },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
         "time_in_future": [
@@ -30,7 +29,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_OVERCOME_PAIN_SWITCHER",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "biokin_overcome_pain" },
+      "switch": { "math": [ "u_spell_level('biokin_overcome_pain')" ] },
       "cases": [
         { "case": 0, "effect": { "u_add_effect": "effect_biokin_pkill_1", "duration": "PERMANENT" } },
         { "case": 4, "effect": { "u_add_effect": "effect_biokin_pkill_2", "duration": "PERMANENT" } },
@@ -61,8 +60,9 @@
     "id": "EOC_BIOKIN_OVERCOME_PAIN_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_overcome_pain" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -91,7 +91,6 @@
       { "u_message": "You enhance your physical prowess.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_physical", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_PHYSICAL_ENHANCE_DRAIN",
         "time_in_future": [
@@ -121,8 +120,9 @@
     "id": "EOC_BIOKIN_PHYSICAL_ENHANCE_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_physical" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('biokin_physical_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -153,7 +153,6 @@
       { "u_add_effect": "effect_biokin_breathe_skin", "duration": "PERMANENT" },
       { "u_spawn_item": "biokin_breathe_skin_item", "suppress_message": true, "force_equip": true },
       { "u_lose_effect": "biokin_sealed_system" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
         "time_in_future": [
@@ -187,8 +186,9 @@
     "id": "EOC_BIOKIN_BREATH_SKIN_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_breathe_skin" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -217,7 +217,6 @@
       { "u_message": "You feel much more comfortable.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_climate_control", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
       { "u_lose_effect": "biokin_sealed_system" },
       {
         "queue_eocs": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
@@ -248,8 +247,9 @@
     "id": "EOC_BIOKIN_CLIMATE_CONTROL_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_climate_control" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
       { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -278,7 +278,6 @@
       { "u_message": "Your gear doesn't seem to encumber you as much.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_BIOKIN_ENHANCE_MOBILITY_SWITCHER" ] },
       { "u_add_effect": "effect_biokin_enhance_mobility", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
         "time_in_future": [
@@ -303,30 +302,12 @@
     "effect": {
       "switch": { "math": [ "u_spell_level('biokin_enhance_mobility')" ] },
       "cases": [
-        {
-          "case": 0,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_1", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 4,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_2", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 8,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_3", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 12,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_4", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 16,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_5", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 20,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_6", "suppress_message": true, "force_equip": true } ]
-        }
+        { "case": 0, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_01" } ] },
+        { "case": 4, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_02" } ] },
+        { "case": 8, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_03" } ] },
+        { "case": 12, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_04" } ] },
+        { "case": 16, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_05" } ] },
+        { "case": 20, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_06" } ] }
       ]
     }
   },
@@ -335,6 +316,12 @@
     "id": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
     "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
     "effect": [
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_01" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_02" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_03" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_04" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_05" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_06" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_3" },
@@ -350,8 +337,9 @@
     "id": "EOC_BIOKIN_ENHANCE_MOBILITY_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
       { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -381,7 +369,6 @@
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_hammerhand", "duration": "PERMANENT" },
       { "u_spawn_item": "biokin_hammerhand_item", "suppress_message": true, "force_equip": true },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_HAMMERHAND_DRAIN",
         "time_in_future": [
@@ -415,9 +402,9 @@
     "id": "EOC_BIOKIN_HAMMERHAND_DRAIN",
     "condition": { "u_has_effect": "biokin_hammerhand" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
       { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -446,7 +433,6 @@
       { "u_message": "You enhance your speed and sensory prowess.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_reflex", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_REFLEX_ENHANCE_DRAIN",
         "time_in_future": [
@@ -476,8 +462,9 @@
     "id": "EOC_BIOKIN_REFLEX_ENHANCE_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_reflex" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
       { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -506,7 +493,6 @@
       { "u_message": "You supercharge your metabolism.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_biokin_metabolism_enhance", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_seven", "hit_self": true } },
       {
         "queue_eocs": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
         "time_in_future": [
@@ -536,8 +522,9 @@
     "id": "EOC_BIOKIN_METABOLISM_ENHANCE_DRAIN",
     "condition": { "u_has_effect": "effect_biokin_metabolism_enhance" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_seven", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(7)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(7)" ] },
       { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_val('sleep_deprivation')", "-=", "10" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },

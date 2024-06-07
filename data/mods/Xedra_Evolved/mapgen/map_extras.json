@@ -596,5 +596,268 @@
         { "monster": "GROUP_GENIUS_IERDE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 4, "density": 0.1 }
       ]
     }
+  },
+  {
+    "id": "mx_goblin_fruits",
+    "type": "map_extra",
+    "name": { "str": "strange plants" },
+    "description": "A group of strange plants are growing here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_goblin_fruits" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "G",
+    "color": "magenta",
+    "autonote": true
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_goblin_fruits",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "goblin_fruit_plants" ], "x": [ 2, 13 ], "y": [ 2, 13 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "goblin_fruit_plants",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   GGG   ",
+        " GGGGGGG ",
+        " GGGGGGG ",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        "GGGGGGGGG",
+        " GGGGGGG ",
+        " GGGGGGG ",
+        "   GGG   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "G": [
+          [ "t_shrub_goblin_fruit_spring", 1 ],
+          [ "t_shrub_goblin_fruit_summer", 1 ],
+          [ "t_shrub_goblin_fruit_autumn", 1 ],
+          [ "t_shrub_goblin_fruit_winter", 1 ],
+          [ "t_null", 25 ]
+        ],
+        " ": "t_null"
+      }
+    }
+  },
+  {
+    "id": "mx_ring_of_mushrooms",
+    "type": "map_extra",
+    "name": { "str": "a ring of mushrooms" },
+    "description": "A group of mushrooms growing in a ring.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_ring_of_mushrooms" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "m",
+    "color": "light_gray",
+    "autonote": false
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_ring_of_mushrooms",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_nested": [ { "chunks": [ "mushroom_ring_chunk" ], "x": [ 2, 8 ], "y": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 1000,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " S,S ",
+        "S,,,S",
+        ",,,,,",
+        "S,,,S",
+        " S,S "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 600,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " S,S ",
+        "S,,,S",
+        ",,,,,",
+        "S,,,S",
+        " S,S "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 75, "repeat": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 750,
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   S,,S   ",
+        " S,,,,,,S ",
+        " ,,,,,,,, ",
+        "S,,,,,,,,S",
+        ",,,,,,,,,,",
+        ",,,,,,,,,,",
+        "S,,,,,,,,S",
+        " ,,,,,,,, ",
+        " S,,,,,,S ",
+        "   S,,S   "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 400,
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   S,,S   ",
+        " S,,,,,,S ",
+        " ,,,,,,,, ",
+        "S,,,,,,,,S",
+        ",,,,,,,,,,",
+        ",,,,,,,,,,",
+        "S,,,,,,,,S",
+        " ,,,,,,,, ",
+        " S,,,,,,S ",
+        "   S,,S   "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 9 ], "y": [ 0, 9 ], "chance": 75, "repeat": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 500,
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "      S,S      ",
+        "    S,,,,,S    ",
+        "  S,,,,,,,,,S  ",
+        "  ,,,,,,,,,,,  ",
+        " S,,,,,,,,,,,S ",
+        " ,,,,,,,,,,,,, ",
+        "S,,,,,,,,,,,,,S",
+        ",,,,,,,,,,,,,,,",
+        "S,,,,,,,,,,,,,S",
+        " ,,,,,,,,,,,,, ",
+        " S,,,,,,,,,,,S ",
+        "  ,,,,,,,,,,,  ",
+        "  S,,,,,,,,,S  ",
+        "    S,,,,,S    ",
+        "      S,S      "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 200,
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "      S,S      ",
+        "    S,,,,,S    ",
+        "  S,,,,,,,,,S  ",
+        "  ,,,,,,,,,,,  ",
+        " S,,,,,,,,,,,S ",
+        " ,,,,,,,,,,,,, ",
+        "S,,,,,,,,,,,,,S",
+        ",,,,,,,,,,,,,,,",
+        "S,,,,,,,,,,,,,S",
+        " ,,,,,,,,,,,,, ",
+        " S,,,,,,,,,,,S ",
+        "  ,,,,,,,,,,,  ",
+        "  S,,,,,,,,,S  ",
+        "    S,,,,,S    ",
+        "      S,S      "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 14 ], "y": [ 0, 14 ], "chance": 75, "repeat": [ 7, 15 ] } ]
+    }
   }
 ]

@@ -72,7 +72,7 @@
         "7": "f_cupboard",
         "8": "f_counter"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 10, "y": 2, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 10, "y": 1 } ],
       "items": {
         "c": { "item": "kitchen_counters", "chance": 10 },
         "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],

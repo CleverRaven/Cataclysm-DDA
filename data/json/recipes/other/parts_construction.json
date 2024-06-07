@@ -11,7 +11,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -26,7 +26,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "bronze_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -117,7 +117,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ], [ "bronze_nail", 36 ] ] ]
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nails", 36, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -429,7 +429,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -443,7 +443,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "hinge",
@@ -475,7 +475,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ] ],
       [ [ "forge", 75 ] ]
@@ -494,7 +494,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "tools": [
-      [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "sheet_metal", -1 ] ],
       [ [ "forge", 75 ] ]
@@ -571,7 +571,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
@@ -666,7 +666,7 @@
     "time": "10 m",
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 2 ] ],
-    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "tools": [ [ [ "concrete_mix_tool", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
   {

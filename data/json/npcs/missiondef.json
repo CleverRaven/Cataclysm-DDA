@@ -721,7 +721,7 @@
     "dialogue": {
       "describe": "You seem to know this new world better than most…",
       "offer": "We've got another problem to deal with but I don't think we can handle it on our own.  So, I sent word out and found us a volunteer… of sorts.  He's vain as hell but has a little skill with firearms.  He was supposed to collect whatever he had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long we were going to be so I told him to just camp there until we picked him up.",
-      "accepted": "Rodger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
+      "accepted": "Roger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
       "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
       "advice": "I hope the bastard is packing heat… else we'll need to grab him a gun before we hit our next target.",
       "inquire": "Found a gunslinger?",
@@ -787,7 +787,7 @@
     "id": "MISSION_PROVE_YOUR_WORTH",
     "type": "mission_definition",
     "name": { "str": "Prove your worth to Foodperson" },
-    "description": "Prove your dedication to the Foodperson and Foodplace as a whole by finding <color_yellow>10 foodplace loyalty cards</color>.",
+    "description": "Prove your dedication to the Foodperson and Foodplace as a whole by finding <color_yellow>10 Foodplace loyalty cards</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fp_loyalty_card",
     "count": 10,
@@ -795,7 +795,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "npc_add_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" },
         { "u_spawn_item": "badge_foodkid" }
       ]
     },
@@ -818,7 +818,7 @@
     "name": { "str": "Prove You're A Survivor" },
     "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 10 },
+    "goal_condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 10" ] },
     "difficulty": 1,
     "value": 0,
     "origins": [ "ORIGIN_OPENER_NPC" ],
@@ -882,7 +882,7 @@
     "id": "MISSION_PYROMANIAC",
     "type": "mission_definition",
     "name": { "str": "Angry pyromaniac" },
-    "description": "Bring the pyromaniac to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring atleast 200 units of gasoline</color>.  After you got there, talk to the pyromaniac to start burning the house.",
+    "description": "Bring the pyromaniac to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring at least 200 units of gasoline</color>.  After you got there, talk to the pyromaniac to start burning the house.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 0,
@@ -960,7 +960,7 @@
     "invisible_on_complete": true,
     "start": {
       "effect": [
-        { "u_add_var": "time_of_last_succession", "type": "timer", "time": true },
+        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
         { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
       ]
     }
@@ -970,7 +970,7 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "u_compare_time_since_var": "time_of_last_succession", "type": "timer", "op": ">", "time": "90 d" },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
     "deactivate_condition": { "not": { "u_has_var": "time_of_last_succession", "value": "yes" } }
   },
@@ -999,7 +999,7 @@
     "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
-    "effect": [ { "math": [ "time_between_succession", "=", "u_val('time: 3 d')" ] } ]
+    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1007,12 +1007,17 @@
     "eoc_type": "EVENT",
     "required_event": "broken_bone",
     "//1": "Only run EOC if character is currently on succession cooldown!",
-    "condition": { "math": [ "u_val('time_since_var', 'var_name: timer_time_of_last_succession')", "<", "time_between_succession" ] },
+    "condition": {
+      "and": [
+        { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
+        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] }
+      ]
+    },
     "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
       {
-        "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge. (Changing characters is now available at any camp board.)",
+        "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge.  (Changing characters is now available at any camp board.)",
         "type": "mixed"
       },
       { "math": [ "u_timer_time_of_last_succession", "-=", "time_between_succession" ] }

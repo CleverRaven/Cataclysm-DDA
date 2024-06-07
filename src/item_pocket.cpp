@@ -411,14 +411,14 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return false;
     }
 
-    if( rhs.data->extra_encumbrance < data->extra_encumbrance ) {
+    if( rhs.data->extra_encumbrance != data->extra_encumbrance ) {
         // pockets with less extra encumbrance should be prioritized
-        return true;
+        return rhs.data->extra_encumbrance < data->extra_encumbrance;
     }
 
-    if( data->ripoff > rhs.data->ripoff ) {
+    if( data->ripoff != rhs.data->ripoff ) {
         // pockets without ripoff chance should be prioritized
-        return true;
+        return rhs.data->ripoff < data->ripoff;
     }
 
     if( data->rigid != rhs.data->rigid ) {
@@ -443,7 +443,7 @@ bool item_pocket::stacks_with( const item_pocket &rhs, int depth, int maxdepth )
             rhs.contents.begin(), rhs.contents.end(),
     [depth, maxdepth]( const item & a, const item & b ) {
         return depth < maxdepth && a.charges == b.charges &&
-               a.stacks_with( b, false, false, depth + 1, maxdepth );
+               a.stacks_with( b, false, false, false, depth + 1, maxdepth );
     } );
 }
 
@@ -2222,12 +2222,12 @@ std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     std::pair<item_location, item_pocket *> ret( this_loc, nullptr );
-    // If the current pocket has restrictions or blacklists the item,
+    // If the current pocket has restrictions or blacklists the item or is a holster,
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
         !settings.accepts_item( it ) ||
         !get_pocket_data()->get_flag_restrictions().empty() ||
-        settings.priority() > 0;
+        settings.priority() > 0 || is_holster();
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
@@ -2624,7 +2624,9 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
         return false;
     }
     const itype_id &id = it.typeId();
-    const item_category_id &cat = it.get_category_of_contents().id;
+    const item_category_id &cat = category_blacklist.empty() && category_whitelist.empty()
+                                  ? item_category_id{} :
+                                  it.get_category_of_contents().id;
 
     // if the item is explicitly listed in either of the lists, then it's clear what to do with it
     if( item_blacklist.count( id ) ) {

@@ -17,10 +17,7 @@
       {
         "text": "Now that your guitar is fixed, could you play something for me?",
         "condition": {
-          "and": [
-            { "npc_has_var": "sonia_guitar_fixed", "type": "mission", "context": "completed", "value": "yes" },
-            { "npc_has_item": "acoustic_guitar" }
-          ]
+          "and": [ { "npc_has_var": "mission_completed_sonia_guitar_fixed", "value": "yes" }, { "npc_has_item": "acoustic_guitar" } ]
         },
         "topic": "TALK_GODCO_Sonia_Play_For_U"
       },
@@ -31,23 +28,24 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_sonia",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_sonia",
       "value": "yes",
-      "yes": [ "Well now, good to see you again, friend.", "Nice of you to come around <u_name>." ],
+      "yes": [
+        { "gendered_line": "Well now, good to see you again, friend.", "relevant_genders": [ "u" ] },
+        "Nice of you to come around <u_name>."
+      ],
       "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
     },
     "responses": [
       {
         "text": "Sonia?  Nice to meet you, I'm <u_name>.  How are things here?",
-        "effect": { "npc_add_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_sonia", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" } },
         "topic": "TALK_GODCO_Sonia_Feeling"
       },
       {
         "text": "Hey Sonia.  What's up?",
-        "condition": { "npc_has_var": "u_met_godco_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_sonia", "value": "yes" },
         "topic": "TALK_GODCO_Sonia_Tunes"
       },
       { "text": "Hey Sonia.  I can't stay to talk right now.", "topic": "TALK_DONE" }
@@ -58,9 +56,7 @@
     "id": "TALK_GODCO_Sonia_Tunes",
     "dynamic_line": [
       {
-        "npc_has_var": "sonia_guitar_fixed",
-        "type": "mission",
-        "context": "completed",
+        "npc_has_var": "mission_completed_sonia_guitar_fixed",
         "value": "yes",
         "yes": "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer people up, ya know?",
         "no": "Nothin' much, just sitting around and biding my time,, getting any work I can.  I might play something to cheer everyone up, if my guitar wasn't busted."

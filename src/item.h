@@ -26,6 +26,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "material.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -175,10 +176,6 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
-// Currently used to store the only throwing stats of character dropping this item. Default is -1
-struct dropped_by_character_stats {
-    float throwing;
-};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -186,6 +183,14 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
                          const units::mass &weight, int decimal_places = 2, bool lower_is_better = true );
 
 inline bool is_crafting_component( const item &component );
+
+struct stacking_info {
+    tname::segment_bitset bits;
+    // NOLINTNEXTLINE(google-explicit-constructor)
+    operator bool() const {
+        return bits.all();
+    }
+};
 
 class item : public visitable
 {
@@ -226,8 +231,6 @@ class item : public visitable
         {}
 
         ~item() override;
-
-        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -404,15 +407,13 @@ class item : public visitable
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
          * returns "rock" for quantity 1 and "rocks" for quantity > 0.
-         * @param with_prefix determines whether to include more item properties, such as
-         * the extent of damage and burning (was created to sort by name without prefix
-         * in additional inventory)
-         * @param with_contents determines whether to add a suffix with the full name of the contents
-         * of this item (if with_contents = false and item is not empty, "n items" will be added)
+         * @param segments determines which tname elements are included
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
-                           unsigned int truncate = 0, bool with_contents_full = true,
-                           bool with_collapsed = true, bool with_contents_abbrev = true ) const;
+        std::string tname( unsigned int quantity = 1,
+                           tname::segment_bitset const &segments = tname::default_tname ) const;
+        std::string tname( unsigned int quantity, bool with_prefix ) const;
+        static std::string tname( const itype_id &id, unsigned int quantity = 1,
+                                  tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -542,10 +543,9 @@ class item : public visitable
 
         // Returns the category of this item, regardless of contents.
         const item_category &get_category_shallow() const;
-        // Returns the category of item inside this item.
+        // Returns the dominant category of items inside this one.
         // "can of meat" would be food, instead of container.
-        // If there are multiple items/stacks or none then it defaults to category of this item.
-        const item_category &get_category_of_contents() const;
+        const item_category &get_category_of_contents( int depth = 0, int maxdepth = 2 ) const;
 
         class reload_option
         {
@@ -616,8 +616,15 @@ class item : public visitable
          * stacks like "3 items-count-by-charge (5)".
          */
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
-        bool stacks_with( const item &rhs, bool check_components = false,
-                          bool combine_liquid = false, int depth = 0, int maxdepth = 2 ) const;
+        /**
+         * Check wether each element of tname::segments stacks, ie. wether the respective
+         * pieces of information are considered equal for display purposes
+         *
+         * stacking_info is implicitly convertible to bool and will be true only if ALL segments stack
+         */
+        stacking_info stacks_with( const item &rhs, bool check_components = false,
+                                   bool combine_liquid = false, bool check_cat = false,
+                                   int depth = 0, int maxdepth = 2, bool precise = false ) const;
 
         /**
          * Whether the two items have same contents.
@@ -829,6 +836,8 @@ class item : public visitable
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
+        bool container_type_pockets_empty() const;
+
         // gets all pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
         std::vector<item_pocket *> get_all_contained_pockets();
@@ -949,7 +958,8 @@ class item : public visitable
          * of the container will be ignored.
          */
         item in_its_container( int qty = 0 ) const;
-        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true ) const;
+        item in_container( const itype_id &container_type, int qty = 0, bool sealed = true,
+                           const std::string &container_variant = "" ) const;
         void add_automatic_whitelist();
         void clear_automatic_whitelist();
 
@@ -1138,6 +1148,11 @@ class item : public visitable
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
         const std::map<itype_id, int> &brewing_results() const;
+
+        /** Time for this item to be fully fermented. */
+        time_duration composting_time() const;
+        /** The results of fermenting this item. */
+        const std::map<itype_id, int> &composting_results() const;
 
         /**
          * Detonates the item and adds remains (if any) to drops.
@@ -1328,7 +1343,7 @@ class item : public visitable
         void rand_degradation();
 
         // @see itype::damage_level()
-        int damage_level() const;
+        int damage_level( bool precise = false ) const;
 
         // modifies melee weapon damage to account for item's damage
         float damage_adjusted_melee_weapon_damage( float value ) const;
@@ -1375,14 +1390,15 @@ class item : public visitable
          * This version is for items with durability
          * @return the state of the armor
          */
-        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+                                              double enchant_multiplier = 1 );
 
         /**
          * Damage related logic for armor items that warp and transform instead of degrading.
          * Items such as ablative plates are considered with this.
          * @return the state of the armor
          */
-        armor_status damage_armor_transforms( damage_unit &du ) const;
+        armor_status damage_armor_transforms( damage_unit &du, double enchant_multiplier = 1 ) const;
 
         // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
         std::string damage_indicator() const;
@@ -1614,9 +1630,11 @@ class item : public visitable
         bool is_transformable() const;
         bool is_relic() const;
         bool is_same_relic( item const &rhs ) const;
+        bool is_same_temperature( item const &rhs ) const;
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
+        bool is_compostable() const;
         bool is_engine() const;
         bool is_wheel() const;
         bool is_fuel() const;
@@ -1686,12 +1704,14 @@ class item : public visitable
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
@@ -1723,9 +1743,10 @@ class item : public visitable
         bool can_reload_with( const item &ammo, bool now ) const;
 
         /**
-          * Returns true if any of the contents are not frozen or not empty if it's liquid
+          * Returns true if it doesn't have flag NO_UNLOAD,
+          * and any of the contents are not frozen or not empty if it's liquid
           */
-        bool can_unload_liquid() const;
+        bool can_unload() const;
 
         /**
          * Returns true if none of the contents are solid
@@ -1847,7 +1868,8 @@ class item : public visitable
          * Or "The jacket is too small", when it applies to all jackets, not just the one the
          * character tried to wear).
          */
-        std::string type_name( unsigned int quantity = 1 ) const;
+        std::string type_name( unsigned int quantity = 1, bool use_variant = true,
+                               bool use_cond_name = true, bool use_corpse = true ) const;
 
         /**
          * Number of (charges of) this item that fit into the given volume.
@@ -1947,8 +1969,17 @@ class item : public visitable
         /** returns read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
+        /** returns read-only set of flags of this item that will add prefixes to this item. */
+        const FlagsSetType &get_prefix_flags() const;
+
+        /** returns read-only set of flags of this item that will add suffixes to this item. */
+        const FlagsSetType &get_suffix_flags() const;
+
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
+
+        /** Idempotent filter setting an item specific fault. */
+        item &set_fault( const fault_id &fault_id );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -1959,6 +1990,9 @@ class item : public visitable
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
+
+        /**Does this item have the specified vitamin*/
+        bool has_vitamin( const vitamin_id &vitamin ) const;
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
@@ -2017,27 +2051,15 @@ class item : public visitable
          */
         bool is_seed() const;
         /**
-         * Time it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        time_duration get_plant_epoch() const;
+        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
-         */
-        std::optional<furn_str_id> get_plant_seedling_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
-         */
-        std::optional<furn_str_id> get_plant_mature_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
-         */
-        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
         /**
          * @name Armor related functions.
@@ -2235,16 +2257,6 @@ class item : public visitable
                           encumber_flags = encumber_flags::none ) const;
 
         /**
-         * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
-         */
-        float get_weight_capacity_modifier() const;
-        /**
-         * Returns the weight capacity bonus (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 0. The bonus is added to the total weight capacity of the character that wears the item.
-         */
-        units::mass get_weight_capacity_bonus() const;
-        /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
@@ -2418,6 +2430,8 @@ class item : public visitable
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
+
+
     private:
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
@@ -2475,7 +2489,9 @@ class item : public visitable
          * @param fuel_efficiency if this is a generator of some kind the efficiency at which it consumes fuel
          * @return amount of ammo consumed which will be between 0 and qty
          */
+        // TODO: Get rid of untyped overload
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
+        int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
@@ -2641,7 +2657,7 @@ class item : public visitable
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const Character &p, bool bipod = false ) const;
+        int gun_recoil( const Character &p, bool bipod = false, bool ideal_strength = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
@@ -2649,6 +2665,10 @@ class item : public visitable
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
         damage_instance gun_damage( itype_id ammo ) const;
+        /**
+        * The base weight of gun which takes receiver into account
+         */
+        units::mass gun_base_weight() const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */
@@ -2690,10 +2710,6 @@ class item : public visitable
          * @name Vehicle parts
          *
          *@{*/
-
-        /** for combustion engines the displacement (cc) */
-        int engine_displacement() const;
-        /*@}*/
 
         /**
          * @name Bionics / CBMs
@@ -2759,7 +2775,8 @@ class item : public visitable
         /**
         * Returns label from "item_label" itemvar and quantity
         */
-        std::string label( unsigned int quantity = 0 ) const;
+        std::string label( unsigned int quantity = 0, bool use_variant = true,
+                           bool use_cond_name = true, bool use_corpse = true ) const;
 
         bool has_infinite_charges() const;
 
@@ -2912,6 +2929,22 @@ class item : public visitable
 
         item const *this_or_single_content() const;
         bool contents_only_one_type() const;
+        struct aggregate_t {
+            stacking_info info;
+            item const *header{};
+            unsigned int count{};
+
+            aggregate_t() = default;
+            explicit aggregate_t( item const *i )
+                : header( i ), count( 1 ) {
+                info.bits.set();
+            };
+
+            explicit operator bool() const noexcept {
+                return header != nullptr;
+            }
+        };
+        aggregate_t aggregated_contents( int depth = 0, int maxdepth = 2 ) const;
 
         /**
          * returns a list of pointers to all items inside recursively
@@ -3002,6 +3035,11 @@ class item : public visitable
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
         void update_inherited_flags();
+        /**
+        * Update prefix_tags_cache and suffix_tags_cache
+        */
+        void update_prefix_suffix_flags();
+        void update_prefix_suffix_flags( const flag_id &flag );
 
     public:
         enum class sizing : int {
@@ -3043,6 +3081,7 @@ class item : public visitable
         item_components components;
         /** What faults (if any) currently apply to this item */
         cata::heap<std::set<fault_id>> faults;
+        const mtype *get_corpse_mon() const;
 
     private:
         item_contents contents;
@@ -3052,6 +3091,8 @@ class item : public visitable
         bool requires_tags_processing = true;
         cata::heap<FlagsSetType> item_tags; // generic item specific flags
         cata::heap<FlagsSetType> inherited_tags_cache;
+        cata::heap<FlagsSetType> prefix_tags_cache; // flags that will add prefixes to this item
+        cata::heap<FlagsSetType> suffix_tags_cache; // flags that will add suffixes to this item
         lazy<safe_reference_anchor> anchor;
         cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;
@@ -3164,6 +3205,12 @@ class item : public visitable
         mutable std::optional<float> cached_relative_encumbrance;
         mutable cata::value_ptr<link_data> link_;
 
+        struct cat_cache {
+            item_category_id id;
+            time_point timestamp = calendar::turn_max;
+        };
+        mutable cat_cache cached_category;
+
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
 
@@ -3235,9 +3282,14 @@ inline bool is_crafting_component( const item &component )
  */
 bool is_preferred_component( const item &component );
 
-/**
- * Filter for empty crafting components first pass searches
- */
-bool is_preferred_crafting_component( const item &component );
-
 #endif // CATA_SRC_ITEM_H
+
+struct disp_mod_by_barrel {
+    units::length barrel_length;
+    int dispersion_modifier;
+
+    disp_mod_by_barrel();
+    disp_mod_by_barrel( units::length bl, int disp ) : barrel_length( bl ),
+        dispersion_modifier( disp ) {}
+    void deserialize( const JsonObject &jo );
+};

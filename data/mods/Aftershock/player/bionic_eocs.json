@@ -2,22 +2,29 @@
   {
     "id": "eoc_bio_superheater_on",
     "type": "effect_on_condition",
-    "effect": { "u_add_var": "on", "type": "bio", "context": "superheater", "value": "yes" }
+    "effect": { "u_add_var": "bio_superheater_on", "value": "yes" }
   },
   {
     "id": "eoc_bio_superheater_off",
     "type": "effect_on_condition",
-    "effect": { "u_lose_var": "on", "type": "bio", "context": "superheater" }
+    "effect": { "u_lose_var": "bio_superheater_on" }
   },
   {
     "id": "eoc_bio_blade_electric_on",
     "type": "effect_on_condition",
-    "effect": { "u_add_var": "on", "type": "bio", "context": "blade_electric", "value": "yes" }
+    "effect": { "u_add_var": "bio_blade_electric_on", "value": "yes" }
   },
   {
     "id": "eoc_bio_blade_electric_off",
     "type": "effect_on_condition",
-    "effect": { "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
+    "effect": { "u_lose_var": "bio_blade_electric_on" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_eoc_blood_brain_heal",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_bionics": "afs_bio_blood_brain" },
+    "effect": [ { "math": [ "u_hp('head')", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -84,7 +91,7 @@
     "id": "afs_eoc_hangover_healing",
     "effect": [
       { "u_add_effect": "post_healing_injection", "duration": "6 hours", "target_part": "torso" },
-      { "math": [ "u_val('fatigue')", "+=", "80" ] },
+      { "math": [ "u_val('sleepiness')", "+=", "80" ] },
       {
         "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
@@ -104,7 +111,7 @@
     "id": "afs_eoc_hangover_strength",
     "effect": [
       { "u_add_effect": "post_strength_injection", "duration": "6 hours" },
-      { "math": [ "u_val('fatigue')", "+=", "80" ] },
+      { "math": [ "u_val('sleepiness')", "+=", "80" ] },
       {
         "u_add_morale": "morale_afs_drugs",
         "bonus": -20,

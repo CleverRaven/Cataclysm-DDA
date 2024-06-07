@@ -869,13 +869,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "copy-from": "megastore_parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "megastore_0_0_0",
     "copy-from": "megastore_0_0_0",
     "sym": "m",
@@ -1645,7 +1638,7 @@
     "type": "overmap_terrain",
     "id": "fema_entrance",
     "copy-from": "fema_entrance",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "F",
     "color": "i_red"
   },
@@ -1653,7 +1646,7 @@
     "type": "overmap_terrain",
     "id": "fema",
     "copy-from": "fema",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "f",
     "color": "i_red"
   },
@@ -2106,12 +2099,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "basement_bionic",
-    "copy-from": "basement_bionic",
-    "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rock",
     "copy-from": "rock",
     "name": "solid rock",
@@ -2125,22 +2112,6 @@
     "name": "solid rock",
     "sym": "%",
     "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rift",
-    "copy-from": "rift",
-    "name": "rift",
-    "sym": "^",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "copy-from": "hellmouth",
-    "name": "hellmouth",
-    "sym": "^",
-    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
@@ -5588,7 +5559,15 @@
     "type": "overmap_terrain",
     "id": "zoo_2_0",
     "copy-from": "zoo_2_0",
-    "name": "zoo pavilion",
+    "name": "zoo entrance",
+    "sym": "Z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_0",
+    "copy-from": "zoo_3_0",
+    "name": "zoo entrance",
     "sym": "Z",
     "color": "i_blue"
   },
@@ -5618,6 +5597,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_3_1",
+    "copy-from": "zoo_3_1",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_0_2",
     "copy-from": "zoo_0_2",
     "name": "zoo",
@@ -5636,6 +5623,46 @@
     "type": "overmap_terrain",
     "id": "zoo_2_2",
     "copy-from": "zoo_2_2",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_2",
+    "copy-from": "zoo_3_2",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_3",
+    "copy-from": "zoo_0_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_3",
+    "copy-from": "zoo_1_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_3",
+    "copy-from": "zoo_2_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_3",
+    "copy-from": "zoo_3_3",
     "name": "zoo",
     "sym": "z",
     "color": "i_blue"

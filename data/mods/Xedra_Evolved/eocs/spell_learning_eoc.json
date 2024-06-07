@@ -18,7 +18,7 @@
       { "u_message": "spell: <context_val:spell>", "type": "debug" },
       { "u_message": "spell_exp_diff: <global_val:debug_xe_spell_exp_diff>", "type": "debug" },
       { "u_message": "spell_train_factor: <global_val:debug_xe_spell_train_factor>", "type": "debug" },
-      { "u_message": "amount of xp added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
+      { "u_message": "amount of XP added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
       { "math": [ "u_spell_exp(_spell)", "+=", "spell_exp_diff(u_spell_level(_spell))/spell_train_factor(_cost)" ] }
     ]
   },
@@ -28,7 +28,7 @@
     "eoc_type": "EVENT",
     "required_event": "player_levels_spell",
     "//": "time_since_cataclysm check is used because spells, given by scenario, call player_levels_spell event also",
-    "condition": { "and": [ { "one_in_chance": 16 }, { "math": [ "u_val('time_since_cataclysm: turns')", ">", "2" ] } ] },
+    "condition": { "and": [ { "one_in_chance": 16 }, { "math": [ "time_since('cataclysm') > 2" ] } ] },
     "effect": [
       {
         "if": { "and": [ { "u_has_trait": "EATER" }, { "compare_string": [ "EATER", { "context_val": "school" } ] } ] },
@@ -75,8 +75,6 @@
           {
             "set_string_var": [
               "spring_heeled_leap",
-              "banish_nether_monsters",
-              "banish_dark_monsters",
               "blood_boil",
               "self_healing",
               "supercoffee",
@@ -113,6 +111,8 @@
         "effect": [
           {
             "set_string_var": [
+              "banish_nether_monsters",
+              "banish_dark_monsters",
               "dream_blade",
               "dream_dagger",
               "dream_armor",

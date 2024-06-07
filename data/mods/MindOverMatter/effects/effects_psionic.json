@@ -269,7 +269,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "effect_type",
@@ -366,7 +367,7 @@
     "type": "effect_type",
     "id": "effect_biokin_metabolism_enhance",
     "name": [ "Hyperenhanced Metabolism" ],
-    "desc": [ "c ." ],
+    "desc": [ "Your metabolism is far more efficient than before." ],
     "apply_message": "",
     "remove_message": "Your stomach rumbles.",
     "rating": "good",
@@ -375,18 +376,18 @@
       {
         "values": [
           {
-            "value": "HUNGER",
+            "value": "KCAL",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "min((( 0.33 + ( u_spell_level('biokin_metabolism_enhance') * 0.07 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 3)"
               ]
             }
           },
           {
-            "value": "THIRST",
+            "value": "VITAMIN_ABSORB_MOD",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "min((( 0.33 + ( u_spell_level('biokin_metabolism_enhance') * 0.07 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 3)"
               ]
             }
           },
@@ -394,12 +395,12 @@
             "value": "METABOLISM",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "max((( -0.10 + ( u_spell_level('biokin_metabolism_enhance') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.4)"
               ]
             }
           },
           {
-            "value": "FATIGUE",
+            "value": "SLEEPINESS",
             "multiply": {
               "math": [
                 "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
@@ -506,7 +507,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
+                "min( ( ( ( ( u_spell_level('biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
               ]
             }
           }
@@ -545,146 +546,26 @@
     "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "good",
-    "max_duration": "7 days"
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_1",
     "name": [ "Night Eyes" ],
     "desc": [ "You can sense your surroundings in the dark." ],
     "apply_message": "",
     "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 2 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_2",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 4 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_3",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_4",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 8 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_5",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_6",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_7",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 14 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_clair_night_eyes_8",
-    "name": [ "Night Eyes" ],
-    "desc": [ "You can sense your surroundings in the dark." ],
-    "apply_message": "",
-    "remove_message": "The darkness hides your surroundings again.",
-    "decay_messages": [
-      [ "The shadows are growing darker and darker to your sight.", "bad" ],
-      [ "Darkness begins to creep across your vision.", "bad" ]
-    ],
-    "rating": "good",
-    "max_duration": "7 days",
-    "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "NIGHT_VIS",
+            "add": {
+              "math": [
+                "( ( ( u_spell_level('clair_night_vision') * 1.5) + 2 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -694,7 +575,29 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "READING_EXP",
+            "add": {
+              "math": [
+                "( ( u_spell_level('clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') ))) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "READING_SPEED_MULTIPLIER",
+            "multiply": {
+              "math": [
+                "max((( -0.15 + ( u_spell_level('clair_speed_reading') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.6)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -758,7 +661,8 @@
     "id": "effect_clair_weak_point",
     "name": [ "Weaknesses Discerned" ],
     "desc": [ "Your vulnerabilities have been laid open." ],
-    "apply_message": "",
+    "apply_message": "You suddenly feel terribly vulnerable.",
+    "remove_message": "You no longer feel so exposed.",
     "rating": "bad",
     "max_duration": "1 minutes",
     "show_in_info": true,
@@ -767,31 +671,31 @@
         "values": [
           {
             "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_COLD",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           }
         ]
       }
@@ -863,25 +767,25 @@
       {
         "values": [
           {
-            "value": "BONUS_DODGE",
+            "value": "EVASION",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.7)"
               ]
             }
           },
           {
-            "value": "BONUS_BLOCK",
+            "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min((( ( u_spell_level('clair_dodge_power') * 0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 10)"
               ]
             }
           }
         ]
       }
     ],
-    "flags": [ "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT" ]
   },
   {
     "type": "effect_type",
@@ -892,7 +796,21 @@
     ],
     "rating": "good",
     "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 3 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 3 },
+          {
+            "value": "CRAFTING_SPEED_MULTIPLIER",
+            "multiply": {
+              "math": [
+                "( 0.04 + ( u_spell_level('clair_craft_bonus') * 0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ],
     "flags": [ "MYOPIC" ]
   },
   {
@@ -932,6 +850,26 @@
       "snow_glare",
       "venom_blind"
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_astral_projection",
+    "name": [ "Astrally Projecting" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "REGEN_STAMINA", "multiply": -1 }
+        ]
+      }
+    ],
+    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -1038,6 +976,16 @@
     "dur_add_perc": 10,
     "int_dur_factor": "17 s",
     "enchantments": [ "enchant_electrokin_electric_strikes" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You have constructed an electrical interface to hack nearby devices." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
@@ -1153,8 +1101,20 @@
     "max_intensity": 36,
     "dur_add_perc": 10,
     "int_dur_factor": "17 s",
-    "enchantments": [ "enchant_electrokin_lightning_aura" ],
-    "flags": [ "EMP_IMMUNE" ]
+    "flags": [ "EMP_IMMUNE", "ELECTRIC_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_lightning_aura_aftershock",
+    "name": [ "Galvanic Aftershock" ],
+    "desc": [ "You still remain immune to the effects of electricity, if only briefly." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "5 seconds",
+    "max_intensity": 1,
+    "dur_add_perc": 0,
+    "flags": [ "EMP_IMMUNE", "ELECTRIC_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -1205,7 +1165,21 @@
     "apply_message": "",
     "remove_message": "You stop bending light around your location.",
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min((( 10 + ( u_spell_level('photokinetic_camouflage') * 3 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1705,7 +1679,7 @@
       "psi_stunned",
       "telepathic_ignorance"
     ],
-    "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
+    "flags": [ "TEEPSHIELD" ]
   },
   {
     "type": "effect_type",
@@ -1718,6 +1692,13 @@
     "show_in_info": true,
     "base_mods": { "speed_mod": [ -30 ], "dodge_mod": [ -2 ], "hit_mod": [ -2 ], "bash_mod": [ -8 ] },
     "immune_flags": [ "TEEPSHIELD", "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_primal_terror_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1792,7 +1773,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
-    "base_mods": { "speed_mod": [ -40 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
   {
@@ -1812,6 +1793,88 @@
             "multiply": {
               "math": [
                 "max( (( ( ( u_spell_level('teleport_stride') * -0.02 ) - 0.05 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.6)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_02",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_03",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal and sometimes not at all." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "blocks_effects": [ "bleed" ],
+    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
               ]
             }
           }
@@ -1853,6 +1916,36 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vitakin_healing_trance",
+    "name": [ "Revitalizing Meditation" ],
+    "desc": [ "Thanks to your meditations you are healing much more quickly" ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_hurt",
     "name": [ "Enervating Touch" ],
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
@@ -1885,9 +1978,9 @@
       "health_min": [ 0 ],
       "health_chance": [ 1000 ],
       "health_tick": [ 60 ],
-      "fatigue_min": [ 0 ],
-      "fatigue_chance": [ 500 ],
-      "fatigue_tick": [ 60 ],
+      "sleepiness_min": [ 0 ],
+      "sleepiness_chance": [ 500 ],
+      "sleepiness_tick": [ 60 ],
       "vomit_chance": [ 1000 ],
       "vomit_tick": [ 60 ]
     },
@@ -1899,8 +1992,8 @@
       "pain_chance": [ -1 ],
       "health_min": [ -1 ],
       "health_chance": [ -135 ],
-      "fatigue_min": [ 0.6 ],
-      "fatigue_chance": [ -65 ],
+      "sleepiness_min": [ 0.6 ],
+      "sleepiness_chance": [ -65 ],
       "vomit_chance": [ -150 ]
     }
   },

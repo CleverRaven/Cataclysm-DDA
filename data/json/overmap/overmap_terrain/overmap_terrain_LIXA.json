@@ -1,0 +1,83 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_surface_1a", "LIXA_surface_2a", "LIXA_surface_1b", "LIXA_surface_2b" ],
+    "name": "research facility",
+    "sym": "l",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_roof_1a", "LIXA_roof_2a", "LIXA_roof_1b", "LIXA_roof_2b" ],
+    "name": "research facility roof",
+    "sym": "l",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_entry_1", "LIXA_entry_2" ],
+    "name": "research facility gate",
+    "sym": "l",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_road" ],
+    "name": "research facility access road",
+    "sym": "l",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_road_guard" ],
+    "name": "research facility checkpoint",
+    "sym": "l",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "LIXA_stairshaft_1a",
+      "LIXA_stairshaft_1b",
+      "LIXA_stairshaft_1c",
+      "LIXA_stairshaft_1d",
+      "LIXA_stairshaft_2a",
+      "LIXA_stairshaft_2b",
+      "LIXA_stairshaft_2c",
+      "LIXA_stairshaft_2d"
+    ],
+    "name": "LIXA experiment floor access",
+    "sym": "l",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_workfloor_1a", "LIXA_workfloor_2a", "LIXA_workfloor_1b", "LIXA_workfloor_2b" ],
+    "name": "LIXA research floor",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_device_1", "LIXA_device_2", "LIXA_device_3", "LIXA_device_2_roof", "LIXA_device_3_roof" ],
+    "name": "LIXA device floor",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "LIXA_device_unfolded_A", "LIXA_device_unfolded_B", "LIXA_device_unfolded_noaccess" ],
+    "name": "unfolded space",
+    "sym": "!",
+    "color": "white",
+    "see_cost": 5
+  }
+]

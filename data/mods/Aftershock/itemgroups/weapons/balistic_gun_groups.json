@@ -29,7 +29,9 @@
       [ "afs_Accipitermg", 20 ],
       [ "afs_gibrifle", 40 ],
       [ "afs_shotgun", 15 ],
+      [ "afs_sr77", 10 ],
       [ "afs_25mm_goa", 5 ],
+      [ "afs_marsec_t72", 2 ],
       [ "afs_drotik_shotpistol", 5 ],
       [ "afs_shotgun_magnastorm", 5 ]
     ]
@@ -84,6 +86,16 @@
       { "group": "afs_any_ballistic_s_ammo", "prob": 10 },
       { "group": "afs_any_ballistic_m_ammo", "prob": 10 },
       { "group": "afs_any_ballistic_h_ammo", "prob": 2 }
+    ]
+  },
+  {
+    "id": "afs_any_civilian_ballistic_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "afs_civilian_ballistic_s_ammo", "prob": 10 },
+      { "group": "afs_civilian_ballistic_m_ammo", "prob": 10 },
+      { "group": "afs_civilian_ballistic_h_ammo", "prob": 2 }
     ]
   },
   {

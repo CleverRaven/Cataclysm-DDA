@@ -45,7 +45,7 @@ fi
 
 if [ "$BIN" ]
 then
-    exec ./$BIN "$@"
+    env LD_LIBRARY_PATH="${DIR}:${LD_LIBRARY_PATH}" ./"${BIN}" "$@"
 else
     printerr "Couldn't find cataclysm game binary in '$DIR'/"
     exit 1

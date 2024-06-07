@@ -95,66 +95,66 @@
   {
     "id": "l_bp_HD",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "head",
     "clauses": [
-      { "id": "healthy", "sym": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "HD:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "HD:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_CT",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "torso",
     "clauses": [
-      { "id": "healthy", "sym": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "CT:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "CT:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_LA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_l",
     "clauses": [
-      { "id": "healthy", "sym": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "LA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "LA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_RA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_r",
     "clauses": [
-      { "id": "healthy", "sym": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "RA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "RA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_LL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_l",
     "clauses": [
-      { "id": "healthy", "sym": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "LL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "LL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_RL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_r",
     "clauses": [
-      { "id": "healthy", "sym": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "RL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "RL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
@@ -941,95 +941,90 @@
     "width": 5,
     "style": "symbol",
     "clauses": [
-      {
-        "id": "new_moon",
-        "sym": "⎛   ⎞",
-        "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] }
-      },
+      { "id": "new_moon", "sym": "⎛   ⎞", "color": "c_light_gray", "condition": { "math": [ "moon_phase() == 0" ] } },
       {
         "id": "waxing_crescent1",
         "sym": "⎛  ",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "math": [ "moon_phase() == 1" ] }
       },
       {
         "id": "waxing_crescent2",
         "sym": "▊⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "math": [ "moon_phase() == 1" ] }
       },
       {
         "id": "half_moon1",
         "sym": "⎛ ▐",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "math": [ "moon_phase() == 2" ] }
       },
       {
         "id": "half_moon2",
         "sym": "⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "math": [ "moon_phase() == 2" ] }
       },
       {
         "id": "waxing_gibbous1",
         "sym": "⎛",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "math": [ "moon_phase() == 3" ] }
       },
       {
         "id": "waxing_gibbous2",
         "sym": "▎⢁⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "math": [ "moon_phase() == 4" ] }
       },
       {
         "id": "full_moon",
         "sym": "⎛⡐⢁⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
+        "condition": { "math": [ "moon_phase() == 4" ] }
       },
       {
         "id": "waning_gibbous1",
         "sym": "⎛⡐⢁",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "math": [ "moon_phase() == 5" ] }
       },
       {
         "id": "waning_gibbous2",
         "sym": "▎⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "math": [ "moon_phase() == 5" ] }
       },
       {
         "id": "half_moon1",
         "sym": "⎛⡐",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "math": [ "moon_phase() == 6" ] }
       },
       {
         "id": "half_moon2",
         "sym": "▌ ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "math": [ "moon_phase() == 6" ] }
       },
       {
         "id": "waning_crescent1",
         "sym": "⎛",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "math": [ "moon_phase() == 7" ] }
       },
       {
         "id": "waning_crescent2",
         "sym": "▎  ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "math": [ "moon_phase() == 7" ] }
       },
       {
         "id": "dark_moon",
         "sym": "⎛   ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
+        "condition": { "math": [ "moon_phase() == 8" ] }
       }
     ],
     "type": "widget"
@@ -1237,7 +1232,7 @@
     "id": "l_str",
     "width": 2,
     "copy-from": "t_label",
-    "string": "S:",
+    "string": { "ctxt": "label_strength", "str": "S:" },
     "type": "widget"
   },
   {
@@ -1848,7 +1843,7 @@
     "id": "l_stamina",
     "width": 2,
     "copy-from": "t_label",
-    "string": "S:",
+    "string": { "ctxt": "label_stamina", "str": "S:" },
     "type": "widget"
   },
   {
@@ -1908,7 +1903,7 @@
     "id": "i_rest_graph",
     "width": 4,
     "copy-from": "t_horiz_graph",
-    "var": "fatigue",
+    "var": "sleepiness",
     "colors": [ "h_light_gray", "h_light_red" ],
     "type": "widget"
   },
@@ -2006,7 +2001,7 @@
     "id": "l_weary",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary", "str": "W:" },
     "type": "widget"
   },
   {
@@ -2029,7 +2024,7 @@
     "id": "l_wtrns",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary_transition_level", "str": "W:" },
     "type": "widget"
   },
   {

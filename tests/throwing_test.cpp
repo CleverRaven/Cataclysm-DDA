@@ -258,7 +258,7 @@ static void test_player_kills_monster(
             ++turns;
             mon.process_turn();
             mon.set_dest( you.get_location() );
-            while( mon.moves > 0 ) {
+            while( mon.get_moves() > 0 ) {
                 mon.move();
             }
 

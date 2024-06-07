@@ -26,7 +26,7 @@
         "u_has_trait": "PROF_HUB01_ANCILLIARY",
         "yes": [
           "Hey oh umm.  Yes, Sir?",
-          "&The mercenary looks noticeably tense as you approach.",
+          { "gendered_line": "&The mercenary looks noticeably tense as you approach.", "relevant_genders": [ "npc" ] },
           "Nothing to report, Sir!",
           "Hey boss."
         ],
@@ -42,9 +42,7 @@
             "Well I cant complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
           ],
           "no": {
-            "u_has_var": "first_meet",
-            "type": "dialogue",
-            "context": "ancilla_hq_guard",
+            "u_has_var": "dialogue_ancilla_hq_guard_first_meet",
             "value": "yes",
             "yes": [
               "If you don't have any business here, you better get going.",
@@ -57,7 +55,7 @@
         }
       }
     },
-    "speaker_effect": { "effect": [ { "u_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" } ] },
+    "speaker_effect": { "effect": [ { "u_add_var": "bool_ancilla_barkeep", "value": "yes" } ] },
     "responses": [
       {
         "text": "What are you doing here?",

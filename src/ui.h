@@ -4,10 +4,8 @@
 
 #include <functional>
 #include <initializer_list>
-#include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -18,7 +16,7 @@
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -289,7 +287,7 @@ class uilist // NOLINT(cata-xy)
         void reposition( ui_adaptor &ui );
         void show( ui_adaptor &ui );
         bool scrollby( int scrollby );
-        void query( bool loop = true, int timeout = -1 );
+        void query( bool loop = true, int timeout = -1, bool allow_unfiltered_hotkeys = false );
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable

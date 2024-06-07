@@ -85,16 +85,20 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
 TEST_CASE( "conjoined_vehicles", "[vehicle]" )
 {
     map &here = get_map();
-    here.add_vehicle( vehicle_prototype_car, { 40, 40, here.get_abs_sub().z() }, 0_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 42, 42, here.get_abs_sub().z() }, 0_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 44, 44, here.get_abs_sub().z() }, 45_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 48, 44, here.get_abs_sub().z() }, 45_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 40, 40, here.get_abs_sub().z() ),
+                      0_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 42, 42, here.get_abs_sub().z() ),
+                      0_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 44, 44, here.get_abs_sub().z() ),
+                      45_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 48, 44, here.get_abs_sub().z() ),
+                      45_degrees );
 }
 
 TEST_CASE( "crater_crash", "[vehicle]" )
 {
     tinymap here;
-    tripoint_abs_sm map_location( 60, 60, 0 );
+    tripoint_abs_omt map_location( 30, 30, 0 );
     here.load( map_location, true );
     here.add_vehicle( vehicle_prototype_car, { 14, 11, here.get_abs_sub().z() }, 45_degrees );
     const tripoint end{ 20, 20, 0 };
@@ -114,8 +118,8 @@ TEST_CASE( "split_vehicle_during_mapgen", "[vehicle]" )
 
     tinymap tm;
     // Wherever the main map is, create this tinymap outside its bounds.
-    tm.load( here.get_abs_sub() + tripoint( 20, 20, 0 ), false );
-    wipe_map_terrain( &tm );
+    tm.load( project_to<coords::omt>( here.get_abs_sub() ) + tripoint_rel_omt( 10, 10, 0 ), false );
+    wipe_map_terrain( tm.cast_to_map() );
     REQUIRE( tm.get_vehicles().empty() );
     tripoint vehicle_origin{ 14, 14, 0 };
     vehicle *veh_ptr = tm.add_vehicle( vehicle_prototype_cross_split_test,

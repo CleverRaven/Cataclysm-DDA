@@ -6,18 +6,17 @@
     "effect": [
       { "u_add_effect": "effect_photokin_light_local", "duration": "PERMANENT" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
         "queue_eocs": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_light_local') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 260) + 1560) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_light_local') * 900) + 5400) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 870) + 3420) * (scaling_factor(u_val('intelligence') ) )  *u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -36,8 +35,9 @@
     "id": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
     "condition": { "u_has_effect": "effect_photokin_light_local" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('photokinetic_light_local')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -45,12 +45,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_light_local') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 260) + 1560) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_light_local') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_light_local') * 870) + 3420) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -61,25 +61,22 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
-    "condition": {
-      "and": [ { "not": { "u_has_item": "photokinetic_rad_aura" } }, { "not": { "u_has_effect": "effect_photokin_light_barrier" } } ]
-    },
+    "condition": { "not": { "u_has_effect": "effect_photokin_light_barrier" } },
     "effect": [
       { "u_message": "The air around you shimmers as an invisible barrier of light forms around you.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_photokin_light_barrier", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
       {
         "queue_eocs": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 18) + 370) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 182) + 810) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -91,19 +88,16 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
     "condition": { "u_has_effect": "effect_photokin_light_barrier" },
-    "effect": [
-      { "u_remove_item_with": "photokinetic_rad_aura" },
-      { "u_lose_effect": "effect_photokin_light_barrier" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
-    ]
+    "effect": [ { "u_lose_effect": "effect_photokin_light_barrier" }, { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
-    "condition": { "or": [ { "u_has_item": "photokinetic_rad_aura" }, { "u_has_effect": "effect_photokin_light_barrier" } ] },
+    "condition": { "u_has_effect": "effect_photokin_light_barrier" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
       { "math": [ "u_spell_exp('photokinetic_rad_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -111,12 +105,12 @@
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_rad_immunity') * 150) + 2500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 18) + 370) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_rad_immunity') * 360) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_rad_immunity') * 182) + 810) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -131,42 +125,24 @@
     "effect": [
       { "u_message": "You twist nearby light to help conceal you from distant observers.", "type": "good" },
       { "u_add_effect": "effect_photokin_camouflage", "duration": "PERMANENT" },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_PHOTOKIN_CAMOUFLAGE_SWITCHER" ] },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       {
-        "queue_eocs": "EOC_PHOTOKIN_LIGHT_LOCAL_DRAIN",
+        "queue_eocs": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 50) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_camouflage') * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_camouflage') * 100) + 1200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_camouflage') * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_CAMOUFLAGE" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PHOTOKIN_CAMOUFLAGE_SWITCHER",
-    "effect": [
-      {
-        "switch": { "u_val": "spell_level", "spell": "photokinetic_camouflage" },
-        "cases": [
-          { "case": 0, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_1" } },
-          { "case": 4, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_2" } },
-          { "case": 8, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_3" } },
-          { "case": 12, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_4" } },
-          { "case": 16, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_5" } },
-          { "case": 20, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_6" } }
-        ]
-      }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -185,6 +161,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
+    "condition": { "u_has_effect": "effect_photokin_camouflage" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PHOTOKIN_CAMOUFLAGE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_camouflage') * 48) + 690) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('photokinetic_camouflage') * 113) + 1430) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_HIDE_UGLY_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_photokin_hide_ugly" } },
     "effect": [
@@ -193,7 +197,6 @@
         "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_PHOTOKIN_HIDE_UGLY_SWITCHER", "EOC_PHOTOKIN_HIDE_UGLY_REMOVE_GODCO_VARS" ]
       },
       { "u_add_effect": "effect_photokin_hide_ugly", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
       {
         "queue_eocs": "EOC_PHOTOKIN_HIDE_UGLY_DRAIN",
         "time_in_future": [
@@ -204,7 +207,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 890) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -216,7 +219,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_HIDE_UGLY_SWITCHER",
     "effect": {
-      "switch": { "u_val": "spell_level", "spell": "photokinetic_hide_ugly" },
+      "switch": { "math": [ "u_spell_level('photokinetic_hide_ugly')" ] },
       "cases": [
         { "case": 0, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_01" } },
         { "case": 4, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_02" } },
@@ -248,8 +251,9 @@
     "id": "EOC_PHOTOKIN_HIDE_UGLY_DRAIN",
     "condition": { "u_has_effect": "effect_photokin_hide_ugly" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
       { "math": [ "u_spell_exp('photokinetic_hide_ugly')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -262,7 +266,7 @@
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_hide_ugly') * 55) + 890) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -279,18 +283,17 @@
       { "u_add_effect": "effect_photokinetic_radio", "duration": "PERMANENT" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_spawn_item": "item_photokinetic_radio_on", "suppress_message": true, "force_equip": true },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } },
       {
         "queue_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 126) + 1456) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 772) + 5220) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
@@ -314,19 +317,22 @@
     "id": "EOC_PHOTOKIN_RADIO_DRAIN",
     "condition": { "u_has_effect": "effect_photokinetic_radio" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_five", "hit_self": true } },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
         "queue_eocs": "EOC_PHOTOKIN_RADIO_DRAIN",
         "time_in_future": [
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 120) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 126) + 1456) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( (u_spell_level('photokinetic_radio') * 180) + 5400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              "( (u_spell_level('photokinetic_radio') * 772) + 5220) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

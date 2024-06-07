@@ -31,7 +31,8 @@
     "sym": "^",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -688,7 +689,8 @@
       "godco_8_1",
       "godco_9_1",
       "godco_1_2",
-      "godco_2_2"
+      "godco_2_2",
+      "godco_1_3"
     ],
     "name": "church retreat roof",
     "sym": "+",
@@ -711,7 +713,7 @@
     "sym": "O",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -874,7 +876,7 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -883,7 +885,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -955,7 +957,7 @@
     "sym": "S",
     "color": "white",
     "see_cost": 3,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -978,6 +980,13 @@
     "type": "overmap_terrain",
     "id": [ "smallscrapyard_ocu" ],
     "name": "scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu_roof" ],
+    "name": "scrap yard roof",
     "sym": "s",
     "color": "red"
   },
@@ -1015,6 +1024,18 @@
     "sym": "8",
     "color": "yellow",
     "see_cost": 3,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field_graboid",
+    "looks_like": "field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "field",
+    "travel_cost_type": "field",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

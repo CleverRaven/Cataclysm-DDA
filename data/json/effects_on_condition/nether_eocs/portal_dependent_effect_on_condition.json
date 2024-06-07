@@ -78,7 +78,7 @@
       "run_eocs": [
         {
           "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TIMER",
-          "condition": { "days_since_cataclysm": 60 },
+          "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
           "effect": {
             "weighted_list_eocs": [
               [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", 4 ],
@@ -110,7 +110,7 @@
         "u_message": "You suddenly feel wakeful and energized, as if something that was slowing you down is now gone.",
         "type": "good"
       },
-      { "math": [ "u_val('fatigue')", "-=", "20" ] },
+      { "math": [ "u_val('sleepiness')", "-=", "20" ] },
       { "math": [ "u_val('stamina')", "+=", "20" ] }
     ]
   },

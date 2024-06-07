@@ -144,7 +144,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_ELDERBERRY",
-    "effect": [ { "math": [ "u_val('fatigue')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
     "type": "COMESTIBLE",
@@ -304,5 +304,29 @@
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_MAYAPPLE",
     "effect": [ { "u_add_effect": "effect_pfruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "potion_fruit_m_stellatum_berries",
+    "name": {
+      "str": "potion fruit (starry false Solomon's seal berries)",
+      "str_pl": "potion fruits (starry false Solomon's seal berries)"
+    },
+    "description": "A handful of starry false Solomon's seal berries infused with mana.  It will restore your mana.",
+    "copy-from": "m_stellatum_berries",
+    "comestible_type": "FOOD",
+    "proportional": { "quench": 0.5, "calories": 0.5 },
+    "spoils_in": "30 days",
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the starry false Solomon's seal potion fruits.",
+      "effect_on_conditions": [ "EOC_POTION_FRUIT_SOLOMON_SEAL" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POTION_FRUIT_SOLOMON_SEAL",
+    "effect": [ { "math": [ "u_val('mana')", "+=", "rng(200,600)" ] } ]
   }
 ]

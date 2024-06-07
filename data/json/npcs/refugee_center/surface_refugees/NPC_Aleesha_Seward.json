@@ -70,9 +70,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 25 },
@@ -86,10 +84,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1",
-    "dynamic_line": "*seems impossibly young at first glance, her dark face nervous when she sees you looking her way.  On closer inspection as you approach, you see that she is likely in her early teens, but the contrast to the weary faces around makes her age stand out.  \"Oh, uh… hi.  You look new.  I'm Aleesha.\"",
+    "dynamic_line": {
+      "gendered_line": "*seems impossibly young at first glance, her dark face nervous when she sees you looking her way.  On closer inspection as you approach, you see that she is likely in her early teens, but the contrast to the weary faces around makes her age stand out.  \"Oh, uh… hi.  You look new.  I'm Aleesha.\"",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Aleesha_Seward", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Aleesha_1a" }
       ]
     },
@@ -108,7 +109,7 @@
           "Hey there.",
           "Oh, hey, it's you again.",
           "What's up?",
-          "You're back, and still alive!  Whoa.",
+          { "gendered_line": "You're back, and still alive!  Whoa.", "relevant_genders": [ "u" ] },
           "Aw hey, look who's back."
         ],
         "\""
@@ -123,8 +124,12 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1_firstmeet",
     "dynamic_line": {
-      "days_since_cataclysm": 265,
-      "yes": { "days_since_cataclysm": 630, "yes": "I'm not a kid, okay?  I'm sixteen.", "no": "I'm not a kid, okay?  I'm fifteen." },
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 265" ],
+      "yes": {
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 630" ],
+        "yes": "I'm not a kid, okay?  I'm sixteen.",
+        "no": "I'm not a kid, okay?  I'm fifteen."
+      },
       "no": "I'm not a kid, okay?  I'm fourteen."
     },
     "responses": [
@@ -136,7 +141,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_2",
     "dynamic_line": {
-      "days_since_cataclysm": 30,
+      "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ],
       "yes": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
       "no": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything.\"  She glances at the shuttered windows.  \"Jenny figures they're never going to let us go down there, so I guess we're going to sort it out up here, one way or another.  It's not fair, but 'fair' doesn't mean much in my life anymore.\""
     },

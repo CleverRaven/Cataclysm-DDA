@@ -106,8 +106,31 @@
       "potion_fruit_cherry",
       "potion_fruit_apricot",
       "potion_fruit_mayapple",
-      "potion_fruit_grapes"
+      "potion_fruit_grapes",
+      "potion_fruit_m_stellatum_berries"
     ],
     "difficulty": 4
+  },
+  {
+    "id": "nested_magical_arrows",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "name": "enchanted arrows",
+    "description": "Recipes related to creating enchanted arrows",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "arrow_animist_crafted",
+      "arrow_magus_crafted",
+      "arrow_technomancer_crafted",
+      "arrow_biomancer_crafted",
+      "arrow_kelvinist_crafted",
+      "arrow_earthshaper_crafted",
+      "arrow_stormshaper_crafted",
+      "arrow_druid_crafted",
+      "arrow_odin"
+    ],
+    "difficulty": 3
   }
 ]

@@ -314,59 +314,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "paste_nut",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": "20 m",
-    "batch_time_factors": [ 20, 1 ],
-    "charges": 1,
-    "autolearn": true,
-    "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
-    "components": [
-      [
-        [ "almond_shelled", 10 ],
-        [ "peanut_shelled", 10 ],
-        [ "walnut_shelled", 10 ],
-        [ "pecan_shelled", 10 ],
-        [ "hazelnut_shelled", 10 ],
-        [ "pistachio_shelled", 10 ],
-        [ "hickory_nut_shelled", 10 ],
-        [ "acorns_blanched", 10 ],
-        [ "cashews", 10 ],
-        [ "beech_nuts", 10 ],
-        [ "soybean", 5 ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "paste_seed",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": "20 m",
-    "batch_time_factors": [ 20, 1 ],
-    "charges": 1,
-    "autolearn": true,
-    "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
-    "components": [
-      [
-        [ "seed_cotton_boll", 8 ],
-        [ "seed_pumpkin", 8 ],
-        [ "seed_sunflower", 8 ],
-        [ "seed_canola", 1 ],
-        [ "seed_grapes", 8 ],
-        [ "seed_weed", 8 ]
-      ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "menemen",
     "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",

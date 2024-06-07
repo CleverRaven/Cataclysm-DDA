@@ -73,9 +73,6 @@ struct WINDOW {
 extern std::array<pairs, 100> colorpairs;
 void curses_drawwindow( const catacurses::window &win );
 
-// Allow extra logic for framebuffer clears
-extern void handle_additional_window_clear( WINDOW *win );
-
 } // namespace cata_cursesport
 
 // TODO: move into cata_cursesport
@@ -89,4 +86,3 @@ int get_scaling_factor();
 
 #endif
 #endif // CATA_SRC_CURSESPORT_H
-

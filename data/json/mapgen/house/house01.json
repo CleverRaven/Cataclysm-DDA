@@ -33,30 +33,16 @@
         "$......................$",
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
-        "`": "t_concrete",
         "$": "t_privacy_fence",
         ";": "t_privacy_fencegate_c",
-        "#": "t_wall_wood",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        ")": "t_wall_glass",
-        "]": "t_door_glass_c",
+        "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "N": "t_thconc_floor",
         "q": "t_thconc_floor",
         "A": "t_thconc_floor",
         "~": "t_thconc_floor"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 } ],
-      "furniture": { "!": "f_region_flower" },
       "place_loot": [ { "item": "television", "x": 11, "y": 9 }, { "item": "stereo", "x": 10, "y": 9 } ],
       "place_nested": [
         {
@@ -75,107 +61,8 @@
           ],
           "x": [ 4, 13 ],
           "y": 17
-        }
-      ]
-    }
-  },
-  {
-    "method": "json",
-    "om_terrain": "house_01",
-    "//": "abandoned/trashed variant",
-    "type": "mapgen",
-    "weight": 20,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "........................",
-        "..................0.....",
-        ".........0..............",
-        "..#dddddd##o##D##oo##.0.",
-        "..#ddddddw   w w    #...",
-        "..#ddddddw   w D    o...",
-        "..#ddddddw   D w    o...",
-        "..#ddddddw   w w    #...",
-        "..#ddddddwwwww wwwww#...",
-        "0.#ddddddw     w    #0..",
-        "..#d{ddddw     w    o...",
-        "..#wwwwDww     D    #...",
-        "..#   D  w     w    o...",
-        "..#   w  D     w    #.0.",
-        "..######D##ooo###oo##...",
-        "........................",
-        ".....0........._...._...",
-        "....._......_......0....",
-        ".........0....0.........",
-        ".....00.._0......0.__...",
-        "......0..._..._....._...",
-        ".........._.0......0....",
-        ".0....__....0...0....0..",
-        ".._...0......._........."
-      ],
-      "palettes": [ "standard_domestic_abandoned_palette" ],
-      "terrain": {
-        "_": "t_dirtmound",
-        ".": [ [ "t_region_soil", 10 ], [ "t_region_groundcover_urban", 5 ] ],
-        "0": "t_pit_shallow",
-        "D": [ [ "t_door_b", 5 ], [ "t_door_frame", 8 ] ],
-        "W": "t_window_frame",
-        "c": "t_dirtmound",
-        "d": "t_thconc_floor",
-        "w": { "param": "wall_type", "fallback": "t_wall_w" },
-        "{": [ [ "t_door_b", 5 ], [ "t_door_frame", 8 ] ],
-        "o": [ [ "t_window_empty", 8 ], [ "t_window_frame", 9 ], [ "t_window_boarded", 1 ] ]
-      },
-      "parameters": {
-        "wall_type": {
-          "type": "ter_str_id",
-          "default": {
-            "distribution": [
-              [ "t_wall_b", 2 ],
-              [ "t_wall_g", 2 ],
-              [ "t_wall_p", 2 ],
-              [ "t_wall_P", 2 ],
-              [ "t_wall_r", 2 ],
-              [ "t_wall_half", 1 ],
-              [ "t_wall_y", 2 ]
-            ]
-          }
-        }
-      },
-      "place_item": [
-        { "chance": 5, "item": "2x4", "repeat": 1, "x": 3, "y": 7 },
-        { "chance": 5, "item": "2x4", "repeat": 1, "x": 3, "y": 8 },
-        { "chance": 3, "item": "textbook_carpentry", "repeat": 1, "x": 11, "y": 10 },
-        { "chance": 5, "item": "shovel", "repeat": 1, "x": 3, "y": 18 }
-      ],
-      "furniture": { "{": "f_dumpster" },
-      "place_items": [
-        { "chance": 3, "item": "construction_worker", "x": 17, "y": 12 },
-        { "chance": 3, "item": "construction_worker", "x": 18, "y": 5 },
-        { "chance": 20, "item": "coffee_trash", "x": 5, "y": 9 },
-        { "chance": 2, "item": "hardware_bulk", "x": 8, "y": 9 },
-        { "chance": 2, "item": "tools_common", "x": 8, "y": 5 },
-        { "chance": 3, "item": "tools_lighting_industrial", "x": 8, "y": 4 },
-        { "chance": 30, "item": "hardware_trash", "x": 3, "y": 9 },
-        { "chance": 20, "item": "pizza_trash", "x": 4, "y": 9 },
-        { "chance": 2, "item": "hardware_bulk", "x": 12, "y": 9 },
-        { "chance": 2, "item": "hardware_bulk", "x": 7, "y": 6 },
-        { "chance": 5, "item": "power_tools", "x": 4, "y": 6 },
-        { "chance": 2, "item": "tools_carpentry", "x": 8, "y": 7 },
-        { "chance": 20, "item": "hardware_trash", "x": 3, "y": 10 },
-        { "chance": 20, "item": "hardware_trash", "x": 4, "y": 10 },
-        { "chance": 20, "item": "hardware_trash", "x": 5, "y": 10 },
-        { "chance": 20, "item": "hardware_trash", "x": 17, "y": 5 },
-        { "chance": 20, "item": "hardware_trash", "x": 1, "y": 2 },
-        { "chance": 3, "item": "construction_worker", "x": 10, "y": 10 },
-        { "chance": 2, "item": "hardware_bulk", "x": 5, "y": 1 },
-        { "chance": 2, "item": "plumbing_bulk", "x": 5, "y": 13 },
-        { "chance": 1, "item": "plumbing_bulk", "x": 10, "y": 7 },
-        { "chance": 3, "item": "tools_construction", "x": 8, "y": 6 },
-        { "chance": 3, "item": "tools_construction", "x": [ 3, 4 ], "y": 5 },
-        { "chance": 2, "item": "hardware_bulk", "x": 1, "y": 5 },
-        { "chance": 2, "item": "paint", "x": 3, "y": 4 },
-        { "chance": 2, "item": "power_tools", "x": 8, "y": 8 }
+        },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 0 }
       ]
     }
   },
@@ -188,70 +75,34 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "...pppppp.%....%....%..%",
-        "%..pppppp``````..%.%....",
-        "..%pppppp0....`.%....%..",
-        ".%#------##o##*##oo##..%",
-        "..#------|   | |    #...",
-        "%.#------|   | +    o...",
-        "%.#------|T  + |    o%.%",
-        ".^#------|   | |  T #%..",
-        "..#------|||||+|||||#...",
-        "0.#------|     | T F#...",
-        "..#------|     |   7o..%",
-        "..#|||||+|     +   O#..%",
-        "..#t~~+  |     |   So..%",
-        "..#9S7|  + T   |8887#..%",
-        "%.######+##ooo###oo##.%%",
-        "%............%.....^..%%",
-        "%....0..%.%............%",
-        "%..00........%..%..%....",
-        ".%.0.....00..........%.%",
-        ".%......%..%...%........",
-        "...%%%.................%",
-        "%..%%..%...%....%.000..%",
-        "..%%%%%%.%%..%.%..000%.%",
-        ".%%%%%%.%%..%%%%%.%%.%%."
+        "...::::::M..............",
+        "...::::::cccccc.........",
+        "...::::::CC.CCcCC..CC...",
+        ".C#``````##o##*##oo##...",
+        ".C#``````|X,,|,|,,,,#...",
+        ".C#``````|,,,|,+,,,,o...",
+        "..#``````|,,,+,|,,,,o...",
+        ".^#``````|,,,|,|X,,,#...",
+        "..#``````|||||+|||||#...",
+        "..#``````|,X,,,|,,,F#...",
+        "..#xx````|,,,,,|,,,7o...",
+        "..#|||||+|,,,,,+,,,O#...",
+        "..#t~~+,,|,,,,,|,,,So...",
+        "..#9s6|,,+,,,,,|8887#...",
+        "..######*##ooo###oo##...",
+        "......ccccc........^....",
+        "......ccccc.............",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
       ],
-      "palettes": [ "construction_palette" ],
-      "terrain": {
-        "%": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
-        ".": "t_region_soil",
-        "0": "t_pit_shallow",
-        "T": "t_floor",
-        "9": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "~": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "-": "t_thconc_floor",
-        "A": "t_thconc_floor"
-      },
-      "place_nested": [ { "chunks": [ "pallets_crates_construction" ], "x": 3, "y": 4 } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 12, 13 ], "repeat": [ 1, 2 ] } ],
-      "items": {
-        "T": [
-          { "item": "pizza_trash", "chance": 60 },
-          { "item": "floor_trash", "chance": 60 },
-          { "item": "hardware_trash", "chance": 30 },
-          { "item": "paint", "chance": 30 },
-          { "item": "tools_construction", "chance": 10 },
-          { "item": "tools_carpentry", "chance": 10 },
-          { "item": "power_tools", "chance": 5 },
-          { "item": "tools_home", "chance": 10 },
-          { "item": "construction_worker", "chance": 10 }
-        ],
-        "A": [
-          { "item": "pizza_trash", "chance": 60 },
-          { "item": "floor_trash", "chance": 60 },
-          { "item": "hardware_trash", "chance": 60 },
-          { "item": "paint", "chance": 30 },
-          { "item": "tools_construction", "chance": 10 },
-          { "item": "tools_carpentry", "chance": 10 },
-          { "item": "power_tools", "chance": 5 },
-          { "item": "tools_home", "chance": 10 },
-          { "item": "construction_worker", "chance": 10 }
-        ]
-      }
+      "palettes": [ "construction_general_palette" ],
+      "terrain": { "M": "t_region_soil", "C": "t_region_soil" },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 12, 13 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -288,33 +139,6 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_shingle_flat_roof" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "pallets_crates_construction",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "X     ",
-        "X    X",
-        "X    X",
-        "     X",
-        "      "
-      ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": {
-        "X": [
-          [ "f_null", 40 ],
-          [ "f_crate_c", 10 ],
-          [ "f_pallet_brick", 5 ],
-          [ "f_pallet_brick_adobe", 5 ],
-          [ "f_pallet_cement", 5 ],
-          [ "f_stack_plank", 5 ]
-        ]
-      }
     }
   }
 ]

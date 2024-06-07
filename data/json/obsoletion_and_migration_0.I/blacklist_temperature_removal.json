@@ -1,0 +1,29 @@
+[
+  {
+    "type": "temperature_removal_blacklist",
+    "//": "Allows removal of active flag from items that had temperature tracking https://github.com/CleverRaven/Cataclysm-DDA/pull/63945",
+    "list": [
+      "napkin",
+      "cardboard",
+      "adhesive_bandages",
+      "alcohol_wipes",
+      "bandages",
+      "bandages_makeshift",
+      "bandages_makeshift_bleached",
+      "bandages_makeshift_boiled",
+      "cotton_ball",
+      "disinrag",
+      "disincotton_ball",
+      "medical_gauze",
+      "ammonia_liquid",
+      "chem_sulphur",
+      "insecticide",
+      "wax",
+      "bifocal_contacts_weekly",
+      "bifocal_transition_contacts_weekly",
+      "butternut"
+    ],
+    "//1": "CAUTION: this list is for items that are safe for straightforward deactivation",
+    "//2": "items that may be active for additional reasons other than temperature tracking should use separate special case handling"
+  }
+]

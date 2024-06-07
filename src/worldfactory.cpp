@@ -2,12 +2,10 @@
 
 #include <algorithm>
 #include <array>
-#include <cstdio>
-#include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <memory>
 #include <set>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -19,7 +17,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
@@ -710,29 +708,19 @@ void worldfactory::remove_world( const std::string &worldname )
 void worldfactory::load_last_world_info()
 {
     cata_path lastworld_path = PATH_INFO::lastworld();
-    std::string lwmissing =
-        translate_marker( "lastworld.json or one of its values is empty.  This could be due to data corruption or an unknown error and may be an indicator that your previously played world is damaged." );
+    if( !file_exist( lastworld_path ) ) {
+        return;
+    }
 
     try {
-        if( !file_exist( lastworld_path ) ) {
-            return;
-        }
-
-        std::optional<std::string> json_file_contents = read_whole_file( lastworld_path );
         JsonValue jsin = json_loader::from_path( lastworld_path );
         JsonObject data = jsin.get_object();
         last_world_name = data.get_string( "world_name" );
         last_character_name = data.get_string( "character_name" );
-
-        if( !json_file_contents.has_value() || json_file_contents->empty() || last_character_name.empty() ||
-            last_world_name.empty() ) {
-
-            throw JsonError( lwmissing );
-        }
-        // Using non-specific catch because lastworld.json being empty or missing data can cause a lot of different types of exceptions. If this is is bad practice, please help correct it if you can.
-    } catch( ... ) {
-        popup( _( lwmissing ) );
-        debugmsg( lwmissing );
+    } catch( std::exception const &e ) {
+        DebugLog( D_INFO, DC_ALL ) <<  e.what();
+        last_world_name = std::string{};
+        last_character_name = std::string{};
     }
 }
 
@@ -1091,15 +1079,14 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         std::string id;
         std::vector<mod_id> mods;
         std::vector<mod_id> mods_unfiltered;
+
+        explicit mod_tab( std::string id, std::vector<mod_id> mods, std::vector<mod_id> mods_unfiltered ) :
+            id( std::move( id ) ), mods( std::move( mods ) ), mods_unfiltered( std::move( mods_unfiltered ) ) {}
     };
     std::vector<mod_tab> all_tabs;
 
     for( const std::pair<std::string, translation> &tab : get_mod_list_tabs() ) {
-        all_tabs.push_back( {
-            tab.first,
-            std::vector<mod_id>(),
-            std::vector<mod_id>()
-        } );
+        all_tabs.emplace_back( tab.first, std::vector<mod_id> {}, std::vector<mod_id> {} );
     }
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();

@@ -8,10 +8,10 @@
     "default_faction": "science",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "FERAL" ],
+    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 85,
+    "hp": 84,
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "@",
@@ -22,7 +22,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "armor": { "bash": 15, "cut": 10, "bullet": 35, "stab": 5 },
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 2,
@@ -78,16 +77,39 @@
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
-        "throw_strength": 100,
+        "throw_strength": 70,
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      },
+      {
+        "id": "psi_drbrain_momentum_alteration",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_momentum_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_psi_null" } },
+            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+          ]
+        },
+        "monster_message": "The air around %1$s wavers."
+      },
+      {
+        "id": "psi_drbrain_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        },
+        "monster_message": "The air around %1$s distorts."
       },
       [ "PULL_METAL_WEAPON", 8 ]
     ],
@@ -116,7 +138,7 @@
     "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 120,
+    "hp": 84,
     "speed": 110,
     "material": [ "flesh" ],
     "color": "pink",
@@ -131,7 +153,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 5,
-    "armor": { "bash": 8, "cut": 6, "stab": 6, "bullet": 10 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 35,
@@ -150,7 +171,17 @@
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       [ "BIO_OP_DISARM", 15 ],
-      { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
+      { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } },
+      {
+        "id": "psi_biokin_guard_hardened_skin",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+        "cooldown": 120,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+        },
+        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+      }
     ],
     "flags": [
       "SEES",

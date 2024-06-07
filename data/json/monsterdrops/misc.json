@@ -24,7 +24,7 @@
     "entries": [
       { "item": "paper", "count": [ 100, 300 ] },
       { "item": "stick", "count": [ 5, 8 ] },
-      { "item": "cable", "charges-min": 20, "charges-max": 50 },
+      { "item": "cable", "charges": [ 20, 50 ] },
       { "item": "amplifier", "count": [ 0, 3 ] }
     ]
   },
@@ -116,7 +116,7 @@
             "prob": 50
           },
           {
-            "collection": [ { "item": "flintlock_pouch", "damage": [ 1, 4 ] }, { "item": "flintlock_ammo", "charges-min": 0, "charges-max": 14 } ],
+            "collection": [ { "item": "flintlock_pouch", "damage": [ 1, 4 ] }, { "item": "flintlock_ammo", "charges": [ 0, 14 ] } ],
             "prob": 30
           },
           { "item": "lamp_oil", "charges": [ 0, 250 ], "container-item": "bottle_plastic_small", "prob": 10 }

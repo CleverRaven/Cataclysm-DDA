@@ -9,6 +9,7 @@
 static const furn_str_id furn_test_f_bash_persist( "test_f_bash_persist" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
+static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_test_t_bash_persist( "test_t_bash_persist" );
 static const ter_str_id ter_test_t_pit_shallow( "test_t_pit_shallow" );
 
@@ -46,7 +47,7 @@ static void test_bash_set( const bash_test_set &set )
         constexpr int max_tries = 999;
         for( const furn_id &furn : set.tested_furn ) {
             INFO( string_format( "%s bashing %s", test.id, furn.id().str() ) );
-            here.ter_set( test_pt, t_floor );
+            here.ter_set( test_pt, ter_t_floor );
             here.furn_set( test_pt, furn );
             int tries = 0;
             while( here.furn( test_pt ) == furn && tries < max_tries ) {
@@ -64,7 +65,7 @@ static void test_bash_set( const bash_test_set &set )
         for( const ter_id &ter : set.tested_ter ) {
             INFO( string_format( "%s bashing %s", test.id, ter.id().str() ) );
             here.ter_set( test_pt, ter );
-            here.furn_set( test_pt, f_null );
+            here.furn_set( test_pt, furn_str_id::NULL_ID() );
             int tries = 0;
             while( here.ter( test_pt ) == ter && tries < max_tries ) {
                 ++tries;

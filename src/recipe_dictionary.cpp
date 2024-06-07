@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <new>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -14,16 +12,16 @@
 #include "display.h"
 #include "debug.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "make_static.h"
 #include "mapgen.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
-#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -438,7 +436,35 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    mod_tracker::assign_src( r, src );
     r.was_loaded = true;
+
+    // Check for duplicate recipe_ids before assigning it to the map
+    if( out.find( r.ident() ) != out.end() ) {
+        const std::string new_mod_src = enumerate_as_string( r.src, [](
+        const std::pair<recipe_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+        const std::string old_mod_src = enumerate_as_string( out[ r.ident() ].src, [](
+        const std::pair<recipe_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+
+        const std::string base_json = string_format( "'%s'", _( "Dark Days Ahead" ) );
+        if( old_mod_src == base_json && new_mod_src != base_json ) {
+            // Assume the mod developer knows what they're doing
+        } else if( old_mod_src == new_mod_src ) {
+            // Conflict within a single source. Throw an error:
+            debugmsg( "Unable to load recipe_id %1$s. A recipe with that id already exists.\nExisting recipe source: %2$s\nNew recipe source: %3$s",
+                      r.ident().str(), old_mod_src, new_mod_src );
+        } else {
+            // Conflict between mods, leave a warning for debugging
+            DebugLog( DebugLevel::D_WARNING,
+                      DC_ALL ) <<
+                               string_format( "Recipe_id conflict: %1$s is included in both %2$s and %3$s.  Only the latter recipe will be loaded",
+                                              r.ident().str(), old_mod_src, new_mod_src );
+        }
+    }
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -597,7 +623,7 @@ void recipe_dictionary::finalize()
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
             recipe &bk = recipe_dict.uncraft[rid];
-            bk.ident_ = rid;
+            bk.id = rid;
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_data_uncraft_book * pages;
@@ -647,8 +673,8 @@ void recipe_dictionary::finalize()
 
 void recipe_dictionary::check_consistency()
 {
-    for( auto &e : recipe_dict.recipes ) {
-        recipe &r = e.second;
+    for( const auto &e : recipe_dict.recipes ) {
+        const recipe &r = e.second;
 
         if( r.category.empty() ) {
             if( !r.subcategory.empty() ) {
@@ -674,8 +700,8 @@ void recipe_dictionary::check_consistency()
         }
     }
 
-    for( auto &e : recipe_dict.recipes ) {
-        recipe &r = e.second;
+    for( const auto &e : recipe_dict.recipes ) {
+        const recipe &r = e.second;
 
         if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
             debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
@@ -693,6 +719,10 @@ void recipe_dictionary::reset()
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
+    deferred.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )

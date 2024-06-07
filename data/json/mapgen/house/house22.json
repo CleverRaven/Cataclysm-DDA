@@ -1,23 +1,69 @@
 [
   {
+    "type": "palette",
+    "id": "house_22_variant_palette",
+    "parameters": {
+      "house_22_variant": {
+        "type": "nested_mapgen_id",
+        "default": { "distribution": [ [ "house_22_normal", 5 ], [ "house_22_construction", 1 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
     "method": "json",
     "om_terrain": "house_22",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ",": "t_floor" },
+      "palettes": [ "house_22_variant_palette" ],
+      "place_nested": [ { "chunks": [ { "param": "house_22_variant", "fallback": "house_22_normal" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "method": "json",
+    "nested_mapgen_id": "house_22_normal",
     "//": "normal variant",
     "type": "mapgen",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "..........p.`...........",
         "............`...........",
         "..%%%%......`...%%%%....",
-        ".##oo##..[.%`%##]]]]##..",
+        ".##oo##..[.%`%##::::##..",
         ".#hffy#....%`%#R yy r#..",
         ".#  h #....%`%#R   hr#..",
         ".#    #!jj!%`%#y P  T#..",
         ".#J   ##ooo#*##|+||||#..",
         ".#J  6|HHHHs  L  y|8t#..",
-        ".#J  6|H l        +--#..",
+        ".#J  6|H l        +~~#..",
         ".#2              M|S9#..",
         ".#1     EsE     |||||#..",
         ".#O  4|        y|DETR#..",
@@ -27,158 +73,51 @@
         ".#s    +        |||||#..",
         ".o@@   |   y    +   Y#..",
         ".o@@   ||+|||T  |d   o..",
-        ".#s  E |S--B||| |d  Io..",
+        ".#s  E |S~~B||| |d  Io..",
         ".#T IIy|8btB|vU>|y @@#..",
         ".##ooo################..",
         "........................",
         "........................"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
-      "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
-        "!": "t_region_groundcover_urban",
-        "`": "t_concrete",
-        "]": "t_wall_glass",
-        "-": "t_linoleum_white",
-        "Q": "t_linoleum_white",
-        "8": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "9": "t_linoleum_white",
-        "b": "t_linoleum_white",
-        "t": "t_linoleum_white"
-      },
-      "furniture": { "!": "f_region_flower" },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ]
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
+      "terrain": { "b": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" } },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ]
     }
   },
   {
     "method": "json",
-    "om_terrain": "house_22",
+    "nested_mapgen_id": "house_22_construction",
     "type": "mapgen",
-    "weight": 20,
     "object": {
-      "fill_ter": "t_floor",
+      "mapgensize": [ 24, 24 ],
       "rows": [
-        "_________________d______",
-        "_d______________________",
-        "____dd___d________d_____",
-        "_||ww||__7____||----||__",
-        "_|....|___d___|......|_d",
-        "_|....|_______|......|__",
-        "_|....|_______|......|__",
-        "_|....||www|+||%.%%%%|__",
-        "_|....%...........%..|__",
-        "_|....%..............|__",
-        "_|................%..|__",
-        "_|..............%%%%%|__",
-        "_|....%.........%....|__",
-        "_|....%.........%....w_d",
-        "_|%%%%%%........%..._w__",
-        "d|.....%.............|__",
-        "_|..............#####|__",
-        "_w.....%.............|__",
-        "_w.....%%.%%%...#....w__",
-        "_|.....%....#...#....w__",
-        "_|.....%....#...#....|__",
-        "_||www||||||||||||||||__",
-        "__d___d________d________",
-        "________________d__d____"
+        "..........M.'...........",
+        "............'...........",
+        "............'...........",
+        ".##oo##C....'.##::::##..",
+        ".#,,,,#C....'.#,,,,,,#..",
+        ".#,,,,#C....'C#,,,,,,#..",
+        ".#,,,,#C...C'C#,,,,,,#..",
+        ".#,,,,##ooo#*##|+||||#..",
+        ".#,,,,|,,,,,,,,,,,|5t#..",
+        ".#,,,,|,,,,,,,,,,,+~~#..",
+        ".#,,,,,,,,,,,,,,,,|s9#..",
+        ".#,,,,,,,,,,,,,,|||||#..",
+        ".#,,,,|,,,X,X,,,|X,,,#..",
+        ".#,,XX|,,,,,,,,,|,,,,o..",
+        ".#||||||,,,,,,,,|,,,.o..",
+        ".#,,,,,|,,,X,,,,+,,,,#..",
+        ".#,,,,,+,,,,,,,,|||||#..",
+        ".o,,,,,|,,,,,,,,+,,,,#..",
+        ".o,,,,,||+|||,,,|,,,,o..",
+        ".#,,,,,|s~~b|,,,|,,,,o..",
+        ".#X,,,,|5~tb|XX>|,XX,#..",
+        ".##ooo################..",
+        "........................",
+        "........................"
       ],
-      "terrain": {
-        "#": "t_wall_half",
-        "+": "t_door_metal_c_peep",
-        "-": "t_wall_glass",
-        ".": "t_floor",
-        "7": "t_tree",
-        "_": "t_grass",
-        "d": "t_dirt",
-        "w": "t_window",
-        "|": "t_brick_wall",
-        "%": "t_wall_w"
-      },
-      "place_items": [
-        { "chance": 20, "item": "tools_construction", "x": 8, "y": 17 },
-        { "chance": 20, "item": "tools_construction", "x": 15, "y": 14 },
-        { "chance": 15, "item": "hardware", "x": 5, "y": 13 },
-        { "chance": 15, "item": "hardware", "x": 3, "y": 13 },
-        { "chance": 15, "item": "hardware", "x": 2, "y": 11 },
-        { "chance": 15, "item": "hardware", "x": 19, "y": 10 },
-        { "chance": 25, "item": "hardware_trash", "x": 17, "y": 10 }
-      ]
-    }
-  },
-  {
-    "method": "json",
-    "om_terrain": "house_22",
-    "type": "mapgen",
-    "weight": 40,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "__________P______d______",
-        "_d______________________",
-        "____dd___d________d_____",
-        "_||ww||__7_#s#||----||__",
-        "_|....|___d#s#|......|_d",
-        "_|....|____#s#|......|__",
-        "_|....|____#s#|......|__",
-        "_|c...||www|+||%D%%%%|__",
-        "_|c...%...........%.&|__",
-        "_|c...%...........D..|__",
-        "_|c...............%S.|__",
-        "_|..............%%%%%|__",
-        "_|....%.........%....|__",
-        "_|....%.........%....w_d",
-        "_|%%%%%%........%..._w__",
-        "d|.....%........D....|__",
-        "_|.....D........%%%%%|__",
-        "_w.....%........D....|__",
-        "_w.....%%D%%%...%....w__",
-        "_|.....%S...%...%....w__",
-        "_|.....%...&%...%....|__",
-        "_||www||||||||||||||||__",
-        "__d___d________d________",
-        "________________d__d____"
-      ],
-      "terrain": {
-        "#": "t_shrub",
-        "&": "t_floor",
-        "+": "t_door_metal_c_peep",
-        "-": "t_wall_glass",
-        ".": "t_floor",
-        "7": "t_tree",
-        "D": "t_door_o",
-        "P": "t_grass",
-        "S": "t_floor",
-        "_": "t_grass",
-        "c": "t_floor",
-        "d": "t_dirt",
-        "s": "t_sidewalk",
-        "w": "t_window_domestic",
-        "|": "t_brick_wall",
-        "%": "t_wall_w"
-      },
-      "furniture": { "&": "f_toilet", "P": "f_mailbox", "S": "f_sink", "c": "f_counter" },
-      "place_items": [
-        { "chance": 20, "item": "hardware_bulk", "x": 10, "y": 17 },
-        { "chance": 20, "item": "hardware_bulk", "x": 11, "y": 17 },
-        { "chance": 20, "item": "hardware_bulk", "x": 15, "y": 13 },
-        { "chance": 20, "item": "hardware_bulk", "x": 15, "y": 14 },
-        { "chance": 20, "item": "hardware_bulk", "x": 15, "y": 5 },
-        { "chance": 20, "item": "hardware_bulk", "x": 15, "y": 6 },
-        { "chance": 40, "item": "paint", "x": 19, "y": 17 },
-        { "chance": 40, "item": "paint", "x": 20, "y": 17 },
-        { "chance": 40, "item": "paint", "x": 19, "y": 15 },
-        { "chance": 40, "item": "paint", "x": 2, "y": 15 },
-        { "chance": 40, "item": "paint", "x": 3, "y": 15 },
-        { "chance": 40, "item": "paint", "x": 4, "y": 15 },
-        { "chance": 15, "item": "hand_tools", "x": 17, "y": 19 },
-        { "chance": 25, "item": "hand_tools", "x": 6, "y": 18 },
-        { "chance": 25, "item": "hardware_trash", "x": 14, "y": 20 },
-        { "chance": 25, "item": "hardware_trash", "x": 16, "y": 10 }
-      ]
+      "palettes": [ "construction_general_palette" ],
+      "terrain": { "M": "t_region_groundcover_urban", "C": "t_region_groundcover_urban" }
     }
   },
   {
@@ -222,7 +161,55 @@
     "method": "json",
     "om_terrain": "house_22_basement",
     "object": {
-      "fill_ter": "t_thconc_floor",
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,       ,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        " ,,,,,,,,,,,,,,,,,,,,,  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "house_22_variant_palette" ],
+      "terrain": { ",": "t_thconc_floor" },
+      "place_nested": [
+        {
+          "chunks": [
+            {
+              "switch": { "param": "house_22_variant", "fallback": "house_22_normal" },
+              "cases": { "house_22_normal": "house_22_basement_normal", "house_22_construction": "house_22_basement_construction" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "house_22_basement_normal",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -270,6 +257,41 @@
           ]
         }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "house_22_basement_construction",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        " ||||||       ||||||||  ",
+        " |....|       |......|  ",
+        " |F..g|       |......|  ",
+        " |....|       |......|  ",
+        " |||+||||||||||......|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |...................|  ",
+        " |............|......|  ",
+        " |............|.....Z|  ",
+        " |............|<..WJJ|  ",
+        " |||||||||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ]
     }
   }
 ]

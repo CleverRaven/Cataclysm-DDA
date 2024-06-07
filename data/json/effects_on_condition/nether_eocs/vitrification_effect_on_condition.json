@@ -6,7 +6,7 @@
     "condition": {
       "and": [
         { "or": [ { "u_near_om_location": "unvitrified_farm_0" }, { "u_near_om_location": "unvitrified_orchard" } ] },
-        { "math": [ "vitri_glass_entered", "<", "1" ] }
+        { "math": [ "u_vitri_glass_entered", "<", "1" ] }
       ]
     },
     "effect": [
@@ -15,7 +15,7 @@
         "type": "neutral",
         "popup": true
       },
-      { "math": [ "vitri_glass_entered", "=", "1" ] }
+      { "math": [ "u_vitri_glass_entered", "=", "1" ] }
     ]
   },
   {
@@ -33,7 +33,7 @@
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence" } },
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_closed" } },
             { "not": { "u_is_on_terrain": "t_quietfarm_border_fence_open" } },
-            { "math": [ "vitri_glass_entered", "<", "2" ] }
+            { "math": [ "u_vitri_glass_entered", "<", "2" ] }
           ]
         }
       ]
@@ -60,7 +60,7 @@
             { "math": [ "u_glass_health_arm_r", "=", "u_hp('arm_r')" ] },
             { "math": [ "u_glass_health_leg_l", "=", "u_hp('leg_l')" ] },
             { "math": [ "u_glass_health_leg_r", "=", "u_hp('leg_r')" ] },
-            { "math": [ "u_glass_fatigue", "=", "u_val('fatigue')" ] }
+            { "math": [ "u_glass_sleepiness", "=", "u_val('sleepiness')" ] }
           ]
         },
         {
@@ -196,7 +196,7 @@
           "effect": [
             { "math": [ "u_vitri_vitrified", "=", "1" ] },
             { "math": [ "u_vitri_glassed", "=", "0" ] },
-            { "math": [ "vitri_glass_entered", "=", "2" ] },
+            { "math": [ "u_vitri_glass_entered", "=", "2" ] },
             {
               "u_add_effect": "VITRIFYING",
               "duration": "PERMANENT",
@@ -383,7 +383,7 @@
       { "math": [ "u_hp('arm_r')", "=", "u_glass_health_arm_r" ] },
       { "math": [ "u_hp('leg_l')", "=", "u_glass_health_leg_l" ] },
       { "math": [ "u_hp('leg_r')", "=", "u_glass_health_leg_r" ] },
-      { "math": [ "u_val('fatigue')", "=", "u_glass_fatigue" ] },
+      { "math": [ "u_val('sleepiness')", "=", "u_glass_sleepiness" ] },
       { "u_lose_morale": "morale_vitri_placid" },
       {
         "u_message": "You suck in a deep, ragged draught of air that burns in your chest.  Have you been holding your breath?  You must have been.  All you can hear for a moment is your heart hammering in your ears.  It takes a while to settle down.",
@@ -391,6 +391,14 @@
         "popup": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_vitrified_succession",
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "global": true,
+    "effect": { "alter_timed_events": "vitrified_farm_escape_key" }
   },
   {
     "id": "morale_vitri_placid",

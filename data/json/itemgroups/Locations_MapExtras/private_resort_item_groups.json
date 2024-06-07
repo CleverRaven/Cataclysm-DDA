@@ -218,6 +218,7 @@
     "type": "item_group",
     "items": [
       { "item": "acoustic_guitar", "prob": 80 },
+      { "item": "drum_percussion", "prob": 40 },
       { "item": "guitar_electric", "prob": 20 },
       { "item": "saxophone", "prob": 50 },
       { "item": "harmonica_holder", "prob": 30 }
@@ -238,8 +239,7 @@
       { "item": "news_regional", "prob": 50 },
       { "item": "mag_news", "prob": 50 },
       { "group": "stash_drugs", "prob": 10 },
-      { "item": "mag_porn", "prob": 50 },
-      { "group": "loose_chess_pieces", "prob": 25 }
+      { "item": "mag_porn", "prob": 50 }
     ]
   },
   {

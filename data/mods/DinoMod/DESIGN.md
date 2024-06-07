@@ -22,7 +22,7 @@ As of this writing, each dinosaur touches at least ten different JSON files, lis
 
 Main DinoMod folder: 
 
-* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage famiies
+* monster_factions.json is where custom dino factions go. Plant eaters are pretty simple but predators have three each usually to manage families
 
 items folder:
 

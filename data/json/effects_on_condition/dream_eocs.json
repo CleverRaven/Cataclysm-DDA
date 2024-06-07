@@ -26,7 +26,7 @@
     "condition": {
       "and": [
         {
-          "or": [
+          "and": [
             { "not": { "u_has_effect": "pre_common_cold" } },
             { "not": { "u_has_effect": "common_cold" } },
             { "not": { "u_has_effect": "pre_flu" } },
@@ -38,7 +38,7 @@
     },
     "effect": [
       {
-        "switch": { "u_val": "health" },
+        "switch": { "math": [ "u_val('health')" ] },
         "cases": [
           { "case": -100, "effect": { "u_message": "health_horrible", "snippet": true, "type": "bad" } },
           { "case": -50, "effect": { "u_message": "health_very_bad", "snippet": true, "type": "bad" } },

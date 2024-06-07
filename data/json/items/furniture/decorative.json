@@ -15,5 +15,19 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_bigmirror" },
     "symbol": "{",
     "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "piano",
+    "name": { "str_sp": "piano" },
+    "description": "An elegant piano, capable of producing beautiful music if used by a skilled player.  A set of off-white and black keys are linked to a set of hammers, which strike their corresponding tightly-coiled wire to produce sound.",
+    "weight": "300 kg",
+    "material": [ "wood" ],
+    "volume": "1000 L",
+    "price": "5 kUSD",
+    "price_postapoc": "15 USD",
+    "symbol": "P",
+    "color": "i_black"
   }
 ]

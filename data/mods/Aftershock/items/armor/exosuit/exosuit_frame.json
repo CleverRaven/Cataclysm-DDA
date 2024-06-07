@@ -14,19 +14,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "name": "Exosuit underlayer",
-        "description": "A series of connections for an underlayer.",
-        "ablative": true,
-        "holster": true,
-        "rigid": true,
-        "inherits_flags": true,
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "140 kg",
-        "flag_restriction": [ "EXO_UNDERLAYER" ],
-        "moves": 200
-      },
-      {
-        "pocket_type": "CONTAINER",
         "name": "Helmet compartment (Plate)",
         "description": "This is a mounting point for helmet plating.",
         "ablative": true,
@@ -318,12 +305,17 @@
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 40,
-        "encumbrance": 20
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
       }
     ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
+      ]
+    },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -356,8 +348,7 @@
       "FLASH_PROTECTION",
       "TARDIS"
     ],
-    "weight_capacity_bonus": "20 kg",
-    "power_draw": "6173 mW",
+    "power_draw": "6460 mW",
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
     "armor": [
@@ -384,6 +375,226 @@
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 40,
         "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "modular_exosuit_light",
+    "copy-from": "modular_exosuit",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "light exosuit frame" },
+    "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.",
+    "weight": "30 kg",
+    "volume": "130 L",
+    "symbol": "t",
+    "looks_like": "power_armor_basic",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Helmet hardpoint 1",
+        "description": "This is a series of mounts for helmet equipment.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_HELMET_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Helmet hardpoint 2",
+        "description": "This is a series of mounts for helmet equipment.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_HELMET_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso large hardpoint",
+        "description": "This is a mount for storing items in the torso.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Torso small hardpoint",
+        "description": "This is a mount for storing items in the torso.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "PSU compartment",
+        "description": "This is a mounting point for power supply units and large modules.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_PSU" ],
+        "moves": 500
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm medium hardpoint",
+        "description": "This is a mount for storing items on the arms.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Arm small hardpoint",
+        "description": "This is a mount for storing items on the arms.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg medium hardpoint",
+        "description": "This is a mount for storing items on the legs.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "name": "Leg small hardpoint",
+        "description": "This is a mount for storing items on the legs.",
+        "holster": true,
+        "rigid": true,
+        "inherits_flags": true,
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "140 kg",
+        "flag_restriction": [ "EXO_SMALL_GADGET" ],
+        "moves": 60
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 100,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "titanium", "covered_by_mat": 40, "thickness": 2 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 25,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 40,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      }
+    ],
+    "ammo": "battery",
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "use_action": [
+      {
+        "target": "modular_exosuit_light_on",
+        "msg": "The %s engages.",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The suit does not have enough charge.",
+        "type": "transform"
+      },
+      "MANAGE_EXOSUIT"
+    ]
+  },
+  {
+    "id": "modular_exosuit_light_on",
+    "copy-from": "modular_exosuit_light",
+    "repairs_like": "modular_exosuit",
+    "looks_like": "power_armor_light",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "light exosuit frame (on)", "str_pl": "light exosuit frames (on)" },
+    "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.  It is turned on and continually drawing power.  Use it to turn it off.",
+    "flags": [
+      "USE_UPS",
+      "STURDY",
+      "WATERPROOF",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "OUTER",
+      "PARTIAL_DEAF",
+      "SUN_GLASSES",
+      "FLASH_PROTECTION",
+      "TARDIS"
+    ],
+    "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
+    "power_draw": "5787 mW",
+    "revert_to": "modular_exosuit_light",
+    "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit_light" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "titanium", "covered_by_mat": 40, "thickness": 2 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 90,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 40,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ]
       }
     ]
   }

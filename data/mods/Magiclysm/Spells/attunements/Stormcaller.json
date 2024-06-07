@@ -6,6 +6,7 @@
     "description": "Summon a small electric imp - fast as lightning, and just as deadly.",
     "valid_targets": [ "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "RANDOM_TARGET" ],
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "effect": "summon",
     "effect_str": "mon_electric_demon",
     "shape": "blast",
@@ -16,9 +17,9 @@
     "base_casting_time": 250,
     "final_casting_time": 150,
     "casting_time_increment": -3,
-    "base_energy_cost": 400,
-    "final_energy_cost": 50,
-    "energy_increment": -10,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 0.5)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(50, 0.5)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-10, 0.03)" ] },
     "min_damage": 1,
     "max_damage": 1,
     "min_range": 1,
@@ -26,9 +27,9 @@
     "range_increment": 0.25,
     "min_aoe": 3,
     "max_aoe": 3,
-    "min_duration": 10000,
-    "max_duration": 360000,
-    "duration_increment": 10000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(10000, 60)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 60)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(10000, 0.03)" ] }
   },
   {
     "id": "electric_turret",
@@ -47,9 +48,9 @@
     "base_casting_time": 400,
     "casting_time_increment": -10,
     "final_casting_time": 50,
-    "base_energy_cost": 400,
-    "energy_increment": -17.5,
-    "final_energy_cost": 225,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-17.5, 0.1)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(225, 2)" ] },
     "//": "it is intended to have min_damage 0 - the attunement is given on lvl 5, which round the amount of monsters to 1 and make smooth progression afterwards",
     "min_damage": 0,
     "max_damage": 4,
@@ -58,8 +59,8 @@
     "max_range": 1,
     "min_aoe": 1,
     "max_aoe": 1,
-    "min_duration": 10000,
-    "max_duration": 360000,
-    "duration_increment": 10000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(10000, 60)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 60)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(10000, 0.03)" ] }
   }
 ]

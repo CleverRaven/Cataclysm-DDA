@@ -1,10 +1,12 @@
 #include "distraction_manager.h"
 
-#include <functional>
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "translations.h"

@@ -3,11 +3,12 @@
     "type": "overmap_terrain",
     "id": "triffid_grove",
     "name": "triffid grove",
+    "copy-from": "generic_forest",
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -18,7 +19,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -29,7 +30,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -40,7 +41,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -51,7 +52,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -62,7 +63,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -73,7 +74,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -84,7 +85,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -95,7 +96,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -106,7 +107,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -117,7 +118,7 @@
     "see_cost": 5,
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID_HEARTGUARDS", "population": [ 50, 60 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -126,7 +127,7 @@
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -135,7 +136,7 @@
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -144,15 +145,17 @@
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "triffid_field",
     "name": "vibrant field",
+    "copy-from": "generic_forest",
     "sym": ".",
     "color": "green",
     "see_cost": 5,
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]

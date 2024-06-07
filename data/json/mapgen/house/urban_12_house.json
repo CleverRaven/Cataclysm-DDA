@@ -21,8 +21,8 @@
         "......o''''''''''+'''+     ciic   ###oo######...",
         "......#''''''''''|W'Z|            #'''GKG''$....",
         "......#'''''''qqq##*##|+||,,,,,,,,1''''''''$....",
-        "......####o##o####```#,,,|6,,,,,,Y#''''''''ƃ....",
-        "...[..............```#t,S|6,,,JJ,no''₸''₸'y$....",
+        "......####o##o####```#~~~|6,,,,,,Y#''''''''ƃ....",
+        "...[..............```#t~S|6,,,JJ,no''₸''₸'y$....",
         "................%%```#||||,,,,JJ,5o''''''''$....",
         "................%%```#,,,+,,,,,,,2#''y''y''$....",
         "............[........#666|JJF34O71#$$$ƃ$$$$#....",
@@ -38,7 +38,7 @@
         "standard_domestic_landscaping_palette"
       ],
       "terrain": {
-        ",": "t_linoleum_gray",
+        ",": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "h": "t_carpet_purple",
         "f": "t_carpet_purple",
         "'": "t_thconc_floor",
@@ -53,16 +53,13 @@
         "q": "t_thconc_floor",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "ƃ": "t_screen_door_c",
         "$": "t_screened_porch_wall",
-        "Y": "t_linoleum_gray"
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "place_loot": [ { "item": "television", "x": 40, "y": 5, "chance": 100 }, { "item": "stereo", "x": 41, "y": 5, "chance": 50 } ],
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "suburban_home", "x": 11, "y": 9, "chance": 100, "rotation": 270 }
-      ]
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 11, "y": 9, "chance": 100, "rotation": 270 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 7, "y": 1 } ]
     }
   },
   {
@@ -98,7 +95,11 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
-      "terrain": { "~": "t_open_air", "&": "t_shingle_flat_roof", ",": "t_linoleum_gray" }
+      "terrain": {
+        "~": "t_open_air",
+        "&": "t_shingle_flat_roof",
+        ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
+      }
     }
   },
   {

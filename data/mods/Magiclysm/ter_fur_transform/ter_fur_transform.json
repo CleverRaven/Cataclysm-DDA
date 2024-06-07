@@ -154,6 +154,35 @@
         "result": "t_grass",
         "valid_terrain": [ "t_grass_dead" ],
         "message": "Life springs anew from the dead grass."
+      },
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory_harvested", 32 ],
+          [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut_harvested", 8 ],
+          [ "t_tree_hazelnut_harvested", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple_harvested", 2 ],
+          [ "t_tree_cherry_harvested", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear_harvested", 2 ],
+          [ "t_tree_plum_harvested", 2 ],
+          [ "t_tree_elderberry_harvested", 2 ],
+          [ "t_tree_mulberry_harvested", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_terrain": [ "t_tree_very_dead" ],
+        "message": "The withered, desiccated tree springs back to life."
       }
     ]
   },
@@ -290,6 +319,291 @@
           "f_wild_sarsaparilla"
         ],
         "message": "The ground churns as thick, tangled brambles burst forth and grow in moments."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_cause_rot_terrain",
+    "terrain": [
+      {
+        "result": "t_dirt",
+        "valid_terrain": [
+          "t_grass",
+          "t_grass_alien",
+          "t_grass_dead",
+          "t_bamboo_long",
+          "t_grass_long",
+          "t_bamboo_tall",
+          "t_grass_tall",
+          "t_bamboo",
+          "t_bamboo_harvested",
+          "t_shrub",
+          "t_shrub_rose",
+          "t_shrub_lilac",
+          "t_shrub_grape",
+          "t_shrub_peanut",
+          "t_shrub_blueberry",
+          "t_shrub_hydrangea",
+          "t_shrub_raspberry",
+          "t_shrub_strawberry",
+          "t_shrub_blackberry",
+          "t_shrub_huckleberry",
+          "t_shrub_rose_harvested",
+          "t_shrub_grape_harvested",
+          "t_shrub_lilac_harvested",
+          "t_shrub_peanut_harvested",
+          "t_shrub_raspberry_harvested",
+          "t_shrub_blueberry_harvested",
+          "t_shrub_hydrangea_harvested",
+          "t_shrub_blackberry_harvested",
+          "t_shrub_strawberry_harvested",
+          "t_shrub_huckleberry_harvested",
+          "t_forestfloor",
+          "t_moss",
+          "t_underbrush",
+          "t_underbrush_harvested_spring",
+          "t_underbrush_harvested_summer",
+          "t_underbrush_harvested_autumn",
+          "t_underbrush_harvested_winter",
+          "t_fern",
+          "t_fern_harvested",
+          "t_tree_young"
+        ],
+        "message": "The plants wither and rot into nothingness in seconds!"
+      },
+      {
+        "result": "t_tree_very_dead",
+        "valid_terrain": [
+          "t_tree",
+          "t_tree_elm",
+          "t_tree_harvested",
+          "t_tree_plum_harvested",
+          "t_tree_pine_harvested",
+          "t_tree_dead",
+          "t_tree_pear",
+          "t_tree_plum",
+          "t_tree_pear_harvested",
+          "t_tree_pine",
+          "t_tree_maple",
+          "t_tree_apple",
+          "t_tree_beech",
+          "t_tree_alder_harvested",
+          "t_tree_peach_harvested",
+          "t_tree_peach",
+          "t_tree_birch",
+          "t_tree_birch_harvested",
+          "t_tree_maple_tapped",
+          "t_tree_pecan_harvested",
+          "t_tree_beech_harvested",
+          "t_tree_apple_harvested",
+          "t_tree_pecan",
+          "t_tree_alder",
+          "t_tree_walnut",
+          "t_tree_almond_harvested",
+          "t_tree_willow_harvested",
+          "t_tree_willow",
+          "t_tree_walnut_harvested",
+          "t_tree_fungal",
+          "t_tree_cherry_harvested",
+          "t_tree_cherry",
+          "t_tree_coffee_harvested",
+          "t_tree_coffee",
+          "t_tree_almond",
+          "t_tree_hickory_harvested",
+          "t_tree_hickory",
+          "t_tree_apricot_harvested",
+          "t_tree_apricot",
+          "t_tree_juniper_harvested",
+          "t_tree_juniper",
+          "t_marloss_tree",
+          "t_tree_chestnut_harvested",
+          "t_tree_chestnut",
+          "t_tree_mulberry_harvested",
+          "t_tree_mulberry",
+          "t_tree_basswood",
+          "t_tree_hazelnut_harvested",
+          "t_tree_hazelnut",
+          "t_tree_basswood_harvested",
+          "t_tree_pistachio_harvested",
+          "t_tree_pistachio",
+          "t_tree_deadpine",
+          "t_tree_butternut",
+          "t_tree_butternut_harvested",
+          "t_tree_sassafras_harvested",
+          "t_tree_sassafras",
+          "t_tree_cottonwood_harvested",
+          "t_tree_elderberry",
+          "t_tree_elderberry_harvested",
+          "t_tree_cottonwood",
+          "t_tree_blackjack",
+          "t_tree_dead_warped",
+          "t_tree_hickory_dead",
+          "t_tree_deadpine_warped",
+          "t_tree_blackjack_harvested",
+          "t_tree_crabapple",
+          "t_tree_crabapple_harvested"
+        ],
+        "message": "The trees caught in the spell crack and desiccates, their branches warping and shrinking."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_druid_renew_forest",
+    "terrain": [
+      {
+        "result": [
+          [ "t_tree_birch", 32 ],
+          [ "t_tree_elm", 32 ],
+          [ "t_tree_cottonwood", 32 ],
+          [ "t_tree_basswood", 32 ],
+          [ "t_tree_alder", 32 ],
+          [ "t_tree_pine", 64 ],
+          [ "t_tree_maple", 64 ],
+          [ "t_tree_willow", 64 ],
+          [ "t_tree_hickory_harvested", 32 ],
+          [ "t_tree_walnut_harvested", 16 ],
+          [ "t_tree_butternut", 4 ],
+          [ "t_tree_chestnut_harvested", 8 ],
+          [ "t_tree_hazelnut_harvested", 2 ],
+          [ "t_tree_beech", 4 ],
+          [ "t_tree_blackjack", 8 ],
+          [ "t_tree_apple_harvested", 2 ],
+          [ "t_tree_cherry_harvested", 2 ],
+          [ "t_tree_juniper", 2 ],
+          [ "t_tree_pear_harvested", 2 ],
+          [ "t_tree_plum_harvested", 2 ],
+          [ "t_tree_crabapple_harvested", 2 ],
+          [ "t_tree_elderberry_harvested", 2 ],
+          [ "t_tree_mulberry_harvested", 2 ],
+          [ "t_tree_sassafras", 3 ]
+        ],
+        "valid_flags": [ "YOUNG" ],
+        "message": "Wood creaks as the tree's limbs grow and stretch toward the sky."
+      },
+      {
+        "result": [
+          [ "t_grass", 75 ],
+          [ "t_grass_long", 30 ],
+          [ "t_grass_tall", 5 ],
+          [ "t_shrub", 15 ],
+          [ "t_underbrush", 35 ],
+          [ "t_shrub_rose", 5 ],
+          [ "t_shrub_blackberry_harvested", 5 ],
+          [ "t_shrub_grape_harvested", 5 ],
+          [ "t_shrub_lilac_harvested", 5 ],
+          [ "t_shrub_blueberry_harvested", 5 ],
+          [ "t_shrub_raspberry_harvested", 5 ],
+          [ "t_shrub_hydrangea_harvested", 5 ],
+          [ "t_shrub_huckleberry_harvested", 5 ],
+          [ "t_tree_young", 35 ]
+        ],
+        "valid_flags": [ "DIGGABLE", "SHRUB" ],
+        "message": "Soil churns as roots quest through it and grass and bushes spring forth from the ground."
+      },
+      {
+        "result": [ [ "t_grass", 9 ], [ "t_moss", 3 ], [ "t_forestfloor", 4 ] ],
+        "valid_terrain": [ "t_grass" ],
+        "message": ""
+      },
+      {
+        "result": [ [ "t_floor", 9 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_floor" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_floor_noroof", 9 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_floor_noroof" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_floor_primitive", 6 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_floor_primitive" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_pavement", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_pavement" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_pavement_y", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_pavement_y" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_zebra", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_zebra" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_sidewalk", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_sidewalk" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_concrete", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_concrete" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      },
+      {
+        "result": [ [ "t_concrete_y", 12 ], [ "t_grass", 6 ], [ "t_grass_long", 2 ], [ "t_grass_tall", 1 ] ],
+        "valid_terrain": [ "t_concrete_y" ],
+        "message": "The works of civilization crack as plants force their way through to the sun."
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "MOUNTABLE", "BLOCK_WIND", "ORGANIC" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_kelvinist_extinguish_transform",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [ "fd_fire", "fd_incendiary", "fd_flame_burst" ],
+        "message": "The fires suddenly vanishes!",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_earthshaper_harden_earth",
+    "terrain": [
+      {
+        "result": "t_rock_floor_no_roof",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor_no_roof", "t_dirtmound" ],
+        "message": "The earth hardens into solid rock."
+      },
+      {
+        "result": "t_rock_floor",
+        "valid_terrain": [ "t_dirt_underground" ],
+        "message": "The earth hardens into solid rock."
+      },
+      { "result": "t_rock", "valid_terrain": [ "t_soil" ], "message": "The earth hardens into solid rock." },
+      {
+        "result": "t_rock",
+        "valid_terrain": [ "t_wall_rammed_earth" ],
+        "message": "The earth hardens into solid rock."
+      }
+    ],
+    "furniture": [
+      {
+        "result": "f_null",
+        "valid_furniture": [
+          "f_dirtmound_tall",
+          "f_dirtmound_shallow",
+          "f_dirtmound_pile_seed",
+          "f_dirtmound_pile_mature",
+          "f_dirtmound_shallow_seed",
+          "f_dirtmound_pile_harvest",
+          "f_dirtmound_pile_seedling",
+          "f_dirtmound_shallow_mature",
+          "f_dirtmound_shallow_harvest",
+          "f_dirtmound_shallow_seedling"
+        ],
+        "message": ""
       }
     ]
   }

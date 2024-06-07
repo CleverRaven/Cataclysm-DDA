@@ -1,0 +1,201 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warp_statue",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_raidbegin_short", "EOC_raidbegin_medium", "EOC_raidbegin_long", "EOC_raidcancel" ],
+        "names": [ "Quick Expedition", "Large Expedition", "Extended Expedition", "Cancel" ],
+        "keys": [ "1", "2", "3", "4" ],
+        "title": "Select Expedition Length",
+        "descriptions": [
+          "A simple, brief expedition at the normal time limit.  Missions and exits will be close together.  A good chance to quickly gather supplies and experience.",
+          "A longer expedition that offers twice the time.  Missions and exits will be scattered over a wider area.  You will have more opportunity to dig deeper into surrounding points of interest, but also need more time to travel.  Missions offer extra warp shards as rewards.",
+          "A very long expedition that triples the time limit.  Missions and exits will be very far away.  You will have time for extended activities, but a good deal of your time will be spent trying to reach objectives over potentially dangerous terrain.  Missions offer even more warp shards as rewards.",
+          "Stay on the island for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raidbegin_short",
+    "//": "This EOC is triggered when the player chooses a quick expedition from the warp obelisk menu.  It grabs a random location of a certain type, saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.  It also sets the modifiers for expedition time, as well as mission and exit distance.",
+    "effect": [
+      { "math": [ "lengthofthisraid", "=", "0" ] },
+      { "math": [ "currentpulselength", "=", "sicknessintervals" ] },
+      { "math": [ "missiondistancemax", "=", "30" ] },
+      { "math": [ "missiondistancemin", "=", "5" ] },
+      { "math": [ "exfildistancemax", "=", "35" ] },
+      { "math": [ "exfildistancemin", "=", "5" ] },
+      { "run_eocs": [ "EOC_warp_choose_locale" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raidbegin_medium",
+    "//": "This EOC is triggered when the player chooses a medium expedition from the warp obelisk menu.  It grabs a random location of a certain type, saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.",
+    "condition": { "math": [ "longerraids", ">=", "1" ] },
+    "effect": [
+      { "math": [ "lengthofthisraid", "=", "1" ] },
+      { "math": [ "currentpulselength", "=", "sicknessintervals * 2" ] },
+      { "math": [ "missiondistancemax", "=", "60" ] },
+      { "math": [ "missiondistancemin", "=", "20" ] },
+      { "math": [ "exfildistancemax", "=", "90" ] },
+      { "math": [ "exfildistancemin", "=", "30" ] },
+      { "run_eocs": [ "EOC_warp_choose_locale" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raidbegin_long",
+    "//": "This EOC is triggered when the player chooses a long expedition from the warp obelisk menu.  It grabs a random location of a certain type, saves it to a global variable, and then triggers the actual teleport-out EOC, which is separate so multiple different things can trigger it and potentially target different locations.",
+    "condition": { "math": [ "longerraids", ">=", "2" ] },
+    "effect": [
+      { "math": [ "lengthofthisraid", "=", "2" ] },
+      { "math": [ "currentpulselength", "=", "sicknessintervals * 3" ] },
+      { "math": [ "missiondistancemax", "=", "80" ] },
+      { "math": [ "missiondistancemin", "=", "30" ] },
+      { "math": [ "exfildistancemax", "=", "160" ] },
+      { "math": [ "exfildistancemin", "=", "50" ] },
+      { "run_eocs": [ "EOC_warp_choose_locale" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_raidcancel",
+    "//": "This EOC is triggered when the player chooses to cancel from the warp obelisk menu.",
+    "effect": [ { "u_message": "You decide not to go out just yet." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_warp_choose_locale",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_Field_Loc_Warp", "EOC_Basement_Loc_Warp", "EOC_Rooftop_Loc_Warp", "EOC_Lab_Loc_Warp", "EOC_raidcancel" ],
+        "names": [ "Target: Field", "Target: Basement", "Target: Rooftop", "Target: Science Lab", "Cancel" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "title": "Select a Starting Location",
+        "descriptions": [
+          "Arrive in a barren field.  This usually means landing in the open wilderness, but there's always the chance you'll find yourself at an empty lot in town.",
+          "Arrive inside an underground basement.  This will tend to put you somewhere in suburbia, but there are always exceptions.",
+          "Arrive on a building roof someplace.  Usually this means houses, but you never know for sure.  This will always be one story off the ground.",
+          "Arrive somewhere in a subterranean science lab.  This is a highly dangerous method.  Due to the dimensional shielding these labs project, this expedition will cost 1 Labs Catalyst to begin.\nBE WARNED!  You will begin inside a sealed lab, so make sure you have the means to get out!  A second card, to unlock the surface exit, is one option.  You may also consider a homeward mote or a warp skyward beacon.",
+          "Stay on the island for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Random_Loc_Warp",
+    "//": "Picks a random location of any kind and activates the actual teleport EOC.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Field_Loc_Warp",
+    "//": "Picks a random field and activates the actual teleport EOC.",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "field",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "z": 0,
+          "random": true
+        }
+      },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Basement_Loc_Warp",
+    "//": "Picks a random basement and activates the actual teleport EOC.",
+    "condition": { "math": [ "basementsunlocked", "==", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "basement",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "z": -1,
+          "random": true
+        },
+        "terrain": "t_thconc_floor",
+        "target_max_radius": 20
+      },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Rooftop_Loc_Warp",
+    "//": "Picks a random rooftop and activates the actual teleport EOC.",
+    "condition": { "math": [ "roofsunlocked", "==", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "roof",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "z": 1,
+          "random": true
+        },
+        "terrain": "t_gutter",
+        "target_max_radius": 20
+      },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_Lab_Loc_Warp",
+    "//": "Picks a random underground lab and activates the actual teleport EOC.",
+    "condition": {
+      "and": [ { "math": [ "labsunlocked", "==", "1" ] }, { "u_has_items": { "item": "warp_labs_catalyst", "count": 1 } } ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "OM_missionspot" },
+        "target_params": {
+          "om_terrain": "lab_stairs",
+          "om_terrain_match_type": "CONTAINS",
+          "search_range": 1200,
+          "min_distance": 200,
+          "reveal_radius": { "global_val": "var", "var_name": "scoutingdistancelanding", "default": 0 },
+          "z": -2,
+          "random": true
+        },
+        "terrain": "t_thconc_floor",
+        "target_max_radius": 20
+      },
+      { "math": [ "goingtolabs", "=", "1" ] },
+      { "run_eocs": [ "EOC_initiate_randomport" ] }
+    ]
+  }
+]

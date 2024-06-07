@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "monster.h"
 #include "talker.h"
 #include "type_id.h"
@@ -42,6 +42,8 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
         tripoint_abs_omt global_omt_location() const override;
 
         int pain_cur() const override;
+
+        int perceived_pain_cur() const override;
 
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;

@@ -3,31 +3,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "talked_to_homeless",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_talked_to_homeless",
       "value": "yes",
       "yes": "Hello there.  Nice to see you again.",
       "no": "Who are you, and what are you doing here?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.  I mean no harm.",
         "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_INTRO",
-        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } }
       },
       {
         "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": 4, "fear": -3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -39,19 +37,24 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_BROKER_STORY" },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" }
+      },
+      {
         "text": "Where might your friends be?",
         "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_FRIENDS",
-        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_told_about_buddies", "value": "yes" }
       },
       {
         "text": "Can I stay here?",
         "topic": "TALK_NPC_HOMELESS_BROKER_STAY",
-        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_told_about_buddies", "value": "yes" }
       },
       {
         "text": "What's with that guy in the tent?",
         "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_BROKER",
-        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_told_about_buddies", "value": "yes" }
       },
       { "text": "Want to trade?", "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_NOTRADE" },
       {

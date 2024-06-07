@@ -6,7 +6,7 @@
     "description": "A resplendent alien fern, crowned with flowers colored deep indigo.  It appears to be the centerpiece of this otherworldly bloom.",
     "default_faction": "leech_plant",
     "species": [ "LEECH_PLANT" ],
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "40 kg",
     "hp": 100,
     "speed": 100,

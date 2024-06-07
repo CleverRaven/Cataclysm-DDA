@@ -7,7 +7,7 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 20,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 30,
     "speed": 100,
@@ -175,7 +175,7 @@
       }
     ],
     "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "trash_forest", "count": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3 }
   },
   {
@@ -391,7 +391,7 @@
     "id": "mon_wasp_small_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal wasp" },
-    "description": "A huge wasp the size of a large cat.  It's bright yellow markings have faded and ripped to show a disqusting mass of mold and rot beneath.  Her wings jut into extremely odd angles, making flight impossible.  Even still, it chases anything without any sense of self-preservation.",
+    "description": "A huge wasp the size of a large cat.  It's bright yellow markings have faded and ripped to show a disgusting mass of mold and rot beneath.  Her wings jut into extremely odd angles, making flight impossible.  Even still, it chases anything without any sense of self-preservation.",
     "default_faction": "fungus",
     "bodytype": "flying insect",
     "species": [ "FUNGUS" ],
@@ -460,7 +460,7 @@
     "id": "mon_wasp_fungus",
     "type": "MONSTER",
     "name": { "str": "giant fungal wasp" },
-    "description": "A gigantic wasp worker, It's body now a host for a plethora of mushrooms and spores.  Her abdomen glows faintly with a blue light, each pulse bringing a new crack for fungal growths to excape from.  It's stinger seems to have a soul of it's own, reaching out towards anything that isn't infested like itself.",
+    "description": "A gigantic wasp worker, It's body now a host for a plethora of mushrooms and spores.  Her abdomen glows faintly with a blue light, each pulse bringing a new crack for fungal growths to escape from.  It's stinger seems to have a soul of it's own, reaching out towards anything that isn't infested like itself.",
     "default_faction": "fungus",
     "bodytype": "flying insect",
     "species": [ "FUNGUS" ],

@@ -12,10 +12,52 @@
     "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "ATTACK_SPEED", "multiply": -0.1 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_salamander_heat_healing",
+    "condition": {
+      "or": [
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
+        {
+          "or": [
+            { "u_is_in_field": "fd_hot_air1" },
+            { "u_is_in_field": "fd_hot_air2" },
+            { "u_is_in_field": "fd_hot_air3" },
+            { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
+            { "u_is_in_field": "fd_salamander_heat" },
+            { "u_is_in_field": "fd_migo_atmosphere" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "REGEN_HP", "multiply": 0.4 }, { "value": "MENDING_MODIFIER", "multiply": 3 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_salamander_heat_crafting",
+    "condition": {
+      "or": [
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
+        {
+          "or": [
+            { "u_is_in_field": "fd_hot_air1" },
+            { "u_is_in_field": "fd_hot_air2" },
+            { "u_is_in_field": "fd_hot_air3" },
+            { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
+            { "u_is_in_field": "fd_salamander_heat" },
+            { "u_is_in_field": "fd_migo_atmosphere" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
+  },
+  {
     "id": "salamander_aoe_explosion",
     "type": "SPELL",
     "name": "Salamander AoE Explosion",
-    "description": "This is the aoe used by some other Salamander spells.  It's a bug if you have it directly.",
+    "description": "This is the AoE used by some other Salamander spells.  It's a bug if you have it directly.",
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "skill": "deduction",
@@ -98,6 +140,24 @@
     "sound_description": "a crackle!"
   },
   {
+    "id": "salamander_flame_punch_spell_push",
+    "type": "SPELL",
+    "name": "Blazing Blow Push",
+    "description": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.",
+    "message": "",
+    "skill": "deduction",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "min_damage": 2,
+    "max_damage": 6,
+    "damage_increment": 0.15,
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
     "id": "salamander_flaming_whip_spell",
     "type": "SPELL",
     "name": "A Hundred Tongues of Flame",
@@ -175,24 +235,6 @@
     "effect": "emit",
     "effect_str": "emit_smoke_stream",
     "shape": "blast"
-  },
-  {
-    "id": "salamander_flame_punch_spell_push",
-    "type": "SPELL",
-    "name": "Blazing Blow Push",
-    "description": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.",
-    "message": "",
-    "skill": "deduction",
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "directed_push",
-    "shape": "blast",
-    "max_level": { "math": [ "str_to_level(1)" ] },
-    "min_damage": 2,
-    "max_damage": 6,
-    "damage_increment": 0.15,
-    "min_range": 1,
-    "max_range": 1
   },
   {
     "id": "salamander_cure_conditions",
@@ -301,6 +343,35 @@
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
+  },
+  {
+    "id": "salamander_summon_firebird_spell",
+    "type": "SPELL",
+    "name": "Flame of the Firebird",
+    "description": "Summon a delicate bird made of pure flame.  The bird will last only a few moments, but if it sees an enemy it will eager dive upon them and erupt into a fireball.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 4,
+    "effect": "summon",
+    "effect_str": "mon_salamander_firebird",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": { "math": [ "( (u_spell_level('salamander_summon_firebird_spell') * 1) + 2) * scaling_factor(u_val('perception') )" ] },
+    "max_range": { "math": [ "( (u_spell_level('salamander_summon_firebird_spell') * 1) + 2) * scaling_factor(u_val('perception') )" ] },
+    "min_duration": 3000,
+    "max_duration": 3000,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 250,
+    "energy_increment": -5,
+    "base_casting_time": 300,
+    "final_casting_time": 75,
+    "casting_time_increment": -10
   },
   {
     "id": "salamander_fire_breath",
@@ -428,6 +499,8 @@
     "name": "Anointed with Incandescence",
     "description": "You draw on your own fiery nature and infuse a portion of it into an ally, rendering them immune to warm temperatures and fire.",
     "valid_targets": [ "ally" ],
+    "teachable": false,
+    "spell_class": "SALAMANDER",
     "skill": "deduction",
     "effect": "attack",
     "effect_str": "effect_flame_immunity",
@@ -446,5 +519,65 @@
     "min_duration": 30000,
     "max_duration": 1080000,
     "duration_increment": 16500
+  },
+  {
+    "id": "salamander_explosion_and_heal_spell",
+    "type": "SPELL",
+    "name": "The Phoenix's Last Cry",
+    "description": "Like the rebirth of the legendary phoenix, you explode into flames, causing fire to engulf the entire nearby area.  You will heal faster for six hours after casting this spell.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "SALAMANDER",
+    "skill": "deduction",
+    "flags": [ "LOUD", "VERBAL", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "salamander_explosion_and_heal_spell_self_heal", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [ "( (u_spell_level('salamander_explosion_and_heal_spell') * 5) + 65) * (scaling_factor(u_val('perception') ) ) " ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('salamander_explosion_and_heal_spell') * 8.5) + 169) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('salamander_explosion_and_heal_spell') * 0.9) + 4) * (scaling_factor(u_val('perception') ) )), 35)"
+      ]
+    },
+    "max_aoe": 35,
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 1,
+    "field_chance": 2,
+    "energy_source": "MANA",
+    "base_energy_cost": 2250,
+    "final_energy_cost": 1750,
+    "energy_increment": -15,
+    "base_casting_time": 175,
+    "final_casting_time": 55,
+    "casting_time_increment": -8,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!"
+  },
+  {
+    "id": "salamander_explosion_and_heal_spell_self_heal",
+    "type": "SPELL",
+    "name": "The Phoenix's Last Cry Healing Effect",
+    "description": "The healing effect of The Phoenix's Last Cry.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_salamander_phoenix_healing",
+    "shape": "blast",
+    "min_duration": 1440000,
+    "max_duration": 2880000
   }
 ]

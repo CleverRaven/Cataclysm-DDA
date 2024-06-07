@@ -109,6 +109,7 @@
             { "u_has_effect": "effect_biokin_enhance_mobility" },
             { "u_has_effect": "effect_clair_night_eyes" },
             { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_hacking_interface" },
             { "u_has_effect": "effect_electrokin_personal_battery" },
             { "u_has_effect": "effect_photokin_light_local" },
             { "u_has_effect": "effect_photokin_light_barrier" },
@@ -154,6 +155,7 @@
             { "u_has_effect": "effect_biokin_enhance_mobility" },
             { "u_has_effect": "effect_clair_night_eyes" },
             { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_hacking_interface" },
             { "u_has_effect": "effect_electrokin_personal_battery" },
             { "u_has_effect": "effect_photokin_light_local" },
             { "u_has_effect": "effect_photokin_light_barrier" },
@@ -176,7 +178,11 @@
         "run_eocs": [
           {
             "id": "EOC_PSIONICS_DAZED_ENDS_POWERS_2",
-            "condition": { "roll_contested": { "math": [ "u_val('intelligence') + u_skill('metaphysics')" ] }, "difficulty": 20, "die_size": 15 },
+            "condition": {
+              "roll_contested": { "math": [ "(u_val('intelligence') / 2) + u_skill('metaphysics') + concentration_trait_bonuses()" ] },
+              "difficulty": 20,
+              "die_size": 15
+            },
             "effect": [  ],
             "false_effect": [
               { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
@@ -186,6 +192,40 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_WEARINESS_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+          ]
+        },
+        { "not": { "u_has_proficiency": "prof_concentration_master" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You are almost too tired to think, and can't concentrate on maintaining your powers", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_MIND_PROBLEMS_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "brainworms", { "context_val": "effect" } ] },
+        { "compare_string": [ "pd_int_bad", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -228,6 +268,7 @@
             { "u_has_effect": "effect_biokin_enhance_mobility" },
             { "u_has_effect": "effect_clair_night_eyes" },
             { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_electrokin_hacking_interface" },
             { "u_has_effect": "effect_electrokin_personal_battery" },
             { "u_has_effect": "effect_photokin_light_local" },
             { "u_has_effect": "effect_photokin_light_barrier" },
@@ -288,5 +329,35 @@
         "target_part": "eyes"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE",
+    "condition": { "not": { "u_has_effect": "fearparalyze" } },
+    "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE1",
+    "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
+    "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE2" ] },
+    "false_effect": {
+      "u_message": "Some <npc_name> tries to intrude into your thoughts, but your telepathic shield reflects it!",
+      "type": "warning"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE",
+    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE1",
+    "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
+    "effect": { "u_message": "You sense some <npc_name> trying to enter your mind, but you repel!", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
   }
 ]

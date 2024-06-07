@@ -56,7 +56,6 @@
         ";": "t_privacy_fencegate_c",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "~": "t_thconc_floor",
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",
@@ -80,10 +79,8 @@
         { "chance": 35, "item": "alcohol", "x": 10, "y": 13 }
       ],
       "place_monsters": [ { "chance": 5, "density": 1, "monster": "GROUP_ZOMBIE", "x": 7, "y": 10 } ],
-      "place_vehicles": [
-        { "vehicle": "bikeshop", "x": 19, "y": 14, "rotation": 270, "chance": 20 },
-        { "vehicle": "rolling_trash_can", "x": 15, "y": 1, "chance": 80, "status": 0 }
-      ]
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 19, "y": 14, "rotation": 270, "chance": 20 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 15, "y": 0 } ]
     }
   },
   {

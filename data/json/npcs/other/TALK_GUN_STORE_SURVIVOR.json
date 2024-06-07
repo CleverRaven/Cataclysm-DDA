@@ -3,31 +3,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_GUN_STORE_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>",
-      "no": "Hey stranger.  How's life treatin' ya these days?"
+      "no": { "gendered_line": "Hey stranger.  How's life treatin' ya these days?", "relevant_genders": [ "u" ] }
     },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "Hey, nice to meet you.",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "<greet>",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -38,6 +36,13 @@
     "dynamic_line": "What brings you around here?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_WHO" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
       {
         "text": "Would you be interested in trading at all?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",
@@ -61,11 +66,21 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_GUN_STORE_SURVIVOR_WHO",
-    "dynamic_line": "I'm just an average person, really.  When a horde of those <swear> <zombies> came knockin' on my door, I ran for it.  Good for me that someone left this store open in the chaos, I ran inside and locked the place down.  There isn't a thing in all of <city> that can bust through these walls and barred windows, I'd reckon I'm the luckiest <name_b> in town.",
+    "dynamic_line": {
+      "gendered_line": "I'm just an average person, really.  When a horde of those <swear> <zombies> came knockin' on my door, I ran for it.  Good for me that someone left this store open in the chaos, I ran inside and locked the place down.  There isn't a thing in all of <city> that can bust through these walls and barred windows, I'd reckon I'm the luckiest <name_b> in town.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Why would someone leave a gun store open in all this chaos?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_WHY_HERE"
+      },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
       },
       {
         "text": "Would you be interested in trading at all?",
@@ -92,7 +107,14 @@
     "id": "TALK_NPC_GUN_STORE_SURVIVOR_WHY_HERE",
     "dynamic_line": "Well, they weren't really around to lock it up.  Whoever got here first blew their head off with a 12-gauge, but they were up and movin', tried to kill me too.  They're out in the dumpster now.",
     "responses": [
-      { "text": "I'm sorry to hear that.  Mabye we should change the subject.", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO" },
+      { "text": "I'm sorry to hear that.  Maybe we should change the subject.", "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
       {
         "text": "Would you be interested in trading at all?",
         "topic": "TALK_NPC_GUN_STORE_SURVIVOR_INTRO",

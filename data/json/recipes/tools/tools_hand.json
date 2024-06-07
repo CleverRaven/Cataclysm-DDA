@@ -30,7 +30,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -50,7 +50,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -69,7 +69,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "flint_steel",
@@ -109,6 +109,41 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "metalworking_tongs_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 3 ], [ "bronze_tiny", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "metalworking_tongs_bronze",
+    "id_suffix": "casting",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "125 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_toolsmithing" } ],
+    "using": [ [ "forging_standard", 3 ], [ "bronze_tiny", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "metalworking_tongs",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -122,7 +157,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+    "components": [ [ [ "nails", 1, "LIST" ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -138,8 +173,8 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_toolsmithing" } ],
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "nuts_bolts", 1 ] ] ]
+    "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
+    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "nails", 1, "LIST" ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -162,12 +197,34 @@
     "using": [ [ "forging_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possible, just realistically take slightly longer.",
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "chisel_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_weparabic", 5 ], [ "bronze_book", 4 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possible, just realistically take slightly longer.",
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [ [ [ "scrap_bronze", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -283,7 +340,7 @@
     "tools": [
       [ [ "drift", -1 ], [ "punch_nail", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "casting_mold", -1 ] ]
+      [ [ "casting_mold_small", -1 ] ]
     ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "scrap_bronze", 2 ] ] ]
@@ -389,7 +446,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -403,7 +460,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "nail", 8 ], [ "bronze_nail", 8 ] ], [ [ "2x4", 3 ] ] ]
+    "components": [ [ [ "nails", 8, "LIST" ] ], [ [ "2x4", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -448,7 +505,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
@@ -467,7 +524,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -614,7 +671,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -635,7 +692,7 @@
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -694,7 +751,7 @@
     ],
     "book_learn": [ [ "manual_fabrication", 3 ], [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -805,6 +862,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -819,6 +877,22 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "hammer_sledge",
+    "id_suffix": "from_short_sledge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "hammer_sledge_short", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -909,7 +983,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -946,7 +1020,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -972,7 +1046,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "scrap", 2 ] ] ]
   },
   {
@@ -1025,7 +1099,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1044,7 +1118,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1063,7 +1137,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -1082,7 +1156,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
@@ -1102,7 +1176,7 @@
     ],
     "using": [ [ "blacksmithing_scrap", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
@@ -1170,7 +1244,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
@@ -1219,7 +1293,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1239,7 +1313,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1259,7 +1333,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1279,7 +1353,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1299,7 +1373,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ]
   },
   {
     "result": "knife_folding",
@@ -1326,7 +1400,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1368,7 +1442,7 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ], [ "fur", 2 ], [ "cordage_short", 4, "LIST" ] ],
       [ [ "scrap_bronze", 20 ] ],
@@ -1463,7 +1537,11 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "components": [
+      [ [ "material_aluminium_ingot", 1 ] ],
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1479,7 +1557,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
-      [ [ "nail", 1 ], [ "bronze_nail", 1 ], [ "screwdriver", 1 ] ],
+      [ [ "nails", 1, "LIST" ], [ "screwdriver", 1 ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ]
     ]
   },
@@ -1531,7 +1609,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER_FINE", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1584,17 +1662,77 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "casting_mold_small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "clay_lump", 1 ] ],
+      [ [ "material_sand", 113 ] ],
+      [ [ "2x4", 2 ], [ "stick", 2 ] ],
+      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "casting_mold_large",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 32 ], [ "water_clean", 32 ] ],
+      [ [ "clay_lump", 32 ] ],
+      [ [ "material_sand", 9000 ] ],
+      [ [ "2x4", 8 ] ],
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "superglue", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "casting_mold_long",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "water", 9 ], [ "water_clean", 9 ] ],
+      [ [ "clay_lump", 9 ] ],
+      [ [ "material_sand", 2532 ] ],
+      [ [ "2x4", 8 ] ],
+      [ [ "nail", 16 ], [ "bronze_nail", 16 ], [ "superglue", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "casting_mold",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "15 m",
+    "time": "1 h",
     "autolearn": true,
+    "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "material_sand", 5 ] ],
-      [ [ "2x4", 8 ], [ "stick", 8 ] ],
-      [ [ "nail", 8 ], [ "bronze_nail", 8 ], [ "superglue", 4 ] ]
+      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "clay_lump", 5 ] ],
+      [ [ "material_sand", 1350 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ],
+      [ [ "nails", 8, "LIST" ], [ "superglue", 4 ] ]
     ]
   },
   {
@@ -1722,6 +1860,6 @@
       { "id": "CHISEL", "level": 3 },
       { "id": "DRILL", "level": 2 }
     ],
-    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+    "tools": [ [ [ "casting_mold", -1 ] ], [ [ "hotcut_any", 1, "LIST" ] ] ]
   }
 ]

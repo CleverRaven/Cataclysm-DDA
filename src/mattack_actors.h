@@ -129,6 +129,8 @@ class melee_actor : public mattack_actor
         bool blockable = true;
         // Determines if effects are only applied on damagin attacks
         bool effects_require_dmg = true;
+        // Determines if effects are only applied on non bionic limbs
+        bool effects_require_organic = false;
         // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
         // Limits on target bodypart hit sizes
@@ -259,7 +261,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         bool try_target( monster &z, Creature &target ) const;
-        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+        bool shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
         int get_max_range() const;
 

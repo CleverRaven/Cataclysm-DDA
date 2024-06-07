@@ -7,31 +7,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>",
       "no": "Finally, someone who isn't part of those <zombies>."
     },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "Yeah, today's your lucky day.  Hand over your stuff, or you'll be one yourself.",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "Hey, nice to meet you.",
         "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_INTRO",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "<greet>",
         "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -42,6 +40,13 @@
     "dynamic_line": "What can I do for you?",
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_WHO" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
       {
         "text": "Wanna buy something, maybe sell off what you don't need?",
         "topic": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_INTRO",
@@ -59,7 +64,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR_WHO",
-    "dynamic_line": "I worked here before <the_cataclysm> dumped everything in the <swear> bin.  I took care of all the animals here, and when the <zombies> started roaming the streets, I gathered every pet or stray I could.  I still take care of them, just gotta worry about the <zombies> now on top of disease, cleanliness, etc.",
+    "dynamic_line": {
+      "gendered_line": "I worked here before <the_cataclysm> dumped everything in the <swear> bin.  I took care of all the animals here, and when the <zombies> started roaming the streets, I gathered every pet or stray I could.  I still take care of them, just gotta worry about the <zombies> now on top of disease, cleanliness, etc.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "That's quite noble of you, but how do you take care of so many animals?",

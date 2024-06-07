@@ -400,22 +400,6 @@
     "delete": { "weakpoints": [ { "id": "test_head" } ], "weakpoint_sets": [ "test_special_head" ] }
   },
   {
-    "id": "mon_zombie_survivor_no_weakpoints",
-    "type": "MONSTER",
-    "name": { "str": "zombie survivor test only" },
-    "description": "This zombie survivor is for testing purposes only.",
-    "copy-from": "mon_zombie_survivor",
-    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] }
-  },
-  {
-    "id": "mon_zombie_soldier_no_weakpoints",
-    "type": "MONSTER",
-    "name": { "str": "zombie soldier test only" },
-    "description": "This zombie soldier is for testing purposes only.",
-    "copy-from": "mon_zombie_soldier",
-    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] }
-  },
-  {
     "id": "mon_shoggoth_flesh_only",
     "type": "MONSTER",
     "name": { "str": "flesh eating shoggoth test only" },

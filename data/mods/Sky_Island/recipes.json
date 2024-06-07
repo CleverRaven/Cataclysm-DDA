@@ -2,7 +2,7 @@
   {
     "type": "recipe_category",
     "id": "CC_WARP",
-    "recipe_subcategories": [ "CSC_ALL", "CSC_WARP_GEAR", "CSC_WARP_TOOLS", "CSC_WARP_ITEMS", "CSC_WARP_OPTIONS" ]
+    "recipe_subcategories": [ "CSC_ALL", "CSC_WARP_GEAR", "CSC_WARP_TOOLS", "CSC_WARP_ITEMS", "CSC_WARP_MATERIALS", "CSC_WARP_UPGRADES" ]
   },
   {
     "result": "warp_grassbag",
@@ -11,7 +11,6 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_ITEMS",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
     "autolearn": true,
     "reversible": false,
@@ -26,13 +25,12 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_ITEMS",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
-    "autolearn": true,
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 15 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
     "result": "warp_skyward_beacon",
@@ -41,12 +39,12 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_ITEMS",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "warptoken", 10 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
     "result": "warphome",
@@ -55,28 +53,12 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_ITEMS",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
-    "autolearn": true,
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 20 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "warpextender",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_ITEMS",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 2 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
     "result": "warphaulbag",
@@ -85,58 +67,44 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_GEAR",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
-    "autolearn": true,
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 10 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "SECRET", "BLIND_EASY" ]
+  },
+  {
+    "result": "quickheal",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "2 s",
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 4 ] ] ]
   },
   {
     "result": "warpmetalbag",
-    "type": "recipe",
+    "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_GEAR",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
+    "time": "2 s",
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "result": "warpdirtbag",
-    "type": "recipe",
+    "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_GEAR",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
+    "time": "2 s",
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "result": "warpwoodbag",
-    "type": "recipe",
+    "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_GEAR",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
+    "time": "2 s",
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 5 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "warptoken", 5 ] ] ]
   },
   {
     "result": "warp_carrier",
@@ -145,28 +113,12 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_GEAR",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
-    "autolearn": true,
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 12 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "quickheal",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_ITEMS",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 4 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
     "result": "warp_autodoc_inert",
@@ -175,82 +127,12 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_TOOLS",
     "skill_used": "survival",
-    "difficulty": 0,
     "time": "1 m",
-    "autolearn": true,
+    "autolearn": false,
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 30 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "warpheal_stone",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_OPTIONS",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "warpdifficulty_stone",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_OPTIONS",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "warp_portalstorm_ender",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_OPTIONS",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "warpstat_stone",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_WARP",
-    "subcategory": "CSC_WARP_OPTIONS",
-    "skill_used": "survival",
-    "difficulty": 0,
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "bundle_splinter",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "autolearn": true,
-    "reversible": true,
-    "components": [ [ [ "splinter", 100 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "SECRET", "BLIND_EASY" ]
   },
   {
     "type": "recipe",
@@ -266,11 +148,85 @@
     ],
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 8 ] ] ],
-    "difficulty": 0,
-    "autolearn": true,
+    "autolearn": false,
     "time": "1 m",
     "skill_used": "survival",
     "category": "CC_WARP",
-    "subcategory": "CSC_WARP_ITEMS"
+    "subcategory": "CSC_WARP_ITEMS",
+    "flags": [ "SECRET", "BLIND_EASY" ]
+  },
+  {
+    "result": "warp_labs_catalyst",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": false,
+    "reversible": false,
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [ [ [ "warptoken", 15 ] ], [ [ "id_science", 1 ] ], [ [ "microscope_dissecting", 1 ] ] ]
+  },
+  {
+    "result": "warp_folded_infinitree",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_TOOLS",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 3 ] ],
+      [ [ "2x4", 2 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ] ],
+      [ [ "splinter", 4 ] ]
+    ]
+  },
+  {
+    "result": "warp_folded_infinitystone",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_TOOLS",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 3 ] ],
+      [ [ "rock", 10 ] ],
+      [ [ "clay_lump", 5 ], [ "material_sand", 20 ] ],
+      [ [ "rock_flaking", 4 ], [ "rock_large", 1 ] ],
+      [ [ "material_soil", 2 ] ]
+    ]
+  },
+  {
+    "result": "warp_folded_infinityore",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_TOOLS",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": false,
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "warptoken", 3 ] ],
+      [ [ "scrap", 20 ], [ "steel_chunk", 4 ], [ "steel_lump", 1 ] ],
+      [ [ "pipe", 2 ], [ "wire", 6 ] ],
+      [ [ "nuts_bolts", 4 ], [ "pipe_fittings", 4 ], [ "sheet_metal_small", 10 ] ],
+      [ [ "nail", 40 ] ]
+    ]
   }
 ]

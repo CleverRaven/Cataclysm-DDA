@@ -4,8 +4,8 @@
     "type": "BOOK",
     "name": { "str": "holybook abstract" },
     "description": "theoretically this isn't a book at all",
-    "price": 550,
-    "price_postapoc": 550,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "5 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -94,7 +94,7 @@
     "id": "holybook_bible8",
     "type": "BOOK",
     "name": { "str": "Orthodox Tewahedo Biblical Canon", "str_pl": "copies of the Orthodox Tewahedo Biblical Canon" },
-    "description": "This is very rare English translation of the Orthodox Tewahedo Biblical Canon, a collection of religious texts that form the basis of the Ethiopian Orthodox Church’s faith and doctrine, probably acquired by a immigrant, collector or theologist.  This canon is distinct from the Protestant and Catholic biblical canons, as it contains additional books that are not part of the Hebrew Bible or the Old Testament.",
+    "description": "This is very rare English translation of the Orthodox Tewahedo Biblical Canon, a collection of religious texts that form the basis of the Ethiopian Orthodox Church's faith and doctrine, probably acquired by a immigrant, collector or theologist.  This canon is distinct from the Protestant and Catholic biblical canons, as it contains additional books that are not part of the Hebrew Bible or the Old Testament.",
     "weight": "850 g",
     "volume": "2 L",
     "copy-from": "holybook_abstract"
@@ -175,7 +175,7 @@
     "id": "holybook_catechismmuslim",
     "type": "BOOK",
     "name": { "str": "Safinatun Najah", "str_pl": "copies of the Safinatun Najah" },
-    "description": "A hardcover English translation of the Safinatun Najah, a renowned manual of Islamic jurisprudence, specifically focusing on the Shafi’i school of thought.  It serves as a comprehensive guide for Muslims seeking knowledge and understanding of the principles and practices of Islam.",
+    "description": "A hardcover English translation of the Safinatun Najah, a renowned manual of Islamic jurisprudence, specifically focusing on the Shafi'i school of thought.  It serves as a comprehensive guide for Muslims seeking knowledge and understanding of the principles and practices of Islam.",
     "weight": "630 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -237,7 +237,7 @@
   {
     "id": "holybook_orthodox",
     "type": "BOOK",
-    "name": { "str": "The Orthodox Church", "str_pl": "copies of the The Orthodox Church" },
+    "name": { "str": "The Orthodox Church", "str_pl": "copies of The Orthodox Church" },
     "description": "A paperback edition of 'The Orthodox Church: An Introduction to Eastern Christianity', written by Timothy Ware.  This book provides a comprehensive overview of the history, theology, and practices of the Eastern Orthodox Church, and an introduction to the Orthodox faith for those unfamiliar with it, as well as a deeper exploration for those seeking to deepen their understanding.",
     "weight": "269 g",
     "volume": "1 L",
@@ -255,7 +255,7 @@
   {
     "id": "holybook_ladder",
     "type": "BOOK",
-    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of the The Ladder of Divine Ascent" },
+    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of The Ladder of Divine Ascent" },
     "description": "A commercial-grade, hardcover English edition of The Ladder of Divine Ascent, a well-known spiritual guidebook written in the 6th century by John Climacus, an Orthodox Christian monk.  This book is composed of many chapters, each representing a rung on the ladder, symbolizing the spiritual journey towards union with God.",
     "weight": "540 g",
     "volume": "1 L",
@@ -283,7 +283,7 @@
     "id": "holybook_anglican",
     "type": "BOOK",
     "name": { "str": "Anglican Book of Common Prayer", "str_pl": "copies of the Anglican Book of Common Prayer" },
-    "description": "A hardcover edition of the Anglican Book of Commom Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
+    "description": "A hardcover edition of the Anglican Book of Common Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
     "weight": "720 g",
     "volume": "1100 ml",
     "copy-from": "holybook_abstract"
@@ -415,7 +415,7 @@
     "id": "holybook_mo",
     "type": "BOOK",
     "name": { "str": "Buluotuo", "str_pl": "copies of the Buluotuo" },
-    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, godesses, prayers, practices and rituais of Moism.",
+    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, godesses, prayers, practices and rituals of Moism.",
     "weight": "370 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -433,7 +433,7 @@
     "id": "holybook_maya",
     "type": "BOOK",
     "name": { "str": "Popol Vuh", "str_pl": "copies of the Popol Vuh" },
-    "description": "A English edition of the Popol Vuh, a sacred book of the K’iche’ Maya people, a native group from the Guatemalan highlands.  It is a combination of creation myths, historical narratives, and heroic legends that revolve around the K’iche’ people’s origins, culture, and the deities that govern their universe.",
+    "description": "A English edition of the Popol Vuh, a sacred book of the K'iche' Maya people, a native group from the Guatemalan highlands.  It is a combination of creation myths, historical narratives, and heroic legends that revolve around the K'iche' people's origins, culture, and the deities that govern their universe.",
     "weight": "500 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -478,7 +478,7 @@
     "id": "holybook_leinster",
     "type": "BOOK",
     "name": { "str": "Book of Leinster", "str_pl": "copies of the Book of Leister" },
-    "description": "A incredibly rare English translation of the Book of Leinster, a significant and ancient compilation of Irish literature and history, dating back to the 12th century.  It contains annals, genealogies, historical texts, legal tracts, secular and religious poetry and stories from Irish mythology, such as the epic tale “Táin Bó Cúailnge”, which tells the story of the legendary warrior Cú Chulainn and the cattle raid of Cooley.",
+    "description": "A incredibly rare English translation of the Book of Leinster, a significant and ancient compilation of Irish literature and history, dating back to the 12th century.  It contains annals, genealogies, historical texts, legal tracts, secular and religious poetry and stories from Irish mythology, such as the epic tale \"Táin Bó Cúailnge\", which tells the story of the legendary warrior Cú Chulainn and the cattle raid of Cooley.",
     "weight": "1100 g",
     "volume": "1650 ml",
     "copy-from": "holybook_abstract"
@@ -505,7 +505,7 @@
     "id": "holybook_sumeria",
     "type": "BOOK",
     "name": { "str": "Enki and Ninhursag Myth", "str_pl": "copies of the Enki and Ninhursag Myth" },
-    "description": "A pretty uncomom English translation of the Enki and Ninhursag Myth, a Sumerian creation myth that explains the origins of the world, humanity, and the gods.",
+    "description": "A pretty uncommon English translation of the Enki and Ninhursag Myth, a Sumerian creation myth that explains the origins of the world, humanity, and the gods.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -522,8 +522,8 @@
   {
     "id": "holybook_helliand",
     "type": "BOOK",
-    "name": { "str": "Helliand", "str_pl": "copies of the Helliand" },
-    "description": "A English translation of the Helliand, an Old Saxon epic poem that narrates the life and Passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus’s childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm..",
+    "name": { "str": "Heliand", "str_pl": "copies of the Heliand" },
+    "description": "A English translation of the Heliand, an Old Saxon epic poem that narrates the life and passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus' childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -622,7 +622,7 @@
       {
         "id": "holybook_east7",
         "name": { "str": "Sacred Books of the East Vol. 7", "str_pl": "copies of the seventh volume of the Sacred Books of the East" },
-        "description": "It contains The Institutes of Visnu.",
+        "description": "It contains The Institutes of Vishnu.",
         "append": true
       },
       {
@@ -892,7 +892,7 @@
           "str": "Sacred Books of the East Vol. 39",
           "str_pl": "copies of the thirty-ninth volume of the Sacred Books of the East"
         },
-        "description": "It contains the Texts of Taoism, part 1/2: The Tao Te Ching of Lao Dze (Lao Tsu) and The Writings of Kwang-tze (Chuang-tse), from I to XVII.",
+        "description": "It contains the Texts of Taoism, part 1/2: The Tao Te Ching of Lao Dze (Lao Tsu) and The Writings of Chuang-tse, from I to XVII.",
         "append": true
       },
       {
@@ -901,7 +901,7 @@
           "str": "Sacred Books of the East Vol. 40",
           "str_pl": "copies of the fourtieth volume of the Sacred Books of the East"
         },
-        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Kwang Tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to volumes 39 and 40.",
+        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Chuang-tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to volumes 39 and 40.",
         "append": true
       },
       {
@@ -1030,7 +1030,7 @@
       {
         "id": "holybook_nag_hammadi_05",
         "name": { "str": "Nag Hammadi Codex V", "str_pl": "copies of the fifth Nag Hammadi Codex" },
-        "description": "It contains Eugenostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
+        "description": "It contains Eugnostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
         "append": true
       },
       {
@@ -1111,8 +1111,8 @@
     "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
     "weight": "130 g",
     "volume": "250 ml",
-    "price": 550,
-    "price_postapoc": 50,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -1156,8 +1156,8 @@
     "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
     "weight": "486 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "5 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -1189,7 +1189,7 @@
     "id": "holybook_frog",
     "type": "BOOK",
     "name": { "str": "The Blue Book of the Blue Frog", "str_pl": "copies of the Blue Book of the Blue Frog" },
-    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult’s followers must adhere to and also the practices, religious and political hierarchy of this cult.  Not much for a scavenger.",
+    "description": "A curious handwritten blue book of unknown origin.  The contents of this book are complex, regarding stories of the 'Blue Frog', a strange cult called 'The Blue Frog Cult', its prophecies, the rules that the cult's followers must adhere to and also the practices, religious and political hierarchy of this cult.  Not much for a scavenger.",
     "weight": "320 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1305,8 +1305,8 @@
   {
     "id": "holybook_golden",
     "type": "BOOK",
-    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the The Orphic Gold Tablets" },
-    "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods’ will.",
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of The Orphic Gold Tablets" },
+    "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods' will.",
     "weight": "300 g",
     "volume": "900 ml",
     "copy-from": "holybook_abstract"
@@ -1341,7 +1341,7 @@
   {
     "id": "holybook_mithraic",
     "type": "BOOK",
-    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of The Mithraic Inscriptions" },
     "description": "A commercial-grade, paperback English edition of The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
@@ -1391,7 +1391,7 @@
     "id": "holybook_maori",
     "type": "BOOK",
     "name": { "str": "Te Ao Māori", "str_pl": "copies of the Te Ao Māori" },
-    "description": "A collection of written oral traditions of the religion of the Maori people, including the Whakapapa (genealogy and the relationships between the living, the dead, and the natural world), the Tikanga (customs, traditions, and protocols that govern the daily lives of the Maori people), Waiata (songs that play a significant role in the Traditional Maori Religion), Pepeha (a personal statement that outlines one’s whakapapa, or genealogy, and connection to the land) and Taonga Tūtahi (sacred treasures and objects that hold spiritual significance for the Maori people), as well as inscriptions regarding the deities, entities and religious traditions of the Maori Religion.",
+    "description": "A collection of written oral traditions of the religion of the Maori people, including the Whakapapa (genealogy and the relationships between the living, the dead, and the natural world), the Tikanga (customs, traditions, and protocols that govern the daily lives of the Maori people), Waiata (songs that play a significant role in the Traditional Maori Religion), Pepeha (a personal statement that outlines one's whakapapa, or genealogy, and connection to the land) and Taonga Tūtahi (sacred treasures and objects that hold spiritual significance for the Maori people), as well as inscriptions regarding the deities, entities and religious traditions of the Maori Religion.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1472,7 +1472,7 @@
     "id": "holybook_daime",
     "type": "BOOK",
     "name": { "str": "Cruzeiro", "str_pl": "copies of the Cruzeiro" },
-    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and Native Brazilian beliefs.  It is considered a sacred scripture by the movement’s followers.",
+    "description": "An English collection of teachings from Raimundo Irineu Serra, the founder of Santo Daime, a syncretic religious movement that combines elements of Christianity, African traditions, and Native Brazilian beliefs.  It is considered a sacred scripture by the movement's followers.",
     "weight": "350 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -1655,7 +1655,7 @@
           "str": "Talmud, Vol. 19, Tractate Pesachim (Part 1)",
           "str_pl": "copies of the Talmud, Vol. 19, Tractate Pesachim (Part 1)"
         },
-        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the the proper disposal of leaven and the preparation of unleavened bread.",
+        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the proper disposal of leaven and the preparation of unleavened bread.",
         "append": true
       },
       {
@@ -1676,13 +1676,13 @@
       {
         "id": "holybook_talmud_22",
         "name": { "str": "Talmud, Vol. 22, Tractate Yoma", "str_pl": "copies of the Talmud, Vol. 22, Tractate Yoma" },
-        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
+        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
         "append": true
       },
       {
         "id": "holybook_talmud_23",
         "name": { "str": "Talmud, Vol. 23, Tractate Sukkah", "str_pl": "copies of the Talmud, Vol. 23, Tractate Sukkah" },
-        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
+        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
         "append": true
       },
       {
@@ -1831,7 +1831,7 @@
       },
       {
         "id": "holybook_talmud_43",
-        "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Meztia" },
+        "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Metzia" },
         "description": "This is volume 43 of 51, containing Tractate Bava Metzia.  It discusses interpersonal disputes such as lost property, renting, and obligations of workers and employers, with a digression into how great sages who spend their lives studying Torah are.  It also reiterates the story of the Oven of Akhnai.",
         "append": true
       },
@@ -1916,8 +1916,8 @@
     "description": "The five books of Moses, written on animal skin by a trained scribe in accordance with the laws and customs of traditional Jewish calligraphy and bound onto wooden rollers.  Once very expensive, it would now be beyond price, if there are any Jewish communities left to use it.",
     "weight": "12000 g",
     "volume": "24 L",
-    "price": 4000000,
-    "price_postapoc": 200,
+    "price": "40 kUSD",
+    "price_postapoc": "2 USD",
     "longest_side": "48 cm",
     "material": [ "leather", "wood" ],
     "copy-from": "holybook_abstract"
@@ -1968,27 +1968,6 @@
     "copy-from": "holybook_abstract"
   },
   {
-    "id": "holybook_asatru",
-    "type": "BOOK",
-    "name": { "str": "The Asatru Edda: Sacred Lore of the North", "str_pl": "copies of The Asatru Edda: Sacred Lore of the North" },
-    "description": "A commercial-grade, hardcover English translation of The Asatru Edda.  It serves as a modern guide to the religious and mythological beliefs of the followers and adherents of the contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
-    "weight": "672 g",
-    "volume": "1368 ml",
-    "copy-from": "holybook_abstract"
-  },
-  {
-    "id": "holybook_odin",
-    "type": "BOOK",
-    "name": {
-      "str": "The Odinist Edda: Sacred Lore of the North",
-      "str_pl": "copies of The Odinist Edda: Sacred Lore of the North"
-    },
-    "description": "A commercial-grade, hardcover English translation of The Odinist Edda.  It can potentially serve as a modern guide to the religious and mythological beliefs of the contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
-    "weight": "672 g",
-    "volume": "1368 ml",
-    "copy-from": "holybook_abstract"
-  },
-  {
     "id": "holybook_ginza",
     "type": "BOOK",
     "name": { "str": "Ginza Rabba", "str_pl": "copies of the Ginza Rabba" },
@@ -2019,7 +1998,7 @@
     "id": "holybook_bahai",
     "type": "BOOK",
     "name": { "str": "Kitáb-i-Aqdas", "str_pl": "copies of the Kitáb-i-Aqdas" },
-    "description": "A hardcover English translation of the Kitáb-i-Aqdas, also known as The Most Holy Book.  Written by Baha’u’llah, the founder of the Baha’i Faith, in a poetic and mystical style.  It encompasses a wide range of topics, including the nature of God, the purpose of human existence, the role of religion in society, and the principles governing human conduct.  It also contains laws and regulations that govern various aspects of Baha’i life, such as marriage, family life, and the administration of the Baha’i community.",
+    "description": "A hardcover English translation of the Kitáb-i-Aqdas, also known as The Most Holy Book.  Written by Baha'u'llah, the founder of the Baha'i Faith, in a poetic and mystical style.  It encompasses a wide range of topics, including the nature of God, the purpose of human existence, the role of religion in society, and the principles governing human conduct.  It also contains laws and regulations that govern various aspects of Baha'i life, such as marriage, family life, and the administration of the Baha'i community.",
     "weight": "1130 g",
     "volume": "1290 ml",
     "copy-from": "holybook_abstract"
@@ -2028,7 +2007,7 @@
     "id": "holybook_bahai1",
     "type": "BOOK",
     "name": { "str": "Kitáb-i-Íqán", "str_pl": "copies of the Kitáb-i-Íqán" },
-    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha’u’llah, the founder of the Baha’i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history.  This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha’i Faith in relation to other religions.",
+    "description": "A hardcover English translation of the Kitáb-i-Íqán, also known as the Book of Certitude.  It was written by Baha'u'llah, the founder of the Baha'i Faith, and addresses theological and philosophical aspects of religion, provides guidance on understanding spiritual truth and recognizing divine messengers throughout history.  This book also explores themes such as the nature of God, the purpose of religion, the progression of revelation, and the spiritual significance of the Baha'i Faith in relation to other religions.",
     "weight": "1000 g",
     "volume": "1035 ml",
     "copy-from": "holybook_abstract"
@@ -2037,7 +2016,7 @@
     "id": "holybook_bahai2",
     "type": "BOOK",
     "name": { "str": "The Hidden Words", "str_pl": "copies of The Hidden Words" },
-    "description": "A hardcover English translation of the Kalimát-i-Maknúnih, also known as the Hidden Words.  It was written by Baha’u’llah, the founder of the Baha’i Faith, during his exile in Baghdad.  This book covers a wide range of themes, including love, detachment, unity, humility, justice, and the recognition of God.  Each passage is concise and poetic, expressing profound spiritual truths in a simple yet profound manner.  One distinctive feature of this book is its universal appeal: while it was revealed within the context of the Bahá’í Faith, its teachings transcend religious boundaries and are applicable to people from all backgrounds.",
+    "description": "A hardcover English translation of the Kalimát-i-Maknúnih, also known as the Hidden Words.  It was written by Baha'u'llah, the founder of the Baha'i Faith, during his exile in Baghdad.  This book covers a wide range of themes, including love, detachment, unity, humility, justice, and the recognition of God.  Each passage is concise and poetic, expressing profound spiritual truths in a simple yet profound manner.  One distinctive feature of this book is its universal appeal: while it was revealed within the context of the Bahá'í Faith, its teachings transcend religious boundaries and are applicable to people from all backgrounds.",
     "weight": "900 g",
     "volume": "699 ml",
     "copy-from": "holybook_abstract"
@@ -2055,7 +2034,7 @@
     "id": "holybook_bahai4",
     "type": "BOOK",
     "name": { "str": "The Secret of Divine Civilization", "str_pl": "copies of The Secret of Divine Civilization" },
-    "description": "A hardcover English translation of the Risali-yi-madaniyyih, also known as The Secret of Divine Civilization.  It was written by ‘Abdu’l-Bahá, the son of Bahá’u’lláh, founder of the Bahá’í Faith.  This book addresses various aspects of social and economic development, advocating for progressive reforms and offering guidance on how societies can advance spiritually, intellectually, and materially.  It explores principles that can contribute to the progress and well-being of individuals and societies, emphasizing the importance of education, justice, equality, and unity.  A perfect book for rebuilding society once again.",
+    "description": "A hardcover English translation of the Risali-yi-madaniyyih, also known as The Secret of Divine Civilization.  It was written by 'Abdu'l-Bahá, the son of Bahá'u'lláh, founder of the Bahá'í Faith.  This book addresses various aspects of social and economic development, advocating for progressive reforms and offering guidance on how societies can advance spiritually, intellectually, and materially.  It explores principles that can contribute to the progress and well-being of individuals and societies, emphasizing the importance of education, justice, equality, and unity.  A perfect book for rebuilding society once again.",
     "weight": "826 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -2064,7 +2043,7 @@
     "id": "holybook_bahai5",
     "type": "BOOK",
     "name": { "str": "'Some Answered Questions'", "str_pl": "copies of 'Some Answered Questions'" },
-    "description": "A hardcover book containing a collection of transcriptions of table talks given by ‘Abdu’l‑Bahá in ‘Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá’í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha’is and those seeking to learn more about the religion.",
+    "description": "A hardcover book containing a collection of transcriptions of table talks given by 'Abdu'l-Bahá in 'Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá'í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha'is and those seeking to learn more about the religion.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"

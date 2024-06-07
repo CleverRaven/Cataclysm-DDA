@@ -333,6 +333,16 @@
   },
   {
     "type": "effect_type",
+    "id": "shattered",
+    "name": [ "Shattered Armor" ],
+    "//": "Intended for monsters, has no effect except to create a new weak point.",
+    "desc": [ "Your armor has been shattered by a heavy attack." ],
+    "apply_message": "Your armor has been shattered.",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
@@ -340,7 +350,7 @@
     "apply_message": "You're staggered off-balance.",
     "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing", "grabbing_2" ],
+    "removes_effects": [ "grabbing", "grabbing_2", "grabbing_3" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -348,10 +358,10 @@
     "type": "effect_type",
     "id": "sneezing",
     "name": [ "Sneezing" ],
-    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "rating": "bad",
+    "desc": [ "It's hard to pay attention to anything when you're in the middle of sneezing!" ],
     "max_duration": "1 s",
-    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
-    "show_in_info": false
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -474,6 +484,13 @@
   },
   {
     "type": "effect_type",
+    "id": "yrax_overcharged",
+    "name": [ "▙▜▛▜" ],
+    "desc": [ "▙▚▛▜▝▞▟" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "assisted",
     "name": [ "Assisted" ],
     "max_intensity": 1000,
@@ -507,23 +524,91 @@
     "remove_message": "You catch your breath.",
     "rating": "bad",
     "max_duration": "30 s",
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -10 ], "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.5 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_leg_l",
+    "name": [ "Winded (Left Leg)" ],
+    "desc": [ "You're short of breath.  Your left leg has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.7 },
+      { "limb_score": "move_speed", "modifier": 0.8 },
+      { "limb_score": "footing", "modifier": 0.8 },
+      { "limb_score": "balance", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_leg_r",
+    "name": [ "Winded (Right Leg)" ],
+    "desc": [ "You're short of breath.  Your right leg has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.7 },
+      { "limb_score": "move_speed", "modifier": 0.8 },
+      { "limb_score": "footing", "modifier": 0.8 },
+      { "limb_score": "balance", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_arm_l",
+    "name": [ "Winded (Left Arm)" ],
+    "desc": [ "You're short of breath.  Your left arm has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
     "base_mods": {
-      "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "str_mod": [ -3 ],
-      "speed_mod": [ -30 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -5 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 1 ],
+      "pain_chance": [ 10 ],
       "pain_max_val": [ 20 ]
     },
     "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.5 },
-      { "limb_score": "lift", "modifier": 0.75 },
-      { "limb_score": "block", "modifier": 0.75 },
-      { "limb_score": "manip", "modifier": 0.5 },
-      { "limb_score": "swim", "modifier": 0.3 }
+      { "limb_score": "lift", "modifier": 0.8 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "swim", "modifier": 0.8 },
+      { "limb_score": "manip", "modifier": 0.8 },
+      { "limb_score": "grip", "modifier": 0.8 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_arm_r",
+    "name": [ "Winded (Right Arm)" ],
+    "desc": [ "You're short of breath.  Your right arm has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": {
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -5 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.5 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.5 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
   },
   {
     "type": "effect_type",
@@ -631,11 +716,27 @@
   },
   {
     "type": "effect_type",
+    "//1": "Copy of blind effect, used to temporarily remove vision as a utility function. Only use outside of EOC_LIEUTENANT_SHADOW_WITHDRAWS_FOR_NOW with extreme caution.",
+    "id": "blind_no_msg",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything.  You shouldn't be able to see this description either!" ],
+    "rating": "bad",
+    "show_in_info": false,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
+  },
+  {
+    "type": "effect_type",
     "id": "earphones",
     "name": [ "Wearing Earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.75 } ] } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -681,6 +782,7 @@
     "desc": [ "You have been poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
@@ -705,6 +807,7 @@
     "desc": [ "You have been badly poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
@@ -760,6 +863,7 @@
     "remove_message": "The burning pain subsides, but the damage is done.",
     "show_intensity": false,
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Necrotizing Venom",
     "resist_effects": [ "prophylactic_antivenom" ],
@@ -793,6 +897,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Systemic Inflammatory Agents",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "speed_name": "Poisoned",
     "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
@@ -846,6 +951,7 @@
     "int_decay_tick": 90,
     "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] },
     "limb_score_mods": [
@@ -919,6 +1025,7 @@
     "rating": "bad",
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
@@ -1263,7 +1370,7 @@
     "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
       "You consumed Elf-A primer.",
-      "You must look after this world, if noone else will.",
+      "You must look after this world, if no one else will.",
       "You see stars.  You see so many stars."
     ],
     "max_intensity": 3,
@@ -1633,6 +1740,31 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_chiropteran",
+    "name": [ "Chiropteran Mutation", "Chiropteran Transformation", "Chiropteran Metamorphosis" ],
+    "desc": [
+      "You consumed chiropteran primer.",
+      "You taste iron, and you want more.",
+      "Every sound is a painful screech in your ears.  It's all too much!"
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CHIROPTERAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Chiropteran Primer Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_slime",
     "name": [ "Slime Mutation", "Slime Transformation", "Slime Metamorphosis" ],
     "desc": [ "You consumed slime primer.", "Plop.", "Brain… melting…" ],
@@ -1722,8 +1854,8 @@
     "resist_traits": [ "THRESH_URSINE" ],
     "base_mods": {
       "str_mod": [ 1 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 1100 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_chance": [ 1100 ],
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
@@ -1737,7 +1869,7 @@
       "str_mod": [ 2.5 ],
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "fatigue_chance": [ -500 ],
+      "sleepiness_chance": [ -500 ],
       "hurt_chance": [ 21, 0 ],
       "pain_chance": [ -30 ]
     },
@@ -1843,7 +1975,7 @@
     ],
     "apply_message": [
       [ "Your eyes are mildly irritated.", "bad" ],
-      [ "Your eyes watering out of smoke.", "bad" ],
+      [ "Your eyes are watering.", "bad" ],
       [ "Your eyes sting badly and tears stream from them continuously.", "bad" ],
       [
         "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them.",
@@ -1923,6 +2055,7 @@
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
@@ -1935,9 +2068,41 @@
     "id": "glowing",
     "name": [ "Glowing" ],
     "desc": [ "You are covered in glowing goo!" ],
+    "max_duration": "6 m",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "skunk_spray",
+    "name": [ "Skunk Spray" ],
+    "desc": [ "You were sprayed by a skunk!" ],
+    "apply_message": "You're covered in a foul smelling fluid!",
+    "rating": "bad",
+    "max_duration": "5 hours",
+    "base_mods": { "per_mod": [ -1 ], "int_mod": [ -1 ], "vomit_chance": [ 2000 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": -10 },
+          { "value": "SOCIAL_LIE", "add": -4 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 2 },
+          { "value": "UGLINESS", "add": 5 },
+          { "value": "SCENT_MASK", "add": 300 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "skunk_spray_neutralizer",
+    "name": [ "Skunk Spray Neutralized" ],
+    "desc": [ "A solution that neutralizes skunk odors." ],
+    "rating": "good",
+    "apply_message": "As you apply the solution, the skunk odor dissipates.",
+    "max_duration": "2 minutes",
+    "removes_effects": [ "skunk_spray" ]
   },
   {
     "type": "effect_type",
@@ -2161,6 +2326,7 @@
     "remove_memorial_log": "Recovered from a bite wound.",
     "apply_message": "The bite wound feels really deep…",
     "resist_traits": [ "INFRESIST" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "main_parts_only": true,
     "rating": "bad",
     "int_dur_factor": "30 m",
@@ -2199,10 +2365,10 @@
       "stamina_min": [ -8, -4 ],
       "stamina_max": [ -50, -20 ],
       "stamina_chance": [ 3, 10 ],
-      "fatigue_min": [ 2, 0 ],
-      "fatigue_max": [ 10, 5 ],
-      "fatigue_chance": [ 110 ],
-      "fatigue_max_val": [ 700, 250 ],
+      "sleepiness_min": [ 2, 0 ],
+      "sleepiness_max": [ 10, 5 ],
+      "sleepiness_chance": [ 110 ],
+      "sleepiness_max_val": [ 700, 250 ],
       "healing_rate": [ 0.01, 1 ]
     },
     "scaling_mods": {
@@ -2214,8 +2380,8 @@
       "stamina_min": [ -6, -4 ],
       "stamina_max": [ 15, 4 ],
       "stamina_chance": [ -1, -2.5 ],
-      "fatigue_chance": [ -50 ],
-      "fatigue_tick": [ 0.5 ]
+      "sleepiness_chance": [ -50 ],
+      "sleepiness_tick": [ 0.5 ]
     },
     "//": "Stamina regen stops completely at int 3, but no stamina loss from then on",
     "blood_analysis_description": "Bacterial Infection"
@@ -2242,10 +2408,10 @@
       "speed_mod": [ -5, 0 ],
       "stamina_min": [ -8 ],
       "stamina_chance": [ 10, 20 ],
-      "fatigue_min": [ 1, 0 ],
-      "fatigue_max": [ 5, 3 ],
-      "fatigue_chance": [ 210 ],
-      "fatigue_max_val": [ 500, 125 ],
+      "sleepiness_min": [ 1, 0 ],
+      "sleepiness_max": [ 5, 3 ],
+      "sleepiness_chance": [ 210 ],
+      "sleepiness_max_val": [ 500, 125 ],
       "healing_rate": [ 0.5 ]
     },
     "scaling_mods": {
@@ -2256,7 +2422,7 @@
       "speed_mod": [ -5, -4 ],
       "stamina_min": [ -6, -3 ],
       "stamina_chance": [ -1, -2.5 ],
-      "fatigue_chance": [ -60 ]
+      "sleepiness_chance": [ -60 ]
     }
   },
   {
@@ -2707,6 +2873,7 @@
     "desc": [ "Your %s is frostnipped and has gone numb.", "Your %s is frostbitten!  Its tissues are frozen from the cold!" ],
     "part_descs": true,
     "speed_name": "Frostbite",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "dur_add_perc": 0,
     "max_intensity": 2,
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -2725,6 +2892,7 @@
     "id": "frostbite_recovery",
     "name": [ "Defrosting" ],
     "desc": [ "Your %s is starting to feel the damage cold has wrought." ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "part_descs": true,
     "base_mods": { "pain_max_val": [ 40 ], "pain_chance": [ 2 ], "pain_min": [ 1 ] }
   },
@@ -2736,6 +2904,7 @@
     "main_parts_only": true,
     "part_descs": true,
     "miss_messages": [ [ "Your blisters distract you", 1 ] ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "base_mods": {
       "dex_mod": [ -1 ],
       "str_mod": [ -1 ],
@@ -2750,6 +2919,7 @@
   {
     "type": "effect_type",
     "id": "dermatik",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "blood_analysis_description": "Insect Parasite"
   },
   {
@@ -2761,6 +2931,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] }
@@ -2796,8 +2967,8 @@
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 600 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 600 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -1, 0 ],
       "cough_chance": [ 600, 0 ]
     }
@@ -2817,8 +2988,8 @@
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 600 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 600 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -1, 0 ],
       "cough_chance": [ 600, 0 ]
     }
@@ -2838,8 +3009,8 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
@@ -2865,8 +3036,8 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
       "per_mod": [ -1, 0 ],
@@ -2909,74 +3080,6 @@
     "blood_analysis_description": "Antivirals",
     "max_duration": 14515200,
     "dur_add_perc": 50
-  },
-  {
-    "//": "For player, indistinguishable from pre_conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "pre_conjunctivitis_viral",
-    "show_in_info": false,
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "blood_analysis_description": "Viral Infection",
-    "max_duration": "71 h"
-  },
-  {
-    "//": "For player, indistinguishable from pre_conjunctivitis_viral, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "pre_conjunctivitis_bacterial",
-    "show_in_info": false,
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "blood_analysis_description": "Bacterial Infection",
-    "max_duration": "71 h"
-  },
-  {
-    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "conjunctivitis_viral",
-    "name": [ "Conjunctivitis" ],
-    "desc": [
-      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
-    ],
-    "apply_memorial_log": "Got pinkeye.",
-    "remove_memorial_log": "Got over a pinkeye infection.",
-    "apply_message": "Your itchy eye leaks a filmy discharge.",
-    "rating": "bad",
-    "resist_effects": [ "took_antihistamine", "took_flumed" ],
-    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "int_dur_factor": "50 m",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
-    "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
-      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
-    ],
-    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "blood_analysis_description": "Viral Infection"
-  },
-  {
-    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "conjunctivitis_bacterial",
-    "name": [ "Conjunctivitis" ],
-    "desc": [
-      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
-    ],
-    "apply_memorial_log": "Got pinkeye.",
-    "remove_memorial_log": "Got over a pinkeye infection.",
-    "apply_message": "Your itchy eye leaks a filmy discharge.",
-    "rating": "bad",
-    "resist_effects": [ "took_antihistamine", "took_flumed" ],
-    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "int_dur_factor": "50 m",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
-    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
-    "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
-      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
-    ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "blood_analysis_description": "Bacterial Infection"
   },
   {
     "type": "effect_type",
@@ -3025,12 +3128,10 @@
       "rat_bite_fever",
       "infected",
       "asthma",
-      "pre_conjunctivitis_viral",
-      "pre_conjunctivitis_bacterial",
-      "conjunctivitis_viral",
-      "conjunctivitis_bacterial",
       "common_cold",
-      "flu"
+      "flu",
+      "pre_flu",
+      "pre_common_cold"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -3058,7 +3159,22 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded", "poison", "badpoison", "venom_dmg", "venom_weaken" ],
+    "removes_effects": [
+      "infected",
+      "bite",
+      "bleed",
+      "fungus",
+      "dermatik",
+      "poison",
+      "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "winded",
+      "winded_leg_l",
+      "winded_leg_r",
+      "winded_arm_l",
+      "winded_arm_r"
+    ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] },
     "blood_analysis_description": "Healing Medication"
@@ -3073,7 +3189,7 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "winded" ],
+    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
     "base_mods": { "speed_mod": [ -5 ], "dex_mod": [ -2 ], "per_mod": [ -1 ], "int_mod": [ -2 ] },
     "scaling_mods": {
       "speed_mod": [ 15 ],
@@ -3097,7 +3213,7 @@
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
     "max_intensity": 2,
     "int_dur_factor": "150 s",
-    "removes_effects": [ "winded" ],
+    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],
@@ -3161,8 +3277,8 @@
       "dex_mod": [ 1 ],
       "int_mod": [ 0.5 ],
       "per_mod": [ 1 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_tick": [ 9 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_tick": [ 9 ],
       "stamina_min": [ 8 ]
     },
     "blood_analysis_description": "Methamphetamines"
@@ -3196,6 +3312,7 @@
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": -0.9 } ] } ],
     "blood_analysis_description": "Intoxicant: THC"
   },
   {
@@ -3205,6 +3322,28 @@
     "desc": [ "You are wearing contact lenses." ],
     "apply_message": "You can see more clearly.",
     "remove_message": "Your vision starts to blur.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "transition_contacts",
+    "name": [ "Transition Contact Lenses" ],
+    "desc": [ "You are wearing photochromic contact lenses that additionally protect you from the sunlight." ],
+    "blocks_effects": [ "glare" ],
+    "apply_message": "You can see more clearly.",
+    "remove_message": "Your vision starts to blur.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "transition_contacts_plano",
+    "name": [ "Transition Contact Lenses (Plano)" ],
+    "desc": [
+      "You are wearing non-prescription photochromic contact lenses that protect you from the sunlight, but don't help with any sight issues."
+    ],
+    "blocks_effects": [ "glare" ],
+    "apply_message": "You apply photochromic contact lenses.",
+    "remove_message": "you pull off your photochromic contact lenses.",
     "rating": "good"
   },
   {
@@ -3298,6 +3437,11 @@
   },
   {
     "type": "effect_type",
+    "id": "bio_hydraulics_eff",
+    "//": "used so bio_hydraulics could detect bionic is going off. remove if enchantments could produce sound each second or eoc could check you have active bionic"
+  },
+  {
+    "type": "effect_type",
     "id": "crushed",
     "apply_message": "The ceiling collapses on you!",
     "rating": "bad"
@@ -3385,7 +3529,7 @@
     "name": [ "Unidentified Illness" ],
     "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
-    "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] },
+    "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "sleepiness_chance": [ 256 ], "sleepiness_min": [ 1 ] },
     "blood_analysis_description": "Intramuscular Parasites"
   },
   {
@@ -3406,15 +3550,16 @@
     "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
     "remove_message": "The fever breaks.",
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_effects": [ "aspirin" ],
     "base_mods": {
       "stamina_min": [ -50 ],
       "stamina_max": [ -100 ],
       "stamina_chance": [ 300 ],
       "int_mod": [ -1, 0 ],
-      "fatigue_min": [ 5 ],
-      "fatigue_max": [ 10 ],
-      "fatigue_chance": [ 500 ]
+      "sleepiness_min": [ 5 ],
+      "sleepiness_max": [ 10 ],
+      "sleepiness_chance": [ 500 ]
     },
     "blood_analysis_description": "Streptobacillus moniliformis Infection"
   },
@@ -3468,6 +3613,17 @@
   {
     "type": "effect_type",
     "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_3",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
     "max_intensity": 1,
@@ -3622,9 +3778,9 @@
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
       "stamina_chance": [ 900 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
+      "sleepiness_min": [ 10 ],
+      "sleepiness_max": [ 20 ],
+      "sleepiness_chance": [ 900 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 900 ]
@@ -3632,9 +3788,9 @@
     "scaling_mods": {
       "str_mod": [ -2 ],
       "stamina_max": [ -500 ],
-      "fatigue_max": [ 20 ],
+      "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
-      "fatigue_chance": [ -300 ],
+      "sleepiness_chance": [ -300 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -3656,9 +3812,9 @@
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
       "stamina_chance": [ 900 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
+      "sleepiness_min": [ 10 ],
+      "sleepiness_max": [ 20 ],
+      "sleepiness_chance": [ 900 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 900 ]
@@ -3666,9 +3822,9 @@
     "scaling_mods": {
       "str_mod": [ -2 ],
       "stamina_max": [ -500 ],
-      "fatigue_max": [ 20 ],
+      "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
-      "fatigue_chance": [ -300 ],
+      "sleepiness_chance": [ -300 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -3692,16 +3848,16 @@
       "pain_chance": [ 9000 ],
       "pain_min": [ 1 ],
       "pain_max": [ 5 ],
-      "fatigue_chance": [ 900 ],
-      "fatigue_max_val": [ 500, 200 ],
-      "fatigue_min": [ 10 ],
+      "sleepiness_chance": [ 900 ],
+      "sleepiness_max_val": [ 500, 200 ],
+      "sleepiness_min": [ 10 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 900 ]
     },
     "scaling_mods": {
       "pain_chance": [ -150 ],
-      "fatigue_chance": [ -200 ],
+      "sleepiness_chance": [ -200 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -100 ],
       "h_mod_chance": [ -300 ],
@@ -3716,18 +3872,23 @@
     "id": "betablock",
     "name": [ "Beta blocker" ],
     "desc": [
-      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces fatigue."
+      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces sleepiness."
     ],
     "max_intensity": 3,
     "base_mods": {
       "blood_pressure_tick": [ 250 ],
       "blood_pressure_min": [ -2 ],
       "blood_pressure_min_val": [ -200 ],
-      "fatigue_min": [ 4 ],
-      "fatigue_chance": [ 500 ],
-      "fatigue_max_val": [ 200 ]
+      "sleepiness_min": [ 4 ],
+      "sleepiness_chance": [ 500 ],
+      "sleepiness_max_val": [ 200 ]
     },
-    "scaling_mods": { "blood_pressure_min": [ -1 ], "blood_pressure_min_val": [ -100 ], "fatigue_max_val": [ 50 ], "fatigue_min": [ 2 ] },
+    "scaling_mods": {
+      "blood_pressure_min": [ -1 ],
+      "blood_pressure_min_val": [ -100 ],
+      "sleepiness_max_val": [ 50 ],
+      "sleepiness_min": [ 2 ]
+    },
     "rating": "neutral",
     "blood_analysis_description": "Beta Blocker"
   },
@@ -3765,18 +3926,6 @@
     ],
     "max_intensity": 3,
     "//": "Mood debuff is handled separately by bad_food_mood_debuff EoC.",
-    "rating": "bad"
-  },
-  {
-    "type": "effect_type",
-    "id": "genetics_damaged",
-    "name": [ "Spent Phenotype", "Depleted Phenotype", "Bankrupt Phenotype" ],
-    "desc": [
-      "Mutation has left you with a persistent mild discomfort.  It seems harmless for now, but you can't predict if it'll get worse.",
-      "There's an enervating sense of dysmorphia throughout your whole body.  It waxes and wanes, but never quite goes away.  Mutating this much can't be good for you…",
-      "You're haunted by phantom pains across your entire body now.  Everything aches from an exhaustion that never seems to fade.  Any further mutation right now is very unlikely to have a happy ending."
-    ],
-    "max_intensity": 3,
     "rating": "bad"
   },
   {
@@ -4322,7 +4471,7 @@
     "desc": [ "You feel quite full, and a bit sluggish." ],
     "apply_message": "You feel quite full, and a bit sluggish.",
     "rating": "bad",
-    "base_mods": { "speed_mod": [ -2 ], "fatigue_amount": [ 1 ] }
+    "base_mods": { "speed_mod": [ -2 ], "sleepiness_amount": [ 1 ] }
   },
   {
     "type": "effect_type",
@@ -4331,7 +4480,13 @@
     "desc": [ "Your stomach is full to bursting.  This was a mistake." ],
     "apply_message": "Your stomach is full to bursting.  This was a mistake.",
     "rating": "bad",
-    "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 500 ], "vomit_tick": [ 10 ], "pain_amount": [ 3 ] }
+    "base_mods": {
+      "speed_mod": [ -10 ],
+      "sleepiness_amount": [ 2 ],
+      "vomit_chance": [ 500 ],
+      "vomit_tick": [ 10 ],
+      "pain_amount": [ 3 ]
+    }
   },
   {
     "type": "effect_type",
@@ -4543,6 +4698,26 @@
     ]
   },
   {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
@@ -4599,21 +4774,6 @@
     ]
   },
   {
-    "id": "slippery_terrain",
-    "type": "effect_type",
-    "max_duration": "1 s",
-    "name": [ "Slick Surface", "Slippery Terrain", "Dangerously Slippery" ],
-    "desc": [
-      "There's a slippery surface here, running may be a bad idea.",
-      "It's quite slippery, it may not be safe to stand here.",
-      "This area is extremely slippery."
-    ],
-    "rating": "bad",
-    "show_intensity": true,
-    "resist_traits": [ "GASTROPOD_BALANCE" ],
-    "show_in_info": true
-  },
-  {
     "type": "effect_type",
     "id": "hay_fever",
     "name": [ "Hay Fever" ],
@@ -4636,7 +4796,7 @@
     "id": "star_vampire_blood_drink",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
-    "desc": [ "The monster is drinking your blood!" ],
+    "desc": [ "The monster is greedily drinking your blood!" ],
     "rating": "bad",
     "resist_traits": [ "BLEED_IMMUNE" ],
     "show_in_info": true,
@@ -4647,6 +4807,23 @@
     "vitamins": [
       { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
       { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
+    ]
+  },
+  {
+    "id": "star_vampire_blood_drink",
+    "type": "effect_type",
+    "name": [ "Hemorrhage" ],
+    "desc": [ "The monster is sucking up your blood!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "show_in_info": true,
+    "max_intensity": 2,
+    "show_intensity": false,
+    "int_decay_step": -2,
+    "int_decay_tick": 1,
+    "vitamins": [
+      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
     ]
   },
   {
@@ -4685,16 +4862,7 @@
     "rating": "bad",
     "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
     "resist_effects": [ "incorporeal" ],
-    "pain_sizing": true,
-    "hurt_sizing": true,
-    "base_mods": {
-      "dex_mod": [ -2 ],
-      "str_mod": [ -2 ],
-      "speed_mod": [ -20 ],
-      "pain_min": [ 2 ],
-      "pain_chance": [ 100, 500 ],
-      "pain_max_val": [ 35 ]
-    },
+    "base_mods": { "dex_mod": [ -2 ], "str_mod": [ -2 ], "speed_mod": [ -20 ] },
     "show_in_info": true
   },
   {
@@ -4713,5 +4881,103 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "mute",
+    "show_in_info": true,
+    "name": [ "Mute" ],
+    "desc": [ "You can't talk." ],
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "social_satisfied",
+    "name": [ "Good Company" ],
+    "desc": [ "It feels good to spend time around others." ],
+    "max_duration": "6 h",
+    "max_intensity": 1,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_dissatisfied",
+    "name": [ "Lonely", "Very Lonely", "All Alone" ],
+    "desc": [
+      "You feel a little lonely.",
+      "You could really use a friend right now.",
+      "What's the point of surviving if you're all alone?"
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_satisfied",
+    "name": [ "Alone" ],
+    "desc": [ "Being on your own makes you feel good." ],
+    "max_intensity": 1,
+    "max_duration": "6 h",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_dissatisfied",
+    "name": [ "Irritable", "Annoyed", "Crowded" ],
+    "desc": [
+      "Being around others has left you feeling drained.",
+      "OK, that's enough social time.  You'd really rather be alone now.",
+      "Your nerves are frayed from all this socializing.  You need some alone time to recharge."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_full",
+    "name": [ "" ],
+    "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_half",
+    "name": [ "" ],
+    "//": "Allows quadrupedal mutants with front paws only to crouch-walk slightly faster than normal.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "natural_stance",
+    "name": [ "Natural Stance" ],
+    "rating": "good",
+    "desc": [
+      "You are positioned to take advantage of your mutated anatomy, and will receive no penalties for crouching in melee combat.  Wielding a weapon will cause you to lose this effect."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "subaquatic_sonar",
+    "name": [ "Subaquatic SONAR" ],
+    "desc": [
+      "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "anticoagulant_draculin",
+    "max_intensity": 3,
+    "max_duration": "20 m",
+    "rating": "bad",
+    "blood_analysis_description": "Draculin",
+    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
+    "immune_flags": [ "DRACULIN_IMMUNE" ],
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "fragile_frog",
+    "name": [ "Fragile Frog" ],
+    "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
+    "max_duration": "5 m",
+    "show_in_info": true
   }
 ]

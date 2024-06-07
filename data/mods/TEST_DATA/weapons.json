@@ -32,7 +32,7 @@
     "color": "yellow",
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
-    "price": 16000,
+    "price": "160 USD",
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS", "NO_TURRET" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],

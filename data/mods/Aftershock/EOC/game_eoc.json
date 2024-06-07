@@ -1,0 +1,30 @@
+[
+  {
+    "id": "EOC_AFS_LEADERSHIP_SWITCH",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": {
+      "and": [
+        { "npc_allies_global": 1 },
+        { "math": [ "afs_leadership_act", "==", "1" ] },
+        { "u_query": "You have died.  Continue as one of your followers?", "default": false }
+      ]
+    },
+    "effect": [ "take_control_menu" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_return_to_partyleader",
+    "effect": [
+      {
+        "run_eoc_with": {
+          "id": "_EOC_return_to_partyleader_do",
+          "effect": [ "follow", { "math": [ "afs_leadership_act", "=", "0" ] }, "take_control" ]
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": { "global_val": "party_leader_id" },
+        "false_eocs": { "id": "_EOC_return_to_partyleader_fail_msg", "effect": { "message": "Unable to locate the party leader." } }
+      }
+    ]
+  }
+]

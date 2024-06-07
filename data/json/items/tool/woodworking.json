@@ -7,8 +7,8 @@
     "weight": "2227 g",
     "volume": "2000 ml",
     "longest_side": "78 cm",
-    "price": 10500,
-    "price_postapoc": 750,
+    "price": "105 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "steel" ],
     "symbol": "/",
@@ -45,8 +45,8 @@
     "weight": "6577 g",
     "volume": "2500 ml",
     "longest_side": "82 cm",
-    "price": 8000,
-    "price_postapoc": 500,
+    "price": "80 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -55,7 +55,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__chainsaw",
+          "condition": { "and": [ { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] }, { "not": "u_is_underwater" }, "has_ammo" ] },
+          "effect": [
+            { "turn_cost": 0.8 },
+            { "u_make_sound": "With a roar, the chainsaw screams to life!", "type": "combat", "volume": 20 },
+            { "u_message": "With a roar, the chainsaw screams to life!" },
+            { "transform_item": "chainsaw_on", "active": true },
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_cord" },
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_start" }
+          ],
+          "false_effect": [ { "sound_effect": "chainsaw_on", "id": "chainsaw_cord" }, { "u_message": "You yank the cord, but nothing happens." } ]
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 10 }
   },
@@ -71,21 +89,49 @@
     "revert_to": "chainsaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CHAINSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__chainsaw",
+          "effect": [
+            { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "chainsaw_off" } },
+            { "sound_effect": "chainsaw_on", "id": "chainsaw_stop" }
+          ]
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__chainsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
+              "volume": "12",
+              "revert_to": "chainsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4, "cut": 70 }
   },
   {
     "id": "polesaw_off",
     "type": "TOOL",
-    "name": { "str": "polesaw (off)", "str_pl": "polesaws (off)" },
+    "name": { "str": "pole saw (off)", "str_pl": "pole saws (off)" },
     "description": "A lumbering tool intended for trimming hedges and tree branches at a distance.  If loaded with gas, using this item will cause it to turn on, making it into an unwieldy polearm.",
     "weight": "9525 g",
     "volume": "2500 ml",
     "longest_side": "275 cm",
-    "price": 40000,
-    "price_postapoc": 450,
+    "price": "400 USD",
+    "price_postapoc": "4 USD 50 cent",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "looks_like": "chainsaw_off",
     "material": [ "steel", "plastic" ],
@@ -95,7 +141,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__polesaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.8",
+              "transform_target": "polesaw_on",
+              "success_message": { "i18n": true, "str": "With a roar, the pole saw screams to life!" },
+              "volume": "15",
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "melee_damage": { "bash": 6 }
   },
@@ -103,16 +167,41 @@
     "id": "polesaw_on",
     "copy-from": "polesaw_off",
     "type": "TOOL",
-    "name": { "str": "polesaw (on)", "str_pl": "polesaws (on)" },
-    "description": "This polesaw is on and making a lot of noise.  Use it to turn it off.",
+    "name": { "str": "pole saw (on)", "str_pl": "pole saws (on)" },
+    "description": "This pole saw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "polesaw_off",
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CHAINSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__polesaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "polesaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__polesaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
+              "volume": "12",
+              "revert_to": "polesaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "POLEARM", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE", "REACH_ATTACK" ],
     "melee_damage": { "bash": 4, "cut": 35 }
   },
@@ -124,15 +213,33 @@
     "weight": "2940 g",
     "volume": "750 ml",
     "longest_side": "44 cm",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__circsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "circsaw_on",
+              "success_message": { "i18n": true, "str": "With a loud buzz, the <npc_name> roars to life!" },
+              "volume": "15",
+              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE" ],
     "pocket_data": [
       {
@@ -155,8 +262,33 @@
     "power_draw": "1200 W",
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "CIRCSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__circsaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "circsaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__circsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
+              "volume": "7",
+              "revert_to": "circsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 2, "cut": 50 }
   },
@@ -168,8 +300,8 @@
     "weight": "379 g",
     "volume": "1000 ml",
     "longest_side": "35 cm",
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "material": [ "wood", "copper" ],
     "symbol": ";",
@@ -187,8 +319,8 @@
     "weight": "1489 g",
     "volume": "2000 ml",
     "longest_side": "56 cm",
-    "price": 5500,
-    "price_postapoc": 250,
+    "price": "55 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "bronze" ],
     "symbol": "/",
@@ -207,8 +339,8 @@
     "color": "light_gray",
     "name": { "str": "hatchet" },
     "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and hammering them.",
-    "price": 2500,
-    "price_postapoc": 500,
+    "price": "25 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "weight": "907 g",
@@ -222,6 +354,25 @@
     "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
+    "id": "luthier_toolset",
+    "type": "TOOL",
+    "name": { "str": "luthier toolset" },
+    "description": "A set of luthier tools in several sizes and types.  Guaranteed to have the right tools for creating musical instruments from wood.",
+    "looks_like": "screwdriver_set",
+    "weight": "1600 g",
+    "volume": "1500 ml",
+    "longest_side": "28 cm",
+    "price": "200 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "LUTHIER", 1 ] ],
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
     "name": { "str": "electric chainsaw (off)", "str_pl": "electric chainsaws (off)" },
@@ -229,8 +380,8 @@
     "weight": "6577 g",
     "volume": "2500 ml",
     "longest_side": "82 cm",
-    "price": 8000,
-    "price_postapoc": 500,
+    "price": "80 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": "/",
@@ -238,7 +389,27 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "use_action": [ "ELEC_CHAINSAW_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__elec_chainsaw",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.6",
+              "transform_target": "elec_chainsaw_on",
+              "success_message": { "i18n": true, "str": "With a roar, the electric chainsaw screams to life!" },
+              "volume": "20",
+              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
+            }
+          },
+          "false_effect": { "u_message": "You flip the switch, but nothing happens." }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "pocket_data": [
       {
@@ -261,8 +432,33 @@
     "charges_per_use": 0,
     "revert_to": "elec_chainsaw_off",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__elec_chainsaw",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__elec_chainsaw",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "5",
+              "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
+              "volume": "12",
+              "revert_to": "elec_chainsaw_off"
+            }
+          }
+        }
+      ]
+    },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 4, "cut": 70 }
   },
@@ -274,7 +470,30 @@
     "price": "66 USD",
     "name": { "str": "corded electric chainsaw (off)", "str_pl": "corded electric chainsaws (off)" },
     "description": "A treecutting tool moonlighting as a weapon of opportunity.  It has a short electric cord, which you can connect to the generator or your home grid.  Extension cord not included.",
-    "use_action": [ "ELEC_CHAINSAW_OFF", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn on",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_activate__elec_chainsaw_cord",
+            "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "5" ] },
+            "effect": {
+              "run_eoc_with": "EOC_toolweapon_activate",
+              "variables": {
+                "turn_cost": "0.6",
+                "transform_target": "elec_chainsaw_cord_on",
+                "success_message": { "i18n": true, "str": "With a roar, the corded electric chainsaw screams to life!" },
+                "volume": "20",
+                "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
+              }
+            },
+            "false_effect": { "u_message": "You flip the switch, but nothing happens." }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" }
+    ],
     "pocket_data": [  ]
   },
   {
@@ -283,8 +502,36 @@
     "looks_like": "elec_chainsaw_on",
     "type": "TOOL",
     "name": { "str": "corded electric chainsaw (on)", "str_pl": "corded electric chainsaws (on)" },
-    "use_action": [ "TOOLWEAPON_DEACTIVATE", { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" } ],
-    "tick_action": [ "ELEC_CHAINSAW_ON" ],
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Turn off",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_toolweapon_deactivate__elec_chainsaw_cord",
+            "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "elec_chainsaw_cord_off" } }
+          }
+        ]
+      },
+      { "type": "link_up", "cable_length": 4, "charge_rate": "2400 W" }
+    ],
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__elec_chainsaw_cord",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "5",
+              "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },
+              "volume": "12",
+              "revert_to": "elec_chainsaw_cord_off"
+            }
+          }
+        }
+      ]
+    },
     "power_draw": "2 kW",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
@@ -298,8 +545,8 @@
     "description": "A broad piece of stone with an edge narrow enough to roughly chop wood.",
     "weight": "453 g",
     "volume": "230 ml",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "stone" ],
     "symbol": ";",
@@ -326,8 +573,8 @@
     "weight": "950 g",
     "volume": "1 L",
     "longest_side": "56 cm",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "to_hit": -2,
     "material": [ "stone", "wood" ],
     "symbol": ";",
@@ -344,8 +591,8 @@
     "weight": "822 g",
     "volume": "1 L",
     "longest_side": "56 cm",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "to_hit": -2,
     "material": [ "wood", "stone" ],
     "symbol": "/",
@@ -363,8 +610,8 @@
     "weight": "283 g",
     "volume": "1 L",
     "longest_side": "46 cm",
-    "price": 3000,
-    "price_postapoc": 100,
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
@@ -382,7 +629,7 @@
     "weight": "600 g",
     "volume": "250 ml",
     "longest_side": "20 cm",
-    "price": 200,
+    "price": "2 USD",
     "to_hit": 2,
     "material": [ "stone" ],
     "symbol": ";",

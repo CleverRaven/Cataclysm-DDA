@@ -34,9 +34,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1"
@@ -44,12 +42,12 @@
       {
         "text": "Are you able to buy some canning supplies?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_JARS",
-        "condition": { "u_has_var": "FMBroker_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        "condition": { "u_has_var": "mission_flag_FMBroker_Mission1", "value": "yes" }
       },
       {
         "text": "I was told you had work for me?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
+        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission5", "value": "yes" }
       },
       { "text": "Who are you?", "topic": "TALK_FREE_MERCHANT_STOCKS_NEW" },
       {
@@ -61,16 +59,16 @@
       {
         "text": "What's the deal with the closed-off areas of the building?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
-        "condition": { "not": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" } }
       },
       {
         "text": "What are you going to do with that back bay area now that I've cleaned it out for you?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED2",
-        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" }
       },
       {
         "text": "Tell me more about that ranch of yours.",
-        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "knowledge_flag_tacoma_started", "value": "yes" },
         "topic": "TALK_FREE_MERCHANT_STOCKS_RANCH"
       },
       { "text": "What were you saying before that?", "topic": "TALK_NONE" },
@@ -172,9 +170,7 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
     "dynamic_line": {
-      "u_has_var": "beggars_recruited",
-      "type": "general",
-      "context": "recruit",
+      "u_has_var": "general_recruit_beggars_recruited",
       "value": "yes",
       "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
       "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies.  These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
@@ -183,16 +179,17 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
-    "dynamic_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went… wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
+    "dynamic_line": {
+      "gendered_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went… wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "What went wrong with your staging area?", "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong",
     "dynamic_line": "We didn't have great organization when we first arrived.  A few of the earliest arrivals set up a triage and sorting system, with the sick and infirm getting set aside to wait.  It's cruel, but we could see there was only space for so many, and we didn't know what was causing people to turn into zombies at the time, so we were trying to quarantine out infection.  A couple folks died in there, and it escalated.  One of the first people here, Jacob, had taken charge of the whole thing.  When the triage area had to be evacuated he stayed behind to make sure everyone who could get out got out.  It was a hell of a loss.",
-    "speaker_effect": [
-      { "effect": { "u_add_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" } }
-    ],
+    "speaker_effect": [ { "effect": { "u_add_var": "general_conversation_told_about_FM_evacuation", "value": "yes" } } ],
     "responses": [ { "text": "Thanks, can I ask you something else?", "topic": "TALK_FREE_MERCHANT_STOCKS" } ]
   },
   {
@@ -203,7 +200,10 @@
   {
     "id": "TALK_FREE_MERCHANT_STOCKS_RANCH",
     "type": "talk_topic",
-    "dynamic_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise."
+    "dynamic_line": {
+      "gendered_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise.",
+      "relevant_genders": [ "npc" ]
+    }
   },
   {
     "id": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1",
@@ -221,10 +221,7 @@
     "item": "jar_3l_glass_sealed",
     "count": 50,
     "end": {
-      "effect": [
-        { "u_spawn_item": "FMCNote", "count": 25 },
-        { "u_add_var": "FMBroker_Mission1", "type": "mission", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "FMCNote", "count": 25 }, { "u_add_var": "mission_flag_FMBroker_Mission1", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

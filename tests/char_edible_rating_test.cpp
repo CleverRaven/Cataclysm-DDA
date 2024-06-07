@@ -28,6 +28,8 @@ static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 static void expect_can_eat( avatar &dummy, item &food )
 {
     auto rate_can = dummy.can_eat( food );
@@ -59,10 +61,10 @@ TEST_CASE( "cannot_eat_non-comestible", "[can_eat][will_eat][edible_rating][nonf
 {
     avatar dummy;
     GIVEN( "something not edible" ) {
-        item rag( "rag" );
+        item sheet_cotton( "sheet_cotton" );
 
         THEN( "they cannot eat it" ) {
-            expect_cannot_eat( dummy, rag, "That doesn't look edible.", INEDIBLE );
+            expect_cannot_eat( dummy, sheet_cotton, "That doesn't look edible.", INEDIBLE );
         }
     }
 }
@@ -504,7 +506,7 @@ TEST_CASE( "who_will_eat_cooked_human_flesh", "[will_eat][edible_rating][canniba
 
     GIVEN( "some cooked human flesh" ) {
         item flesh( "human_cooked" );
-        REQUIRE( flesh.has_flag( flag_CANNIBALISM ) );
+        REQUIRE( flesh.has_vitamin( vitamin_human_flesh_vitamin ) );
 
         WHEN( "character is not a cannibal" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_CANNIBAL ) );

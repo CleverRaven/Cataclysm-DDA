@@ -79,10 +79,8 @@
         { "item": "hose", "x": [ 12, 12 ], "y": [ 22, 22 ], "chance": 75 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 },
-        { "vehicle": "suburban_home", "x": 17, "y": 7, "chance": 10, "rotation": 90 }
-      ]
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 17, "y": 7, "chance": 10, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 0 } ]
     }
   },
   {

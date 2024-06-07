@@ -179,6 +179,10 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // Other threshold traits that are taken as acceptable replacements for this threshold
+        std::vector<trait_id> threshold_substitutes;
+        // Disallow threshold substitution for this trait in particular
+        bool strict_threshreq = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -200,7 +204,7 @@ struct mutation_branch {
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the four are true, it drains that as the "cost"
-        bool fatigue       = false;
+        bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
         // How many points it costs in character creation
@@ -215,41 +219,8 @@ struct mutation_branch {
         // bodytemp elements:
         units::temperature_delta bodytemp_min = 0_C_delta;
         units::temperature_delta bodytemp_max = 0_C_delta;
-        units::temperature_delta bodytemp_sleep = 0_C_delta;
-        // Healing per turn
-        std::optional<float> healing_awake = std::nullopt;
-        std::optional<float> healing_multiplier = std::nullopt;
-        // Limb mending bonus
-        std::optional<float> mending_modifier = std::nullopt;
-        std::optional<float> pain_modifier = std::nullopt;
-        // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        std::optional<float> hp_modifier = std::nullopt;
-        // Second HP modifier that stacks with first but is otherwise identical.
-        std::optional<float> hp_modifier_secondary = std::nullopt;
-        // Flat bonus/penalty to hp.
-        std::optional<float> hp_adjustment = std::nullopt;
-        // Modify strength stat without changing HP
-        std::optional<float> str_modifier = std::nullopt;
-        //melee bonuses
-        int cut_dmg_bonus = 0;
-        float pierce_dmg_bonus = 0.0f;
-        std::pair<int, int> rand_cut_bonus;
-        int bash_dmg_bonus = 0;
-        std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
-        std::optional<float> dodge_modifier = std::nullopt;
-        std::optional<float> movecost_modifier = std::nullopt;
-        std::optional<float> movecost_flatground_modifier = std::nullopt;
-        std::optional<float> movecost_obstacle_modifier = std::nullopt;
-        std::optional<float> attackcost_modifier = std::nullopt;
-        std::optional<float> cardio_multiplier = std::nullopt;
-        std::optional<float> weight_capacity_modifier = std::nullopt;
-        std::optional<float> hearing_modifier = std::nullopt;
-        std::optional<float> movecost_swim_modifier = std::nullopt;
-        std::optional<float> noise_modifier = std::nullopt;
-        float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
-        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
@@ -270,55 +241,6 @@ struct mutation_branch {
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
-
-        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
-        float fat_to_max_hp = 0.0f;
-        /**How fast does lifetsyle tends toward daily_health*/
-        float healthy_rate = 1.0f;
-
-        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
-        int weakness_to_water = 0;
-
-        std::optional<float> crafting_speed_multiplier = std::nullopt;
-
-        // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        std::optional<float> stealth_modifier = std::nullopt;
-
-        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        std::optional<float> temperature_speed_modifier = std::nullopt;
-        // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        std::optional<float> metabolism_modifier = std::nullopt;
-        // As above but for thirst.
-        std::optional<float> thirst_modifier = std::nullopt;
-        // As above but for fatigue.
-        std::optional<float> fatigue_modifier = std::nullopt;
-        // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        std::optional<float> fatigue_regen_modifier = std::nullopt;
-        // Modifier for the rate at which stamina regenerates.
-        std::optional<float> stamina_regen_modifier = std::nullopt;
-        // the modifier for obtaining an item from a container as a handling penalty
-        std::optional<float> obtain_cost_multiplier = std::nullopt;
-        // the modifier for the stomach size
-        std::optional<float> stomach_size_multiplier = std::nullopt;
-        // the modifier for the vomit chance
-        std::optional<float> vomit_multiplier = std::nullopt;
-        // the modifier for sweat amount
-        std::optional<float> sweat_multiplier = std::nullopt;
-
-        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        std::optional<float> overmap_sight = std::nullopt;
-
-        // Multiplier for sight range, defaulting to 1.
-        std::optional<float> overmap_multiplier = std::nullopt;
-
-        // Multiplier for reading speed, defaulting to 1.
-        std::optional<float> reading_speed_multiplier = std::nullopt;
-
-        // Multiplier for skill rust delay, defaulting to 1.
-        std::optional<float> skill_rust_multiplier = std::nullopt;
-
-        // Multiplier for consume time, defaulting to 1.
-        std::optional<float> consume_time_modifier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -345,13 +267,6 @@ struct mutation_branch {
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
 
-        // amount of mana added or subtracted from max
-        std::optional<float> mana_modifier = std::nullopt;
-        std::optional<float> mana_multiplier = std::nullopt;
-        std::optional<float> mana_regen_multiplier = std::nullopt;
-        // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
-        std::optional<float> bionic_mana_penalty = std::nullopt;
-        std::optional<float> casting_time_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations
@@ -370,6 +285,17 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        struct OverrideLook {
+            std::string id;
+            std::string tile_category;
+            OverrideLook( const std::string &_id, const std::string &_tile_category )
+                : id( _id ), tile_category( _tile_category ) {}
+        };
+        /** ID, tile category, and variant
+        This will make the player appear as another entity (such as a non-humanoid creature).
+        The texture will override all other textures, including the character's body. */
+        std::optional<OverrideLook> override_look;
     private:
         translation raw_spawn_item_message;
     public:
@@ -402,8 +328,6 @@ struct mutation_branch {
         std::set<json_character_flag> flags; // Mutation flags
         std::set<json_character_flag> active_flags; // Mutation flags only when active
         std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
-        std::vector<trait_id>
-        prevented_by; // Traits listed here will block this mutation from being acquired
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
@@ -634,6 +558,7 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
+int get_total_nonbad_in_category( const mutation_category_id &categ );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

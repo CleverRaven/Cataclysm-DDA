@@ -3,11 +3,19 @@
     "type": "npc",
     "id": "isherwood_luke",
     "//": "Dairy farmer's son in the Isherwood family.",
+    "//2": "Son of Eddie, nephew of Carlos and Jesse.  Cousin of Lisa and Chris.  Grandson of Claire and Jack, great-nephew of Barry.",
     "name_unique": "Luke Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_LUKE",
     "attitude": 0,
     "mission": 7,
+    "age": 16,
+    "height": 181,
+    "str": 8,
+    "dex": 9,
+    "int": 7,
+    "per": 8,
+    "personality": { "aggression": 2, "bravery": 8, "collector": 1, "altruism": 2 },
     "chat": "TALK_ISHERWOOD_LUKE",
     "mission_offered": "MISSION_ISHERWOOD_LUKE_1",
     "faction": "isherwood_family"
@@ -18,8 +26,11 @@
     "name": { "str": "Luke Isherwood" },
     "job_description": "I'm Eddie's son, part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "FLEET" },
+      { "trait": "TOUGH" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "hazel" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -44,23 +55,75 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, you should leave before my father sees you.",
-      "no": { "u_male": true, "yes": "Hello.", "no": "Hello." }
+      "concatenate": [
+        "*is a young man in his mid teens, wearing threadbare but clean work trousers and a plain shirt with a few holes in it.  He looks you up and down as you approach",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": ", then scowls as he spots the Old Guard Marshal badge gleaming on your chest.  \"I see that badge.  You should leave before my father spots it.\"",
+          "no": {
+            "u_has_var": "isherwood_luke_marshal_badge",
+            "value": "seen",
+            "yes": ", and nods once when he sees you've taken off your marshal badge.  \"Tread carefully around here, we don't have a lot of respect for your type of lawman.\"",
+            "no": {
+              "u_male": true,
+              "yes": ", then raises a hand to greet you.  \"Hello.\"",
+              "no": ", then raises his hand to his forehead in an old fashioned hat-tipping sort of gesture.  \"Hello.\""
+            }
+          }
+        }
+      ]
     },
     "responses": [
       {
         "text": "…",
         "topic": "TALK_LEAVE_NOW_LUKE",
         "opinion": { "trust": -20, "value": -20 },
-        "condition": { "u_is_wearing": "badge_marshal" }
+        "condition": { "u_is_wearing": "badge_marshal" },
+        "effect": { "u_add_var": "isherwood_luke_marshal_badge", "value": "seen" }
+      },
+      {
+        "text": "What's wrong with me being a marshal?",
+        "topic": "TALK_ISHERWOOD_LUKE_Marshal",
+        "condition": {
+          "and": [ { "u_has_var": "isherwood_luke_marshal_badge", "value": "seen" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+        }
       },
       {
         "text": "Your dad said you were out here fixing up this place.",
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
-        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": [ { "u_add_var": "u_met_Luke_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
+        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }
       },
-      { "text": "Hey, what are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
+      {
+        "text": "How are those books doing for you?",
+        "topic": "TALK_ISHERWOOD_LUKE_BOOKS1",
+        "condition": { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
+      },
+      {
+        "text": "How are those books doing for you?",
+        "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_luke_isherwood_books)", "<=", "time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue", "<=", "time('5 d')" ] }
+          ]
+        }
+      },
+      {
+        "text": "How are those books doing for you?",
+        "topic": "TALK_ISHERWOOD_LUKE_BOOKS3",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_luke_isherwood_books)", ">", "time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
+          ]
+        }
+      },
+      {
+        "text": "Hey, what are you doing out here?",
+        "topic": "TALK_ISHERWOOD_LUKE2",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
       {
         "text": "Can I do anything for you?",
         "topic": "TALK_MISSION_LIST",
@@ -75,10 +138,20 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Marshal",
+    "dynamic_line": "I don't see how it's much of your business what our story is.  You can try asking my dad, Eddie, if you really want.  Just don't start acting like some little piece of tin in your pocket means you can come in like you own the place.",
+    "speaker_effect": { "effect": { "u_add_var": "isherwood_luke_marshal_questions", "value": "known" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_TALK1",
     "dynamic_line": "Yeah, I work on it when I have the time.  I can't leave the farm too long, so I can't find some things I need.",
     "responses": [
-      { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Maybe I can help out.  What do you need?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Must be tough having the world fall apart when you had you future to look forward to.",
         "topic": "TALK_ISHERWOOD_LUKE3"
@@ -89,10 +162,61 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_LUKE2",
-    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "id": "TALK_ISHERWOOD_LUKE_BOOKS1",
+    "dynamic_line": "*gestures to where they sit on a shelf.  \"I've been trying to look at them, but I can't focus too much right now.\"  He smiles sadly.  \"Hope to get to them soon.\"",
     "responses": [
-      { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Because of Barry?",
+        "topic": "TALK_ISHERWOOD_LUKE_BOOKS_BARRY",
+        "condition": { "u_has_var": "u_learned_barry_missing", "value": "yes" }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_BOOKS_BARRY",
+    "dynamic_line": "*winces a little at the name.  \"Yeah.  Because of Barry.\"  You can see he'd rather not pursue the topic.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_BOOKS2",
+    "dynamic_line": "*smiles.  \"Bit early to tell, but I've been doing some night time reading and trying a few things out.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_BOOKS3",
+    "dynamic_line": "*smiles brightly.  \"Real great, thanks!  I've learned a lot from them already.  Tried my hand at some basic stuff, it's fun to learn new things.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE2",
+    "dynamic_line": {
+      "concatenate": [
+        "*gestures around at the worn down shed surrounding you.  \"I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things",
+        {
+          "u_has_var": "u_saved_barry_isherwood",
+          "value": "yes",
+          "yes": ", says it is too dangerous.  After what happened with Barry, well, I tend to agree with him.\"  He smiles thinly.  \"Don't want you to have to run out saving another one of us, right?\"",
+          "no": ", says it's too dangerous.  I used to think he was being a pain in the butt, but lately…\" he stops abruptly, and says nothing more."
+        }
+      ]
+    },
+    "responses": [
+      { "text": "Maybe I can help out.  What do you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -100,7 +224,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE3",
-    "dynamic_line": "I know all the grown-ups worry about us, but I think we can adapt better than them in the long run.  Chris has some interesting thoughts on the matter.",
+    "dynamic_line": "I know all the grown-ups worry about us, but I think we can adapt better than them in the long run.  Chris - my cousin - has some interesting thoughts on the matter.",
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "u_heard_about_chris", "value": "yes" }, { "u_add_var": "u_heard_about_chris_ideas", "value": "yes" } ]
+    },
     "responses": [
       { "text": "Where can I find Chris?", "topic": "TALK_LUKE_CHRIS" },
       { "text": "What sort of ideas does Chris have?", "topic": "TALK_LUKE_CHRIS2" },
@@ -111,8 +238,55 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LUKE_EDDIE",
-    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…",
+    "id": "TALK_LUKE_EDDIE_NoBarry",
+    "dynamic_line": "&His shoulders slump a little at the question.  \"Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…\"",
+    "responses": [
+      { "text": "What happened to Barry?", "topic": "TALK_LUKE_BARRY" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_EDDIE_YesBarry",
+    "dynamic_line": "*looks around, then leans in just a little closer.  \"He's doing OK now that Barry's home, but, well, things still aren't the same.  I imagine that'll take time.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_BARRY",
+    "dynamic_line": "*goes a bit pale.  \"I shouldn't have said that.  Not my place to talk to a stranger about it.\"",
+    "responses": [
+      {
+        "text": "I already know Barry got captured.  I just wanted to know a bit more about it.  Maybe I can help.",
+        "topic": "TALK_LUKE_BARRY2",
+        "condition": { "u_has_var": "u_learned_barry_missing", "value": "yes" }
+      },
+      {
+        "text": "I might be able to help, though.",
+        "topic": "TALK_LUKE_BARRYhelp",
+        "condition": { "not": { "u_has_var": "u_learned_barry_missing", "value": "yes" } }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_BARRY2",
+    "dynamic_line": "*frowns.  \"I don't know how much I can tell you.  Your best bet is to talk to Uncle Carlos.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_BARRYhelp",
+    "dynamic_line": "I really… okay.  Maybe ask my grandma, Claire.  She'll know if it's okay to talk about.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -122,7 +296,7 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS",
     "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -131,7 +305,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS2",
-    "dynamic_line": "Well, he doesn't agree that what we're doing here will last.  He thinks things will only get worse.  It's tough to get the adults to listen though, much less agree with his solution.  You can go talk to him more about it if you want.",
+    "dynamic_line": "Well, he doesn't agree that what we're doing here will last.  He thinks things will only get worse.\"  Luke shrugs, as if to say he doesn't have a strong opinion on the matter.  \"It's tough to get the adults to listen though, much less agree with his solution.  You can go talk to him more about it if you want.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -152,7 +326,23 @@
         "text": "Must be tough having the world fall apart when you had you future to look forward to.",
         "topic": "TALK_ISHERWOOD_LUKE3"
       },
-      { "text": "Tell me about your dad.", "topic": "TALK_LUKE_EDDIE" },
+      {
+        "text": "Tell me about your dad.",
+        "topic": "TALK_LUKE_EDDIE_NoBarry",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" },
+            { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "Tell me about your dad.",
+        "topic": "TALK_LUKE_EDDIE_YesBarry",
+        "condition": {
+          "and": [ { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }, { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } ]
+        }
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -190,7 +380,10 @@
     "count": 1,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" }
+      "effect": [
+        { "u_add_var": "u_did_luke_missions", "value": "yes" },
+        { "math": [ "u_timer_luke_isherwood_books", "=", "time('now')" ] }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

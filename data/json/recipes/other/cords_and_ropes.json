@@ -636,22 +636,6 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "cordage_6",
-    "id_suffix": "electric_spinwheel_plant",
-    "batch_time_factors": [ 70, 1 ],
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "time": "15 s",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [ [ [ "electric_spinwheel", 1 ] ] ],
-    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ], [ "tanbark", 1 ], [ "willowbark", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_fibers" } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "cordage_36",
     "id_suffix": "electric_spinwheel_plant",
     "batch_time_factors": [ 70, 1 ],

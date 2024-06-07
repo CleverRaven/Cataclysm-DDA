@@ -40,7 +40,6 @@
         "=": "t_door_metal_locked",
         "_": "t_pavement",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "'": "t_thconc_floor",
         "q": "t_thconc_floor",
         "A": "t_thconc_floor",
@@ -74,10 +73,8 @@
         { "item": "lawnmower", "x": 41, "y": 14, "chance": 100 },
         { "item": "stepladder", "x": 41, "y": 15, "chance": 100 }
       ],
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 23, "y": 23, "chance": 80, "status": 0 },
-        { "vehicle": "suburban_home", "x": 36, "y": 11, "chance": 30, "rotation": 270 }
-      ]
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 36, "y": 11, "chance": 30, "rotation": 270 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 23, "y": 23 } ]
     }
   },
   {

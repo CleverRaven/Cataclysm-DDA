@@ -1,0 +1,37 @@
+[
+  {
+    "//": "Relative weight carried. Graph goes up to 120%, so the last bar is overburdened.",
+    "id": "zenfs_carry_weight_bar",
+    "type": "widget",
+    "var": "carry_weight",
+    "style": "graph",
+    "label": "<color_dark_gray>CarryWt</color>",
+    "symbols": "·−=≡≣",
+    "colors": [ "c_brown", "c_red", "c_light_red", "c_white_red" ],
+    "breaks": [ 75, 100, 110 ]
+  },
+  {
+    "id": "zenfs_carry_weight_label",
+    "type": "widget",
+    "style": "text",
+    "string": "<color_dark_gray>Carry Wt </color>",
+    "width": 9,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_carry_weight_num_no_label",
+    "type": "widget",
+    "var": "carry_weight_text",
+    "style": "text",
+    "text_align": "left",
+    "width": 4
+  },
+  {
+    "id": "zenfs_carry_weight_num_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 18,
+    "widgets": [ "zenfs_carry_weight_label", "zenfs_carry_weight_num_no_label", "zenfs_blank_space" ]
+  }
+]

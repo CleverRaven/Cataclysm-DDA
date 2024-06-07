@@ -84,7 +84,6 @@
       "house_03",
       "house_04",
       "house_05",
-      "house_05ab",
       "house_06",
       "house_07",
       "house_08",
@@ -216,7 +215,11 @@
       "urban_17_1",
       "urban_17_2",
       "urban_18_3",
-      "urban_18_4"
+      "urban_18_4",
+      "urban_22_1",
+      "urban_22_2",
+      "urban_22_1_roof",
+      "urban_22_2_roof"
     ],
     "copy-from": "generic_city_house",
     "see_cost": 10
@@ -507,7 +510,6 @@
       "garden_house_1_basement",
       "house_04_basement",
       "house_05_basement",
-      "house_05ab_basement",
       "house_08_basement",
       "house_10_basement",
       "house_11_basement",
@@ -756,10 +758,20 @@
   {
     "id": "derelict_property",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_rural_building",
     "name": "derelict property",
     "sym": "X",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "id": "derelict_property_roof",
+    "type": "overmap_terrain",
+    "name": "derelict property roof",
+    "sym": ".",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",

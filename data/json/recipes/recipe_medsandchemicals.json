@@ -818,7 +818,62 @@
     "using": [ [ "sewing_standard", 1 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ], [ [ "oxy_powder", 5 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ], [ "heatpack_used", 1 ] ],
+      [ [ "oxy_powder", 5 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fermentable_liquid_mixture",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "2 m",
+    "charges": 3,
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
+    "tools": [ [ "fake_digester_tank" ] ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ] ],
+    "using": [ [ "organic_waste", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fermentable_liquid_mixture",
+    "id_suffix": "hard",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "30 m",
+    "charges": 5,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "batch_time_factors": [ 70, 4 ],
+    "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
+    "tools": [ [ "fake_digester_tank" ] ],
+    "components": [ [ [ "ruined_chunks", 20 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fermentable_fish_mixture",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "2 m",
+    "charges": 3,
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ] ],
+    "using": [ [ "sugar_standard", 1 ] ]
   },
   {
     "type": "recipe",
@@ -830,19 +885,15 @@
     "skill_used": "survival",
     "difficulty": 2,
     "time": "20 m",
+    "charges": 5,
     "autolearn": true,
-    "//": "Too simple. Just mixing feces and chitin with water. Basic chemistry shall be enough for this.",
+    "//": "Simply heating fermented fertilizer liquid.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 80, 4 ],
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 4 ], [ "water_clean", 4 ] ],
-      [ [ "meal_bone", 2 ], [ "meal_bone_tainted", 4 ] ],
-      [ [ "meal_chitin_piece", 1 ] ],
-      [ [ "feces_bird", 10 ], [ "feces_roach", 10 ], [ "feces_cow", 4 ], [ "feces_manure", 6 ] ]
-    ]
+    "components": [ [ [ "fermented_fertilizer_liquid", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -998,6 +1049,21 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "poppy_bud", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "skunk_spray_neutralizing_solution",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": "5 m",
+    "book_learn": [ [ "pocket_survival", 3 ], [ "survival_book", 3 ], [ "isherwood_herbal_remedies", 2 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "chem_hydrogen_peroxide", 4 ] ], [ [ "chem_baking_soda", 83 ], [ "liquid_soap", 2 ] ] ],
+    "charges": 4
   },
   {
     "type": "recipe",

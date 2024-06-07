@@ -1,5 +1,10 @@
-/* Entry point and main loop for Cataclysm
+/* Main Loop for cataclysm
+ * Linux only I guess
+ * But maybe not
+ * Who knows
  */
+
+// KG: Yes, the above is inaccurate now. It's also a poem, it stays.
 
 // IWYU pragma: no_include <sys/signal.h>
 #include <algorithm>
@@ -55,6 +60,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "cata_imgui.h"
 #if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
 #endif
@@ -167,6 +173,7 @@ void exit_handler( int s )
         } else
 #endif
         {
+            imclient.reset();
             exit( exit_status );
         }
     }
@@ -281,6 +288,7 @@ void process_args( const char **argv, int argc, const std::vector<arg_handler> &
 struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
+    bool noverify = false;
     bool check_mods = false;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
@@ -309,7 +317,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             },
             {
                 "--jsonverify", {},
-                "Checks the CDDA json files",
+                "Checks the CDDA json files and exits",
                 section_default,
                 0,
                 [&result]( int, const char ** ) -> int {
@@ -319,7 +327,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             },
             {
                 "--check-mods", "[mod…]",
-                "Checks the json files belonging to given CDDA mod",
+                "Checks the json files belonging to given CDDA mod and exits",
                 section_default,
                 1,
                 [&result]( int n, const char **params ) -> int {
@@ -329,6 +337,16 @@ cli_opts parse_commandline( int argc, const char **argv )
                     {
                         result.opts.emplace_back( params[ i ] );
                     }
+                    return 0;
+                }
+            },
+            {
+                "--noverify", {},
+                "Skips JSON verification",
+                section_default,
+                0,
+                [&result]( int, const char ** ) -> int {
+                    result.noverify = true;
                     return 0;
                 }
             },
@@ -581,7 +599,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 reject( err );
             } else {
-                console.log( "Succesfully mounted IDBFS." );
+                console.log( "Successfully mounted IDBFS." );
                 resolve();
             }
         } );
@@ -604,7 +622,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 console.error( err );
             } else {
-                console.log( "Succesfully persisted to IDBFS..." );
+                console.log( "Successfully persisted to IDBFS..." );
             }
         } );
     }
@@ -804,6 +822,10 @@ int main( int argc, const char *argv[] )
         get_options().get_option( "ENABLE_ASCII_TITLE" ).setValue( "false" );
     }
 
+    if( cli.noverify ) {
+        get_options().get_option( "SKIP_VERIFICATION" ).setValue( "true" );
+    }
+
     // Now we do the actual game.
 
 #if defined(DEBUG_CURSES_CURSOR)
@@ -848,7 +870,7 @@ int main( int argc, const char *argv[] )
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
-        while( !do_turn() );
+        while( !do_turn() ) {}
     }
 
     exit_handler( -999 );

@@ -5,7 +5,7 @@
     "categories": [ "warfare" ],
     "location": "structure",
     "damage_modifier": 150,
-    "//": "constructed from a 1 meter armor sheet in most cases, affixed along two edges = 200cm weld to install.",
+    "//": "constructed from a 1 meter armor sheet in most cases, affixed along two edges = 200 cm weld to install.",
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "requirements": {
       "install": {
@@ -230,7 +230,7 @@
     "power": "-1750 W",
     "damage_modifier": 500,
     "breaks_into": [  ],
-    "//": "120cm weld to affix it to a vehicle",
+    "//": "120 cm weld to affix it to a vehicle",
     "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "requirements": {
       "install": {

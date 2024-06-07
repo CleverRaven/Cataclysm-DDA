@@ -35,5 +35,150 @@
     "id": "spell_components_cable_whip",
     "type": "requirement",
     "components": [ [ [ "cable", 15 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_ward_off_rain",
+    "type": "requirement",
+    "components": [
+      [ [ "leaves", 2 ], [ "grape_leaves", 2 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "wintergreen_leaves", 2 ] ],
+      [
+        [ "cotton_patchwork", 1 ],
+        [ "scrap_cotton", 7 ],
+        [ "felt_patch", 1 ],
+        [ "scrap_felt", 7 ],
+        [ "canvas_patch", 1 ],
+        [ "scrap_canvas", 7 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_witchlight",
+    "type": "requirement",
+    "components": [ [ [ "lamp_oil", 4 ], [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ], [ "crude_lamp_oil", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_see_fae_necklace",
+    "type": "requirement",
+    "tools": [ [ [ "needle_wood", -1 ], [ "needle_bone", -1 ], [ "needle_steel", -1 ] ] ],
+    "components": [
+      [ [ "cordage_36_leather", 1 ], [ "string_36", 1 ], [ "cordage_36", 1 ], [ "cordage_short", 6, "LIST" ] ],
+      [ [ "wild_herbs", 30 ] ],
+      [ [ "hawthorn_berries", 3 ] ],
+      [ [ "leather", 1 ] ],
+      [
+        [ "thread", 3 ],
+        [ "sinew", 3 ],
+        [ "plant_fibre", 3 ],
+        [ "yarn", 3 ],
+        [ "thread_canvas", 3 ],
+        [ "thread_nomex", 6 ],
+        [ "thread_kevlar", 6 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_light_fire",
+    "type": "requirement",
+    "components": [ [ [ "ash", 12 ], [ "corpse_ash", 12 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_make_plants_grow",
+    "type": "requirement",
+    "//": "1 seeds for staple grain crops (or tobacco), 3 seeds for other crops, no seeds of non-farmed crops",
+    "components": [
+      [
+        [ "seed_oats", 1 ],
+        [ "seed_tobacco", 1 ],
+        [ "seed_corn", 1 ],
+        [ "seed_beans", 1 ],
+        [ "seed_wheat", 1 ],
+        [ "seed_lentils", 1 ],
+        [ "seed_barley", 1 ],
+        [ "soybean_seed", 1 ],
+        [ "seed_buckwheat", 1 ],
+        [ "seed_onion", 3 ],
+        [ "seed_grapes", 3 ],
+        [ "seed_garlic", 3 ],
+        [ "seed_tomato", 3 ],
+        [ "seed_celery", 3 ],
+        [ "seed_carrot", 3 ],
+        [ "seed_lettuce", 3 ],
+        [ "seed_spinach", 3 ],
+        [ "seed_mustard", 3 ],
+        [ "seed_cabbage", 3 ],
+        [ "seed_pumpkin", 3 ],
+        [ "seed_broccoli", 3 ],
+        [ "seed_zucchini", 3 ],
+        [ "seed_eggplant", 3 ],
+        [ "seed_cucumber", 3 ],
+        [ "seed_sugar_beet", 3 ],
+        [ "seed_bell_pepper", 3 ],
+        [ "seed_chili_pepper", 3 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_nether_eye_paste",
+    "type": "requirement",
+    "components": [ [ [ "corpse_ash", 50 ] ], [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ], [ [ "wild_herbs", 20 ] ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ]
+  },
+  {
+    "id": "spell_components_hedge_stunning_spell",
+    "type": "requirement",
+    "tools": [  ],
+    "components": [ [ [ "copper", 2 ], [ "copper_ring", 1 ], [ "copper_ear", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_cure_cold_or_flu",
+    "type": "requirement",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "scrap_cast_iron", 1 ] ],
+      [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "wild_herbs", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_evil_eye_ward",
+    "type": "requirement",
+    "tools": [  ],
+    "components": [ [ [ "salt", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extra_lock_door",
+    "type": "requirement",
+    "components": [ [ [ "string_6", 3 ], [ "cordage_6", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_clairvoyance_cone",
+    "type": "requirement",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_increase_healing_rate",
+    "type": "requirement",
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "wild_herbs", 50 ] ], [ [ "willowbark", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_increase_bandaging_rate",
+    "type": "requirement",
+    "components": [ [ [ "scrap_cast_iron", 1 ] ], [ [ "salt", 10 ] ], [ [ "wild_herbs", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_hide_in_forest",
+    "type": "requirement",
+    "components": [
+      [ [ "leaves", 1 ], [ "grape_leaves", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "wintergreen_leaves", 2 ] ],
+      [ [ "raw_beans", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_no_nightmares",
+    "type": "requirement",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "thyme_oil", 2 ] ] ]
   }
 ]

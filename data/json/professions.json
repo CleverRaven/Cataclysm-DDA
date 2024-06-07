@@ -1240,7 +1240,7 @@
           { "item": "socks" },
           { "item": "boots_combat" },
           { "item": "diving_watch" },
-          { "item": "webbing_belt" },
+          { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
           { "group": "military_ballistic_vest_pristine" },
           { "item": "tank_top", "variant": "tank_top_camo" },
@@ -1269,7 +1269,7 @@
     "id": "sailor",
     "name": "Navy Sailor",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You’re a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
+    "description": "You're a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
     "points": 4,
     "proficiencies": [
       "prof_pneumatics",
@@ -1682,7 +1682,7 @@
     "type": "profession",
     "id": "seal_sniper",
     "name": "Navy SEAL Marksmen",
-    "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
+    "description": "Recruited into the ranks of the US Navy's Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "points": 8,
     "proficiencies": [
       "prof_gunsmithing_basic",
@@ -1708,7 +1708,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "combat_shirt" },
           { "item": "tac_fullhelmet" },
           { "item": "mask_ski" },
@@ -1718,7 +1718,7 @@
           { "item": "diving_watch" },
           { "item": "load_bearing_vest" },
           { "item": "boots_combat" },
-          { "item": "webbing_belt" },
+          { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_powered_earmuffs" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
@@ -1740,7 +1740,7 @@
     "id": "seal",
     "name": "Navy SEAL",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You were a member of the SEALs; a key component of the US Navy’s special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
     "points": 8,
     "proficiencies": [
       "prof_gunsmithing_basic",
@@ -1767,7 +1767,7 @@
       "both": {
         "entries": [
           { "item": "combat_shirt" },
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_helmet_nvg" },
           { "item": "mask_ski" },
           { "item": "gloves_liner" },
           { "item": "gloves_tactical" },
@@ -1775,13 +1775,12 @@
           { "item": "diving_watch" },
           { "item": "load_bearing_vest" },
           { "item": "boots_combat" },
-          { "item": "webbing_belt" },
+          { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_powered_earmuffs" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "grenade" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "goggles_nv" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "knife_rm42", "container-item": "sheath" },
@@ -1835,7 +1834,7 @@
           { "item": "wetsuit" },
           { "item": "pants_army" },
           { "item": "wetsuit_hood" },
-          { "item": "tac_helmet" },
+          { "group": "tac_helmet_nvg" },
           { "item": "wetsuit_gloves" },
           { "item": "gloves_tactical" },
           { "item": "socks" },
@@ -2288,7 +2287,7 @@
     "id": "horse_cop",
     "name": "Mounted Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have eachother.",
+    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have each other.",
     "points": 5,
     "skills": [
       { "level": 5, "name": "survival" },
@@ -2757,54 +2756,6 @@
   },
   {
     "type": "profession",
-    "id": "santa",
-    "name": { "male": "Mall Santa", "female": "Mall Mrs Claus" },
-    "description": "You had a seasonal job that involved portraying the iconic figure of Santa Claus or Mrs Claus at shopping malls, department stores, and other public places during the Christmas season.  Your figure, demeanor and personality had to embody the spirit of Christmas to bring joy to children and adults alike.  This involved greeting visitors, listening to their wishes and requests, taking photographs with them, and spreading holiday cheer.  You hope that your acting skills, sweet-talk and the minimal, probably comical gear you have are enough to get you through this and see another Christmas.",
-    "points": 2,
-    "skills": [ { "level": 4, "name": "speech" }, { "level": 1, "name": "swimming" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "santa_staff" },
-          { "item": "santa_hat" },
-          { "item": "santa_necklace" },
-          { "item": "santa_wristwatch" },
-          { "item": "santa_gloves" },
-          { "item": "badge_santa" },
-          { "item": "bag_santa" },
-          { "item": "candycane", "count": 10 },
-          { "item": "chocolate", "count": 10 },
-          { "item": "teddy_bear", "count": 5 },
-          { "item": "toy_figurine", "count": 5 },
-          { "group": "charged_smart_phone" }
-        ]
-      },
-      "male": {
-        "entries": [
-          { "item": "undershirt" },
-          { "item": "santa_jacket" },
-          { "item": "santa_belt" },
-          { "item": "santa_pants" },
-          { "item": "boxer_briefs" },
-          { "item": "socks" },
-          { "item": "santa_boots" },
-          { "item": "santa_beard" }
-        ]
-      },
-      "female": {
-        "entries": [
-          { "item": "santa_ear" },
-          { "item": "bra" },
-          { "item": "santa_dress" },
-          { "item": "stockings", "variant": "santa_stockings" },
-          { "item": "panties" },
-          { "item": "santa_shoes" }
-        ]
-      }
-    }
-  },
-  {
-    "type": "profession",
     "id": "modern_archer",
     "name": "Modern Archer",
     "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, acquiring a takedown bow as well as several accessories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
@@ -2830,7 +2781,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2867,7 +2818,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2908,7 +2859,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2946,7 +2897,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2984,7 +2935,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2999,7 +2950,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "knit_scarf" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -3022,7 +2973,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -3114,7 +3065,6 @@
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
           { "item": "pants", "variant": "pants_stone" },
-          { "item": "trucker_hat", "variant": "generic_truckball" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -3573,6 +3523,7 @@
           { "item": "howto_computer" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -3782,7 +3733,7 @@
     "type": "profession",
     "id": "jeweler",
     "name": "Jeweler",
-    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has fared well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
     "points": 2,
     "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
     "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
@@ -4330,40 +4281,6 @@
           { "item": "purse" },
           { "item": "bra" },
           { "item": "panties" }
-        ]
-      }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "asatru_priest",
-    "name": { "male": "Gode", "female": "Gydje" },
-    "description": "As a spiritual leader of the Asatru Faith, you conducted your small community into ceremonies, rituals, sacrifices and feasts for the Norse Gods.  You can't say if Ragnarok has come, but you'll surely fight like a warrior until your encounter with the Valkyries.",
-    "points": 0,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "melee" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "silver_ring" },
-          { "item": "leather_belt" },
-          { "item": "socks" },
-          { "item": "boots" },
-          { "item": "holybook_asatru" },
-          { "group": "charged_smart_phone" },
-          { "item": "holy_symbol", "variant": "odin_necklace1" },
-          { "item": "bronze_knife", "container-item": "sheath" }
-        ]
-      },
-      "male": {
-        "entries": [ { "item": "cloak" }, { "item": "tunic" }, { "item": "briefs" }, { "item": "pants", "variant": "pants_brown" } ]
-      },
-      "female": {
-        "entries": [
-          { "item": "silver_hairpin" },
-          { "item": "bra" },
-          { "item": "dress" },
-          { "item": "panties" },
-          { "item": "altered_apron", "variant": "generic_apron_cotton" }
         ]
       }
     }
@@ -5137,6 +5054,7 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5147,7 +5065,8 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5169,6 +5088,7 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5180,7 +5100,8 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5207,6 +5128,7 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -5221,7 +5143,8 @@
           { "item": "slingshot" },
           { "group": "charged_smart_phone" },
           { "group": "charged_matches" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5514,13 +5437,15 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "pants_cargo" },
           { "item": "socks_ankle" },
           { "item": "sneakers" },
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5550,6 +5475,7 @@
           { "group": "charged_smart_phone" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
           { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5595,7 +5521,7 @@
     "type": "profession",
     "id": "urban_samurai",
     "name": "Urban Samurai",
-    "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Some claimed you were a visiting Shinto god.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
+    "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "cutting" } ],
     "items": {
@@ -5608,7 +5534,6 @@
           { "item": "tabi_dress" },
           { "item": "geta" },
           { "item": "bellywrap" },
-          { "group": "charged_smart_phone" },
           { "item": "bokken_inferior", "container-item": "scabbard" }
         ]
       },
@@ -6323,7 +6248,7 @@
           { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
           { "item": "mil_flight_suit" },
           { "item": "chestrig" },
-          { "item": "webbing_belt" },
+          { "group": "loaded_webbing_belt" },
           { "item": "legpouch_large" },
           { "group": "charged_matches" },
           { "group": "charged_flashlight" },
@@ -6640,7 +6565,7 @@
           { "item": "gold_bracelet" },
           { "group": "charged_cell_phone" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "container-item": "null", "count": 2 },
-          { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
+          { "group": "modular_deagle_44", "ammo-item": "44fmj", "container-item": "XL_holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
           { "item": "knuckle_brass", "container-item": "tux" }
         ]
@@ -6840,7 +6765,7 @@
     "type": "profession",
     "id": "prepped_patriot",
     "name": "Prepped Patriot",
-    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
+    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you've readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
     "points": 2,
     "skills": [
       { "level": 3, "name": "gun" },
@@ -7009,7 +6934,7 @@
           { "item": "wetsuit_gloves" },
           { "item": "diving_watch" },
           { "item": "diveknife" },
-          { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 20 }
+          { "item": "rebreather", "ammo-item": "rebreather_filler_soda_lime", "charges": 20 }
         ]
       }
     }
@@ -7203,7 +7128,7 @@
       "both": {
         "entries": [
           { "item": "wristwatch" },
-          { "item": "jacket_army" },
+          { "item": "jacket_army", "variant": "m65_player" },
           { "item": "service_medal" },
           { "item": "boots_combat" },
           { "item": "socks" },
@@ -7211,7 +7136,6 @@
           { "item": "pipe_tobacco" },
           { "item": "tobacco" },
           { "item": "beret" },
-          { "item": "pants", "variant": "pants_british_khaki" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
@@ -7408,5 +7332,32 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "mma_fighter",
+    "name": "Mixed Martial Artist",
+    "description": "You've spent plenty of time training to become the next big thing.  But now it looks like you will be fighting your life from now on.  At least that training won't go to waste!",
+    "points": 5,
+    "flags": [ "NO_BONUS_ITEMS" ],
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
+    "starting_styles_choices": [
+      "style_boxing",
+      "style_judo",
+      "style_karate",
+      "style_kickboxing",
+      "style_muay_thai",
+      "style_pankration",
+      "style_taekwondo",
+      "style_wingchun"
+    ],
+    "starting_styles_choices_amount": 3,
+    "proficiencies": [ "prof_unarmed_familiar" ],
+    "items": {
+      "both": { "entries": [ { "item": "gloves_fingerless" }, { "item": "b_shorts" }, { "item": "mouthpiece" } ] },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   }
 ]

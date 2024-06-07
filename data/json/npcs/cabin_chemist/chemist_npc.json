@@ -35,16 +35,99 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_NPC_CABIN_CHEMIST",
-    "dynamic_line": "Hello, <name_g>.",
+    "id": [ "TALK_NPC_CABIN_CHEMIST", "TALK_NPC_CABIN_CHEMIST_INTRO" ],
     "responses": [
-      { "text": "Hello.", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO" },
       {
-        "text": "Hands up!",
+        "text": "Who are you?",
+        "topic": "TALK_NPC_CABIN_CHEMIST_STORY",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "dialogue_story_told_u_backstory", "value": "yes" } },
+            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Could you tell me about yourself again?",
+        "topic": "TALK_NPC_CABIN_CHEMIST_STORY",
+        "condition": {
+          "and": [
+            { "npc_has_var": "dialogue_story_told_u_backstory", "value": "yes" },
+            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
+      {
+        "text": "What is this place?",
+        "topic": "TALK_NPC_CABIN_CHEMIST_HOME",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "Brewed anything new lately?",
+        "topic": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "Care to trade?",
+        "topic": "TALK_NPC_CABIN_CHEMIST_INTRO",
+        "effect": "start_trade",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "I'd like to buy in bulk.",
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL",
+        "condition": {
+          "and": [
+            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+            { "npc_has_var": "dialogue_trade_mass_chem_tradeable", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+            { "not": "has_assigned_mission" },
+            { "not": "has_many_assigned_missions" }
+          ]
+        },
+        "topic": "TALK_MISSION_LIST"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST",
+    "dynamic_line": {
+      "npc_has_var": "dialogue_first_meeting_knows_u",
+      "value": "yes",
+      "yes": "It's nice to see you again <u_name>.  What can I do for you?",
+      "no": {
+        "gendered_line": "It's nice to see a new face around here.  I'm <npc_name>, it's a pleasure meeting you.",
+        "relevant_genders": [ "npc" ]
+      }
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you too, I'm <u_name>.",
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
+        "topic": "TALK_NPC_CABIN_CHEMIST_INTRO"
+      },
+      {
+        "text": "Hands up!  Hand over everything you've got, and nobody gets hurt!",
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
-        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -52,24 +135,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_INTRO",
-    "dynamic_line": "So, what's up?",
-    "responses": [
-      { "text": "Who are you?", "topic": "TALK_NPC_CABIN_CHEMIST_STORY" },
-      { "text": "What is this place?", "topic": "TALK_NPC_CABIN_CHEMIST_HOME" },
-      { "text": "Brewed anything new lately?", "topic": "TALK_NPC_CABIN_CHEMIST_ASK_INTERVAL" },
-      { "text": "Care to trade?", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO", "effect": "start_trade" },
-      {
-        "text": "I'd like to buy in bulk.",
-        "topic": "TALK_CABIN_CHEMIST_BULK_SELL",
-        "condition": { "npc_has_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
-      },
-      {
-        "text": "Any jobs you need done?",
-        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
-        "topic": "TALK_MISSION_LIST"
-      },
-      { "text": "I gotta go.", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": "So, what can I do for you?",
+    "responses": [ { "text": "I gotta go.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -80,13 +147,28 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_STORY",
-    "dynamic_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Even brought some of my equipment, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_story_told_u_backstory", "value": "yes" } },
+    "dynamic_line": {
+      "npc_has_var": "dialogue_story_told_u_backstory",
+      "value": "yes",
+      "yes": {
+        "gendered_line": "Like I said before, I'm a chemist.  I've been living out here for a while, decided to set up shop in this old cabin.  I even found some good equipment out here, and a couple useful things here in the cupboards.  I decided to stay right here.",
+        "relevant_genders": [ "npc" ]
+      },
+      "no": {
+        "gendered_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Lucky enough, I even found some good equipment out here, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+        "relevant_genders": [ "npc" ]
+      }
+    },
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here, that's all I'm saying.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "dynamic_line": {
+      "gendered_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here, that's all I'm saying.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
   },
   {
@@ -118,7 +200,7 @@
           "cost": 5000,
           "count": 1500,
           "true_eocs": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_gas_fungicidal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -131,7 +213,7 @@
           "cost": 5000,
           "count": 1500,
           "true_eocs": "EOC_BUY_POWDERFUNG_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_fungicide" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -144,7 +226,7 @@
           "cost": 5000,
           "count": 20,
           "true_eocs": "EOC_BUY_DISINFECT_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_disinfectant" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -157,7 +239,7 @@
           "cost": 12000,
           "count": 20,
           "true_eocs": "EOC_BUY_ANTIBIO_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antibiotics" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -170,7 +252,7 @@
           "cost": 14000,
           "count": 20,
           "true_eocs": "EOC_BUY_ANTIFUNG_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antifungal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -183,7 +265,7 @@
           "cost": 20000,
           "count": 10000,
           "true_eocs": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_chem_black_powder" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -196,7 +278,7 @@
           "cost": 30000,
           "count": 10000,
           "true_eocs": "EOC_BUY_NAPALM_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_napalm" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -206,7 +288,7 @@
   {
     "id": "TALK_CABIN_CHEMIST_BULK_SELL_END",
     "type": "talk_topic",
-    "dynamic_line": [ "Is there anything else you need?" ],
+    "dynamic_line": "Is there anything else you need?",
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
@@ -227,7 +309,7 @@
           "cost": 5000,
           "count": 1500,
           "true_eocs": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_gas_fungicidal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -240,7 +322,7 @@
           "cost": 5000,
           "count": 1500,
           "true_eocs": "EOC_BUY_POWDERFUNG_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_fungicide" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -253,7 +335,7 @@
           "cost": 5000,
           "count": 20,
           "true_eocs": "EOC_BUY_DISINFECT_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_disinfectant" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -266,7 +348,7 @@
           "cost": 12000,
           "count": 20,
           "true_eocs": "EOC_BUY_ANTIBIO_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antibiotics" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -279,7 +361,7 @@
           "cost": 14000,
           "count": 20,
           "true_eocs": "EOC_BUY_ANTIFUNG_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antifungal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -292,7 +374,7 @@
           "cost": 20000,
           "count": 10000,
           "true_eocs": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_chem_black_powder" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -305,7 +387,7 @@
           "cost": 30000,
           "count": 10000,
           "true_eocs": "EOC_BUY_NAPALM_TRUE_EFFECT",
-          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+          "false_eocs": "EOC_NONE"
         },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_napalm" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
@@ -374,11 +456,5 @@
       { "npc_add_effect": "chemist_waiting_for_gas_fungicide", "duration": "8 h" },
       { "npc_add_effect": "currently_busy", "duration": "8 h" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CHEMIST_BUY_FALSE_EFFECT",
-    "global": false,
-    "effect": [  ]
   }
 ]

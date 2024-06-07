@@ -15,9 +15,9 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_SOUTH_AMERICA",
     "monsters": [
-      { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_giganotosaurus", "weight": 10, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] }
+      { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -26,13 +26,16 @@
     "monsters": [
       { "monster": "mon_qianzhousaurus", "weight": 200, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_therizinosaurus", "weight": 200, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_velociraptor", "weight": 200, "cost_multiplier": 10, "pack_size": [ 2, 4 ] }
+      { "monster": "mon_velociraptor", "weight": 200, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_EUROPE",
-    "monsters": [ { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 40, "pack_size": [ 4, 12 ] } ]
+    "monsters": [
+      { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_iguanodon", "weight": 100, "pack_size": [ 1, 2 ] }
+    ]
   },
   {
     "type": "monstergroup",
@@ -90,6 +93,7 @@
       { "monster": "mon_struthiomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ornithomimus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_albertonykus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_falcarius_hatchling", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus_hatchling", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_sarahsaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
@@ -339,6 +343,7 @@
       { "monster": "mon_nanuqsaurus", "cost_multiplier": 35 },
       { "monster": "mon_daspletosaurus", "cost_multiplier": 35 },
       { "monster": "mon_tyrannosaurus", "weight": 2, "cost_multiplier": 40 },
+      { "monster": "mon_falcarius", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anzu", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus", "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
@@ -369,6 +374,7 @@
       { "monster": "mon_zanuqsaurus", "cost_multiplier": 35 },
       { "monster": "mon_zaspletosaurus", "cost_multiplier": 35 },
       { "monster": "mon_zyrannosaurus", "cost_multiplier": 80 },
+      { "monster": "mon_zalcarius", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zothronychus", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zanzu", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zeinonychus", "cost_multiplier": 30, "pack_size": [ 2, 3 ] },

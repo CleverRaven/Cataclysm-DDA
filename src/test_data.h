@@ -85,6 +85,14 @@ struct bash_test_set {
     std::vector<ter_id> tested_ter;
 
     std::vector<single_bash_test> tests;
+    void deserialize( const JsonObject &jo );
+};
+
+struct item_demographic_test_data {
+    std::map<itype_id, int> item_weights;
+    std::map<std::string, std::pair<int, std::map<itype_id, int>>> groups;
+    std::set<std::string> tests; // NOLINT(cata-serialize)
+    std::unordered_set<itype_id> ignored_items; // NOLINT(cata-serialize)
 
     void deserialize( const JsonObject &jo );
 };
@@ -94,6 +102,7 @@ class test_data
     public:
         // todo: remove when all known bad items got fixed
         static std::set<itype_id> known_bad;
+        static std::unordered_set<oter_type_id> overmap_terrain_coverage_whitelist;
         static std::map<vproto_id, std::vector<double>> drag_data;
         static std::map<vproto_id, efficiency_data> eff_data;
         static std::map<itype_id, double> expected_dps;
@@ -101,6 +110,7 @@ class test_data
         static std::map<std::string, pocket_mod_test_data> pocket_mod_data;
         static std::map<std::string, npc_boarding_test_data> npc_boarding_data;
         static std::vector<bash_test_set> bash_tests;
+        static std::map<std::string, item_demographic_test_data> item_demographics;
 
         static void load( const JsonObject &jo );
 };

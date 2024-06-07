@@ -14,7 +14,7 @@
       { "text": "Could you tell me about the community?", "topic": "TALK_GODCO_Helena_Community" },
       {
         "text": "Can I help you with anything?",
-        "condition": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
       {
@@ -22,8 +22,8 @@
         "topic": "TALK_GODCO_Helena_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
         }
       }
@@ -33,15 +33,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
-      "yes": "Get away from here, sinner, we don't want your kind here.",
+      "yes": { "gendered_line": "Get away from here, sinner, we don't want your kind here.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "u_met_godco_helena",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_helena",
         "value": "yes",
         "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
         "no": "Stranger, what brings you to our holy home?"
@@ -50,11 +46,11 @@
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "npc_add_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_helena", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Helena_Firstmeet"
@@ -63,20 +59,20 @@
         "text": "Good to see you again.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_helena", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_helena", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Helena_2"
       },
       {
         "text": "I can't talk right now.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Fine then.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -90,7 +86,7 @@
       {
         "text": "I'm not doing much wandering, I'm staying here.",
         "topic": "TALK_GODCO_Gemma_Firstmeet",
-        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
       },
       { "text": "I'm just passing through.  I'll see you around.", "topic": "TALK_DONE" }
     ]
@@ -107,7 +103,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Joinee",
-    "dynamic_line": "I'm glad you could make it here.  May the Lord have mercy on you.",
+    "dynamic_line": { "gendered_line": "I'm glad you could make it here.  May the Lord have mercy on you.", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Thank you, I hope he shares that sentiment.", "topic": "TALK_GODCO_Helena_2" },
       { "text": "Thank you.  I'll see you around.", "topic": "TALK_DONE" }
@@ -121,16 +117,16 @@
       { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
         "text": "Corrie and I have finished that solar cart.",
-        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         "topic": "TALK_GODCO_Helena_Negotiate"
       },
       {
         "text": "Olwen's finished the radio transmitter she was working on.",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
             { "not": { "u_has_mission": "MISSION_GODCO_HELENA_VISIT_MERCHANTS" } },
-            { "u_has_var": "godco_has_radio", "type": "general", "context": "mission", "value": "yes" }
+            { "u_has_var": "general_mission_godco_has_radio", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Helena_Contact_FreeMerch"
@@ -181,14 +177,14 @@
     "dynamic_line": "We are all under God's protection here.  Our community, like all moral civilizations, has a set of rules.  Obey the Decalogue, have respect for your neighbors and we'll get along just fine.  Go see Gemma or Julian for a bed, if one's available.  We do have limited space on our Ark, though.",
     "responses": [
       { "text": "Okay, I'll see about that later.", "topic": "TALK_GODCO_Helena_2" },
-      { "text": "What is the Decalouge?", "topic": "TALK_GODCO_Helena_Decalouge" },
+      { "text": "What is the Decalogue?", "topic": "TALK_GODCO_Helena_Decalouge" },
       { "text": "Okay, I'll see about that.  Goodbye.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_Decalouge",
-    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Israelites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalogue on two tablets of stone.",
     "responses": [ { "text": "…", "topic": "TALK_GODCO_Helena_Decalouge2" } ]
   },
   {
@@ -204,12 +200,12 @@
     "responses": [
       {
         "text": "I'll have some icons.",
-        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         "topic": "TALK_GODCO_Helena_machineIcon"
       },
       {
         "text": "I want Corrie to have some extra rations.",
-        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         "topic": "TALK_GODCO_Helena_machineFood"
       },
       { "text": "Let's negotiate some other time.", "topic": "TALK_DONE" }
@@ -223,9 +219,9 @@
       {
         "text": "Thank you.",
         "effect": [
-          { "u_lose_var": "godco_corrie_machine", "type": "mission", "context": "completed" },
-          { "u_add_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "icon" },
-          { "u_add_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" },
+          { "u_lose_var": "mission_completed_godco_corrie_machine" },
+          { "u_add_var": "mission_reward_godco_machine_reward", "value": "icon" },
+          { "u_add_var": "mission_reward_unclaimed_machine_reward", "value": "yes" },
           { "u_spawn_item": "icon", "count": 25 }
         ],
         "topic": "TALK_DONE"
@@ -240,9 +236,9 @@
       {
         "text": "Thank you.",
         "effect": [
-          { "u_lose_var": "godco_corrie_machine", "type": "mission", "context": "completed" },
-          { "u_add_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "ration" },
-          { "u_add_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" }
+          { "u_lose_var": "mission_completed_godco_corrie_machine" },
+          { "u_add_var": "mission_reward_godco_machine_reward", "value": "ration" },
+          { "u_add_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
         ],
         "topic": "TALK_DONE"
       }
@@ -257,7 +253,7 @@
         "text": "I presume you want me to pay a visit?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
             { "not": { "u_has_var": "found_refugee_center", "value": "yes" } }
           ]
         },
@@ -267,7 +263,7 @@
         "text": "Oh, I've met them before!",
         "condition": {
           "or": [
-            { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
             { "u_has_var": "found_refugee_center", "value": "yes" }
           ]
         },

@@ -21,9 +21,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "I must be seeing things again!  Stay away from me!",
       "no": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here."
@@ -31,26 +29,26 @@
     "responses": [
       {
         "text": "Are you alright?",
-        "effect": { "npc_add_var": "u_met_godco_arturo", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_arturo", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Arturo_Firstmeet"
       },
       {
         "text": "Are you alright?",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_GODCO_Arturo_U_Mutant"
       },
       {
         "text": "Hey Arturo, how are ya?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_arturo", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Arturo_2"
@@ -59,8 +57,8 @@
         "text": "Nice talking to you, but I gotta go.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_arturo", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_arturo", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_DONE"
@@ -70,7 +68,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_Firstmeet",
-    "dynamic_line": "Yeah, just that I sometimes see things.  I wanna be sure you're real.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, just that I sometimes see things.  I wanna be sure you're real.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "It's alright, just take your time.", "topic": "TALK_DONE" },
       { "text": "Sorry, I gotta go.", "topic": "TALK_DONE" }
@@ -133,7 +134,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_U_Mutant",
-    "dynamic_line": "I see things sometimes, and there's no way anyone could look like you!  I know you're not real, and if you are, stay away you ugly <name_b>!",
+    "dynamic_line": {
+      "gendered_line": "I see things sometimes, and there's no way anyone could look like you!  I know you're not real, and if you are, stay away you ugly <name_b>!",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Chill out man, I'm leaving.", "topic": "TALK_DONE" } ]
   }
 ]

@@ -11,9 +11,9 @@
         "default": {
           "distribution": [
             [ "standard_domestic_migration_palette", 9500 ],
-            [ "standard_domestic_abandoned_palette", 280 ],
+            [ "standard_domestic_abandoned_palette", 370 ],
             [ "house_hoarder_palette", 40 ],
-            [ "house_survivor_palette", 180 ]
+            [ "house_survivor_palette", 90 ]
           ]
         }
       }
@@ -248,10 +248,11 @@
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
       "v": [
         { "item": "art", "chance": 5 },
+        { "item": "art_all", "chance": 10 },
         { "item": "home_display_case", "chance": 30 },
         { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "maps", "chance": 2 },
-        { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
+        { "item": "guns_pistol_common", "chance": 25, "ammo": 90, "magazine": 100 },
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "w": [
@@ -321,8 +322,7 @@
         { "item": "maps", "chance": 4 }
       ],
       "≠": [
-        { "item": "toy_box", "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "toy_box", "chance": 70, "repeat": [ 2, 4 ] },
         { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
@@ -346,34 +346,42 @@
   {
     "type": "palette",
     "id": "standard_domestic_lino_kitchen",
-    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray linoleum flooring under kitchen furniture",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray/white linoleum flooring under kitchen furniture",
+    "parameters": {
+      "linoleum_color_kitchen": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_gray", 1 ], [ "t_linoleum_white", 1 ] ] } }
+    },
     "terrain": {
-      "O": "t_linoleum_gray",
-      "F": "t_linoleum_gray",
-      "m": "t_linoleum_gray",
-      "5": "t_linoleum_gray",
-      "n": "t_linoleum_gray",
-      "J": "t_linoleum_gray",
-      "1": "t_linoleum_gray",
-      "2": "t_linoleum_gray",
-      "3": "t_linoleum_gray",
-      "4": "t_linoleum_gray",
-      "6": "t_linoleum_gray",
-      "7": "t_linoleum_gray"
+      "m": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "n": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "F": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "J": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "O": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "1": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "2": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "3": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "4": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "5": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "6": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "7": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+      "=": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
     }
   },
   {
     "type": "palette",
     "id": "standard_domestic_lino_bathroom",
-    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray linoleum flooring under bathroom furniture",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to add gray/white linoleum flooring under bathroom furniture",
+    "parameters": {
+      "linoleum_color_bathroom": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_gray", 1 ], [ "t_linoleum_white", 1 ] ] } }
+    },
     "terrain": {
-      "B": "t_linoleum_gray",
-      "9": "t_linoleum_gray",
-      "t": "t_linoleum_gray",
-      "S": "t_linoleum_gray",
-      "8": "t_linoleum_gray",
-      "Q": "t_linoleum_gray",
-      "w": "t_linoleum_gray"
+      "t": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "w": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "B": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "Q": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "S": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "8": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "9": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+      "~": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
     }
   },
   {
@@ -529,6 +537,7 @@
       "r": [
         { "item": "office_paper", "chance": 20 },
         { "item": "office", "chance": 66 },
+        { "item": "art_all", "chance": 10 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 4 ] },
         { "item": "dining", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "novels", "chance": 25 }
@@ -538,7 +547,8 @@
         { "item": "table_livingroom", "chance": 10, "repeat": [ 1, 3 ] },
         { "item": "mail", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "novels", "chance": 20, "repeat": [ 1, 2 ] }
+        { "item": "novels", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "art_all", "chance": 10 }
       ],
       "B": { "item": "shower", "chance": 30, "repeat": [ 2, 3 ] },
       "C": { "item": "dishes_dining", "chance": 50, "repeat": [ 2, 3 ] },
@@ -547,6 +557,7 @@
       "I": [
         { "item": "SUS_desks_bedroom_unisex", "chance": 5 },
         { "item": "office", "chance": 25, "repear": [ 1, 2 ] },
+        { "item": "art_all", "chance": 10 },
         { "item": "mail", "chance": 28, "repeat": [ 1, 2 ] },
         { "item": "dining", "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "novels", "chance": 20, "repeat": [ 2, 3 ] }

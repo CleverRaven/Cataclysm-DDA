@@ -1,15 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "name": "megastore parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "extras": "build",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "megastore_0_0_0",
       "megastore_1_0_0",
@@ -36,7 +27,7 @@
     "see_cost": 5,
     "flags": [
       "SIDEWALK",
-      "RISK_HIGH",
+      "RISK_EXTREME",
       "SOURCE_FOOD",
       "SOURCE_DRINK",
       "SOURCE_GUN",
