@@ -196,6 +196,7 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
 {
     constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
     if( !( p_special & non_normal ) ) {
+        // Boring flat dirt - the most common case above the ground
         return 2;
     }
 
