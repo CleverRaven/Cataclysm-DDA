@@ -1473,22 +1473,14 @@ struct fixed_overmap_special_data : overmap_special_data {
                 if( initial_dir != cube_direction::last ) {
                     initial_dir = initial_dir + dir;
                 }
+                // TODO: JSONification of logic + don't treat non roads like roads
+                point_om_omt target;
                 if( cit ) {
-                    om.build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection,
-                                         must_be_unexplored, initial_dir );
+                    target = cit.pos;
+                } else {
+                    target = om.get_fallback_road_connection_point();
                 }
-                // if no city present, search for nearby road within 50 tiles and make
-                // connection to it instead
-                else {
-                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-                        if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
-                            om.build_connection(
-                                nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
-                                must_be_unexplored, initial_dir );
-                            break;
-                        }
-                    }
-                }
+                om.build_connection( target, rp.xy(), elem.p.z, *elem.connection, must_be_unexplored, initial_dir );
             }
         }
 
@@ -2644,24 +2636,19 @@ struct mutable_overmap_special_data : overmap_special_data {
         }
 
         // Deal with connections
+        // TODO: JSONification of logic + don't treat non roads like roads + deduplicate with fixed data
         for( const placed_connection &elem : connections_placed ) {
             const tripoint_om_omt &pos = elem.where.p;
             cube_direction connection_dir = elem.where.dir;
 
+            point_om_omt target;
             if( cit ) {
-                om.build_connection( cit.pos, pos.xy(), pos.z(), *elem.connection,
-                                     must_be_unexplored, connection_dir );
+                target = cit.pos;
+            } else {
+                target = om.get_fallback_road_connection_point();
             }
-            // if no city present, search for nearby road within 50 tiles and make connection to it instead
-            else {
-                for( const tripoint_om_omt &nearby_point : closest_points_first( pos, 50 ) ) {
-                    if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
-                        om.build_connection(
-                            nearby_point.xy(), pos.xy(), pos.z(), *elem.connection,
-                            must_be_unexplored, connection_dir );
-                    }
-                }
-            }
+            om.build_connection( target, pos.xy(), pos.z(), *elem.connection, must_be_unexplored,
+                                 connection_dir );
         }
 
         return { result, unresolved.all_used() };
@@ -3170,6 +3157,16 @@ bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
         }
     }
     return false;
+}
+
+point_om_omt overmap::get_fallback_road_connection_point() const
+{
+    if( fallback_road_connection_point ) {
+        return *fallback_road_connection_point;
+    } else {
+        return point_om_omt( rng( OMAPX / 4, ( 3 * OMAPX ) / 4 ),
+                             rng( OMAPY / 4, ( 3 * OMAPY ) / 4 ) );
+    }
 }
 
 const std::string &overmap::note( const tripoint_om_omt &p ) const
@@ -5241,12 +5238,19 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
     std::vector<point_om_omt> road_points; // cities and roads_out together
     // Compile our master list of roads; it's less messy if roads_out is first
-    road_points.reserve( roads_out.size() + cities.size() );
+    road_points.reserve( roads_out.size() + std::max( 1, static_cast<int>( cities.size() ) ) );
     for( const auto &elem : roads_out ) {
         road_points.emplace_back( elem.xy() );
     }
-    for( const city &elem : cities ) {
-        road_points.emplace_back( elem.pos );
+    if( cities.empty() ) {
+        // If there's no cities in the overmap chose a random central point that special's road connections should path to
+        fallback_road_connection_point = point_om_omt( rng( OMAPX / 4, ( 3 * OMAPX ) / 4 ),
+                                         rng( OMAPY / 4, ( 3 * OMAPY ) / 4 ) );
+        road_points.emplace_back( *fallback_road_connection_point );
+    } else {
+        for( const city &elem : cities ) {
+            road_points.emplace_back( elem.pos );
+        }
     }
 
     // And finally connect them via roads.
