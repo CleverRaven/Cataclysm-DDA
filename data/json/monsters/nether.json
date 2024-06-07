@@ -1428,26 +1428,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "meatslug",
-    "special_attacks": [
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "spell_gene_sting",
-        "cooldown": 10,
-        "move_cost": 100,
-        "range": 8,
-        "damage_max_instance": [ { "damage_type": "biological", "amount": 10 } ],
-        "effects": [ { "id": "bleed", "duration": 60, "chance": 33, "intensity": , "affect_hit_bp": true } ],
-        "dodgeable": true,
-        "blockable": true,
-        "hit_dmg_u": "%1$s slings it's tail forward and your %2$s is impacted by a venomous barb!",
-        "hit_dmg_npc": "%1$s slings it's tail forward and <npcname>'s %2$s is impacted by a venomous barb!",
-        "miss_msg_u": "%1$s slings it's tail forward and you narrowly avoid a venomous barb!",
-        "miss_msg_npc": "%1$s slings it's tail forward and <npcname> narrowly avoids a venomous barb!",
-        "no_dmg_msg_u": "%1$s slings it's tail forward and your %2$s is hit by a venomous barb, but it does no damage.",
-        "no_dmg_msg_npc": "%1$s slings it's tail forward and <npcname>'s %2$s is hit by a venomous barb, but it does no damage."
-      }
-    ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_gene_sting", "min_level": 5 }, "cooldown": 560 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ],
     "armor": { "bash": 6, "electric": 3 }
   },
