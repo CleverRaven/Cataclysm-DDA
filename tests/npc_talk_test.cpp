@@ -52,7 +52,6 @@ static const itype_id itype_manual_speech( "manual_speech" );
 
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 
-static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
 static const proficiency_id proficiency_prof_test( "prof_test" );
@@ -378,7 +377,7 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
-    talker_npc.myclass = NC_NONE;
+    talker_npc.myclass = npc_class_id::NULL_ID();
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.myclass = NC_TEST_CLASS;
@@ -1010,7 +1009,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     gen_response_lines( d, 19 );
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
-    CHECK( talker_npc.myclass == NC_NONE );
+    CHECK( talker_npc.myclass == npc_class_id::NULL_ID() );
 }
 
 TEST_CASE( "npc_change_topic", "[npc_talk]" )
