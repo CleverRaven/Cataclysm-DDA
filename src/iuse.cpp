@@ -8143,11 +8143,11 @@ std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Characte
                 } else {
                     return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
                 }
-                
+
             }
-            
+
         }
-        
+
     }
 
 }
