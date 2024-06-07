@@ -452,7 +452,8 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist, int town_size ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, int town_size,
+                const std::unordered_set<overmap_special_id> &placed_unique_buildings ) const;
 
         // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
         // NOLINTNEXTLINE(cata-serialize)
@@ -467,10 +468,12 @@ class overmap
         void calculate_forestosity();
 
         void place_cities();
-        void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
+        void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
+                             std::unordered_set<overmap_special_id> &placed_unique_buildings );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
-                                om_direction::type dir, const city &town, int block_width = 2 );
+                                om_direction::type dir, const city &town,
+                                std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
         bool build_slimepit( const tripoint_om_omt &origin, int s );

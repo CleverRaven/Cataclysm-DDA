@@ -356,7 +356,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -384,7 +384,7 @@
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -461,7 +461,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "BEE", "UNIQUE", "WILDERNESS" ],
+    "flags": [ "BEE", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_BEE", "population": [ 100, 120 ], "radius": [ 10, 12 ] }
   },
   {
@@ -496,7 +496,7 @@
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -594,7 +594,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -725,7 +725,7 @@
     "city_distance": [ 25, -1 ],
     "occurrences": [ 50, 100 ],
     "//": "Inflated chance, effective rate ~40%",
-    "flags": [ "WILDERNESS", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -759,7 +759,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "WILDERNESS", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -768,7 +768,7 @@
     "locations": [ "forest_center" ],
     "city_distance": [ 10, 80 ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -799,7 +799,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -810,7 +810,7 @@
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
     "rotate": false,
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -820,7 +820,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 2, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -834,7 +834,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 2, 100 ],
-    "flags": [ "ANT", "UNIQUE", "MAN_MADE" ],
+    "flags": [ "ANT", "OVERMAP_UNIQUE", "MAN_MADE" ],
     "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
   },
   {
@@ -885,7 +885,7 @@
     "city_distance": [ 15, -1 ],
     "priority": 1,
     "occurrences": [ 2, 100 ],
-    "flags": [ "UNIQUE", "LAB", "WILDERNESS", "MAN_MADE" ],
+    "flags": [ "OVERMAP_UNIQUE", "LAB", "WILDERNESS", "MAN_MADE" ],
     "rotate": false
   },
   {
@@ -896,7 +896,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 2, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -955,7 +955,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "MILITARY", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "MILITARY", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -964,7 +964,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "MILITARY", "UNIQUE", "WILDERNESS", "MAN_MADE" ]
+    "flags": [ "MILITARY", "OVERMAP_UNIQUE", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -976,7 +976,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "MILITARY", "UNIQUE", "WILDERNESS", "MAN_MADE" ]
+    "flags": [ "MILITARY", "OVERMAP_UNIQUE", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -996,7 +996,7 @@
     "city_distance": [ 30, -1 ],
     "city_sizes": [ -1, 4 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "MILITARY", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "MILITARY", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1102,7 +1102,7 @@
     "city_distance": [ 5, 25 ],
     "occurrences": [ 80, 100 ],
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 80 ], "radius": [ 6, 20 ] },
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1123,7 +1123,7 @@
     "city_distance": [ 5, 25 ],
     "occurrences": [ 80, 100 ],
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 50, 100 ], "radius": [ 6, 20 ] },
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1172,7 +1172,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1308,7 +1308,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1444,7 +1444,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "LAKE", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1493,7 +1493,7 @@
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 2, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -1506,7 +1506,7 @@
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1526,7 +1526,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 90, 100 ],
-    "flags": [ "FUNGAL", "UNIQUE", "WILDERNESS" ],
+    "flags": [ "FUNGAL", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI", "population": [ 600, 1200 ], "radius": [ 30, 50 ] }
   },
@@ -1537,7 +1537,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 90, 100 ],
-    "flags": [ "FUNGAL", "UNIQUE", "WILDERNESS" ],
+    "flags": [ "FUNGAL", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
   },
@@ -1548,7 +1548,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 90, 100 ],
-    "flags": [ "FUNGAL", "UNIQUE", "WILDERNESS" ],
+    "flags": [ "FUNGAL", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_FLOWERS", "population": [ 50, 100 ], "radius": [ 2, 4 ] }
   },
@@ -1931,7 +1931,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 8, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "WILDERNESS", "UNIQUE" ]
+    "flags": [ "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -1962,7 +1962,7 @@
     "city_distance": [ 15, -1 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2505,7 +2505,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2525,7 +2525,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2538,7 +2538,7 @@
     "city_distance": [ 20, 60 ],
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "SAFE_AT_WORLDGEN", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "SAFE_AT_WORLDGEN", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2560,7 +2560,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2722,7 +2722,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "FARM" ]
+    "flags": [ "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "FARM" ]
   },
   {
     "type": "overmap_special",
@@ -2896,7 +2896,7 @@
     "locations": [ "field" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3059,7 +3059,7 @@
     "city_distance": [ 0, 10 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 85, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3108,7 +3108,7 @@
     "locations": [ "land" ],
     "city_distance": [ 15, 50 ],
     "occurrences": [ 60, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3158,7 +3158,7 @@
     "city_distance": [ 0, 10 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 70, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3207,7 +3207,7 @@
     "locations": [ "land" ],
     "city_distance": [ 15, 50 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3255,7 +3255,7 @@
     "locations": [ "land" ],
     "city_distance": [ 20, 60 ],
     "occurrences": [ 15, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3379,7 +3379,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "URBAN", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "URBAN", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3576,7 +3576,7 @@
     "city_distance": [ 20, 60 ],
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 1, 5 ],
-    "flags": [ "UNIQUE", "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3699,7 +3699,7 @@
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
-    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+    "flags": [ "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3782,7 +3782,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "LAB", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "LAB", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3799,7 +3799,7 @@
     "city_distance": [ 1, -1 ],
     "occurrences": [ 2, 2 ],
     "rotate": false,
-    "flags": [ "UNIQUE" ]
+    "flags": [ "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -3845,7 +3845,7 @@
     "city_distance": [ 5, -1 ],
     "connections": [ { "point": [ 2, -2, -1 ], "terrain": "sewer", "connection": "sewer_tunnel", "from": [ 2, -1, -1 ] } ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3895,7 +3895,7 @@
     "locations": [ "field", "forest_without_trail" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3947,7 +3947,7 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 30, 100 ],
     "rotate": false,
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4056,7 +4056,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "LAB", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "LAB", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -4076,7 +4076,7 @@
     "city_distance": [ 10, -1 ],
     "rotate": false,
     "occurrences": [ 10, 100 ],
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4088,7 +4088,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "occurrences": [ 40, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4097,7 +4097,7 @@
     "locations": [ "field" ],
     "city_distance": [ 25, -1 ],
     "occurrences": [ 40, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -4109,7 +4109,7 @@
     "locations": [ "wilderness", "road", "agricultural" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -4186,7 +4186,7 @@
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 40, 100 ],
     "//": "Inflated chance, in effect 15%",
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4349,7 +4349,7 @@
     "city_distance": [ 10, 120 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "LAB", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "LAB", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4387,7 +4387,7 @@
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 70, 100 ],
     "//": "Inflated chance, effective rate ~40%",
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4426,7 +4426,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -5338,7 +5338,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "MI-GO", "UNIQUE", "WILDERNESS" ],
+    "flags": [ "MI-GO", "OVERMAP_UNIQUE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 20, 50 ], "radius": [ 2, 30 ] }
   },
   {
@@ -5383,7 +5383,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "MI-GO", "UNIQUE", "WILDERNESS" ]
+    "flags": [ "MI-GO", "OVERMAP_UNIQUE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -6330,7 +6330,7 @@
     "priority": 1,
     "//": "Inflated chance, effective rate ~19% (n=726)",
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road", "connection": "local_road" } ],
-    "flags": [ "FARM", "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+    "flags": [ "FARM", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
   {
     "id": "airliner_crashed",
@@ -6375,7 +6375,7 @@
     "locations": [ "land" ],
     "city_distance": [ 6, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6449,7 +6449,7 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
     "//": "Inflated chance, effective rate ~55%",
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6470,7 +6470,7 @@
     "city_distance": [ 10, 30 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6495,7 +6495,7 @@
     "city_distance": [ 10, 30 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6545,7 +6545,7 @@
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 50, 100 ],
     "//": "Inflated chance, effective rate ~30%",
-    "flags": [ "CLASSIC", "URBAN", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "URBAN", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6569,7 +6569,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "MILITARY", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "MILITARY", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6856,7 +6856,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6921,7 +6921,7 @@
     "city_distance": [ 1, 40 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -6981,7 +6981,7 @@
     "city_distance": [ 0, 100 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",
@@ -7078,7 +7078,7 @@
     "//": "Low chance to find a matching location, so always try to place it",
     "occurrences": [ 99, 100 ],
     "priority": 1,
-    "flags": [ "LAB", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "LAB", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -7121,7 +7121,7 @@
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 5, 100 ],
     "priority": -1,
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -7381,7 +7381,7 @@
     "city_distance": [ -1, 5 ],
     "city_sizes": [ 5, -1 ],
     "occurrences": [ 20, 100 ],
-    "flags": [ "UNIQUE", "SIDEWALK", "GENERIC_LOOT", "URBAN", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "SIDEWALK", "GENERIC_LOOT", "URBAN", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -7405,7 +7405,7 @@
     ],
     "locations": [ "field" ],
     "city_distance": [ 5, 40 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -7429,7 +7429,7 @@
     ],
     "locations": [ "field" ],
     "city_distance": [ 5, 40 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -7538,7 +7538,7 @@
     "locations": [ "land" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 5, -1 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "MAN_MADE", "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
