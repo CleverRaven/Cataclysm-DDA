@@ -9,7 +9,7 @@ def parse_camp_name(overmap, origin):
 
 def parse_overmap_special(json, origin):
     if "subtype" in json and json["subtype"] == "mutable":
-        for mutable_overmap, overmap in json["overmaps"]:
+        for mutable_overmap, overmap in json["overmaps"].items():
             parse_camp_name(overmap, origin)
     else:
         for overmap in json["overmaps"]:
