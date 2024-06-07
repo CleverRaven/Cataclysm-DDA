@@ -7754,9 +7754,9 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag == true ) {
+    if( h.consume_flag ) {
         if( h.pseudo_flag ) {
-            h.vp->vehicle().discharge_battery( requirements.ammo );
+            h.vp->vehicle().discharge_battery( requirements.ammo * h.heating_effect );
         } else {
             h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
         }
@@ -7775,6 +7775,7 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "heating_effect", h.heating_effect );
     jsout.member( "loc", h.loc );
     jsout.member( "consume_flag", h.consume_flag );
+    jsout.member( "pseudo_flag", h.pseudo_flag );
     jsout.member( "time", requirements.time );
     jsout.member( "ammo", requirements.ammo );
     jsout.end_object();
@@ -7788,6 +7789,7 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     data.read( "heating_effect", actor.h.heating_effect );
     data.read( "loc", actor.h.loc );
     data.read( "consume_flag", actor.h.consume_flag );
+    data.read( "pseudo_flag", actor.h.pseudo_flag );
     data.read( "time", actor.requirements.time );
     data.read( "ammo", actor.requirements.ammo );
     return actor.clone();

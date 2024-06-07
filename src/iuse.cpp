@@ -8106,6 +8106,52 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
     return {volume, ammo, time};
 }
 
+std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
+{
+    const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select a appliance" ),
+                                       _( "There is no appliance nearby" ), ACTION_EXAMINE, false );
+    if( !pt ) {
+        p->add_msg_if_player( m_info, _( "You haven't select any appliance" ) );
+        return std::nullopt;
+    } else {
+        optional_vpart_position vp_ = get_map().veh_at( pt.value() );
+        if( !vp_ ) {
+            p->add_msg_if_player( m_info, _( "It's not an appliance" ) );
+            return std::nullopt;
+        } else {
+            std::map<int, itype_id> pseudo_tools;
+            int n = 0;
+            for( const auto&[tool_item, hk] : vp_.value().get_tools() ) {
+                if( tool_item.has_quality( qual_HOTPLATE, 2 ) ) {
+                    pseudo_tools[n] = tool_item.typeId();
+                    n++;
+                }
+            }
+            if( pseudo_tools.empty() ) {
+                p->add_msg_if_player( m_info, _( "Appliance don't have proper heater" ) );
+                return std::nullopt;
+            } else {
+                uilist app_menu;
+                app_menu.title = _( "Select a built-in heater" );
+                for( const auto &[n, i] : pseudo_tools ) {
+                    app_menu.addentry( n, true, MENU_AUTOASSIGN, i->nname( 1 ) );
+                }
+                app_menu.query();
+                if( app_menu.ret < 0 || app_menu.ret >= pseudo_tools.size() ) {
+                    p->add_msg_if_player( m_info, _( "You haven't select any heater" ) );
+                    return std::nullopt;
+                } else {
+                    return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
+                }
+                
+            }
+            
+        }
+        
+    }
+
+}
+
 heater find_heater( Character *p, item *it )
 {
     bool consume_flag = true;
@@ -8149,14 +8195,30 @@ heater find_heater( Character *p, item *it )
             }
             return false;
         };
-        loc = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
-                                 _( "You don't have proper heating source." ) );
+        loc = g->inv_map_splice( filter, _( "Select a tool to heat (or cancel to select an appliance):" ),
+                                 1,
+                                 _( "You don't have proper heating tool. Try select an appliance with heater." ) );
         if( !loc ) {
-            return {loc, true, -1, 0, vp, pseudo_flag};
+            std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
+            if( !app ) {
+                return {loc, true, -1, 0, vp, pseudo_flag};
+            } else {
+                pseudo_flag = true;
+                vp = get_map().veh_at( app.value().first );
+                available_heater = vp->vehicle().connected_battery_power_level().first;
+                heating_effect = app.value().second->charges_to_use();
+                if( available_heater >= heating_effect ) {
+                    return {loc, consume_flag, available_heater, heating_effect, vp, pseudo_flag};
+                } else {
+                    p->add_msg_if_player( m_info, _( "Appliance don't hacve enough power." ) );
+                    return {loc, true, -1, 0, vp, pseudo_flag};
+                }
+            }
         }
         p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
                               loc->tname() );
     }
+
     heating_effect = loc->type->charges_to_use();
     if( !loc->has_no_links() ) {
         available_heater = loc->link().t_veh->connected_battery_power_level().first;
@@ -8168,6 +8230,7 @@ heater find_heater( Character *p, item *it )
     return {loc, consume_flag, available_heater, heating_effect, vp, pseudo_flag};
 
 }
+
 
 static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
 {
