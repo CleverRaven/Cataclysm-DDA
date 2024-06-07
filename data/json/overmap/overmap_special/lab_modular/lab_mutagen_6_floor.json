@@ -128,16 +128,12 @@
       { "point": [ 1, 1, -6 ], "overmap": "lab_2x2_MUT_tier_2_NE_north" },
       { "point": [ 0, 2, -6 ], "overmap": "lab_2x2_MUT_tier_2_SW_north" },
       { "point": [ 1, 2, -6 ], "overmap": "lab_2x2_MUT_tier_2_SE_north" },
-      { "point": [ -2, -3, 0 ], "locations": [ "land", "road" ] },
       { "point": [ -2, 3, 0 ], "locations": [ "land", "road" ] }
     ],
-    "connections": [
-      { "point": [ -2, -3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, -2, 0 ] },
-      { "point": [ -2, 3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, 2, 0 ] }
-    ],
+    "connections": [ { "point": [ -2, 3, 0 ], "connection": "local_road", "terrain": "road", "from": [ -2, 2, 0 ] } ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "LAB", "MAN_MADE" ]
+    "flags": [ "LAB", "MAN_MADE" ]
   }
 ]
