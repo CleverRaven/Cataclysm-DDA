@@ -3605,8 +3605,8 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                                 mirror_horizontal,
                                 mirror_vertical,
                                 rotation,
-                                "farm_action failed to apply orientation flags to the %s upgrade",
-                                "" ) ) {
+                                "%s failed to apply orientation flags to the %s upgrade",
+                                "farm_action" ) ) {
                             continue;
                         }
                         farm_json->rotate( 4 - rotation );
