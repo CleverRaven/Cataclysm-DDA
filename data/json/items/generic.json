@@ -2402,7 +2402,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "GENERIC",,
     "id": "pinecone_pig",
     "name": { "str": "pinecone amulet" },
     "category": "other",
