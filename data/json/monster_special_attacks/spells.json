@@ -602,6 +602,19 @@
     "extra_effects": [ { "id": "spell_gene_sting_selector" } ]
   },
   {
+    "id": "spell_gene_sting_selector",
+    "type": "SPELL",
+    "name": "Gene Sting Selector",
+    "description": "The spell fires the EOC for the yugg gene sting.  It's a bug if you have it.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sting_selector",
+    "shape": "blast",
+    "max_level": 1
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_sting_selector",
     "condition": "u_is_character",
