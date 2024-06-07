@@ -623,7 +623,7 @@
       { "u_message": "Mutation rips through your body changing you in improbable ways!", "type": "bad" },
       {
         "weighted_list_eocs": [
-          [ { "id": "sting_insect", "effect": { "u_mutate_category": "CHIMERA", "use_vitamins": false } }, 6 ],
+          [ { "id": "sting_chimera", "effect": { "u_mutate_category": "CHIMERA", "use_vitamins": false } }, 6 ],
           [ { "id": "sting_alpha", "effect": { "u_mutate_category": "CHIMERA", "use_vitamins": false } }, 2 ],
           [ { "id": "sting_ursine", "effect": { "u_mutate_category": "INSECT", "use_vitamins": false } }, 1 ],
           [ { "id": "sting_chiropteran", "effect": { "u_mutate_category": "ALPHA", "use_vitamins": false } }, 2 ],
