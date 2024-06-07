@@ -33,9 +33,9 @@
           "t_grass_dead": 1000,
           "t_grass_long": 15000,
           "t_grass_tall": 10000,
-          "t_dirt": 1000,
-          "t_shrub": 1000,
-          "t_underbrush": 1000
+          "t_dirt": 950,
+          "t_shrub": 650,
+          "t_underbrush": 650
         },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
@@ -256,8 +256,7 @@
           "f_dahlia": 100,
           "f_lily": 100,
           "f_sunflower": 100,
-          "f_mustard": 100,
-          "f_mutcactus_test": 100
+          "f_mustard": 100
         },
         "f_region_plain": {
           "f_dandelion": 600,
@@ -276,8 +275,7 @@
           "f_sunflower": 100,
           "f_jerusalem_artichoke": 100,
           "f_lily": 100,
-          "f_chicory": 100,
-          "f_mutcactus_test": 100
+          "f_chicory": 100
         },
         "f_region_forest": {
           "f_burdock": 2000,
