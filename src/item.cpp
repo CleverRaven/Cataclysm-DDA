@@ -14234,6 +14234,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             if( is_comestible() ) {
                 here.rotten_item_spawn( *this, pos );
             }
+            if( is_corpse() ) {
+                here.handle_decayed_corpse( *this, here.getglobal( pos ) );
+            }
             return true;
         }
     } else {
@@ -14618,6 +14621,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
     }
 
     return ret_name;
+}
+
+const mtype *item::get_corpse_mon() const
+{
+    return corpse;
 }
 
 std::string item::get_corpse_name() const
