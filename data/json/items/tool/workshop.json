@@ -1776,7 +1776,7 @@
     "id": "bench_vise",
     "type": "TOOL",
     "name": { "str": "bench vise" },
-    "description": "A heavy, metal tool bolted down to a work surface.  It can tightly hold items in its grip, useful for a wide array of handywork, such as soldering, woodworking, welding, the list goes on.  Also has a small surface, useful for light metalworking if needed.",
+    "description": "A heavy, metal tool bolted down to a work surface.  It can tightly hold items in its grip, useful for a wide array of handiwork, such as soldering, woodworking, welding, the list goes on.  Also has a small surface, useful for light metalworking if needed.",
     "//": "Based on https://www.homedepot.ca/product/wen-3-in-heavy-duty-cast-iron-bench-vise-with-swivel-base/1001661026",
     "weight": "5443 g",
     "volume": "746 ml",
