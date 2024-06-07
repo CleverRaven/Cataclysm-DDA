@@ -2643,7 +2643,7 @@ float Character::get_vision_threshold( float light_level ) const
     } else {
         range = enchantment_cache->modify_value( enchant_vals::mod::NIGHT_VIS, range );
     }
-    
+
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
