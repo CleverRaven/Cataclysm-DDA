@@ -348,3 +348,8 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
+  emscripten:
+    needs: [ varied_builds ]
+    uses: ./.github/workflows/emscripten.yml
+    if: ${{ success() && github.event.pull_request.draft == false }}
+    secrets: inherit
