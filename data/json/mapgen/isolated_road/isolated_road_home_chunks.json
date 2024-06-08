@@ -241,7 +241,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [["isolated_house_farm_roof_blacksmith", "isolated_road_field_1_roof" ]],
+    "om_terrain": [ [ "isolated_house_farm_roof_blacksmith", "isolated_road_field_1_roof" ] ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
