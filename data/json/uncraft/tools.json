@@ -197,6 +197,16 @@
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {
+    "result": "pocket_magnifying_glass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "lens_small", 1 ] ], [ [ "wire", 1 ] ] ]
+  },
+  {
     "result": "survivor_scope",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
