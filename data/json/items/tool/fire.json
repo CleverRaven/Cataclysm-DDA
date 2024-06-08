@@ -128,7 +128,7 @@
     "type": "TOOL",
     "name": { "str": "pocket magnifying glass", "str_pl": "pocket magnifying glasses" },
     "description": "A small magnifying glass, for closely examining fine details.  Easily fits in pockets.  It can also be used for starting fires if direct sunlight is available.",
-    "weight": "60 g",
+    "weight": "65 g",
     "volume": "20 ml",
     "price": "3 USD",
     "price_postapoc": "20 cent",
