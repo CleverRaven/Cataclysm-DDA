@@ -614,7 +614,18 @@
     "shape": "blast",
     "max_level": 1
   },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_random_mutate",
+    "condition": "u_is_character",
+    "effect": [ { "u_mutate": "random_category", "snippet": true, "use_vitamins": false } ]
+  },
+  {
+    "type": "snippet",
+    "id": "random_category",
+    
 
+  }
   {
     "type": "effect_on_condition",
     "id": "EOC_sting_selector",
