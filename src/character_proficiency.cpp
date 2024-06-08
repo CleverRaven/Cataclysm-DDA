@@ -21,9 +21,28 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
+void Character::set_prof_boost()
+{
+    for( const proficiency_category prof_cat : proficiency_category::get_all() ) {
+        float value = enchantment_cache->modify_value( prof_cat.id, 1.0 );
+        if( value > 1.0) {
+            prof_boosts.emplace( prof_cat.id, value );
+        }
+    }
+}
+
+float Character::get_prof_boost( const proficiency_id &prof ) const
+{
+    float prof_boost = prof_boosts.find( prof->prof_category() ) != prof_boosts.end()
+                       ? prof_boosts.at( prof->prof_category() )
+                       : 1.0;
+    return prof_boost;
+}
+
 float Character::get_proficiency_practice( const proficiency_id &prof ) const
 {
-    return _proficiencies->pct_practiced( prof );
+    float boost = this->get_prof_boost( prof );
+    return boost * _proficiencies->pct_practiced( prof );
 }
 
 time_duration Character::get_proficiency_practiced_time( const proficiency_id &prof ) const
@@ -75,12 +94,13 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
     // Proficiencies can ignore focus using the `ignore_focus` JSON property
     const bool ignore_focus = prof->ignore_focus();
     float focus_adjusted = adjust_for_focus( to_seconds<float>( amount ) );
+    float boosted = this->get_prof_boost( prof ) * focus_adjusted;
     const time_duration &focused_amount = ignore_focus ? amount : time_duration::from_seconds(
-            focus_adjusted );
+            boosted );
 
     const float pct_before = _proficiencies->pct_practiced( prof );
     const bool learned = _proficiencies->practice( prof, focused_amount,
-                         ignore_focus ? 0.f : std::fmod( focus_adjusted, 1.f ), max );
+                         ignore_focus ? 0.f : std::fmod( boosted, 1.f ), max );
     const float pct_after = _proficiencies->pct_practiced( prof );
 
     // Drain focus if necessary
@@ -97,7 +117,8 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
 
 time_duration Character::proficiency_training_needed( const proficiency_id &prof ) const
 {
-    return _proficiencies->training_time_needed( prof );
+    float boost = this->get_prof_boost( prof );
+    return _proficiencies->training_time_needed( prof ) / boost;
 }
 
 std::vector<proficiency_id> Character::known_proficiencies() const

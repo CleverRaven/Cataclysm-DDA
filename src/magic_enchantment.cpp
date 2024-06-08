@@ -474,6 +474,21 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
             }
         }
     }
+
+    if( !is_child && jo.has_array( "prof_boost" ) ) {
+        for( const JsonObject value_obj : jo.get_array( "prof_boost" ) ) {
+            const proficiency_category_id value = proficiency_category_id( value_obj.get_string( "value" ) );
+            if( value_obj.has_member( "multiply" ) ) {
+                dbl_or_var mult;
+                if( value_obj.has_float( "multiply" ) ) {
+                    mult.max.dbl_val = mult.min.dbl_val = value_obj.get_float( "multiply" );
+                } else {
+                    mult = get_dbl_or_var( value_obj, "multiply", false );
+                }
+                prof_boost_multiply.emplace( value, mult );
+            }
+        }
+    }
 }
 
 void enchant_cache::load( const JsonObject &jo, const std::string_view,
@@ -511,6 +526,16 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
             }
             if( mult != 0.0 ) {
                 skill_values_multiply.emplace( value, static_cast<int>( mult ) );
+            }
+        }
+    }
+    
+    if( jo.has_array( "prof_boost" ) ) {
+        for( const JsonObject value_obj : jo.get_array( "prof_boost" ) ) {
+            const proficiency_category_id value = proficiency_category_id( value_obj.get_string( "value" ) );
+            const double mult = value_obj.get_float( "multiply", 0.0 );
+            if( mult != 0.0 ) {
+                prof_boost_multiply.emplace( value, static_cast<int>( mult ) );
             }
         }
     }
@@ -595,6 +620,19 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         }
         if( get_skill_value_multiply( skid ) != 0 ) {
             jsout.member( "multiply", get_skill_value_multiply( skid ) );
+        }
+        jsout.end_object();
+    }
+    jsout.end_array();
+
+    jsout.member( "prof_boost" );
+    jsout.start_array();
+    for( const proficiency_category prof_cat : proficiency_category::get_all() ) {
+        proficiency_category_id prof_cat_id;
+        jsout.start_object();
+        jsout.member( "value", prof_cat_id );
+        if( get_prof_boost_multiply( prof_cat_id ) != 0 ) {
+            jsout.member( "multiply", get_prof_boost_multiply( prof_cat_id ) );
         }
         jsout.end_object();
     }
@@ -698,6 +736,13 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
         skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    for( const std::pair<const proficiency_category_id, dbl_or_var> &pair_values :
+         rhs.prof_boost_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        prof_boost_multiply[pair_values.first] += pair_values.second.evaluate( d );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -914,6 +959,15 @@ double enchant_cache::get_skill_value_multiply( const skill_id &value ) const
     return found->second;
 }
 
+double enchant_cache::get_prof_boost_multiply( const proficiency_category_id &value ) const
+{
+    const auto found = prof_boost_multiply.find( value );
+    if( found == prof_boost_multiply.cend() ) {
+        return 0;
+    }
+    return found->second;
+}
+
 double enchant_cache::modify_value( const enchant_vals::mod mod_val, double value ) const
 {
     value += get_value_add( mod_val );
@@ -925,6 +979,12 @@ double enchant_cache::modify_value( const skill_id &mod_val, double value ) cons
 {
     value += get_skill_value_add( mod_val );
     value *= 1.0 + get_skill_value_multiply( mod_val );
+    return value;
+}
+
+double enchant_cache::modify_value( const proficiency_category_id &mod_val, double value ) const
+{
+    value *= 1.0 + get_prof_boost_multiply( mod_val );
     return value;
 }
 
@@ -1088,6 +1148,7 @@ void enchant_cache::clear()
     values_multiply.clear();
     skill_values_add.clear();
     skill_values_multiply.clear();
+    prof_boost_multiply.clear();
     hit_me_effect.clear();
     hit_you_effect.clear();
     ench_effects.clear();

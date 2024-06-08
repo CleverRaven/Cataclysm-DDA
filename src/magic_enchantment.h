@@ -267,6 +267,8 @@ class enchantment
         std::map<skill_id, dbl_or_var> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, dbl_or_var> skill_values_multiply; // NOLINT(cata-serialize)
 
+        std::map<proficiency_category_id, dbl_or_var> prof_boost_multiply; // NOLINT(cata-serialize)
+
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;
 
@@ -284,6 +286,7 @@ class enchant_cache : public enchantment
 
         double modify_value( enchant_vals::mod mod_val, double value ) const;
         double modify_value( const skill_id &mod_val, double value ) const;
+        double modify_value( const proficiency_category_id &mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
@@ -305,6 +308,7 @@ class enchant_cache : public enchantment
         int get_skill_value_add( const skill_id &value ) const;
         double get_skill_value_multiply( const skill_id &value ) const;
         int skill_mult_bonus( const skill_id &value_type, int base_value ) const;
+        double get_prof_boost_multiply( const proficiency_category_id &value ) const;
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
         bool add( const enchantment &rhs, Character &you );
@@ -344,6 +348,7 @@ class enchant_cache : public enchantment
         // the exact same as above, though specifically for skills
         std::map<skill_id, int> skill_values_add; // NOLINT(cata-serialize)
         std::map<skill_id, int> skill_values_multiply; // NOLINT(cata-serialize)
+        std::map<proficiency_category_id, int> prof_boost_multiply; // NOLINT(cata-serialize)
 };
 
 template <typename E> struct enum_traits;

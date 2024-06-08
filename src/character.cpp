@@ -607,6 +607,7 @@ Character::Character() :
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
+    prof_boosts.clear();
     start_location = start_location_sloc_shelter_a;
     moves = 100;
     oxygen = 0;
@@ -3869,6 +3870,7 @@ void Character::reset()
     mod_int_bonus( int_bonus_hardcoded );
     mod_per_bonus( per_bonus_hardcoded );
     reset_stats();
+    set_prof_boost();
 }
 
 bool Character::has_nv()

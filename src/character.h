@@ -641,6 +641,9 @@ class Character : public Creature, public visitable
         float get_arms_stam_mult() const;
         float get_legs_stam_mult() const;
 
+        /** prof boost */
+        std::map<proficiency_category_id, float> prof_boosts;
+
     private:
         /** Modifiers to character speed, with descriptions */
         std::vector<speed_bonus_effect> speed_bonus_effects;
@@ -2465,6 +2468,9 @@ class Character : public Creature, public visitable
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
+        // boost learning speed in certain category
+        void set_prof_boost();
+        float get_prof_boost( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
         time_duration get_proficiency_practiced_time( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;

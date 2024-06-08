@@ -216,5 +216,29 @@
       { "value": "CARRY_WEIGHT", "multiply": 0.4 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
+  },
+  {
+    "id": "PRED2_PROF",
+    "type": "enchantment",
+    "name": { "str": "2" },
+    "description": "2",
+    "condition": "ALWAYS",
+    "prof_boost": [ { "value": "prof_weakpoint", "multiply": 2.0 } ]
+  },
+  {
+    "id": "PRED3_PROF",
+    "type": "enchantment",
+    "name": { "str": "3" },
+    "description": "3",
+    "condition": "ALWAYS",
+    "prof_boost": [ { "value": "prof_weakpoint", "multiply": 3.0 } ]
+  },
+  {
+    "id": "PRED4_PROF",
+    "type": "enchantment",
+    "name": { "str": "4" },
+    "description": "4",
+    "condition": "ALWAYS",
+    "prof_boost": [ { "value": "prof_weakpoint", "multiply": 4.0 } ]
   }
 ]
