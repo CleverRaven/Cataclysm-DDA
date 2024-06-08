@@ -237,14 +237,18 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
     if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
         // Climbing fences
         return climb_cost;
-    } else if( allow_open_doors && ( terrain.open || furniture.open ) &&
-               ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
-                   !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
-                 !is_outside( cur ) ) ) {
+    }
+
+    if( allow_open_doors && ( terrain.open || furniture.open ) &&
+        ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
+            !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
+          !is_outside( cur ) ) ) {
         // Only try to open INSIDE doors from the inside
         // To open and then move onto the tile
         return 4;
-    } else if( veh != nullptr ) {
+    }
+
+    if( veh != nullptr ) {
         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
         part = vpobst ? vpobst->part_index() : -1;
         int dummy = -1;
@@ -282,20 +286,25 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
                 }
             }
         }
-    } else if( rating > 1 ) {
+    }
+
+    if( rating > 1 ) {
         // Expected number of turns to bash it down, 1 turn to move there
         // and 5 turns of penalty not to trash everything just because we can
         return ( 20 / rating ) + 2 + 10;
-    } else if( rating == 1 ) {
+    }
+
+    if( rating == 1 ) {
         // Desperate measures, avoid whenever possible
         return 500;
-    } else {
-        if( allow_open_doors && terrain.open && furniture.open ) {
-            // If we can open doors but couldn't open this one,
-            // maybe we can try from another direction.
-            return PF_IMPASSABLE_FROM_HERE;
-        }
     }
+
+    if( allow_open_doors && terrain.open && furniture.open ) {
+        // If we can open doors but couldn't open this one,
+        // maybe we can try from another direction.
+        return PF_IMPASSABLE_FROM_HERE;
+    }
+
     return PF_IMPASSABLE;
 }
 
