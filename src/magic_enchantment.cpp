@@ -529,7 +529,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
             }
         }
     }
-    
+
     if( jo.has_array( "prof_boost" ) ) {
         for( const JsonObject value_obj : jo.get_array( "prof_boost" ) ) {
             const proficiency_category_id value = proficiency_category_id( value_obj.get_string( "value" ) );
