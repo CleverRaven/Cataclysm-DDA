@@ -627,7 +627,7 @@ void enchant_cache::serialize( JsonOut &jsout ) const
 
     jsout.member( "prof_boost" );
     jsout.start_array();
-    for( const proficiency_category prof_cat : proficiency_category::get_all() ) {
+    for( const proficiency_category &prof_cat : proficiency_category::get_all() ) {
         proficiency_category_id prof_cat_id;
         jsout.start_object();
         jsout.member( "value", prof_cat_id );
