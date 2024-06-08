@@ -1152,7 +1152,7 @@ static void on_customize_character( Character &you )
     }
 }
 
-static void change_armor_sprite( avatar &you )
+static void change_armor_sprite( Character &you )
 {
     item_location target_loc;
     target_loc = game_menus::inv::change_sprite( you );
@@ -1168,17 +1168,14 @@ static void change_armor_sprite( avatar &you )
         menu.query();
         if( menu.ret == 0 ) {
             item_location sprite_loc;
-            avatar *you = get_player_character().as_avatar();
             auto armor_filter = [&]( const item & i ) {
                 return i.is_armor();
             };
-            if( you != nullptr ) {
-                sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
-                             *you,
-                             _( "Select appearance of this armor:" ),
-                             -1,
-                             _( "You have nothing to wear." ) );
-            }
+            sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
+                         you,
+                         _( "Select appearance of this armor:" ),
+                         -1,
+                         _( "You have nothing to wear." ) );
             if( sprite_loc && sprite_loc.get_item() ) {
                 const item *sprite_item = sprite_loc.get_item();
                 const std::string variant = sprite_item->has_itype_variant() ? sprite_item->itype_variant().id : "";
@@ -1494,9 +1491,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         info_line = 0;
         ui_info.invalidate_ui();
     } else if( action == "CHANGE_ARMOR_SPRITE" ) {
-        if( you.as_avatar() ) {
-            change_armor_sprite( *you.as_avatar() );
-        }
+        change_armor_sprite( you );
     }
     return done;
 }
