@@ -58,9 +58,9 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
-static const activity_id ACT_HEATING( "ACT_HEATING" );
 
 static const ammotype ammo_battery( "battery" );
 
