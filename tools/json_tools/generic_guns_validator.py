@@ -57,6 +57,7 @@ ID_WHITELIST = {
     'bigun',
     'raging_judge',
     'american_180',
+    'ppsh',
     # Magazines
     'a180mag',
     'a180mag1',
