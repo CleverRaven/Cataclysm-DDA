@@ -81,6 +81,23 @@ void follower_rules_ui::draw_follower_rules_ui( npc *guy )
     }
 }
 
+template<typename T>
+void follower_rules_ui_impl::multi_rule_header( std::string id, T &rule,
+        std::map<T, std::string> rule_map, bool should_advance )
+{
+    if( ImGui::InvisibleButton( id.c_str(), ImVec2() ) || should_advance ) {
+        if( rule_map.upper_bound( rule ) == rule_map.end() ) {
+            // Then we have the *last* entry the map, so wrap to the first element
+            rule = rule_map.begin()->first;
+        } else {
+            // Assign the next possible value contained in the map.
+            rule = rule_map.upper_bound( rule )->first;
+        }
+        int offset = distance( rule_map.begin(), rule_map.find( rule ) );
+        ImGui::SetKeyboardFocusHere( offset );
+    }
+}
+
 void follower_rules_ui_impl::set_npc_pointer_to( npc *new_guy )
 {
     guy = new_guy;
@@ -154,7 +171,7 @@ void follower_rules_ui_impl::draw_controls()
         if( rule_enabled ) {
             ImGui::PushStyleColor( ImGuiCol_Button, c_green );
         }
-        if( ImGui::Button( _( "Change" ) ) || pressed_key == assigned_hotkey ) {
+        if( ImGui::Button( _( "Toggle" ) ) || pressed_key == assigned_hotkey ) {
             ImGui::SetKeyboardFocusHere( -1 );
             guy->rules.toggle_flag( this_rule.rule );
             guy->rules.toggle_specific_override_state( this_rule.rule, !rule_enabled );
@@ -175,21 +192,8 @@ void follower_rules_ui_impl::draw_controls()
     ImGui::NewLine();
     assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
     print_hotkey( assigned_hotkey );
-    if( ImGui::InvisibleButton( "ENGAGEMENT_RULES", ImVec2() ) || pressed_key == assigned_hotkey ) {
-        combat_engagement &rule = guy->rules.engagement;
-        auto &this_map = engagement_rules;
-        // Wrapping the map. Means we can press the hotkey repeatedly to cycle through all of
-        // the available settings for this rule.
-        if( this_map.upper_bound( rule ) == this_map.end() ) {
-            // Then we have the *last* entry the map, so wrap to the first element
-            rule = this_map.begin()->first;
-        } else {
-            // Assign the next possible value contained in the map.
-            rule = this_map.upper_bound( rule )->first;
-        }
-        int offset = distance( this_map.begin(), this_map.find( rule ) );
-        ImGui::SetKeyboardFocusHere( offset );
-    }
+    multi_rule_header( "ENGAGEMENT_RULES", guy->rules.engagement, engagement_rules,
+                       pressed_key == assigned_hotkey );
     int engagement_rule_number = 0;
     for( const std::pair<const combat_engagement, std::string> &engagement_rule : engagement_rules ) {
         ImGui::PushID( rule_number );
@@ -218,18 +222,7 @@ void follower_rules_ui_impl::draw_controls()
     ImGui::NewLine();
     assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
     print_hotkey( assigned_hotkey );
-    // This button implementation is a boilerplate copy of the engagement rules one. Look there for comments
-    if( ImGui::InvisibleButton( "AIMING_RULES", ImVec2() ) || pressed_key == assigned_hotkey ) {
-        aim_rule &rule = guy->rules.aim;
-        auto &this_map = aim_rule_map;
-        if( this_map.upper_bound( rule ) == this_map.end() ) {
-            rule = this_map.begin()->first;
-        } else {
-            rule = this_map.upper_bound( rule )->first;
-        }
-        int offset = distance( this_map.begin(), this_map.find( rule ) );
-        ImGui::SetKeyboardFocusHere( offset );
-    }
+    multi_rule_header( "AIMING_RULES", guy->rules.aim, aim_rule_map, pressed_key == assigned_hotkey );
     int aim_rule_number = 0;
     for( const std::pair<const aim_rule, std::string> &aiming_rule : aim_rule_map ) {
         ImGui::PushID( rule_number );
@@ -261,18 +254,8 @@ void follower_rules_ui_impl::draw_controls()
         ImGui::NewLine();
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
         print_hotkey( assigned_hotkey );
-        // This button implementation is a boilerplate copy of the engagement rules one. Look there for comments
-        if( ImGui::InvisibleButton( "RECHARGE_RULES", ImVec2() ) || pressed_key == assigned_hotkey ) {
-            cbm_recharge_rule &rule = guy->rules.cbm_recharge;
-            auto &this_map = recharge_map;
-            if( this_map.upper_bound( rule ) == this_map.end() ) {
-                rule = this_map.begin()->first;
-            } else {
-                rule = this_map.upper_bound( rule )->first;
-            }
-            int offset = distance( this_map.begin(), this_map.find( rule ) );
-            ImGui::SetKeyboardFocusHere( offset );
-        }
+        multi_rule_header( "RECHARGE_RULES", guy->rules.cbm_recharge, recharge_map,
+                           pressed_key == assigned_hotkey );
         for( const std::pair<const cbm_recharge_rule, std::string> &recharge_rule : recharge_map ) {
             ImGui::PushID( rule_number );
             rule_number++;
@@ -298,18 +281,8 @@ void follower_rules_ui_impl::draw_controls()
         ImGui::NewLine();
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
         print_hotkey( assigned_hotkey );
-        // This button implementation is a boilerplate copy of the engagement rules one. Look there for comments
-        if( ImGui::InvisibleButton( "RESERVE_RULES", ImVec2() ) || pressed_key == assigned_hotkey ) {
-            cbm_reserve_rule &rule = guy->rules.cbm_reserve;
-            auto &this_map = reserve_map;
-            if( this_map.upper_bound( rule ) == this_map.end() ) {
-                rule = this_map.begin()->first;
-            } else {
-                rule = this_map.upper_bound( rule )->first;
-            }
-            int offset = distance( this_map.begin(), this_map.find( rule ) );
-            ImGui::SetKeyboardFocusHere( offset );
-        }
+        multi_rule_header( "RESERVE_RULES", guy->rules.cbm_reserve, reserve_map,
+                           pressed_key == assigned_hotkey );
         for( const std::pair<const cbm_reserve_rule, std::string> &reserve_rule : reserve_map ) {
             ImGui::PushID( rule_number );
             rule_number++;
