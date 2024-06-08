@@ -1375,9 +1375,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                         }
                         break;
                     case 1:
-                        if( you.is_avatar() ) {
-                            you.as_avatar()->disp_morale();
-                        }
+                        you.disp_morale();
                         break;
                     case 2:
                         ctxt.display_menu();
@@ -1431,9 +1429,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         show_proficiencies_window( you );
 
     } else if( action == "morale" ) {
-        if( you.is_avatar() ) {
-            you.as_avatar()->disp_morale( );
-        }
+        you.disp_morale( );
     } else if( action == "VIEW_BODYSTAT" ) {
         display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
