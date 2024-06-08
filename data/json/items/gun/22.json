@@ -218,7 +218,7 @@
       {
         "id": "ruger_1022_auto",
         "name": { "str": "full-auto Ruger 10/22 rifle" },
-        "description": "A Ruger 10/22 modified post-cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
+        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
       }
     ],
     "price_postapoc": "10 USD",
@@ -581,7 +581,7 @@
       {
         "id": "ruger_charger_auto",
         "name": { "str": "full-auto Ruger 22 Charger" },
-        "description": "A Ruger 22 Charger modified post-cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
+        "description": "A Ruger 22 Charger modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
       }
     ],
     "price_postapoc": "10 USD",
