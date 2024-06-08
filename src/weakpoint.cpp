@@ -22,6 +22,11 @@
 #include "rng.h"
 #include "translations.h"
 
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 
@@ -102,9 +107,25 @@ float Character::throw_weakpoint_skill() const
 
 float weakpoint_family::modifier( const Character &attacker ) const
 {
+    float prof_bonus = bonus.value_or( proficiency.obj().default_weakpoint_bonus() );
+    float prof_penalty = penalty.value_or( proficiency.obj().default_weakpoint_penalty() );
+
+    if( attacker.has_flag( json_flag_PRED4 ) ) {
+        prof_bonus += 3;
+        prof_penalty = std::max( 0.0f, prof_penalty );
+    } else if( attacker.has_flag( json_flag_PRED3 ) ) {
+        prof_bonus += 2;
+        prof_penalty = prof_penalty < - 1 ? prof_penalty + 2 : std::max( 0.0f, prof_penalty );
+    } else if( attacker.has_flag( json_flag_PRED2 ) ) {
+        prof_bonus += 1;
+        prof_penalty = prof_penalty < 0 ? prof_penalty + 1: prof_penalty;
+    } else if( attacker.has_flag( json_flag_PRED1 ) ) {
+        prof_penalty = prof_penalty < 0 ? prof_penalty + 1 : prof_penalty;
+    }
+
     return attacker.has_proficiency( proficiency )
-           ? bonus.value_or( proficiency.obj().default_weakpoint_bonus() )
-           : penalty.value_or( proficiency.obj().default_weakpoint_penalty() );
+           ? prof_bonus
+           : prof_penalty;
 }
 
 void weakpoint_family::load( const JsonValue &jsin )
