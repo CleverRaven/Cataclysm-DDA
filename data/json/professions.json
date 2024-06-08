@@ -183,6 +183,42 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "rolling_cigs",
+    "entries": [
+      { "item": "tobacco", "count": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
+      { "item": "rolling_paper", "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "pipe_smoke",
+    "entries": [
+      { "item": "tobacco", "count": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
+      { "item": "pipe_tobacco" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "weed_pack",
+    "entries": [ { "item": "weed", "count": 5, "container-item": "null", "entry-wrapper": "bag_plastic" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "charged_aspirin",
+    "entries": [ { "item": "aspirin", "count": 20, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_painkiller" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "charged_antibiotic",
+    "entries": [ { "item": "antibiotics", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_matches",
     "entries": [ { "item": "matches", "charges": 20 } ]
   },
@@ -956,9 +992,8 @@
           { "item": "pants_cargo" },
           { "item": "socks" },
           { "item": "sneakers" },
-          { "item": "weed" },
-          { "item": "tobacco" },
-          { "item": "rolling_paper" },
+          { "group": "weed_pack" },
+          { "group": "rolling_cigs" },
           { "item": "switchblade" },
           { "item": "wristwatch" },
           { "item": "picklocks" },
@@ -1879,7 +1914,7 @@
         "entries": [
           { "item": "panties" },
           { "item": "bra" },
-          { "item": "stockings" },
+          { "item": "stockings", "variant": "stockings_black" },
           { "item": "garter_belt" },
           { "item": "dress_shoes" },
           { "item": "maid_dress" },
@@ -1978,7 +2013,7 @@
           { "item": "water_clean" },
           { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
-          { "item": "aspirin" },
+          { "group": "charged_aspirin" },
           { "item": "stethoscope" },
           { "item": "pants", "variant": "pants_blue" },
           { "group": "charged_smart_phone" },
@@ -2014,7 +2049,7 @@
           { "item": "socks" },
           { "item": "dress_shoes" },
           { "item": "knit_scarf" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
           { "item": "switchblade" },
           { "item": "mag_porn" },
           { "item": "sunglasses" },
@@ -2122,7 +2157,7 @@
           { "item": "water_clean" },
           { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
-          { "item": "aspirin" },
+          { "group": "charged_aspirin" },
           { "item": "stethoscope" },
           { "item": "pudding" },
           { "item": "pants", "variant": "pants_white" },
@@ -2463,7 +2498,7 @@
           { "item": "wristwatch" },
           { "item": "socks" },
           { "item": "dress_shoes" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
@@ -3279,7 +3314,7 @@
           { "item": "socks" },
           { "item": "sweatshirt" },
           { "item": "boots" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
           { "item": "elbow_pads" },
           { "item": "slingpack" },
           { "item": "kevlar" },
@@ -3691,8 +3726,7 @@
           { "item": "knit_scarf" },
           { "item": "beartrap" },
           { "item": "wristwatch" },
-          { "item": "tobacco" },
-          { "item": "rolling_paper" },
+          { "group": "rolling_cigs" },
           { "item": "backpack" },
           { "group": "charged_smart_phone" },
           { "group": "charged_matches" },
@@ -3811,8 +3845,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tobacco" },
-          { "item": "pipe_tobacco" },
+          { "group": "pipe_smoke" },
           { "item": "socks" },
           { "item": "dress_shoes" },
           { "item": "knit_scarf" },
@@ -3891,7 +3924,7 @@
         "entries": [
           { "item": "veil_wedding" },
           { "item": "dress_wedding" },
-          { "item": "stockings" },
+          { "item": "stockings", "variant": "stockings_white" },
           { "item": "garter_belt" },
           { "item": "dress_shoes" },
           { "item": "bra" },
@@ -3918,9 +3951,8 @@
           { "item": "gloves_fingerless" },
           { "item": "socks" },
           { "item": "boots_combat" },
-          { "item": "weed" },
-          { "item": "tobacco" },
-          { "item": "rolling_paper" },
+          { "group": "weed_pack" },
+          { "group": "rolling_cigs" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "charged_mp3" },
@@ -3930,7 +3962,7 @@
         ]
       },
       "male": { "entries": [ { "item": "pants_cargo" }, { "item": "tank_top" }, { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "skirt" }, { "item": "corset" }, { "item": "boxer_shorts" }, { "item": "stockings" } ] }
+      "female": { "entries": [ { "item": "skirt" }, { "item": "corset" }, { "item": "boxer_shorts" }, { "item": "stockings", "variant": "stockings_black" } ] }
     }
   },
   {
@@ -3982,8 +4014,7 @@
           { "item": "pants" },
           { "item": "socks" },
           { "item": "dress_shoes" },
-          { "item": "rolling_paper" },
-          { "item": "tobacco" },
+          { "group": "rolling_cigs" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "charged_mp3" },
@@ -4968,10 +4999,9 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "stockings" },
+          { "item": "stockings", "variant": "stockings_white" },
           { "item": "pockknife" },
-          { "item": "pipe_tobacco" },
-          { "item": "tobacco" },
+          { "group": "pipe_smoke" },
           { "item": "backpack" },
           { "item": "knee_high_boots" },
           { "item": "breeches" },
@@ -5018,10 +5048,9 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "stockings" },
+          { "item": "stockings", "variant": "stockings_white" },
           { "item": "pockknife" },
-          { "item": "pipe_tobacco" },
-          { "item": "tobacco" },
+          { "group": "pipe_smoke" },
           { "item": "backpack" },
           { "item": "dress" },
           { "item": "apron_leather" },
@@ -5031,8 +5060,8 @@
           { "item": "hat_fur" },
           { "item": "purse" },
           { "item": "pot" },
-          { "item": "cornmeal" },
-          { "item": "salt" },
+          { "item": "cornmeal", "count": 4, "container-item": "null", "entry-wrapper": "box_small" },
+          { "item": "salt", "count": 100, "container-item": "null", "entry-wrapper": "bag_plastic" },
           { "item": "needle_wood", "ammo-item": "thread", "charges": 200 },
           { "item": "oil_lamp", "charges": 750 },
           { "group": "charged_smart_phone" },
@@ -5627,7 +5656,7 @@
           { "item": "pockknife" },
           { "item": "cattlefodder" },
           { "item": "cattlefodder" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
           { "item": "rope_30" },
           { "group": "charged_smart_phone" }
         ]
@@ -5784,7 +5813,7 @@
           { "item": "fancy_sunglasses" },
           { "item": "water_mineral" },
           { "item": "money_strap_twenty" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
           { "item": "mag_porn" },
           { "group": "charged_ref_lighter" },
           { "group": "charged_smart_phone" }
@@ -6285,7 +6314,7 @@
           { "item": "multitool" },
           { "item": "wristwatch" },
           { "item": "boots" },
-          { "item": "aspirin", "count": 5 },
+          { "group": "charged_aspirin" },
           { "item": "adrenaline_injector" },
           { "item": "adhesive_bandages", "count": 8 },
           { "group": "charged_smart_phone" },
@@ -6387,8 +6416,8 @@
           { "item": "scalpel" },
           { "item": "syringe" },
           { "item": "morphine" },
-          { "item": "aspirin" },
-          { "item": "antibiotics" },
+          { "group": "charged_aspirin" },
+          { "group": "charged_antibiotic" },
           { "item": "disinfectant" },
           { "item": "pepto" },
           { "item": "molle_pack" },
@@ -7034,7 +7063,7 @@
         "entries": [
           { "item": "panties" },
           { "item": "bra" },
-          { "item": "stockings" },
+          { "item": "stockings", "variant": "stockings_black" },
           { "item": "garter_belt" },
           { "item": "heels" },
           { "item": "hat_cotton" },
@@ -7095,7 +7124,7 @@
         "entries": [
           { "item": "panties" },
           { "item": "bra" },
-          { "item": "stockings" },
+          { "item": "stockings", "variant": "stockings_black" },
           { "item": "garter_belt" },
           { "item": "heels" },
           { "item": "hat_cotton" },
@@ -7133,8 +7162,7 @@
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "officer_uniform" },
-          { "item": "pipe_tobacco" },
-          { "item": "tobacco" },
+          { "group": "pipe_smoke" },
           { "item": "beret" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
