@@ -3858,6 +3858,9 @@ void Character::reset_stats()
     if( int_cur < 0 ) {
         int_cur = 0;
     }
+
+    prof_boosts.clear();
+    set_prof_boost();
 }
 
 void Character::reset()
@@ -3870,7 +3873,6 @@ void Character::reset()
     mod_int_bonus( int_bonus_hardcoded );
     mod_per_bonus( per_bonus_hardcoded );
     reset_stats();
-    set_prof_boost();
 }
 
 bool Character::has_nv()
