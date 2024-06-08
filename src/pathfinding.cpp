@@ -189,8 +189,8 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
     return ret;
 }
 
-constexpr int PF_IMPASSABLE = -1;
-constexpr int PF_IMPASSABLE_FROM_HERE = -2;
+static constexpr int PF_IMPASSABLE = -1;
+static constexpr int PF_IMPASSABLE_FROM_HERE = -2;
 int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
                        pf_special p_special ) const
 {
