@@ -187,6 +187,7 @@
       { "item": "charcoal", "prob": 20 },
       { "item": "knitting_needles", "prob": 10 },
       { "item": "magnifying_glass", "prob": 5 },
+      { "item": "pocket_magnifying_glass", "prob": 3 },
       { "item": "thermometer", "prob": 3 },
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
