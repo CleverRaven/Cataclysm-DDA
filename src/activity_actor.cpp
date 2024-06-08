@@ -7693,7 +7693,9 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
     // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
         h.vpt = get_map().getglobal( act.coords[0] );
-        std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
+    }
+    std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
+    if( h.pseudo_flag ) {
         if( !vp ) {
             p.add_msg_if_player( _( "You can't find the appliance any more." ) );
             act.set_to_null();
@@ -7705,8 +7707,7 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
             act.set_to_null();
             return;
         }
-    }
-    if( !h.pseudo_flag ) {
+    } else {
         if( !h.loc ) {
             p.add_msg_if_player( _( "You can't find the heater any more." ) );
             act.set_to_null();
