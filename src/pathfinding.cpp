@@ -221,33 +221,15 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
     const vehicle *veh = veh_at_internal( p, part );
 
     const int cost = move_cost_internal( furniture, terrain, field, veh, part );
-    // Don't calculate bash rating unless we intend to actually use it
-    const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                       bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-    if( cost == 0 && rating <= 0 && ( !allow_open_doors || !terrain.open || !furniture.open ) &&
-        veh == nullptr && climb_cost <= 0 ) {
-        return PF_IMPASSABLE;
-    }
-
+    // If we can just walk into the tile, great. That's the cost.
     if( cost != 0 ) {
         return cost;
     }
 
-    if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
-        // Climbing fences
-        return climb_cost;
-    }
+    // Otherwise we'll consider climbing, bashing, and opening doors.
 
-    if( allow_open_doors && ( terrain.open || furniture.open ) &&
-        ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
-            !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
-          !is_outside( cur ) ) ) {
-        // Only try to open INSIDE doors from the inside
-        // To open and then move onto the tile
-        return 4;
-    }
-
+    // If there's a vehicle here, we need to consider it first.
     if( veh != nullptr ) {
         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
         part = vpobst ? vpobst->part_index() : -1;
@@ -288,20 +270,39 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
         }
     }
 
-    if( rating > 1 ) {
-        // Expected number of turns to bash it down, 1 turn to move there
-        // and 5 turns of penalty not to trash everything just because we can
-        return ( 20 / rating ) + 2 + 10;
+    // If we can climb it, great!
+    if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
+        return climb_cost;
     }
 
-    if( rating == 1 ) {
-        // Desperate measures, avoid whenever possible
-        return 500;
+    // If it's a door and we can open it from the tile we're on, cool.
+    if( allow_open_doors && ( terrain.open || furniture.open ) &&
+        ( ( !terrain.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) &&
+            !furniture.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE ) ) ||
+          !is_outside( cur ) ) ) {
+        // Only try to open INSIDE doors from the inside
+        // To open and then move onto the tile
+        return 4;
     }
 
+    // Otheriwse, if we can bash, we'll consider that.
+    if( bash > 0 ) {
+        const int rating = bash_rating_internal( bash, furniture, terrain, false, veh, part );
+
+        if( rating > 1 ) {
+            // Expected number of turns to bash it down, 1 turn to move there
+            // and 5 turns of penalty not to trash everything just because we can
+            return ( 20 / rating ) + 2 + 10;
+        }
+
+        if( rating == 1 ) {
+            // Desperate measures, avoid whenever possible
+            return 500;
+        }
+    }
+
+    // If we can open doors but couldn't open this one, maybe we can try from another direction.
     if( allow_open_doors && terrain.open && furniture.open ) {
-        // If we can open doors but couldn't open this one,
-        // maybe we can try from another direction.
         return PF_IMPASSABLE_FROM_HERE;
     }
 
