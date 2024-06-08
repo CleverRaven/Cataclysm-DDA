@@ -12,7 +12,6 @@
 #include "item_location.h"
 #include "type_id.h"
 #include "units_fwd.h"
-#include "vpart_position.h"
 
 class Character;
 class JsonObject;
@@ -261,7 +260,7 @@ struct heater {
     bool consume_flag;
     int available_heater;
     int heating_effect;
-    std::optional<vpart_position> vp;
+    tripoint_abs_ms vpt;
     bool pseudo_flag;
 };
 heater find_heater( Character *, item * );

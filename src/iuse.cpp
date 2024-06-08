@@ -8159,13 +8159,13 @@ heater find_heater( Character *p, item *it )
     int available_heater = 1;
     int heating_effect = 0;
     item_location loc = item_location( *p, it );
-    optional_vpart_position vp = get_map().veh_at( loc.position() );
+    tripoint_abs_ms vpt;
     if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
         pseudo_flag = true;
     }
     if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
-        return {loc, false, 1, 0, vp, pseudo_flag};
+        return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
         if( it->ammo_remaining() >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
@@ -8176,7 +8176,7 @@ heater find_heater( Character *p, item *it )
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else {
             p->add_msg_if_player( m_info, _( "The %s has been used up." ), it->tname() );
-            return {loc, true, -1, 0, vp, pseudo_flag};
+            return {loc, true, -1, 0, vpt, pseudo_flag};
         }
     } else if( !it->has_quality( qual_HOTPLATE ) ) {
         auto filter = [p]( const item & e ) {
@@ -8201,17 +8201,18 @@ heater find_heater( Character *p, item *it )
         if( !loc ) {
             std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
             if( !app ) {
-                return {loc, true, -1, 0, vp, pseudo_flag};
+                return {loc, true, -1, 0, vpt, pseudo_flag};
             } else {
                 pseudo_flag = true;
-                vp = get_map().veh_at( app.value().first );
+                optional_vpart_position vp = get_map().veh_at( app.value().first );
                 available_heater = vp->vehicle().connected_battery_power_level().first;
                 heating_effect = app.value().second->charges_to_use();
+                vpt = get_map().getglobal( app.value().first );
                 if( available_heater >= heating_effect ) {
-                    return {loc, consume_flag, available_heater, heating_effect, vp, pseudo_flag};
+                    return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
                     p->add_msg_if_player( m_info, _( "Appliance don't have enough power." ) );
-                    return {loc, true, -1, 0, vp, pseudo_flag};
+                    return {loc, true, -1, 0, vpt, pseudo_flag};
                 }
             }
         }
@@ -8227,7 +8228,7 @@ heater find_heater( Character *p, item *it )
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p->available_ups() );
     }
-    return {loc, consume_flag, available_heater, heating_effect, vp, pseudo_flag};
+    return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
 
 }
 

@@ -7690,21 +7690,23 @@ void heat_activity_actor::start( player_activity &act, Character & )
 
 void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
+    // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
-        h.vp = get_map().veh_at( act.coords[0] );
-    }
-    if( h.pseudo_flag ) {
-        if( !h.vp ) {
+        h.vpt = get_map().getglobal( act.coords[0] );
+        std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
+        if( !vp ) {
             p.add_msg_if_player( _( "You can't find the appliance any more." ) );
             act.set_to_null();
             return;
         }
-        if( h.vp->vehicle().connected_battery_power_level().first < requirements.ammo * h.heating_effect ) {
+        if( vp.value().vehicle().connected_battery_power_level().first < requirements.ammo *
+            h.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
             return;
         }
-    } else {
+    }
+    if( !h.pseudo_flag ) {
         if( !h.loc ) {
             p.add_msg_if_player( _( "You can't find the heater any more." ) );
             act.set_to_null();
@@ -7756,7 +7758,8 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
     }
     if( h.consume_flag ) {
         if( h.pseudo_flag ) {
-            h.vp->vehicle().discharge_battery( requirements.ammo * h.heating_effect );
+            get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
+                    h.heating_effect );
         } else {
             h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
         }
@@ -7778,6 +7781,7 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "pseudo_flag", h.pseudo_flag );
     jsout.member( "time", requirements.time );
     jsout.member( "ammo", requirements.ammo );
+    jsout.member( "vpt", h.vpt );
     jsout.end_object();
 }
 
@@ -7792,6 +7796,7 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     data.read( "pseudo_flag", actor.h.pseudo_flag );
     data.read( "time", actor.requirements.time );
     data.read( "ammo", actor.requirements.ammo );
+    data.read( "vpt", actor.h.vpt );
     return actor.clone();
 }
 
