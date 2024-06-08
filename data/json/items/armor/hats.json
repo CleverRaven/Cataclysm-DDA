@@ -826,7 +826,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "summer hard hat" },
-    "description": "A hard plastic hat worn at construction and industrial sites, with a cloth tucked under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+    "description": "A hard plastic hat worn at construction and industrial sites, with a sun shield tucked on top to keep the glare out of your eyes.  Protects your eyes from the harsh sun, although it makes ear muffs unattachable to the hard hat itself.",
     "weight": "470 g",
     "volume": "2750 ml",
     "longest_side": "28 cm",
@@ -841,7 +841,15 @@
     "techniques": [ "WBLOCK_1" ],
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "PADDED", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
