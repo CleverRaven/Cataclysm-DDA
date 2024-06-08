@@ -23,7 +23,7 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
 
 void Character::set_prof_boost()
 {
-    for( const proficiency_category prof_cat : proficiency_category::get_all() ) {
+    for( const proficiency_category &prof_cat : proficiency_category::get_all() ) {
         float value = enchantment_cache->modify_value( prof_cat.id, 1.0 );
         if( value > 1.0 ) {
             prof_boosts.emplace( prof_cat.id, value );
