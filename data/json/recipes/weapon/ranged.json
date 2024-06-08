@@ -995,44 +995,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "bigun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "traps", 2 ], [ "mechanics", 5 ], [ "gun", 2 ] ],
-    "difficulty": 7,
-    "time": "12 h",
-    "book_learn": [ [ "manual_shotgun", 2 ] ],
-    "//": "160cm weld",
-    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 160 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic" },
-      { "proficiency": "prof_gunsmithing_basic" },
-      { "proficiency": "prof_gunsmithing_improv" }
-    ],
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "xlframe", 1 ] ],
-      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
-      [ [ "sheet_metal_small", 12 ] ],
-      [ [ "pipe", 6 ] ],
-      [ [ "chain", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "spring", 7 ] ],
-      [ [ "scrap", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "ashot",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

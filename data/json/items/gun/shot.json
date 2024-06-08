@@ -37,31 +37,6 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "id": "bigun",
-    "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "12-gauge gatling gun" },
-    "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
-    "weight": "4980 g",
-    "volume": "4500 ml",
-    "longest_side": "110 cm",
-    "barrel_length": "762 mm",
-    "price": "1 kUSD 800 USD",
-    "price_postapoc": "17 USD 50 cent",
-    "to_hit": -2,
-    "material": [ "steel" ],
-    "dispersion": 855,
-    "durability": 8,
-    "modes": [ [ "DEFAULT", "burst", 6 ] ],
-    "energy_drain": "1 kJ",
-    "reload": 200,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "flags": [ "MOUNTED_GUN", "USE_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
     "id": "ksg",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
@@ -102,50 +77,6 @@
       [ "underbarrel", 2 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "ksg-25",
-    "copy-from": "shotgun_pump",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "extended bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 24 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's still only as long as conventional shotguns despite having a comparatively far higher capacity.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ksg-25",
-        "name": { "str": "Kel-Tec KSG-25 shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes."
-      }
-    ],
-    "ascii_picture": "ksg-25",
-    "weight": "2100 g",
-    "volume": "4495 ml",
-    "longest_side": "971 mm",
-    "barrel_length": "775 mm",
-    "price": "1 kUSD 400 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 425,
-    "sight_dispersion": 500,
-    "durability": 7,
-    "clip_size": 12,
-    "built_in_mods": [ "ksg25_aux_shotgun" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "underbarrel", 2 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
     "melee_damage": { "bash": 9 }
   },
   {

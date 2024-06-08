@@ -1,58 +1,5 @@
 [
   {
-    "id": "american_180",
-    "looks_like": "hk_mp5",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": ".22 caliber submachine gun" },
-    "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 caliber cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "american_180",
-        "name": { "str": "American-180 submachine gun" },
-        "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon."
-      }
-    ],
-    "weight": "2585 g",
-    "volume": "2200 ml",
-    "longest_side": "905 mm",
-    "barrel_length": "470 mm",
-    "price": "1 kUSD 630 USD",
-    "price_postapoc": "25 USD",
-    "to_hit": -2,
-    "material": [ "steel" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "range": 6,
-    "ammo": [ "22" ],
-    "skill": "smg",
-    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
-    "dispersion": 280,
-    "durability": 6,
-    "min_cycle_recoil": 39,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
-    "barrel_volume": "250 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ] }
-    ],
-    "melee_damage": { "bash": 11 }
-  },
-  {
     "id": "marlin_9a",
     "looks_like": "ar15",
     "type": "GUN",

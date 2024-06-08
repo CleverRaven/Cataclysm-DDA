@@ -224,13 +224,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "ppsh",
-    "type": "GUN",
-    "copy-from": "ppsh",
-    "name": { "str": "PPSh-41 submachine gun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "number4_mki",
     "type": "GUN",
     "copy-from": "number4_mki",

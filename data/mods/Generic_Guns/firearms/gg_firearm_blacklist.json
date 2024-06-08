@@ -1,0 +1,8 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+	"//": "Used for obsoleteing guns without a viable migration target",
+    "items": [ "ksg-25", "bigun", "ppsh", "raging_judge", "american_180" ]
+  }
+]
