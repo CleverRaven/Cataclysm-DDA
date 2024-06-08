@@ -48,6 +48,12 @@ class follower_rules_ui_impl : public cataimgui::window
         size_t window_width = str_width_to_pixels( TERMX ) / 2;
         size_t window_height = str_height_to_pixels( TERMY ) / 2;
 
+        // Prepares for a rule option with multiple valid selections. Advances and wraps through
+        // those options as the hotkey is pressed.
+        template<typename T>
+        void multi_rule_header( std::string id, T &rule, std::map<T, std::string> rule_map,
+                                bool should_advance );
+
     protected:
         void draw_controls() override;
 };
