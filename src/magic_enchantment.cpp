@@ -628,11 +628,10 @@ void enchant_cache::serialize( JsonOut &jsout ) const
     jsout.member( "prof_boost" );
     jsout.start_array();
     for( const proficiency_category &prof_cat : proficiency_category::get_all() ) {
-        proficiency_category_id prof_cat_id;
         jsout.start_object();
-        jsout.member( "value", prof_cat_id );
-        if( get_prof_boost_multiply( prof_cat_id ) != 0 ) {
-            jsout.member( "multiply", get_prof_boost_multiply( prof_cat_id ) );
+        jsout.member( "value", prof_cat.id );
+        if( get_prof_boost_multiply( prof_cat.id ) != 0 ) {
+            jsout.member( "multiply", get_prof_boost_multiply( prof_cat.id ) );
         }
         jsout.end_object();
     }
