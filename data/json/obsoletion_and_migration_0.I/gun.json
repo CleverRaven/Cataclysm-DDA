@@ -277,7 +277,7 @@
     ],
     "melee_damage": { "bash": 11 }
   },
-    {
+  {
     "id": "raging_judge",
     "copy-from": "raging_bull",
     "looks_like": "sw_619",
@@ -299,7 +299,7 @@
       }
     ]
   },
-    {
+  {
     "id": "454_speedloader6",
     "copy-from": "454_speedloader5",
     "type": "MAGAZINE",
@@ -307,7 +307,7 @@
     "description": "This speedloader can hold 5 rounds of .454, .45 Colt or .410 bore and quickly reload a compatible revolver.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "454": 6, "45colt": 6, "410shot": 6 } } ]
   },
-    {
+  {
     "id": "ksg-25",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
@@ -351,7 +351,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
     "melee_damage": { "bash": 9 }
   },
-    {
+  {
     "id": "ksg25_aux_shotgun",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",
@@ -380,7 +380,7 @@
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
-    {
+  {
     "id": "bigun",
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
