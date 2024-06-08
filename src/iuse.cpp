@@ -8106,7 +8106,7 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
     return {volume, ammo, time};
 }
 
-std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
+static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
 {
     const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select a appliance" ),
                                        _( "There is no appliance nearby" ), ACTION_EXAMINE, false );
@@ -8137,7 +8137,7 @@ std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Characte
                     app_menu.addentry( n, true, MENU_AUTOASSIGN, i->nname( 1 ) );
                 }
                 app_menu.query();
-                if( app_menu.ret < 0 || app_menu.ret >= pseudo_tools.size() ) {
+                if( app_menu.ret < 0 || static_cast<size_t>( app_menu.ret ) >= pseudo_tools.size() ) {
                     p->add_msg_if_player( m_info, _( "You haven't select any heater" ) );
                     return std::nullopt;
                 } else {
@@ -8197,7 +8197,7 @@ heater find_heater( Character *p, item *it )
         };
         loc = g->inv_map_splice( filter, _( "Select a tool to heat (or cancel to select an appliance):" ),
                                  1,
-                                 _( "You don't have proper heating tool. Try select an appliance with heater." ) );
+                                 _( "You don't have proper heating tool.  Try select an appliance with heater." ) );
         if( !loc ) {
             std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
             if( !app ) {
