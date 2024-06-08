@@ -572,6 +572,8 @@
       [ "mp40mag_32rd", 5 ],
       [ "p08mag_32rd", 1 ],
       [ "p08mag_8rd", 10 ],
+      [ "ppshmag", 10 ],
+      [ "ppshdrum", 10 ],
       [ "rpk74mag", 10 ],
       [ "tokarevmag", 10 ],
       [ "greasegun30mag", 5 ]
