@@ -118,7 +118,7 @@ float weakpoint_family::modifier( const Character &attacker ) const
         prof_penalty = prof_penalty < - 1 ? prof_penalty + 2 : std::max( 0.0f, prof_penalty );
     } else if( attacker.has_flag( json_flag_PRED2 ) ) {
         prof_bonus += 1;
-        prof_penalty = prof_penalty < 0 ? prof_penalty + 1: prof_penalty;
+        prof_penalty = prof_penalty < 0 ? prof_penalty + 1 : prof_penalty;
     } else if( attacker.has_flag( json_flag_PRED1 ) ) {
         prof_penalty = prof_penalty < 0 ? prof_penalty + 1 : prof_penalty;
     }
