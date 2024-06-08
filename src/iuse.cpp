@@ -8210,7 +8210,7 @@ heater find_heater( Character *p, item *it )
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vp, pseudo_flag};
                 } else {
-                    p->add_msg_if_player( m_info, _( "Appliance don't hacve enough power." ) );
+                    p->add_msg_if_player( m_info, _( "Appliance don't have enough power." ) );
                     return {loc, true, -1, 0, vp, pseudo_flag};
                 }
             }
