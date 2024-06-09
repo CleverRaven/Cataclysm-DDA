@@ -1541,27 +1541,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint & )
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    // First a check to see if we are trying to feed a NPC dog food.
-    if( npc *const who = creatures.creature_at<npc>( *pnt ) ) {
-        if( query_yn( _( "Are you sure you want to feed a person %1$s?" ), it->tname() ) ) {
-            p->mod_moves( -to_moves<int>( 1_seconds ) );
-            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ),
-                                  it->tname(), who->disp_name( true ) );
-            if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
-                who->say(
-                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the Cataclysm all day." ) );
-            } else {
-                p->add_msg_if_player( _( "%s knocks it from your hand!" ), who->disp_name() );
-                who->make_angry();
-            }
-            p->consume_charges( *it, 1 );
-            return std::nullopt;
-        } else {
-            p->add_msg_if_player( _( "Never mind." ) );
-            return std::nullopt;
-        }
-        // Then monsters.
-    } else if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
+    if( monster *const mon = creatures.creature_at<monster>( *pnt, true ) ) {
         p->mod_moves( -to_moves<int>( 1_seconds ) );
 
         bool can_feed = false;

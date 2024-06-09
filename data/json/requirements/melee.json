@@ -68,7 +68,6 @@
     "//": "Any quality weapon designed to hook your oppenents and their gear in a fight.  Reserved for the good stuff.",
     "tools": [
       [
-        [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
         [ "ji", -1 ],
@@ -655,7 +654,6 @@
         [ "halberd", -1 ],
         [ "lajatang", -1 ],
         [ "naginata", -1 ],
-        [ "spear_survivor", -1 ],
         [ "scythe_war", -1 ],
         [ "poleaxe", -1 ],
         [ "lucern_hammer", -1 ],

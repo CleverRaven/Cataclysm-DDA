@@ -522,7 +522,7 @@ void overmap_specials::check_consistency()
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
         size_t min_occur = static_cast<size_t>( std::max( elem.get_constraints().occurrences.min, 0 ) );
-        const bool unique = elem.has_flag( "UNIQUE" ) || elem.has_flag( "GLOBALLY_UNIQUE" );
+        const bool unique = elem.has_flag( "OVERMAP_UNIQUE" ) || elem.has_flag( "GLOBALLY_UNIQUE" );
         return sum + ( unique ? 0 : min_occur );
     } );
 
@@ -1473,22 +1473,14 @@ struct fixed_overmap_special_data : overmap_special_data {
                 if( initial_dir != cube_direction::last ) {
                     initial_dir = initial_dir + dir;
                 }
+                // TODO: JSONification of logic + don't treat non roads like roads
+                point_om_omt target;
                 if( cit ) {
-                    om.build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection,
-                                         must_be_unexplored, initial_dir );
+                    target = cit.pos;
+                } else {
+                    target = om.get_fallback_road_connection_point();
                 }
-                // if no city present, search for nearby road within 50 tiles and make
-                // connection to it instead
-                else {
-                    for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
-                        if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
-                            om.build_connection(
-                                nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
-                                must_be_unexplored, initial_dir );
-                            break;
-                        }
-                    }
-                }
+                om.build_connection( target, rp.xy(), elem.p.z, *elem.connection, must_be_unexplored, initial_dir );
             }
         }
 
@@ -2644,24 +2636,19 @@ struct mutable_overmap_special_data : overmap_special_data {
         }
 
         // Deal with connections
+        // TODO: JSONification of logic + don't treat non roads like roads + deduplicate with fixed data
         for( const placed_connection &elem : connections_placed ) {
             const tripoint_om_omt &pos = elem.where.p;
             cube_direction connection_dir = elem.where.dir;
 
+            point_om_omt target;
             if( cit ) {
-                om.build_connection( cit.pos, pos.xy(), pos.z(), *elem.connection,
-                                     must_be_unexplored, connection_dir );
+                target = cit.pos;
+            } else {
+                target = om.get_fallback_road_connection_point();
             }
-            // if no city present, search for nearby road within 50 tiles and make connection to it instead
-            else {
-                for( const tripoint_om_omt &nearby_point : closest_points_first( pos, 50 ) ) {
-                    if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
-                        om.build_connection(
-                            nearby_point.xy(), pos.xy(), pos.z(), *elem.connection,
-                            must_be_unexplored, connection_dir );
-                    }
-                }
-            }
+            om.build_connection( target, pos.xy(), pos.z(), *elem.connection, must_be_unexplored,
+                                 connection_dir );
         }
 
         return { result, unresolved.all_used() };
@@ -3170,6 +3157,16 @@ bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
         }
     }
     return false;
+}
+
+point_om_omt overmap::get_fallback_road_connection_point() const
+{
+    if( fallback_road_connection_point ) {
+        return *fallback_road_connection_point;
+    } else {
+        return point_om_omt( rng( OMAPX / 4, ( 3 * OMAPX ) / 4 ),
+                             rng( OMAPY / 4, ( 3 * OMAPY ) / 4 ) );
+    }
 }
 
 const std::string &overmap::note( const tripoint_om_omt &p ) const
@@ -5241,12 +5238,19 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
     std::vector<point_om_omt> road_points; // cities and roads_out together
     // Compile our master list of roads; it's less messy if roads_out is first
-    road_points.reserve( roads_out.size() + cities.size() );
+    road_points.reserve( roads_out.size() + std::max( 1, static_cast<int>( cities.size() ) ) );
     for( const auto &elem : roads_out ) {
         road_points.emplace_back( elem.xy() );
     }
-    for( const city &elem : cities ) {
-        road_points.emplace_back( elem.pos );
+    if( cities.empty() ) {
+        // If there's no cities in the overmap chose a random central point that special's road connections should path to
+        fallback_road_connection_point = point_om_omt( rng( OMAPX / 4, ( 3 * OMAPX ) / 4 ),
+                                         rng( OMAPY / 4, ( 3 * OMAPY ) / 4 ) );
+        road_points.emplace_back( *fallback_road_connection_point );
+    } else {
+        for( const city &elem : cities ) {
+            road_points.emplace_back( elem.pos );
+        }
     }
 
     // And finally connect them via roads.
@@ -5623,14 +5627,17 @@ void overmap::place_cities()
             const om_direction::type start_dir = om_direction::random();
             om_direction::type cur_dir = start_dir;
 
+            // Track placed CITY_UNIQUE buildings
+            std::unordered_set<overmap_special_id> placed_unique_buildings;
             do {
-                build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp );
+                build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp, placed_unique_buildings );
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
         }
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size ) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size,
+        const std::unordered_set<overmap_special_id> &placed_unique_buildings ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -5661,14 +5668,23 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     };
     auto pick_building = building_type_to_pick();
     overmap_special_id ret;
+    bool existing_unique;
     do {
         ret = pick_building( city_spec );
-    } while( !ret->get_constraints().city_size.contains( town_size ) );
+        // TODO: Add OVERMAP_UNIQUE handling, doesn't seem to be kept track of in an ideal way atm
+        if( ret->has_flag( "CITY_UNIQUE" ) ) {
+            existing_unique = placed_unique_buildings.find( ret ) != placed_unique_buildings.end();
+        } else if( ret->has_flag( "GLOBALLY_UNIQUE" ) ) {
+            existing_unique = overmap_buffer.contains_unique_special( ret );
+        } else {
+            existing_unique = false;
+        }
+    } while( existing_unique || !ret->get_constraints().city_size.contains( town_size ) );
     return ret;
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
-                              const city &town )
+void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
+                              std::unordered_set<overmap_special_id> &placed_unique_buildings )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
@@ -5676,17 +5692,21 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size );
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size,
+                                                placed_unique_buildings );
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
+            if( building_tid->has_flag( "CITY_UNIQUE" ) ) {
+                placed_unique_buildings.emplace( building_tid );
+            }
             break;
         }
     }
 }
 
 void overmap::build_city_street(
-    const overmap_connection &connection, const point_om_omt &p, int cs,
-    om_direction::type dir, const city &town, int block_width )
+    const overmap_connection &connection, const point_om_omt &p, int cs, om_direction::type dir,
+    const city &town, std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width )
 {
     int c = cs;
     int croad = cs;
@@ -5728,10 +5748,10 @@ void overmap::build_city_street(
             }
 
             build_city_street( connection, iter->pos, left, om_direction::turn_left( dir ),
-                               town, new_width );
+                               town, placed_unique_buildings, new_width );
 
             build_city_street( connection, iter->pos, right, om_direction::turn_right( dir ),
-                               town, new_width );
+                               town, placed_unique_buildings, new_width );
 
             const oter_id &oter = ter( rp );
             // TODO: Get rid of the hardcoded terrain ids.
@@ -5741,10 +5761,10 @@ void overmap::build_city_street(
         }
 
         if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_left( dir ), town );
+            place_building( rp, om_direction::turn_left( dir ), town, placed_unique_buildings );
         }
         if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_right( dir ), town );
+            place_building( rp, om_direction::turn_right( dir ), town, placed_unique_buildings );
         }
     }
 
@@ -5755,10 +5775,10 @@ void overmap::build_city_street(
     if( cs >= 2 && c == 0 ) {
         const auto &last_node = street_path.nodes.back();
         const om_direction::type rnd_dir = om_direction::turn_random( dir );
-        build_city_street( connection, last_node.pos, cs, rnd_dir, town );
+        build_city_street( connection, last_node.pos, cs, rnd_dir, town, placed_unique_buildings );
         if( one_in( 5 ) ) {
             build_city_street( connection, last_node.pos, cs, om_direction::opposite( rnd_dir ),
-                               town, new_width );
+                               town, placed_unique_buildings, new_width );
         }
     }
 }
@@ -6700,12 +6720,13 @@ std::vector<tripoint_om_omt> overmap::place_special(
     if( !force ) {
         cata_assert( can_place_special( special, p, dir, must_be_unexplored ) );
     }
+
     if( special.has_flag( "GLOBALLY_UNIQUE" ) ) {
         overmap_buffer.add_unique_special( special.id );
-    }
-    if( special.has_flag( "UNIQUE" ) ) {
+    } else if( special.has_flag( "OVERMAP_UNIQUE" ) ) {
         overmap_buffer.log_unique_special( special.id );
     }
+    // CITY_UNIQUE is handled in place_building()
 
     const bool is_safe_zone = special.has_flag( "SAFE_AT_WORLDGEN" );
 
@@ -6877,7 +6898,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             continue;
         }
 
-        const bool unique = iter->special_details->has_flag( "UNIQUE" );
+        const bool unique = iter->special_details->has_flag( "OVERMAP_UNIQUE" );
         const bool globally_unique = iter->special_details->has_flag( "GLOBALLY_UNIQUE" );
         if( unique || globally_unique ) {
             const overmap_special_id &id = iter->special_details->id;

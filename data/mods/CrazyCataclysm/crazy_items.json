@@ -401,5 +401,27 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray"
+  },
+  {
+    "type": "AMMO",
+    "id": "party_rock",
+    "symbol": "*",
+    "color": "pink",
+    "name": { "str": "party rock" },
+    "description": "Party rock condensed into physical form.  This should be too much for any mere mortal to handle.",
+    "category": "spare_parts",
+    "material": [ "stone" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "damage": { "damage_type": "bash", "amount": 2 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 7 }
   }
 ]

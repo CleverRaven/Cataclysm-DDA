@@ -233,6 +233,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -4207,6 +4208,15 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         const furn_id furn = here.furn( target );
 
         if( furn->has_examine( iexamine::harvest_furn ) ) {
+            // TODO: Should be generified as a harvest field
+            if( furn->has_flag( ter_furn_flag::TFLAG_HARVEST_REQ_CUT1 ) && who.max_quality( qual_CUT ) < 1 ) {
+                if( !auto_forage ) {
+                    who.add_msg_if_player( m_info,
+                                           _( "You'll need a cutting tool to harvest this." ) );
+                }
+                act.set_to_null();
+                return;
+            }
             exam_furn = true;
         } else if( furn->has_examine( iexamine::harvest_furn_nectar ) )  {
             exam_furn = true;
