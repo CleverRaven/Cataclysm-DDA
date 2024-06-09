@@ -405,7 +405,7 @@
     "threshreq": [ "THRESH_INSECT" ],
     "active": true,
     "kcal": true,
-    "cost": 40,
+    "cost": 400,
     "activated_eocs": [ "EOC_BIOLUM3_activated" ]
   },
   {
@@ -3897,7 +3897,7 @@
     "description": "You exude slime from your pores.  You can spread that slime on an opponent in melee range.",
     "active": true,
     "kcal": true,
-    "cost": 70,
+    "cost": 700,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_SLIME_SPRAY" ],
     "prereqs": [ "VISCOUS", "AMORPHOUS" ],
