@@ -699,7 +699,9 @@
             "j22": 10,
             "walther_p22": 10,
             "cp33": 10,
-            "ruger_charger": 10
+            "ruger_charger": 10,
+            "ruger_charger_auto": 10,
+            "ruger_1022_auto": 10
           }
         },
         {
@@ -1028,6 +1030,8 @@
             "rm103a_pistol": 1,
             "rm228": 1,
             "ruger_57": 1,
+            "ruger_charger": 1,
+            "ruger_charger_auto": 1,
             "rugerlcp": 1,
             "ruger_lcr_22": 1,
             "ruger_lcr_38": 1,
@@ -1059,8 +1063,7 @@
             "walther_ppq_9mm": 1,
             "winchester_1887": 1,
             "witness_10": 1,
-            "xd_10": 1,
-            "ruger_charger": 1
+            "xd_10": 1
           }
         },
         {
@@ -1190,6 +1193,7 @@
             "rm614_lmg": 1,
             "rm88_battle_rifle": 1,
             "ruger_1022": 1,
+            "ruger_1022_auto": 1,
             "ruger_arr": 1,
             "ruger_m77": 1,
             "ruger_mini": 1,

@@ -208,6 +208,23 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "ruger_1022_auto",
+    "copy-from": "ruger_1022",
+    "type": "GUN",
+    "name": "full-auto varmint rifle",
+    "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_1022_auto",
+        "name": { "str": "full-auto Ruger 10/22 rifle" },
+        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
+      }
+    ],
+    "price_postapoc": "10 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
     "id": "ruger_lcr_22",
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
@@ -552,5 +569,22 @@
       { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
     ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "ruger_charger_auto",
+    "copy-from": "ruger_charger",
+    "type": "GUN",
+    "name": "full-auto varmint pistol",
+    "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_charger_auto",
+        "name": { "str": "full-auto Ruger 22 Charger" },
+        "description": "A Ruger 22 Charger modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
+      }
+    ],
+    "price_postapoc": "10 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   }
 ]

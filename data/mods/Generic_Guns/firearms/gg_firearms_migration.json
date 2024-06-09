@@ -181,7 +181,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022" ],
+    "id": [ "american_180", "ruger_1022", "ruger_1022_auto", "ruger_charger_auto" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
