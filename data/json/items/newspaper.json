@@ -154,6 +154,12 @@
       {
         "type": "SNIPPET_ID",
         "condition": "mutation_testing",
+        "value": "mutation_testing_1",
+        "name": { "str_sp": "Report PE039/HF15-001" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
         "value": "mutation_testing_8",
         "name": { "str_sp": "Report PE012/HM33-008" }
       },
@@ -162,18 +168,6 @@
         "condition": "mutation_testing",
         "value": "mutation_testing_9",
         "name": { "str_sp": "Report PE012/HF23-009" }
-      },
-      {
-        "type": "SNIPPET_ID",
-        "condition": "log_mutagen_animal",
-        "value": "test_3",
-        "name": { "str_sp": "Report PE031/21-003" }
-      },
-      {
-        "type": "SNIPPET_ID",
-        "condition": "log_mutagen_animal",
-        "value": "test_4",
-        "name": { "str_sp": "Report PE065/04-001" }
       }
     ],
     "description": "Accompanying document, that describes tests performed on different subjects.",
