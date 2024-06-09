@@ -205,7 +205,8 @@
       [ "shovel_snow_plastic", 15 ],
       [ "hose_garden", 20 ],
       [ "big_pliers", 10 ],
-      [ "heavy_crowbar", 10 ]
+      [ "heavy_crowbar", 10 ],
+      [ "bench_vise", 15 ]
     ]
   },
   {
@@ -312,7 +313,8 @@
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "pin_reamer", 30 ],
       [ "clamp", 10 ],
-      [ "sandpaper", 90 ]
+      [ "sandpaper", 90 ],
+      [ "bench_vise", 15 ]
     ]
   },
   {
@@ -860,6 +862,7 @@
       [ "clamp", 10 ],
       [ "wrench", 10 ],
       [ "socket_wrench_set", 10 ],
+      [ "bench_vise", 15 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
   },
@@ -880,7 +883,8 @@
       [ "screwdriver", 35 ],
       [ "pin_reamer", 10 ],
       [ "metal_file", 10 ],
-      [ "clamp", 20 ]
+      [ "clamp", 20 ],
+      [ "bench_vise", 30 ]
     ]
   },
   {

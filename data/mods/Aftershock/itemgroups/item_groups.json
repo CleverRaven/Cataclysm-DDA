@@ -586,5 +586,11 @@
       { "item": "spring", "count": [ 100, 200 ] },
       { "item": "material_soil", "count": [ 100, 200 ] }
     ]
+  },
+  {
+    "id": "afs_consumer_vr",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_glass_device" }, { "item": "afs_glass_AR_device" } ]
   }
 ]
