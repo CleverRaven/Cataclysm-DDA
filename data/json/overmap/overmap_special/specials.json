@@ -5332,8 +5332,10 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mi-go_camp1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "mi-go_camp2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mi-go_camp1-1_north" },
       { "point": [ 1, 0, 1 ], "overmap": "mi-go_camp2-1_north" },
-      { "point": [ 1, 0, 2 ], "overmap": "mi-go_camp2-2_north" }
+      { "point": [ 1, 0, 2 ], "overmap": "mi-go_camp2-2_north" },
+      { "point": [ 1, 0, 3 ], "overmap": "mi-go_camp2-3_north" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
@@ -5379,7 +5381,10 @@
   {
     "type": "overmap_special",
     "id": "Mi-Go Portal",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "mi-go_portal_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mi-go_portal_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mi-go_portal_roof_north" }
+    ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 20, 100 ],
