@@ -52,7 +52,7 @@ class follower_rules_ui_impl : public cataimgui::window
         // Prepares for a rule option with multiple valid selections. Advances and wraps through
         // those options as the hotkey is pressed.
         template<typename T>
-        void multi_rule_header( std::string id, T &rule, std::map<T, std::string> rule_map,
+        void multi_rule_header( const std::string &id, T &rule, const std::map<T, std::string> &rule_map,
                                 bool should_advance );
 
     protected:

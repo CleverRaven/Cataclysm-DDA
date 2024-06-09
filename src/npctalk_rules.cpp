@@ -84,8 +84,8 @@ void follower_rules_ui::draw_follower_rules_ui( npc *guy )
 }
 
 template<typename T>
-void follower_rules_ui_impl::multi_rule_header( std::string id, T &rule,
-        std::map<T, std::string> rule_map, bool should_advance )
+void follower_rules_ui_impl::multi_rule_header( const std::string &id, T &rule,
+        const std::map<T, std::string> &rule_map, bool should_advance )
 {
     if( ImGui::InvisibleButton( id.c_str(), ImVec2() ) || should_advance ) {
         if( rule_map.upper_bound( rule ) == rule_map.end() ) {
@@ -154,21 +154,21 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
                            ImVec2( window_width, window_height ) ) ) {
         // Missions selection is purposefully thinner than the description, it has less to convey.
         ImGui::TableSetupColumn( _( "Name" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "Behaviors" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "Aiming" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "Engagement" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "CBM recharge" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "CBM reserve" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "Pickup list" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "ALL" ), ImGuiTableColumnFlags_WidthStretch,
-                                 window_width / 8 );
+                                 static_cast<float>( window_width / 8.0f ) );
         ImGui::TableHeadersRow();
         int button_number = 0;
         for( npc &role_model : g->all_npcs() ) {
@@ -335,8 +335,6 @@ void follower_rules_ui_impl::draw_controls()
 
     draw_colored_text( string_format( _( "Rules for your follower, %s" ), guy->disp_name() ) );
     ImGui::Separator();
-    draw_colored_text( _( "Hotkey:" ) );
-    ImGui::NewLine();
 
     if( ImGui::Button( _( "Import settings from follower" ) ) ) {
         exporting_rules = false;
@@ -348,6 +346,10 @@ void follower_rules_ui_impl::draw_controls()
         in_popup = true;
         return;
     }
+
+    draw_colored_text( _( "Hotkey:" ) );
+    ImGui::NewLine();
+
 
     print_hotkey( assigned_hotkey );
     if( ImGui::Button( _( "Default ALL" ) ) || pressed_key == assigned_hotkey ) {
