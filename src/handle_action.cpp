@@ -666,11 +666,11 @@ static void close()
     }
 }
 
-static void auto_features_next( const std::string &option )
+static void set_next_option( const std::string &option )
 {
     get_options().get_option( option ).setNext();
     get_options().save();
-    add_msg( _( "%s is now set to %s." ),
+    add_msg( _( "Set %s to %s." ),
              get_options().get_option( option ).getMenuText(),
              get_options().get_option( option ).getValueName() );
 }
@@ -2664,10 +2664,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTOSAFE: {
-            options_manager::cOpt &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
-            add_msg( m_info, autosafemode_option.value_as<bool>()
-                     ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
-            autosafemode_option.setNext();
+            // Set Auto reactivate safe mode to x
+            set_next_option( "AUTOSAFEMODE" );
             break;
         }
 
@@ -2842,23 +2840,19 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTO_FEATURES:
-            get_options().get_option( "AUTO_FEATURES" ).setNext();
-            get_options().save();
-            //~ Auto Features are now ON/OFF
-            add_msg( _( "%s are now %s." ),
-                     get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
-                     get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
+            // Set Auto Features to x
+            set_next_option( "AUTO_FEATURES" );
             break;
 
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
-            //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
-            auto_features_next( "AUTO_PULP_BUTCHER" );
+            // Set Auto pulp or butcher to x
+            set_next_option( "AUTO_PULP_BUTCHER" );
             auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_MINING:
-            //~ Auto Mining is now set to x
-            auto_features_next( "AUTO_MINING" );
+            // Set Auto Mining to x
+            set_next_option( "AUTO_MINING" );
             auto_features_warn();
             break;
 
@@ -2886,14 +2880,14 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTO_FORAGING:
-            //~ Auto Foraging is now set to x
-            auto_features_next( "AUTO_FORAGING" );
+            // Set Auto Foraging to x
+            set_next_option( "AUTO_FORAGING" );
             auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_PICKUP:
-            //~ Auto pickup is now set to x
-            auto_features_next( "AUTO_PICKUP" );
+            // Set Auto pickup enabled to x
+            set_next_option( "AUTO_PICKUP" );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -2956,8 +2950,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_PREVENT_OCCLUSION:
-            get_options().get_option( "PREVENT_OCCLUSION" ).setNext();
-            get_options().save();
+            set_next_option( "PREVENT_OCCLUSION" );
             break;
 
         case ACTION_ZOOM_IN:

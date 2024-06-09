@@ -320,7 +320,7 @@ class options_manager
                 PageItem( ItemType type, const std::string &data, const std::string &group )
                     : type( type ), data( data ), group( group ) { }
 
-                std::string fmt_tooltip( const Group &group, const options_container &cont ) const;
+                std::string fmt_tooltip( const std::string &group_id, const options_container &cont ) const;
         };
 
         /**
@@ -366,6 +366,9 @@ class options_manager
 
         /** Add empty line to page. */
         void add_empty_line( const std::string &sPageIn );
+
+        /** Find page by id. */
+        Page &find_page( const std::string &id );
 
         /** Find group by id. */
         const Group &find_group( const std::string &id ) const;

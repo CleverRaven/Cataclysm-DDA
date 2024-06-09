@@ -2439,7 +2439,7 @@
     "name": { "str_pl": "pairs of light amp goggles (on)", "str": "pair of light amp goggles (on)" },
     "description": "A pair of battery-powered goggles that use a infrared LED in conjunction with a IR camera, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "extend": { "flags": [ "TRADER_AVOID", "NVG_GREEN" ] },
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
     "power_draw": "375 mW",
     "revert_to": "goggles_nv",

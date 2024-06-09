@@ -1418,5 +1418,10 @@
     "id": "stowed_glass_fridge",
     "type": "MIGRATION",
     "replace": "glass_fridge"
+  },
+  {
+    "id": "spear_survivor",
+    "type": "MIGRATION",
+    "replace": "naginata"
   }
 ]

@@ -28,7 +28,6 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -878,7 +877,7 @@ mission::mission()
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();
-    recruit_class = NC_NONE;
+    recruit_class = npc_class_id::NULL_ID();
     target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;
