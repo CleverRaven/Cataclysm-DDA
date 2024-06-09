@@ -227,9 +227,10 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
         return cost;
     }
 
-    // Otherwise we'll consider climbing, bashing, and opening doors.
+    // Otherwise we'll consider climbing, opening doors, and bashing, in that order.
+    // Should match logic in monster::move_to and npc::move_to.
 
-    // If there's a vehicle here, we need to consider it first.
+    // If there's a vehicle here, we need to assess that instead of the terrain.
     if( veh != nullptr ) {
         const auto vpobst = vpart_position( const_cast<vehicle &>( *veh ), part ).obstacle_at_part();
         part = vpobst ? vpobst->part_index() : -1;
@@ -285,7 +286,7 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
         return 4;
     }
 
-    // Otheriwse, if we can bash, we'll consider that.
+    // Otherwise, if we can bash, we'll consider that.
     if( bash > 0 ) {
         const int rating = bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
@@ -301,7 +302,8 @@ int map::cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding
         }
     }
 
-    // If we can open doors but couldn't open this one, maybe we can try from another direction.
+    // If we can open doors generally but couldn't open this one, maybe we can
+    // try from another direction.
     if( allow_open_doors && terrain.open && furniture.open ) {
         return PF_IMPASSABLE_FROM_HERE;
     }
