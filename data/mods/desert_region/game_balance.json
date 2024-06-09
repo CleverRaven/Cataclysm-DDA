@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_OCEANS",
+    "info": "Allows to place oceans during overmap generation.",
+    "stype": "bool",
+    "value": false
+  }
+]
