@@ -2065,7 +2065,7 @@
       },
       { "x": -3, "y": 2, "parts": [ "frame#cross", "aisle#horizontal", "roof" ] },
       { "x": -3, "y": 3, "parts": [ "frame#vertical_right" ] },
-      { "x": -3, "y": 3, "parts": [ "hddoor#vertical_right", "door_lock", "roof" ] },
+      { "x": -3, "y": 3, "parts": [ "hddoor#right", "door_lock", "roof" ] },
       { "x": -3, "y": 3, "parts": [ "plating_steel", { "part": "tank", "fuel": "diesel" } ] },
       { "x": -4, "y": -1, "parts": [ "frame#vertical_left" ] },
       { "x": -4, "y": -1, "parts": [ "reinforced_windshield#vertical_left", "roof" ] },
