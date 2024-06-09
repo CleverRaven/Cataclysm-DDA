@@ -1405,6 +1405,26 @@
     "replace": "ruger_lcr_22"
   },
   {
+    "id": "vz58_p",
+    "type": "MIGRATION",
+    "replace": "ak47"
+  },
+  {
+    "id": "vz58ts",
+    "type": "MIGRATION",
+    "replace": "aksemi"
+  },
+  {
+    "id": "vz58mag10",
+    "type": "MIGRATION",
+    "replace": "akmag10"
+  },
+  {
+    "id": "vz58mag30",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
     "id": "stowed_fridge",
     "type": "MIGRATION",
     "replace": "apartment_fridge"
