@@ -24,7 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -1062,7 +1062,8 @@ class vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
         bool merge_vehicle_parts( vehicle *veh );
-        void merge_appliance_into_grid( vehicle &veh_target );
+        bool merge_appliance_into_grid( vehicle &veh_target );
+        void separate_from_grid( point mount );
 
         bool is_powergrid() const;
 
@@ -1177,27 +1178,32 @@ class vehicle
         *  @param pt only returns parts from this mount point
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        int part_with_feature( const point &pt, const std::string &f, bool unbroken,
+                               bool include_fake = false ) const;
         /**
         *  Returns part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param pt only returns parts from this mount point
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken()
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const;
+        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken,
+                               bool include_fake = false ) const;
         /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param p index of part to start searching from
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken()
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
+        int part_with_feature( int p, vpart_bitflags f, bool unbroken, bool include_fake = false ) const;
         /**
         *  Returns index of part at mount point \p pt which has given \p f flag
         *  and is_available(), or -1 if no such part or it's not is_available()
@@ -1252,6 +1258,8 @@ class vehicle
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                part_status_flag condition );  // TODO: Get rid of untyped operation.
+        std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
                 const std::string &flag, part_status_flag condition ) const;
@@ -1518,6 +1526,9 @@ class vehicle
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
+        // Get the total mass of the vehicle minus the weight of any creatures that are
+        // powering it; ie, the mass of the vehicle that the wheels are supporting
+        units::mass weight_on_wheels() const;
 
         // Gets the center of mass calculated for precalc[0] coordinates
         const point &rotated_center_of_mass() const;
@@ -1778,7 +1789,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
-        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+        static bool use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                      const itype_id &tool_type,
                                       bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair

@@ -58,10 +58,7 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [
-          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
-          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
-        ],
+        "distribution": [ { "item": "camera", "prob": 70, "charges": [ 0, 50 ] }, { "item": "camera_pro", "prob": 30, "charges": [ 0, 50 ] } ],
         "prob": 10
       },
       { "item": "memory_card_unread", "prob": 50, "count": [ 2, 8 ] },

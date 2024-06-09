@@ -196,6 +196,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to travel along a road to any bastion of civilization they have attuned to.",
     "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
     "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "prereqs2": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
     "spells_learned": [ [ "homullus_road_translocate_spell", 1 ], [ "homullus_road_translocate_attune", 1 ] ]
@@ -349,6 +350,31 @@
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [ { "condition": { "u_has_worn_with_flag": "STURDY" } }, { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DURABILITY_MULT_1",
+    "name": "Equipment Hardening",
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You conceptually harden your tools and armor, reducing the chance that they are damaged.",
+    "changes_to": "HOMULLUS_DURABILITY_MULT_2",
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DURABILITY_MULT_2",
+    "name": "Extreme Equipment Hardening",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You conceptually harden your tools and armor, immensely reducing the chance that they are damaged.",
+    "prereqs": [ "HOMULLUS_DURABILITY_MULT_1" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.66 } ] } ]
   },
   {
     "type": "mutation",
@@ -648,7 +674,8 @@
           { "value": "REGEN_HP", "multiply": -1.0 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
           { "value": "ATTACK_SPEED", "multiply": 0.8 },
-          { "value": "MENDING_MODIFIER", "multiply": -1.0 }
+          { "value": "MENDING_MODIFIER", "multiply": -1.0 },
+          { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -1 }
         ]
       },
       {

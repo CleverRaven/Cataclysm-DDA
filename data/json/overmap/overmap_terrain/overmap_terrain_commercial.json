@@ -714,7 +714,7 @@
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
-      "RISK_HIGH",
+      "RISK_EXTREME",
       "SOURCE_FOOD",
       "SOURCE_DRINK",
       "SOURCE_GUN",

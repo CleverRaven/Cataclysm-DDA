@@ -8,8 +8,12 @@
 #include <string>
 #include <string_view>
 
+#include "coords_fwd.h"
+
 class Character;
+class Creature;
 struct tripoint;
+
 template <typename E> struct enum_traits;
 
 namespace debug_menu
@@ -32,11 +36,15 @@ enum class debug_menu_index : int {
     CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
+    FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
     UNLOCK_ALL,
     EDIT_PLAYER,
+    EDIT_MONSTER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
+    SPAWN_HORDE,
     MAP_EDITOR,
     CHANGE_WEATHER,
     WIND_DIRECTION,
@@ -107,9 +115,11 @@ enum class debug_menu_index : int {
     last
 };
 
-void wisheffect( Character &p );
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
+// TODO: Get rid of untyped overload
 void wishitem( Character *you, const tripoint & );
+void wishitem( Character *you, const tripoint_bub_ms & );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmutate( Character *you );
 void wishbionics( Character *you );

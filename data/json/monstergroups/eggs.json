@@ -65,6 +65,16 @@
     "monsters": [ { "monster": "mon_sparrow_chick" } ]
   },
   {
+    "name": "GROUP_EGG_CHICKADEE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_chickadee_chick" } ]
+  },
+  {
+    "name": "GROUP_EGG_WAXWING",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_waxwing_chick" } ]
+  },
+  {
     "name": "GROUP_EGG_DUCK",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_duck_chick" } ]
@@ -600,6 +610,36 @@
     "name": "GROUP_EGG_SHIFT_FROG",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_shift_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_MINK_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_mink_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PICKEREL_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pickerel_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_PALETTE_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_palette_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_GREEN_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_green_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_WOOD_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_wood_tadpole" } ]
+  },
+  {
+    "name": "GROUP_EGG_SPADE_FROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spade_tadpole" } ]
   },
   {
     "name": "GROUP_EGG_PATTERN_BIGFROG",

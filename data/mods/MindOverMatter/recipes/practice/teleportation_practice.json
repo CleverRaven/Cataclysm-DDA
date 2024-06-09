@@ -40,7 +40,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BLINK",
@@ -52,7 +52,7 @@
           },
           { "math": [ "u_spell_exp('teleport_blink')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -74,7 +74,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_SLOW",
@@ -86,7 +86,7 @@
           },
           { "math": [ "u_spell_exp('teleport_slow')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -108,7 +108,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_PHASE",
@@ -120,7 +120,7 @@
           },
           { "math": [ "u_spell_exp('teleport_phase')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -193,7 +193,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_STRIDE",
@@ -205,7 +205,7 @@
           },
           { "math": [ "u_spell_exp('teleport_stride')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -278,7 +278,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_SWAP",
@@ -290,7 +290,7 @@
           },
           { "math": [ "u_spell_exp('teleport_transpose')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -364,7 +364,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT",
@@ -376,7 +376,7 @@
           },
           { "math": [ "u_spell_exp('teleport_displacement')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -450,7 +450,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_COLLAPSE",
@@ -462,7 +462,7 @@
           },
           { "math": [ "u_spell_exp('teleport_collapse')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -536,7 +536,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
@@ -548,7 +548,7 @@
           },
           { "math": [ "u_spell_exp('teleport_farstep')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -622,7 +622,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BANISH",
@@ -634,7 +634,7 @@
           },
           { "math": [ "u_spell_exp('teleport_banish')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -708,7 +708,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
@@ -720,7 +720,7 @@
           },
           { "math": [ "u_spell_exp('teleport_gateway')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -795,7 +795,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_teleport_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPORT_BREACH",
@@ -807,7 +807,7 @@
           },
           { "math": [ "u_spell_exp('teleport_summon')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [

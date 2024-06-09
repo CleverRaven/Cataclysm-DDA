@@ -90,6 +90,7 @@ static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_BARKY( "BARKY" );
 static const json_character_flag json_flag_COLDBLOOD( "COLDBLOOD" );
 static const json_character_flag json_flag_COLDBLOOD2( "COLDBLOOD2" );
 static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
@@ -101,7 +102,6 @@ static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
@@ -458,7 +458,7 @@ void Character::update_bodytemp()
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
                                             get_location(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
-    const bool has_bark = has_trait( trait_BARK );
+    const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );

@@ -6,7 +6,7 @@
     "sym": "%",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,7 +15,7 @@
     "sym": "%",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

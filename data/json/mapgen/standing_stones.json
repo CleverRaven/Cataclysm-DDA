@@ -18,7 +18,7 @@
     "id": "standing_stones_libation",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "mead", "container-item": "bowl_clay", "charges-min": 2, "charges-max": 7 } ]
+    "entries": [ { "item": "mead", "container-item": "bowl_clay", "charges": [ 2, 7 ] } ]
   },
   {
     "name": "GROUP_STANDING_STONES",

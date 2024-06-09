@@ -88,7 +88,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,

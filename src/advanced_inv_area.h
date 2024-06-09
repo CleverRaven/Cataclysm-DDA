@@ -27,6 +27,8 @@ enum aim_location : char {
     AIM_PARENT,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
+    // cannot be selected, destination for when wearing item fails but item can be WIELDed
+    AIM_WIELD,
     // only useful for AIM_ALL
     AIM_AROUND_BEGIN = AIM_SOUTHWEST,
     AIM_AROUND_END = AIM_NORTHEAST

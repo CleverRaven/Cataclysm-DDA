@@ -53,9 +53,7 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA",
     "dynamic_line": {
-      "u_has_var": "u_met_luliya",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_luliya",
       "value": "yes",
       "yes": [ "Inikwani dehina metahi tegwazhi." ],
       "no": "&You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind in their hand."
@@ -63,22 +61,19 @@
     "responses": [
       {
         "text": "[Push the big red button.]",
-        "condition": { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" } },
         "topic": "TALK_LULIYA_BUTTON"
       },
       {
         "text": "[Use Stethoscope] Is this alive?",
         "condition": {
-          "and": [
-            { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_item": "stethoscope" }
-          ]
+          "and": [ { "not": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" } }, { "u_has_item": "stethoscope" } ]
         },
         "topic": "TALK_LULIYA_PULSE"
       },
       {
         "text": "[Do nothing.]",
-        "condition": { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
@@ -86,10 +81,8 @@
         "topic": "TALK_LULIYA_ENGLISH",
         "condition": {
           "and": [
-            { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
-            {
-              "not": { "u_has_var": "u_not_english_luliya", "type": "general", "context": "language", "value": "yes" }
-            }
+            { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" },
+            { "not": { "u_has_var": "general_language_u_not_english_luliya", "value": "yes" } }
           ]
         }
       },
@@ -98,8 +91,8 @@
         "topic": "TALK_LULIYA_NAME",
         "condition": {
           "and": [
-            { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" } }
+            { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" },
+            { "not": { "u_has_var": "general_name_u_luliya_name", "value": "yes" } }
           ]
         }
       },
@@ -107,7 +100,7 @@
         "text": "I heard you playing that.  [You point at the golden harp she holds]  La la la.  Do you like music, Luliya?",
         "condition": {
           "and": [
-            { "u_has_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" },
+            { "u_has_var": "general_name_u_luliya_name", "value": "yes" },
             { "math": [ "time_since(u_timer_meeting_luliya_music_timer)", ">=", "time('3 d')" ] }
           ]
         },
@@ -115,7 +108,7 @@
       },
       {
         "text": "I can't understand you.",
-        "condition": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -126,7 +119,7 @@
     "dynamic_line": "&You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  The golden figure shudders, arms flailing.  \"ቆዳዬ! ቆዳዬ በእሳት ላይ ነው! እየሞትኩ ነው!\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_luliya", "value": "yes" },
         { "math": [ "u_timer_meeting_luliya_music_timer", "=", "time('now')" ] }
       ]
     },
@@ -159,7 +152,7 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA_ENGLISH",
     "dynamic_line": "&A long pause, then she shakes her head  \"Inigilizinya yelemi.  No.\"",
-    "speaker_effect": { "effect": { "u_add_var": "u_not_english_luliya", "type": "general", "context": "language", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_language_u_not_english_luliya", "value": "yes" } },
     "responses": [
       { "text": "All right then.  You seem to understand what I mean.  And the word no.", "topic": "TALK_LULIYA" },
       { "text": "Fine.  Anyway, I need to move along.", "topic": "TALK_DONE" }
@@ -169,14 +162,14 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA_NAME",
     "dynamic_line": "&A long pause.  You can't see her eyes but it seems like she is studying your face.  \"Sime Luliya ibalalehu.\"  [She points to her own chest.]  \"Luliya.\"  [She points to your chest.]  \"<u_name>.  Siletewawekini desi bilonyali, <u_name>.\"  [She strums a pleasant melody on her krar.]",
-    "speaker_effect": { "effect": { "u_add_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_name_u_luliya_name", "value": "yes" } },
     "responses": [ { "text": "We're getting somewhere.  Pleased to meet you Luliya.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_ARABIC",
     "dynamic_line": "&A long pause, then she shakes her head.  \"Ayi arebinya alinagerimi.\"",
-    "speaker_effect": { "effect": { "u_add_var": "u_not_arabic_luliya", "type": "general", "context": "language", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_language_u_not_arabic_luliya", "value": "yes" } },
     "responses": [
       { "text": "All right then.  It seems like you do kind of understand it though.", "topic": "TALK_LULIYA" },
       { "text": "Fine.  Anyway, I need to move along.", "topic": "TALK_DONE" }
@@ -229,7 +222,7 @@
     "dynamic_line": "&You perform on your musical instrument with everything you have, giving a strong performance.  Luliya sways and begins to play her instrument and sing along.  The music and her voice are beautiful, she sounds like she has had some formal musical training.",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_jammed_luliya", "type": "general", "context": "music", "value": "yes" },
+        { "u_add_var": "general_music_u_jammed_luliya", "value": "yes" },
         { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
         { "u_make_sound": "music", "type": "music", "volume": 10 }
       ]

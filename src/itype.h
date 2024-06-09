@@ -171,7 +171,7 @@ struct islot_comestible {
         std::vector<effect_on_condition_id> consumption_eocs;
 
         /**List of diseases carried by this comestible and their associated probability*/
-        std::map<diseasetype_id, int> contamination;
+        std::map<diseasetype_id, float> contamination;
 
         // Materials to generate the below
         std::map<material_id, int> materials;
@@ -992,6 +992,10 @@ struct islot_ammo : common_ranged_data {
      * Number of projectiles fired per round, e.g. shotgun shot.
      */
     int count = 1;
+    /**
+     * Whether this multi-projectile shot has its effects applied to all projectiles
+     */
+    bool multi_projectile_effects = false;
     /**
      * Spread/dispersion between projectiles fired from the same round.
      */

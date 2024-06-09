@@ -47,7 +47,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALTH",
@@ -59,7 +59,7 @@
           },
           { "math": [ "u_spell_exp('vita_health_power')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -81,7 +81,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLOW_BLEEDING",
@@ -93,7 +93,7 @@
           },
           { "math": [ "u_spell_exp('vita_slow_bleeding')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -115,7 +115,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
@@ -127,7 +127,7 @@
           },
           { "math": [ "u_spell_exp('vita_stop_bleeding')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -200,7 +200,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HURT",
@@ -212,7 +212,7 @@
           },
           { "math": [ "u_spell_exp('vita_hurt_touch')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -285,7 +285,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
@@ -297,7 +297,7 @@
           },
           { "math": [ "u_spell_exp('vita_health_power_ally')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -370,7 +370,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON",
@@ -382,7 +382,7 @@
           },
           { "math": [ "u_spell_exp('vita_remove_poison')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -456,7 +456,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SLEEP",
@@ -468,7 +468,7 @@
           },
           { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -542,7 +542,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE",
@@ -554,7 +554,7 @@
           },
           { "math": [ "u_spell_exp('vita_cure_disease')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -628,7 +628,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE",
@@ -640,7 +640,7 @@
           },
           { "math": [ "u_spell_exp('vita_pain_split')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -714,7 +714,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION",
@@ -726,7 +726,7 @@
           },
           { "math": [ "u_spell_exp('vita_stop_infection')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -800,7 +800,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
@@ -812,7 +812,7 @@
           },
           { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -886,7 +886,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS",
@@ -898,7 +898,7 @@
           },
           { "math": [ "u_spell_exp('vita_purge_rads')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -920,7 +920,7 @@
     "tools": [
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH",
@@ -932,7 +932,7 @@
           },
           { "math": [ "u_spell_exp('vita_attack_touch')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1006,7 +1006,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_PURGE",
@@ -1018,7 +1018,7 @@
           },
           { "math": [ "u_spell_exp('vita_blood_purge')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1092,7 +1092,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS",
@@ -1104,7 +1104,7 @@
           },
           { "math": [ "u_spell_exp('vita_banish_illness')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1178,7 +1178,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL",
@@ -1190,7 +1190,7 @@
           },
           { "math": [ "u_spell_exp('vita_super_heal')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1264,7 +1264,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 2 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE",
@@ -1273,7 +1273,7 @@
           { "u_message": "You spend a lot of time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_limb_restore')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -1296,7 +1296,7 @@
       [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
     ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH",
@@ -1305,7 +1305,7 @@
           { "u_message": "You spend a lot of time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('vita_return_from_death')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [

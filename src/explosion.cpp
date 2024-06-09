@@ -101,6 +101,9 @@ static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 
+static const trap_str_id tr_goo( "tr_goo" );
+static const trap_str_id tr_portal( "tr_portal" );
+
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
 static float fragment_mass = 0.0001f;
@@ -425,7 +428,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
-                 ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
+                 ( visited_cache, obstacle_cache, point_bub_ms( src.xy() ), 0, initial_cloud );
 
     creature_tracker &creatures = get_creature_tracker();
     Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos() );
@@ -782,7 +785,7 @@ void emp_blast( const tripoint &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->faults.insert( random_entry( fault::get_by_type( "shorted" ) ) );
+                it->faults.insert( faults::random_of_type( "shorted" ) );
             }
         }
     }
@@ -795,7 +798,7 @@ void emp_blast( const tripoint &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_fault( random_entry( fault::get_by_type( "shorted" ) ) );
+            it.set_fault( faults::random_of_type( "shorted" ) );
         }
     }
     // TODO: Drain NPC energy reserves

@@ -94,6 +94,8 @@ Property                 | Description
 `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 `biosignature`           | (object) Droppings or feces left by the animal or monster
 `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+`dissect`                | (string) (Optional) ID of a "harvest" type describing what is returned when a corpse of this monster is dissected
+`decay`                  | (string) (Optional) ID of a "harvest" type describing what is left when a corpse of this monster rots away
 `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 `shearing`               | (array of objects) Items produced when the monster is sheared
@@ -323,9 +325,7 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 ## "grab_strength"
 (integer, optional)
 
-Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
-
-A default zombie has a grab strength of 20. An extremely strong zombie (e.g hulk or grabber) has 50.
+Base intensity of the grab effect applied by this monster as used by a `grab`-type special attack unless overwritten by the `grab_data` of the attack itself, default 1, range 1-100. See [Grab attacks](MONSTER_SPECIAL_ATTACKS.md#grab_attacks) for more information.
 
 ## "armor"
 (object, optional)

@@ -302,6 +302,7 @@ struct mtype {
         mfaction_str_id default_faction;
         harvest_id harvest;
         harvest_id dissect;
+        harvest_id decay;
         speed_description_id speed_desc;
         // Monster upgrade variables
         mtype_id upgrade_into;
@@ -453,7 +454,7 @@ struct mtype {
         // Maximum move cost for this monster to absorb an item (default -1, -1 for no limit)
         int absorb_move_cost_max = -1;
 
-        float luminance;           // 0 is default, >0 gives luminance to lightmap
+        float luminance = 0;       // 0 is default, >0 gives luminance to lightmap
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */
         int vision_night = 1;   /** vision range in total darkness */

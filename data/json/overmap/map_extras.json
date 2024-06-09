@@ -486,6 +486,17 @@
     "autonote": true
   },
   {
+    "id": "mx_kelp_patch",
+    "type": "map_extra",
+    "name": { "str": "Kelp Patch" },
+    "description": "A patch of kelp.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_kelp_patch" },
+    "min_max_zlevel": [ -9, -9 ],
+    "sym": "~",
+    "color": "green",
+    "autonote": true
+  },
+  {
     "id": "mx_marloss_pilgrimage",
     "type": "map_extra",
     "name": { "str": "Marloss Pilgrimage" },

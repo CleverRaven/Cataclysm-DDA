@@ -21,7 +21,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "compatibility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -317,7 +317,14 @@ class Creature : public viewer
         inline int posz() const {
             return get_location().z();
         }
+        // TODO: Get rid of untyped overload
         void setpos( const tripoint &p );
+        void setpos( const tripoint_bub_ms &p );
+
+        /** Checks if the creature fits into a given tile. Set the boolean argument to true if the creature would barely fit. */
+        bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const;
+        /** Helper overload for when the boolean is discardable */
+        bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const;
         /** Moves the creature to the given location and calls the on_move() handler. */
         void move_to( const tripoint_abs_ms &loc );
 
@@ -939,8 +946,10 @@ class Creature : public viewer
         virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
         bool underwater;
-        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
+        // TODO: Get rid of the untyped overload
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, const tripoint_bub_ms &origin, bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.
@@ -1183,6 +1192,7 @@ class Creature : public viewer
         void clear_killer();
         // summoned creatures via spells
         void set_summon_time( const time_duration &length );
+        time_point get_summon_time();
         // handles removing the creature if the timer runs out
         void decrement_summon_timer();
         void set_summoner( Creature *summoner );

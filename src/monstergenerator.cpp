@@ -383,6 +383,8 @@ void MonsterGenerator::finalize_mtypes()
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
+        mon.difficulty = std::max( 1, mon.difficulty );
+
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
         }
@@ -508,7 +510,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     // first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
-    new_actor->cooldown = 1;
+    new_actor->cooldown.min.dbl_val = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
     new_actor->spell_data.self = true;
 
@@ -981,7 +983,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    optional( jo, was_loaded, "luminance", luminance, 0 );
+    assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
@@ -1079,6 +1081,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "harvest", harvest );
 
     optional( jo, was_loaded, "dissect", dissect );
+
+    optional( jo, was_loaded, "decay", decay );
 
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
@@ -1463,8 +1467,6 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
-
     // Legacy support
     if( !jo.has_string( "id" ) ) {
         id = jo.get_string( "type" );
@@ -1473,7 +1475,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
         assign( jo, "id", id, false );
     }
 
-    assign( jo, "cooldown", cooldown, strict );
+    cooldown = get_dbl_or_var( jo, "cooldown", false, 0.0 );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us
@@ -1527,7 +1529,14 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
         }
     }
     mtype_special_attack new_attack = mtype_special_attack( iter->second );
-    new_attack.actor->cooldown = inner.get_int( 1 );
+    if( inner.has_array( 1 ) ) {
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0],
+                                         "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1],
+                                         "special attack cooldown", 0.0 );
+    } else {
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1], "special attack cooldown", 0.0 );
+    }
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }

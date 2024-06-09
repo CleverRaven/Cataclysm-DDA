@@ -8,6 +8,13 @@
     "class": "NC_ISHERWOOD_LISA",
     "attitude": 0,
     "mission": 7,
+    "age": 20,
+    "height": 170,
+    "str": 8,
+    "dex": 9,
+    "int": 10,
+    "per": 9,
+    "personality": { "aggression": 1, "bravery": 5, "collector": 1, "altruism": 3 },
     "chat": "TALK_ISHERWOOD_LISA",
     "faction": "isherwood_family"
   },
@@ -17,13 +24,14 @@
     "name": { "str": "Lisa Isherwood" },
     "job_description": "Part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
+      { "trait": "ANIMALEMPATH" },
+      { "trait": "ANTIJUNK" },
+      { "trait": "PRETTY" },
       { "group": "Appearance_demographics" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_female_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
@@ -46,6 +54,7 @@
       "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
       "no": "Hi, what brings you here?"
     },
+    "speaker_effect": { "sentinel": "u_met_lisa", "effect": [ { "u_add_var": "u_met_lisa_isherwood", "value": "yes" } ] },
     "responses": [
       {
         "text": "…",
@@ -56,26 +65,33 @@
       {
         "text": "Hi, this is a nice farm, your family lives here?",
         "topic": "TALK_ISHERWOOD_LISA_TALK1",
+        "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, I'm looking for Jesse.",
         "topic": "TALK_LISA_JESSE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_about_jesse", "value": "yes" } ] }
       },
       {
         "text": "Hi, I'm looking for Chris.",
         "topic": "TALK_LISA_CHRIS",
+        "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
+      },
+      {
+        "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
+        "topic": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", ">=", "time('1 h')" ] } ]
+        }
+      },
+      {
+        "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
+        "topic": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
+        "condition": {
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", "<", "time('1 h')" ] } ]
         }
       },
       {
@@ -118,7 +134,7 @@
     "type": "talk_topic",
     "id": "TALK_LISA_CHRIS2",
     "dynamic_line": "Well he's supposed to be hunting, but since you've been talking to Luke, I bet he mentioned Chris wants to learn more about the end of the world.  Sometimes he'll take off for a few days and I end up patching him up so my parents don't know he left the property.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -132,6 +148,31 @@
       { "text": "Hi, I'm looking for Jesse.", "topic": "TALK_LISA_JESSE" },
       { "text": "Hi, I'm looking for Chris.", "topic": "TALK_LISA_CHRIS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
+    "dynamic_line": "Yeah, Chris talked to me a minute ago.\"  She touches the shoulder strap on her rifle.  \"I can't believe he's not trying to talk me out of it, really, but I'd do anything to save Uncle Barry.  I'll be ready at the tower, when you need me.",
+    "responses": [ { "text": "Great.  I'll see you there.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
+    "dynamic_line": "He did?\"  She touches the shoulder strap on her rifle.  \"Like, action?  Yeah, I'm a pretty good shot, and I'd do anything to save Uncle Barry.  I'm surprised Chris didn't try to go all protective older brother on me.  What's the plan?\"",
+    "responses": [ { "text": "[Explain the plan]", "topic": "TALK_ISHERWOOD_LISA_JOIN_RESCUE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LISA_JOIN_RESCUE",
+    "dynamic_line": "&She listens intently as you explain.  \"All right.  I'll be ready at the tower when you need me.\"",
+    "responses": [
+      {
+        "text": "Great.  I'll see you there.",
+        "effect": { "math": [ "isherwood_lisa_coming", "=", "1" ] },
+        "//": "This is temporary.  Lisa should join Chris at the tower with an EOC spawn.",
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

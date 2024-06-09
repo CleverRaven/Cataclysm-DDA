@@ -252,7 +252,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.i_stacked( square.get_vehicle_stack() ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
-        map_cursor loc_cursor( square.pos );
+        map_cursor loc_cursor( tripoint_bub_ms( square.pos ) );
         for( size_t x = 0; x < stacks.size(); ++x ) {
             std::vector<item_location> locs;
             locs.reserve( stacks[x].size() );

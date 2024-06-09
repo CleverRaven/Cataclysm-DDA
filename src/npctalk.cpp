@@ -103,6 +103,8 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
@@ -555,12 +557,18 @@ std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
             entry += npc_list[i]->name_and_maybe_activity();
             nmenu.addentry( i, enable, MENU_AUTOASSIGN, entry );
         }
-        nmenu.addentry( npc_count, true, MENU_AUTOASSIGN, _( "Finish selection" ) );
+        nmenu.addentry( npc_count, true, 'e', _( "Everyone" ) );
+        nmenu.addentry( npc_count + 1, true, 'f', _( "Finish selection" ) );
         nmenu.selected = nmenu.fselected = last_index;
         nmenu.query();
         if( nmenu.ret < 0 ) {
             return std::vector<int>();
-        } else if( nmenu.ret >= npc_count ) {
+        } else if( nmenu.ret == npc_count ) {
+            picked.resize( npc_count );
+            std::iota( picked.begin(), picked.end(), 0 );
+            last_index = nmenu.fselected;
+            continue;
+        } else if( nmenu.ret > npc_count ) {
             break;
         }
         std::vector<int>::iterator exists = std::find( picked.begin(), picked.end(), nmenu.ret );
@@ -3242,7 +3250,7 @@ talk_effect_fun_t f_spawn_item( const JsonObject &jo, std::string_view member )
     talk_effect_fun_t ret( [item_name, count, container_name, use_item_group, suppress_message,
                add_talker, loc_var, force_equip, flags]( dialogue & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
-        const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
+        const tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d, false );
         std::vector<std::string> flags_str;
         flags_str.reserve( flags.size() );
         for( const str_or_var &flat_sov : flags ) {
@@ -3619,7 +3627,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
                                               size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
             for( const tripoint &search_loc : points ) {
-                if( rl_dist( here.getlocal( talker_pos ), search_loc ) <= min_target_dist ) {
+                if( rl_dist( here.bub_from_abs( talker_pos ).raw(), search_loc ) <= min_target_dist ) {
                     continue;
                 }
                 if( search_type.value() == "terrain" ) {
@@ -3690,7 +3698,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
                                                     0 );
                 if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
-                    ( !passable_only || here.passable( here.getlocal( target_pos ) ) ) &&
+                    ( !passable_only || here.passable( here.bub_from_abs( target_pos ) ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;
@@ -3734,7 +3742,7 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
     }
     return [input_var, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override,
                output_var, overmap_tile ]( dialogue & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d, false );
 
         if( overmap_tile ) {
             target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ) * coords::map_squares_per(
@@ -3777,7 +3785,7 @@ talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_vi
     return [dov, transform, target_var, dov_time_in_future, key, is_npc]( dialogue & d ) {
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
-            target_pos = get_tripoint_from_var( target_var, d );
+            target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
 
         int radius = dov.evaluate( d );
@@ -3809,8 +3817,8 @@ talk_effect_fun_t::func f_transform_line( const JsonObject &jo, std::string_view
     var_info second = read_var_info( jo.get_object( "second" ) );
 
     return [transform, first, second]( dialogue const & d ) {
-        tripoint_abs_ms const t_first = get_tripoint_from_var( first, d );
-        tripoint_abs_ms const t_second = get_tripoint_from_var( second, d );
+        tripoint_abs_ms const t_first = get_tripoint_from_var( first, d, false );
+        tripoint_abs_ms const t_second = get_tripoint_from_var( second, d, false );
         tripoint_abs_ms const orig = coord_min( t_first, t_second );
         map tm;
         tm.load( project_to<coords::sm>( orig ), false );
@@ -3862,7 +3870,7 @@ talk_effect_fun_t::func f_mapgen_update( const JsonObject &jo, std::string_view 
     return [target_params, update_ids, target_var, dov_time_in_future, key]( dialogue & d ) {
         tripoint_abs_omt omt_pos;
         if( target_var.has_value() ) {
-            const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d ) );
+            const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d, false ) );
             omt_pos = project_to<coords::omt>( abs_ms );
         } else {
             mission_target_params update_params = target_params;
@@ -3912,7 +3920,7 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
     }
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
     return [target_var, dov_time_in_future, key]( dialogue & d ) {
-        const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d ) );
+        const tripoint_abs_ms abs_ms( get_tripoint_from_var( target_var, d, false ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
         // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
@@ -3985,7 +3993,7 @@ talk_effect_fun_t::func f_guard_pos( const JsonObject &jo, std::string_view memb
                 //12 since it should start with npctalk_var
                 cur_var.name.insert( 12, guy->get_unique_id() );
             }
-            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d );
+            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d, is_npc );
             guy->set_guard_pos( target_location );
         }
     };
@@ -4000,91 +4008,143 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
     } else {
         dov_quantity.min.dbl_val = -1;
     }
+
     bool is_trade = member == "u_bulk_trade_accept" || member == "npc_bulk_trade_accept";
+
     return [is_trade, is_npc, dov_quantity]( dialogue & d ) {
         talker *seller = d.actor( is_npc );
         talker *buyer = d.actor( !is_npc );
-        item tmp( d.cur_item );
-        int quantity = dov_quantity.evaluate( d );
-        int seller_has = 0;
-        int seller_has_loose = 0;
-        std::vector<item> seller_cans;
-        auto is_canned_item = [&tmp]( const item & e ) {
-            std::vector<const item_pocket *> pockets = e.get_all_contained_pockets();
-            return pockets.size() == 1 &&
-                   pockets[0]->size() == 1 &&
-                   pockets[0]->sealed() &&
-                   pockets[0]->front().type == tmp.type;
-        };
-        if( tmp.count_by_charges() ) {
-            seller_has = seller->charges_of( d.cur_item );
-        } else {
-            std::vector<item *> cans_tmp = seller->items_with( is_canned_item );
-            for( item *it : cans_tmp ) {
-                seller_cans.emplace_back( *it );
-            }
-            seller_has_loose = seller->items_with( [&tmp,
-            &cans_tmp]( const item & e ) {
-                return tmp.type == e.type &&
-                !std::any_of( cans_tmp.begin(), cans_tmp.end(), [&e]( const item * n ) {
-                    return &n->get_all_contained_pockets()[0]->front() == &e;
-                } );
-            } ).size();
-            seller_has = cans_tmp.size() + seller_has_loose;
+        itype_id traded_itype_id = d.cur_item;
+        int number_to_transfer = dov_quantity.evaluate( d );
 
-        }
-        seller_has = ( quantity == -1 ) ? seller_has : std::min( seller_has, quantity );
-        tmp.charges = seller_has;
-        if( is_trade ) {
-            const int npc_debt = d.actor( true )->debt();
-            int price = total_price( *seller, d.cur_item ) * ( is_npc ? -1 : 1 ) + npc_debt;
-            if( d.actor( true )->get_faction() && !d.actor( true )->get_faction()->currency.is_empty() ) {
-                const itype_id &pay_in = d.actor( true )->get_faction()->currency;
-                item pay( pay_in );
-                const int value = d.actor( true )->value( pay );
-                if( value > 0 ) {
-                    int required = price / value;
-                    int buyer_has = required;
-                    if( is_npc ) {
-                        buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
-                        buyer->use_charges( pay_in, buyer_has );
-                    } else {
-                        if( buyer_has == 1 ) {
-                            //~ %1%s is the NPC name, %2$s is an item
-                            popup( _( "%1$s gives you a %2$s." ), buyer->disp_name(),
-                                   pay.tname() );
-                        } else if( buyer_has > 1 ) {
-                            //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                            popup( _( "%1$s gives you %2$d %3$s." ), buyer->disp_name(), buyer_has,
-                                   pay.tname() );
-                        }
-                    }
-                    for( int i = 0; i < buyer_has; i++ ) {
-                        seller->i_add( pay );
-                        price -= value;
-                    }
+        // Use a set! No duplicates! Duplicate pointers will be bad(crash) when we try to remove the item later.
+        std::set<item *> items_to_transfer;
+
+        seller->get_character()->visit_items( [&]( item * visited, item * parent ) {
+            if( visited->typeId() == traded_itype_id ) {
+                if( parent && ( parent->all_pockets_sealed() || visited->made_of( phase_id::LIQUID ) ||
+                                parent->has_flag( json_flag_NO_UNLOAD ) ) ) {
+                    items_to_transfer.emplace( parent );
                 } else {
-                    debugmsg( "%s pays in bulk_trade_accept with faction currency worth 0!",
-                              d.actor( true )->disp_name() );
+                    items_to_transfer.emplace( visited );
                 }
-            } else {
+            }
+            return VisitResponse::NEXT;
+        } );
+
+        if( seller->get_character()->is_avatar() ) {
+            std::string warning = _( "Really continue?  You will hand over the following items:" );
+            int num_warnings = 0;
+            for( item *checked_item : items_to_transfer ) {
+                warning += "\n" + checked_item->tname();
+                num_warnings++;
+                if( !is_trade && num_warnings >= number_to_transfer ) {
+                    break; // bulk donate has a variable number to transfer but bulk trade always takes everything
+                }
+            }
+            if( !query_yn( warning ) ) {
+                return;
+            }
+        }
+
+        if( is_trade ) {
+
+            const int npc_debt = d.actor( true )->debt();
+            int price = total_price( *seller, traded_itype_id ) * ( is_npc ? -1 : 1 ) + npc_debt;
+            if( d.actor( true )->get_faction() && d.actor( true )->get_faction()->currency.is_empty() ) {
                 debugmsg( "%s has no faction currency to pay with in bulk_trade_accept!",
                           d.actor( true )->disp_name() );
+                return; // Fatal, no reasonable way to recover.
             }
+
+            // This can be very confusing, so for the benefit of future contributors I have elected to make the variable names
+            // terribly verbose.
+            const itype_id &currency_type = d.actor( true )->get_faction()->currency;
+            item one_currency_unit( currency_type );
+            const int int_value_of_one_currency_unit = d.actor( true )->value( one_currency_unit );
+            if( int_value_of_one_currency_unit <= 0 ) {
+                debugmsg( "%s pays in bulk_trade_accept with faction currency worth %d!",
+                          d.actor( true )->disp_name(), int_value_of_one_currency_unit );
+                return; // Fatal, no reasonable way to recover.
+            }
+
+            int num_transferred_currency_units = price / int_value_of_one_currency_unit;
+            if( is_npc ) {
+                num_transferred_currency_units = std::min( num_transferred_currency_units,
+                                                 buyer->charges_of( currency_type ) );
+                buyer->use_charges( currency_type, num_transferred_currency_units );
+            } else {
+
+                if( num_transferred_currency_units == 1 ) {
+                    //~ %1%s is the NPC name, %2$s is an item
+                    popup( _( "%1$s gives you a %2$s." ), buyer->disp_name(),
+                           one_currency_unit.tname() );
+                } else if( num_transferred_currency_units > 1 ) {
+                    //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                    popup( _( "%1$s gives you %2$d %3$s." ), buyer->disp_name(), num_transferred_currency_units,
+                           one_currency_unit.tname() );
+                }
+
+            }
+
+            // Currency is actually transferred
+            for( int i = 0; i < num_transferred_currency_units; i++ ) {
+                seller->i_add( one_currency_unit );
+                price -= int_value_of_one_currency_unit;
+            }
+
+            // Tally up debts
             d.actor( true )->add_debt( -npc_debt );
             d.actor( true )->add_debt( price );
-        }
-        if( tmp.count_by_charges() ) {
-            seller->use_charges( d.cur_item, seller_has );
-        } else {
-            seller->use_amount( d.cur_item, seller_has_loose );
-            seller->remove_items_with( is_canned_item );
-        }
-        if( seller_cans.size() != size_t( seller_has ) ) {
-            buyer->i_add( tmp );
-        }
-        for( const item &it : seller_cans ) {
-            buyer->i_add( it );
+
+            // Now let's actually transfer the items!
+            for( item *transferred : items_to_transfer ) {
+                item transfer_copy( *transferred );
+                buyer->i_add_or_drop( transfer_copy );
+
+                auto remove_items_filter = [&]( const item & it ) {
+                    return &it == const_cast<const item *>( transferred );
+                };
+
+                seller->remove_items_with( remove_items_filter );
+            }
+
+
+        } else { // u_bulk_donate
+
+            int number_transferred = 0;
+            for( item *transferred : items_to_transfer ) {
+                item transfer_copy( *transferred );
+                buyer->i_add_or_drop( transfer_copy );
+
+                // Count now, while the item still exists
+                if( transferred->typeId() != traded_itype_id ) {
+                    // Container traded over
+                    if( item( traded_itype_id ).count_by_charges() ) {
+                        number_transferred += transferred->charges_of( traded_itype_id );
+                    } else {
+                        number_transferred += transferred->amount_of( traded_itype_id );
+                    }
+                } else {
+                    // Loose items traded over
+                    if( transferred->count_by_charges() ) {
+                        number_transferred += transferred->charges;
+                    } else {
+                        number_transferred++;
+                    }
+                }
+
+                auto remove_items_filter = [&]( const item & it ) {
+                    return &it == const_cast<const item *>( transferred );
+                };
+
+                seller->remove_items_with( remove_items_filter );
+
+                if( number_transferred >= number_to_transfer ) {
+                    return;
+                }
+            }
+
         }
     };
 }
@@ -4202,9 +4262,11 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string,
                      popup_msg, popup_w_interrupt_query_msg, interrupt_type, global, is_npc]
     ( dialogue const & d ) {
-        Character *target = d.actor( is_npc )->get_character();
+        Character *target;
         if( global ) {
             target = &get_player_character();
+        } else {
+            target = d.actor( is_npc )->get_character();
         }
         if( !target || target->is_npc() ) {
             return;
@@ -4515,7 +4577,7 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
                 }
             } else {
                 const tripoint target_pos = loc_var ?
-                                            get_map().getlocal( get_tripoint_from_var( loc_var, d ) ) : caster->pos();
+                                            get_map().getlocal( get_tripoint_from_var( loc_var, d, is_npc ) ) : caster->pos();
                 sp.cast_all_effects( *caster, target_pos );
                 caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
             }
@@ -4624,6 +4686,31 @@ talk_effect_fun_t::func f_set_condition( const JsonObject &jo, std::string_view 
     return [value, cond]( dialogue & d ) {
         d.set_conditional( value.evaluate( d ), cond );
     };
+}
+
+talk_effect_fun_t::func f_set_item_category_spawn_rates( const JsonObject &jo,
+        std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        std::set<std::pair<item_category_id, float>> rates;
+        for( const JsonObject joi : jo.get_array( member ) ) {
+            item_category_id cat( joi.get_string( "id" ) );
+            float spawn_rate = joi.get_float( "spawn_rate" );
+            rates.insert( std::make_pair( cat, spawn_rate ) );
+        }
+        return [rates]( dialogue const &/* d */ ) {
+            for( const std::pair<item_category_id, float> &rate : rates ) {
+                rate.first.obj().set_spawn_rate( rate.second );
+            }
+        };
+    } else {
+        JsonObject joi = jo.get_member( member );
+        item_category_id cat( joi.get_string( "id" ) );
+        float spawn_rate = joi.get_float( "spawn_rate" );
+        return [cat, spawn_rate]( dialogue const &/* d */ ) {
+            cat.obj().set_spawn_rate( spawn_rate );
+        };
+    }
 }
 
 talk_effect_fun_t::func f_assign_mission( const JsonObject &jo, std::string_view member )
@@ -4766,7 +4853,7 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                     return;
                 }
                 if( target_var.has_value() ) {
-                    tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+                    tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
                     if( get_map().inbounds( target_pos ) ) {
                         guy->invoke_item( it->get_item(), method_str, get_map().getlocal( target_pos ) );
                         return;
@@ -4860,7 +4947,7 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
     }
     return [is_npc, snip_id, message, volume, ambient, type, target_var, snippet,
             same_snippet]( dialogue & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         std::string translated_message;
         if( snippet ) {
             if( same_snippet ) {
@@ -5352,7 +5439,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
 
     return [is_npc, option, true_eocs, false_eocs, data, loc_var, dov_min_radius, dov_max_radius,
             title]( dialogue & d ) {
-        tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d );
+        tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d, is_npc );
         std::vector<item_location> items;
         map &here = get_map();
         tripoint center = here.getlocal( target_location );
@@ -5361,7 +5448,7 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
         for( const tripoint &pos : here.points_in_radius( center, max_radius ) ) {
             if( rl_dist( center, pos ) >= min_radius && here.inbounds( pos ) ) {
                 for( item &it : here.i_at( pos ) ) {
-                    items.emplace_back( map_cursor( pos ), &it );
+                    items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
                 }
             }
         }
@@ -5897,7 +5984,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d ) );
+            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d, is_npc ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -6032,7 +6119,7 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d ) );
+            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d, is_npc ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -6112,7 +6199,7 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
 
         tripoint_abs_ms target_pos = d.actor( is_npc )->global_pos();
         if( target_var.has_value() ) {
-            target_pos = get_tripoint_from_var( target_var, d );
+            target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
@@ -6146,7 +6233,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     }
     bool force = jo.get_bool( "force", false );
     return [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
-        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
+        tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
@@ -6397,6 +6484,7 @@ parsers = {
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
+    { "set_item_category_spawn_rates", jarg::member | jarg::array, &talk_effect_fun::f_set_item_category_spawn_rates },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },

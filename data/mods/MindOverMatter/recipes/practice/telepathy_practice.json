@@ -40,7 +40,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
@@ -52,7 +52,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -72,7 +72,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
@@ -84,7 +84,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -104,7 +104,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
@@ -116,7 +116,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -183,7 +183,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
@@ -195,7 +195,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -263,7 +263,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
@@ -275,7 +275,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_blast')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -343,7 +343,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
@@ -355,7 +355,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_animal_mind_control')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -423,7 +423,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
@@ -435,7 +435,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_confusion')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -503,7 +503,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
@@ -515,7 +515,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_invisibility')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -583,7 +583,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
@@ -595,7 +595,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_fear')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -663,7 +663,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
@@ -675,7 +675,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_blast_radius')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -743,7 +743,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
@@ -755,7 +755,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_beast_taming')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -823,7 +823,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
@@ -835,7 +835,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_mind_control')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -903,7 +903,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
@@ -915,7 +915,7 @@
           },
           { "math": [ "u_spell_exp('telepathic_network')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [

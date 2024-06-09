@@ -6,9 +6,7 @@
       "concatenate": [
         "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.",
         {
-          "u_has_var": "u_cardboard_gift",
-          "type": "dialogue",
-          "context": "dave",
+          "u_has_var": "dialogue_dave_u_cardboard_gift",
           "value": "finished",
           "yes": "\"We hope our gift to you will help repay our great debt.\"",
           "no": "\"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\""
@@ -22,10 +20,10 @@
       {
         "text": "You said something about a gift?",
         "topic": "TALK_DINODAVE_Gift_Given",
-        "effect": [ { "u_add_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "finished" } ],
+        "effect": [ { "u_add_var": "dialogue_dave_u_cardboard_gift", "value": "finished" } ],
         "condition": {
           "and": [
-            { "u_has_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "in_progress" },
+            { "u_has_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" },
             { "math": [ "time_since(u_timer_dave_creating_gift)", ">", "time('1 d')" ] }
           ]
         }
@@ -77,15 +75,13 @@
         "text": "You know, this place is surprisingly nice, for a cardboard fortress.",
         "topic": "TALK_DINODAVE_Cardboard",
         "effect": [
-          { "u_add_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "in_progress" },
+          { "u_add_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" },
           { "math": [ "u_timer_dave_creating_gift", "=", "time('now')" ] }
         ],
         "condition": {
           "and": [
-            { "not": { "u_has_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "finished" } },
-            {
-              "not": { "u_has_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "in_progress" }
-            }
+            { "not": { "u_has_var": "dialogue_dave_u_cardboard_gift", "value": "finished" } },
+            { "not": { "u_has_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" } }
           ]
         }
       },

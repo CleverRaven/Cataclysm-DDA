@@ -49,7 +49,7 @@
         [ "matrix_crystal_clairsentience", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
@@ -61,7 +61,7 @@
           },
           { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -87,7 +87,7 @@
         [ "matrix_crystal_clairsentience", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
@@ -99,7 +99,7 @@
           },
           { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -176,7 +176,7 @@
         [ "matrix_crystal_clairsentience", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
@@ -188,7 +188,7 @@
           },
           { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -214,7 +214,7 @@
         [ "matrix_crystal_clairsentience", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
@@ -226,7 +226,7 @@
           },
           { "math": [ "u_spell_exp('clair_spot_weakness')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -303,7 +303,7 @@
         [ "matrix_crystal_clairsentience", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
@@ -315,7 +315,7 @@
           },
           { "math": [ "u_spell_exp('clair_sense_rads')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ]
       }
@@ -341,7 +341,7 @@
         [ "matrix_crystal_clairsentience", -1 ]
       ]
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
@@ -353,7 +353,7 @@
           },
           { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -431,7 +431,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
@@ -443,7 +443,7 @@
           },
           { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -521,7 +521,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
@@ -533,7 +533,7 @@
           },
           { "math": [ "u_spell_exp('clair_voyance')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -611,7 +611,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
@@ -623,7 +623,7 @@
           },
           { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -701,7 +701,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
@@ -713,7 +713,7 @@
           },
           { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -791,7 +791,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
@@ -803,7 +803,7 @@
           },
           { "math": [ "u_spell_exp('clair_see_map')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -881,7 +881,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
@@ -893,7 +893,7 @@
           },
           { "math": [ "u_spell_exp('clair_perfect_shot')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -971,7 +971,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
@@ -983,7 +983,7 @@
           },
           { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1061,7 +1061,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION",
@@ -1070,7 +1070,7 @@
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('clair_astral_projection')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1148,7 +1148,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
@@ -1160,7 +1160,7 @@
           },
           { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [
@@ -1238,7 +1238,7 @@
       ]
     ],
     "components": [ [ [ "matrix_crystal_clair_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
@@ -1250,7 +1250,7 @@
           },
           { "math": [ "u_spell_exp('clair_omniscience')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(10)" ] },
+          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(10)" ] },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [

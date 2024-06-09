@@ -25,7 +25,7 @@
     "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
     "weight": "900 g",
     "volume": "500 ml",
-    "price": 9000,
+    "price": "90 USD",
     "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "%",

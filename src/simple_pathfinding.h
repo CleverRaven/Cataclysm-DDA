@@ -6,7 +6,7 @@
 #include <optional>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "omdata.h"
 #include "point.h"

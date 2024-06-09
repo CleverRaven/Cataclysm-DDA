@@ -61,7 +61,6 @@
     "id": "ratatosks_curse",
     "cooldown": 10,
     "move_cost": 100,
-    "attack_chance": 50,
     "hitsize_min": 4,
     "attack_upper": false,
     "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],

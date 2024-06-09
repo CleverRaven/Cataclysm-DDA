@@ -175,7 +175,7 @@
     "name": { "str": "USB drive (Phavian)", "str_pl": "USB drives (Phavian)" },
     "description": "A USB thumb drive with the XEDRA logo over a large Ψ symbol printed on it.  You'd bet there's something important on here.",
     "price": "12 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "plastic", "aluminum" ],
     "weight": "4536 mg",
     "volume": "4 ml",

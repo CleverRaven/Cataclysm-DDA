@@ -84,6 +84,38 @@
     "time": "1 s"
   },
   {
+    "id": "afs_bio_blood_plus",
+    "type": "bionic",
+    "name": { "str": "Synthetic Marrow" },
+    "description": "The interior of your femurs have been scrapped clean, the marrow replaced with a Mercurial brand bio-factory that produces high efficiency blood analogues.  The blood substitutes are fine-tuned for combat, increasing stamina, disease resistance and clotting speed.",
+    "cant_remove_reason": "The biofactory has perfectly integrated with your body, removing it would be pointless and potentially fatal.",
+    "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "enchantments": [
+      {
+        "ench_effects": [ { "effect": "synth_blood_permanent", "intensity": 2 } ],
+        "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 1.2 } ]
+      }
+    ]
+  },
+  {
+    "id": "afs_bio_blood_brain",
+    "type": "bionic",
+    "name": { "str": "Blood Neurology" },
+    "description": "Your blood is laced with neuron-analogue nanites, allowing your entire circulatory system to function as a secondary brain.  This radical modification increases your intelligence, reflexes and perception by 4, increases your pain tolerance and allows you to survive brain damage that would otherwise prove fatal.",
+    "occupied_bodyparts": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "INTELLIGENCE", "add": 4 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "PAIN", "multiply": -0.33 },
+          { "value": "PAIN_PENALTY_MOD_INT", "add": -4 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "afs_bio_melee_optimization_unit",
     "type": "bionic",
     "name": { "str": "Melee Optimization Unit" },
@@ -334,10 +366,7 @@
         "name": { "str": "Super Heated Bionic Weapon" },
         "description": "The superheated bionic weapon cuts and burns with ease.",
         "condition": {
-          "and": [
-            { "u_has_var": "on", "type": "bio", "context": "superheater", "value": "yes" },
-            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
-          ]
+          "and": [ { "u_has_var": "bio_superheater_on", "value": "yes" }, { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" } ]
         },
         "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
       }
@@ -360,10 +389,7 @@
         "name": { "str": "Charged Bionic Weapon" },
         "description": "Your bionic weapon sparks under constant electrical charge.",
         "condition": {
-          "and": [
-            { "u_has_var": "on", "type": "bio", "context": "blade_electric", "value": "yes" },
-            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
-          ]
+          "and": [ { "u_has_var": "bio_blade_electric_on", "value": "yes" }, { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" } ]
         },
         "hit_you_effect": [ { "id": "bio_blade_electric_arc" } ],
         "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]

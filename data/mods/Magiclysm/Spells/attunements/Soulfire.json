@@ -43,9 +43,9 @@
     "max_damage": 0,
     "valid_targets": [ "self" ],
     "max_level": 35,
-    "min_duration": { "math": [ "enhancement_proficiency_negate_calculate(1080000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_negate_calculate(540000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_negate_calculate(-30000)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_negate_calculate(1080000, 3600)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_negate_calculate(540000, 3600)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_negate_calculate(-30000, 0.055)" ] }
   },
   {
     "id": "soul_burn",

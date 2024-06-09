@@ -78,8 +78,10 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
-    set(_OS_FREEBSD_ 1)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD"
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")
+    set(_OS_BSD_ 1)
 endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
@@ -350,6 +352,9 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
+    endif ()
+    if (_OS_BSD_)
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lexecinfo")
     endif ()
 endif ()
 

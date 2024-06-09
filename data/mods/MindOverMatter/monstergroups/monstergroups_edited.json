@@ -272,5 +272,32 @@
       { "monster": "mon_mi_go_biokinetic", "weight": 200, "cost_multiplier": 5 },
       { "monster": "mon_mi_go_biokinetic", "weight": 50, "cost_multiplier": 20, "pack_size": [ 2, 3 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 25, "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_OUTER",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 50, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HEARTGUARDS",
+    "default": "mon_triffid",
+    "monsters": [ { "group": "GROUP_TRIFFID_PSIONS", "weight": 150, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_PSIONS",
+    "monsters": [
+      { "monster": "mon_triffid_clairsentient", "weight": 400 },
+      { "monster": "mon_triffid_pyrokinetic", "weight": 400 },
+      { "monster": "mon_triffid_teleporter", "weight": 200 }
+    ]
   }
 ]

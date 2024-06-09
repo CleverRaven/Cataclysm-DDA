@@ -3042,7 +3042,7 @@
     "type": "MONSTER",
     "id": "mon_silophosaurus",
     "name": { "str_sp": "skeletal dilophosaurus" },
-    "looks_like": "mon_zyrannosaurus",
+    "looks_like": "mon_syrannosaurus",
     "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.  Two especially bony crests on the top of the head complete the effect.",
     "default_faction": "zombie",
     "symbol": "Z",

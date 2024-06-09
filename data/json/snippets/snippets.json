@@ -318,22 +318,22 @@
     "text": [
       {
         "id": "artisan_prototypes_1",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a classic rifle and several diagrams of curved wooden maces.  The word 'OBREZ?' is written clearly on the front sheet.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_2",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a large mace with an internal gas reservoir and venting holes between the steel segments.  There are additional diagrams labeled 'IGNITION SYSTEM' and 'TRIGGER?'.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_3",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a bladed weapon with some audio equipment implanted.  Doodles of hair metal rock stars line the page, as well as the words 'LETS, HEAR IT FOR FRANKY'.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_4",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a sledgehammer with a moving center.  There is a references doc for a powder actuated nail gun stapled to the sheets.  There are two distinct sets of handwriting making notes."
       }
     ]
@@ -390,6 +390,94 @@
     "type": "snippet",
     "category": "<statue_worthy_act>",
     "text": [ "provided for our city in a time of need", "founded our great city" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<sports_teams>",
+    "//": "These were initially made for sports team blankets, please include both a town, team name, and sport if you expand the snippets",
+    "text": [
+      { "id": "team_1", "text": "Abbot Arctic Foxes hockey team" },
+      { "id": "team_2", "text": "Derry Drakes soccer team" },
+      { "id": "team_3", "text": "Eastport University field hockey team" },
+      { "id": "team_4", "text": "Foxborough highschool wrestling team" },
+      { "id": "team_5", "text": "Hudson Fighting Salmon football team" },
+      { "id": "team_6", "text": "Lewiston Crows baseball team" },
+      { "id": "team_7", "text": "Maxfield Moles rugby team" },
+      { "id": "team_8", "text": "New Ashford Wildcats basketball team" },
+      { "id": "team_9", "text": "North Kingston Angels hockey team" },
+      { "id": "team_10", "text": "Osborn University Blobfish soccer team" },
+      { "id": "team_11", "text": "Plainfield Pears highschool wrestling team" },
+      { "id": "team_12", "text": "Salisbury Brahmin football team" },
+      { "id": "team_13", "text": "Torrington Titans baseball team" },
+      { "id": "team_14", "text": "Waitsfield Centurions rugby team" },
+      { "id": "team_15", "text": "Woodford Corgis basketball team" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<geometric_patterns>",
+    "//": "Geometric patterns originally made for blankets, to represent their stitching patterns.",
+    "text": [
+      { "id": "geo_shape_1", "text": "circle" },
+      { "id": "geo_shape_2", "text": "diamond" },
+      { "id": "geo_shape_3", "text": "hexagon" },
+      { "id": "geo_shape_4", "text": "octagon" },
+      { "id": "geo_shape_5", "text": "pentagon" },
+      { "id": "geo_shape_6", "text": "square" },
+      { "id": "geo_shape_7", "text": "triangle" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<flowers>",
+    "//": "Different kinds of flowers, originally intended for use with floral blankets.  Additions should be plurals for this use-case, singular flower names should be made into a new snippet.",
+    "text": [
+      { "id": "flower_1", "text": "carnations" },
+      { "id": "flower_2", "text": "chrysanthemums" },
+      { "id": "flower_3", "text": "daffodil" },
+      { "id": "flower_4", "text": "dahlias" },
+      { "id": "flower_5", "text": "daisies" },
+      { "id": "flower_6", "text": "hybiscus" },
+      { "id": "flower_7", "text": "lilies" },
+      { "id": "flower_8", "text": "orchids" },
+      { "id": "flower_9", "text": "poppies" },
+      { "id": "flower_10", "text": "roses" },
+      { "id": "flower_11", "text": "sunflowers" },
+      { "id": "flower_12", "text": "tulips" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<cartoon_blanket>",
+    "//": "Descriptions of cartoon characters made for the cartoon blanket, probably won't make sense used elsewhere?",
+    "text": [
+      {
+        "id": "cartoon_blanket_1",
+        "text": "the famous Manspider, a quiet, nerdy spider that was bitten by a radioactive human"
+      },
+      {
+        "id": "cartoon_blanket_2",
+        "text": "the infamous pirate captain Iris Crane, the most beautiful, most daring, and most feared woman on the seven seas"
+      },
+      {
+        "id": "cartoon_blanket_3",
+        "text": "the three Mutant Squid Bros™, who live in a culvert by day and fight crime at night.  Rumor had it that a fourth Bro would be added in an upcoming spinoff"
+      },
+      {
+        "id": "cartoon_blanket_4",
+        "text": "the Christmas Ghoul, who taught the world that our looks don't define our passions"
+      },
+      { "id": "cartoon_blanket_5", "text": "the lovely Boston-Chan, the mascot of Boston AnimeCon" },
+      {
+        "id": "cartoon_blanket_6",
+        "text": "a famous man and woman from an anime, dressed in cowboy outfits.  A speech blurb reads \"How y'all doin'?\""
+      },
+      {
+        "id": "cartoon_blanket_7",
+        "text": "a small robot, known only as T6-Zed49, who tackles tough political issues while exploring civilizations across the universe"
+      },
+      { "id": "cartoon_blanket_8", "text": "a cartoon version of Mr. Smile and Laugh, a children's entertainer" }
+    ]
   },
   {
     "type": "snippet",

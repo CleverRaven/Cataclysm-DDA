@@ -27,8 +27,8 @@
     "volume": "1400 ml",
     "symbol": "@",
     "color": "white",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ]
   },
   {
@@ -42,8 +42,8 @@
     "volume": "2800 ml",
     "symbol": "@",
     "color": "white",
-    "price": 20,
-    "price_postapoc": 20,
+    "price": "20 cent",
+    "price_postapoc": "20 cent",
     "material": [ "bone" ]
   },
   {
@@ -57,8 +57,8 @@
     "volume": "5600 ml",
     "symbol": "@",
     "color": "white",
-    "price": 40,
-    "price_postapoc": 40,
+    "price": "40 cent",
+    "price_postapoc": "40 cent",
     "material": [ "bone" ]
   },
   {
@@ -72,8 +72,8 @@
     "volume": "1400 ml",
     "symbol": "@",
     "color": "white",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "qualities": [ [ "CUT_FINE", 1 ] ]
   },
@@ -88,8 +88,8 @@
     "volume": "2800 ml",
     "symbol": "@",
     "color": "white",
-    "price": 20,
-    "price_postapoc": 20,
+    "price": "20 cent",
+    "price_postapoc": "20 cent",
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
   },
@@ -104,8 +104,8 @@
     "volume": "5600 ml",
     "symbol": "@",
     "color": "white",
-    "price": 40,
-    "price_postapoc": 40,
+    "price": "40 cent",
+    "price_postapoc": "40 cent",
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
   },

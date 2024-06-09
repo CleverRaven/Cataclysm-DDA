@@ -67,7 +67,14 @@
     "id": "EOC_IERDE_GOBLIN_FRUIT",
     "condition": {
       "and": [
-        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
         { "not": { "u_is_on_terrain": "t_grass_alien" } },
         { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
         { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
@@ -86,7 +93,14 @@
     "id": "EOC_IERDE_IRON_ARMOR_SPELL",
     "condition": {
       "and": [
-        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
         { "not": { "u_is_on_terrain": "t_grass_alien" } },
         { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
         { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
@@ -180,7 +194,14 @@
     "id": "EOC_IERDE_EARTHEN_SHIELD_SPELL",
     "condition": {
       "and": [
-        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
         { "not": { "u_is_on_terrain": "t_grass_alien" } },
         { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
         { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
@@ -217,22 +238,25 @@
     "type": "effect_on_condition",
     "id": "EOC_IERDE_SINK_INTO_EARTH_activate",
     "condition": {
-      "or": [
-        { "u_is_on_terrain": "t_soil" },
-        { "u_is_on_terrain": "t_rock" },
+      "and": [
         {
-          "and": [
+          "or": [
             { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "not": { "u_is_on_terrain": "t_grass_alien" } },
-            { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
-            { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
-            { "not": { "u_is_on_terrain": "t_fungus" } },
-            { "not": { "u_is_on_terrain": "t_glassed_sand" } },
-            { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
-            { "not": { "u_is_on_terrain": "t_swater_surf" } },
-            { "not": { "u_is_on_terrain": "t_woodchips" } }
+            { "u_is_on_terrain": "t_soil" },
+            { "u_is_on_terrain": "t_rock" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
           ]
-        }
+        },
+        { "not": { "u_is_on_terrain": "t_grass_alien" } },
+        { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+        { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+        { "not": { "u_is_on_terrain": "t_fungus" } },
+        { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+        { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+        { "not": { "u_is_on_terrain": "t_swater_surf" } },
+        { "not": { "u_is_on_terrain": "t_woodchips" } }
       ]
     },
     "effect": [ { "run_eocs": "EOC_IERDE_SLEEP_IN_EARTH" } ],
@@ -378,6 +402,59 @@
     "type": "effect_on_condition",
     "id": "EOC_RESHAPE_EARTH_STONE_TO_DIRT",
     "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_stone_to_dirt" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_ENTRAP_TARGET_IN_STONE",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain": "t_rock_floor" },
+        { "u_is_on_terrain": "t_railroad_rubble" },
+        { "u_is_on_terrain": "t_dirt_underground" }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "ierde_trap_target_local_terrain_bash" } },
+      { "u_transform_radius": 1, "ter_furn_transform": "ter_ierde_entrap_target_in_stone" },
+      { "u_transform_radius": 0, "ter_furn_transform": "ter_ierde_entrap_target_in_stone_ground_zero" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_TUNNEL_TRANSLOCATE_CHECK",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
+        { "math": [ "u_val('pos_z')", "<=", "-2" ] }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
+    "false_effect": [ { "u_message": "You must be standing deep underground and on the living earth to translocate.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_TUNNEL_ATTUNEMENT_CHECK",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
+        { "math": [ "u_val('pos_z')", "<=", "-2" ] }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "ierde_tunnel_translocation_attune_real" }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be deep underground on and on the living earth  to cast this spell.", "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",

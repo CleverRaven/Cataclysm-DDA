@@ -190,8 +190,8 @@
     "healthy": -1,
     "calories": 35,
     "description": "A strange green pod produced by a triffid.  Based on observation it may be the closest thing to triffid seeds (or eggs?).",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
@@ -212,8 +212,8 @@
     "healthy": -1,
     "calories": 35,
     "description": "A strange gray pod that was dropped by one of the giant fungus.  It may be the closest thing to a fungal egg.",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
@@ -334,13 +334,6 @@
     "name": { "str_sp": "angelfish roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_ANGELFISH"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_goldfish",
-    "name": { "str_sp": "goldfish roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_GOLDFISH"
   },
   {
     "type": "COMESTIBLE",

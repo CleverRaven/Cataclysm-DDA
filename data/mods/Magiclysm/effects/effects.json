@@ -67,7 +67,8 @@
     "apply_message": "You are bolstered and pushed along by the power of the wind",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
-    "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "((u_spell_level('windrun') * 2) + 10)" ] } } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
   },
   {
     "type": "effect_type",
@@ -77,7 +78,7 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape.",
     "rating": "good",
-    "flags": [ "NIGHT_VISION" ]
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -108,7 +109,16 @@
     "apply_message": "You are filled with energy that improves everything you do!",
     "remove_message": "Your energy fades.",
     "rating": "good",
-    "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bless') ) + 5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -278,8 +288,8 @@
     "apply_message": "Your reflexes are heightened!",
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
-    "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
+    "removes_effects": [ "eagles_sight", "ogres_strength", "foxs_cunning" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('cats_grace') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -543,6 +553,39 @@
           {
             "value": "electronics",
             "add": { "math": [ "((u_spell_level('technomancer_gain_electronics_computer_spell') / 7) + 1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_technomancer_pain_ignore",
+    "name": [ "The Body Mechanical" ],
+    "desc": [ "Your body functions through pain with mechanical efficiency." ],
+    "remove_message": "Pain suddenly hampers you again.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_INT",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_PER",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
           }
         ]
       }
@@ -1131,7 +1174,14 @@
     "id": "effect_biomancer_eat_tons_of_food",
     "name": [ "Gluttonous Consumption" ],
     "desc": [ "You feel like you could eat a horse." ],
-    "rating": "good"
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food') * 0.5" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1278,7 +1328,8 @@
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
-      "effect_technomancer_gain_electronics_computer"
+      "effect_technomancer_gain_electronics_computer",
+      "effect_technomancer_pain_ignore"
     ]
   },
   {
@@ -1404,6 +1455,7 @@
       "effect_spirit_walking",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
+      "effect_technomancer_pain_ignore",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

@@ -38,7 +38,7 @@
   },
   {
     "id": "pistol_tiny_zip",
-    "copy-from": "moss_brownie",
+    "copy-from": "ruger_lcr_22",
     "type": "GUN",
     "name": "zip gun",
     "ammo": [ "ammo_pistol_tiny" ],
