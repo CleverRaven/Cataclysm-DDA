@@ -266,7 +266,7 @@
     "variants": [
       {
         "id": "sig_mosquito",
-        "name": { "str": "GSG Firefly" },
+        "name": { "str": "GSG Firefly", "str_pl": "GSG Fireflies" },
         "description": "The GSG firefly is a .22 semi-automatic handgun.  While the GSG Firefly started off as the SIG Mosquito, after the Mosquito ceased production, German Sport Guns picked it up and renamed it to the Firefly."
       }
     ],
