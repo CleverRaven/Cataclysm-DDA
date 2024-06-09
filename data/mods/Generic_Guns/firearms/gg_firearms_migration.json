@@ -135,7 +135,8 @@
       "m11",
       "m18",
       "p226_9mm",
-      "sp2022"
+      "sp2022",
+      "ruger_charger"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"

@@ -6,7 +6,7 @@
     "locations": [ "subterranean_empty" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "ANT", "UNIQUE", "CLASSIC", "WILDERNESS" ],
+    "flags": [ "ANT", "OVERMAP_UNIQUE", "CLASSIC", "WILDERNESS" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],

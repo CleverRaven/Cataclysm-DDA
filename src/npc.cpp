@@ -127,6 +127,12 @@ static const mfaction_str_id monfaction_player( "player" );
 static const morale_type morale_killed_innocent( "morale_killed_innocent" );
 static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 
+static const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
+static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+static const npc_class_id NC_COWBOY( "NC_COWBOY" );
+static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+static const npc_class_id NC_TRADER( "NC_TRADER" );
+
 static const overmap_location_str_id overmap_location_source_of_ammo( "source_of_ammo" );
 static const overmap_location_str_id overmap_location_source_of_anything( "source_of_anything" );
 static const overmap_location_str_id overmap_location_source_of_drink( "source_of_drink" );
@@ -308,10 +314,7 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
     }
-
-    if( jsobj.has_int( "class" ) ) {
-        guy.myclass = npc_class::from_legacy_int( jsobj.get_int( "class" ) );
-    } else if( jsobj.has_string( "class" ) ) {
+    if( jsobj.has_string( "class" ) ) {
         guy.myclass = npc_class_id( jsobj.get_string( "class" ) );
     }
 
