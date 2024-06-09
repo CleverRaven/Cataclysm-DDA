@@ -41,8 +41,7 @@ float Character::get_prof_boost( const proficiency_id &prof ) const
 
 float Character::get_proficiency_practice( const proficiency_id &prof ) const
 {
-    float boost = this->get_prof_boost( prof );
-    return boost * _proficiencies->pct_practiced( prof );
+    return _proficiencies->pct_practiced( prof );
 }
 
 time_duration Character::get_proficiency_practiced_time( const proficiency_id &prof ) const
@@ -94,13 +93,13 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
     // Proficiencies can ignore focus using the `ignore_focus` JSON property
     const bool ignore_focus = prof->ignore_focus();
     float focus_adjusted = adjust_for_focus( to_seconds<float>( amount ) );
-    float boosted = this->get_prof_boost( prof ) * focus_adjusted;
-    const time_duration &focused_amount = ignore_focus ? amount : time_duration::from_seconds(
-            boosted );
+    float boost = this->get_prof_boost( prof );
+    const time_duration &focused_amount = ignore_focus ? amount * boost
+        : time_duration::from_seconds( focus_adjusted ) * boost;
 
     const float pct_before = _proficiencies->pct_practiced( prof );
     const bool learned = _proficiencies->practice( prof, focused_amount,
-                         ignore_focus ? 0.f : std::fmod( boosted, 1.f ), max );
+                         ignore_focus ? 0.f : std::fmod( focus_adjusted , 1.f ), max );
     const float pct_after = _proficiencies->pct_practiced( prof );
 
     // Drain focus if necessary
