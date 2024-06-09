@@ -95,11 +95,11 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
     float focus_adjusted = adjust_for_focus( to_seconds<float>( amount ) );
     float boost = this->get_prof_boost( prof );
     const time_duration &focused_amount = ignore_focus ? amount * boost
-        : time_duration::from_seconds( focus_adjusted ) * boost;
+                                          : time_duration::from_seconds( focus_adjusted ) * boost;
 
     const float pct_before = _proficiencies->pct_practiced( prof );
     const bool learned = _proficiencies->practice( prof, focused_amount,
-                         ignore_focus ? 0.f : std::fmod( focus_adjusted , 1.f ), max );
+                         ignore_focus ? 0.f : std::fmod( focus_adjusted, 1.f ), max );
     const float pct_after = _proficiencies->pct_practiced( prof );
 
     // Drain focus if necessary
