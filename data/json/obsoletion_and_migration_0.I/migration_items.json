@@ -1445,16 +1445,6 @@
     "replace": "ruger_mk4_mag"
   },
   {
-    "id": "sig_mosquito",
-    "type": "MIGRATION",
-    "replace": "ruger_mk4"
-  },
-  {
-    "id": "mosquitomag",
-    "type": "MIGRATION",
-    "replace": "ruger_mk4_mag"
-  },
-  {
     "id": "cop_38",
     "type": "MIGRATION",
     "replace": "sw_619"

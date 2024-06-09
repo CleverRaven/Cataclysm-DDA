@@ -216,6 +216,19 @@
     "entries": [ { "item": "ruger_lcr_38", "charges": [ 0, 5 ] }, { "group": "on_hand_38" } ]
   },
   {
+    "id": "nested_sig_mosquito",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "sig_mosquito", "charges": [ 0, 10 ] },
+      { "item": "mosquitomag" },
+      { "item": "mosquitomag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
     "id": "nested_cp33",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

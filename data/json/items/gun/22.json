@@ -255,6 +255,55 @@
     ]
   },
   {
+    "id": "sig_mosquito",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "SIG training pistol" },
+    "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sig_mosquito",
+        "name": { "str": "SIG Mosquito pistol" },
+        "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful."
+      }
+    ],
+    "ascii_picture": "sig_mosquito",
+    "weight": "720 g",
+    "volume": "467 ml",
+    "longest_side": "214 mm",
+    "barrel_length": "99 mm",
+    "price": "360 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "to_hit": -2,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "22" ],
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 39,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "walther_p22",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
