@@ -345,18 +345,21 @@
   },
   {
     "id": "smokehouse",
+    "//": "Isherwoord omt",
     "type": "overmap_terrain",
     "copy-from": "generic_rural_building",
     "name": "smokehouse",
     "sym": "u",
-    "color": "brown"
+    "color": "brown",
+    "extras": ""
   },
   {
     "id": "smokehouse_roof",
     "type": "overmap_terrain",
     "copy-from": "generic_rural_building",
     "name": "smokehouse roof",
-    "color": "brown"
+    "color": "brown",
+    "extras": ""
   },
   {
     "id": "rural_outbuilding",
