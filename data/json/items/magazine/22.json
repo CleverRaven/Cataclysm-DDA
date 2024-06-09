@@ -181,14 +181,15 @@
     "id": "mosquitomag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Mosquito 10-round magazine" },
-    "description": "A factory specification 10-round magazine for the Mosquito pistol.",
+    "name": { "str": "Firefly 10-round magazine" },
+    "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
+    "description": "A factory specification 10-round magazine for the Firefly pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mosquitomag",
-        "name": { "str": "SIG Mosquito 10-round magazine" },
-        "description": "A factory specification 10-round magazine for the SIG Mosquito."
+        "name": { "str": "GSG Firefly 10-round magazine" },
+        "description": "A factory specification 10-round magazine for the GSG Firefly."
       }
     ],
     "weight": "60 g",
