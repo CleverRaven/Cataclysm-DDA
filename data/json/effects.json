@@ -4947,21 +4947,18 @@
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
   },
   {
+    "type": "effect_type",
     "id": "fragile_frog",
     "name": [ "Fragile Frog" ],
     "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
     "max_duration": "5 m",
     "show_in_info": true
-  }
+  },
   {
     "type": "effect_type",
     "id": "electrocytes_charge",
-    "name": [ "Depleted electrocytes", "Partially charged electrocytes", "Charged electrocytes" ],
-    "desc": [
-      "Your electrocytes are depleted.",
-      "Your electrocytes are partially depleted.",
-      "Your electrocytes are fully charged."
-    ],
-    "max_intensity": 3
+    "name": [ "Electrocytes charge" ],
+    "desc": [ "You electrocytes are generating charge over time in exchange for some calories." ],
+    "max_intensity": 20
   }
 ]

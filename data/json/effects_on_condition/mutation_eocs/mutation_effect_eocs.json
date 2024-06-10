@@ -566,16 +566,18 @@
       ]
     },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
-  },  
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_shock_touch",
     "//": "will cast 'shock_touch' spell when player has stored electrolytes as charges",
     "condition": { "math": [ "u_effect_intensity('electrocytes_charge')", ">", "1" ] },
-    "TODO": "extra conditions? big baddies more ammo.. check electric damage resistance?",
     "effect": [
-      { "u_cast_spell": { "id": "shock_touch" } },
-      { "u_message": "You zap your attacker!", "type": "good" },
+      { "u_cast_spell": { "id": "shock_touch" }, "targeted": true },
+      {
+        "u_message": "You make contact with your target as you polarize the electrocytes in your body, delivering a powerful shock.",
+        "type": "good"
+      },
       {
         "u_add_effect": "electrocytes_charge",
         "duration": "PERMANENT",
@@ -585,17 +587,10 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_shock_touch_recharge_timer",
+    "id": "EOC_electrocytes_recharge_timer",
     "//": "Regenerates electrocytes energy with calories over time, rate 1 charges/1h/500 calories",
-    "//": "Need research on electric eel caloric efficiency",
-    "recurrence": [ "18 minutes", "22 minutes" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "SHOCK_TOUCH" },
-        { "not": { "u_has_effect": "electrocytes_charge", "intensity": 3 } },
-        { "math": [ "u_calories('format': 'percent')", ">", "100" ] }
-      ]
-    },
+    "recurrence": [ "10 minutes", "15 minutes" ],
+    "condition": { "and": [ { "u_has_trait": "ELECTROCYTES" }, { "math": [ "u_calories('format': 'percent')", ">", "33" ] } ] },
     "effect": [
       { "math": [ "u_calories()", "-=", "100" ] },
       {
@@ -607,11 +602,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_shock_touch_cleanup",
+    "id": "EOC_electrocytes_cleanup",
     "eoc_type": "EVENT",
     "required_event": "loses_mutation",
     "//": "needed to remove the effect when losing the mutation",
-    "condition": { "compare_string": [ "SHOCK_TOUCH", { "context_val": "trait" } ] },
+    "condition": { "compare_string": [ "ELECTROCYTES", { "context_val": "trait" } ] },
     "effect": [ { "u_lose_effect": "electrocytes_charge" } ]
   }
 ]

@@ -9753,31 +9753,21 @@
     "type": "mutation",
     "id": "ELECTROCYTES",
     "name": { "str": "Electrocytes" },
-    "description": "Electrocytes, their energy can't be spent at that point.",
+    "description": "A new organ is running through your extremities, composed of thousands of electrocytes able to produce a very powerful current when polarized.",
     "points": 1
   },
   {
     "type": "mutation",
     "id": "SHOCK_TOUCH",
     "name": { "str": "Shock touch" },
-    "description": "Uses stored energy from your electrocytes to release powerful shocks.",
-    "enchantments": [ { "condition": "ACTIVE", "hit_you_effect": [ { "id": "shock_touch_primer"} ] } ],
+    "description": "You now have a patch of dark, smooth, mucus-coated skin at your extremities, it connects yo your electrocytes and allows you to release the energy contained within them through shocks powerful enough to cause debilitating spasms in your opponents muscles.",
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_shock_touch" ],
     "prereqs": [ "ELECTROCYTES" ],
     "types": [ "CLAWS" ],
     "points": 2,
     "visibility": 1,
     "ugliness": 1
-  },
-    {
-    "type": "mutation",
-    "id": "ISOLATIONFAT",
-    "//": "Like an eel, your innards are padded and isolated from your own shocks. In tandem with Slimy, will act to lead away runaway shocking attempts rather than have them stream straight through for example your Electroreceptors.",
-    "name": {
-      "str": "Resistive Innards"
-    },
-    "points": 2,
-    "description": "Your innards can resist shock.",
-    "prereqs": [ "SLIMY" ],
-    "category": [ "FISH" ]
   }
 ]
