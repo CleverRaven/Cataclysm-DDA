@@ -304,7 +304,7 @@
     "volume": "240 ml",
     "weight": "120 g",
     "hp": 2,
-    "upgrades": { "age_grow": 91, "into": "mon_bullfrog_frog" }
+    "upgrades": { "age_grow": 91, "into_group": "GROUP_TADPOLE_BULLFROG" }
   },
   {
     "id": "mon_strange_tadpole",
@@ -321,7 +321,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 8, "into": "mon_fowler_toad" },
+    "upgrades": { "age_grow": 8, "into_group": "GROUP_TADPOLE_FOWLER" },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -339,7 +339,7 @@
     "copy-from": "mon_proxy_tadpole",
     "name": { "str": "tadpole" },
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
-    "upgrades": { "age_grow": 15, "into": "mon_freedom_toad" },
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_FREEDOM" },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -361,7 +361,7 @@
     "name": { "str": "tadpole" },
     "description": "A tiny larval frog.  Almost solid black, this one is barely a speck in the water around it.",
     "color": "dark_gray",
-    "upgrades": { "age_grow": 15, "into": "mon_peeper_frog" }
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_PEEPER" }
   },
   {
     "id": "mon_vocal_tadpole",
@@ -379,7 +379,7 @@
     "name": { "str": "tadpole" },
     "description": "This rather unique tadpole might be mistaken for a small fish.  It sports a very broad tail with bright red-orange coloration at its end, dotted with black spots.",
     "color": "red",
-    "upgrades": { "age_grow": 15, "into": "mon_gray_frog" }
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_GRAY" }
   },
   {
     "id": "mon_shift_tadpole",
@@ -396,7 +396,7 @@
     "copy-from": "mon_proxy_tadpole",
     "description": "A brown and tan speckled tadpole with a wide body and very broad, feather-shaped tail.",
     "name": { "str": "tadpole" },
-    "upgrades": { "age_grow": 91, "into": "mon_mink_frog" }
+    "upgrades": { "age_grow": 91, "into_group": "GROUP_TADPOLE_MINK" }
   },
   {
     "id": "mon_tail_tadpole",
@@ -417,7 +417,7 @@
     "description": "This yellowish tadpole is covered in flecks of brown and cream coloring.  Its eyes rest close together on a notably pointed face.",
     "name": { "str": "tadpole" },
     "color": "yellow",
-    "upgrades": { "age_grow": 22, "into": "mon_pickerel_frog" },
+    "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_PICKEREL" },
     "extend": { "flags": [ "POISON" ] }
   },
   {
