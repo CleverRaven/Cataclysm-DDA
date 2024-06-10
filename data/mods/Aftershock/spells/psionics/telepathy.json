@@ -142,7 +142,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "blind",
-    "damage_type": "psi_telepathic_damage",
+    "damage_type": "afs_telepathic_damage",
     "shape": "blast",
     "min_duration": {
       "math": [ "( (u_spell_level('afs_telepathic_confusion') * 100) + 400) * (scaling_factor(u_val('intelligence') ) ) " ]
@@ -178,7 +178,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "psi_telepathic_damage",
+    "damage_type": "afs_telepathic_damage",
     "min_damage": { "math": [ "( (u_spell_level('afs_telepathic_blast') * 1.5) + 5) * (scaling_factor(u_val('intelligence') ) ) " ] },
     "max_damage": { "math": [ "( (u_spell_level('afs_telepathic_blast') * 3) + 5) * (scaling_factor(u_val('intelligence') ) ) " ] },
     "min_range": {

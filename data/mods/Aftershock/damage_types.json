@@ -99,7 +99,7 @@
     "ablative_info": { "order": 301, "show_type": false }
   },
   {
-    "id": "psi_telepathic_damage",
+    "id": "afs_telepathic_damage",
     "type": "damage_type",
     "physical": false,
     "magic_color": "white",
