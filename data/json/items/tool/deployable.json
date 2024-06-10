@@ -35,10 +35,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_makeshift_brazier"
-    },
+    "use_action": { "type": "deploy_furn", "furn_type": "f_makeshift_brazier" },
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
