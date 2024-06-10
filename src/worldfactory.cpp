@@ -1989,13 +1989,13 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated ) co
 
 bool WORLD::create_timestamp()
 {
-#if defined( TIME_UTC )
+#if defined( TIME_UTC ) && !defined( MACOSX )
     std::timespec t;
     if( std::timespec_get( &t, TIME_UTC ) != TIME_UTC ) {
         return false;
     }
 #else
-    // MinGW-w64 with pthread
+    // MinGW-w64 with pthread, MacOS, etc
     timespec t;
     if( clock_gettime( CLOCK_REALTIME, &t ) != 0 ) {
         return false;
@@ -2012,16 +2012,11 @@ bool WORLD::create_timestamp()
         return false;
     }
 
-    std::array<char, sizeof( "123456789" )> ns;
-    // Use std::to_chars for locale-independent conversion
-    const std::to_chars_result res = std::to_chars( ns.data(), ns.data() + ns.size() - 1, t.tv_nsec );
-    if( res.ec != std::errc() || !res.ptr ) {
-        return false;
-    }
-
-    timestamp = std::string_view( ts.data(), ts_len );
-    timestamp += std::string( ns.size() - 1 - ( res.ptr - ns.data() ), '0' );
-    timestamp += std::string_view( ns.data(), res.ptr - ns.data() );
+    std::ostringstream str;
+    str.imbue( std::locale::classic() );
+    str << std::string_view( ts.data(), ts_len );
+    str << std::setw( 9 ) << std::setfill( '0' ) << t.tv_nsec;
+    timestamp = str.str();
     return true;
 }
 
