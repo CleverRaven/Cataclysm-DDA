@@ -310,7 +310,7 @@ class overmap
         bool is_river_node( const point_om_omt &p ) const;
 
         /* Returns the overmap river node if the position is an entry/exit node of river. */
-        std::optional<overmap_river_node> get_river_node_at( const point_om_omt &p ) const;
+        const overmap_river_node *get_river_node_at( const point_om_omt &p ) const;
 
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point_abs_omt global_base_point() const;

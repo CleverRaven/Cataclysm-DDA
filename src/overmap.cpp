@@ -4900,14 +4900,14 @@ bool overmap::is_river_node( const point_om_omt &p ) const
     return !!get_river_node_at( p );
 }
 
-std::optional<overmap_river_node> overmap::get_river_node_at( const point_om_omt &p ) const
+const overmap_river_node *overmap::get_river_node_at( const point_om_omt &p ) const
 {
     for( const overmap_river_node &n : rivers ) {
         if( n.p1 == p || n.p2 == p ) {
-            return n; //TODO: Would returning a pointer be more appropriate?
+            return &n;
         }
     }
-    return {};
+    return nullptr;
 }
 
 void overmap::place_rivers( const overmap *north, const overmap *east, const overmap *south,
