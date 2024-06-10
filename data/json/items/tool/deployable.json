@@ -20,6 +20,28 @@
     "//2": "Based on https://www.amazon.com/dp/B0BQ6JNS2H"
   },
   {
+    "id": "makeshift_brazier",
+    "type": "TOOL",
+    "name": { "str": "makeshift brazier" },
+    "description": "A protable brazier fashioned from a steel bucket by punching small holes on the sides to imrove air supply.  It is too small to fit anything much larger than splintered wood.  Fires set in the bucket will not spread to surrounding flammable objects",
+    "copy-from": "bucket",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20 kg"
+      }
+    ],
+    "use_action": {
+      "type": "deploy_furn",
+      "furn_type": "f_makeshift_brazier"
+    },
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "hobo_stove",
     "type": "TOOL",
     "name": { "str": "hobo stove" },
