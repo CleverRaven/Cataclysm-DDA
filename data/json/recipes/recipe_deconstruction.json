@@ -2205,7 +2205,9 @@
     "result": "crown_golden_survivor",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "crown_golden"
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 200 ] ] ]
   },
   {
     "result": "cu_pipe",

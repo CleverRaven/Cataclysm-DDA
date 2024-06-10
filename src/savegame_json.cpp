@@ -93,7 +93,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -3865,9 +3864,7 @@ void Creature::load( const JsonObject &jsin )
 void player_morale::morale_point::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    if( !jo.read( "type", type ) ) {
-        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
-    }
+    jo.read( "type", type );
     itype_id tmpitype;
     if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item::find_type( tmpitype );

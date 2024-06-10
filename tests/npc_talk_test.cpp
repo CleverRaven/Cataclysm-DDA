@@ -23,7 +23,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
@@ -49,6 +48,8 @@ static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
 static const itype_id itype_knife_butcher( "knife_butcher" );
 static const itype_id itype_manual_speech( "manual_speech" );
+
+static const morale_type morale_haircut( "morale_haircut" );
 
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 
@@ -1165,7 +1166,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
-    player_character.add_morale( MORALE_HAIRCUT, 23 );
+    player_character.add_morale( morale_haircut, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );

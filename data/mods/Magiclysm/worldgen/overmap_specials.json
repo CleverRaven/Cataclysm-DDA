@@ -239,7 +239,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 1, 2 ],
     "spawns": { "group": "GROUP_MAGIC_FIELD", "population": [ 2, 15 ], "radius": [ 1, 3 ] },
-    "flags": [ "UNIQUE" ]
+    "flags": [ "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -259,7 +259,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 66, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "OVERMAP_UNIQUE" ]
   },
   {
     "type": "overmap_special",

@@ -310,7 +310,18 @@
       }
     ],
     "ammo": "battery",
-    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
+    "flags": [
+      "USE_UPS",
+      "STURDY",
+      "WATERPROOF",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "OUTER",
+      "MUNDANE",
+      "DEAF",
+      "TARDIS",
+      "MODULE_HOLDER"
+    ],
     "relic_data": {
       "passive_effects": [
         { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
@@ -346,7 +357,8 @@
       "PARTIAL_DEAF",
       "SUN_GLASSES",
       "FLASH_PROTECTION",
-      "TARDIS"
+      "TARDIS",
+      "MODULE_HOLDER"
     ],
     "power_draw": "6460 mW",
     "revert_to": "modular_exosuit",
@@ -529,7 +541,18 @@
       }
     ],
     "ammo": "battery",
-    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
+    "flags": [
+      "USE_UPS",
+      "STURDY",
+      "WATERPROOF",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "OUTER",
+      "MUNDANE",
+      "DEAF",
+      "TARDIS",
+      "MODULE_HOLDER"
+    ],
     "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "use_action": [
       {
@@ -561,7 +584,8 @@
       "PARTIAL_DEAF",
       "SUN_GLASSES",
       "FLASH_PROTECTION",
-      "TARDIS"
+      "TARDIS",
+      "MODULE_HOLDER"
     ],
     "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
     "power_draw": "5787 mW",
