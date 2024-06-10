@@ -51,7 +51,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
@@ -124,6 +123,9 @@ static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
 static const mfaction_str_id monfaction_player( "player" );
+
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
 
 static const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
 static const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
@@ -2881,7 +2883,7 @@ void npc::die( Creature *nkiller )
     if( killer == &player_character ) {
         if( player_character.has_trait( trait_PACIFIST ) ) {
             add_msg( _( "A cold shock of guilt washes over you." ) );
-            player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
+            player_character.add_morale( morale_killer_has_killed, -15, 0, 1_days, 1_hours );
         }
         if( hit_by_player ) {
             int morale_effect = -90;
@@ -2916,11 +2918,11 @@ void npc::die( Creature *nkiller )
             if( morale_effect == 0 ) {
                 // No morale effect
             } else if( morale_effect <= -50 ) {
-                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 2_days, 3_hours );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 2_days, 3_hours );
             } else if( morale_effect > -50 && morale_effect < 0 ) {
-                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 1_days, 1_hours );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 1_days, 1_hours );
             } else {
-                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 3_hours, 7_minutes );
+                player_character.add_morale( morale_killed_innocent, morale_effect, 0, 3_hours, 7_minutes );
             }
         }
     }

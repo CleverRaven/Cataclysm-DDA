@@ -56,7 +56,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
@@ -93,6 +92,9 @@ static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 
+static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
+static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
+
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
@@ -100,14 +102,12 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const limb_score_id limb_score_manip( "manip" );
 
+static const morale_type morale_failure( "morale_failure" );
+
 static const quality_id qual_BOIL( "BOIL" );
 
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
-
-static const string_id<struct furn_t> furn_f_fake_bench_hands( "f_fake_bench_hands" );
-
-static const string_id<struct furn_t> furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
@@ -1368,7 +1368,7 @@ bool item::handle_craft_failure( Character &crafter )
         }
         destroy_random_component( *this, crafter );
         if( crafter.has_trait( trait_INT_ALPHA ) ) {
-            crafter.add_morale( MORALE_FAILURE, -10, -50, 10_hours, 5_hours );
+            crafter.add_morale( morale_failure, -10, -50, 10_hours, 5_hours );
         }
     }
     if( starting_components > 0 && this->components.empty() ) {
@@ -1389,7 +1389,7 @@ bool item::handle_craft_failure( Character &crafter )
             crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                            _( "Ugh, this should be EASY with how smart you are!" ),
                                            _( "<npcname> seems to get really upset over this." ) );
-            crafter.add_morale( MORALE_FAILURE, -10, -50, 10_hours, 5_hours );
+            crafter.add_morale( morale_failure, -10, -50, 10_hours, 5_hours );
         }
     }
 

@@ -17,7 +17,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "pimpl.h"
 #include "type_id.h"
 #include "units.h"
@@ -30,6 +29,11 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
+static const morale_type morale_perm_fpmode_on( "morale_perm_fpmode_on" );
+static const morale_type morale_perm_hoarder( "morale_perm_hoarder" );
+static const morale_type morale_perm_noface( "morale_perm_noface" );
+static const morale_type morale_perm_nomad( "morale_perm_nomad" );
 
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_NOMAD( "NOMAD" );
@@ -63,7 +67,7 @@ void Character::hoarder_morale_penalty()
         pen = pen / 2;
     }
     if( pen > 0 ) {
-        add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
+        add_morale( morale_perm_hoarder, -pen, -pen, 1_minutes, 1_minutes, true );
     }
 }
 
@@ -112,7 +116,7 @@ void Character::apply_persistent_morale()
         const float t = ( total_time - min_time ) / ( max_time - min_time );
         const int pen = std::ceil( lerp_clamped( 0, max_unhappiness, t ) );
         if( pen > 0 ) {
-            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_nomad, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
 
@@ -120,16 +124,16 @@ void Character::apply_persistent_morale()
         // Losing your face is distressing
         if( !( is_wearing( itype_foodperson_mask ) ||
                is_wearing( itype_foodperson_mask_on ) ) ) {
-            add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_noface, -20, -20, 1_minutes, 1_minutes, true );
         } else if( is_wearing( itype_foodperson_mask ) ||
                    is_wearing( itype_foodperson_mask_on ) ) {
-            rem_morale( MORALE_PERM_NOFACE );
+            rem_morale( morale_perm_noface );
         }
 
         if( is_wearing( itype_foodperson_mask_on ) ) {
-            add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_fpmode_on, 10, 10, 1_minutes, 1_minutes, true );
         } else {
-            rem_morale( MORALE_PERM_FPMODE_ON );
+            rem_morale( morale_perm_fpmode_on );
         }
     }
 }
