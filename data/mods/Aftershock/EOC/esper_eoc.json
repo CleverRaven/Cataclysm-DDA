@@ -104,7 +104,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+    "id": "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
     "condition": {
       "and": [
         { "not": { "u_has_proficiency": "prof_concentration_basic" } },
@@ -116,7 +116,7 @@
     "false_effect": {
       "run_eocs": [
         {
-          "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
+          "id": "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
           "condition": {
             "and": [
               { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
@@ -127,7 +127,7 @@
           "false_effect": {
             "run_eocs": [
               {
-                "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
+                "id": "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
                 "condition": {
                   "and": [
                     { "not": { "u_has_proficiency": "prof_concentration_master" } },

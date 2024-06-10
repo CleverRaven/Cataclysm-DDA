@@ -87,14 +87,17 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 50,
-    "enchantments": [
+    "enchantments": [ "ench_afs_telepath_sense_minds" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_afs_telepath_sense_minds",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [
       {
-        "values": [
-          {
-            "value": "SIGHT_RANGE_MINDS",
-            "add": { "math": [ "( ( u_spell_level('afs_telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ] }
-          }
-        ]
+        "value": "SIGHT_RANGE_MINDS",
+        "add": { "math": [ "( ( u_spell_level('afs_telepathic_mind_sense') * 2) * (scaling_factor(u_val('intelligence') ) ) )" ] }
       }
     ]
   },

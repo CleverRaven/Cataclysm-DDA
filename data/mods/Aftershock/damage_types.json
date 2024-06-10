@@ -99,18 +99,18 @@
     "ablative_info": { "order": 301, "show_type": false }
   },
   {
-    "id": "psi_telepathic_damage",
+    "id": "afs_telepathic_damage",
     "type": "damage_type",
     "physical": false,
     "magic_color": "white",
     "name": "telepathic",
     "skill": "metaphysics",
     "immune_flags": { "character": [ "TEEPSHIELD", "PSYSHIELD_PROTECT" ], "monster": [ "TEEP_IMMUNE" ] },
-    "ondamage_eocs": [ "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK", "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE" ]
+    "ondamage_eocs": [ "EOC_AFS_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK", "EOC_AFS_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE" ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK",
+    "id": "EOC_AFS_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK",
     "condition": {
       "and": [
         { "npc_has_worn_with_flag": "PSYSHIELD_PARTIAL" },
@@ -125,7 +125,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK_2",
+            "id": "EOC_AFS_TELEPATHIC_DAMAGE_PSYSHIELD_CHECK_2",
             "condition": { "x_in_y_chance": { "x": 1, "y": 2 } },
             "effect": [
               {
@@ -145,13 +145,17 @@
     ],
     "false_effect": [
       {
-        "run_eocs": [ "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE", "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE", "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE" ]
+        "run_eocs": [
+          "EOC_AFS_TELEPATHIC_DAMAGE_STUN_CHANCE",
+          "EOC_AFS_TELEPATHIC_DAMAGE_DAZED_CHANCE",
+          "EOC_AFS_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE"
+        ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE",
+    "id": "EOC_AFS_TELEPATHIC_DAMAGE_KNOCKDOWN_CHANCE",
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 20 } },
@@ -165,7 +169,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATHIC_DAMAGE_STUN_CHANCE",
+    "id": "EOC_AFS_TELEPATHIC_DAMAGE_STUN_CHANCE",
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 1, "y": 3 } },
@@ -179,7 +183,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATHIC_DAMAGE_DAZED_CHANCE",
+    "id": "EOC_AFS_TELEPATHIC_DAMAGE_DAZED_CHANCE",
     "condition": {
       "and": [
         { "x_in_y_chance": { "x": 2, "y": 3 } },
@@ -193,14 +197,14 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE",
+    "id": "EOC_AFS_TELEPATHIC_DAMAGE_STUN_HIVE_CHANCE",
     "condition": {
       "and": [ { "x_in_y_chance": { "x": 1, "y": 6 } }, { "math": [ "_damage_taken", ">", "0" ] }, { "npc_has_flag": "HIVE_MIND" } ]
     },
     "effect": [ { "npc_add_effect": "psi_stunned", "duration": "5 s" } ]
   },
   {
-    "id": "psi_telepathic_damage",
+    "id": "afs_telepathic_damage",
     "type": "damage_info_order",
     "info_display": "detailed",
     "verb": "mindblasting",
