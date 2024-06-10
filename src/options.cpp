@@ -1913,7 +1913,7 @@ void options_manager::add_options_interface()
            );
 
         add( "QUERY_DECONSTRUCT", page_id, to_translation( "Query on terrain/furniture deconstruction" ),
-             to_translation( "If true, will query before deconstructimg terrain/furniture." ),
+             to_translation( "If true, will query before deconstructing terrain/furniture." ),
              true
            );
 
