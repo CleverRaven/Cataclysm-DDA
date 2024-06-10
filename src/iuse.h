@@ -126,7 +126,6 @@ std::optional<int> gun_repair( Character *, item *, const tripoint & );
 std::optional<int> gunmod_attach( Character *, item *, const tripoint & );
 std::optional<int> hacksaw( Character *, item *, const tripoint &it_pnt );
 std::optional<int> hairkit( Character *, item *, const tripoint & );
-std::optional<int> hammer( Character *, item *, const tripoint & );
 std::optional<int> hand_crank( Character *, item *, const tripoint & );
 std::optional<int> heat_food( Character *, item *, const tripoint & );
 std::optional<int> heatpack( Character *, item *, const tripoint & );
