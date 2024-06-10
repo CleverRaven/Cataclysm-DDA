@@ -3564,10 +3564,10 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
     }
 
     // farm_map is what the area actually looks like
-    tinymap farm_map;
+    smallmap farm_map;
     farm_map.load( omt_tgt, false );
     // farm_json is what the area should look like according to jsons (loaded on demand)
-    std::unique_ptr<fake_map> farm_json;
+    std::unique_ptr<small_fake_map> farm_json;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     bool done_planting = false;
@@ -3580,7 +3580,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
         switch( op ) {
             case farm_ops::plow: {
                 if( !farm_json ) {
-                    farm_json = std::make_unique<fake_map>();
+                    farm_json = std::make_unique<small_fake_map>();
                     mapgendata dat( omt_tgt, *farm_json->cast_to_map(), 0, calendar::turn, nullptr );
                     std::string omt_id = dat.terrain_type()->get_mapgen_id();
                     if( !run_mapgen_func( omt_id, dat ) ) {
