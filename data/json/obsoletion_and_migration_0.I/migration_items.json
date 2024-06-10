@@ -1403,5 +1403,40 @@
     "id": "moss_brownie",
     "type": "MIGRATION",
     "replace": "ruger_lcr_22"
+  },
+  {
+    "id": "egg_pattern_frog",
+    "type": "MIGRATION",
+    "replace": "egg_leo_frog"
+  },
+  {
+    "id": "egg_strange_frog",
+    "type": "MIGRATION",
+    "replace": "egg_bullfrog_frog"
+  },
+  {
+    "id": "egg_foul_toad",
+    "type": "MIGRATION",
+    "replace": "egg_fowler_toad"
+  },
+  {
+    "id": "egg_odd_toad",
+    "type": "MIGRATION",
+    "replace": "egg_freedom_toad"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_peeper_frog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_gray_frog"
+  },
+  {
+    "id": "egg_palette_frog",
+    "type": "MIGRATION",
+    "replace": "egg_pickerel_frog"
   }
 ]
