@@ -4921,56 +4921,58 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     std::vector<point_om_omt> river_start;
     std::vector<point_om_omt> river_end;
 
-    auto set_rivers_in = [&]( const overmap * neighbour, const tripoint_om_omt & p_neighbour_start,
-                              const tripoint_om_omt & p_mine_start, const om_direction::type direction,
-    int max_displacement, std::vector<point_om_omt> &river_list ) -> void {
-        for( int i = 0; i < max_displacement; i++ )
-        {
-            const tripoint_om_omt p_neighbour = p_neighbour_start + displace( direction, i );
-            const tripoint_om_omt p_mine = p_mine_start + displace( direction, i );
+    // Determine points where rivers should connect w/ adjacent maps
+    if( north != nullptr ) {
+        for( int i = 10; i < OMAPX - 10; i++ ) {
+            const tripoint_om_omt p_neighbour( i, OMAPY - 1, 0 );
+            const tripoint_om_omt p_mine( i, 0, 0 );
 
-            if( is_river( neighbour->ter( p_neighbour ) ) ) {
+            if( is_river( north->ter( p_neighbour ) ) ) {
                 ter_set( p_mine, oter_river_center );
             }
-            // TODO: Can a river node exist on non river?? Otherwise nest this above
-            if( neighbour->is_river_node( p_neighbour.xy() ) ) {
-                river_list.push_back( p_mine.xy() );
+            if( north->is_river_node( p_neighbour.xy() ) ) {
+                river_start.push_back( p_mine.xy() );
             }
         }
-    };
-
-    // Determine points where rivers should connect w/ adjacent maps
-    // Indent from the edge of the overmap to check for existing rivers
-    // TODO: Why can't this be 0
-    const int indent = 10;
-    if( !!north ) {
-        // Neighbouring tripoint to check
-        const tripoint_om_omt p_neighbour_start( indent, OMAPY - 1, 0 );
-        // Corresponding adjacent tripoint on this overmap
-        const tripoint_om_omt p_mine_start( indent, 0, 0 );
-        set_rivers_in( north, p_neighbour_start, p_mine_start, om_direction::type::east,
-                       OMAPX - ( 2 * indent ), river_start );
     }
-    if( !!west ) {
-        const tripoint_om_omt p_neighbour_start( OMAPX - 1, indent, 0 );
-        const tripoint_om_omt p_mine_start( 0, indent, 0 );
+    if( west != nullptr ) {
+        for( int i = 10; i < OMAPY - 10; i++ ) {
+            const tripoint_om_omt p_neighbour( OMAPX - 1, i, 0 );
+            const tripoint_om_omt p_mine( 0, i, 0 );
 
-        set_rivers_in( west, p_neighbour_start, p_mine_start, om_direction::type::south,
-                       OMAPY - ( 2 * indent ), river_start );
+            if( is_river( west->ter( p_neighbour ) ) ) {
+                ter_set( p_mine, oter_river_center );
+            }
+            if( west->is_river_node( p_neighbour.xy() ) ) {
+                river_start.push_back( p_mine.xy() );
+            }
+        }
     }
-    if( !!south ) {
-        const tripoint_om_omt p_neighbour_start( indent, 0, 0 );
-        const tripoint_om_omt p_mine_start( indent, OMAPY - 1, 0 );
+    if( south != nullptr ) {
+        for( int i = 10; i < OMAPX - 10; i++ ) {
+            const tripoint_om_omt p_neighbour( i, 0, 0 );
+            const tripoint_om_omt p_mine( i, OMAPY - 1, 0 );
 
-        set_rivers_in( south, p_neighbour_start, p_mine_start, om_direction::type::east,
-                       OMAPX - ( 2 * indent ), river_end );
+            if( is_river( south->ter( p_neighbour ) ) ) {
+                ter_set( p_mine, oter_river_center );
+            }
+            if( south->is_river_node( p_neighbour.xy() ) ) {
+                river_end.push_back( p_mine.xy() );
+            }
+        }
     }
-    if( !!east ) {
-        const tripoint_om_omt p_neighbour( 0, indent, 0 );
-        const tripoint_om_omt p_mine( OMAPX - 1, indent, 0 );
+    if( east != nullptr ) {
+        for( int i = 10; i < OMAPY - 10; i++ ) {
+            const tripoint_om_omt p_neighbour( 0, i, 0 );
+            const tripoint_om_omt p_mine( OMAPX - 1, i, 0 );
 
-        set_rivers_in( east, p_neighbour_start, p_mine_start, om_direction::type::south,
-                       OMAPY - ( 2 * indent ), river_end );
+            if( is_river( east->ter( p_neighbour ) ) ) {
+                ter_set( p_mine, oter_river_center );
+            }
+            if( east->is_river_node( p_neighbour.xy() ) ) {
+                river_end.push_back( p_mine.xy() );
+            }
+        }
     }
 
     // Even up river start and ends by generating new rivers.
