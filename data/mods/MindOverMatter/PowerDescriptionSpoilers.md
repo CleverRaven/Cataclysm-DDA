@@ -909,7 +909,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
-*Target*: Self or one within 2 squares plus 1.1 squares per power level<br />
+*Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
 *Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level when used on self, indefinite when used on others<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
