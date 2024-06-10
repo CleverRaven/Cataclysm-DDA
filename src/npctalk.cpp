@@ -6563,7 +6563,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( barber_hair ),
             WRAP( buy_haircut ),
             WRAP( buy_shave ),
-            WRAP( morale_chat ),
             WRAP( morale_chat_activity ),
             WRAP( bionic_install ),
             WRAP( bionic_install_allies ),

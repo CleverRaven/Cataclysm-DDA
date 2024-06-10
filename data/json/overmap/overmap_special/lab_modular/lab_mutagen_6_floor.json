@@ -132,6 +132,6 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   }
 ]

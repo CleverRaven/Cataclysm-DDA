@@ -65,7 +65,6 @@
 #include "mondefense.h"
 #include "monfaction.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -177,6 +176,8 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_water( "water" );
+
+static const morale_type morale_support( "morale_support" );
 
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
@@ -4345,7 +4346,7 @@ bool mattack::slimespring( monster *z )
     // This morale buff effect could get spammy
     if( player_character.get_morale_level() <= 1 ) {
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
-        player_character.add_morale( MORALE_SUPPORT, 10, 50 );
+        player_character.add_morale( morale_support, 10, 50 );
     }
     // They will stave off loneliness, but aren't a substitute for real friends.
     if( player_character.has_effect( effect_social_dissatisfied ) ) {

@@ -208,6 +208,23 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "ruger_1022_auto",
+    "copy-from": "ruger_1022",
+    "type": "GUN",
+    "name": "full-auto varmint rifle",
+    "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_1022_auto",
+        "name": { "str": "full-auto Ruger 10/22 rifle" },
+        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
+      }
+    ],
+    "price_postapoc": "10 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
     "id": "ruger_lcr_22",
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
@@ -448,5 +465,126 @@
       }
     ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "ruger_mk4",
+    "//": "Stats are from the 5.5 inch target version https://ruger.com/products/markIVTarget/specSheets/40101.html",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Ruger target pistol" },
+    "description": "A light and handy .22 LR handgun from Ruger, this handgun is one of the most popular .22 handguns ever created.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_mk2",
+        "name": { "str": "Ruger Mark II" },
+        "description": "The 2nd version of the Ruger Standard, which replaced production of the Standard in 1982 and continued until 2005 with the main feature of having adjustable sights.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
+        "weight": 17
+      },
+      {
+        "id": "ruger_mk3",
+        "name": { "str": "Ruger Mark III" },
+        "description": "The 3rd version of the Ruger Standard, which replaced production of the Mark II in 2005 and continued until 2016.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
+        "weight": 19
+      },
+      {
+        "id": "ruger_mk4",
+        "name": { "str": "Ruger Mark IV" },
+        "description": "The 4th, and most modern version of the Ruger Standard.  Still in production since 2016, and has a simplified disassembly feature.  Has a 5.5 inch barrel and feeds from a 10 round magazine.",
+        "weight": 135
+      }
+    ],
+    "weight": "1001 g",
+    "volume": "392 ml",
+    "price": "679 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": -2,
+    "longest_side": "266 mm",
+    "barrel_length": "140 mm",
+    "material": [ "steel", "plastic", "aluminum" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "22" ],
+    "dispersion": 400,
+    "durability": 8,
+    "min_cycle_recoil": 100,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [
+      { "rigid": false, "magazine_well": "96 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_mk4_mag" ] }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "ruger_charger",
+    "looks_like": "ar_pistol",
+    "type": "GUN",
+    "//": "Stats are from https://ruger.com/products/22Charger/specSheets/4923.html",
+    "reload_noise_volume": 10,
+    "name": { "str": "varmint pistol" },
+    "description": "Essentially a varmint rifle with no stock and a shorter barrel, this gun loses out on a bit of energy with its shorter barrel and is a bit more uncomfortable to hold, but a fair bit lighter.  Includes a bipod.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_charger",
+        "name": { "str": "Ruger 22 Charger" },
+        "description": "This gun is essentially a shortened 10/22, feeding from the same magazines.  While it does feature a shorter barrel and a lack of a stock, it is a fair bit lighter, and comes included with a bipod to more steadily plink away at the undead."
+      }
+    ],
+    "ascii_picture": "ruger1022",
+    "weight": "1418 g",
+    "volume": "1358 ml",
+    "longest_side": "509 mm",
+    "barrel_length": "254 mm",
+    "price": "399 USD",
+    "price_postapoc": "4 USD",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 3,
+    "ammo": [ "22" ],
+    "skill": "pistol",
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 140,
+    "durability": 8,
+    "min_cycle_recoil": 39,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "built_in_mods": [ "bipod" ],
+    "pocket_data": [
+      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
+    ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "ruger_charger_auto",
+    "copy-from": "ruger_charger",
+    "type": "GUN",
+    "name": "full-auto varmint pistol",
+    "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_charger_auto",
+        "name": { "str": "full-auto Ruger 22 Charger" },
+        "description": "A Ruger 22 Charger modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
+      }
+    ],
+    "price_postapoc": "10 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   }
 ]

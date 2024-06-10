@@ -224,6 +224,12 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
+static const morale_type morale_book( "morale_book" );
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_haircut( "morale_haircut" );
+static const morale_type morale_play_with_pet( "morale_play_with_pet" );
+static const morale_type morale_shave( "morale_shave" );
+
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -233,6 +239,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -1943,7 +1950,7 @@ bool read_activity_actor::player_read( avatar &you )
         const int book_fun = learner->book_fun_for( *book, *learner );
         if( book_fun != 0 ) {
             // Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK,
+            learner->add_morale( morale_book,
                                  book_fun * 5, book_fun * 15,
                                  1_hours, 30_minutes, true,
                                  book->type );
@@ -2099,7 +2106,7 @@ bool read_activity_actor::npc_read( npc &learner )
     const int book_fun = learner.book_fun_for( *book, learner );
     if( book_fun != 0 ) {
         // Fun bonus is no longer calculated here.
-        learner.add_morale( MORALE_BOOK,
+        learner.add_morale( morale_book,
                             book_fun * 5, book_fun * 15,
                             1_hours, 30_minutes, true,
                             book->type );
@@ -3938,7 +3945,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
             ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
-            who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
+            who.add_morale( morale_feeling_good, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
             add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
@@ -4207,6 +4214,15 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         const furn_id furn = here.furn( target );
 
         if( furn->has_examine( iexamine::harvest_furn ) ) {
+            // TODO: Should be generified as a harvest field
+            if( furn->has_flag( ter_furn_flag::TFLAG_HARVEST_REQ_CUT1 ) && who.max_quality( qual_CUT ) < 1 ) {
+                if( !auto_forage ) {
+                    who.add_msg_if_player( m_info,
+                                           _( "You'll need a cutting tool to harvest this." ) );
+                }
+                act.set_to_null();
+                return;
+            }
             exam_furn = true;
         } else if( furn->has_examine( iexamine::harvest_furn_nectar ) )  {
             exam_furn = true;
@@ -5641,7 +5657,7 @@ void meditate_activity_actor::start( player_activity &act, Character & )
 void meditate_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
-    who.add_morale( MORALE_FEELING_GOOD, 5, 10 );
+    who.add_morale( morale_feeling_good, 5, 10 );
     act.set_to_null();
 }
 
@@ -5663,7 +5679,7 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
-    who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+    who.add_morale( morale_play_with_pet, rng( 3, 10 ), 10, 5_hours, 25_minutes );
 
     if( !playstr.empty() ) {
         who.add_msg_if_player( m_good, playstr, pet_name );
@@ -6017,7 +6033,7 @@ void shave_activity_actor::start( player_activity &act, Character & )
 void shave_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You open up your kit and shave." ) );
-    who.add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    who.add_morale( morale_shave, 8, 8, 240_minutes, 3_minutes );
     act.set_to_null();
 }
 
@@ -6040,7 +6056,7 @@ void haircut_activity_actor::start( player_activity &act, Character & )
 void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
-    who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    who.add_morale( morale_haircut, 3, 3, 480_minutes, 3_minutes );
     if( who.is_avatar() ) {
         uilist amenu;
         amenu.title = _( "Change what?" );

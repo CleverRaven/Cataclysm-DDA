@@ -549,6 +549,22 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
+    "id": "any_water",
+    "type": "requirement",
+    "//": "Any kind of water, clean or not.",
+    "components": [
+      [
+        [ "water", 1 ],
+        [ "water_clean", 1 ],
+        [ "salt_water", 1 ],
+        [ "water_sewage", 1 ],
+        [ "water_murky", 1 ],
+        [ "water_spring", 1 ],
+        [ "saline", 5 ]
+      ]
+    ]
+  },
+  {
     "id": "nails",
     "type": "requirement",
     "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]

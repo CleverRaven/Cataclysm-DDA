@@ -625,7 +625,7 @@
     "time": "15 m",
     "decomp_learn": 3,
     "book_learn": [ [ "manual_rifle", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [

@@ -840,7 +840,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.insert( tools.end(), 2, item( "polycarbonate_sheet" ) );
+        tools.insert( tools.end(), 4, item( "polycarbonate_sheet" ) );
         tools.insert( tools.end(), 1, item( "knife_paring" ) );
         tools.emplace_back( "motor_micro" );
         tools.emplace_back( "power_supply" );
@@ -898,11 +898,12 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
                 prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                // this recipe should be replaced with a test recipe that isn't impacted by changes in game recipes
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 // vacuum molding takes 4 charges
-                CHECK( get_remaining_charges( "UPS_off" ) == 286 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
             }
         }
 

@@ -135,7 +135,8 @@
       "m11",
       "m18",
       "p226_9mm",
-      "sp2022"
+      "sp2022",
+      "ruger_charger"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -180,7 +181,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022" ],
+    "id": [ "american_180", "ruger_1022", "ruger_1022_auto", "ruger_charger_auto" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -195,7 +196,8 @@
       "sig_p230",
       "walther_ppk",
       "pressin",
-      "cp33"
+      "cp33",
+      "ruger_mk4"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
