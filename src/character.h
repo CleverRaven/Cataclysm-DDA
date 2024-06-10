@@ -1505,9 +1505,6 @@ class Character : public Creature, public visitable
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
-        /** used for profession spawning and save migration for nested containers. remove after 0.F */
-        void migrate_items_to_storage( bool disintegrate );
-
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
