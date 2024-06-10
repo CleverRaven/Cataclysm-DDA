@@ -905,7 +905,11 @@
     "name": "GROUP_TADPOLE_LEO",
     "type": "monstergroup",
     "default": "mon_leo_frog",
-    "monsters": [ { "monster": "mon_leo_frog", "weight": 100 }, { "monster": "mon_pattern_frog", "weight": 20 }, { "monster": "mon_leo_worm", "weight": 1 } ]
+    "monsters": [
+      { "monster": "mon_leo_frog", "weight": 100 },
+      { "monster": "mon_pattern_frog", "weight": 20 },
+      { "monster": "mon_leo_worm", "weight": 1 }
+    ]
   },
   {
     "name": "GROUP_TADPOLE_BULLFROG",
