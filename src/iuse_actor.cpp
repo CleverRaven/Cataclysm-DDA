@@ -62,7 +62,6 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "music.h"
 #include "mutation.h"
@@ -136,6 +135,10 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
+
+static const morale_type morale_music( "morale_music" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -262,8 +265,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
                                   _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
             p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+            p->rem_morale( morale_pyromania_nofire );
         }
     }
 
@@ -1348,8 +1351,8 @@ void firestarter_actor::resolve_firestarter_use( Character *p, const tripoint_bu
                                       _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
-                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p->add_morale( morale_pyromania_startfire, 5, 10, 6_hours, 4_hours );
+                p->rem_morale( morale_pyromania_nofire );
             }
         }
     }
@@ -2233,7 +2236,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         }
         p->add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes, true );
+        p->add_morale( morale_music, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
 
     return 0;

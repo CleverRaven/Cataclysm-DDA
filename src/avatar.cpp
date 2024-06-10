@@ -55,7 +55,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
@@ -117,12 +116,17 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
+static const mfaction_str_id monfaction_player( "player" );
+
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_food_hot( "morale_food_hot" );
+static const morale_type morale_honey( "morale_honey" );
+static const morale_type morale_vomited( "morale_vomited" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
-
-static const string_id<monfaction> monfaction_player( "player" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
@@ -870,12 +874,12 @@ void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {
         // Remove all joy from previously eaten food and apply the penalty
-        rem_morale( MORALE_FOOD_GOOD );
-        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( morale_food_good );
+        rem_morale( morale_food_hot );
         // bears must suffer too
-        rem_morale( MORALE_HONEY );
+        rem_morale( morale_honey );
         // 1.5 times longer
-        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
+        add_morale( morale_vomited, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
                     45_minutes, false );
 
     } else {

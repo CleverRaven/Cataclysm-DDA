@@ -337,13 +337,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_goldfish",
-    "name": { "str_sp": "goldfish roe" },
-    "copy-from": "egg_fish",
-    "rot_spawn": "GROUP_EGG_GOLDFISH"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_koi",
     "name": { "str_sp": "koi roe" },
     "copy-from": "egg_fish",

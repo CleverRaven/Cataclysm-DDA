@@ -67,7 +67,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
@@ -149,7 +148,6 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_hc_steel( "hc_steel" );
@@ -159,6 +157,10 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_muscle( "muscle" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
@@ -925,8 +927,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
             if( has_trait( trait_PYROMANIA ) ) {
-                add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+                rem_morale( morale_pyromania_nofire );
                 add_msg_if_player( m_good, _( "You happily light a fire." ) );
             }
             mod_moves( -100 );
@@ -1730,7 +1732,7 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         // Aftershock
-        add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+        add_morale( morale_feeling_good, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
 
