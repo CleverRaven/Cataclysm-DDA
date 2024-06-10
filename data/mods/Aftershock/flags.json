@@ -7,5 +7,20 @@
   {
     "id": "HEAVY_TOOL",
     "type": "json_flag"
+  },
+  {
+    "id": "TEEPSHIELD",
+    "type": "json_flag",
+    "info": "You are immune to telepathy."
+  },
+  {
+    "id": "HIVE_MIND",
+    "type": "monster_flag",
+    "//": "This monster is part of a hive mind"
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage"
   }
 ]

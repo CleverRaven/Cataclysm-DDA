@@ -489,7 +489,9 @@
     "type": "overmap_terrain",
     "id": [
       "bandit_farm_3",
+      "bandit_farm_3_roof",
       "bandit_farm_2",
+      "bandit_farm_2_roof",
       "bandit_farm_1",
       "bandit_farm_6",
       "bandit_farm_5",

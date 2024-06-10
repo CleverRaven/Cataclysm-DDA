@@ -1569,6 +1569,11 @@
     "type": "json_flag"
   },
   {
+    "id": "MODULE_HOLDER",
+    "//": "Allows enchantment check to get modules in pockets of this item (modules are items which have an enchantment effect and the HAS:WORN flag.",
+    "type": "json_flag"
+  },
+  {
     "id": "MOUNTED_GUN",
     "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use.",
     "type": "json_flag"
@@ -1688,6 +1693,10 @@
   },
   {
     "id": "NPC_THROW_NOW",
+    "type": "json_flag"
+  },
+  {
+    "id": "NVG_GREEN",
     "type": "json_flag"
   },
   {
