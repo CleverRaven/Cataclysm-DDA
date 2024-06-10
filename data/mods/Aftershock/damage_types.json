@@ -204,7 +204,7 @@
     "effect": [ { "npc_add_effect": "psi_stunned", "duration": "5 s" } ]
   },
   {
-    "id": "psi_telepathic_damage",
+    "id": "afs_telepathic_damage",
     "type": "damage_info_order",
     "info_display": "detailed",
     "verb": "mindblasting",
