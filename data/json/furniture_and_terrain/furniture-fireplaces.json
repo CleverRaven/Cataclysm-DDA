@@ -74,7 +74,7 @@
     "id": "f_makeshift_brazier",
     "name": "makeshift brazier",
     "looks_like": "bucket",
-    "description": "A metal bucket with holes in which to safely burn things.  It's too small to fit any fule larger than splintered wood.",
+    "description": "A metal bucket with holes, in which you can safely start a fire.  It's too small to fit any fuel item larger than some splintered wood.",
     "symbol": "#",
     "color": "red",
     "move_cost_mod": 2,
