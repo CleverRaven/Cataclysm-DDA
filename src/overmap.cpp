@@ -4676,47 +4676,26 @@ void overmap::place_lakes()
             }
 
             // We're going to attempt to connect some points on this lake to the nearest river.
-            const auto connect_lake_to_closest_river =
-            [&]( const point_om_omt & lake_connection_point ) {
-                int closest_distance = -1;
-                point_om_omt closest_point;
-                for( int x = 0; x < OMAPX; x++ ) {
-                    for( int y = 0; y < OMAPY; y++ ) {
-                        const tripoint_om_omt p( x, y, 0 );
-                        if( !ter( p )->is_river() ) {
-                            continue;
-                        }
-                        const int distance = square_dist( lake_connection_point, p.xy() );
-                        if( distance < closest_distance || closest_distance < 0 ) {
-                            closest_point = p.xy();
-                            closest_distance = distance;
-                        }
+            const auto connect_lake_to_closest_river = [&]( const point_om_omt & lake_connection_point ) {
+                // It's possible that the lake extends multiple overmaps.
+                if( !inbounds( lake_connection_point ) ) {
+                    return;
+                }
+                for( const point_om_omt &p : closest_points_first( lake_connection_point, OMAPX ) ) {
+                    if( ter( tripoint_om_omt( p, 0 ) )->is_river() ) {
+                        place_river( p, lake_connection_point );
+                        break;
                     }
                 }
-
-                if( closest_distance > 0 ) {
-                    place_river( closest_point, lake_connection_point );
-                }
             };
-
             // Get the north and south most points in our lake.
+            // TODO: Make more natural than north and south points, like two arbitary opposite points (or better still tie into where rivers are)
             auto north_south_most = std::minmax_element( lake_points.begin(), lake_points.end(),
             []( const point_om_omt & lhs, const point_om_omt & rhs ) {
                 return lhs.y() < rhs.y();
             } );
-
-            point_om_omt northmost = *north_south_most.first;
-            point_om_omt southmost = *north_south_most.second;
-
-            // It's possible that our northmost/southmost points in the lake are not on this overmap, because our
-            // lake may extend across multiple overmaps.
-            if( inbounds( northmost ) ) {
-                connect_lake_to_closest_river( northmost );
-            }
-
-            if( inbounds( southmost ) ) {
-                connect_lake_to_closest_river( southmost );
-            }
+            connect_lake_to_closest_river( *north_south_most.first );
+            connect_lake_to_closest_river( *north_south_most.second );
         }
     }
 }
@@ -4846,50 +4825,6 @@ void overmap::place_oceans()
                     }
                     ter_set( tripoint_om_omt( p, settings->overmap_ocean.ocean_depth ), ocean_bed );
                 }
-            }
-
-            // We're going to attempt to connect some points to the nearest river.
-            // This isn't a lake but the code is the same, we can reuse it.  Water is water.
-            const auto connect_lake_to_closest_river =
-            [&]( const point_om_omt & lake_connection_point ) {
-                int closest_distance = -1;
-                point_om_omt closest_point;
-                for( int x = 0; x < OMAPX; x++ ) {
-                    for( int y = 0; y < OMAPY; y++ ) {
-                        const tripoint_om_omt p( x, y, 0 );
-                        if( !ter( p )->is_river() ) {
-                            continue;
-                        }
-                        const int distance = square_dist( lake_connection_point, p.xy() );
-                        if( distance < closest_distance || closest_distance < 0 ) {
-                            closest_point = p.xy();
-                            closest_distance = distance;
-                        }
-                    }
-                }
-
-                if( closest_distance > 0 ) {
-                    place_river( closest_point, lake_connection_point );
-                }
-            };
-
-            // Get the north and south most points in our ocean.
-            auto north_south_most = std::minmax_element( ocean_points.begin(), ocean_points.end(),
-            []( const point_om_omt & lhs, const point_om_omt & rhs ) {
-                return lhs.y() < rhs.y();
-            } );
-
-            point_om_omt northmost = *north_south_most.first;
-            point_om_omt southmost = *north_south_most.second;
-
-            // It's possible that our northmost/southmost points in the lake are not on this overmap, because our
-            // lake may extend across multiple overmaps.
-            if( inbounds( northmost ) ) {
-                connect_lake_to_closest_river( northmost );
-            }
-
-            if( inbounds( southmost ) ) {
-                connect_lake_to_closest_river( southmost );
             }
         }
     }
