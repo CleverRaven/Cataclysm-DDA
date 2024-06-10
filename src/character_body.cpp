@@ -30,7 +30,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -101,6 +100,10 @@ static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
+static const morale_type morale_comfy( "morale_comfy" );
+static const morale_type morale_pyromania_nearfire( "morale_pyromania_nearfire" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
 
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
@@ -624,14 +627,14 @@ void Character::update_bodytemp()
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
-                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
+                add_morale( morale_pyromania_nearfire, 10, 10, 1_hours,
                             30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                rem_morale( morale_pyromania_nofire );
             }
         } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
-            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
+            add_morale( morale_pyromania_nearfire, 5, 5, 30_minutes,
                         15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
-            rem_morale( MORALE_PYROMANIA_NOFIRE );
+            rem_morale( morale_pyromania_nofire );
         }
 
         mod_part_temp_conv( bp, sunlight_warmth );
@@ -706,7 +709,7 @@ void Character::update_bodytemp()
                 calendar::once_every( 1_minutes ) && get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
-                add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
+                add_morale( morale_comfy, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 

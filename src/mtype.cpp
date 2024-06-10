@@ -19,6 +19,7 @@
 #include "weakpoint.h"
 
 static const harvest_id harvest_list_human( "human" );
+static const harvest_id harvest_list_null( "null" );
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -319,6 +320,7 @@ mtype::mtype()
     sp_defense = nullptr;
     melee_training_cap = MAX_SKILL;
     harvest = harvest_list_human;
+    decay = harvest_list_null;
     luminance = 0;
     bash_skill = 0;
 

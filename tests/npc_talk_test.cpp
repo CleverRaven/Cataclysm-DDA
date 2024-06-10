@@ -23,7 +23,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
@@ -50,9 +49,10 @@ static const itype_id itype_dnd_handbook( "dnd_handbook" );
 static const itype_id itype_knife_butcher( "knife_butcher" );
 static const itype_id itype_manual_speech( "manual_speech" );
 
+static const morale_type morale_haircut( "morale_haircut" );
+
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 
-static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
 static const proficiency_id proficiency_prof_test( "prof_test" );
@@ -378,7 +378,7 @@ TEST_CASE( "npc_talk_class", "[npc_talk]" )
     npc &talker_npc = prep_test( d );
 
     d.add_topic( "TALK_TEST_NPC_CLASS" );
-    talker_npc.myclass = NC_NONE;
+    talker_npc.myclass = npc_class_id::NULL_ID();
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.myclass = NC_TEST_CLASS;
@@ -1010,7 +1010,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     gen_response_lines( d, 19 );
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
-    CHECK( talker_npc.myclass == NC_NONE );
+    CHECK( talker_npc.myclass == npc_class_id::NULL_ID() );
 }
 
 TEST_CASE( "npc_change_topic", "[npc_talk]" )
@@ -1166,7 +1166,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
-    player_character.add_morale( MORALE_HAIRCUT, 23 );
+    player_character.add_morale( morale_haircut, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 118169 );

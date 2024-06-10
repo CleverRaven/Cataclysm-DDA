@@ -17,12 +17,14 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 
 static const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
+
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const ter_str_id ter_t_foamcrete_floor( "t_foamcrete_floor" );
 static const ter_str_id ter_t_foamcrete_wall( "t_foamcrete_wall" );
@@ -158,13 +160,13 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
 
                         if( player_character.has_trait( trait_PYROMANIA ) &&
-                            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                            !player_character.has_morale( morale_pyromania_startfire ) ) {
                             for( const auto &fd : here.field_at( pt ) ) {
                                 if( fd.first->has_fire ) {
                                     player_character.add_msg_if_player( m_good,
                                                                         _( "You feel a surge of euphoria as flames burst out!" ) );
-                                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                                    player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                                    player_character.rem_morale( morale_pyromania_nofire );
                                     break;
                                 }
                             }
