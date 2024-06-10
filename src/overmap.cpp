@@ -4921,9 +4921,12 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     std::vector<point_om_omt> river_start;
     std::vector<point_om_omt> river_end;
 
+    // Indentation from edge of overmap where neighbouring rivers and nodes aren't checked
+    // TODO: Why isn't this 0?
+    const int indent = 10;
     // Determine points where rivers should connect w/ adjacent maps
     if( north != nullptr ) {
-        for( int i = 10; i < OMAPX - 10; i++ ) {
+        for( int i = indent; i <= OMAPX - indent; i++ ) {
             const tripoint_om_omt p_neighbour( i, OMAPY - 1, 0 );
             const tripoint_om_omt p_mine( i, 0, 0 );
 
@@ -4936,7 +4939,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     }
     if( west != nullptr ) {
-        for( int i = 10; i < OMAPY - 10; i++ ) {
+        for( int i = indent; i <= OMAPY - indent; i++ ) {
             const tripoint_om_omt p_neighbour( OMAPX - 1, i, 0 );
             const tripoint_om_omt p_mine( 0, i, 0 );
 
@@ -4949,7 +4952,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     }
     if( south != nullptr ) {
-        for( int i = 10; i < OMAPX - 10; i++ ) {
+        for( int i = indent; i < OMAPX - indent; i++ ) {
             const tripoint_om_omt p_neighbour( i, 0, 0 );
             const tripoint_om_omt p_mine( i, OMAPY - 1, 0 );
 
@@ -4962,7 +4965,7 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
         }
     }
     if( east != nullptr ) {
-        for( int i = 10; i < OMAPY - 10; i++ ) {
+        for( int i = indent; i < OMAPY - indent; i++ ) {
             const tripoint_om_omt p_neighbour( 0, i, 0 );
             const tripoint_om_omt p_mine( OMAPX - 1, i, 0 );
 
@@ -5036,6 +5039,7 @@ void overmap::place_swamps()
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt pos( x, y, 0 );
+            // TODO: Use is_river or similar not a ot match
             if( is_ot_match( "river", ter_unsafe( pos ), ot_match_type::contains ) ) {
                 std::vector<point_om_omt> buffered_points =
                     closest_points_first(
