@@ -286,15 +286,6 @@
     "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_LEO" }
   },
   {
-    "id": "mon_pattern_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_leo_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_pattern_frog" }
-  },
-  {
     "id": "mon_bullfrog_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
@@ -307,15 +298,6 @@
     "upgrades": { "age_grow": 91, "into_group": "GROUP_TADPOLE_BULLFROG" }
   },
   {
-    "id": "mon_strange_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_bullfrog_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_strange_frog" }
-  },
-  {
     "id": "mon_fowler_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
@@ -323,15 +305,6 @@
     "description": "The larval form of some species of frog.  Soon enough it will undergo metamorphosis into its adult form.  This dark, speckled one has a rather large, bulbous body compared to its thin, tapered tail.",
     "upgrades": { "age_grow": 8, "into_group": "GROUP_TADPOLE_FOWLER" },
     "extend": { "flags": [ "POISON" ] }
-  },
-  {
-    "id": "mon_foul_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_fowler_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 8, "into": "mon_foul_toad" }
   },
   {
     "id": "mon_freedom_tadpole",
@@ -343,18 +316,6 @@
     "extend": { "flags": [ "POISON" ] }
   },
   {
-    "id": "mon_odd_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_freedom_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "volume": "240 ml",
-    "weight": "120 g",
-    "hp": 2,
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_odd_toad" }
-  },
-  {
     "id": "mon_peeper_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
@@ -362,15 +323,6 @@
     "description": "A tiny larval frog.  Almost solid black, this one is barely a speck in the water around it.",
     "color": "dark_gray",
     "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_PEEPER" }
-  },
-  {
-    "id": "mon_vocal_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_peeper_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_vocal_frog" }
   },
   {
     "id": "mon_gray_tadpole",
@@ -382,33 +334,12 @@
     "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_GRAY" }
   },
   {
-    "id": "mon_shift_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_gray_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_shift_frog" }
-  },
-  {
     "id": "mon_mink_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
     "description": "A brown and tan speckled tadpole with a wide body and very broad, feather-shaped tail.",
     "name": { "str": "tadpole" },
     "upgrades": { "age_grow": 91, "into_group": "GROUP_TADPOLE_MINK" }
-  },
-  {
-    "id": "mon_tail_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_mink_tadpole",
-    "description": "This strange tadpole is mostly tail.  The tail itself appears to have exceptional strength and flexibility, for a tadpole.  It may be able to use it for more than swimming.",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "speed": 60,
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_tail_frog" },
-    "delete": { "flags": [ "AQUATIC" ] }
   },
   {
     "id": "mon_pickerel_tadpole",
@@ -418,16 +349,6 @@
     "name": { "str": "tadpole" },
     "color": "yellow",
     "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_PICKEREL" },
-    "extend": { "flags": [ "POISON" ] }
-  },
-  {
-    "id": "mon_palette_tadpole",
-    "type": "MONSTER",
-    "copy-from": "mon_pickerel_tadpole",
-    "name": { "str": "tadpole" },
-    "categories": [ "NULL" ],
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 22, "into": "mon_palette_frog" },
     "extend": { "flags": [ "POISON" ] }
   },
   {
