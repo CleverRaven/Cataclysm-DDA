@@ -1,0 +1,153 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_enforcer_station_a1" ],
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        " //=///=///////=////#// ",
+        " /h.v/v.h/<</3c.3c=4.4/ ",
+        " /ck./.kc/../..'..=4'4/ ",
+        " /.'./.'./''/ccê..!..4/ ",
+        " //:///://..////:///!// ",
+        " =.....'..........'...= ",
+        " =.....'..........'...= ",
+        " ////://////12//..//:// ",
+        " /k....vkc/á.yy/../h.h/ ",
+        " =ch..'..h/á..â/../.'./ ",
+        " =...h..h./á.'â/''/.kc/ ",
+        " /...ckvck/yy.//../v.h/ ",
+        " /12/////////.ä/..///// ",
+        " /./.......ë/.é/../~/~/ ",
+        " /./..'....//////!/:/:/ ",
+        " /!/.......ë/pynn...../ ",
+        " /.........//b...'.jjJ/ ",
+        " /.........ë/b.....ch./ ",
+        " /....'....//yb//!//nn/ ",
+        " /.........ë/==/b'l/==/ ",
+        " /5........//℗℗/b.l/℗℗  ",
+        " //11111111//  //!//    ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing" ],
+      "terrain": { "1": "t_door_metal_locked", "2": "t_afs_enforcer_card_reader" },
+      "furniture": {
+        "3": "f_hacker_chair",
+        "4": "f_server",
+        "á": "f_locker",
+        "â": "f_locker",
+        "ä": "f_locker",
+        "é": "f_locker",
+        "ê": "f_locker",
+        "ë": "f_drone_recharge_station"
+      },
+      "items": {
+        "á": { "item": "afs_police_armor", "chance": 80, "repeat": [ 1, 4 ] },
+        "â": { "item": "afs_police_armory", "chance": 80, "repeat": [ 8, 18 ] },
+        "ä": { "item": "afs_anti_robot_grenades", "chance": 60, "repeat": [ 2, 5] },
+        "é": { "item": "afs_police_anti_robot_armory", "chance": 30, "repeat": [ 2, 4 ] },
+        "ê": { "item": "afs_police_hacker_gear", "chance": 80, "repeat": [ 3, 5 ] },
+        "ë": { "item": "afs_police_bot_storage", "chance": 20 }
+      },
+      "computers": {
+        "5": {
+          "name": "ENFORCER GARAGE CONTROL",
+          "security": 5,
+          "options": [ { "name": "UNLOCK GARAGE DOOR", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_enforcer_station_a1_floor2" ],
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        " //////==///////)///)// ",
+        " /~/~/.hc/>>/❶/@.~/@.~/ ",
+        " /:/:/.'k/../❺/@../@../ ",
+        " =...//://../:/.../.../ ",
+        " /á..:...'..../))!/))!/ ",
+        " /á'b/...'......'...'.) ",
+        " /á.b/.///!//...'...'.) ",
+        " //:////ää.ä/..//!///!/ ",
+        " /...'./â..ä/../.'.)k./ ",
+        " /F.h.h/â'.â/../.y.)c'/ ",
+        " =o.yyy/k..â/''/hyh)k./ ",
+        " /jUh.h/kkââ/..//////// ",
+        " /==/==//////../éé.ééé/ ",
+        " [™£™™£/3.4.:..1...'.é/ ",
+        " [™£❷£™/.'../..2ééyy.é/ ",
+        " [™™❻™™/3..5/../////.é/ ",
+        " [£™❷£™/====/==/£™£//// ",
+        " [™££££££™£££™™££™£™™£[ ",
+        " [™™666£™™™££™£7™7™™™£[ ",
+        " [£™666™££™[[[[[[[[[[[[ ",
+        " [™£££™™™££[            ",
+        " [[[[[[[[[[[            ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_habitat_life_support" ],
+      "terrain": { "1": "t_door_metal_locked", "2": "t_afs_enforcer_card_reader", " ": "t_open_air" },
+      "furniture": {
+        "3": "f_treadmill",
+        "4": "f_punching_bag",
+        "5": "f_exercise",
+        "6": "f_solar_unit",
+        "7": "f_small_satelitte_dish",
+        "á": "f_locker",
+        "â": "f_rack",
+        "ä": "f_table",
+        "é": "f_locker"
+      },
+      "items": {
+        "á": { "item": "afs_wintersuit_police_advanced", "chance": 30 },
+        "â": { "item": "afs_tools_robot_maintenance", "chance": 40, "repeat": [ 1, 3 ] },
+        "ë": { "item": "afs_police_bot_storage", "chance": 20 },
+        "é": { "item": "afs_police_evidence_locker", "chance": 60, "repeat": [ 1, 12 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_enforcer_station_a1_roof" ],
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                        ",
+        " [[[[[[[[[[[[[[[[[[[[[[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [££££££££££££££££££££[ ",
+        " [[[[[[[[[[[[£££££££££[ ",
+        "            [£££££££££[ ",
+        "            [£££££££££[ ",
+        "            [££[[[[[££[ ",
+        "            [[[[   [[[[ ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior" ],
+      "terrain": { " ": "t_open_air" }
+    }
+  }
+]
