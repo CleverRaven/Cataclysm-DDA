@@ -1311,7 +1311,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                        "Skill used: fabrication\n"
                        "Difficulty: N/A\n"
                        "Effects:\n"
-                       "> Restores only the plots created in the last expansion upgrade.\n"
+                       "> Restores farm plots created in previous expansion upgrades.\n"
                        "> Does not damage existing crops.\n\n"
                        "Risk: None\n"
                        "Intensity: Moderate\n"
