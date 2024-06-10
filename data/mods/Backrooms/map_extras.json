@@ -25,103 +25,102 @@
     "id": "mx_casings",
     "type": "map_extra",
     "copy-from": "mx_casings",
-    "//": "TODO: Should be replaced with extend",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_corpses",
     "type": "map_extra",
     "copy-from": "mx_corpses",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_collegekids",
     "type": "map_extra",
     "copy-from": "mx_collegekids",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_spider",
     "type": "map_extra",
     "copy-from": "mx_spider",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_nest_dermatik",
     "type": "map_extra",
     "copy-from": "mx_nest_dermatik",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_science",
     "type": "map_extra",
     "copy-from": "mx_science",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_crater",
     "type": "map_extra",
     "copy-from": "mx_crater",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_nest_wasp",
     "type": "map_extra",
     "copy-from": "mx_nest_wasp",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_house_wasp",
     "type": "map_extra",
     "copy-from": "mx_house_wasp",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_pond",
     "type": "map_extra",
     "copy-from": "mx_pond",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_military",
     "type": "map_extra",
     "copy-from": "mx_military",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_drugdeal",
     "type": "map_extra",
     "copy-from": "mx_drugdeal",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_supplydrop",
     "type": "map_extra",
     "copy-from": "mx_supplydrop",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_portal",
     "type": "map_extra",
     "copy-from": "mx_portal",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_portal_in",
     "type": "map_extra",
     "copy-from": "mx_portal_in",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_jabberwock",
     "type": "map_extra",
     "copy-from": "mx_jabberwock",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   },
   {
     "id": "mx_helicopter",
     "type": "map_extra",
     "copy-from": "mx_helicopter",
-    "flags": [ "BACKROOMS" ]
+    "extend": { "flags": [ "BACKROOMS" ] }
   }
 ]

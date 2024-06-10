@@ -2371,6 +2371,18 @@ void map_extra::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "autonote", autonote, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
     optional( jo, was_loaded, "flags", flags_ );
+    if( was_loaded && jo.has_member( "extend" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            flags_.insert( flag );
+        }
+    }
+    if( was_loaded && jo.has_member( "delete" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            flags_.erase( flag );
+        }
+    }
 }
 
 void map_extra::check() const
