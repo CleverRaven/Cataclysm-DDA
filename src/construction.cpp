@@ -2062,12 +2062,23 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
     if( here.partial_con_at( p )->counter == 0 && who.is_avatar() &&
         get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
         bool cancel_construction = false;
-        // TODO: Extract the min and max amounts
-        auto deconstruct_items = []( const item_group_id & drop_group ) {
+
+        auto deconstruct_items = []( const item_group_id & drop_group, const bool easy_deconstruct ) {
             std::string ret;
-            const auto deconstruct_items = item_group::every_possible_item_from( drop_group );
-            for( const auto &deconstruct_item : deconstruct_items ) {
-                ret += "- " + deconstruct_item->nname( 2 ) + "\n";
+            const std::set<const itype *> deconstruct_items = item_group::every_possible_item_from(
+                        drop_group );
+            // TODO: Extract and display the min and max possible amounts (easy_deconstruct should be removed too after adding this)
+            // Temporary handling in lieu of the above
+            const bool expect_single_item = easy_deconstruct &&
+                                            deconstruct_items.size() == 1;
+            if( expect_single_item ) {
+                for( const itype *deconstruct_item : deconstruct_items ) {
+                    ret += "- " + deconstruct_item->nname( 1 ) + "\n";
+                }
+            } else {
+                for( const itype *deconstruct_item : deconstruct_items ) {
+                    ret += "- 0+ " + deconstruct_item->nname( 2 ) + "\n";
+                }
             }
             return ret;
         };
@@ -2081,24 +2092,30 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
             if( !!f.deconstruct.skill &&
                 deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
                 cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s may yield:\n%s\nYou feel you might also learn something about %s\nReally deconstruct?" ),
-                                          f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group,
+                                                  here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ),
+                                          f.deconstruct.skill->id.obj().name() );
             } else {
                 cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s may yield:\n%s\nReally deconstruct?" ), f.name(),
-                                          deconstruct_items( f.deconstruct.drop_group ) );
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ), f.name(),
+                                          deconstruct_items( f.deconstruct.drop_group,
+                                                  here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) );
             }
         } else {
             const ter_t &t = here.ter( p ).obj();
             if( !!t.deconstruct.skill &&
                 deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
                 cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s may yield:\n%s\nYou feel you might also learn something about %s\nReally deconstruct?" ),
-                                          t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group,
+                                                  here.has_flag_ter( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ),
+                                          t.deconstruct.skill->id.obj().name() );
             } else {
                 cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s may yield:\n%s\nReally deconstruct?" ), t.name(),
-                                          deconstruct_items( t.deconstruct.drop_group ) );
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ), t.name(),
+                                          deconstruct_items( t.deconstruct.drop_group,
+                                                  here.has_flag_ter( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) );
             }
         }
         if( cancel_construction ) {
