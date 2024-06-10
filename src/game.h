@@ -1027,7 +1027,6 @@ class game
         bool is_game_over();     // Returns true if the player quit or died
         void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void draw_minimap();     // Draw the 5x5 minimap
     public:
         /**
          * If there is a robot (that can be disabled), query the player
