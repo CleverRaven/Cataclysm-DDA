@@ -80,6 +80,7 @@
     "move_cost_mod": 2,
     "coverage": 35,
     "required_str": 4,
+    "max_volume": "5 L",
     "crafting_pseudo_item": "fake_fireplace",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "makeshift_brazier",
