@@ -119,17 +119,17 @@
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 
+static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
+static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
+
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
-
-static const ammo_effect_str_id ammo_effect_id_BLACKPOWDER( "BLACKPOWDER" );
-static const ammo_effect_str_id ammo_effect_id_IGNITE( "IGNITE" );
-static const ammo_effect_str_id ammo_effect_id_INCENDIARY( "INCENDIARY" );
-static const ammo_effect_str_id ammo_effect_id_NEVER_MISFIRES( "NEVER_MISFIRES" );
-static const ammo_effect_str_id ammo_effect_id_MATCHHEAD( "MATCHHEAD" );
-static const ammo_effect_str_id ammo_effect_id_RECYCLED( "RECYCLED" );
 
 static const attack_vector_id attack_vector_vector_null( "vector_null" );
 
@@ -3053,22 +3053,22 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     std::vector<std::string> fx;
-    if( ammo.ammo_effects.count( ammo_effect_id_RECYCLED ) &&
+    if( ammo.ammo_effects.count( ammo_effect_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
-    if( ammo.ammo_effects.count( ammo_effect_id_MATCHHEAD ) &&
+    if( ammo.ammo_effects.count( ammo_effect_MATCHHEAD ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>matchhead powder</bad>, and will quickly "
                "clog and rust most guns like blackpowder, but will also rarely cause the gun damage from pressure spikes." ) );
-    } else if( ammo.ammo_effects.count( ammo_effect_id_BLACKPOWDER ) &&
+    } else if( ammo.ammo_effects.count( ammo_effect_BLACKPOWDER ) &&
                parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
-    if( ammo.ammo_effects.count( ammo_effect_id_NEVER_MISFIRES ) &&
+    if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
@@ -3085,8 +3085,8 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
         }
     }
-    if( ( ammo.ammo_effects.count( ammo_effect_id_INCENDIARY ) ||
-          ammo.ammo_effects.count( ammo_effect_id_IGNITE ) ) &&
+    if( ( ammo.ammo_effects.count( ammo_effect_INCENDIARY ) ||
+          ammo.ammo_effects.count( ammo_effect_IGNITE ) ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>may start fires</neutral>." ) );
     }

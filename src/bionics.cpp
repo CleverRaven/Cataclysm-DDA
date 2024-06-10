@@ -98,6 +98,11 @@
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_JET( "JET" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -175,11 +180,6 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
-
-static const ammo_effect_str_id ammo_effect_id_DRAW_AS_LINE( "DRAW_AS_LINE" );
-static const ammo_effect_str_id ammo_effect_id_JET( "JET" );
-static const ammo_effect_str_id ammo_effect_id_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
-static const ammo_effect_str_id ammo_effect_id_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 
 struct Character::bionic_fuels {
     std::vector<vehicle *> connected_vehicles;
@@ -1021,7 +1021,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
-            proj.proj_effects = {{ ammo_effect_id_NO_ITEM_DAMAGE, ammo_effect_id_DRAW_AS_LINE, ammo_effect_id_NO_DAMAGE_SCALING, ammo_effect_id_JET }};
+            proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};
 
             dealt_projectile_attack dealt = projectile_attack(
                                                 proj, pr.second, pos(), dispersion_sources{ 0 }, this );

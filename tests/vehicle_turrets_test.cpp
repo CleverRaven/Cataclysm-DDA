@@ -22,7 +22,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 
-static const ammo_effect_str_id ammo_effect_id_RECYCLED( "RECYCLED" );
+static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
 static std::vector<const vpart_info *> all_turret_types()
 {
@@ -86,7 +86,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
                 CHECK( vp.ammo_set( ammo_itype ) > 0 );
             }
             const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count(
-                    ammo_effect_id_RECYCLED ) > 0;
+                    ammo_effect_RECYCLED ) > 0;
             CAPTURE( default_ammo_is_RECYCLED );
             INFO( "RECYCLED ammo can sometimes misfire and very rarely fail this test" );
 

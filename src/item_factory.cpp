@@ -60,11 +60,11 @@
 struct tripoint;
 template <typename T> struct enum_traits;
 
-static const ammotype ammo_NULL( "NULL" );
+static const ammo_effect_str_id ammo_effect_COOKOFF( "COOKOFF" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_SPECIAL_COOKOFF( "SPECIAL_COOKOFF" );
 
-static const ammo_effect_str_id ammo_effect_id_COOKOFF( "COOKOFF" );
-static const ammo_effect_str_id ammo_effect_id_INCENDIARY( "INCENDIARY" );
-static const ammo_effect_str_id ammo_effect_id_SPECIAL_COOKOFF( "SPECIAL_COOKOFF" );
+static const ammotype ammo_NULL( "NULL" );
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
@@ -408,9 +408,9 @@ void Item_factory::finalize_pre( itype &obj )
         if( mats.find( material_hydrocarbons ) == mats.end() &&
             mats.find( material_oil ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
-            obj.ammo->cookoff = ammo_effects.count( ammo_effect_id_INCENDIARY ) > 0 ||
-                                ammo_effects.count( ammo_effect_id_COOKOFF ) > 0;
-            obj.ammo->special_cookoff = ammo_effects.count( ammo_effect_id_SPECIAL_COOKOFF ) > 0;
+            obj.ammo->cookoff = ammo_effects.count( ammo_effect_INCENDIARY ) > 0 ||
+                                ammo_effects.count( ammo_effect_COOKOFF ) > 0;
+            obj.ammo->special_cookoff = ammo_effects.count( ammo_effect_SPECIAL_COOKOFF ) > 0;
         } else {
             obj.ammo->cookoff = false;
             obj.ammo->special_cookoff = false;
