@@ -177,9 +177,9 @@ bool weakpoint_families::practice_dissect( Character &learner ) const
     // A work around to cut xp for predators to half of normals.
     if( learner.has_flag( json_flag_PRED4 ) ) {
         progress /= 8;
-    } else if(learner.has_flag( json_flag_PRED3 ) ) {
+    } else if( learner.has_flag( json_flag_PRED3 ) ) {
         progress /= 6;
-    } else if(learner.has_flag( json_flag_PRED2 ) ) {
+    } else if( learner.has_flag( json_flag_PRED2 ) ) {
         progress /= 4;
     }
     bool learned = practice( learner, time_duration::from_seconds( progress ) );
