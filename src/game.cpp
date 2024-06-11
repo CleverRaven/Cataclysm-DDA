@@ -3300,27 +3300,28 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
         ui.proceed();
     }
 
-    std::set<mod_id> removed_mods {
+    std::unordered_set<mod_id> removed_mods {
         mod_id( "Graphical_Overmap" ) // Removed in 0.I
     };
+    std::unordered_set<mod_id> mods_to_remove;
     for( const mod_id &e : missing ) {
-        bool remove_from_mod_list = false;
 
         if( removed_mods.find( e ) == removed_mods.end() ) {
             if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
                           e.c_str() ) ) {
-                remove_from_mod_list = true;
+                mods_to_remove.insert( e );
             }
         } else if( query_yn( _( "Mod %s has been removed, remove it from this world's modlist?" ),
                              e.c_str() ) ) {
-            remove_from_mod_list = true;
+            mods_to_remove.insert( e );
         }
-
-        if( remove_from_mod_list ) {
-            auto &mods = world_generator->active_world->active_mod_order;
-            mods.erase( std::remove( mods.begin(), mods.end(), e ), mods.end() );
-            world_generator->get_mod_manager().save_mods_list( world_generator->active_world );
-        }
+    }
+    if( !mods_to_remove.empty() ) {
+        auto &mods = world_generator->active_world->active_mod_order;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&mods_to_remove]( const auto e ) {
+            return mods_to_remove.find( e ) != mods_to_remove.end();
+        } ), mods.end() );
+        world_generator->get_mod_manager().save_mods_list( world_generator->active_world );
     }
 }
 
