@@ -59,8 +59,7 @@
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
     "material": [ "bone" ],
     "volume": "250 ml",
-    "fun": -10,
-    "flags": [ "NO_SALVAGE" ]
+    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -122,7 +121,7 @@
     "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
     "category": "other",
     "material": [ "bone" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
