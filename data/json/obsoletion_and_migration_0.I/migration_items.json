@@ -1423,5 +1423,30 @@
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"
+  },
+  {
+    "id": "j22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "j22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "sw_22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "sw22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "cop_38",
+    "type": "MIGRATION",
+    "replace": "sw_619"
   }
 ]

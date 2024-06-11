@@ -122,6 +122,8 @@ Resume butchering
 The player can swap between defined outfits with the 'set of clothes' item
 Corpses can decay into bones etc (defined as a harvest group)
 Support WASM build via emscripten
+Allow ammo effects to cast spells
+Automatic turrets will not fire guns if they are going to overheat
 
 
 ## Content:
@@ -261,6 +263,10 @@ Adds a variety of marine plants.
 Adds bench vise
 Full auto 10/22s
 Reduces craters
+fish emulsion
+Static NPC factions have their own camps and food stores
+Regen serum
+Vitamin Cost per mutation
 
 
 ## Interface:
@@ -326,7 +332,7 @@ Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
 Display RAS weapon reload time in aim ui
 Warn on setting an auto feature when auto features are off
-
+support selecting all npcs
 
 
 ## Mods:
@@ -491,6 +497,11 @@ Aftershock: Basic Hacking EOCs
 [Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
 Adds another variant of Habitat Block to Aftershock. Also adds a new item group and monster group.
 [Aftershock] Add the Esper scenario
+Aftershock: Adds one variant of Habitat Block to the Aftershock Exoplanet. Also adds hackable display cases and doors.
+Psionic powers say "Power level" instead of "Spell level" in the UI
+[MoM] Torrential channeling research no longer has required proficiencies
+Aftershock: Add urban farms as town buildings
+Summon Mojocycle gets better at lvl 10
 
 
 ## Balance:
@@ -563,6 +574,9 @@ Added limb blocking to bionic styles
 The average skill level of NPCs will rise over time
 Random NPCs have the same starting skills and proficiencies as the average new character
 Food continues to rot at temp above 63C
+Adjust Alpha to make breach harder while supporting future mutations
+Lower the warmth values of some undergarments and thin clothes.
+Switched Reload Speeds for Plasma Rifle and PPA
 
 
 ## Bugfixes:
@@ -739,6 +753,8 @@ Hordes won't wander without a reason
 Allow using hotkeys to select spells in other categories
 Monster difficulty (and exp for killing them) cannot be lower than 1
 Fix connections like roads sometimes failing to gen on cityless overmaps
+Correctly display pain penalties.
+Removes Railgun Fouling
 
 
 ## Performance:
@@ -767,6 +783,7 @@ Avoid wasteful loop in map special road connections
 Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
+cache available recipe list in craft menu
 
 
 ## Infrastructure:
@@ -824,6 +841,7 @@ Use test enumerating item spawns to make assertions about the rate of appearance
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
 refactor cataimgui::draw_colored_text
+Create header for forward declarations of point types
 
 
 ## Build:
@@ -843,6 +861,7 @@ Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
 Update Flatpak manifest to use clang and include the default soundpack
+stl_emulation span::count_ is not const anymore
 
 
 ## I18N and A11Y:
