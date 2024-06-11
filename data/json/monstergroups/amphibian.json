@@ -925,7 +925,7 @@
     "name": "GROUP_TADPOLE_FOWLER",
     "type": "monstergroup",
     "default": "mon_fowler_toad",
-    "monsters": [ { "monster": "mon_foul_toad", "weight": 100 }, { "monster": "mon_foul_toad", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_fowler_toad", "weight": 100 }, { "monster": "mon_foul_toad", "weight": 20 } ]
   },
   {
     "name": "GROUP_TADPOLE_FREEDOM",
