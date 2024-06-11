@@ -305,6 +305,7 @@ static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 static const material_id material_glass( "glass" );
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
+static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
 
@@ -3301,7 +3302,7 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     }
 
     std::unordered_set<mod_id> removed_mods {
-        mod_id( "Graphical_Overmap" ) // Removed in 0.I
+        MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
     };
     std::unordered_set<mod_id> mods_to_remove;
     for( const mod_id &e : missing ) {
