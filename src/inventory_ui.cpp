@@ -2696,7 +2696,8 @@ int inventory_selector::query_count( char init, bool end_with_toggle )
         try {
             ret = std::stoi( query.second );
         } catch( const std::invalid_argument &e ) {
-            // TODO Tell User they did a bad
+            // Tell User they did a bad
+            popup( _( "That is not an integer." ) );
             ret = -1;
         } catch( const std::out_of_range &e ) {
             ret = INT_MAX;
@@ -3933,9 +3934,9 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( entry.is_selectable() ) {
             size_t const count = entry.chosen_count;
             size_t const max = entry.get_available_count();
-            size_t const newcount = input.action == "INCREASE_COUNT"
-                                    ? count < max ? count + 1 : max
-                                    : count > 1 ? count - 1 : 0;
+            size_t const newcount = std::clamp<size_t>( 0,
+                                    count + ( input.action == "INCREASE_COUNT" ? +1 : -1 ),
+                                    max );
             toggle_entry( entry, newcount );
         }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
@@ -4441,7 +4442,7 @@ std::string unload_selector::hint_string()
 {
     std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Contain mode(<color_yellow>%s</color>)" ),
+               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
                ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
 }
 
