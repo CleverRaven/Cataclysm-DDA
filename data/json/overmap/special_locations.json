@@ -163,7 +163,7 @@
   {
     "type": "overmap_location",
     "id": "special_isherwood",
-    "terrains": [ "special_field_isherwood", "special_forest_isherwood", "special_forest_thick_isherwood" ]
+    "terrains": [ "special_forest_isherwood", "special_forest_thick_isherwood" ]
   },
   {
     "type": "overmap_location",
