@@ -8379,7 +8379,8 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
         return;
     }
 
-    if( dead_monster->decay.is_null() ) {
+    //FIXME: Get this working using is_null(). harvest_list and harvest_id resolving is bizarre
+    if( dead_monster->decay.is_empty() ) {
         return;
     }
     int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
@@ -8391,7 +8392,7 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
     }
 
     bool anything_left = false;
-    for( const harvest_entry &entry : dead_monster->decay.obj() ) {
+    for( const harvest_entry &entry : *dead_monster->decay ) {
         item harvest = item( entry.drop );
         const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
         const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
