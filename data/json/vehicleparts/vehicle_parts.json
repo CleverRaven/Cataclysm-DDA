@@ -952,6 +952,29 @@
   },
   {
     "type": "vehicle_part",
+    "id": "veh_table",
+    "name": { "str": "table" },
+    "looks_like": "f_table",
+    "categories": [ "utility" ],
+    "color": "red",
+    "damage_modifier": 60,
+    "durability": 145,
+    "size": "20 L",
+    "item": "v_table",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
+    "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
+    "damage_reduction": { "all": 24 },
+    "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "veh_table_wood",
     "name": { "str": "wood table" },
     "looks_like": "f_table",
