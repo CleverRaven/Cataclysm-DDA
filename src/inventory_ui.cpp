@@ -623,10 +623,10 @@ void inventory_entry::cache_denial( inventory_selector_preset const &preset ) co
 {
     if( !denial ) {
         denial.emplace( preset.get_denial( *this ) );
-        enabled = denial->empty();
+        enabled = is_item() && preset.get_enabled( any_item() );
     }
     if( is_collation_header() ) {
-        collation_meta->enabled = denial->empty();
+        collation_meta->enabled = is_item() && preset.get_enabled( any_item() );
     }
 }
 
@@ -1712,6 +1712,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             }
         }
 
+        // TODO: make denial empty and make extra column for denial
         size_t count = denial.empty() ? cells.size() : 1;
 
         for( size_t cell_index = 0; cell_index < count; ++cell_index ) {
@@ -1754,7 +1755,9 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     trim_and_print( win, point( text_x - 1, yy ), 1, col,
                                     stat ? "▶" : "▼" );
                 }
-                if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
+                /*if( entry.is_item() && !selected && !entry.is_selectable() && denial.empty() ) {
+                    trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
+                } else*/ if( entry.is_item() && ( selected || ( !entry.is_selectable() && !denial.empty() ) ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
                 } else if( entry.is_item() && entry.highlight_as_parent ) {
@@ -3001,6 +3004,7 @@ inventory_input inventory_selector::process_input( const std::string &action, in
                 if( res.entry != nullptr && res.entry->is_selectable() ) {
                     return res;
                 }
+                // todo denial popup
                 if( res.entry == nullptr && res.action == "SELECT" ) {
                     p.x++;
                     res.entry = find_entry_by_coordinate( p );

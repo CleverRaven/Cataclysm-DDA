@@ -607,6 +607,10 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
             check_components = true;
 
+            std::string filter;
+            get_filter( filter );
+            // TODO: ?bug - changing hiearchy `;` twice removes filter?
+
             append_cell( [ this ]( const item_location & loc ) {
                 const requirement_data &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
@@ -620,28 +624,34 @@ class disassemble_inventory_preset : public inventory_selector_preset
                     ++( it->count );
                     components.erase( std::next( it ) );
                 }
-                return enumerate_as_string( components.begin(), components.end(),
+                return colorize( enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
-                    return comps.to_string();
-                } );
+                    // if it matches, color it
+                    // basic_item_filter
+                    const std::string ret = comps.to_string();
+                    if( ret == "3 gold" ) {
+                        return colorize( ret, c_light_red );
+                    }
+                    return ret;
+                } ), c_white );
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
-                                          recipe_time_flag::ignore_proficiencies ) );
+                return colorize( to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
+                                                    recipe_time_flag::ignore_proficiencies ) ), c_light_gray );
             }, _( "TIME" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return colorize( get_denialababa( loc ), c_red );
+            }, _( "CAN DISASSEMBLE" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
             return !get_recipe( loc ).is_null();
         }
 
-        std::string get_denial( const item_location &loc ) const override {
-            const auto ret = you.can_disassemble( *loc, inv );
-            if( !ret.success() ) {
-                return ret.str();
-            }
-            return std::string();
+        bool get_enabled( const item_location &loc ) const override {
+            return you.can_disassemble( *loc, inv ).success();
         }
 
     protected:
@@ -651,7 +661,17 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
     private:
         const Character &you;
+        /// Tools etc. in crafters inventory to use for disassembly.
         const inventory &inv;
+
+        std::string get_denialababa( const item_location &loc ) const {
+            const auto ret = you.can_disassemble( *loc, inv );
+            if( !ret.success() ) {
+                return ret.str();
+            }
+
+            return std::string();
+        }
 };
 
 item_location game_menus::inv::disassemble( Character &you )

@@ -248,6 +248,13 @@ class inventory_selector_preset
         virtual std::string get_denial( const item_location & ) const {
             return std::string();
         }
+        /**
+         * Can this entry be selected?
+         * By default, it cannot be if get_denial returns an empty string.
+         */
+        virtual bool get_enabled( const item_location &loc ) const {
+            return get_denial( loc ).empty();
+        }
         /** Whether the first item is considered to go before the second. */
         virtual bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const;
         virtual bool cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const;
