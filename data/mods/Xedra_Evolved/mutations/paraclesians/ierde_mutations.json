@@ -171,6 +171,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_REVEAL_EARTH_MAP",
+    "name": { "str": "Knowing the Hills and Valleys" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to learn the terrain layout in a large area around themselves.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_PER_BONUS" ],
+    "spells_learned": [ [ "ierde_reveal_earth_map_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_CREATE_PITS",
     "name": { "str": "Earthen Grasp" },
     "points": 3,
