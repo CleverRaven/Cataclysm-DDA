@@ -56,6 +56,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vitamin.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
