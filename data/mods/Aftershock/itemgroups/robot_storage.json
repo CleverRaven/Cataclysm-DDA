@@ -16,15 +16,15 @@
   {
     "id": "afs_police_bot_storage",
     "type": "item_group",
-    "//": "Police Robots found in enforcer stations and departments.",
+    "//": "TODO: Apparently these items are all being migrated currently. Police Robots found in enforcer stations and departments.",
     "subtype": "distribution",
     "items": [
-      [ "broken_riotbot", 10 ],
-      [ "bot_riotbot", 5 ],
-      [ "bot_copbot", 10 ],
-      [ "broken_copbot", 70 ],
-      [ "bot_eyebot", 20 ],
-      [ "broken_eyebot", 100 ]
+      [ "afs_bot_riotbot", 5 ],
+      [ "afs_bot_copbot", 15 ],
+      [ "afs_bot_eyebot", 20 ],
+	  [ "afs_broken_riotbot", 10 ],
+	  [ "afs_broken_copbot", 70 ],
+      [ "afs_broken_eyebot", 100 ]
     ]
   }
 ]

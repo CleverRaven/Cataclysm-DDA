@@ -472,7 +472,7 @@
     "abstract": "bot_eyebot_base",
     "type": "TOOL",
     "name": "inactive eyebot",
-    "looks_like": "broken_eyebot",
+    "looks_like": "afs_broken_eyebot",
     "price": "100 USD",
     "price_postapoc": "100 USD",
     "material": [ "steel", "plastic" ],
@@ -525,8 +525,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_eyebot",
-    "looks_like": "broken_eyebot",
+    "id": "afs_bot_eyebot",
+    "looks_like": "afs_broken_eyebot",
     "type": "TOOL",
     "name": { "str": "inactive eyebot" },
     "description": "An inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully, the eyebot will then keep watch for intruders.",
@@ -552,8 +552,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_copbot",
-    "looks_like": "broken_copbot",
+    "id": "afs_bot_copbot",
+    "looks_like": "afs_broken_copbot",
     "type": "TOOL",
     "name": { "str": "inactive police bot" },
     "description": "An inactive police robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the police bot will then identify you as law enforcement, roam around or follow you, and attempt to detain lawbreakers.",
@@ -579,8 +579,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_riotbot",
-    "looks_like": "broken_riotbot",
+    "id": "afs_bot_riotbot",
+    "looks_like": "afs_broken_riotbot",
     "type": "TOOL",
     "name": { "str": "inactive riot control bot" },
     "description": "An inactive riot control bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will bring order and peace to the horde.",
