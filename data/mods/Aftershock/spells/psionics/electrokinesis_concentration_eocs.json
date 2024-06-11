@@ -37,7 +37,9 @@
     "condition": { "u_has_effect": "effect_electrokin_see_electricity" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      {
+        "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(maintenance_exp_factor(u_val('focus')))" ]
+      },
       {
         "run_eocs": [
           "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
