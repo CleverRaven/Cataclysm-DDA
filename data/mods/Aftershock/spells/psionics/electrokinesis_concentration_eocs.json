@@ -197,12 +197,12 @@
     "id": "EOC_AFS_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
     "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
     "effect": [
-      { "u_remove_item_with": "electrokinetic_ups_1" },
-      { "u_remove_item_with": "electrokinetic_ups_2" },
-      { "u_remove_item_with": "electrokinetic_ups_3" },
-      { "u_remove_item_with": "electrokinetic_ups_4" },
-      { "u_remove_item_with": "electrokinetic_ups_5" },
-      { "u_remove_item_with": "electrokinetic_ups_6" },
+      { "u_remove_item_with": "afs_electrokinetic_ups_1" },
+      { "u_remove_item_with": "afs_electrokinetic_ups_2" },
+      { "u_remove_item_with": "afs_electrokinetic_ups_3" },
+      { "u_remove_item_with": "afs_electrokinetic_ups_4" },
+      { "u_remove_item_with": "afs_electrokinetic_ups_5" },
+      { "u_remove_item_with": "afs_electrokinetic_ups_6" },
       { "u_lose_effect": "effect_electrokin_personal_battery" },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }
     ]
@@ -213,26 +213,26 @@
     "effect": {
       "switch": { "math": [ "u_spell_level('afs_electrokinetic_personal_battery')" ] },
       "cases": [
-        { "case": 0, "effect": [ { "u_spawn_item": "electrokinetic_ups_1", "suppress_message": true, "force_equip": true } ] },
+        { "case": 0, "effect": [ { "u_spawn_item": "afs_electrokinetic_ups_1", "suppress_message": true, "force_equip": true } ] },
         {
           "case": 4,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_2", "suppress_message": true, "force_equip": true } ]
+          "effect": [ { "u_spawn_item": "afs_electrokinetic_ups_2", "suppress_message": true, "force_equip": true } ]
         },
         {
           "case": 8,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_3", "suppress_message": true, "force_equip": true } ]
+          "effect": [ { "u_spawn_item": "afs_electrokinetic_ups_3", "suppress_message": true, "force_equip": true } ]
         },
         {
           "case": 12,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_4", "suppress_message": true, "force_equip": true } ]
+          "effect": [ { "u_spawn_item": "afs_electrokinetic_ups_4", "suppress_message": true, "force_equip": true } ]
         },
         {
           "case": 16,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_5", "suppress_message": true, "force_equip": true } ]
+          "effect": [ { "u_spawn_item": "afs_electrokinetic_ups_5", "suppress_message": true, "force_equip": true } ]
         },
         {
           "case": 20,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_6", "suppress_message": true, "force_equip": true } ]
+          "effect": [ { "u_spawn_item": "afs_electrokinetic_ups_6", "suppress_message": true, "force_equip": true } ]
         }
       ]
     }
