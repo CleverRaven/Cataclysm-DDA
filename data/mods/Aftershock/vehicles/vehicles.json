@@ -372,7 +372,7 @@
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "full_1st_aid" ] },
       { "x": -2, "y": 0, "chance": 3, "item_groups": [ "afs_anti_robot_grenades" ] },
       { "x": -2, "y": 0, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] },
-	  { "x": -2, "y": 0, "chance": 1, "item_groups": [ "afs_police_bot_storage" ] }
+      { "x": -2, "y": 0, "chance": 1, "item_groups": [ "afs_police_bot_storage" ] }
     ]
   },
   {
