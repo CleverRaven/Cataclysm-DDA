@@ -20,7 +20,7 @@ Laser weapon damage stats
 * Minimum reload time 200/200/300 moves.
 
 ### Plasma 
-Plasma weapons are short range and high damage, and might additionally produce low range explosions or fireballs. Plasma weapons should be bulkier and heavier compared to other weapon types and have relatively shallow magazines with slow reload times, and thus requiring well planed reloading . The high AOE damage should make them dangerous to use during close combat.
+Plasma weapons are short range and high damage, and might additionally produce low range explosions or fireballs. Plasma weapons should be bulkier and heavier compared to other weapon types and have relatively shallow magazines with slow reload times, and thus requiring well planned reloading. The high AOE damage should make them dangerous to use during close combat.
 
 They excel at efficiently dispatching powerful or massed foes.
  
