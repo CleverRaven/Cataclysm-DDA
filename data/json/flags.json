@@ -2474,6 +2474,6 @@
   {
     "id": "DECAYS_IN_AIR",
     "type": "json_flag",
-    "info": "This will eventually <bad>go bad</bad> if left in open air too long."
+    "info": "This will eventually <bad>go bad</bad> if left in the open air too long."
   }
 ]
