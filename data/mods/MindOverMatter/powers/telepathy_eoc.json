@@ -52,17 +52,14 @@
             "id": "EOC_TELEPATH_MORALE_MODIFY_NPC_VALUES_2",
             "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
             "effect": [
-              { "math": [ "u_pre_power_fear", "=", "u_val('npc_fear')" ] },
-              { "math": [ "u_pre_power_anger", "=", "u_val('npc_anger')" ] },
-              { "math": [ "u_pre_power_trust", "=", "u_val('npc_trust')" ] },
               {
-                "math": [ "u_val('npc_fear')", "=", "max(-10, (u_pre_power_fear - (u_mood_stabilized_power_level / 2)))" ]
+                "math": [ "u_val('npc_fear')", "=", "max(-10, (u_val('npc_fear') - (u_mood_stabilized_power_level / 2)))" ]
               },
               {
-                "math": [ "u_val('npc_anger')", "=", "max(-10, (u_pre_power_anger - (u_mood_stabilized_power_level / 2)))" ]
+                "math": [ "u_val('npc_anger')", "=", "max(-10, (u_val('npc_anger') - (u_mood_stabilized_power_level / 2)))" ]
               },
               {
-                "math": [ "u_val('npc_trust')", "=", "min(20, (u_pre_power_trust + (u_mood_stabilized_power_level / 4)))" ]
+                "math": [ "u_val('npc_trust')", "=", "min(20, (u_val('npc_trust') + (u_mood_stabilized_power_level / 4)))" ]
               },
               {
                 "npc_message": "You reach in and, with a deft touch, sooth your target's negative emotions.",
