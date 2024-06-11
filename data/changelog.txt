@@ -120,9 +120,7 @@ Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
 The player can swap between defined outfits with the 'set of clothes' item
-Introduce half face gas masks
 Corpses can decay into bones etc (defined as a harvest group)
-Add turpentine, camphine as flammable liquids for crafting
 Support WASM build via emscripten
 
 
@@ -261,7 +259,6 @@ Add Alcoholic Snow Cones
 10/22 Pistol
 Adds a variety of marine plants.
 Adds bench vise
-Allow many crafting recipes to use more kinds of water
 Full auto 10/22s
 Reduces craters
 
@@ -492,12 +489,6 @@ Being mute prevents casting VERBAL spells
 [Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
 Aftershock: Basic Hacking EOCs
 [Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
-Aftershock: Update bug brewing nutrients to be equivalent to red meat.
-[MoM] Extended channeling lowers Nether Attunement event odds
-[MoM] Reduce maximum length of Nether Conduit attunement effect
-Fixed jmath in magiclysm to prevent reverse-scaling due to proficiency increases
-Removes the habitat block palette introduced in my last PR and expands the palettes in habitat structure.
-Crazy Cataclysm has Party Rockers
 Adds another variant of Habitat Block to Aftershock. Also adds a new item group and monster group.
 [Aftershock] Add the Esper scenario
 
@@ -572,7 +563,6 @@ Added limb blocking to bionic styles
 The average skill level of NPCs will rise over time
 Random NPCs have the same starting skills and proficiencies as the average new character
 Food continues to rot at temp above 63C
-Adjust Copper Wire Deconstructions
 
 
 ## Bugfixes:
@@ -746,23 +736,9 @@ Make Skunks Less Bloodthirsty
 Oops - remove cramped space when no longer cramped
 Correctly display the cost to learn the proficiency
 Hordes won't wander without a reason
-Removes unnecessary use of 'surface_heat' from recipes with 'plastic_molding'
-Reduce Mini 14/Judge Spawns
 Allow using hotkeys to select spells in other categories
 Monster difficulty (and exp for killing them) cannot be lower than 1
-Stop showing suffix of vehicle in overextended link
-[MoM] Fix Earthshaker ter_transform
-Fix M27 melee damage
-slow-sand water filter weighed half of what it should
-Fixed proper nouns in lore doc
-Make options fail faster, fix silent errors
 Fix connections like roads sometimes failing to gen on cityless overmaps
-Fixes a miss-matched floor tile in house38
-Remove Survivor Naginata
-Fix typo and redundant in mutation_techs.json
-Fix nvg stats and re-add nv overlay
-Address missed naginata
-Change Augmentative Tech Review book
 
 
 ## Performance:
