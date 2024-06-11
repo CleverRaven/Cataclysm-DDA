@@ -449,7 +449,7 @@
     "copy-from": "mon_proxy_bigtad",
     "description": ".",
     "name": { "str": "giant tadpole" },
-    "upgrades": { "age_grow": 10, "into": "mon_vocal_bigfrog" }
+    "upgrades": { "age_grow": 10, "into_group": "GROUP_BIGTAD_VOCAL" }
   },
   {
     "id": "mon_shift_bigtad",

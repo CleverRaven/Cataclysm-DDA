@@ -33,7 +33,9 @@
       { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
     ]
   },
   {
@@ -101,7 +103,9 @@
       { "monster": "mon_pattern_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_strange_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
       { "monster": "mon_foul_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
-      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
+      { "monster": "mon_odd_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_vocal_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" },
+      { "monster": "mon_shift_bigtad", "weight": 10, "pack_size": [ 1, 4 ], "starts": "28 days" }
     ]
   },
   {
@@ -964,6 +968,12 @@
     "type": "monstergroup",
     "default": "mon_wood_frog",
     "monsters": [ { "monster": "mon_wood_frog", "weight": 99 }, { "monster": "mon_wood_worm", "weight": 1 } ]
+  },
+  {
+    "name": "GROUP_BIGTAD_VOCAL",
+    "type": "monstergroup",
+    "default": "mon_jumbo_bigfrog",
+    "monsters": [ { "monster": "mon_jumbo_bigfrog", "weight": 50 }, { "monster": "mon_vocal_bigfrog", "weight": 50 } ]
   },
   {
     "name": "GROUP_FROGS_UPGRADE_PATTERN",
