@@ -118,6 +118,6 @@
     "id": "afs_police_anti_robot_armory",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "afs_swat_emp", "prob": 3 }, { "group": "afs_civilian_laser_mag", "prob": 2 } ]
+    "items": [ { "group": "afs_swat_emp", "prob": 3 }, { "group": "afs_civilian_laser_mag", "prob": 1 } ]
   }
 ]

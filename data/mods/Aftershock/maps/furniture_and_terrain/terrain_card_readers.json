@@ -26,7 +26,7 @@
     "type": "terrain",
     "id": "t_afs_enforcer_card_reader",
     "name": "Old Enforcer Card Reader",
-    "description": "A smartcard based lock system once fitted to corporate police prefab facilities. \u00A0While an original key would be impossible to find, the machine is ancient and obsolete, and it can be hacked or masterkeys can be obtained to bypass it.",
+    "description": "A smartcard based lock system once fitted to corporate police prefab facilities.  While an original key would be impossible to find, the machine is ancient and obsolete, and it can be hacked or masterkeys can be obtained to bypass it.",
     "symbol": "6",
     "color": "blue",
     "copy-from": "t_card_science_maintenance_blue",
