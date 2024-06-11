@@ -153,7 +153,6 @@
       "rural_outbuilding_north": { "overmap": "rural_outbuilding_north" },
       "rural_outbuilding_roof_north": { "overmap": "rural_outbuilding_roof_north" },
       "forest_thick": { "overmap": "special_forest_thick" },
-      "field_isherwood": { "overmap": "special_field_isherwood" },
       "forest_isherwood": { "overmap": "special_forest_isherwood" },
       "forest_thick_isherwood": { "overmap": "special_forest_thick_isherwood" }
     },

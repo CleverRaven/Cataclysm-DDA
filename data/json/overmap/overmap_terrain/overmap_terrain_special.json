@@ -32,7 +32,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_field", "special_field_isherwood" ],
+    "id": [ "special_field" ],
     "copy-from": "generic_open_land",
     "name": "field",
     "sym": ".",
