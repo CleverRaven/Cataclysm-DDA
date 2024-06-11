@@ -53,7 +53,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS"
     ]
@@ -123,7 +123,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "STUN_IMMUNE"
@@ -204,7 +204,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_BREATHE",
@@ -240,7 +240,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 45,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -255,8 +255,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
       "HARDTOSHOOT"
@@ -292,7 +291,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 50,
     "vision_night": 50,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -324,8 +323,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO",
       "WIELDED_WEAPON",
@@ -364,7 +362,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 55,
     "vision_night": 55,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -403,8 +401,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO",
       "WIELDED_WEAPON",
@@ -468,7 +465,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -544,7 +541,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRIC"
     ]
@@ -630,7 +627,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRIC_FIELD"
     ]
@@ -697,7 +694,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -781,7 +778,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PHOTOKIN_MONSTER_IMMUNE"
     ]
@@ -871,7 +868,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PHOTOKIN_MONSTER_IMMUNE"
     ]
@@ -949,7 +946,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREPROOF"
     ]
@@ -1040,7 +1037,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREY"
     ]
@@ -1136,7 +1133,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREY"
     ]
@@ -1246,7 +1243,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "PUSH_VEH",
@@ -1369,7 +1366,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "FLIES",
@@ -1408,7 +1405,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1444,8 +1441,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -1477,7 +1473,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1522,8 +1518,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
     ]
@@ -1556,7 +1551,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1610,8 +1605,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
     ]
@@ -1644,7 +1638,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1676,8 +1670,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1712,7 +1705,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1760,8 +1753,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1797,7 +1789,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "death_function": {
       "effect": { "id": "teleport_summon_monster", "hit_self": true },
@@ -1858,8 +1850,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1935,7 +1926,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG"
@@ -2038,7 +2029,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG"

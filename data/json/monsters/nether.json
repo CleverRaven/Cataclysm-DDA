@@ -30,7 +30,7 @@
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
     "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
-    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ],
+    "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS", "SUNDEATH" ],
     "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
@@ -92,7 +92,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
-    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
+    "flags": [ "SMELLS", "HEARS", "HAS_MIND", "WARM", "ANIMAL", "PATH_AVOID_DANGER", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
   {
     "id": "mon_blood_sacrifice",
@@ -282,7 +282,7 @@
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "HARDTOSHOOT"
     ]
   },
@@ -458,7 +458,7 @@
       "feed": "If you're seeing this message it's a bug.",
       "pet": "If you're seeing this message it's a bug."
     },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_flaming_eye",
@@ -923,7 +923,7 @@
       "CAMOUFLAGE",
       "FIREPROOF",
       "NIGHT_INVISIBILITY",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "HARDTOSHOOT",
       "HIT_AND_RUN"
     ],
@@ -958,7 +958,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "", "cooldown": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_gracke",
@@ -987,7 +987,7 @@
     "harvest": "demihuman",
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "HAS_MIND", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SMELLS", "HEARS", "WARM", "HAS_MIND", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "electric": 1 }
   },
   {

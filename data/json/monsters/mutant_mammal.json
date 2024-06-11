@@ -48,7 +48,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "BASHES",
       "PUSH_MON",
@@ -88,7 +88,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ],
     "armor": { "cut": 4 }
   },
   {
@@ -121,7 +121,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ]
   },
   {
     "id": "mon_coyote_mutant_shark",
@@ -165,7 +165,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "GROUP_MORALE", "EATS" ],
     "armor": { "bash": 1 }
   },
   {
@@ -206,7 +206,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "HIT_AND_RUN",
       "KEENNOSE",
@@ -258,7 +258,7 @@
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {
@@ -297,7 +297,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "EATS" ]
   },
   {
     "id": "mon_deer_mutant_spider_fawn",
@@ -331,7 +331,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 330, "into": "mon_deer_mutant_spider" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "STUMBLES" ]
   },
   {
     "id": "mon_dog_mutant_mongrel",
@@ -386,7 +386,7 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -452,7 +452,7 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -550,7 +550,7 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -644,7 +644,7 @@
       "HEARS",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
