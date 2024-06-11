@@ -117,7 +117,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "BASHES",
       "ATTACKMON",
@@ -242,7 +242,7 @@
       "BASHES",
       "POISON",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FILTHY"
     ],
@@ -292,7 +292,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {

@@ -1135,7 +1135,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": false,
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
-    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
@@ -1162,7 +1162,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": false,
     "armor": { "electric": 2 },
-    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {

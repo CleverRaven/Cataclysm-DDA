@@ -1073,7 +1073,7 @@
     "name": { "str": "slow-sand water filter" },
     "//": "Slow sand biofilter: https://wwwnc.cdc.gov/travel/yellowbook/2024/preparing/water-disinfection#:~:text=Figure%202%2D02.%20Emergency%20gravel%20and%20sand%20filter",
     "description": "An improvised water filter made from a plastic bucket filled with a layer of sand and a layer of gravel.  It can be used to remove particulates and some pathogens from water, but it is not 100% effective.",
-    "//2": "Density of sand is around 1.6g/cm^3. Gravel is similar. pi * 5in * 5in * (10 in + 4 in) * 1.6 g/cm^3 ~= 29 kg. Add 1 kg for the bucket itself.",
+    "//1": "Weight = 8 kg gravel + 20 kg sand + 815 g bucket + a bit extra for mesh and any residual water",
     "weight": "29800 g",
     "volume": "21000 ml",
     "price": 1000,

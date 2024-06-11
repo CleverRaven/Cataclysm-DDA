@@ -24,16 +24,7 @@
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "BASHES",
-      "ELECTRONIC",
-      "NO_BREATHE",
-      "BIOLOGICALPROOF",
-      "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1"
-    ],
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "BIOLOGICALPROOF", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 12, "cut": 12, "stab": 6, "acid": 12, "heat": 5 }
   },
   {
@@ -63,16 +54,7 @@
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "BASHES",
-      "ELECTRONIC",
-      "NO_BREATHE",
-      "BIOLOGICALPROOF",
-      "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1"
-    ],
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "BIOLOGICALPROOF", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 10, "cut": 10, "stab": 5, "acid": 10, "heat": 5 }
   },
   {
@@ -128,7 +110,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "WIELDED_WEAPON"
     ],

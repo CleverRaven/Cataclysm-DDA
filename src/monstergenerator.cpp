@@ -1284,6 +1284,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
+        optional( jop, was_loaded, "avoid_dangerous_fields", path_settings.avoid_dangerous_fields, false );
     }
 }
 
