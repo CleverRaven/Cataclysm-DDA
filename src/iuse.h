@@ -126,7 +126,6 @@ std::optional<int> gun_repair( Character *, item *, const tripoint & );
 std::optional<int> gunmod_attach( Character *, item *, const tripoint & );
 std::optional<int> hacksaw( Character *, item *, const tripoint &it_pnt );
 std::optional<int> hairkit( Character *, item *, const tripoint & );
-std::optional<int> hammer( Character *, item *, const tripoint & );
 std::optional<int> hand_crank( Character *, item *, const tripoint & );
 std::optional<int> heat_food( Character *, item *, const tripoint & );
 std::optional<int> heatpack( Character *, item *, const tripoint & );
@@ -260,6 +259,8 @@ struct heater {
     bool consume_flag;
     int available_heater;
     int heating_effect;
+    tripoint_abs_ms vpt;
+    bool pseudo_flag;
 };
 heater find_heater( Character *, item * );
 heating_requirements heating_requirements_for_weight( const units::mass &,

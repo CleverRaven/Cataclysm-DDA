@@ -104,6 +104,30 @@
   },
   {
     "type": "furniture",
+    "id": "f_habitat_floodlight",
+    "name": "industrial floodlight",
+    "description": "A wall mountable floodlight, designed to illuminate large areas with a bright, white light.  Still functional thanks to some unknown backup power source.",
+    "symbol": "!",
+    "color": "brown",
+    "move_cost_mod": 6,
+    "required_str": -1,
+    "light_emitted": 600,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_screenmirror",
     "name": "screen mirror",
     "symbol": "{",

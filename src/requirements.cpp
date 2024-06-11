@@ -243,6 +243,9 @@ void tool_comp::load( const JsonValue &value )
         comp.read( 0, type, true );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
+        if( comp.size() > 2 && comp.get_string( 2 ) != "LIST" ) {
+            value.throw_error( R"(expected "LIST")" );
+        }
     }
     if( count == 0 ) {
         value.throw_error( "tool count must not be 0" );
@@ -273,6 +276,8 @@ void item_comp::load( const JsonValue &value )
             recoverable = false;
         } else if( flag == "LIST" ) {
             requirement = true;
+        } else {
+            value.throw_error( R"(expected "LIST" or "NO_RECOVER")" );
         }
     }
     if( count <= 0 ) {

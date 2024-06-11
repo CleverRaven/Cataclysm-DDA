@@ -799,7 +799,7 @@ void Item_factory::finalize_post( itype &obj )
     }
 
     if( obj.comestible ) {
-        for( const std::pair<const diseasetype_id, int> &elem : obj.comestible->contamination ) {
+        for( const std::pair<const diseasetype_id, float> &elem : obj.comestible->contamination ) {
             const diseasetype_id dtype = elem.first;
             if( !dtype.is_valid() ) {
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
@@ -1796,7 +1796,6 @@ void Item_factory::init()
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
-    add_iuse( "HAMMER", &iuse::hammer );
     add_iuse( "HEATPACK", &iuse::heatpack );
     add_iuse( "HEAT_FOOD", &iuse::heat_food );
     add_iuse( "HONEYCOMB", &iuse::honeycomb );
@@ -3308,7 +3307,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     for( const JsonObject jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
-                                    jsobj.get_int( "probability" ) );
+                                    jsobj.get_float( "probability" ) );
     }
 
     if( jo.has_member( "primary_material" ) ) {

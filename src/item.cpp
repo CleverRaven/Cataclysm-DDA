@@ -192,8 +192,6 @@ static const matec_id RAPID( "RAPID" );
 
 static const material_id material_wool( "wool" );
 
-static const morale_type morale_null( "morale_null" );
-
 static const mtype_id mon_human( "mon_human" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
@@ -2794,7 +2792,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::FOOD_ALLERGEN )
-        && player_character.allergy_type( *food_item ) != morale_null ) {
+        && player_character.allergy_type( *food_item ) != morale_type::NULL_ID() ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
@@ -6350,7 +6348,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
     } else if( is_food() ) {
         // Give color priority to allergy (allergy > inedible by freeze or other conditions)
         // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
-        if( player_character.allergy_type( *this ) != morale_null ) {
+        if( player_character.allergy_type( *this ) != morale_type::NULL_ID() ) {
             return c_red;
         }
 
@@ -14234,6 +14232,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             if( is_comestible() ) {
                 here.rotten_item_spawn( *this, pos );
             }
+            if( is_corpse() ) {
+                here.handle_decayed_corpse( *this, here.getglobal( pos ) );
+            }
             return true;
         }
     } else {
@@ -14618,6 +14619,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
     }
 
     return ret_name;
+}
+
+const mtype *item::get_corpse_mon() const
+{
+    return corpse;
 }
 
 std::string item::get_corpse_name() const

@@ -38,6 +38,7 @@
       { "group": "afs_wintersuit_generic_advanced", "count": [ 1, 3 ] },
       { "group": "afs_basic_armor", "count": [ 0, 3 ] },
       { "group": "afs_colonist_outfit", "count": [ 1, 3 ] },
+      { "group": "afs_civilian_hazard_outfit", "count": [ 1, 3 ], "prob": 60 },
       { "group": "afs_pals_pieces", "count": [ 6, 12 ] },
       { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] }
     ]

@@ -127,6 +127,9 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wood( "wood" );
 static const material_id material_wool( "wool" );
 
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
@@ -197,24 +200,6 @@ void Creature::setpos( const tripoint_bub_ms &p )
     Creature::setpos( p.raw() );
 }
 
-static units::volume size_to_volume( creature_size size_class )
-{
-    // returns midpoint of size from volume_to_size, minus 1_ml
-    // e.g. max tiny size is 7500, max small size is 46250, we return
-    // 46250+7500 / 2 - 1_ml = 26875_ml - 1ml
-    // This is still stupid and both of these functions should be merged into one single source of truth.
-    if( size_class == creature_size::tiny ) {
-        return 3749_ml;
-    } else if( size_class == creature_size::small ) {
-        return 26874_ml;
-    } else if( size_class == creature_size::medium ) {
-        return 77124_ml;
-    } else if( size_class == creature_size::large ) {
-        return 295874_ml;
-    }
-    return 741874_ml;
-}
-
 bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
 {
     map &here = get_map();
@@ -250,20 +235,21 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
         units::volume critter_volume;
         if( mon ) {
             critter_volume = mon->get_volume();
-        } else {
-            critter_volume = size_to_volume( size );
+        } else if( const Character *you = as_character() )  {
+            critter_volume = you->get_total_volume();
         }
 
         if( critter_volume > free_cargo ) {
             return false;
         }
 
-        if( critter_volume > size_to_volume( creature_size::large ) &&
+        if( size == creature_size::huge &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
             return false;
         }
 
-        if( critter_volume < free_cargo * 1.33 ) {
+        // free_cargo * 0.75 < critter_volume && critter_volume <= free_cargo
+        if( free_cargo * 0.75 < critter_volume ) {
             if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
                            mon->type->bodytype == "fish" ||
                            has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
@@ -982,12 +968,12 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                                    dealt_dam.bp_hit );
             }
             if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+                !player_character.has_morale( morale_pyromania_startfire ) &&
                 player_character.sees( target ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
     } else if( proj_effects.count( "IGNITE" ) ) {
@@ -998,12 +984,12 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
                 target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
             }
             if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+                !player_character.has_morale( morale_pyromania_startfire ) &&
                 player_character.sees( target ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
     }
@@ -1388,11 +1374,11 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
             Character &player_character = get_player_character();
             if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) && player_character.sees( *this ) ) {
+                !player_character.has_morale( morale_pyromania_startfire ) && player_character.sees( *this ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
-                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
     } else if( du.type == damage_electric ) {

@@ -4627,6 +4627,12 @@
   },
   {
     "type": "effect_type",
+    "id": "nvg_green",
+    "name": [ "Night Vision Goggles (Green)" ],
+    "desc": [ "Your night vision goggles give a green tint to the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "glowing_gas",
     "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
     "desc": [
@@ -4862,16 +4868,7 @@
     "rating": "bad",
     "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
     "resist_effects": [ "incorporeal" ],
-    "pain_sizing": true,
-    "hurt_sizing": true,
-    "base_mods": {
-      "dex_mod": [ -2 ],
-      "str_mod": [ -2 ],
-      "speed_mod": [ -20 ],
-      "pain_min": [ 2 ],
-      "pain_chance": [ 100, 500 ],
-      "pain_max_val": [ 35 ]
-    },
+    "base_mods": { "dex_mod": [ -2 ], "str_mod": [ -2 ], "speed_mod": [ -20 ] },
     "show_in_info": true
   },
   {

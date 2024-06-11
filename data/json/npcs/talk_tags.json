@@ -149,7 +149,7 @@
       "bitch",
       "bootlicker",
       "bugger",
-      "butchery refuse",
+      { "text": { "ctxt": "<name_b>", "str": "butchery refuse" } },
       "butthead",
       "butt-licker",
       "chucklefuck",
@@ -160,9 +160,9 @@
       "damned <name_b>",
       "dildo",
       "dimwit",
-      "dog",
+      { "text": { "ctxt": "<name_b>", "str": "dog" } },
       "dumbshit",
-      "dumpster",
+      { "text": { "ctxt": "<name_b>", "str": "dumpster" } },
       "dumpster fire",
       "dunderfuck",
       "effing <name_b>",
@@ -1876,7 +1876,7 @@
     "type": "snippet",
     "category": "<zombie>",
     "text": [
-      "zombie",
+      { "text": { "ctxt": "<zombie>", "str": "zombie" } },
       "Z",
       "shambler",
       "goo-puker",
@@ -2026,7 +2026,7 @@
   {
     "type": "snippet",
     "category": "<granny_name_g>",
-    "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
+    "text": [ { "text": { "ctxt": "<granny_name_g>", "str": "child" } }, "my child", "dear", "my dear", "friend", "survivor" ]
   },
   {
     "type": "snippet",

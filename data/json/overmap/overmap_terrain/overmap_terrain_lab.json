@@ -304,10 +304,13 @@
     "type": "overmap_terrain",
     "id": [
       "lab_surface_parking_blockA2",
+      "lab_surface_parking_blockA2_roof",
       "lab_surface_parking_blockE2",
+      "lab_surface_parking_blockE2_roof",
       "lab_surface_parking_blockA0",
       "lab_surface_parking_blockB0",
       "lab_surface_parking_blockC0",
+      "lab_surface_parking_blockC0_roof",
       "lab_surface_parking_blockD0",
       "lab_surface_parking_blockE0",
       "lab_surface_parking_blockA1",

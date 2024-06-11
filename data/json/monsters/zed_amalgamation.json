@@ -111,8 +111,8 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_amalgamation" ],
     "harvest": "zombie_amalgamation",
     "//": "TODO: When effects/spells can mess with path settings + flags move smartness to the effect of dedicated coordinatiors",
-    "path_settings": { "avoid_sharp": true, "avoid_traps": true, "max_dist": 400 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ],
+    "path_settings": { "avoid_sharp": true, "avoid_traps": true, "avoid_dangerous_fields": true, "max_dist": 400 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "REVIVES", "NO_BREATHE" ],
     "armor": { "bash": 8, "cut": 4, "stab": 4, "acid": 5, "bullet": 12, "electric": 5 }
   },
   {

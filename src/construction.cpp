@@ -46,7 +46,6 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -103,6 +102,9 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
+
+static const morale_type morale_funeral( "morale_funeral" );
+static const morale_type morale_gravedigger( "morale_gravedigger" );
 
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -1634,7 +1636,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( mon_flag_HUMAN ) ) {
                     if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                        player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1643,7 +1645,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
                 }
             } else {
                 if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                    player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it.get_corpse_name() );
@@ -2072,12 +2074,12 @@ void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
 {
     do_turn_shovel( p, who );
-    if( !who.has_morale( MORALE_GRAVEDIGGER ) ) {
+    if( !who.has_morale( morale_gravedigger ) ) {
         if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
             if( who.query_yn(
                     _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
                 add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-                who.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                who.add_morale( morale_gravedigger, -50, -100, 48_hours, 12_hours );
                 if( one_in( 3 ) ) {
                     who.vomit();
                 }
@@ -2087,13 +2089,13 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
         } else if( who.has_trait( trait_PSYCHOPATH ) ) {
             who.add_msg_if_player(
                 m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, 25, 50, 2_hours, 1_hours );
         } else if( who.has_trait( trait_NUMB ) ) {
             who.add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
         } else if( !who.has_trait( trait_EATDEAD ) && !who.has_trait( trait_SAPROVORE ) ) {
             who.add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 who.vomit();
             }

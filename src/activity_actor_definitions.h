@@ -51,6 +51,7 @@ class aim_activity_actor : public activity_actor
         std::string action;
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
+        bool should_unload_RAS = false;
         bool snap_to_target = false;
         /* Item location for RAS weapon reload */
         item_location reload_loc = item_location();
@@ -1737,7 +1738,7 @@ class heat_activity_actor : public activity_actor
             to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
 
         activity_id get_type() const override {
-            return activity_id( "ACT_HEAT" );
+            return activity_id( "ACT_HEATING" );
         }
 
         void start( player_activity &act, Character & ) override;

@@ -176,7 +176,7 @@
     "warmth": 20,
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "MODULE_HOLDER" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -363,7 +363,7 @@
     "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED", "MODULE_HOLDER" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -397,7 +397,7 @@
     "warmth": 20,
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "MODULE_HOLDER" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -2844,7 +2844,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "PADDED" ],
+    "flags": [ "WATERPROOF", "PADDED", "MODULE_HOLDER" ],
     "armor": [
       {
         "material": [
