@@ -258,58 +258,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   },
   {
-    "id": "sw22mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 10-round S&W magazine" },
-    "description": "A 10-round handgun magazine for use with Smith and Wesson's .22 caliber pocket pistol.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "sw22mag",
-        "name": { "str": "22A 10-round magazine" },
-        "description": "A standard capacity magazine for the popular S&W 22A pistol."
-      }
-    ],
-    "weight": "60 g",
-    "volume": "72 ml",
-    "longest_side": "9 cm",
-    "price": "21 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
-  },
-  {
-    "id": "j22mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": "cheap 6-round magazine" },
-    "description": "A cheaply built, low quality 6-round magazine, for use in only the most ineffectual of .22 caliber pocket pistols.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "j22mag",
-        "name": { "str": "J-22 6-round magazine" },
-        "description": "A cheap 6-round steel box magazine for the Jennings J-22."
-      }
-    ],
-    "weight": "55 g",
-    "volume": "27ml",
-    "longest_side": "7 cm",
-    "price": "28 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ]
-  },
-  {
     "id": "wp22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
