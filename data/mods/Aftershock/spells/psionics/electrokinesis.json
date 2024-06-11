@@ -19,9 +19,7 @@
       "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
-      "math": [
-        "( (u_spell_level('afs_electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 30000) + 180000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
