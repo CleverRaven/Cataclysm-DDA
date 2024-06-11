@@ -150,6 +150,6 @@
     "id": "afs_swat_emp",
     "//": "Anti-Robot weapons for police force",
     "subtype": "distribution",
-    "items": [ [ "afs_xm34", 100 ] ]
+    "items": [ [ "afs_xm34", 5 ] ]
   }
 ]
