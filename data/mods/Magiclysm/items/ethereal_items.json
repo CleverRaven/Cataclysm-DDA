@@ -225,16 +225,7 @@
     "longest_side": "40 cm",
     "material": [ "bone", "flesh" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [
-      "REACH_ATTACK",
-      "REACH3",
-      "WHIP",
-      "STURDY",
-      "TRADER_AVOID",
-      "UNBREAKABLE_MELEE",
-      "NO_REPAIR",
-      "MAGIC_FOCUS"
-    ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "STURDY", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "MAGIC_FOCUS" ],
     "category": "weapons",
     "melee_damage": { "cut": 30 }
   },
@@ -661,16 +652,7 @@
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "MAGIC_FOCUS",
-      "LIGHT_10",
-      "FIRESTARTER",
-      "FIRE",
-      "TRADER_AVOID"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "MAGIC_FOCUS", "LIGHT_10", "FIRESTARTER", "FIRE", "TRADER_AVOID" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "900 g",
     "volume": "1250 ml",
@@ -691,15 +673,7 @@
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
     "weapon_category": [ "BATONS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "ONLY_ONE",
-      "NO_REPAIR",
-      "MAGIC_FOCUS",
-      "BELT_CLIP",
-      "TRADER_AVOID"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "ONLY_ONE", "NO_REPAIR", "MAGIC_FOCUS", "BELT_CLIP", "TRADER_AVOID" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weight": "700 g",
     "volume": "800 ml",
