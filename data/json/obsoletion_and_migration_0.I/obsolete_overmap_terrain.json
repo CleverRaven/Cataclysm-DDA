@@ -231,7 +231,7 @@
       "farm_lot_wire_straight_v_north": "farmland_straight_north",
       "farm_lot_wire_straight_v_east": "farmland_straight_east",
       "farm_lot_wire_straight_v_south": "farmland_straight_south",
-      "farm_lot_wire_straight_v_open_west": "farmland_straight_west",
+      "farm_lot_wire_straight_v_west": "farmland_straight_west",
       "farm_lot_wire_straight_v_open_north": "farmland_straight_north",
       "farm_lot_wire_straight_v_open_east": "farmland_straight_east",
       "farm_lot_wire_straight_v_open_south": "farmland_straight_south",
