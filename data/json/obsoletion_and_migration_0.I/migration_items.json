@@ -1438,5 +1438,15 @@
     "id": "egg_palette_frog",
     "type": "MIGRATION",
     "replace": "egg_pickerel_frog"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_vocal_bigfrog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_shift_bigfrog"
   }
 ]

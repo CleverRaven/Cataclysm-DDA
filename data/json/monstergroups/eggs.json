@@ -625,5 +625,15 @@
     "name": "GROUP_EGG_ODD_BIGFROG",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_odd_bigtad" } ]
+  },
+  {
+    "name": "GROUP_EGG_VOCAL_BIGFROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_vocal_bigtad" } ]
+  },
+  {
+    "name": "GROUP_EGG_SHIFT_BIGFROG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_shift_bigtad" } ]
   }
 ]
