@@ -129,7 +129,7 @@
     "name": { "str": "abstract skull" },
     "description": "This is a dummy item.  If you see it something went wrong.",
     "flags": [ "TRADER_AVOID" ],
-    "category": "spare_parts",
+    "category": "other",
     "weight": "1 kg",
     "volume": "1400 ml",
     "symbol": "@",
