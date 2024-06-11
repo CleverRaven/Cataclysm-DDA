@@ -60,6 +60,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "char_validity_check.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
@@ -3404,14 +3405,22 @@ bool game::save_achievements()
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( achievement_file_path ),
         [&]( const char c ) {
-            return !std::isgraph( c, locale );
+            return !std::isgraph( c, locale ) || !is_char_allowed( c );
         }, '_' );
     } else {
-        achievement_file_path << u.name;
+        std::replace_copy_if( std::begin( u.name ), std::end( u.name ),
+                              std::ostream_iterator<char>( achievement_file_path ),
+        [&]( const char c ) {
+            return !is_char_allowed( c );
+        }, '_' );
     }
 
     // Add a ~ if the player name was actually truncated.
     achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+
+    // Add world timestamp to distinguish characters from different worlds with the same name
+    achievement_file_path << world_generator->active_world->timestamp << "-";
+
     const int character_id = get_player_character().getID().get_value();
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
@@ -3570,10 +3579,14 @@ void game::write_memorial_file( std::string sLastWords )
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
         [&]( const char c ) {
-            return !std::isgraph( c, locale );
+            return !std::isgraph( c, locale ) || !is_char_allowed( c );
         }, '_' );
     } else {
-        memorial_file_path << u.name;
+        std::replace_copy_if( std::begin( u.name ), std::end( u.name ),
+                              std::ostream_iterator<char>( memorial_file_path ),
+        [&]( const char c ) {
+            return !is_char_allowed( c );
+        }, '_' );
     }
 
     // Add a ~ if the player name was actually truncated.
