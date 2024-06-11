@@ -61,6 +61,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "path_manager.h"
 #include "pimpl.h"
 #include "profession.h"
 #include "ranged.h"
@@ -412,6 +413,14 @@ diary *avatar::get_avatar_diary()
         a_diary = std::make_unique<diary>();
     }
     return a_diary.get();
+}
+
+path_manager *avatar::get_path_manager()
+{
+    if( a_path_manager == nullptr ) {
+        a_path_manager = std::make_unique<path_manager>();
+    }
+    return a_path_manager.get();
 }
 
 bool avatar::read( item_location &book, item_location ereader )
