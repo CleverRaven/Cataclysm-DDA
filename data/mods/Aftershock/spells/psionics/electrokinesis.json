@@ -16,9 +16,7 @@
     "effect_str": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_INITIATE",
     "shape": "blast",
     "min_duration": {
-      "math": [
-        "( (u_spell_level('afs_electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 15000) + 90000) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_duration": {
       "math": [
