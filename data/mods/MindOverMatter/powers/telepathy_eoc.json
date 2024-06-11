@@ -52,9 +52,7 @@
             "id": "EOC_TELEPATH_MORALE_MODIFY_NPC_VALUES_2",
             "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
             "effect": [
-              {
-                "math": [ "u_val('npc_fear')", "=", "max(-10, (u_val('npc_fear') - (u_mood_stabilized_power_level / 2)))" ]
-              },
+              { "math": [ "u_val('npc_fear')", "=", "max(-10, (u_val('npc_fear') - (u_mood_stabilized_power_level / 2)))" ] },
               {
                 "math": [ "u_val('npc_anger')", "=", "max(-10, (u_val('npc_anger') - (u_mood_stabilized_power_level / 2)))" ]
               },
