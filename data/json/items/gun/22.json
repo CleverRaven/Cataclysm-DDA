@@ -259,14 +259,15 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "SIG training pistol" },
+    "name": { "str": "firefly training pistol" },
+    "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
     "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sig_mosquito",
-        "name": { "str": "SIG Mosquito pistol" },
-        "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful."
+        "name": { "str": "GSG Firefly", "str_pl": "GSG Fireflies" },
+        "description": "The GSG firefly is a .22 semi-automatic handgun.  While the GSG Firefly started off as the SIG Mosquito, after the Mosquito ceased production, German Sport Guns picked it up and renamed it to the Firefly."
       }
     ],
     "ascii_picture": "sig_mosquito",
