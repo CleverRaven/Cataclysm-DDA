@@ -159,9 +159,7 @@
       "math": [ "( (u_spell_level('afs_electrokinetic_recharge_vehicle') * 125) + 250) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "max_damage": {
-      "math": [
-        "( (u_spell_level('afs_electrokinetic_recharge_vehicle') * 250) + 500) * (scaling_factor(u_val('intelligence') ) )"
-      ]
+      "math": [ "( (u_spell_level('afs_electrokinetic_recharge_vehicle') * 250) + 500) * (scaling_factor(u_val('intelligence') ) )" ]
     },
     "min_range": 1,
     "energy_source": "STAMINA",
