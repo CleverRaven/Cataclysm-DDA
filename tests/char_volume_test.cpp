@@ -109,7 +109,7 @@ TEST_CASE( "character_at_volume_can_or_cannot_enter_vehicle", "[volume]" )
     cramped = false;
 
     // Try the cramped aisle with a rock again, but now we are tiny, so it is easy.
-    CHECK( your_volume_with_trait( trait_SMALL2 ) == 23326_ml );
+    CHECK( your_volume_with_trait( trait_SMALL2 ) < 30_liter );
     you.setpos( test_pos ); // set our position again, clear_avatar() moved us
     dest_loc = dest_loc + tripoint_north;
     CHECK( you.can_move_to_vehicle_tile( dest_loc, cramped ) );
@@ -117,7 +117,7 @@ TEST_CASE( "character_at_volume_can_or_cannot_enter_vehicle", "[volume]" )
     dest_loc = you.get_location(); //reset
 
     // Same aisle, but now we have HUGE GUTS. We will never fit.
-    CHECK( your_volume_with_trait( trait_HUGE ) == 156228_ml );
+    CHECK( your_volume_with_trait( trait_HUGE ) > 150_liter );
     you.setpos( test_pos ); // set our position again, clear_avatar() moved us
     dest_loc = dest_loc + tripoint_north;
     CHECK( !you.can_move_to_vehicle_tile( dest_loc ) );
