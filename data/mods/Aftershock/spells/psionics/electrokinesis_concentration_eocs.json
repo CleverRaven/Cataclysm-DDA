@@ -54,9 +54,7 @@
             "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
           },
           {
-            "math": [
-              "( (u_spell_level('afs_electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )"
-            ]
+            "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
           }
         ]
       }
