@@ -53,7 +53,7 @@
         "ë": { "item": "afs_police_bot_storage", "chance": 15 }
       },
 	  "place_vehicles": [
-	    { "vehicle": "policecar", "x": 7, "y": 18, "chance": 20, "rotation": 90 }
+	    { "vehicle": "policecar_atomic", "x": 7, "y": 18, "chance": 20, "rotation": 90 }
 	  ],
 	  "place_nested": [ { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 0, "y": 0 } ]
     }
