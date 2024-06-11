@@ -139,9 +139,9 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
         auto cargo_parts = veh.get_parts_at( p, "CARGO", part_status_flag::any );
         for( vehicle_part *&part : cargo_parts ) {
             vehicle_stack contents = veh.get_items( *part );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) &&
-                !vp.part_with_feature( "APPLIANCE", false ) && !vp.part_with_feature( "OBSTACLE", false ) ) {
-                capacity += contents.max_volume();
+            const vpart_info &vpinfo = part->info();
+            if( !vp.part_with_feature( "CARGO_PASSABLE", true ) ) {
+                capacity += vpinfo.size;
                 free_cargo += contents.free_volume();
             }
         }
@@ -164,7 +164,7 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                     ( size == creature_size::medium && free_cargo < 46875_ml ) ||
                     ( size == creature_size::large && free_cargo < 93750_ml ) ||
                     ( size == creature_size::huge && free_cargo < 187500_ml ) ||
-                    ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", false ) ) ) {
+                    ( get_volume() > 850000_ml && !vp.part_with_feature( "HUGE_OK", true ) ) ) {
                     return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
                     // I'm sorry but you can't let a kaiju ride shotgun.
                 }
@@ -175,8 +175,8 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                 critter.add_effect( effect_cramped_space, 2_turns, true );
                 return true; // Otherwise we add the effect and return true.
             }
-            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
-                !vp.part_with_feature( "HUGE_OK", false ) ) {
+            if( size == creature_size::huge && !vp.part_with_feature( "AISLE", true ) &&
+                !vp.part_with_feature( "HUGE_OK", true ) ) {
                 critter.add_effect( effect_cramped_space, 2_turns, true );
                 return true; // Sufficiently gigantic creatures have trouble in stock seats, roof or no.
             }
@@ -202,6 +202,10 @@ bool monster::will_move_to( const tripoint &p ) const
         if( !can_submerge() && !flies() && here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
             return false;
         }
+    }
+
+    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
+        return false;
     }
 
     if( digs() && !here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) &&
@@ -1860,10 +1864,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) {
             destination = find_closest_stair( p, ter_furn_flag::TFLAG_GOES_UP );
         }
-    }
-
-    if( here.veh_at( p ).part_with_feature( VPFLAG_CARGO, true ) && !monster_move_in_vehicle( p ) ) {
-        return false;
     }
 
     // Allows climbing monsters to move on terrain with movecost <= 0
