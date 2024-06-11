@@ -2485,7 +2485,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         } else if( prevent_occlusion == 1 ) {
             retract = 100;
         } else {
-            const float distance = o.distance( pos.xy() );
+            const float distance = is_isometric() ? o.distance( pos.xy() ) :
+                                   point( static_cast<int>( o.x + ( screentile_width / 2.0f ) ),
+                                          static_cast<int>( o.y - 1 + ( screentile_height / 2.0f ) ) ).distance( pos.xy() );
             const float d_min = prevent_occlusion_min_dist > 0.0 ? prevent_occlusion_min_dist :
                                 tileset_ptr->get_prevent_occlusion_min_dist();
             const float d_max = prevent_occlusion_max_dist > 0.0 ? prevent_occlusion_max_dist :
@@ -2494,7 +2496,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             const float d_range = d_max - d_min;
             const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
 
-            retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
+            retract = static_cast<int>( 100.0 * ( 1.0 - std::clamp( ( distance - d_min ) * d_slope, 0.0f,
+                                                  1.0f ) ) );
         }
 
         if( prevent_occlusion_transp && retract > 0 ) {
