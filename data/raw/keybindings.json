@@ -3296,6 +3296,12 @@
   },
   {
     "type": "keybinding",
+    "id": "open_path_manager",
+    "name": "Path manager",
+    "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "LIST_ITEMS",
     "name": "Scroll item info up",

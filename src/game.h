@@ -1319,7 +1319,7 @@ namespace cata_event_dispatch
 // @param p The point the avatar moved from in absolute coordinates
 // @param u The avatar (should have already moved to the new pos)
 // @param m The map the avatar is moving on
-void avatar_moves( const tripoint_abs_ms &old_abs_pos, const avatar &u, const map &m );
+void avatar_moves( const tripoint_abs_ms &old_abs_pos, avatar &u, const map &m );
 } // namespace cata_event_dispatch
 
 #endif // CATA_SRC_GAME_H

@@ -400,6 +400,8 @@ std::string action_ident( action_id act )
             return "main_menu";
         case ACTION_DIARY:
             return "diary";
+        case ACTION_PATH_MANAGER:
+            return "open_path_manager";
         case ACTION_KEYBINDINGS:
             return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:

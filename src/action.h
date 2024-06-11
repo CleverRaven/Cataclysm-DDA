@@ -274,6 +274,8 @@ enum action_id : int {
     ACTION_HELP,
     /** Display Diary window*/
     ACTION_DIARY,
+    /** Open Path manager*/
+    ACTION_PATH_MANAGER,
     /** Open body status menu **/
     ACTION_BODYSTATUS,
     /** Display main menu */

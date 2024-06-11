@@ -75,6 +75,7 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
+#include "path_manager.h"
 #include "player_activity.h"
 #include "popup.h"
 #include "ranged.h"
@@ -2920,6 +2921,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_DISTRACTION_MANAGER:
             get_distraction_manager().show();
+            break;
+
+        case ACTION_PATH_MANAGER:
+            u.get_path_manager()->show();
             break;
 
         case ACTION_COLOR:
