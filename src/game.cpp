@@ -161,6 +161,7 @@
 #include "panels.h"
 #include "past_achievements_info.h"
 #include "path_info.h"
+#include "path_manager.h"
 #include "pathfinding.h"
 #include "pickup.h"
 #include "player_activity.h"
@@ -2576,6 +2577,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
     ctxt.register_action( "open_distraction_manager" );
+    ctxt.register_action( "open_path_manager" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
@@ -3122,6 +3124,12 @@ bool game::load( const save_t &name )
                 }
             },
             {
+                _( "Path Manager" ), [&]()
+                {
+                    u.get_path_manager()->load();
+                }
+            },
+            {
                 _( "Memorial" ), [&]()
                 {
                     const cata_path log_filename =
@@ -3388,7 +3396,9 @@ bool game::save_player_data()
     }, _( "quick shortcuts" ) );
 #endif
     const bool saved_diary = u.get_avatar_diary()->store();
+    const bool saved_path_manager = u.get_path_manager()->store();
     return saved_data && saved_map_memory && saved_log && saved_diary
+           && saved_path_manager
 #if defined(__ANDROID__)
            && saved_shortcuts
 #endif
@@ -13893,14 +13903,16 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
 
 namespace cata_event_dispatch
 {
-void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
+void avatar_moves( const tripoint &old_abs_pos, avatar &u, const map &m )
 {
     const tripoint new_pos = u.pos();
     const tripoint new_abs_pos = m.getabs( new_pos );
+    const tripoint_abs_ms loc = m.getglobal( new_pos );
     mtype_id mount_type;
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;
     }
+    u.get_path_manager()->record_step( loc );
     get_event_bus().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
             u.current_movement_mode(), u.is_underwater(), new_pos.z );
 
