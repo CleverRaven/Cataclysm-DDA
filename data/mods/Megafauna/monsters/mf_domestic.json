@@ -548,7 +548,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0 } ],
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it.." },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it." },
     "flags": [
       "NO_BREED",
       "SEES",

@@ -189,7 +189,7 @@
       },
       { "text": "Do you have anything to trade?", "topic": "TALK_MILITIA_TRADE" },
       {
-        "text": "Time for me to leave",
+        "text": "Time for me to leave.",
         "topic": "TALK_MILITIA_BYE",
         "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       }
