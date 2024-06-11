@@ -42,6 +42,7 @@ class mission;
 class monster;
 class nc_color;
 class npc;
+class path_manager;
 class talker;
 struct bionic;
 struct mtype;
@@ -196,6 +197,7 @@ class avatar : public Character
 
         //return avatar diary
         diary *get_avatar_diary();
+        path_manager *get_path_manager();
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
@@ -417,6 +419,10 @@ class avatar : public Character
         * diary to track player progression and to write the players stroy
         */
         std::unique_ptr <diary> a_diary;
+        /**
+         * Manager of paths the avatar created.
+         */
+        std::unique_ptr <path_manager> a_path_manager;
         /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
