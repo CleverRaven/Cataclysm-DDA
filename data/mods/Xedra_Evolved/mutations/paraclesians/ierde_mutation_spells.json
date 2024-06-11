@@ -145,7 +145,7 @@
     "max_range": 1
   },
   {
-    "id": "ierde_see_earth_spell",
+    "id": "ierde_reveal_earth_map_spell",
     "type": "SPELL",
     "name": "Knowing the Hills and Valleys",
     "description": "Commune with the earth, whispering to it to reveal its secrets to you.  This spell will reveal natural features within a large radius around the Ierde.  The spell must be cast while standing on the living earth.",
