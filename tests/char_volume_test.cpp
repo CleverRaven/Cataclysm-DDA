@@ -9,7 +9,6 @@
 #include "map_helpers.h"
 #include "mutation.h"
 #include "player_helpers.h"
-#include "units.h"
 #include "vehicle.h"
 #include "veh_type.h"
 
