@@ -3305,7 +3305,6 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
     };
     std::unordered_set<mod_id> mods_to_remove;
     for( const mod_id &e : missing ) {
-
         if( removed_mods.find( e ) == removed_mods.end() ) {
             if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
                           e.c_str() ) ) {
