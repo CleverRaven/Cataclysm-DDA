@@ -2088,7 +2088,7 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
             if( !!f.deconstruct.skill &&
                 deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
                 cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s\nReally deconstruct?" ),
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
                                           f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
             } else {
                 cancel_construction = !who.query_yn(
@@ -2100,7 +2100,7 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
             if( !!t.deconstruct.skill &&
                 deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
                 cancel_construction = !who.query_yn(
-                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s\nReally deconstruct?" ),
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
                                           t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
             } else {
                 cancel_construction = !who.query_yn(
