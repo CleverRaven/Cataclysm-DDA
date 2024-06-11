@@ -1459,7 +1459,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
-    "flags": [ "NO_SALVAGE", "TINDER" ],
+    "flags": [ "TINDER" ],
     "symbol": "=",
     "color": "brown",
     "count": 50,

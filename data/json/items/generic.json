@@ -358,7 +358,7 @@
     "weight": "45 g",
     "volume": "150 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "type": "GENERIC",
