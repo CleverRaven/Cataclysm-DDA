@@ -790,7 +790,10 @@
         "id": "note_291",
         "text": "\"Sometimes I think it would be easier to just give up. But then I think of you, and I keep going.\""
       },
-      { "id": "note_292", "text": "\"They’re evolving. Saw one today that looked almost… not human.  God help us.\"" },
+      {
+        "id": "note_292",
+        "text": "\"They’re evolving. Saw one today that looked almost… not human.  God help us.\""
+      },
       {
         "id": "note_293",
         "text": "\"Found an old map. Marked a few places I want to check out. Maybe there's hope out there.\""
