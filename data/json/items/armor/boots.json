@@ -3389,7 +3389,7 @@
     "id": "espadrilles",
     "category": "armor",
     "type": "ARMOR",
-    "name": { "str_pl": "espadrilles" },
+    "name": { "str_sp": "espadrilles" },
     "description": "Espadrilles.",
     "looks_like": "leathersandals",
     "price": "20 USD",
