@@ -97,7 +97,11 @@
         "time_in_future": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)" ] }
       },
       {
-        "math": [ "u_spell_exp('spell_ethereal_wings')", "+=", "spell_exp_diff(u_spell_level('spell_karma_arms'))/spell_train_factor(200)" ]
+        "math": [
+          "u_spell_exp('spell_ethereal_wings')",
+          "+=",
+          "spell_exp_diff(u_spell_level('spell_ethereal_wings'))/spell_train_factor(200)"
+        ]
       }
     ],
     "false_effect": [
