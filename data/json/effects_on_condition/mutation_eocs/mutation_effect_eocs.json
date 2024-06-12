@@ -577,16 +577,16 @@
         { "u_has_trait": "ELECTROCYTES" },
         { "not": { "u_has_effect": "electrocytes_charge", "intensity": 10 } },
         { "math": [ "u_calories('format': 'percent')", ">", "25" ] }
-      ],
-      "effect": [
-        { "math": [ "u_calories()", "-=", "60" ] },
-        {
-          "u_add_effect": "electrocytes_charge",
-          "duration": "PERMANENT",
-          "intensity": { "math": [ "u_effect_intensity('electrocytes_charge') + 1" ] }
-        }
       ]
-    }
+    },
+    "effect": [
+      { "math": [ "u_calories()", "-=", "60" ] },
+      {
+        "u_add_effect": "electrocytes_charge",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('electrocytes_charge') + 1" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
