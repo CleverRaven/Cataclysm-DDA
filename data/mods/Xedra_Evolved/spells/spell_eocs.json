@@ -79,7 +79,7 @@
     ],
     "false_effect": [
       { "u_lose_trait": "ethereal_wings" },
-      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
+      { "u_message": "The wings behind you fade out of existence.", "type": "neutral" }
     ]
   },
   {
