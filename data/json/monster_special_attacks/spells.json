@@ -622,8 +622,24 @@
 { "u_mutate_category": { "context_val": "dart_mutation_category" } } ]
   },
   {
-    "type": "snippet",
-    "id": "random_category",
+    "type": "snippet_category",
+    "id": "<random_category>",
+    { "id": "CHIMERA" },
+    { "id": "ALPHA" },
+    { "id": "BEAST" },
+    { "id": "BATRACHIAN" },
+    { "id": "INSECT" },
+    { "id": "MEDICAL" },
+    { "id": "RAPTOR" },
+    { "id": "LIZARD" },
+    { "id": "SLIME" },
+    { "id": "PLANT" },
+    { "id": "ELFA" },
+    { "id": "RAT" },
+    { "id": "MOUSE" },
+    { "id": "CATTLE" },
+    { "id": "RABBIT" },
+    { "id": "CHIROPTERAN" }
     
 
   }
