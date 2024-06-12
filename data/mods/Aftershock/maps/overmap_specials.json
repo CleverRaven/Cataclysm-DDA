@@ -266,6 +266,6 @@
     "city_distance": [ 7, -1 ],
     "city_sizes": [ 10, -1 ],
     "occurrences": [ 0, 2 ],
-	"flags": [ "MAN_MADE", "EXOPLANET" ]
+    "flags": [ "MAN_MADE", "EXOPLANET" ]
   }
 ]
