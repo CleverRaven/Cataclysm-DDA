@@ -202,7 +202,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "weed_pack",
-    "entries": [ { "item": "weed", "count": 5, "container-item": "null", "entry-wrapper": "bag_plastic" } ]
+    "entries": [ { "item": "weed", "count": 5, "container-item": "null", "entry-wrapper": "bag_zipper" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "can_o_beans",
+    "entries": [ { "item": "can_beans", "count": 2, "container-item": "null", "entry-wrapper": "can_medium" } ]
   },
   {
     "type": "item_group",
@@ -638,7 +644,7 @@
           { "item": "folding_poncho" },
           { "item": "knit_scarf" },
           { "item": "jug_plastic" },
-          { "item": "can_beans" },
+          { "group": "can_o_beans" },
           { "item": "pockknife" },
           { "group": "charged_cell_phone" },
           { "group": "charged_matches" },
@@ -2237,7 +2243,7 @@
           { "item": "knit_scarf" },
           { "item": "ragpouch" },
           { "item": "bindle" },
-          { "item": "can_beans" },
+          { "group": "can_o_beans" },
           { "item": "pockknife" },
           { "group": "charged_matches" },
           { "item": "pants", "variant": "pants_grey" }
@@ -2733,13 +2739,15 @@
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "pistol" },
+      { "level": 4, "name": "driving" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" },
       { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "mechanics" },
       { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_auto_pistols_familiar", "prof_driver" ],
     "items": {
       "both": {
         "entries": [
@@ -3494,8 +3502,8 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "mbag" },
-          { "item": "caffeine" },
-          { "item": "caff_gum" },
+          { "item": "caffeine", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_small" },
+          { "item": "caff_gum", "count": 3 },
           { "item": "memory_card" },
           { "item": "usb_drive" },
           {
@@ -6005,15 +6013,22 @@
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           {
             "item": "m320",
             "ammo-item": "40x46mm_m433",
             "charges": 1,
             "contents-item": [ "shoulder_strap_simple", "holo_sight" ]
           },
+          {
+            "item": "modular_m4_carbine",
+            "variant": "modular_m4a1",
+            "ammo-item": "556_mk318",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "grenade_pouch", "contents-group": [ "army_grenades_40x46" ] },
-          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+          { "item": "grenade_pouch", "contents-group": [ "army_grenades_40x46" ] }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
