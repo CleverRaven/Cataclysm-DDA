@@ -492,7 +492,7 @@ std::map<const itype *, std::pair<int, int>> Single_item_creator::every_item_min
 {
     switch( type ) {
         case S_ITEM: {
-            auto i = item::find_type( itype_id( id ) );
+            const itype *i = item::find_type( itype_id( id ) );
             if( i->count_by_charges() ) {
                 // TODO: Not technically perfect for only charge_min/charge max and for ammo/liquids but Item_modifier::modify()'s logic is gross and I'd rather not try to replicate it perfectly as is
                 const int min_charges = modifier->charges.first == -1 ?
