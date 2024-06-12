@@ -1671,7 +1671,7 @@
     "autolearn": true,
     "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "clay_lump", 1 ] ],
       [ [ "material_sand", 113 ] ],
       [ [ "2x4", 2 ], [ "stick", 2 ] ],
@@ -1690,7 +1690,7 @@
     "autolearn": true,
     "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
-      [ [ "water", 32 ], [ "water_clean", 32 ] ],
+      [ [ "any_water", 32, "LIST" ] ],
       [ [ "clay_lump", 32 ] ],
       [ [ "material_sand", 9000 ] ],
       [ [ "2x4", 8 ] ],
@@ -1709,7 +1709,7 @@
     "autolearn": true,
     "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
-      [ [ "water", 9 ], [ "water_clean", 9 ] ],
+      [ [ "any_water", 9, "LIST" ] ],
       [ [ "clay_lump", 9 ] ],
       [ [ "material_sand", 2532 ] ],
       [ [ "2x4", 8 ] ],
@@ -1728,7 +1728,7 @@
     "autolearn": true,
     "qualities": [ [ { "id": "SIEVE", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
-      [ [ "water", 5 ], [ "water_clean", 5 ] ],
+      [ [ "any_water", 5, "LIST" ] ],
       [ [ "clay_lump", 5 ] ],
       [ [ "material_sand", 1350 ] ],
       [ [ "2x4", 4 ], [ "stick", 4 ] ],
@@ -1746,11 +1746,7 @@
     "time": "20 h",
     "autolearn": true,
     "tools": [ [ [ "rock", -1 ] ] ],
-    "components": [
-      [ [ "material_sand", 5 ], [ "material_gravel", 5 ] ],
-      [ [ "rock_large", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ]
-    ],
+    "components": [ [ [ "material_sand", 5 ], [ "material_gravel", 5 ] ], [ [ "rock_large", 1 ] ], [ [ "any_water", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ]
   },
   {
@@ -1790,7 +1786,7 @@
       [ [ "rock_large", 4 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_30", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 2 ], [ "material_gravel", 2 ] ]
     ]
   },

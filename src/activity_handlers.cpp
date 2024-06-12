@@ -72,7 +72,6 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
@@ -225,6 +224,11 @@ static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
 static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
+static const morale_type morale_butcher( "morale_butcher" );
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_game( "morale_game" );
+static const morale_type morale_tree_communion( "morale_tree_communion" );
 
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 
@@ -631,7 +635,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                    get_player_character().add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
                 } else {
                     //player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
                     you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
@@ -640,7 +644,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //if not the avatar, don't ask, just do it and suffer without comment
-                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
             }
         } else {
             //this runs if the butcherer does NOT have prof_dissect_humans
@@ -659,7 +663,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                    get_player_character().add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
                 } else {
                     //player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
@@ -668,7 +672,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //again, don't complain about it, or inform about it, just do it
-                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
             }
         }
     }
@@ -713,7 +717,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+                    get_player_character().add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
                 } else {
                     //standard refusal to butcher
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
@@ -722,7 +726,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //if we're not player and don't have dissect_humans, just add morale penalty.
-                you.add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+                you.add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
             }
         }
     }
@@ -1686,7 +1690,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
             morale_max_bonus *= mod;
         }
         // Playing alone - 1 points/min, almost 2 hours to fill
-        you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
+        you->add_morale( morale_game, morale_bonus, morale_max_bonus );
     }
 }
 
@@ -1707,7 +1711,7 @@ void activity_handlers::generic_game_finish( player_activity *act, Character *yo
             you->add_msg_if_player( m_good, _( "You won!" ) );
             you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
         }
-        you->add_morale( MORALE_GAME, 4 * mod );
+        you->add_morale( morale_game, 4 * mod );
     }
     act->set_to_null();
 }
@@ -2202,13 +2206,13 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     if( calendar::once_every( 1_minutes ) ) {
         if( vibrator_item.ammo_remaining( you ) > 0 ) {
             vibrator_item.ammo_consume( 1, you->pos(), you );
-            you->add_morale( MORALE_FEELING_GOOD, 3, 40 );
+            you->add_morale( morale_feeling_good, 3, 40 );
             if( vibrator_item.ammo_remaining( you ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
             //twenty minutes to fill
-            you->add_morale( MORALE_FEELING_GOOD, 1, 40 );
+            you->add_morale( morale_feeling_good, 1, 40 );
         }
     }
     // Dead Tired: different kind of relaxation needed
@@ -3501,7 +3505,7 @@ void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
 void activity_handlers::vibe_finish( player_activity *act, Character *you )
 {
     you->add_msg_if_player( m_good, _( "You feel much better." ) );
-    you->add_morale( MORALE_FEELING_GOOD, 10, 40 );
+    you->add_morale( morale_feeling_good, 10, 40 );
     act->set_to_null();
 }
 
@@ -3793,9 +3797,9 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
         tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( you->has_trait( trait_SPIRITUAL ) ) {
-                you->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
+                you->add_morale( morale_tree_communion, 2, 30, 8_hours, 6_hours );
             } else {
-                you->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
+                you->add_morale( morale_tree_communion, 1, 15, 2_hours, 1_hours );
             }
             if( one_in( 128 ) ) {
                 if( one_in( 256 ) ) {

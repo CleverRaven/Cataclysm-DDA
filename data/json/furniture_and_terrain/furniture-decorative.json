@@ -234,6 +234,24 @@
   },
   {
     "type": "furniture",
+    "id": "f_lighthouse_light",
+    "name": "lighthouse light",
+    "description": "Very high power, modern lighthouse LED light source with attached heatsinks.",
+    "symbol": "%",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "deconstruct": { "items": [ { "item": "lightstrip_inactive" }, { "item": "material_aluminium_ingot", "count": 4 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "e_scrap", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_winter_wreath",
     "name": "pine wreath",
     "description": "A decorative wreath for the winter holidays.",

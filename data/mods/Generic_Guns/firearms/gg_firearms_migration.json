@@ -135,7 +135,8 @@
       "m11",
       "m18",
       "p226_9mm",
-      "sp2022"
+      "sp2022",
+      "ruger_charger"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -151,7 +152,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -180,7 +181,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022" ],
+    "id": [ "american_180", "ruger_1022", "ruger_1022_auto", "ruger_charger_auto" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -190,7 +191,6 @@
       "kp32",
       "ruger_lcr_22",
       "sig_mosquito",
-      "sw_22",
       "walther_p22",
       "sig_p230",
       "walther_ppk",
@@ -202,7 +202,7 @@
     "replace": "pistol_tiny_target"
   },
   {
-    "id": [ "rifle_22", "j22" ],
+    "id": [ "rifle_22" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_zip"
   },

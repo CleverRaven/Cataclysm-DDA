@@ -1738,7 +1738,7 @@ class heat_activity_actor : public activity_actor
             to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
 
         activity_id get_type() const override {
-            return activity_id( "ACT_HEAT" );
+            return activity_id( "ACT_HEATING" );
         }
 
         void start( player_activity &act, Character & ) override;

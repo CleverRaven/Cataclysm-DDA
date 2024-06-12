@@ -113,7 +113,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I'd like to have some cans to store food in.",
-      "offer": "Now that we have some canning pots from Helena, we can start storing foodstuffs more easily around here.  Recycling our old tin cans is great and all, but if we get a big influx of new foods, then we can't properly store it all.  As such, if you could find about 100 more empty tin cans for me, I'd really appreciate it.",
+      "offer": "Now that we have some canning pots from Helena, we can start storing foodstuffs more easily around here.  Recycling our old tin cans is great and all, but if we get a big influx of new foods, then we can't properly store it all.  As such, if you could find about 100 more empty medium tin cans for me, I'd really appreciate it.",
       "accepted": "Just bring it to me when you have it.",
       "rejected": "Nevermind then.  I hope you'll change your mind.",
       "advice": "I'd look anywhere there's food waste or scrap piles.  We can wash out the cans when we get them.",
@@ -916,7 +916,7 @@
     "id": "MISSION_GODCO_KOSTAS_2",
     "type": "mission_definition",
     "name": { "str": "Pebble Pusher" },
-    "description": "Get 814 pounds of gravel (5,600 pebbles) for Kostas.",
+    "description": "Get 814 pounds of pebbles (5,600 pebbles) for Kostas.",
     "//": "Enough pebbles for 28 planters.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "pebble",
@@ -934,11 +934,11 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Get 5,600 pebbles.",
-      "offer": "Demand for my herbal medicine has gone up recently, and I'm struggling to get all of my ingredients sustainably.  I'm going to build some planters on the rooftop, but I lack the material to do so in full.  I'd compensate you fairly for 814 pounds of gravel.",
+      "offer": "Demand for my herbal medicine has gone up recently, and I'm struggling to get all of my ingredients sustainably.  I'm going to build some planters on the rooftop, but I lack the material to do so in full.  I'd compensate you fairly for 814 pounds of pebbles.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "I understand that it seems formidable, but there is a good deal of money for you.",
       "advice": "An outdoor emporium should have some.  Of course, you could always dig them up from a lakeshore or driveway.",
-      "inquire": "Do you have the rocks?",
+      "inquire": "Do you have the pebbles?",
       "success": "Blessings be unto you.  I'll start on the garden right away.",
       "success_lie": "What good is this?",
       "failure": "That's too bad…"

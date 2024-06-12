@@ -21,7 +21,6 @@
 #include "map_helpers.h"
 #include "memory_fast.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -75,7 +74,7 @@ static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
-    model_npc.randomize( NC_NONE );
+    model_npc.randomize( npc_class_id::NULL_ID() );
     for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
     }

@@ -44,7 +44,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -99,6 +98,10 @@ static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
+
+static const morale_type morale_chat( "morale_chat" );
+static const morale_type morale_haircut( "morale_haircut" );
+static const morale_type morale_shave( "morale_shave" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
@@ -788,7 +791,7 @@ void talk_function::barber_hair( npc &/*p*/ )
 void talk_function::buy_haircut( npc &p )
 {
     Character &player_character = get_player_character();
-    player_character.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
+    player_character.add_morale( morale_haircut, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
@@ -798,17 +801,11 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     Character &player_character = get_player_character();
-    player_character.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
+    player_character.add_morale( morale_shave, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.get_name() );
-}
-
-void talk_function::morale_chat( npc &p )
-{
-    get_player_character().add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
-    add_msg( m_good, _( "That was a pleasant conversation with %s…" ), p.disp_name() );
 }
 
 void talk_function::morale_chat_activity( npc &p )
@@ -838,7 +835,7 @@ void talk_function::morale_chat_activity( npc &p )
         }
         p.add_effect( effect_socialized_recently, 6_hours );
     }
-    player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    player_character.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 /*

@@ -139,13 +139,14 @@
   },
   {
     "result": "boxer_briefs",
+    "variant": "boxer_brief_makeshift",
     "type": "recipe",
     "copy-from": "boy_shorts"
   },
   {
     "result": "xsboxer_briefs",
     "type": "recipe",
-    "copy-from": "boxer_briefs"
+    "copy-from": "boy_shorts"
   },
   {
     "result": "xlboxer_briefs",
@@ -154,13 +155,14 @@
   },
   {
     "result": "boxer_shorts",
+    "variant": "boxer_shorts_makeshift",
     "type": "recipe",
     "copy-from": "boy_shorts"
   },
   {
     "result": "xsboxer_shorts",
     "type": "recipe",
-    "copy-from": "boxer_shorts"
+    "copy-from": "boy_shorts"
   },
   {
     "result": "xlboxer_shorts",
