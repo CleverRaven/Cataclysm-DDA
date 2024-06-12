@@ -63,6 +63,7 @@ void follower_rules_ui::draw_follower_rules_ui( npc *guy )
     p_impl.input_ptr = &ctxt;
 
     ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "CONFIRM", to_translation( "Set, toggle, or reset selected rule" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -280,6 +281,25 @@ void follower_rules_ui_impl::draw_controls()
         debugmsg( "Something has gone very wrong, can't find NPC to set rules for.  Aborting." );
         last_action = "QUIT";
         return;
+    }
+
+    // ImGui only captures arrow keys by default, we want to also capture the numpad and hjkl
+    if( last_action == "QUIT" ) {
+        return;
+    } else if( last_action == "UP" ) {
+        ImGui::NavMoveRequestSubmit( ImGuiDir_Up, ImGuiDir_Up, ImGuiNavMoveFlags_None,
+                                     ImGuiScrollFlags_None );
+    } else if( last_action == "DOWN" ) {
+        ImGui::NavMoveRequestSubmit( ImGuiDir_Down, ImGuiDir_Down, ImGuiNavMoveFlags_None,
+                                     ImGuiScrollFlags_None );
+    } else if( last_action == "LEFT" ) {
+        ImGui::NavMoveRequestSubmit( ImGuiDir_Left, ImGuiDir_Left, ImGuiNavMoveFlags_None,
+                                     ImGuiScrollFlags_None );
+    } else if( last_action == "RIGHT" ) {
+        ImGui::NavMoveRequestSubmit( ImGuiDir_Right, ImGuiDir_Right, ImGuiNavMoveFlags_None,
+                                     ImGuiScrollFlags_None );
+    } else if( last_action == "CONFIRM" ) {
+        ImGui::ActivateItem( ImGui::GetFocusID() );
     }
 
     ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
