@@ -35,8 +35,9 @@
       "terrain": { "1": "t_chainfence", "2": "t_chaingate_c", "b": "t_sidewalk" },
       "furniture": { "3": "f_server", "4": "f_drone_recharge_station" },
       "place_monster": [
-        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 50 },
-        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "pack_size": [ 1, 4 ], "chance": 50 }
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 40 },
+        { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 40 },
+        { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 24, 29 ], "y": [ 6, 14 ], "pack_size": [ 1, 3 ], "chance": 50 }
       ],
       "place_nested": [
         { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 24, "y": 0 },
