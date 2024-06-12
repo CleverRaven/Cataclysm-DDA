@@ -316,7 +316,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
@@ -362,7 +362,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 3, "cut": 4, "bullet": 3 }
   },
   {
@@ -724,7 +724,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 5 }
   },
   {

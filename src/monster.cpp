@@ -1339,8 +1339,7 @@ bool monster::has_intelligence() const
 {
     return has_flag( mon_flag_PATH_AVOID_FALL ) ||
            has_flag( mon_flag_PATH_AVOID_FIRE ) ||
-           has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-           has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER ) ||
            has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
            get_pathfinding_settings().avoid_sharp ||
            get_pathfinding_settings().avoid_traps;
@@ -3964,8 +3963,7 @@ std::unordered_set<tripoint> monster::get_path_avoid() const
 
     if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
         radius = 2;
-    } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-               has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
+    } else if( has_flag( mon_flag_PATH_AVOID_DANGER ) ) {
         radius = 1;
     } else {
         return ret;

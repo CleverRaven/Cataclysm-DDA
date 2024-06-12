@@ -41,7 +41,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"
@@ -91,7 +91,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS"

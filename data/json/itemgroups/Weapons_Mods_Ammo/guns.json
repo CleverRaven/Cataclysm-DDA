@@ -61,7 +61,6 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "guns_pistol_rare_9mm", "prob": 93 },
-      { "group": "guns_pistol_rare_22", "prob": 1 },
       { "group": "guns_pistol_rare_223", "prob": 1 },
       { "group": "guns_pistol_rare_45", "prob": 15 },
       { "group": "guns_pistol_rare_40", "prob": 6 },
@@ -133,7 +132,6 @@
     "items": [
       { "group": "nested_af2011a1_38super", "prob": 1 },
       { "group": "nested_bfr", "prob": 100 },
-      { "group": "nested_cop_38", "prob": 50 },
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
       { "group": "nested_mauser_c96", "prob": 39 },

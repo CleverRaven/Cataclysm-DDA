@@ -9,6 +9,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_telepath_sense_minds" },
+        { "u_has_effect": "effect_telepathic_suggestion" },
+        { "u_has_effect": "effect_telepathic_psi_armor" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD",
     "condition": { "math": [ "u_val('focus')", ">=", "75" ] },
     "effect": [ { "math": [ "u_val('focus')", "-=", "50" ] } ],
@@ -229,5 +241,108 @@
     "type": "effect_on_condition",
     "id": "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
     "effect": [ { "math": [ "u_skill_exp('metaphysics', 'format': 'raw')", "+=", "150 * u_latest_channeled_power_difficulty" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_BROKEN_LIMB_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "broken_bone",
+    "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_SLEEP_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "sleep", { "context_val": "effect" } ] },
+        { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_STUNNED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "stunned", { "context_val": "effect" } ] },
+            { "compare_string": [ "psi_stunned", { "context_val": "effect" } ] }
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST" }
+      ]
+    },
+    "effect": [
+      { "u_message": "As your head rings and your mind reels, you lose control of your powers!", "type": "bad" },
+      { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_DAZED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "dazed", { "context_val": "effect" } ] },
+            { "compare_string": [ "downed", { "context_val": "effect" } ] }
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST" }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_AFS_ESPER_DAZED_ENDS_POWERS_2",
+            "condition": {
+              "roll_contested": {
+                "math": [
+                  "(u_val('intelligence') / 2) + u_skill('metaphysics') + (u_has_proficiency('prof_concentration_basic')) + (u_has_proficiency('prof_concentration_intermediate') * 2) + (u_has_proficiency('prof_concentration_master') * 3)"
+                ]
+              },
+              "difficulty": 20,
+              "die_size": 12
+            },
+            "effect": [  ],
+            "false_effect": [
+              { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
+              { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_WEARINESS_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+          ]
+        },
+        { "test_eoc": "EOC_CONDITION_ESPER_MAINTAINED_POWERS_LIST" },
+        { "not": { "u_has_proficiency": "prof_concentration_master" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You are almost too tired to think, and can't concentrate on maintaining your powers", "type": "bad" },
+      { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] }
+    ]
   }
 ]

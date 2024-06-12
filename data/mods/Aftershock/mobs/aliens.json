@@ -23,7 +23,7 @@
     "harvest": "alien_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "PET_WONT_FOLLOW", "WARM" ]
   },
   {
     "id": "afs_mon_garlander",
@@ -143,7 +143,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ],
     "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
@@ -175,7 +175,7 @@
     "baby_flags": [ "AUTUMN" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "ATTACKMON" ],
     "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
@@ -206,7 +206,7 @@
     "harvest": "alien_small_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "STUMBLES" ]
   },
   {
     "id": "afs_venandi",
@@ -234,7 +234,7 @@
     "harvest": "alien_mammal_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ],
     "armor": { "bash": 1 }
   },
   {
@@ -260,7 +260,7 @@
     "hp": 60,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 10 } ],
     "description": "A tall bird with two long, muscular legs, a long neck, and a long sharp beak.",
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "GRABS", "KEENNOSE", "WARM", "HIT_AND_RUN" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "GRABS", "KEENNOSE", "WARM", "HIT_AND_RUN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "harvest": "bird_large",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],

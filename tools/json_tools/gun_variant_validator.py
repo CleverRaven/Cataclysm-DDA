@@ -91,7 +91,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
     "bigun",
     "american_180",
-    "sig_mosquito",
     "fn_p90",
     "p50",
     "fn_ps90",

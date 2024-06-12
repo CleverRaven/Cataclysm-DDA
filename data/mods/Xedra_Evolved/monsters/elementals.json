@@ -130,7 +130,7 @@
       "HEARS",
       "WARM",
       "FAE_CREATURE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "BIOLOGICALPROOF",
       "FIREPROOF",
       "NOHEAD",
@@ -182,7 +182,7 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "CLIMBS" ],
     "harvest": "fae_furred",
     "dissect": "dissect_undine_single",
     "vision_day": 20,
@@ -222,7 +222,7 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 20,
-    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "HARDTOSHOOT" ],
     "harvest": "water_elemental",
     "dissect": "dissect_undine_single",
     "special_attacks": [ { "id": "ice_spray" } ],
@@ -366,7 +366,7 @@
     "dissect": "dissect_arvore_single",
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "anger_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER_1", "HIT_AND_RUN", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER", "HIT_AND_RUN", "WARM" ]
   },
   {
     "id": "mon_vineling",
@@ -502,10 +502,10 @@
       "PUSH_VEH",
       "KEENNOSE",
       "NO_FUNG_DMG",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
-    ]
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   },
   {
     "type": "MONSTER",
@@ -549,7 +549,7 @@
         "monster_message": "%1$s spits!"
       }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER_1", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "CLIMBS" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "vision_day": 20,
@@ -589,7 +589,7 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 20,
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "PATH_AVOID_DANGER_1", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "FAE_CREATURE", "PATH_AVOID_DANGER", "HARDTOSHOOT" ],
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
@@ -636,7 +636,7 @@
       "message": "The %s bursts into flames!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "WARM", "FIREY", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "FLIES", "WARM", "FIREY", "SWARMS" ]
   },
   {
     "id": "mon_elemental_saraph",
@@ -692,7 +692,7 @@
       "FIREY",
       "KEENNOSE",
       "CLIMBS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "ANIMAL",
       "FLIES"
     ],
@@ -734,7 +734,7 @@
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "id": "slam" } ],
-    "flags": [ "HEARS", "WARM", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER_1", "NO_BREATHE" ]
+    "flags": [ "HEARS", "WARM", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER", "NO_BREATHE" ]
   },
   {
     "id": "mon_zoomorphic_figure_small",

@@ -182,6 +182,8 @@ extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
+static bool has_vehicle_control( avatar &player_character );
+
 class user_turn
 {
 
@@ -1245,6 +1247,10 @@ static void wait()
 static void sleep()
 {
     avatar &player_character = get_avatar();
+    if( has_vehicle_control( player_character ) ) {
+        add_msg( m_info, _( "You can't sleep while controlling a vehicle." ) );
+        return;
+    }
     if( player_character.is_mounted() ) {
         add_msg( m_info, _( "You cannot sleep while mounted." ) );
         return;
@@ -2624,11 +2630,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SLEEP:
-            if( has_vehicle_control( player_character ) ) {
-                add_msg( m_info, _( "You can't sleep while controlling a vehicle" ) );
-            } else {
-                sleep();
-            }
+            sleep();
             break;
 
         case ACTION_CONTROL_VEHICLE:

@@ -339,10 +339,6 @@
       },
       {
         "id": "weeks_old_news_9",
-        "text": "HELL ON EARTH?  Boston has been quarantined.  Prior to its complete lockdown, our journalists received a concerning email from a colleague within the city, describing horrendous and inhuman monsters walking the streets amidst the rioters.  \"I don't know who started it, but we call it Hastur.  After the horror novel.  The rioters fall in line behind it like soldiers, living and dead.  Yeah, some of them are dead.  They're lying to us, they've all been lying to us.\"  Our editor-in-chief demanded we keep this article from you.  He has been deposed.  Rise up against the lies."
-      },
-      {
-        "id": "weeks_old_news_10",
         "text": "YOUR BUG-OUT BAG.  In this issue we focus on tips and tricks to packing your bug-out bag.  Whether you're near an urban center or in a small town, if you don't already have an emergency kit, you need one while supplies are still available.  Don't be the one person caught without a lighter when you need a fire!"
       },
       {
@@ -411,6 +407,10 @@
       {
         "id": "newest_news_4",
         "text": "RIOTERS MUTATING?  Eyewitnesses from the New England Disaster Area have claimed that the allegedly psychotic rioters are displaying inhuman qualities.  \"I swear to God, one of them was the size of a tree!\", said one panicked survivor.  There are also reports of afflicted individuals with acidic or electric properties.  CDC officials could not be reached for comment."
+      },
+      {
+        "id": "newest_news_5",
+        "text": "HELL ON EARTH?  Boston has been quarantined.  Prior to its complete lockdown, our journalists received a concerning email from a colleague within the city, describing horrendous and inhuman monsters walking the streets amidst the rioters.  \"I don't know who started it, but we call it Hastur.  After the horror novel.  The rioters fall in line behind it like soldiers, living and dead.  Yeah, some of them are dead.  They're lying to us, they've all been lying to us.\"  Our editor-in-chief demanded we keep this article from you.  He has been deposed.  Rise up against the lies."
       },
       {
         "id": "newest_news_6",
