@@ -87,7 +87,7 @@ template<typename T>
 void follower_rules_ui_impl::multi_rule_header( const std::string &id, T &rule,
         const std::map<T, std::string> &rule_map, bool should_advance )
 {
-    if( ImGui::InvisibleButton( id.c_str(), ImVec2() ) || should_advance ) {
+    if( ImGui::InvisibleButton( id.c_str(), ImVec2( 1.0, 1.0 ) ) || should_advance ) {
         if( rule_map.upper_bound( rule ) == rule_map.end() ) {
             // Then we have the *last* entry the map, so wrap to the first element
             rule = rule_map.begin()->first;
@@ -98,6 +98,31 @@ void follower_rules_ui_impl::multi_rule_header( const std::string &id, T &rule,
         int offset = distance( rule_map.begin(), rule_map.find( rule ) );
         ImGui::SetKeyboardFocusHere( offset );
     }
+}
+
+bool follower_rules_ui_impl::setup_button( int &button_num, std::string &label, bool should_color )
+{
+    bool was_clicked = false;
+    ImGui::PushID( button_num );
+    button_num++;
+    if( should_color ) {
+        ImGui::PushStyleColor( ImGuiCol_Button, c_green );
+    }
+    if( ImGui::Button( label.c_str() ) ) {
+        was_clicked = true;
+    }
+    ImGui::PopID();
+    if( should_color ) {
+        ImGui::PopStyleColor();
+    }
+    return was_clicked;
+}
+
+bool follower_rules_ui_impl::setup_table_button( int &button_num, std::string &label,
+        bool should_color )
+{
+    ImGui::TableNextColumn();
+    return setup_button( button_num, label, should_color );
 }
 
 void follower_rules_ui_impl::set_npc_pointer_to( npc *new_guy )
@@ -143,6 +168,11 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
         still_in_popup = false;
         return;
     }
+    if( g->get_follower_list().size() < 2 ) {
+        draw_colored_text( string_format( _( "Functions unavailable.  %s is your only follower." ),
+                                          guy->disp_name() ), c_red );
+        return;
+    }
     if( ImGui::Button( _( "Toggle export/import" ) ) ) {
         exporting_rules = !exporting_rules;
     }
@@ -152,7 +182,6 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
                            guy->disp_name() ) );
     if( ImGui::BeginTable( "##SETTINGS_SWAP_TABLE", 8, ImGuiTableFlags_None,
                            ImVec2( window_width, window_height ) ) ) {
-        // Missions selection is purposefully thinner than the description, it has less to convey.
         ImGui::TableSetupColumn( _( "Name" ), ImGuiTableColumnFlags_WidthStretch,
                                  static_cast<float>( window_width / 8.0f ) );
         ImGui::TableSetupColumn( _( "Behaviors" ), ImGuiTableColumnFlags_WidthStretch,
@@ -182,126 +211,61 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
                 bool do_cbm_recharge = false;
                 bool do_cbm_reserve = false;
                 bool do_pickup = false;
+                bool do_all = false;
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
                 draw_colored_text( role_model.disp_name() );
                 /*Flags and overrides*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
-                if( role_model.rules.flags == guy->rules.flags ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_flags_overrides = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                do_flags_overrides = setup_table_button( button_number, toggle_label,
+                                     role_model.rules.flags == guy->rules.flags );
                 /*Aim rule*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
-                if( role_model.rules.aim == guy->rules.aim ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_aim = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                do_aim = setup_table_button( button_number, toggle_label,
+                                             role_model.rules.aim == guy->rules.aim );
                 /*Engagement rule*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
-                if( role_model.rules.engagement == guy->rules.engagement ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_engagement = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                do_engagement = setup_table_button( button_number, toggle_label,
+                                                    role_model.rules.engagement == guy->rules.engagement );
                 /*CBM recharge rule*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
-                if( role_model.rules.cbm_recharge == guy->rules.cbm_recharge ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_cbm_recharge = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                do_cbm_recharge = setup_table_button( button_number, toggle_label,
+                                                      role_model.rules.cbm_recharge == guy->rules.cbm_recharge );
                 /*CBM reserve rule*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
-                if( role_model.rules.cbm_reserve == guy->rules.cbm_reserve ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_cbm_reserve = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                do_cbm_reserve = setup_table_button( button_number, toggle_label,
+                                                     role_model.rules.cbm_reserve == guy->rules.cbm_reserve );
                 /*Pickup whitelist rule*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
+
                 // This is not correct if both have rules and both have *different* rules, but comparison is expensive
-                if( role_model.rules.pickup_whitelist->empty() == guy->rules.pickup_whitelist->empty() ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_pickup = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                // if( role_model.rules.pickup_whitelist->empty() == guy->rules.pickup_whitelist->empty() )
+                do_pickup = setup_table_button( button_number, toggle_label,
+                                                role_model.rules.pickup_whitelist->empty() == guy->rules.pickup_whitelist->empty() );
                 /*The ALL button*/
-                ImGui::TableNextColumn();
-                ImGui::PushID( button_number );
-                button_number++;
-                if( role_model.rules.flags == guy->rules.flags &&
-                    role_model.rules.aim == guy->rules.aim &&
-                    role_model.rules.engagement == guy->rules.engagement &&
-                    role_model.rules.cbm_recharge == guy->rules.cbm_recharge &&
-                    role_model.rules.cbm_reserve == guy->rules.cbm_reserve &&
-                    role_model.rules.pickup_whitelist->empty() == guy->rules.pickup_whitelist->empty() ) {
-                    ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-                }
-                if( ImGui::Button( toggle_label.c_str() ) ) {
-                    do_flags_overrides = true;
-                    do_aim = true;
-                    do_engagement = true;
-                    do_cbm_recharge = true;
-                    do_cbm_reserve = true;
-                    do_pickup = true;
-                }
-                ImGui::PopID();
-                ImGui::PopStyleColor();
+                do_all = setup_table_button( button_number, toggle_label,
+                                             role_model.rules.flags == guy->rules.flags &&
+                                             role_model.rules.aim == guy->rules.aim &&
+                                             role_model.rules.engagement == guy->rules.engagement &&
+                                             role_model.rules.cbm_recharge == guy->rules.cbm_recharge &&
+                                             role_model.rules.cbm_reserve == guy->rules.cbm_reserve &&
+                                             role_model.rules.pickup_whitelist->empty() == guy->rules.pickup_whitelist->empty() );
                 /*The great swap*/
                 // To make this slightly easier...
                 npc *guy_with_same = exporting_rules ? guy : &role_model;
                 npc *guy_with_new = exporting_rules ? &role_model : guy;
-                if( do_flags_overrides ) {
+                if( do_flags_overrides || do_all ) {
                     guy_with_new->rules.flags = guy_with_same->rules.flags;
                     guy_with_new->rules.overrides = guy_with_same->rules.overrides;
                     guy_with_new->rules.override_enable = guy_with_same->rules.override_enable;
                 }
-                if( do_aim ) {
+                if( do_aim || do_all ) {
                     guy_with_new->rules.aim = guy_with_same->rules.aim;
                 }
-                if( do_engagement ) {
+                if( do_engagement || do_all ) {
                     guy_with_new->rules.engagement = guy_with_same->rules.engagement;
                 }
-                if( do_cbm_recharge ) {
+                if( do_cbm_recharge || do_all ) {
                     guy_with_new->rules.cbm_recharge = guy_with_same->rules.cbm_recharge;
                 }
-                if( do_cbm_reserve ) {
+                if( do_cbm_reserve || do_all ) {
                     guy_with_new->rules.cbm_reserve = guy_with_same->rules.cbm_reserve;
                 }
-                if( do_pickup ) {
+                if( do_pickup || do_all ) {
                     guy_with_new->rules.pickup_whitelist = guy_with_same->rules.pickup_whitelist;
                 }
             }
@@ -327,7 +291,7 @@ void follower_rules_ui_impl::draw_controls()
         return;
     }
 
-    ImGui::InvisibleButton( "TOP_OF_WINDOW_KB_SCROLL_SELECTABLE", ImVec2() );
+    ImGui::InvisibleButton( "TOP_OF_WINDOW_KB_SCROLL_SELECTABLE", ImVec2( 1.0, 1.0 ) );
 
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
     input_event assigned_hotkey = input_ptr->first_unassigned_hotkey( hotkeys );
@@ -363,9 +327,7 @@ void follower_rules_ui_impl::draw_controls()
     int rule_number = 0;
     /* Handle all of our regular, boolean rules */
     for( const std::pair<const std::string, ally_rule_data> &rule_data : ally_rule_strs ) {
-        ImGui::PushID( rule_number );
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        rule_number++;
         ImGui::NewLine();
         print_hotkey( assigned_hotkey );
         const ally_rule_data &this_rule = rule_data.second;
@@ -377,16 +339,15 @@ void follower_rules_ui_impl::draw_controls()
         } else {
             rules_text = string_format( "%s", get_parsed( this_rule.rule_false_text ) );
         }
-        if( rule_enabled ) {
-            ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-        }
-        if( ImGui::Button( _( "Toggle" ) ) || pressed_key == assigned_hotkey ) {
+        std::string label = _( "Toggle" );
+        if( setup_button( rule_number, label, rule_enabled ) || pressed_key == assigned_hotkey ) {
             ImGui::SetKeyboardFocusHere( -1 );
             guy->rules.toggle_flag( this_rule.rule );
             guy->rules.toggle_specific_override_state( this_rule.rule, !rule_enabled );
         }
-        ImGui::PopStyleColor();
         ImGui::SameLine();
+        ImGui::PushID( rule_number );
+        rule_number++;
         if( ImGui::Button( _( "Default" ) ) ) {
             guy->rules.clear_flag( this_rule.rule );
             guy->rules.clear_override( this_rule.rule );
@@ -405,21 +366,13 @@ void follower_rules_ui_impl::draw_controls()
                        pressed_key == assigned_hotkey );
     int engagement_rule_number = 0;
     for( const std::pair<const combat_engagement, std::string> &engagement_rule : engagement_rules ) {
-        ImGui::PushID( rule_number );
-        rule_number++;
         engagement_rule_number++;
         // Could use a better label for these...
         std::string button_label = std::to_string( engagement_rule_number );
         ImGui::SameLine();
-        if( guy->rules.engagement == engagement_rule.first ) {
-            ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-        }
-        if( ImGui::Button( button_label.c_str() ) ) {
+        if( setup_button( rule_number, button_label, guy->rules.engagement == engagement_rule.first ) ) {
             guy->rules.engagement = engagement_rule.first;
-            ImGui::SetKeyboardFocusHere( -1 );
         }
-        ImGui::PopStyleColor();
-        ImGui::PopID();
     }
     ImGui::SameLine();
     draw_colored_text( _( "Engagement rules" ), c_white );
@@ -434,21 +387,13 @@ void follower_rules_ui_impl::draw_controls()
     multi_rule_header( "AIMING_RULES", guy->rules.aim, aim_rule_map, pressed_key == assigned_hotkey );
     int aim_rule_number = 0;
     for( const std::pair<const aim_rule, std::string> &aiming_rule : aim_rule_map ) {
-        ImGui::PushID( rule_number );
-        rule_number++;
         aim_rule_number++;
         // Could use a better label for these...
         std::string button_label = std::to_string( aim_rule_number );
         ImGui::SameLine();
-        if( guy->rules.aim == aiming_rule.first ) {
-            ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-        }
-        if( ImGui::Button( button_label.c_str() ) ) {
+        if( setup_button( rule_number, button_label, guy->rules.aim == aiming_rule.first ) ) {
             guy->rules.aim = aiming_rule.first;
-            ImGui::SetKeyboardFocusHere( -1 );
         }
-        ImGui::PopStyleColor();
-        ImGui::PopID();
     }
     ImGui::SameLine();
     draw_colored_text( _( "Aiming rules" ), c_white );
@@ -466,20 +411,12 @@ void follower_rules_ui_impl::draw_controls()
         multi_rule_header( "RECHARGE_RULES", guy->rules.cbm_recharge, recharge_map,
                            pressed_key == assigned_hotkey );
         for( const std::pair<const cbm_recharge_rule, std::string> &recharge_rule : recharge_map ) {
-            ImGui::PushID( rule_number );
-            rule_number++;
             int percent = static_cast<int>( recharge_rule.first );
             std::string button_label = std::to_string( percent ) + "%";
             ImGui::SameLine();
-            if( guy->rules.cbm_recharge == recharge_rule.first ) {
-                ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-            }
-            if( ImGui::Button( button_label.c_str() ) ) {
+            if( setup_button( rule_number, button_label, guy->rules.cbm_recharge == recharge_rule.first ) ) {
                 guy->rules.cbm_recharge = recharge_rule.first;
-                ImGui::SetKeyboardFocusHere( -1 );
             }
-            ImGui::PopStyleColor();
-            ImGui::PopID();
         }
         ImGui::SameLine();
         draw_colored_text( _( "CBM recharging rules" ), c_white );
@@ -493,20 +430,12 @@ void follower_rules_ui_impl::draw_controls()
         multi_rule_header( "RESERVE_RULES", guy->rules.cbm_reserve, reserve_map,
                            pressed_key == assigned_hotkey );
         for( const std::pair<const cbm_reserve_rule, std::string> &reserve_rule : reserve_map ) {
-            ImGui::PushID( rule_number );
-            rule_number++;
             int percent = static_cast<int>( reserve_rule.first );
             std::string button_label = std::to_string( percent ) + "%";
             ImGui::SameLine();
-            if( guy->rules.cbm_reserve == reserve_rule.first ) {
-                ImGui::PushStyleColor( ImGuiCol_Button, c_green );
-            }
-            if( ImGui::Button( button_label.c_str() ) ) {
+            if( setup_button( rule_number, button_label, guy->rules.cbm_reserve == reserve_rule.first ) ) {
                 guy->rules.cbm_reserve = reserve_rule.first;
-                ImGui::SetKeyboardFocusHere( -1 );
             }
-            ImGui::PopStyleColor();
-            ImGui::PopID();
         }
         ImGui::SameLine();
         draw_colored_text( _( "CBM reserve rules" ), c_white );
@@ -514,5 +443,5 @@ void follower_rules_ui_impl::draw_controls()
         draw_colored_text( string_format( "%s", get_parsed( reserve_map[guy->rules.cbm_reserve] ) ) );
     }
 
-    ImGui::InvisibleButton( "BOTTOM_OF_WINDOW_KB_SCROLL_SELECTABLE", ImVec2() );
+    ImGui::InvisibleButton( "BOTTOM_OF_WINDOW_KB_SCROLL_SELECTABLE", ImVec2( 1.0, 1.0 ) );
 }
