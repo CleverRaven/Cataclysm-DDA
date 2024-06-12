@@ -45,6 +45,8 @@ class follower_rules_ui_impl : public cataimgui::window
         std::string get_parsed( std::string initial_string );
         void print_hotkey( input_event &hotkey );
         void rules_transfer_popup( bool &exporting_rules, bool &still_in_popup );
+        bool setup_button( int &button_num, std::string &label, bool should_color );
+        bool setup_table_button( int &button_num, std::string &label, bool should_color );
 
         size_t window_width = str_width_to_pixels( TERMX ) / 2;
         size_t window_height = str_height_to_pixels( TERMY ) / 2;
