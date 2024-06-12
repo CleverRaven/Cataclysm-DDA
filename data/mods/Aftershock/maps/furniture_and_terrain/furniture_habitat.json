@@ -370,7 +370,7 @@
     "id": "f_hacker_chair",
     "name": "Net Breacher recliner",
     "symbol": "H",
-    "description": "A reclined metal chair adorned with soft fabric padding. \u00A0A number of cables dangle from the headrest, waiting to be connected to a bionic interface.\u00A0 In the past, this state-of-the-art equipment would have served as a hypercloud access point for cyber  security specialists.",
+    "description": "A reclined metal chair adorned with soft fabric padding. \u00A0A number of cables dangle from the headrest, waiting to be connected to a bionic interface. \u00A0In the past, this state-of-the-art equipment would have served as a hypercloud access point for cyber security specialists.",
     "looks_like": "f_armchair",
     "color": "green",
     "move_cost_mod": 1,
