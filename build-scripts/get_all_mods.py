@@ -10,10 +10,20 @@ import json
 
 mods_this_time = []
 
+exclusions = [
+    # #74443 - incompatibility between mindovermatter and aftershock due to bug
+    ('mindovermatter', 'aftershock')
+]
+
 
 def compatible_with(mod, existing_mods):
     if mod in total_conversions and total_conversions & set(existing_mods):
         return False
+    for entry in exclusions:
+        if entry[0] == mod and entry[1] in existing_mods:
+            return False
+        if entry[1] == mod and entry[0] in existing_mods:
+            return False
     return True
 
 
