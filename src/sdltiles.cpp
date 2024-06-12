@@ -3968,10 +3968,11 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     }
 
     const point screen_pos = coordinate - win_min;
+    const bool use_isometric = g->w_overmap ? false : g->is_tileset_isometric();
 
     const point_bub_ms p = cata_tiles::screen_to_player(
                                screen_pos, dim.scaled_font_size, win_size,
-                               point_bub_ms( offset ), g->is_tileset_isometric() );
+                               point_bub_ms( offset ), use_isometric );
 
     return tripoint( p.raw(), get_map().get_abs_sub().z() );
 }
