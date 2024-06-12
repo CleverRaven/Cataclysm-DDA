@@ -618,7 +618,8 @@
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
     "condition": "u_is_character",
-    "effect": [ { "u_mutate": "random_category", "snippet": true, "use_vitamins": false } ]
+    "effect": [ { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
+{ "u_mutate_category": { "context_val": "dart_mutation_category" } } ]
   },
   {
     "type": "snippet",
