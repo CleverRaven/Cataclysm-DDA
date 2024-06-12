@@ -619,7 +619,25 @@
     "id": "EOC_random_mutate",
     "condition": "u_is_character",
     "effect": [ { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
-{ "u_mutate_category": { "context_val": "dart_mutation_category" } } ]
+{ "u_mutate_category": { "context_val": "dart_mutation_category" } } ],
+"snippet_category": [
+{ "id": "CHIMERA" },
+    { "id": "ALPHA" },
+    { "id": "BEAST" },
+    { "id": "BATRACHIAN" },
+    { "id": "INSECT" },
+    { "id": "MEDICAL" },
+    { "id": "RAPTOR" },
+    { "id": "LIZARD" },
+    { "id": "SLIME" },
+    { "id": "PLANT" },
+    { "id": "ELFA" },
+    { "id": "RAT" },
+    { "id": "MOUSE" },
+    { "id": "CATTLE" },
+    { "id": "RABBIT" },
+    { "id": "CHIROPTERAN" }
+    ]
   },
   {
     "type": "snippet_category",
