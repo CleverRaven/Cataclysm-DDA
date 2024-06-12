@@ -275,6 +275,64 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
     }
 }
 
+template<typename T>
+void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
+                                       input_event assigned_hotkey, input_event pressed_key )
+{
+    ImGui::PushID( rule_number );
+    print_hotkey( assigned_hotkey );
+    bool rule_enabled = guy->rules.has_flag( this_rule.rule );
+    std::string rules_text;
+    if( rule_enabled ) {
+        rules_text = this_rule.rule_true_text;
+    } else {
+        rules_text = this_rule.rule_false_text;
+    }
+    rules_text = string_format( "%s###CHECK", get_parsed( rules_text ) );
+    bool clicked = ImGui::Checkbox( rules_text.c_str(), &rule_enabled );
+    bool typed = pressed_key == assigned_hotkey;
+    bool changed = typed || clicked;
+    if( typed ) {
+        ImGui::SetKeyboardFocusHere( -1 );
+        rule_enabled = !rule_enabled;
+    }
+    if( changed ) {
+        guy->rules.toggle_flag( this_rule.rule );
+        guy->rules.toggle_specific_override_state( this_rule.rule, rule_enabled );
+    }
+    ImGui::SameLine();
+    auto label = _( "Default" );
+    auto x = ImGui::GetWindowWidth() - ImGui::GetStyle().ScrollbarSize -
+             ImGui::GetStyle().WindowPadding.x - ImGui::CalcTextSize( label, NULL, true ).x;
+    ImGui::SetCursorPosX( x );
+    if( ImGui::Button( label ) ) {
+        guy->rules.clear_flag( this_rule.rule );
+        guy->rules.clear_override( this_rule.rule );
+    }
+    ImGui::PopID();
+}
+
+template<typename T>
+void follower_rules_ui_impl::radio_group( const std::string header_id, const char *title, T *rule,
+        std::map<T, std::string> &values, input_event assigned_hotkey, input_event pressed_key )
+{
+    ImGui::Separator();
+    ImGui::NewLine();
+    multi_rule_header( header_id, * &*rule, values,
+                       pressed_key == assigned_hotkey );
+    print_hotkey( assigned_hotkey );
+    ImGui::SameLine();
+    auto x = ImGui::GetCursorPosX();
+    draw_colored_text( title, c_white );
+    for( const std::pair<const T, std::string> &value : values ) {
+        std::string rule_text = get_parsed( value.second );
+        ImGui::SetCursorPosX( x );
+        if( ImGui::RadioButton( rule_text.c_str(), *rule == value.first ) ) {
+            *rule = value.first;
+        }
+    }
+}
+
 void follower_rules_ui_impl::draw_controls()
 {
     if( !guy ) {
@@ -343,124 +401,37 @@ void follower_rules_ui_impl::draw_controls()
         npc_follower_rules default_values; //Call the constructor and let *it* tell us what the default is
         guy->rules = default_values;
     }
+    ImGui::NewLine();
 
     int rule_number = 0;
     /* Handle all of our regular, boolean rules */
     for( const std::pair<const std::string, ally_rule_data> &rule_data : ally_rule_strs ) {
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        ImGui::NewLine();
-        print_hotkey( assigned_hotkey );
-        const ally_rule_data &this_rule = rule_data.second;
-        bool rule_enabled = false;
-        std::string rules_text;
-        if( guy->rules.has_flag( this_rule.rule ) ) {
-            rules_text = string_format( "%s", get_parsed( this_rule.rule_true_text ) );
-            rule_enabled = true;
-        } else {
-            rules_text = string_format( "%s", get_parsed( this_rule.rule_false_text ) );
-        }
-        std::string label = _( "Toggle" );
-        if( setup_button( rule_number, label, rule_enabled ) || pressed_key == assigned_hotkey ) {
-            ImGui::SetKeyboardFocusHere( -1 );
-            guy->rules.toggle_flag( this_rule.rule );
-            guy->rules.toggle_specific_override_state( this_rule.rule, !rule_enabled );
-        }
-        ImGui::SameLine();
-        ImGui::PushID( rule_number );
-        rule_number++;
-        if( ImGui::Button( _( "Default" ) ) ) {
-            guy->rules.clear_flag( this_rule.rule );
-            guy->rules.clear_override( this_rule.rule );
-        }
-        ImGui::SameLine();
-        draw_colored_text( rules_text );
-        ImGui::PopID();
+        checkbox( rule_number, rule_data.second, assigned_hotkey, pressed_key );
+        rule_number += 1;
     }
 
     // Engagement rules require their own set of buttons, each instruction is unique
-    ImGui::Separator();
-    ImGui::NewLine();
     assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-    print_hotkey( assigned_hotkey );
-    multi_rule_header( "ENGAGEMENT_RULES", guy->rules.engagement, engagement_rules,
-                       pressed_key == assigned_hotkey );
-    int engagement_rule_number = 0;
-    for( const std::pair<const combat_engagement, std::string> &engagement_rule : engagement_rules ) {
-        engagement_rule_number++;
-        // Could use a better label for these...
-        std::string button_label = std::to_string( engagement_rule_number );
-        ImGui::SameLine();
-        if( setup_button( rule_number, button_label, guy->rules.engagement == engagement_rule.first ) ) {
-            guy->rules.engagement = engagement_rule.first;
-        }
-    }
-    ImGui::SameLine();
-    draw_colored_text( _( "Engagement rules" ), c_white );
-    ImGui::NewLine();
-    draw_colored_text( string_format( "%s", get_parsed( engagement_rules[guy->rules.engagement] ) ) );
+    radio_group( "ENGAGEMENT_RULES", _( "Engagement rules:" ), &guy->rules.engagement, engagement_rules,
+                 assigned_hotkey, pressed_key );
 
     // Aiming rule also has a non-boolean set of values
-    ImGui::Separator();
-    ImGui::NewLine();
     assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-    print_hotkey( assigned_hotkey );
-    multi_rule_header( "AIMING_RULES", guy->rules.aim, aim_rule_map, pressed_key == assigned_hotkey );
-    int aim_rule_number = 0;
-    for( const std::pair<const aim_rule, std::string> &aiming_rule : aim_rule_map ) {
-        aim_rule_number++;
-        // Could use a better label for these...
-        std::string button_label = std::to_string( aim_rule_number );
-        ImGui::SameLine();
-        if( setup_button( rule_number, button_label, guy->rules.aim == aiming_rule.first ) ) {
-            guy->rules.aim = aiming_rule.first;
-        }
-    }
-    ImGui::SameLine();
-    draw_colored_text( _( "Aiming rules" ), c_white );
-    ImGui::NewLine();
-    draw_colored_text( string_format( "%s", get_parsed( aim_rule_map[guy->rules.aim] ) ) );
+    radio_group( "AIMING_RULES", _( "Aiming rules:" ), &guy->rules.aim, aim_rule_map, assigned_hotkey,
+                 pressed_key );
 
     /* Shows CBM rules, but only if the character has bionics. Must be last because it will
     only appear sometimes and we don't want hotkeys to be different depending on whether
     the character has bionics. That's bad for muscle memory! */
     if( !guy->get_bionics().empty() ) {
-        ImGui::Separator();
-        ImGui::NewLine();
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        print_hotkey( assigned_hotkey );
-        multi_rule_header( "RECHARGE_RULES", guy->rules.cbm_recharge, recharge_map,
-                           pressed_key == assigned_hotkey );
-        for( const std::pair<const cbm_recharge_rule, std::string> &recharge_rule : recharge_map ) {
-            int percent = static_cast<int>( recharge_rule.first );
-            std::string button_label = std::to_string( percent ) + "%";
-            ImGui::SameLine();
-            if( setup_button( rule_number, button_label, guy->rules.cbm_recharge == recharge_rule.first ) ) {
-                guy->rules.cbm_recharge = recharge_rule.first;
-            }
-        }
-        ImGui::SameLine();
-        draw_colored_text( _( "CBM recharging rules" ), c_white );
-        ImGui::NewLine();
-        draw_colored_text( string_format( "%s", get_parsed( recharge_map[guy->rules.cbm_recharge] ) ) );
+        radio_group( "RECHARGE_RULES", _( "CBM recharging rules:" ), &guy->rules.cbm_recharge, recharge_map,
+                     assigned_hotkey, pressed_key );
 
-        ImGui::Separator();
-        ImGui::NewLine();
         assigned_hotkey = input_ptr->next_unassigned_hotkey( hotkeys, assigned_hotkey );
-        print_hotkey( assigned_hotkey );
-        multi_rule_header( "RESERVE_RULES", guy->rules.cbm_reserve, reserve_map,
-                           pressed_key == assigned_hotkey );
-        for( const std::pair<const cbm_reserve_rule, std::string> &reserve_rule : reserve_map ) {
-            int percent = static_cast<int>( reserve_rule.first );
-            std::string button_label = std::to_string( percent ) + "%";
-            ImGui::SameLine();
-            if( setup_button( rule_number, button_label, guy->rules.cbm_reserve == reserve_rule.first ) ) {
-                guy->rules.cbm_reserve = reserve_rule.first;
-            }
-        }
-        ImGui::SameLine();
-        draw_colored_text( _( "CBM reserve rules" ), c_white );
-        ImGui::NewLine();
-        draw_colored_text( string_format( "%s", get_parsed( reserve_map[guy->rules.cbm_reserve] ) ) );
+        radio_group( "RESERVE_RULES", _( "CBM reserve rules" ), &guy->rules.cbm_reserve, reserve_map,
+                     assigned_hotkey, pressed_key );
     }
 
     ImGui::InvisibleButton( "BOTTOM_OF_WINDOW_KB_SCROLL_SELECTABLE", ImVec2( 1.0, 1.0 ) );
