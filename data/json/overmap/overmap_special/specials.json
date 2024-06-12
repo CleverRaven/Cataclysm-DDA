@@ -592,9 +592,8 @@
       { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 0, 0 ] }
     ],
     "locations": [ "field", "forest_without_trail" ],
-    "city_sizes": [ 1, 12 ],
-    "occurrences": [ 5, 100 ],
-    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "occurrences": [ 10, 100 ],
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -2512,7 +2511,6 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
-    "city_sizes": [ 4, -1 ],
     "occurrences": [ 80, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
@@ -2532,7 +2530,6 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
-    "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
@@ -2544,8 +2541,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "drug_lab_roof_north" }
     ],
     "locations": [ "forest" ],
-    "city_distance": [ 20, 60 ],
-    "city_sizes": [ 8, -1 ],
+    "city_distance": [ 20, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "SAFE_AT_WORLDGEN", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
@@ -2567,7 +2563,6 @@
     ],
     "locations": [ "field" ],
     "city_distance": [ 20, -1 ],
-    "city_sizes": [ 4, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "CLASSIC", "WILDERNESS", "OVERMAP_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
@@ -6042,9 +6037,9 @@
     ],
     "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road", "from": [ -1, 1, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 1, 40 ],
+    "city_distance": [ 0, 60 ],
     "city_sizes": [ 6, -1 ],
-    "occurrences": [ 5, 100 ],
+    "occurrences": [ 10, 100 ],
     "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
   },
   {
@@ -6241,11 +6236,9 @@
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 10, -1 ],
-    "city_sizes": [ 1, 12 ],
-    "occurrences": [ 5, 100 ],
+    "occurrences": [ 10, 100 ],
     "priority": -1,
-    "flags": [ "CLASSIC", "OVERMAP_UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
