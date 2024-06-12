@@ -828,7 +828,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
-            { _( "Furniture amd terrain migrations" ), &ter_furn_migrations::check },
+            { _( "Furniture and terrain migrations" ), &ter_furn_migrations::check },
             { _( "Constructions" ), &check_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },

@@ -5046,10 +5046,9 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                                m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
                         field_count++;
                     }
-                } else {
-                    field_json.throw_error( "field type relying on ancient legacy int method" );
-                    field_json.next_value(); // skip intensity
-                    field_json.next_value(); // skip age
+                } else { // Handle removed int enum method
+                    field_json.next_value(); // Skip intensity
+                    field_json.next_value(); // Skip age
                 }
             }
         }

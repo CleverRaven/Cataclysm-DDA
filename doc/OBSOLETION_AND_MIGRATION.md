@@ -162,7 +162,7 @@ Move multiple ids that don't need to be unique any more to a single id
 
 # Field migration
 
-Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove furniture entirely without creating errors.
+Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
 
 ```json
 {
@@ -172,7 +172,7 @@ Field migration replaces the provided id as submaps are loaded. You can use `fd_
 },
 ```
 
-## Example
+## Examples
 
 Migrate an id
 
