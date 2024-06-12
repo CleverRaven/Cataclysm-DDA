@@ -1503,7 +1503,7 @@
     "autolearn": true,
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SIEVE", "level": 1 } ],
     "//": "calculation based on https://www.youtube.com/watch?v=5ZrfNAHDjWU; 1 matchbox contains 30 mg phosphorus and 1 unit of phosphor is 100 mg",
-    "components": [ [ [ "survival_match", 1 ], [ "ref_matches", 3 ], ["matches", 5] ] ]
+    "components": [ [ [ "survival_match", 1 ], [ "ref_matches", 3 ], [ "matches", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -2619,9 +2619,9 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [{ "id": "CUT", "level": 1 }],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "//" : "basically burning potassium chlorate to form KCl",
-    "components": [ [ [ "survival_match", 1 ], ["match", 60] ] ]
+    "//": "basically burning potassium chlorate to form KCl",
+    "components": [ [ [ "survival_match", 1 ], [ "match", 60 ] ] ]
   }
 ]
