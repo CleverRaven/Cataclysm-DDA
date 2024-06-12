@@ -3968,7 +3968,8 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     }
 
     const point screen_pos = coordinate - win_min;
-    const bool use_isometric = g->w_overmap && capture_win == g->w_overmap ? false : g->is_tileset_isometric();
+    const bool use_isometric = g->w_overmap &&
+                               capture_win == g->w_overmap ? false : g->is_tileset_isometric();
 
     const point_bub_ms p = cata_tiles::screen_to_player(
                                screen_pos, dim.scaled_font_size, win_size,
