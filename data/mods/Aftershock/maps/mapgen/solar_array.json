@@ -20,7 +20,7 @@
         " 1                    =k.'.////©¢¢  ¢¢¢ ¢   ¢¢¢©",
         " 1                    =ch..:'❶/ ¢¢¢ ¢ ¢¢¢  ¢¢¢  ",
         " 1                    =k.../.❺/©¢¢ ¢¢  ¢¢¢¢¢ ¢ ©",
-        " 1                    =...%/❻❷/©¢¢ ¢¢¢¢¢   ¢    ",
+        " 1                    =4..%/❻❷/©¢¢ ¢¢¢¢¢   ¢    ",
         " 1                    //!////// ††††††¢¢¢¢ ¢¢¢¢ ",
         " 1                    1/'l/©©©©©¢¢ ¢¢¢  ¢ ¢   ¢©",
         " 1                    1/.l/ ℗℗©©¢ ¢¢  ¢¢¢  ¢¢¢ ©",
@@ -33,7 +33,7 @@
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_habitat_life_support" ],
       "terrain": { "1": "t_chainfence", "2": "t_chaingate_c", "b": "t_sidewalk" },
-      "furniture": { "3": "f_server" },
+      "furniture": { "3": "f_server", "4": "f_drone_recharge_station" },
       "place_monster": [
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 50 },
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "pack_size": [ 1, 4 ], "chance": 50 }
