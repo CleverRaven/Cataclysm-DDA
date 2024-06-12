@@ -864,12 +864,7 @@ void damage_over_time_data::serialize( JsonOut &jsout ) const
 
 void damage_over_time_data::deserialize( const JsonObject &jo )
 {
-    std::string tmp_string = jo.get_string( "damage_type" );
-    // Remove after 0.F, migrating DT_TRUE to DT_PURE
-    if( tmp_string == "true" ) {
-        tmp_string = "pure";
-    }
-    type = damage_type_id( tmp_string );
+    jo.read( "damage_type", type );
     jo.read( "amount", amount );
     jo.read( "duration", duration );
     jo.read( "bodyparts", bps );

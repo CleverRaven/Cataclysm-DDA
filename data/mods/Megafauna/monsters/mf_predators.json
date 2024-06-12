@@ -47,7 +47,7 @@
       "KEENNOSE",
       "GOODHEARING",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PET_MOUNTABLE",
       "WARM",
       "CANPLAY",
@@ -74,7 +74,7 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 4.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 270, "into": "mon_direwolf" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "CANPLAY", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "NO_BREED", "WARM", "CANPLAY", "KEENNOSE" ]
   },
   {
     "id": "mon_sabcat",
@@ -130,7 +130,7 @@
       "KEENNOSE",
       "ANIMAL",
       "GRABS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "KEEP_DISTANCE",
       "WARM",
@@ -168,7 +168,7 @@
       "GOODHEARING",
       "KEENNOSE",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "KEEP_DISTANCE",
       "WARM",
@@ -216,7 +216,7 @@
       "GOODHEARING",
       "KEENNOSE",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "WARM",
       "HIT_AND_RUN"
@@ -251,7 +251,7 @@
       "GOODHEARING",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "WARM",
       "HIT_AND_RUN",
@@ -289,7 +289,7 @@
     "petfood": { "food": [ "CATFOOD" ], "feed": "The %s seems to like you!  It emits a satisfied purr as you pet it." },
     "harvest": "mammal_small_fur",
     "dissect": "dissect_feline_sample_single",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_bobcat_cub",
@@ -309,7 +309,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 90, "into": "mon_bobcat" },
-    "flags": [ "NO_BREED", "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "NO_BREED", "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "type": "MONSTER",
@@ -352,7 +352,7 @@
       "HEARS",
       "GOODHEARING",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "KEENNOSE",
       "WARM",
       "HIT_AND_RUN",
@@ -391,6 +391,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4.0 } ],
     "dodge": 3,
     "upgrades": { "age_grow": 315, "into": "mon_titanis_walleri" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "KEENNOSE", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "NO_BREED", "WARM", "KEENNOSE", "CANPLAY" ]
   }
 ]

@@ -52,11 +52,12 @@
       "NOHEAD",
       "NO_BREATHE",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "ELECTRONIC"
     ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
     "armor": { "bash": 42, "cut": 48, "acid": 12, "heat": 8, "bullet": 35 }
   },
   {
@@ -129,11 +130,12 @@
       "GOODHEARING",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "FLIES",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC"
-    ]
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   },
   {
     "id": "mon_golden_monolith",
@@ -208,11 +210,12 @@
       "GOODHEARING",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "ELECTRONIC"
     ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
     "armor": { "bash": 1000, "cut": 1000, "acid": 100, "heat": 100, "bullet": 1000 }
   },
   {
@@ -242,7 +245,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "PACIFIST",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRONIC",
       "CLIMBS",
@@ -250,6 +253,7 @@
       "ALWAYS_SEES_YOU",
       "FIREPROOF"
     ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
     "special_attacks": [
       {
         "type": "spell",

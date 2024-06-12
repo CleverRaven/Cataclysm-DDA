@@ -229,32 +229,6 @@
     ]
   },
   {
-    "id": "nested_sw_22",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "sw_22", "charges": [ 0, 10 ] },
-      { "item": "sw22mag" },
-      { "item": "sw22mag", "prob": 50 },
-      { "group": "on_hand_22" }
-    ]
-  },
-  {
-    "id": "nested_j22",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "j22", "charges": [ 0, 6 ] },
-      { "item": "j22mag" },
-      { "item": "j22mag", "prob": 50 },
-      { "group": "on_hand_22" }
-    ]
-  },
-  {
     "id": "nested_cp33",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -988,14 +962,6 @@
       { "item": "af2011a1mag", "prob": 50 },
       { "group": "on_hand_38super" }
     ]
-  },
-  {
-    "id": "nested_cop_38",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "cop_38", "charges": [ 0, 4 ] }, { "group": "on_hand_38" } ]
   },
   {
     "id": "nested_m1911-460",

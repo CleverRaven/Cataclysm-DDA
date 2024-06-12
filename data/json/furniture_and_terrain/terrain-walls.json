@@ -1798,6 +1798,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_stone_masonry_wall_whitewashed",
+    "name": "whitewashed stone masonry wall",
+    "looks_like": "t_rock_wall",
+    "description": "A wall of carefully cut and laid stones, joined with mortar.  The exterior has been finished with plaster and whitewashed.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_rock_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_rock_wall_half",
     "looks_like": "t_rock_wall",
     "name": "half-built stone wall",
@@ -2769,6 +2792,30 @@
       "reduce_damage_laser": [ 15, 25 ],
       "destroy_damage": [ 60, 160 ],
       "no_laser_destroy": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_lighthouse_lens",
+    "name": "lighthouse lens",
+    "looks_like": "t_wall_glass",
+    "description": "An intricate arrangement of glass, designed to focus light from within to be visible over long distances.",
+    "symbol": "LINE_OXOX",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_null",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {

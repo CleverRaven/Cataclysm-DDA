@@ -152,7 +152,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -191,7 +191,6 @@
       "kp32",
       "ruger_lcr_22",
       "sig_mosquito",
-      "sw_22",
       "walther_p22",
       "sig_p230",
       "walther_ppk",
@@ -203,7 +202,7 @@
     "replace": "pistol_tiny_target"
   },
   {
-    "id": [ "rifle_22", "j22" ],
+    "id": [ "rifle_22" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_zip"
   },
