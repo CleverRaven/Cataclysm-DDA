@@ -1,5 +1,9 @@
 [
   {
+    "type": "mutation_type",
+    "id": "ESPER"
+  },
+  {
     "type": "mutation",
     "id": "ESPER",
     "name": "Esper",
@@ -15,6 +19,7 @@
     "name": "Telepath",
     "points": 0,
     "description": "The ability to read thoughts and influence others' minds.",
+    "types": [ "ESPER" ],
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
