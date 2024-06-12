@@ -880,7 +880,7 @@ bool game::start_game()
 
     // Make sure the items are added after the calendar is started
     u.add_profession_items();
-    // Move items from the inventory. eventually the inventory should not contain items at all.
+    // Move items from the raw inventory to item_location s. See header TODO.
     u.migrate_items_to_storage( true );
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
