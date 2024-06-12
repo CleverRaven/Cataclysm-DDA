@@ -207,7 +207,7 @@
     "copy-from": "afs_toxic_grenade",
     "name": "active neurotoxin grenade",
     "looks_like": "grenade_act",
-    "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation..  It's currently active.",
+    "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation.  It's currently active.",
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
     "countdown_action": {
       "type": "explosion",

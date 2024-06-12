@@ -48,7 +48,7 @@
   {
     "type": "furniture",
     "id": "f_afs_shuttle_manuevering_thruster",
-    "name": "Multi-axis manuevering thruster",
+    "name": "Multi-axis maneuvering thruster",
     "looks_like": "f_vent",
     "description": "A set of highly maneuverable chemical thrusters used is small to medium spacecraft.",
     "symbol": "0",
