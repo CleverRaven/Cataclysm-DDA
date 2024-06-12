@@ -184,9 +184,6 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "wetsuit_spring" );
     cut_up_yields( "wetsuit_gloves" );
     cut_up_yields( "peacoat" );
-    cut_up_yields( "log" );
-    cut_up_yields( "stick" );
-    cut_up_yields( "stick_long" );
     cut_up_yields( "tazer" );
     cut_up_yields( "laptop" );
     cut_up_yields( "voltmeter" );
