@@ -254,6 +254,7 @@ void DynamicDataLoader::initialize()
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
+    add( "field_type_migration", &field_type_migrations::load );
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
@@ -582,6 +583,7 @@ void DynamicDataLoader::unload_data()
     faction_template::reset();
     faults::reset();
     field_types::reset();
+    field_type_migrations::reset();
     gates::reset();
     harvest_drop_type::reset();
     harvest_list::reset();
@@ -800,6 +802,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Weapon Categories" ), &weapon_category::verify_weapon_categories },
             { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
+            { _( "Field type migrations" ), &field_type_migrations::check },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Effect types" ), &effect_type::check_consistency },
@@ -825,6 +828,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
+            { _( "Furniture amd terrain migrations" ), &ter_furn_migrations::check },
             { _( "Constructions" ), &check_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
@@ -834,7 +838,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
-            { _( "Terrain/Furniture migrations" ), &ter_furn_migrations::check },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },

@@ -4621,6 +4621,31 @@ void ter_furn_migrations::check()
     }
 }
 
+static std::unordered_map<field_type_str_id, field_type_str_id> field_migrations;
+
+void field_type_migrations::load( const JsonObject &jo )
+{
+    field_type_str_id from_field;
+    field_type_str_id to_field;
+    mandatory( jo, true, "from_field", from_field );
+    mandatory( jo, true, "to_field", to_field );
+    field_migrations.insert( std::make_pair( from_field, to_field ) );
+}
+
+void field_type_migrations::reset()
+{
+    field_migrations.clear();
+}
+
+void field_type_migrations::check()
+{
+    for( const auto &migration : field_migrations ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "field_type_migration specifies invalid to_field id '%s'", migration.second.c_str() );
+        }
+    }
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -5007,25 +5032,24 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int j = fields_json.next_int();
             JsonArray field_json = fields_json.next_array();
             while( field_json.has_more() ) {
-                // TODO: Check enum->string migration below
-                int type_int = 0;
-                std::string type_str;
                 JsonValue type_value = field_json.next_value();
-                if( type_value.test_int() ) {
-                    type_int = type_value.get_int();
+                if( type_value.test_string() ) {
+                    field_type_str_id ft = field_type_str_id( type_value.get_string() );
+                    const int intensity = field_json.next_int();
+                    const int age = field_json.next_int();
+                    if( auto it = field_migrations.find( ft ); it != field_migrations.end() ) {
+                        ft = it->second;
+                    }
+                    if( !ft.is_valid() ) {
+                        debugmsg( "invalid field_type_str_id '%s'", ft.c_str() );
+                    } else if( ft != field_type_str_id::NULL_ID() &&
+                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
+                        field_count++;
+                    }
                 } else {
-                    type_str = type_value.get_string();
-                }
-                int intensity = field_json.next_int();
-                int age = field_json.next_int();
-                field_type_id ft;
-                if( !type_str.empty() ) {
-                    ft = field_type_id( type_str );
-                } else {
-                    ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
-                }
-                if( m->fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
-                    field_count++;
+                    field_json.throw_error( "field type relying on ancient legacy int method" );
+                    field_json.next_value(); // skip intensity
+                    field_json.next_value(); // skip age
                 }
             }
         }
