@@ -70,7 +70,7 @@
     "id": "EOC_ETHEREAL_WINGS_INITIATE",
     "condition": { "not": { "u_has_trait": "ethereal_wings" } },
     "effect": [
-      { "u_message": "<color_white>Ethereal wings</color_white> grow from your back.", "type": "good" },
+      { "u_message": "<color_white>Ethereal</color> wings grow from your back.", "type": "good" },
       { "u_add_trait": "ethereal_wings" },
       {
         "queue_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
