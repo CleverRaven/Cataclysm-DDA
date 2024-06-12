@@ -17,7 +17,7 @@
     "color": "magenta",
     "death_function": { "corpse_type": "BROKEN" },
     "placate_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_marshmallow_kid",
@@ -234,7 +234,7 @@
     "anger_triggers": [ "HURT" ],
     "harvest": "gummy_bear",
     "reproduction": { "baby_egg": "candy3", "baby_count": 1, "baby_timer": 10 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ],
     "armor": { "bash": 2 }
   },
   {
@@ -282,7 +282,7 @@
     "reproduction": { "baby_egg": "candy3gator", "baby_count": 1, "baby_timer": 10 },
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS", "ATTACKMON" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS", "ATTACKMON" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
@@ -383,7 +383,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER" ],
     "reproduction": { "baby_egg": "cookies", "baby_count": 10, "baby_timer": 5 }
   },
   {
@@ -404,7 +404,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
     "reproduction": { "baby_egg": "cookies_egg", "baby_count": 1, "baby_timer": 5 }
   },
   {
@@ -425,7 +425,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
     "upgrades": { "age_grow": 200, "into": "mon_cookie_hydra" }
   },
   {

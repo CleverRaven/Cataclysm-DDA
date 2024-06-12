@@ -113,6 +113,24 @@
     "name": "lighthouse",
     "sym": "&",
     "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_small_ground",
+    "name": "small lighthouse",
+    "sym": "0",
+    "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4", "lighthouse_small_roof" ],
+    "name": "small lighthouse",
+    "sym": "0",
+    "color": "yellow",
     "see_cost": 5
   },
   {

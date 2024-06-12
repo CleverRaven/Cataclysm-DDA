@@ -94,7 +94,7 @@
         }
       ]
     },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",

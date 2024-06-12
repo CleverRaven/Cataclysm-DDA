@@ -1,6 +1,21 @@
 [
   {
     "type": "terrain",
+    "id": "t_backroom_wall_border",
+    "name": "faded wall",
+    "description": "A yellowed, numbingly monotonous wallpaper decorates these thin walls.  They smell of mildew and have a faintly damp feel.",
+    "symbol": "#",
+    "color": "yellow",
+    "looks_like": "t_wall_y",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_carpet_backrooms",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_backroom_wall",
     "name": "faded wall",
     "description": "A yellowed, numbingly monotonous wallpaper decorates these thin walls.  They smell of mildew and have a faintly damp feel.",
@@ -59,6 +74,7 @@
     "looks_like": "t_carpet_backrooms",
     "roof": "t_flat_roof",
     "connect_groups": "INDOORFLOOR",
+    "connects_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "str_min": 4,
@@ -82,15 +98,8 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ],
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_thconc_floor",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 6, 13 ] } ]
-    }
+    "connects_to": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ]
   },
   {
     "type": "terrain",
@@ -104,6 +113,7 @@
     "looks_like": "t_tile_backrooms",
     "roof": "t_flat_roof",
     "connect_groups": "INDOORFLOOR",
+    "connects_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
     "bash": {
       "str_min": 4,
@@ -127,15 +137,8 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
-    "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_thconc_floor",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 6, 13 ] } ]
-    }
+    "connects_to": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
   },
   {
     "type": "furniture",

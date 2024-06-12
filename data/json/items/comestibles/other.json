@@ -552,22 +552,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "meal_bone",
-    "name": { "str_sp": "bone meal" },
-    "weight": "60 g",
-    "color": "white",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "description": "This bone meal can be used to craft fertilizer and some other things.",
-    "price": "6 cent",
-    "price_postapoc": "2 cent",
-    "material": [ "powder" ],
-    "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "gelatin_powder",
     "name": { "str_sp": "powdered gelatin" },
     "weight": "11 g",
@@ -608,24 +592,6 @@
     "volume": "250 ml",
     "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "meal_bone_tainted",
-    "name": { "str_sp": "tainted bone meal" },
-    "weight": "60 g",
-    "color": "white",
-    "use_action": [ "POISON" ],
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "description": "This is a grayish bone meal made from rotten bones.",
-    "calories": 4,
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "material": [ "powder" ],
-    "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -10
   },
   {
     "type": "COMESTIBLE",
