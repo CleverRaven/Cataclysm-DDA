@@ -4958,7 +4958,7 @@
     "type": "effect_type",
     "id": "electrocytes_charge",
     "name": [ "Electrocytes charge" ],
-    "desc": [ "You electrocytes are generating charge over time in exchange for some calories." ],
-    "max_intensity": 20
+    "desc": [ "You electrocytes are depolarizing over time in exchange for some calories." ],
+    "max_intensity": 16
   }
 ]

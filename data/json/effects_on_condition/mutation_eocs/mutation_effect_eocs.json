@@ -569,43 +569,31 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_shock_touch",
-    "//": "will cast 'shock_touch' spell when player has stored electrolytes as charges",
-    "condition": { "math": [ "u_effect_intensity('electrocytes_charge')", ">", "1" ] },
-    "effect": [
-      { "u_cast_spell": { "id": "shock_touch" }, "targeted": true },
-      {
-        "u_message": "You make contact with your target as you polarize the electrocytes in your body, delivering a powerful shock.",
-        "type": "good"
-      },
-      {
-        "u_add_effect": "electrocytes_charge",
-        "duration": "PERMANENT",
-        "intensity": { "math": [ "u_effect_intensity('electrocytes_charge') - 1" ] }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_electrocytes_recharge_timer",
-    "//": "Regenerates electrocytes energy with calories over time, rate 1 charges/1h/500 calories",
-    "recurrence": [ "10 minutes", "15 minutes" ],
-    "condition": { "and": [ { "u_has_trait": "ELECTROCYTES" }, { "math": [ "u_calories('format': 'percent')", ">", "33" ] } ] },
-    "effect": [
-      { "math": [ "u_calories()", "-=", "100" ] },
-      {
-        "u_add_effect": "electrocytes_charge",
-        "duration": "PERMANENT",
-        "intensity": { "math": [ "u_effect_intensity('electrocytes_charge') + 1" ] }
-      }
-    ]
+    "//": "Replenish electrocytes charge with calories over time",
+    "recurrence": [ "8 minutes", "12 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROCYTES" },
+        { "not": { "u_has_effect": "electrocytes_charge", "intensity": 3 } },
+        { "math": [ "u_calories('format': 'percent')", ">", "25" ] }
+      ],
+      "effect": [
+        { "math": [ "u_calories()", "-=", "60" ] },
+        {
+          "u_add_effect": "electrocytes_charge",
+          "duration": "PERMANENT",
+          "intensity": { "math": [ "u_effect_intensity('electrocytes_charge') + 1" ] }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_electrocytes_cleanup",
     "eoc_type": "EVENT",
     "required_event": "loses_mutation",
-    "//": "needed to remove the effect when losing the mutation",
+    "//": "Needed to remove the effect when losing the mutation",
     "condition": { "compare_string": [ "ELECTROCYTES", { "context_val": "trait" } ] },
     "effect": [ { "u_lose_effect": "electrocytes_charge" } ]
   }
