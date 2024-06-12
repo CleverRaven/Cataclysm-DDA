@@ -575,7 +575,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROCYTES" },
-        { "not": { "u_has_effect": "electrocytes_charge", "intensity": 3 } },
+        { "not": { "u_has_effect": "electrocytes_charge", "intensity": 10 } },
         { "math": [ "u_calories('format': 'percent')", ">", "25" ] }
       ],
       "effect": [
