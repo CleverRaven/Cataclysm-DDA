@@ -12,7 +12,16 @@
     "color": "white",
     "see_cost": 20,
     "spawns": { "group": "GROUP_BACKROOMS", "population": [ 2, 15 ], "chance": 40 },
-    "extras": "field"
+    "extras": "backrooms"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "backroom_border",
+    "name": "",
+    "sym": ".",
+    "color": "white",
+    "see_cost": 20,
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "mapgen",
@@ -52,5 +61,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "backroom_border",
+    "object": { "fill_ter": "t_backroom_wall_border" }
   }
 ]

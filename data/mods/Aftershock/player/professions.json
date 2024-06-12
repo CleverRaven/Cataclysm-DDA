@@ -639,7 +639,7 @@
   {
     "type": "profession",
     "id": "afs_esper_telepath",
-    "name": "Telepath",
+    "name": "Whisper",
     "description": "You are a telepath, able to sense minds and influence thoughts.  You aren't entirely sure how you got your powers, but you seem to have an instinctive sense of how to use them.  That's not sinister at all, right?",
     "points": 7,
     "traits": [ "AFS_TELEPATH" ],
