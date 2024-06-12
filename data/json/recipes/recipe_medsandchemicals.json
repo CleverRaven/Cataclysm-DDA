@@ -2607,5 +2607,21 @@
     "//4": "460kJ per mole @ 70% energy efficiency",
     "tools": [ [ [ "fake_arc_furnace", 650 ] ] ],
     "components": [ [ [ "cac2powder", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "chem_potassium_chloride",
+    "charges": 2,
+    "batch_time_factors": [ 99, 1 ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "//" : "basically burning potassium chlorate to form KCl",
+    "components": [ [ [ "survival_match", 1 ], ["match", 60] ] ]
   }
 ]
