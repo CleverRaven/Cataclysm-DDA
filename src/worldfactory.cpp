@@ -1989,7 +1989,7 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated ) co
 
 bool WORLD::create_timestamp()
 {
-#if defined( TIME_UTC ) && !defined( MACOSX ) && !defined(__ANDROID__) 
+#if defined( TIME_UTC ) && !defined( MACOSX ) && !defined(__ANDROID__)
     std::timespec t;
     if( std::timespec_get( &t, TIME_UTC ) != TIME_UTC ) {
         return false;
