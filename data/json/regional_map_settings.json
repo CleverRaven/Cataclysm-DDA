@@ -320,7 +320,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
-        "terrains": [ "forest", "special_forest" ],
+        "terrains": [ "forest", "special_forest", "special_forest_isherwood" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -390,6 +390,7 @@
           "river_sw",
           "slimepit_top",
           "special_forest_thick",
+          "special_forest_thick_isherwood",
           "spider_pit",
           "standing_stones",
           "stream",
