@@ -59,10 +59,10 @@
     "name": "GROUP_ROBOT_COPS_HOSTILE",
     "default": "mon_manhack",
     "monsters": [
-	  { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
-	  { "monster": "mon_afs_eyebot", "weight": 200, "cost_multiplier": 4 },
-	  { "monster": "mon_afs_copbot", "weight": 100, "cost_multiplier": 70 },
-	  { "monster": "mon_afs_riotbot", "weight": 50, "cost_multiplier": 100 }
-	]
+      { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 20 },
+      { "monster": "mon_afs_eyebot", "weight": 200, "cost_multiplier": 4 },
+      { "monster": "mon_afs_copbot", "weight": 100, "cost_multiplier": 70 },
+      { "monster": "mon_afs_riotbot", "weight": 50, "cost_multiplier": 100 }
+    ]
   }
 ]
