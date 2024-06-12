@@ -326,6 +326,11 @@ int map::cost_to_avoid( const tripoint & /*cur*/, const tripoint &p,
         }
     }
 
+    if( fieldavoid && ( p_special & PF_FIELD ) ) {
+        // We'll walk through even known-dangerous fields if we absolutely have to.
+        return 500;
+    }
+
     return 0;
 }
 

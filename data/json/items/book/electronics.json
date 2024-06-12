@@ -139,10 +139,13 @@
     "id": "recipe_augs",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
-    "description": "This annual publication covers the various ways in which multiple CEOs of different corporations describe the great world of the near future.  There are a few in-depth and thoroughly illustrated articles on prosthetics, though they tend to use too much jargon.",
-    "weight": "400 g",
-    "volume": "500 ml",
+    "name": {
+      "str": "The Role of Robotics in Modern Day Manufacturing",
+      "str_pl": "copies of The Role of Robotics in Modern Day Manufacturing"
+    },
+    "description": "A hefty book containing a whole bunch of technical info on industrial robotics.  While constructing these robots are no doubt outside any realm of feasibility, the information provided still has a fair bit to teach about complex electronics.",
+    "weight": "1500 g",
+    "volume": "1250 ml",
     "price": "30 USD",
     "price_postapoc": "7 USD 50 cent",
     "material": [ "paper" ],

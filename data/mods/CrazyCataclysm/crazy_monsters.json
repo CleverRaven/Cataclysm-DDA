@@ -117,7 +117,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "BASHES",
       "ATTACKMON",
@@ -242,7 +242,7 @@
       "BASHES",
       "POISON",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FILTHY"
     ],
@@ -292,7 +292,95 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6 }
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe",
+    "description": "After the event on March 2nd, seemingly ordinary people started coming down with some odd, mass hysteria like dancing.  While some people may have scoffed it off as a silly dance craze, those in the know knew, it was the Party Rock Outbreak.  This one has a pipe of the non-smoking kind.",
+    "starting_ammo": { "party_rock": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "party_rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The party rocker party rocks!"
+      },
+      { "id": "party_rocker_pipe" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
+    "death_drops": "party_rocker_death_drop_pipe"
+  },
+  {
+    "id": "mon_feral_human_pipe_fungal_infected",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_infected",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's not dancing with as much energy, and they seem to be stopping often to cough and catch their breath."
+  },
+  {
+    "id": "mon_feral_human_pipe_fungal_corpse",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_corpse",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's grown painful mushroom stalks out of their body, writhing in pain as their last neurons still instruct them to dance."
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_crowbar",
+    "description": "After the event on March 2nd, seemingly ordinary people started coming down with some odd, mass hysteria like dancing.  While some people may have scoffed it off as a silly dance craze, those in the know knew, it was the Party Rock Outbreak.  This one has a drink in hand.",
+    "starting_ammo": { "party_rock": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "party_rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The party rocker party rocks!"
+      },
+      { "id": "party_rocker_bottle" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
+    "death_drops": "party_rocker_death_drop_bottle"
+  },
+  {
+    "id": "mon_feral_human_crowbar_fungal_infected",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_infected",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's not dancing with as much energy, and they seem to be stopping often to cough and catch their breath."
+  },
+  {
+    "id": "mon_feral_human_crowbar_fungal_corpse",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_corpse",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's grown painful mushroom stalks out of their body, writhing in pain as their last neurons still instruct them to dance."
   }
 ]

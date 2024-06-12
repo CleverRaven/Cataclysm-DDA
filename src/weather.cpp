@@ -246,15 +246,10 @@ void item::add_rain_to_container( int charges )
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
-        ret.poison = one_in( 10 ) ? 1 : 0;
         put_in( ret, pocket_type::CONTAINER );
     } else {
-        static const std::set<itype_id> allowed_liquid_types{
-            itype_water
-        };
         item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
-            return allowed_liquid_types.count( liquid.typeId() );
+            return liquid.typeId() == itype_water;
         } );
         if( found_liq == nullptr ) {
             debugmsg( "Rainwater failed to add to container" );

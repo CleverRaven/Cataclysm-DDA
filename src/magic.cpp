@@ -2848,7 +2848,7 @@ int known_magic::select_spell( Character &guy )
     }
     reflesh_favorite( &spell_menu, known_spells );
 
-    spell_menu.query();
+    spell_menu.query( true, -1, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 

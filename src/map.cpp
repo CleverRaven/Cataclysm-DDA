@@ -113,8 +113,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
 
-static const diseasetype_id disease_bad_food( "bad_food" );
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
@@ -141,6 +139,8 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_murky( "water_murky" );
 
 static const material_id material_glass( "glass" );
 
@@ -2302,18 +2302,13 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
         set_seen_cache_dirty( p );
     }
 
-    if( new_t.has_flag( "SPAWN_WITH_LIQUID" ) ) {
-        if( new_t.has_flag( "FRESH_WATER" ) ) {
-            item water( "water", calendar::start_of_cataclysm );
-            // TODO: Move all numeric values to json
-            water.charges = rng( 40, 240 );
-            if( new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ) {
-                water.poison = rng( 1, 6 );
-                water.get_comestible()->parasites = 5;
-                water.get_comestible()->contamination = { { disease_bad_food, 5 } };
-            }
-            add_item( p, water );
-        }
+    if( new_t.has_flag( "SPAWN_WITH_WATER" ) ) {
+        itype_id water_type = new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ? itype_water_murky :
+                              itype_water;
+        item water( water_type, calendar::start_of_cataclysm );
+        // TODO: Move all numeric values to json
+        water.charges = rng( 40, 240 );
+        add_item( p, water );
     }
 
     invalidate_max_populated_zlev( p.z );
@@ -5493,64 +5488,21 @@ item map::water_from( const tripoint &p )
         return ret;
     }
 
-    if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
-        for( item &ret : get_map().i_at( p ) ) {
-            if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( std::max( weather.get_temperature( p ),
-                                                    temperatures::cold ) );
-                ret.poison = rng( 1, 6 );
-                ret.get_comestible()->parasites = 5;
-                ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
-                return ret;
-            }
-        }
-    }
-
-    if( has_flag( ter_furn_flag::TFLAG_TOILET_WATER, p ) ) {
-        for( item &ret : get_map().i_at( p ) ) {
-            if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( std::max( weather.get_temperature( p ),
-                                                    temperatures::cold ) );
-                ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
-                return ret;
-            }
-        }
-    }
-
     const ter_id terrain_id = ter( p );
     if( terrain_id == ter_t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             temperatures::cold ) );
-        ret.poison = rng( 1, 7 );
         return ret;
     }
 
-    item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( std::max( weather.get_temperature( p ),
-                                        temperatures::cold ) );
     // iexamine::water_source requires a valid liquid from this function.
-    if( terrain_id->has_examine( iexamine::water_source ) ) {
-        int poison_chance = 0;
-        if( terrain_id.obj().has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) {
-            if( terrain_id.obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ) {
-                poison_chance = 20;
-            } else {
-                poison_chance = 4;
-            }
-        } else {
-            if( terrain_id.obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ) {
-                poison_chance = 10;
-            } else {
-                poison_chance = 3;
-            }
-        }
-        if( one_in( poison_chance ) ) {
-            ret.poison = rng( 1, 4 );
-        }
-        return ret;
-    }
-    if( furn( p )->has_examine( iexamine::water_source ) ) {
+    if( terrain_id->has_examine( iexamine::water_source ) ||
+        furn( p )->has_examine( iexamine::water_source ) ) {
+        itype_id liquid_id = has_flag( ter_furn_flag::TFLAG_MURKY, p ) ? itype_water_murky : itype_water;
+        item ret( liquid_id, calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( std::max( weather.get_temperature( p ),
+                                            temperatures::cold ) );
         return ret;
     }
     return item();
@@ -8412,6 +8364,57 @@ void map::loadn( const point &grid, bool update_vehicles )
         }
     } else {
         loadn( tripoint( grid, abs_sub.z() ), update_vehicles );
+    }
+}
+
+void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
+{
+    if( !it.is_corpse() ) {
+        debugmsg( "Tried to decay a non-corpse item %s. Aborted", it.tname() );
+        return;
+    }
+    const mtype *dead_monster = it.get_corpse_mon();
+    if( !dead_monster ) {
+        debugmsg( "Corpse at abs_ms %s has no associated monster?!", pnt.to_string() );
+        return;
+    }
+
+    //FIXME: Get this working using is_null(). harvest_list and harvest_id resolving is bizarre
+    if( dead_monster->decay.is_empty() ) {
+        return;
+    }
+    int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
+    decayed_weight_grams += std::round( decayed_weight_grams * rng_float( -0.1, 0.1 ) );
+    bool notify_player = false;
+    if( calendar::once_every( 30_minutes ) ) {
+        //one corpse max in 30 minutes will notify if seen, for *all* the items it left
+        notify_player = true;
+    }
+
+    bool anything_left = false;
+    for( const harvest_entry &entry : *dead_monster->decay ) {
+        item harvest = item( entry.drop );
+        const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
+        const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
+        const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
+        int roll = 0;
+        if( entry.mass_ratio != 0.00f ) {
+            roll = static_cast<int>( std::round( entry.mass_ratio * decayed_weight_grams ) );
+            roll = std::ceil( static_cast<double>( roll ) / to_gram( harvest.type->weight ) );
+        } else {
+            roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+        }
+        anything_left = roll > 0;
+        for( int i = 0; i < roll; i++ ) {
+            if( harvest.has_temperature() ) {
+                harvest.set_item_temperature( get_weather().get_temperature( project_to<coords::omt>( pnt ) ) );
+            }
+            add_item_or_charges( bub_from_abs( pnt ), harvest, false );
+            if( anything_left && notify_player ) {
+                add_msg_if_player_sees( getlocal( pnt ), _( "You notice a %1$s has rotted away, leaving a %2$s." ),
+                                        it.tname(), harvest.tname() );
+            }
+        }
     }
 }
 
