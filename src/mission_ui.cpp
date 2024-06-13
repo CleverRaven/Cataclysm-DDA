@@ -17,6 +17,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
@@ -306,6 +307,14 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         // Below is done instead of a table for the benefit of right-to-left languages
         //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
         draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
+        int omt_distance = rl_dist( pos, miss->get_target() );
+        if( omt_distance > 0 ) {
+            // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
+            units::length actual_distance = omt_distance * 24_meter;
+            //~Paranthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
+            draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
+                                              omt_distance, length_to_string_approx( actual_distance ) ), c_white );
+        }
     }
 }
 
