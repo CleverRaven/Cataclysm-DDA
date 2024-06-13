@@ -252,7 +252,7 @@
       { "group": "softdrugs", "prob": 10 },
       { "group": "harddrugs", "prob": 5 },
       { "group": "phones", "prob": 85 },
-	  { "group": "powerbanks", "prob": 10 },
+      { "group": "powerbanks", "prob": 10 },
       { "group": "vending_food_items", "prob": 5 }
     ]
   },
