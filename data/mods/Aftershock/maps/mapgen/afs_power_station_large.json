@@ -57,7 +57,7 @@
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_habitat_life_support" ],
       "terrain": {
-		"0": "t_thconc_floor_no_roof",
+        "0": "t_thconc_floor_no_roof",
         "3": "t_chainfence",
         "4": "t_chaingate_c",
         "5": "t_oil_circ_brkr_l",
