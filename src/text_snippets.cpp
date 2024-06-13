@@ -74,7 +74,7 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         ids.emplace_back( weighted_id{ weight_acc, id } );
         snippets_by_id[id] = text;
         if( jo.has_member( "effect_on_examine" ) ) {
-            EOC_by_id[id] = talk_effect_t( jo, "effect_on_examine" );
+            EOC_by_id[id] = talk_effect_t( jo, "effect_on_examine", "" );
         }
         translation name;
         optional( jo, false, "name", name );
