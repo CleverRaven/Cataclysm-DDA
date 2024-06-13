@@ -1963,12 +1963,28 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "filament", 100, "LIST" ] ] ]
+  },
+  {
+    "copy-from": "espadrilles",
+    "result": "espadrilles_xl",
+    "type": "recipe",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "using": [ [ "tailoring_cotton", 1.5 ] ],
+    "components": [ [ [ "filament", 150, "LIST" ] ] ]
+  },
+  {
+    "copy-from": "espadrilles",
+    "result": "espadrilles_xs",
+    "type": "recipe",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "using": [ [ "tailoring_cotton", 1 ] ],
+    "components": [ [ [ "filament", 50, "LIST" ] ] ]
   }
 ]
