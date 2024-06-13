@@ -387,7 +387,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_aban1",
+    "id": [ "cabin_aban1", "cabin_aban1_roof" ],
     "name": "ruined cabin",
     "sym": "F",
     "color": "green",
@@ -396,7 +396,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "barn_aban1",
+    "id": [ "barn_aban1", "barn_aban1_roof" ],
     "name": "barn",
     "sym": "F",
     "color": "green",
@@ -405,7 +405,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "car_corner_aban1",
+    "id": [ "car_corner_aban1", "car_corner_aban1_roof" ],
     "name": "car corner",
     "sym": "F",
     "color": "green",
