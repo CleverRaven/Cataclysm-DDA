@@ -5975,7 +5975,6 @@ bool game::npc_menu( npc &who )
     const bool obeys = debug_mode || ( who.is_friendly( u ) && !who.in_sleep_state() );
 
     uilist amenu;
-
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
@@ -9611,8 +9610,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.desc_enabled = true;
     smenu.desc_lines_hint += dissect_wp_hint_lines;
     smenu.text = _( "Choose type of butchery:" );
-    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ),
-                        is_enabled( butcher_type::QUICK ),
+
+    smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), is_enabled( butcher_type::QUICK ),
                         'B', _( "Quick butchery" )
                         + progress_str( butcher_type::QUICK ),
                         time_or_disabledreason( butcher_type::QUICK ),

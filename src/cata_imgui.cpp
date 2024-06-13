@@ -411,8 +411,8 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
     }
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, const nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
@@ -420,16 +420,16 @@ void cataimgui::window::draw_colored_text( std::string const &text, const nc_col
     ImGui::PopStyleColor();
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text, nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushStyleColor( ImGuiCol_Text, color );
     draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
     ImGui::PopStyleColor();
 }
 
-void cataimgui::window::draw_colored_text( std::string const &text,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text,
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushID( text.c_str() );
     int startColorStackCount = GImGui->ColorStack.Size;
@@ -522,7 +522,8 @@ cataimgui::window::window( int window_flags )
 
     this->window_flags = window_flags | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
                          ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus |
-                         ImGuiWindowFlags_NoBringToFrontOnFocus;
+                         ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar |
+                         ImGuiWindowFlags_NoScrollWithMouse;
 }
 
 cataimgui::window::window( const std::string &id_, int window_flags ) : window( window_flags )

@@ -3141,6 +3141,7 @@ static void bleed_self()
 static void change_weather()
 {
     uilist weather_menu;
+    weather_menu.text = _( "Select new weather pattern:" );
     weather_manager &weather = get_weather();
     weather_generator wgen = weather.get_cur_weather_gen();
     weather_menu.text = _( "Select new weather pattern:" );
@@ -3520,8 +3521,8 @@ static void vehicle_export()
 static void wind_direction()
 {
     uilist wind_direction_menu;
-    weather_manager &weather = get_weather();
     wind_direction_menu.text = _( "Select new wind direction:" );
+    weather_manager &weather = get_weather();
     wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                   _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
     int count = 1;
@@ -3542,8 +3543,8 @@ static void wind_direction()
 static void wind_speed()
 {
     uilist wind_speed_menu;
-    weather_manager &weather = get_weather();
     wind_speed_menu.text = _( "Select new wind speed:" );
+    weather_manager &weather = get_weather();
     wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                               _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
     int count = 1;

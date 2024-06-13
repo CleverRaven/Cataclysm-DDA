@@ -421,6 +421,11 @@ class item : public visitable
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
          */
         std::string display_name( unsigned int quantity = 1 ) const;
+
+        std::vector<iteminfo> get_info( bool showtext ) const;
+        std::vector<iteminfo> get_info( bool showtext, int batch ) const;
+        std::vector<iteminfo> get_info( const iteminfo_query *parts, int batch ) const;
+
         /**
          * Return all the information about the item and its type.
          *

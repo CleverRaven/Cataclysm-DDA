@@ -81,6 +81,16 @@ void imvec2_to_point( ImVec2 *src, point *dest );
 
 ImVec4 imvec4_from_color( nc_color &color );
 
+void draw_colored_text( std::string const &text, const nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( std::string const &text, nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( std::string const &text,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
@@ -91,15 +101,6 @@ class window
     public:
         explicit window( const std::string &id_, int window_flags = 0 );
         virtual ~window();
-        void draw_colored_text( std::string const &text, const nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
-        void draw_colored_text( std::string const &text, nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
-        void draw_colored_text( std::string const &text,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
         bool action_button( const std::string &action, const std::string &text );
         bool has_button_action();
         std::string get_button_action();

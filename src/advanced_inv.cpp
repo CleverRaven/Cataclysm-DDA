@@ -24,6 +24,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
@@ -33,6 +34,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -2055,8 +2057,11 @@ class query_destination_callback : public uilist_callback
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
+    ImGui::TableSetColumnIndex( 0 );
+    ImGui::NewLine();
+    ImGui::NewLine();
+    ImGui::NewLine();
     cata_assert( menu->entries.size() >= 9 );
-    int ofs = -25 - 4;
     int sel = 0;
     if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
         sel = _adv_inv.screen_relative_location(
@@ -2072,12 +2077,20 @@ void query_destination_callback::draw_squares( const uilist *menu )
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-        const point p( square.hscreen + point( ofs, 5 ) );
-        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
-        wprintz( menu->window, kcolor, "%s", key );
-        wprintz( menu->window, bcolor, "%c", bracket[1] );
+        // TODO(db48x): maybe make these clickable buttons or something
+        ImGui::PushID( i );
+        ImGui::BeginGroup();
+        ImGui::TextColored( bcolor, "%c", bracket[0] );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::TextColored( kcolor, "%s", key.c_str() );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::TextColored( bcolor, "%c", bracket[1] );
+        ImGui::EndGroup();
+        ImGui::PopID();
+        if( i % 3 != 0 ) {
+            ImGui::SameLine();
+        }
     }
-    wnoutrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )

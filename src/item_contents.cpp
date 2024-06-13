@@ -7,6 +7,7 @@
 #include <type_traits>
 
 #include "avatar.h"
+#include "cata_imgui.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -14,6 +15,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
@@ -93,30 +95,29 @@ void pocket_favorite_callback::refresh( uilist *menu )
 
     if( selected_pocket != nullptr && !selected_pocket->is_forbidden() ) {
         std::vector<iteminfo> info;
-        int starty = 5;
-        const int startx = menu->w_width - menu->pad_right;
-        const int width = menu->pad_right - 1;
 
-        fold_and_print( menu->window, point( 2, 2 ), width,
-                        c_light_gray, string_format( _( "Currently modifying %s" ),
-                                colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
+        ImGui::TableSetColumnIndex( 2 );
+        ImGui::PushStyleColor( ImGuiCol_Text, c_light_gray );
+        ImGui::TextWrapped( "%s", _( "Currently modifying " ) );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::PushStyleColor( ImGuiCol_Text, c_light_blue );
+        ImGui::TextWrapped( "%s", whitelist ? _( "whitelist" ) : _( "blacklist" ) );
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+        ImGui::NewLine();
+        ImGui::NewLine();
 
         selected_pocket->general_info( info, pocket_num, true );
-        starty += fold_and_print( menu->window, point( startx, starty ), width,
-                                  c_light_gray, format_item_info( info, {} ) ) + 1;
-
+        cataimgui::draw_colored_text( format_item_info( info, {} ) );
         info.clear();
+
         selected_pocket->favorite_info( info );
-        starty += fold_and_print( menu->window, point( startx, starty ), width,
-                                  c_light_gray, format_item_info( info, {} ) ) + 1;
-
+        cataimgui::draw_colored_text( format_item_info( info, {} ) );
         info.clear();
-        selected_pocket->contents_info( info, pocket_num, true );
-        fold_and_print( menu->window, point( startx, starty ), width,
-                        c_light_gray, format_item_info( info, {} ) );
-    }
 
-    wnoutrefresh( menu->window );
+        selected_pocket->contents_info( info, pocket_num, true );
+        cataimgui::draw_colored_text( format_item_info( info, {} ) );
+    }
 }
 
 pocket_favorite_callback::pocket_favorite_callback( const std::string &uilist_text,

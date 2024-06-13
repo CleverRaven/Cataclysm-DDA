@@ -280,7 +280,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         }
         parse_tags( parsed_description, get_player_character(), get_player_character() );
     }
-    draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
+    cataimgui::draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
         ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
@@ -302,10 +302,11 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     if( miss->has_target() ) {
         // TODO: target does not contain a z-component, targets are assumed to be on z=0
         const tripoint_abs_omt pos = get_player_character().global_omt_location();
-        draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ), c_white );
+        cataimgui::draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ),
+                                      c_white );
         // Below is done instead of a table for the benefit of right-to-left languages
         //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
-        draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
+        cataimgui::draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
     }
 }
 

@@ -1284,7 +1284,7 @@ void editmap::edit_fld()
             const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
-                shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
+                shared_ptr_fast<uilist_impl> fmenu_ui = fmenu.create_or_get_ui();
 
                 uilist femenu;
                 femenu.w_width_setup = width;
@@ -1423,7 +1423,7 @@ void editmap::edit_itm()
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
 
-    shared_ptr_fast<ui_adaptor> ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
+    shared_ptr_fast<uilist_impl> ilmenu_ui = ilmenu.create_or_get_ui();
 
     do {
         info_txt_curr.clear();
@@ -1465,7 +1465,7 @@ void editmap::edit_itm()
             };
             imenu.allow_additional = true;
 
-            shared_ptr_fast<ui_adaptor> imenu_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> imenu_ui = imenu.create_or_get_ui();
 
             do {
                 imenu.query();
@@ -1851,7 +1851,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+    //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
 
     uilist gpmenu;
     gpmenu.w_width_setup = width;
@@ -1979,10 +1979,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else if( gpmenu.ret == UILIST_ADDITIONAL ) {
             if( gpmenu.ret_act == "LEFT" ) {
                 gmenu.scrollby( -1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             } else if( gpmenu.ret_act == "RIGHT" ) {
                 gmenu.scrollby( 1 );
-                gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+                //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
             }
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
@@ -1994,7 +1994,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;
-    gmenu.create_or_get_ui_adaptor()->invalidate_ui();
+    //gmenu.create_or_get_ui_adaptor()->invalidate_ui();
     hilights["mapgentgt"].points.clear();
     cleartmpmap( tmpmap );
 }
@@ -2194,7 +2194,7 @@ void editmap::edit_mapgen()
 
         if( gmenu.ret >= 0 ) {
             blink = false;
-            shared_ptr_fast<ui_adaptor> gmenu_ui = gmenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<uilist_impl> gmenu_ui = gmenu.create_or_get_ui();
             mapgen_preview( tc, gmenu );
             blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {
