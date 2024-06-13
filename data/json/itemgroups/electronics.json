@@ -52,6 +52,7 @@
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       { "item": "vac_sealer", "prob": 10 },
+	  { "group": "powerbanks", "prob": 10 },
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },
       { "group": "toy_robot_kit", "prob": 1 },
@@ -112,6 +113,7 @@
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       [ "wristwatch", 15 ],
+	  { "group": "powerbanks", "prob": 10 },
       { "group": "toy_radio_car", "prob": 3 },
       { "group": "toy_makerspace_kit", "prob": 1 },
       { "group": "toy_robot_kit", "prob": 1 },
@@ -147,6 +149,17 @@
       { "item": "cell_phone", "prob": 1, "charges": 150 },
       { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
       { "item": "smart_phone", "prob": 1, "charges": 130 }
+    ]
+  },
+    {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "powerbanks",
+    "items": [
+      { "item": "36000mah_powerbank_off", "prob": 3, "charges": [ 0, 300 ] },
+      { "item": "36000mah_powerbank_off", "prob": 1, "charges": 720 },
+      { "item": "20000mah_powerbank_off", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "20000mah_powerbank_off", "prob": 1, "charges": 480 }
     ]
   },
   {
