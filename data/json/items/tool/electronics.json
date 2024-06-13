@@ -914,5 +914,106 @@
       "menu_text": "Turn off",
       "type": "transform"
     }
+  },
+  {
+    "id": "20000mah_powerbank_off",
+    "type": "TOOL",
+    "name": { "str": "cheap powerbank (UPS) (off)", "str_pl": "cheap powerbanks (UPS) (off)" },
+    "description": "A cheap rechargable powerbank that was quite common before the cataclysm. Who would have thought it'd take an apocalypse to reduce screen time? You could use it to charge your other UPS devices.",
+    "weight": "412 g",
+    "volume": "220 ml",
+	"longest_side": "13 cm",
+    "price": "32 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "iron", "plastic" ],
+	"looks_like": "UPS_off",
+    "symbol": "=",
+    "color": "white",
+    "ammo": [ "battery" ],
+	"flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "RECHARGE", "ELECTRONIC" ],
+	"pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 480 } } ],
+    "charges_per_use": 1,
+    "use_action": [
+		{
+		  "ammo_scale": 0,
+		  "target": "20000mah_powerbank_on",
+		  "msg": "You connect your powerbank with your other UPS devices.",
+		  "menu_text": "Turn on",
+		  "need_charges": 1,
+		  "need_charges_msg": "The charger's battery is empty.",
+		  "active": true,
+		  "type": "transform"
+		}, 
+		{ "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
+	]
+  },
+  {
+    "id": "20000mah_powerbank_on",
+	"copy-from": "20000mah_powerbank_off",
+    "type": "TOOL",
+    "name": { "str": "cheap powerbank (UPS) (on)", "str_pl": "cheap powerbanks (UPS) (on)" },
+    "description": "A cheap rechargable powerbank that was quite common before the cataclysm. Who would have thought it'd take an apocalypse to reduce screen time? This one is currently connected to your other UPS devices and is actively charging them.",
+    "flags": [ "NO_SALVAGE", "IS_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "RECHARGE", "ELECTRONIC" ],
+    "use_action": [
+		{
+		  "ammo_scale": 0,
+		  "target": "20000mah_powerbank_off",
+		  "msg": "You disconnect your powerbank from your other UPS devices.",
+		  "menu_text": "Turn off",
+		  "type": "transform"
+		}, 
+		{ "type": "link_up", "cable_length": 2, "charge_rate": "15 W" }
+	]
+  },
+  {
+    "id": "36000mah_powerbank_off",
+    "type": "TOOL",
+    "name": { "str": "powerbank (UPS) (off)", "str_pl": "powerbanks (UPS) (off)" },
+    "description": "A less common version of the rechargable powerbank that is quite sturdy and should last a long time. You could use it to charge your other UPS devices.",
+    "weight": "700 g",
+    "volume": "320 ml",
+	"longest_side": "16 cm",
+    "price": "54 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "iron", "plastic" ],
+	"looks_like": "UPS_off",
+    "symbol": "=",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+	"flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "RECHARGE", "ELECTRONIC" ],
+	"pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 720 } } ],
+    "charges_per_use": 1,
+    "use_action": [
+		{
+		  "ammo_scale": 0,
+		  "target": "36000mah_powerbank_on",
+		  "msg": "You connect your powerbank with your other UPS devices.",
+		  "menu_text": "Turn on",
+		  "need_charges": 1,
+		  "need_charges_msg": "The charger's battery is empty.",
+		  "active": true,
+		  "type": "transform"
+		}, 
+		{ "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
+	]
+  },
+  {
+    "id": "36000mah_powerbank_on",
+	"copy-from": "36000mah_powerbank_off",
+	"type": "TOOL",
+    "name": { "str": "powerbank (UPS) (on)", "str_pl": "powerbanks (UPS) (on)" },
+    "description": "A less common version of the rechargable powerbank that is quite sturdy and should last a long time. This one is currently connected to your other UPS devices and is actively charging them.",
+    "flags": [ "NO_SALVAGE", "IS_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "RECHARGE", "ELECTRONIC" ],
+	"revert_to": "36000mah_powerbank_off",
+    "use_action": [
+		{
+		  "ammo_scale": 0,
+		  "target": "36000mah_powerbank_off",
+		  "msg": "You disconnect your powerbank from your other UPS devices.",
+		  "menu_text": "Turn off",
+		  "type": "transform"
+		}, 
+		{ "type": "link_up", "cable_length": 2, "charge_rate": "20 W" }
+	]
   }
 ]
