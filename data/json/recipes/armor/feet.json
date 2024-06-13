@@ -1973,7 +1973,7 @@
   },
   {
     "copy-from": "espadrilles",
-    "result": "espadrilles_xl",
+    "result": "xl_espadrilles",
     "type": "recipe",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1.5 ] ],
@@ -1981,7 +1981,7 @@
   },
   {
     "copy-from": "espadrilles",
-    "result": "espadrilles_xs",
+    "result": "xs_espadrilles",
     "type": "recipe",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
