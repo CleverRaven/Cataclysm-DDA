@@ -313,7 +313,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
             units::length actual_distance = omt_distance * 24_meter;
             //~Paranthesis is a real-world value for distance. Example string: "Distance: 223 tiles (5352 m)"
             draw_colored_text( string_format( _( "Distance: %1$s tiles (%2$s)" ),
-                                              omt_distance, length_to_string( actual_distance ) ), c_white );
+                                              omt_distance, length_to_string_approx( actual_distance ) ), c_white );
         }
     }
 }

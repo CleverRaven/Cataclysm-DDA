@@ -1172,7 +1172,8 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to current objective:" ) );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%d tiles" ), distance );
         // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%s" ), length_to_string( distance * 24_meter ) );
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%s" ),
+                   length_to_string_approx( distance * 24_meter ) );
 
         const int above_below = target.z() - orig.z();
         std::string msg;
