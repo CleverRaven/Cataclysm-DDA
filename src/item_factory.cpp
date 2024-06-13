@@ -1654,7 +1654,7 @@ class iuse_function_wrapper : public iuse_actor
             return std::make_unique<iuse_function_wrapper>( *this );
         }
 
-        void load( const JsonObject & ) override {}
+        void load( const JsonObject &, const std::string & ) override {}
 };
 
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
@@ -4395,8 +4395,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
-    set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
+    set_use_methods_from_json( jo, src, "use_action", def.use_methods, def.ammo_scale );
+    set_use_methods_from_json( jo, src, "tick_action", def.tick_action, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );
@@ -4406,7 +4406,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "countdown_action" ) ) {
         JsonObject tmp = jo.get_object( "countdown_action" );
-        use_function fun = usage_from_object( tmp ).second;
+        use_function fun = usage_from_object( tmp, src ).second;
         if( fun ) {
             def.countdown_action = fun;
         }
@@ -4417,7 +4417,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "drop_action" ) ) {
         JsonObject tmp = jo.get_object( "drop_action" );
-        use_function fun = usage_from_object( tmp ).second;
+        use_function fun = usage_from_object( tmp, src ).second;
         if( fun ) {
             def.drop_action = fun;
         }
@@ -5189,8 +5189,9 @@ void Item_factory::load_item_group_data( const JsonObject &jsobj, Item_group *ig
     }
 }
 
-void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-        std::map<std::string, use_function> &use_methods, std::map<std::string, int> &ammo_scale )
+void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &src,
+        const std::string &member, std::map<std::string, use_function> &use_methods,
+        std::map<std::string, int> &ammo_scale )
 {
     if( !jo.has_member( member ) ) {
         return;
@@ -5205,7 +5206,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 emplace_usage( use_methods, type );
             } else if( entry.test_object() ) {
                 JsonObject obj = entry.get_object();
-                std::pair<std::string, use_function> fun = usage_from_object( obj );
+                std::pair<std::string, use_function> fun = usage_from_object( obj, src );
                 if( fun.second ) {
                     use_methods.insert( fun );
                     if( obj.has_int( "ammo_scale" ) ) {
@@ -5229,7 +5230,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
             JsonObject obj = jo.get_object( member );
-            std::pair<std::string, use_function> fun = usage_from_object( obj );
+            std::pair<std::string, use_function> fun = usage_from_object( obj, src );
             if( fun.second ) {
                 use_methods.insert( fun );
                 if( obj.has_int( "ammo_scale" ) ) {
@@ -5253,7 +5254,8 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
     }
 }
 
-std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
+std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj,
+        const std::string &src )
 {
     std::string type = obj.get_string( "type" );
 
@@ -5271,7 +5273,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( const Json
         return std::make_pair( type, use_function() );
     }
 
-    method.get_actor_ptr()->load( obj );
+    method.get_actor_ptr()->load( obj, src );
     return std::make_pair( type, method );
 }
 
