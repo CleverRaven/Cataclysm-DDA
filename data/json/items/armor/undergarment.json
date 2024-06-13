@@ -1058,7 +1058,7 @@
   {
     "id": "tights",
     "type": "ARMOR",
-    "name": { "str_sp": "tights", "str_plural": "pairs of tights" },
+    "name": { "str_sp": "tights", "str_pl": "pairs of tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
     "weight": "114 g",
     "volume": "250 ml",
