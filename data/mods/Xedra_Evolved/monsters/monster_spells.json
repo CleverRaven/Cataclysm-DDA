@@ -128,6 +128,20 @@
     "max_duration": 18000
   },
   {
+    "type": "SPELL",
+    "id": "CLOSE_DREAMWOUND_SHADOW",
+    "name": { "str": "Close Dreamwound Shadow" },
+    "description": "Closes a shadowy wound between reality and dreams.",
+    "message": "",
+    "min_aoe": 40,
+    "max_aoe": 40,
+    "valid_targets": [ "field" ],
+    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "remove_field",
+    "effect_str": "fd_dream_wound_shadow"
+  }
+  {
     "id": "mon_firebird_explosion",
     "type": "SPELL",
     "name": { "str": "Firebird Explosion" },
