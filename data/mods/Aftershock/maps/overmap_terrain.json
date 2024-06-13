@@ -485,5 +485,28 @@
     "see_cost": 3,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_pwr_sub_s", "afs_pwr_sub_s_roof" ],
+    "name": "small power substation",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_pwr_large_entrance",
+      "afs_pwr_large_2",
+      "afs_pwr_large_3",
+      "afs_pwr_large_4",
+      "afs_pwr_large_entrance_roof",
+      "afs_pwr_large_2_roof"
+    ],
+    "name": "large power substation",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5
   }
 ]
