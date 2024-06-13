@@ -2612,7 +2612,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_potassium_chloride",
-    "charges": 2,
+    "charges": 1,
     "batch_time_factors": [ 99, 1 ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
@@ -2621,7 +2621,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "//": "basically burning potassium chlorate to form KCl",
-    "components": [ [ [ "survival_match", 1 ], [ "match", 60 ] ] ]
+    "//": "basically burning potassium chlorate to form KCl in the ratio 1.6:1, i.e 20 matches produce 71 mg of KCl.  A survial match burns for 15-20 seconds and have a thicker coating of Potassium Chlorate to make it windproof.",
+    "components": [ [ [ "survival_match", 1 ], [ "match", 28 ] ] ]
   }
 ]
