@@ -66,6 +66,8 @@ static const ammo_effect_str_id ammo_effect_SPECIAL_COOKOFF( "SPECIAL_COOKOFF" )
 
 static const ammotype ammo_NULL( "NULL" );
 
+static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
@@ -2666,7 +2668,7 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
             mcd.recipes_categories.emplace( cat );
         }
     } else {
-        mcd.recipes_categories = { "CC_FOOD" };
+        mcd.recipes_categories = { crafting_category_CC_FOOD };
     }
     if( jo.has_member( "secret_recipes" ) ) {
         mcd.secret_recipes = jo.get_bool( "secret_recipes" );
