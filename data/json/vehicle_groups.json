@@ -129,13 +129,7 @@
   {
     "type": "vehicle_group",
     "id": "boatrent",
-    "vehicles": [
-      [ "canoe", 2000 ],
-      [ "kayak", 1500 ],
-      [ "kayak_racing", 500 ],
-      [ "raft", 2000 ],
-      [ "wood_rowboat_double", 1500 ]
-    ]
+    "vehicles": [ [ "canoe", 2000 ], [ "kayak", 1500 ], [ "kayak_racing", 500 ], [ "raft", 2000 ], [ "wood_rowboat_double", 1500 ] ]
   },
   {
     "type": "vehicle_group",
