@@ -306,7 +306,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string &src )
+void bionic_data::load( const JsonObject &jsobj, const std::string_view src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );

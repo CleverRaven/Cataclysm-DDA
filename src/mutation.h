@@ -400,7 +400,7 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
