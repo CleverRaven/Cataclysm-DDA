@@ -65,6 +65,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
@@ -1170,6 +1171,8 @@ static void draw_om_sidebar(
         const int distance = rl_dist( center, target );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to current objective:" ) );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%d tiles" ), distance );
+        // One OMT is 24 tiles across, at 1x1 meters each, so we can simply do number of OMTs * 24
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%s" ), length_to_string( distance * 24_meter ) );
 
         const int above_below = target.z() - orig.z();
         std::string msg;
