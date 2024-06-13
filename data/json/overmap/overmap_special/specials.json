@@ -264,8 +264,11 @@
     "id": "farm_abandoned",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "car_corner_aban1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "car_corner_aban1_roof_north" },
       { "point": [ 0, 0, 0 ], "overmap": "cabin_aban1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_aban1_roof_north" },
       { "point": [ 1, -1, 0 ], "overmap": "barn_aban1_north" },
+      { "point": [ 1, -1, 1 ], "overmap": "barn_aban1_roof_north" },
       { "point": [ 0, -1, 0 ], "overmap": "dirtplaza_aban1_north" },
       { "point": [ 0, -2, 0 ], "overmap": "dirtroad2_aban1_north" },
       { "point": [ 0, -3, 0 ], "overmap": "dirtroad2_aban1_north" },
