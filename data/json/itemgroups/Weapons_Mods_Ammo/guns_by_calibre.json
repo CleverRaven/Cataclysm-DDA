@@ -415,8 +415,7 @@
     "items": [
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 },
-      { "group": "nested_bren2_762", "prob": 1 },
-      { "group": "nested_vz58ts", "prob": 1 }
+      { "group": "nested_bren2_762", "prob": 1 }
     ]
   },
   {
@@ -489,7 +488,6 @@
       { "item": "sks", "prob": 1, "charges": [ 0, 10 ] },
       { "item": "aksemi", "prob": 2, "charges": [ 0, 30 ] },
       { "item": "bren2_762", "prob": 1, "charges": [ 0, 30 ] },
-      { "item": "vz58ts", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "mk47", "prob": 1, "charges": [ 0, 30 ] }
     ]
   },
@@ -567,8 +565,7 @@
       { "item": "sks", "prob": 20 },
       { "item": "aksemi", "prob": 15 },
       { "item": "mk47", "prob": 10 },
-      { "item": "bren2_762", "prob": 6 },
-      { "item": "vz58ts", "prob": 10 }
+      { "item": "bren2_762", "prob": 6 }
     ]
   },
   {
