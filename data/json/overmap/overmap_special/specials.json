@@ -2610,8 +2610,8 @@
     "type": "overmap_special",
     "id": "power_station_small",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "pwr_sub_s_roof_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "pwr_sub_s_roof_south" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road" } ],
