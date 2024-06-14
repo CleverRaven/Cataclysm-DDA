@@ -167,17 +167,15 @@
     "components": [
       [ [ "water_clean", 2 ] ],
       [
-        [ "apple_cider", 1 ],
+        [ "sweet_juice", 1, "LIST" ],
+        [ "soda_pop", 1, "LIST" ],
+        [ "soda_pop_diet", 1, "LIST" ],
         [ "can_coconut", 1 ],
         [ "chai_tea", 1 ],
         [ "chamomile_tea", 1 ],
         [ "choc_drink", 1 ],
         [ "coconut_water", 1 ],
         [ "coffee", 1 ],
-        [ "cola", 1 ],
-        [ "cranberry_juice", 1 ],
-        [ "crispycran", 1 ],
-        [ "creamsoda", 1 ],
         [ "dandelion_tea", 1 ],
         [ "dandelionburdock_tea", 1 ],
         [ "drink_pinitacolada", 1 ],
@@ -185,23 +183,14 @@
         [ "grapeade", 1 ],
         [ "grenadine_syrup", 1 ],
         [ "herbal_tea", 1 ],
-        [ "juice", 1 ],
-        [ "kompot", 1 ],
-        [ "lemonade", 1 ],
-        [ "lemonlime", 1 ],
         [ "lotus_tea", 1 ],
         [ "milk_tea", 1 ],
-        [ "oj", 1 ],
-        [ "oj_fresh", 1 ],
         [ "orangeade", 1 ],
-        [ "orangesoda", 1 ],
         [ "pine_tea", 1 ],
         [ "pineapple_juice", 1 ],
-        [ "rootbeer", 1 ],
         [ "rootbeer_brewed", 1 ],
         [ "sparkling_peach", 1 ],
         [ "sparkling_pomegranate", 1 ],
-        [ "spezi", 1 ],
         [ "spurge_tea", 1 ],
         [ "sweet_water", 1 ],
         [ "syrup", 1 ],
@@ -209,10 +198,7 @@
         [ "tea_bark", 1 ],
         [ "tea_fruit", 1 ],
         [ "tea_green", 1 ],
-        [ "tea_willowbark", 1 ],
-        [ "zerocola", 1 ],
-        [ "zeroorange", 1 ],
-        [ "zerotropical", 1 ]
+        [ "tea_willowbark", 1 ]
       ]
     ]
   },
@@ -233,6 +219,7 @@
       [ [ "water_clean", 2 ] ],
       [
         [ "sweet_juice", 1, "LIST" ],
+        [ "soda_pop_diet", 1, "LIST" ],
         [ "can_coconut", 1 ],
         [ "chai_tea", 1 ],
         [ "chamomile_tea", 1 ],
@@ -262,10 +249,7 @@
         [ "tea_bark", 1 ],
         [ "tea_fruit", 1 ],
         [ "tea_green", 1 ],
-        [ "tea_willowbark", 1 ],
-        [ "zerocola", 1 ],
-        [ "zeroorange", 1 ],
-        [ "zerotropical", 1 ]
+        [ "tea_willowbark", 1 ]
       ],
       [
         [ "brandy", 1 ],

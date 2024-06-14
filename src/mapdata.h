@@ -693,7 +693,20 @@ void verify_terrain();
 class ter_furn_migrations
 {
     public:
-        /** Handler for loading "ter_furn_migrations" type of json object */
+        /** Handler for loading "ter_furn_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
+class field_type_migrations
+{
+    public:
+        /** Handler for loading "field_type_migration" type of json object */
         static void load( const JsonObject &jo );
 
         /** Clears migration list */

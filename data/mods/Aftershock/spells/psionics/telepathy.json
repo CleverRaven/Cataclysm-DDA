@@ -129,7 +129,7 @@
     "base_casting_time": 90,
     "final_casting_time": 40,
     "casting_time_increment": -3.5,
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "BIOMACHINE", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "afs_telepathic_confusion_blind",
@@ -151,7 +151,7 @@
       "math": [ "( (u_spell_level('afs_telepathic_confusion') * 100) + 2000) * (scaling_factor(u_val('intelligence') ) ) " ]
     },
     "min_range": { "math": [ "( (u_spell_level('afs_telepathic_confusion') * 2) + 3) * (scaling_factor(u_val('intelligence') ) ) " ] },
-    "ignored_monster_species": [ "ROBOT", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "BIOMACHINE", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "afs_telepathic_blast",
@@ -191,6 +191,7 @@
     "energy_increment": -125,
     "base_casting_time": 75,
     "final_casting_time": 25,
-    "casting_time_increment": -2.5
+    "casting_time_increment": -2.5,
+    "ignored_monster_species": [ "ROBOT", "ROBOT_FLYING", "BIOMACHINE", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   }
 ]

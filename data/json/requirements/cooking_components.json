@@ -1358,6 +1358,12 @@
     ]
   },
   {
+    "id": "soda_pop_diet",
+    "type": "requirement",
+    "//": "Group of diet sodas, do not add alcohol, non-diet soda, or energy drinks/things with stim",
+    "components": [ [ [ "zerocola", 1 ], [ "zeroorange", 1 ], [ "zerotropical", 1 ] ] ]
+  },
+  {
     "id": "sweet_juice",
     "type": "requirement",
     "//": "Non-carbonated, sweet fruit based drinks.",

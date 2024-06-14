@@ -230,7 +230,7 @@
     "type": "GENERIC",
     "id": "afs_fusion_engine_core",
     "name": { "str_sp": "fusion drive powerplant" },
-    "description": "A very heavy sphere of radiation shielding completely obscures the inner working of this hyperspace-age device.  Any experienced salvor knows that opening it would completely ruin it.",
+    "description": "A very heavy sphere of radiation shielding completely obscures the inner workings of this hyperspace-age device.  Any experienced salvor knows that opening it would completely ruin it.",
     "symbol": "o",
     "color": "yellow",
     "weight": "14 kg",
