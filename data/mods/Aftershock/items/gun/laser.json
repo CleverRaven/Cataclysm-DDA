@@ -125,7 +125,7 @@
   {
     "id": "afs_av22",
     "type": "GUN",
-    "name": { "str": "av-22" },
+    "name": { "str": "av-22 laser pistol" },
     "copy-from": "v29",
     "description": "A common pulse-laser pistol cleared for civilian use.  Recoilless, energy-efficient, and easy to use, the av-22 is often carried as a defense weapon by those who lack the practice required to effectively use ballistic weaponry.  Due to its low power, it must be fired in sequence mode to stand a chance against hardened foes.",
     "price": "500 USD",
@@ -155,7 +155,7 @@
   {
     "id": "afs_archeotech_laspistol",
     "type": "GUN",
-    "name": { "str": "E-150b" },
+    "name": { "str": "E-150b laser pistol" },
     "copy-from": "v29",
     "description": "A silver, elegantly-wrought laser pistol that fires armor-piercing bolts of golden light.  A now-irreplaceable historical artifact built by the engineering AIs of the late Hyperspace Era, it is as precious as it is deadly.",
     "price": "500 kUSD",
@@ -192,7 +192,7 @@
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
-    "name": { "str": "Izhevsk PLC-75" },
+    "name": { "str": "Izhevsk PLC-75 heavy laser rifle" },
     "description": "Straight from the bureaus of the old Soviet Union the PLC-75 is the crude and brutal answer to the constraints posed by the design of heavy laser ordnance.  Its use of antiquated flashtube pumped laser technology makes it unwieldy and wholly incompatible with modern equipment, whether this offers any consolation to downrange targets remains a matter of contentious dispute.",
     "material": [ "steel" ],
     "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],

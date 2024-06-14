@@ -3,7 +3,7 @@
     "id": "afs_marsec_t72",
     "type": "GUN",
     "copy-from": "sw629",
-    "name": { "str": "MarSec. T72" },
+    "name": { "str": "MarSec. T72 revolver" },
     "description": "A massive, unwieldy revolver, using combined magnetic and chemical propulsion to fire 7.50mm rounds at energies that rival a sniping platform.  It additionally features a secondary barrel for a single 00 shot shell.\n\nThe T72 remains a relic of the early hyperspace era, meant to be used by and against the posthuman.  Its perhaps most notable for its use by fictional rebel figures than for any sort of actual combat effectiveness.",
     "weight": "2204 g",
     "volume": "1750 ml",
@@ -53,7 +53,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Accipiter Hawk-00" },
+    "name": { "str": "Accipiter Hawk-00 LMG" },
     "description": "A light machine gun manufactured by Accipiter Firearms and distributed by Wraitheon.  The Hawk-00's high rate of fire makes it ideally suited to lay down suppressive fire; but also makes it exceedingly hard to control while unmounted.",
     "weight": "7500 g",
     "volume": "10610 ml",
@@ -98,7 +98,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "G&W SR-P9" },
+    "name": { "str": "G&W SR-P9 bullpup rifle" },
     "description": "An eminently sturdy and reliable bullpup rifle issued by UICA's military during early reclamation expeditions.  Although it's been out of service for nearly two decades, many a private military and contractor has found a use for the SR-P9, and it remains common long past its initial introduction into service.",
     "weight": "3170 g",
     "volume": "3100 ml",
@@ -131,19 +131,19 @@
     "copy-from": "fn_p90",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "G&W SR-P77" },
+    "name": { "str": "G&W SR-P77 bullpup carbine" },
     "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "military",
-        "name": { "str": "G&W SR-P77" },
+        "name": { "str": "G&W SR-P77 bullpup carbine" },
         "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
         "weight": 3
       },
       {
         "id": "branded",
-        "name": { "str": "Gibson-77 Sentinel" },
+        "name": { "str": "Gibson-77 Sentinel bullpup carbine" },
         "description": "A rare version of the m90-UASTA PDW built to its original private market specifications, featuring an ergonomic bullpup design and a large magazine capacity underneath a sleek white and chromed finish.  Actual combat performance is slightly improved over the more common military model, due to the use of higher-quality materials within the barrel and ETC ignition system.",
         "weight": 0
       }

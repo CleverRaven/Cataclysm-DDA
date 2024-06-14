@@ -3,7 +3,7 @@
     "id": "afs_shotgun",
     "copy-from": "mossberg_590",
     "type": "GUN",
-    "name": { "str": "Benelli 315" },
+    "name": { "str": "Benelli 315 shotgun" },
     "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
     "variants": [
       {
@@ -20,7 +20,7 @@
       },
       {
         "id": "branded",
-        "name": { "str": "Benelli 315" },
+        "name": { "str": "Benelli 315 shotgun" },
         "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
         "weight": 2
       }
@@ -30,7 +30,7 @@
     "id": "afs_shotgun_magnastorm",
     "copy-from": "mossberg_590",
     "type": "GUN",
-    "name": { "str_sp": "Accipiter Magnastorm-12" },
+    "name": { "str": "Accipiter Magnastorm-12 shotgun" },
     "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
   },
@@ -39,7 +39,7 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "Raketa" },
+    "name": { "str": "Raketa shotgun" },
     "description": "A massive TSKBEM-design shotgun intended for exosuit forces, the Raketa aka 'Rocket' is a magazine-fed bullpup shotgun featuring twin barrels.  This design remains popular for extra-atmospheric operations as the 12ga rounds are less likely to pierce a ship or station's delicate hull.",
     "weight": "8 kg",
     "volume": "3064 ml",

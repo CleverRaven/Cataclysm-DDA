@@ -29,7 +29,7 @@
   {
     "id": "afs_magnadrive_230k",
     "type": "GUN",
-    "name": { "str_sp": "Magnadrive 230K" },
+    "name": { "str_sp": "Magnadrive 230K railgun" },
     "copy-from": "afs_plasma_base",
     "looks_like": "plasma_gun",
     "description": "A heavy plasma railgun that easily defeats most forms of conventional armor and flash-incinerates anything  behind it.  Its large size and liability to overheat make it unsuitable for infantry use, but it is a common sight on military vehicles and in the hands of power-armored troops, especially when heavy armor is expected.",
@@ -67,7 +67,7 @@
   {
     "id": "afs_pam-41",
     "type": "GUN",
-    "name": { "str": "PAM-41 2g" },
+    "name": { "str": "PAM-41 2g railgun" },
     "copy-from": "afs_plasma_base",
     "description": "A short and stubby 2 gram plasma railgun occasionally used by espatiers as a hull breaching tool.  Like larger plasma weapons, it propels toroids of plasma that detonate on contact, but its reduced size heavily hampers its range and damage output.  Fired within an atmosphere, its very low range makes it dangerous to shooter and target alike.",
     "weight": "2500 g",
@@ -101,7 +101,7 @@
   {
     "id": "afs_plasma_torch_gun",
     "type": "TOOL",
-    "name": { "str_sp": "377-UASTA (weaponized)" },
+    "name": { "str_sp": "377-UASTA torch (weaponized)" },
     "copy-from": "afs_plasma_base",
     "description": "A common modification for directed plasma torches that involves the installation of oversize capacitor banks and judiciously bypassed safety mechanisms, allowing them to function as a deadly if decidedly short-ranged weapons.  In most cases, the resulting \"gun\" can still perform its original metalworking functions, albeit at a much lower efficiency.\n\nUnlike purposefully made plasma weapons, the propelled plasma bottle won't cause a considerable explosion upon contact, allowing for relatively safe operation within enclosed spaces.",
     "weight": "4200 g",

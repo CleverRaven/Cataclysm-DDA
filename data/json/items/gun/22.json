@@ -260,14 +260,14 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "firefly training pistol" },
-    "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
+    "//": "Was the SIG Mosquito, has been renamed to the more common GSG Firefly",
     "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sig_mosquito",
-        "name": { "str": "GSG Firefly", "str_pl": "GSG Fireflies" },
-        "description": "The GSG firefly is a .22 semi-automatic handgun.  While the GSG Firefly started off as the SIG Mosquito, after the Mosquito ceased production, German Sport Guns picked it up and renamed it to the Firefly."
+        "name": { "str": "GSG Firefly pistol" },
+        "description": "The GSG Firefly is a .22 semi-automatic handgun.  While the GSG Firefly started off as the SIG Mosquito, after the Mosquito ceased production, German Sport Guns picked it up and renamed it to the Firefly."
       }
     ],
     "ascii_picture": "sig_mosquito",
@@ -395,13 +395,13 @@
       },
       {
         "id": "ruger_mk3",
-        "name": { "str": "Ruger Mark III" },
+        "name": { "str": "Ruger Mark III pistol" },
         "description": "The 3rd version of the Ruger Standard, which replaced production of the Mark II in 2005 and continued until 2016.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 19
       },
       {
         "id": "ruger_mk4",
-        "name": { "str": "Ruger Mark IV" },
+        "name": { "str": "Ruger Mark IV pistol" },
         "description": "The 4th, and most modern version of the Ruger Standard.  Still in production since 2016, and has a simplified disassembly feature.  Has a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 135
       }
@@ -439,7 +439,7 @@
     "variants": [
       {
         "id": "ruger_charger",
-        "name": { "str": "Ruger 22 Charger" },
+        "name": { "str": "Ruger 22 Charger pistol" },
         "description": "This gun is essentially a shortened 10/22, feeding from the same magazines.  While it does feature a shorter barrel and a lack of a stock, it is a fair bit lighter, and comes included with a bipod to more steadily plink away at the undead."
       }
     ],
@@ -491,7 +491,7 @@
     "variants": [
       {
         "id": "ruger_charger_auto",
-        "name": { "str": "full-auto Ruger 22 Charger" },
+        "name": { "str": "full-auto Ruger 22 Charger pistol" },
         "description": "A Ruger 22 Charger modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
       }
     ],

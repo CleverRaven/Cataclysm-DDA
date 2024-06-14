@@ -15,7 +15,7 @@
       },
       {
         "id": "branded",
-        "name": { "str": "Seyfert 84K" },
+        "name": { "str": "Seyfert 84K pistol" },
         "description": "Commonly carried by shipping crews that can afford it, Seyfert Armistice's 84K pistol doesn't particularly shine or show anything special but it keeps you safe on long journeys in the vast dark of Orion's Arm.",
         "weight": 3
       }
@@ -52,7 +52,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "MarSec. 4" },
+    "name": { "str": "MarSec. 4 pistol" },
     "description": {
       "//NOLINT(cata-text-style)": "not a period after 'MarSec'",
       "str": "Dependable, reliable, classic.  The MarSec. 4 is the combat pistol made for those who can differentiate real quality from glued-on tech."
@@ -90,7 +90,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "W1011 Silvergram" },
+    "name": { "str": "W1011 Silvergram pistol" },
     "description": "A finely sculpted white and silver pistol entrusted to Wraitheon's corporate elite.  It employs advanced targeting and precision guiding capabilities to deliver devastating bursts of guided 10mm microjet darts.  Firing is as expensive as it looks.",
     "weight": "780 g",
     "volume": "480 ml",
@@ -109,12 +109,12 @@
     "variants": [
       {
         "id": "silverhawk",
-        "name": { "str": "W1011 Silverhawk" },
+        "name": { "str": "W1011 Silverhawk pistol" },
         "description": "A Silvergram smart pistol given a far less conspicuous \"military carbon\" black finish.  Its performance and smart targeting capacities are otherwise identical."
       },
       {
         "id": "lx",
-        "name": { "str": "W1011 Silvergram" },
+        "name": { "str": "W1011 Silvergram pistol" },
         "description": "A finely sculpted white and silver pistol entrusted to Wraitheon's corporate elite.  It employs advanced targeting and precision guiding capabilities to deliver devastating bursts of guided 10mm microjet darts.  Firing is as expensive as it looks."
       }
     ],

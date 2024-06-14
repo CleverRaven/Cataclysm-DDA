@@ -19,7 +19,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM216 SPIW" },
+    "name": { "str": "RM216 SPIW carbine" },
     "description": "This light carbine fires 5x50mm armor-piercing flechette cartridges.  Classified as a special purpose individual weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
     "weight": "1302 g",
     "volume": "1250 ml",

@@ -11,7 +11,7 @@
     "variants": [
       {
         "id": "m202_flash",
-        "name": { "str_sp": "M202A1 FLASH" },
+        "name": { "str": "M202A1 FLASH launcher" },
         "description": "An American rocket launcher designed in the 1970s to replace WWII-era flamethrowers still in use in Vietnam.  It has four barrels sharing the 66mm caliber of the M72 LAW."
       }
     ],
