@@ -188,9 +188,8 @@ class game
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
          *  @param ui structure for load progress display
-         *  @return true if all packs were found, false if any were missing
          */
-        bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
+        void load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
         /**
          * @brief Should be invoked whenever options change.

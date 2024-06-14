@@ -210,6 +210,7 @@ static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
 static void remove_above( const tripoint_bub_ms &p, Character & );
 static void add_roof( const tripoint_bub_ms &p, Character & );
 
+static void do_turn_deconstruct( const tripoint_bub_ms &, Character & );
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
 
@@ -2056,6 +2057,66 @@ void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
     here.ter_set( p + tripoint_above, roof );
 }
 
+void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+    // Only run once at the start of construction
+    if( here.partial_con_at( p )->counter == 0 && who.is_avatar() &&
+        get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
+        bool cancel_construction = false;
+
+        auto deconstruct_items = []( const item_group_id & drop_group ) {
+            std::string ret;
+            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
+                        item_group::spawn_data_from_group( drop_group )->every_item_min_max();
+            for( const auto &deconstruct_item : deconstruct_items ) {
+                const int &min = deconstruct_item.second.first;
+                const int &max = deconstruct_item.second.second;
+                if( min != max ) {
+                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
+                } else {
+                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
+                }
+            }
+            return ret;
+        };
+        auto deconstruction_will_practice_skill = [ &who ]( auto & skill ) {
+            return who.get_skill_level( skill.id ) >= skill.min &&
+                   who.get_skill_level( skill.id ) < skill.max;
+        };
+
+        if( here.has_furn( p ) ) {
+            const furn_t &f = here.furn( p ).obj();
+            if( !!f.deconstruct.skill &&
+                deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ) );
+            }
+        } else {
+            const ter_t &t = here.ter( p ).obj();
+            if( !!t.deconstruct.skill &&
+                deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ) );
+            }
+        }
+        if( cancel_construction ) {
+            here.partial_con_remove( p );
+            who.cancel_activity();
+        }
+    }
+}
+
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
@@ -2272,6 +2333,7 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
     do_turn_special_map = {{
             { "", construct::done_nothing },
+            { "do_turn_deconstruct", construct::do_turn_deconstruct },
             { "do_turn_shovel", construct::do_turn_shovel },
             { "do_turn_exhume", construct::do_turn_exhume },
         }
