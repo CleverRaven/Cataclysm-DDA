@@ -183,6 +183,19 @@ void pocket_data::load( const JsonObject &jo )
         holster = true;
     }
     optional( jo, was_loaded, "sealed_data", sealed_data );
+
+    //MULTIMAG START
+    optional( jo, was_loaded, "ammo", ammo_id );
+    optional( jo, was_loaded, "sub", subtype );
+    //optional( jo, was_loaded, "rand_charges", ammo_id );
+    optional( jo, was_loaded, "initial_charges", def_charges, 0 );
+    optional( jo, was_loaded, "max_charges", max_charges, 0 );
+    optional( jo, was_loaded, "charge_factor", charge_factor, 1 );
+    optional( jo, was_loaded, "charges_per_use", charges_per_use, 0 );
+    optional( jo, was_loaded, "power_draw", power_draw, 0_W );
+    optional( jo, was_loaded, "turns_per_charge", turns_per_charge, 0 );
+    optional( jo, was_loaded, "fuel_efficiency", fuel_efficiency, -1.0f );
+    //MULTIMAG END
 }
 
 void sealable_data::load( const JsonObject &jo )

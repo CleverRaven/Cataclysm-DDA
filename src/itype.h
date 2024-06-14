@@ -102,6 +102,8 @@ struct islot_tool {
 
     itype_id subtype;
 
+    bool has_multimag;
+
     int max_charges = 0;
     int def_charges = 0;
     int charge_factor = 1;
