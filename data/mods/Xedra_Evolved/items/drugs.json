@@ -3,7 +3,7 @@
     "id": "faewild",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "faewild dust" },
+    "name": { "str_sp": "faewild dust" },
     "description": "A shimmering silvery dust.  Narcotic with the street name of Faewild.  Causes the user to see colors not normally visible to the naked human eye.",
     "weight": "1 g",
     "volume": "2 ml",
