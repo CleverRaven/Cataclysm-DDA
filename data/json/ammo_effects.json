@@ -324,6 +324,11 @@
     "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
   },
   {
+    "id": "EXPLOSIVE_BALLISTA",
+    "type": "ammo_effect",
+    "explosion": { "power": 110 }
+  },
+  {
     "id": "EXPLOSIVE_20x66",
     "type": "ammo_effect",
     "explosion": { "power": 60 }
