@@ -147,7 +147,7 @@
   {
     "id": "ierde_reveal_earth_map_spell",
     "type": "SPELL",
-    "name": "Knowing the Hills and Valleys",
+    "name": "Knowing Every Furrow",
     "description": "Commune with the earth, whispering to it to reveal its secrets to you.  This spell will reveal natural features within a large radius around the Ierde.  The spell must be cast while standing on the living earth.",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL" ],
@@ -155,7 +155,7 @@
     "skill": "deduction",
     "max_level": { "math": [ "per_to_level(1)" ] },
     "spell_class": "IERDE",
-    "difficulty": 7
+    "difficulty": 7,
     "effect": "effect_on_condition",
     "effect_str": "EOC_IERDE_REVEAL_MAP",
     "shape": "blast",

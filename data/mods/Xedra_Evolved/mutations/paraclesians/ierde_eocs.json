@@ -1,6 +1,28 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND",
+    "condition": {
+      "or": [
+        { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+        {
+          "and": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+            { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+            { "not": { "u_is_on_terrain": "t_fungus" } },
+            { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+            { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+            { "not": { "u_is_on_terrain": "t_swater_surf" } },
+            { "not": { "u_is_on_terrain": "t_woodchips" } }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_ON",
     "condition": {
       "or": [
@@ -117,7 +139,26 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_REVEAL_MAP",
-    "condition": XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain": "t_rock_floor" },
+            { "u_is_on_terrain": "t_railroad_rubble" },
+            { "u_is_on_terrain": "t_dirt_underground" }
+          ]
+        },
+        { "not": { "u_is_on_terrain": "t_grass_alien" } },
+        { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+        { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+        { "not": { "u_is_on_terrain": "t_fungus" } },
+        { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+        { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+        { "not": { "u_is_on_terrain": "t_swater_surf" } },
+        { "not": { "u_is_on_terrain": "t_woodchips" } }
+      ]
+    },
     "effect": {
       "switch": { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')" ] },
       "cases": [
