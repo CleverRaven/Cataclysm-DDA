@@ -34,6 +34,48 @@
     }
   },
   {
+    "id": "afs_electrokinetic_shock_touch",
+    "type": "SPELL",
+    "name": "[Ψ]Static Touch",
+    "description": "Unleash a shock when touching a target, doing a small amount of damage and dazing them.",
+    "message": "Your hands crackle with sparks!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "psi_dazed_zap",
+    "shape": "blast",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [ "( (u_spell_level('afs_electrokinetic_shock_touch') * 1) + 2) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('afs_electrokinetic_shock_touch') * 1.5) + 7) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 100,
+    "max_duration": 300,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_chance": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 450,
+    "energy_increment": -65,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_description": "zzzaaaaapp!",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
     "id": "afs_electrokinetic_zap_enemies",
     "type": "SPELL",
     "name": "[Ψ]Electrical Discharge",
@@ -47,7 +89,7 @@
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "effect_str": "effect_electrokin_zap_enemies",
+    "effect_str": "effect_afs_electrokin_zap_enemies",
     "shape": "blast",
     "min_duration": {
       "math": [ "( (u_spell_level('afs_electrokinetic_zap_enemies') * 8000) + 30000) * (scaling_factor(u_val('intelligence') ) )" ]
@@ -118,16 +160,8 @@
     "effect_str": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INITIATE",
     "shape": "blast",
     "min_damage": 1,
-    "min_duration": {
-      "math": [
-        "min( (( ( (u_spell_level('afs_electrokinetic_personal_battery') * 4500 ) + 60000) * (scaling_factor(u_val('intelligence') ) ) )), 1440000)"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "min( (( ( (u_spell_level('afs_electrokinetic_personal_battery') * 9000 ) + 180000) * (scaling_factor(u_val('intelligence') ) ) )), 1440000)"
-      ]
-    },
+    "min_duration": 120000,
+    "max_duration": 360000,
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [

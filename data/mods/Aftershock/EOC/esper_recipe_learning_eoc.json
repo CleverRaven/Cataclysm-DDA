@@ -14,6 +14,7 @@
       {
         "run_eocs": [
           "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_SEE_ELECTRIC",
+          "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_SHOCK_TOUCH",
           "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_ZAP_ENEMIES",
           "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_HACKING_INTERFACE",
           "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
@@ -25,31 +26,67 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_SEE_ELECTRIC",
-    "condition": { "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_see_electric')", ">=", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "AFS_ELECTROKINETIC" },
+        { "math": [ "u_spell_level('afs_electrokinetic_see_electric')", ">=", "0" ] }
+      ]
+    },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_see_electric" } ]
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_SHOCK_TOUCH",
+    "condition": {
+      "and": [
+        { "u_has_trait": "AFS_ELECTROKINETIC" },
+        { "math": [ "u_spell_level('afs_electrokinetic_shock_touch')", ">=", "0" ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_shock_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_ZAP_ENEMIES",
-    "condition": { "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies')", ">=", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "AFS_ELECTROKINETIC" },
+        { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies')", ">=", "0" ] }
+      ]
+    },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_zap_enemies" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_HACKING_INTERFACE",
-    "condition": { "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface')", ">=", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "AFS_ELECTROKINETIC" },
+        { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface')", ">=", "0" ] }
+      ]
+    },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_hacking_interface" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
-    "condition": { "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_personal_battery')", ">=", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "AFS_ELECTROKINETIC" },
+        { "math": [ "u_spell_level('afs_electrokinetic_personal_battery')", ">=", "0" ] }
+      ]
+    },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_personal_battery" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_AFS_ELECTROKIN_RECIPE_RECHARGE_VEHICLE",
-    "condition": { "and": [ { "u_has_trait": "AFS_ELECTROKINETIC" }, { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle')", ">=", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "AFS_ELECTROKINETIC" },
+        { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle')", ">=", "0" ] }
+      ]
+    },
     "effect": [ { "u_learn_recipe": "practice_afs_electrokinetic_recharge_vehicle" } ]
   },
   {
