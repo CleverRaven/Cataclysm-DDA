@@ -2759,7 +2759,10 @@
   {
     "type": "overmap_special",
     "id": "campsite_cabin_incomplete",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_cabin_incomplete_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "campsite_cabin_incomplete_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "campsite_cabin_incomplete_roof_north" }
+    ],
     "locations": [ "forest_without_trail" ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail", "existing": true } ],
     "city_distance": [ 25, -1 ],
