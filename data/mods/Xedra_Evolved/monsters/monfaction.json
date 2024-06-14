@@ -109,7 +109,7 @@
     "type": "MONSTER_FACTION",
     "name": "isolated_artisans",
     "copy-from": "isolated_artisans",
-    "extend": { "hate": [ "changeling", "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire", "nightmares" ] }
   },
   {
     "type": "MONSTER_FACTION",
