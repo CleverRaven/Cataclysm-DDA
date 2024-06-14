@@ -563,7 +563,7 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
         if( weakpoint.hit_chance( attack ) == 0.0f ) {
             add_msg_debug( debugmode::DF_MONSTER,
                            "Weakpoint Selection: weakpoint %s, conditions not match",
-                           weakpoint.id  );
+                           weakpoint.id );
             continue;
         }
         float new_base = base + weakpoint.hit_chance( attack );
