@@ -426,8 +426,7 @@
       { "item": "rubber_harness_dog" },
       { "item": "rubber_harness_dog" },
       { "item": "dog_whistle" },
-      { "item": "dogfood_dry" },
-      { "item": "dogfood_dry" }
+      { "item": "dogfood_dry", "count": 4, "container-item": "null", "entry-wrapper": "bag_plastic" }
     ]
   },
   {
@@ -2310,7 +2309,7 @@
           { "item": "boots" },
           { "item": "dog_whistle" },
           { "item": "wristwatch" },
-          { "item": "dogfood_dry" },
+          { "item": "dogfood_dry", "count": 2, "container-item": "null", "entry-wrapper": "bag_plastic" },
           { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
@@ -2435,7 +2434,7 @@
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
           { "group": "charged_matches" },
-          { "item": "catfood_dry", "count": 10 }
+          { "item": "catfood_dry", "count": 10, "container-item": "null", "entry-wrapper": "bag_plastic" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -2559,7 +2558,7 @@
           { "item": "gloves_tactical" },
           { "item": "badge_swat" },
           { "item": "wristwatch" },
-          { "item": "pants_tactical" },
+          { "item": "pants_tactical", "variant": "tactical_pants_black" },
           { "item": "elbow_pads" },
           { "item": "knee_pads" },
           { "item": "single_sling" },
@@ -2616,7 +2615,7 @@
           { "item": "gloves_tactical" },
           { "item": "badge_swat" },
           { "item": "wristwatch" },
-          { "item": "pants_tactical" },
+          { "item": "pants_tactical", "variant": "tactical_pants_black" },
           { "item": "elbow_pads" },
           { "item": "knee_pads" },
           { "group": "swat_ballistic_vest_pristine" },
@@ -2710,7 +2709,7 @@
       "both": {
         "entries": [
           { "item": "socks" },
-          { "item": "pants_tactical" },
+          { "item": "pants_tactical", "variant": "tactical_pants_black" },
           { "item": "longshirt" },
           { "item": "boots_combat" },
           { "item": "gloves_tactical" },
@@ -3568,8 +3567,7 @@
           { "item": "howto_computer" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "tshirt_cropped" },
-          { "item": "pants", "variant": "pants_black" }
+          { "item": "jeans" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7275,7 +7273,7 @@
     "name": "RV Hunter",
     "description": "Ever since you were a child you loved hunting and traveling; so when you scraped enough money, you bought yourself an old RV, a gun, and hit the road.  You've been all over the country, hunting for good game.  Unfortunately the country is all over this time, and even more unfortunately you've lost your ol' reliable in the chaos.  Now you gotta find a new reliable.",
     "points": 4,
-    "proficiencies": [ "prof_driver", "prof_basic_engines", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_driver", "prof_knives_familiar" ],
     "skills": [
       { "level": 3, "name": "rifle" },
       { "level": 3, "name": "gun" },
@@ -7312,7 +7310,7 @@
     "name": "Heist Driver",
     "description": "For as long as you can remember, you have lived a double life: a normal driver by the day and a heist driver in the night.  Now there are no cops and no law, but even after the Cataclysm, you drive.",
     "points": 4,
-    "proficiencies": [ "prof_driver", "prof_basic_engines", "prof_athlete_basic" ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic" ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 4, "name": "mechanics" }, { "level": 1, "name": "melee" } ],
     "vehicle": "car_coupe_muscle",
     "items": {
