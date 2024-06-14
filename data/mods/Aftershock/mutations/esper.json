@@ -25,7 +25,7 @@
     "valid": false,
     "player_display": false,
     "spells_learned": [ [ "afs_classless_toggleable_concentration_end", 1 ] ]
-  }
+  },
   {
     "type": "mutation",
     "id": "AFS_TELEPATH",
