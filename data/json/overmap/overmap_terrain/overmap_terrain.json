@@ -600,6 +600,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "campsite_cabin_incomplete_roof",
+    "name": "incomplete cabin roof",
+    "sym": "+",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "campsite_field_biker", "campsite_field_biker_destroyed" ],
     "name": "field campsite",
     "sym": "+",
