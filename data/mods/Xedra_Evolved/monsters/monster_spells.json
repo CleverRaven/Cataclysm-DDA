@@ -140,7 +140,7 @@
     "shape": "blast",
     "effect": "remove_field",
     "effect_str": "fd_dream_wound_shadow"
-  }
+  },
   {
     "id": "mon_firebird_explosion",
     "type": "SPELL",
