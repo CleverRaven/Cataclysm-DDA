@@ -21,7 +21,7 @@
     },
     "responses": [
       {
-        "text": "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you.",
+        "text": "The merchant at the Refugee Center sent me to get a prospectus from you.",
         "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
         "condition": { "and": [ { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }, { "not": { "u_has_effect": "has_prospectus" } } ] }
       },
