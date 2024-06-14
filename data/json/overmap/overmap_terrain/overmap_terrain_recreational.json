@@ -226,6 +226,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "TreeFarm_1a_roof",
+    "name": "tree farm",
+    "sym": "T",
+    "color": "i_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "shootingrange_1a", "shootingrange_2a" ],
     "name": "shooting range",
     "sym": "S",
