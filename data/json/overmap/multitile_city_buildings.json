@@ -5231,6 +5231,7 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cs_open_sewer_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_open_sewer_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "cs_open_sewer_undergound_north" },
       { "point": [ 0, -1, -1 ], "overmap": "sewer_connector_north" }
     ]
