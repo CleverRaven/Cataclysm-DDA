@@ -19,7 +19,7 @@
     "special_attacks": [ [ "PARROT", 8 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": false,
-    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC", "RANGED_ATTACKER" ] }
+    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
   },
   {
     "id": "mon_zombie_electric",
@@ -40,7 +40,7 @@
     "special_attacks": [ [ "PARROT", 8 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
-    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC", "RANGED_ATTACKER" ] }
+    "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC" ] }
   },
   {
     "id": "mon_zombie_nullfield",
