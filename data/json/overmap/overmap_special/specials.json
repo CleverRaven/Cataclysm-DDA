@@ -3334,6 +3334,7 @@
     "id": "tree farm",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "TreeFarm_1a_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "TreeFarm_1a_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "TreeFarm_1b_north" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
