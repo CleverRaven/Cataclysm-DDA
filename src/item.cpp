@@ -661,6 +661,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
+    item_counter = 0;
     update_prefix_suffix_flags();
     return *this;
 }
@@ -1413,6 +1414,10 @@ bool item::combine( const item &rhs )
             set_item_specific_energy( units::from_joule_per_gram( combined_specific_energy ) );
         }
 
+        if( item_counter > 0 || rhs.item_counter > 0 ) {
+            item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>
+                             ( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
+        }
     }
     charges += rhs.charges;
     if( !rhs.has_flag( flag_NO_PARASITES ) ) {
@@ -2539,6 +2544,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
+            info.emplace_back( "BASE", _( "counter: " ), "", iteminfo::lower_is_better,
+                               item_counter );
             if( countdown_point != calendar::turn_max ) {
                 info.emplace_back( "BASE", _( "countdown: " ), "", iteminfo::lower_is_better,
                                    to_seconds<int>( countdown_point - calendar::turn ) );
@@ -8016,6 +8023,23 @@ void item::calc_rot_while_processing( time_duration processing_duration )
     last_temp_check += processing_duration;
 }
 
+bool item::process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+                                 int max_air_exposure_hours,
+                                 time_duration time_delta )
+{
+    if( !has_own_flag( flag_FROZEN ) ) {
+        double environment_multiplier = here.is_outside( pos ) ? 2.0 : 1.0;
+        time_duration new_air_exposure = time_duration::from_seconds( item_counter ) + time_delta *
+                                         rng_normal( 0.9, 1.1 ) * environment_multiplier;
+        if( new_air_exposure >= time_duration::from_hours( max_air_exposure_hours ) ) {
+            convert( *type->revert_to, carrier );
+            return true;
+        }
+        item_counter = to_seconds<int>( new_air_exposure );
+    }
+    return false;
+}
+
 int item::get_env_resist( int override_base_resist ) const
 {
     const islot_armor *t = find_armor_data();
@@ -12689,7 +12713,7 @@ void item::apply_freezerburn()
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos, map &here,
-                                    Character *carrier, const temperature_flag flag, float spoil_modifier )
+                                    Character *carrier, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     const time_point now = calendar::turn;
 
@@ -12739,6 +12763,10 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     time_point time = last_temp_check;
     item_internal::scoped_goes_bad_cache _cache( this );
     const bool process_rot = goes_bad() && spoil_modifier != 0;
+    const bool decays_in_air = !watertight_container && has_flag( flag_DECAYS_IN_AIR ) &&
+                               type->revert_to;
+    int64_t max_air_exposure_hours = decays_in_air ? get_property_int64_t( "max_air_exposure_hours" ) :
+                                     0;
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -12803,6 +12831,11 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             }
             last_temp_check = time;
 
+            if( decays_in_air &&
+                process_decay_in_air( here, carrier, pos, max_air_exposure_hours, time_delta ) ) {
+                return false;
+            }
+
             // Calculate item rot
             if( process_rot ) {
                 calc_rot( env_temperature, spoil_modifier, time_delta );
@@ -12820,6 +12853,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now - time );
         last_temp_check = now;
+
+        if( decays_in_air &&
+            process_decay_in_air( here, carrier, pos, max_air_exposure_hours, now - time ) ) {
+            return false;
+        }
+
         if( process_rot ) {
             calc_rot( temp, spoil_modifier, now - time );
             return has_rotten_away() && carrier == nullptr;
@@ -14075,14 +14114,15 @@ bool item::process_gun_cooling( Character *carrier )
 }
 
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                    temperature_flag flag, float spoil_multiplier_parent, bool recursive )
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
 {
     process_relic( carrier, pos );
     if( recursive ) {
         contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
-                          spoil_multiplier_parent );
+                          spoil_multiplier_parent, watertight_container );
     }
-    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+                             watertight_container );
 }
 
 bool item::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
@@ -14109,7 +14149,7 @@ void item::set_last_temp_check( const time_point &pt )
 }
 
 bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
-                             float insulation, const temperature_flag flag, float spoil_modifier )
+                             float insulation, const temperature_flag flag, float spoil_modifier, bool watertight_container )
 {
     if( ethereal ) {
         if( !has_var( "ethereal" ) ) {
@@ -14228,7 +14268,8 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         }
         // All foods that go bad have temperature
         if( has_temperature() &&
-            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier ) ) {
+            process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
+                                     watertight_container ) ) {
             if( is_comestible() ) {
                 here.rotten_item_spawn( *this, pos );
             }

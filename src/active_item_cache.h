@@ -22,6 +22,7 @@ struct item_reference {
     std::vector<item_pocket const *> pocket_chain;
 
     float spoil_multiplier();
+    bool has_watertight_container();
 };
 
 enum class special_item_type : int {
