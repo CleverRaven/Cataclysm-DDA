@@ -124,6 +124,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const field_type_str_id field_fd_fire( "fd_fire" );
+
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
@@ -1336,7 +1338,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
         return false;
     }
     map &here = get_map();
-    if( here.get_field( pos, fd_fire ) ) {
+    if( here.get_field( pos, field_fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
@@ -1392,7 +1394,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
 
 void firestarter_actor::resolve_firestarter_use( Character *p, const tripoint_bub_ms &pos )
 {
-    if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( get_map().add_field( pos, field_fd_fire, 1, 10_minutes ) ) {
         if( !p->has_trait( trait_PYROMANIA ) ) {
             p->add_msg_if_player( _( "You successfully light a fire." ) );
         } else {

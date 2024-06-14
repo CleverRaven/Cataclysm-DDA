@@ -45,7 +45,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
 #include "fault.h"
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
@@ -202,6 +201,8 @@ static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const faction_id faction_your_followers( "your_followers" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
@@ -5515,7 +5516,7 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
 
     // 50% chance of starting a fire.
     if( one_in( 2 ) && here.flammable_items_at( target ) ) {
-        here.add_field( target, fd_fire, 1, 10_minutes );
+        here.add_field( target, field_fd_fire, 1, 10_minutes );
     }
 
     if( !data->message().empty() ) {
@@ -7293,7 +7294,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             // (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src, fac_id ) ||
-                here.get_field( src_loc, fd_fire ) != nullptr ||
+                here.get_field( src_loc, field_fd_fire ) != nullptr ||
                 !here.can_put_items_ter_furn( src_loc ) ) {
                 continue;
             }

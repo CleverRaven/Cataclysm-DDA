@@ -9,6 +9,8 @@
 #include "make_static.h"
 #include "rng.h"
 
+static const field_type_str_id field_fd_fire( "fd_fire" );
+
 std::string field_entry::symbol() const
 {
     return get_field_type()->get_symbol( get_field_intensity() - 1 );
@@ -92,7 +94,7 @@ void field_entry::do_decay()
     age += 1_turns;
     if( type.obj().half_life > 0_turns && get_field_age() > 0_turns ) {
         // Legacy handling for fire because it's weird and complicated.
-        if( type == STATIC( field_type_str_id( "fd_fire" ) ) ) {
+        if( type == field_fd_fire ) {
             if( to_turns<int>( type->half_life ) < dice( 2, to_turns<int>( age ) ) ) {
                 set_field_age( 0_turns );
                 set_field_intensity( get_field_intensity() - 1 );
@@ -109,10 +111,8 @@ void field_entry::do_decay()
     }
 }
 
-field::field()
-    : _displayed_field_type( fd_null.id_or( INVALID_FIELD_TYPE_ID ) )
-{
-}
+field::field() : _displayed_field_type(
+        field_type_str_id::NULL_ID().id_or( field_type_id( -1 ) ) ) {}
 
 /*
 Function: find_field
@@ -191,7 +191,7 @@ bool field::remove_field( const field_type_id &field_to_remove )
 void field::remove_field( std::map<field_type_id, field_entry>::iterator const it )
 {
     _field_type_list->erase( it );
-    _displayed_field_type = fd_null;
+    _displayed_field_type = field_type_str_id::NULL_ID();
     for( auto &fld : *_field_type_list ) {
         if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
             _displayed_field_type = fld.first;
@@ -202,7 +202,7 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
 void field::clear()
 {
     _field_type_list->clear();
-    _displayed_field_type = fd_null;
+    _displayed_field_type = field_type_str_id::NULL_ID();
 }
 
 /*

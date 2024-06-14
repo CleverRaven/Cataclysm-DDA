@@ -25,7 +25,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -62,6 +61,11 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weighted_list.h"
+
+static const field_type_str_id field_fd_blood( "fd_blood" );
+static const field_type_str_id field_fd_fatigue( "fd_fatigue" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
+static const field_type_str_id field_fd_gibs_flesh( "fd_gibs_flesh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
@@ -530,7 +534,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn a dead soldier with a trail of blood
         if( one_in( 2 ) ) {
-            m.add_splatter_trail( fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
+            m.add_splatter_trail( field_fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
             item body = item::make_corpse();
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 17, 5, abs_sub.z } );
@@ -556,7 +560,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( i );
-                m.add_field( i, fd_blood, rng( 1, 3 ) );
+                m.add_field( i, field_fd_blood, rng( 1, 3 ) );
             }
         }
 
@@ -575,14 +579,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const tripoint_omt_ms p2( rng( 3, SEEX * 2 - 4 ), rng( SEEY, SEEY * 2 - 2 ), abs_sub.z );
             if( m.tr_at( p2 ).is_null() ) {
-                m.add_field( p2, fd_blood, rng( 1, 3 ) );
+                m.add_field( p2, field_fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( p2 );
                     for( const tripoint_omt_ms &loc : m.points_in_radius( p2, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+                            m.add_field( { loc.xy(), abs_sub.z }, field_fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -616,19 +620,19 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( i );
-                m.add_field( i, fd_blood, rng( 1, 3 ) );
+                m.add_field( i, field_fd_blood, rng( 1, 3 ) );
             }
         }
 
         //50% chance to spawn a blood trail of wounded soldier trying to escape,
         //but eventually died out of blood loss and wounds and got devoured by zombies
         if( one_in( 2 ) ) {
-            m.add_splatter_trail( fd_blood, { 9, 15, abs_sub.z }, { 11, 18, abs_sub.z } );
-            m.add_splatter_trail( fd_blood, { 11, 18, abs_sub.z }, { 11, 21, abs_sub.z } );
+            m.add_splatter_trail( field_fd_blood, { 9, 15, abs_sub.z }, { 11, 18, abs_sub.z } );
+            m.add_splatter_trail( field_fd_blood, { 11, 18, abs_sub.z }, { 11, 21, abs_sub.z } );
             for( const tripoint_omt_ms &loc : m.points_in_radius( tripoint_omt_ms{ 11, 21, abs_sub.z }, 1 ) ) {
                 //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                 if( one_in( 2 ) ) {
-                    m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+                    m.add_field( { loc.xy(), abs_sub.z }, field_fd_gibs_flesh, rng( 1, 3 ) );
                 }
             }
             item body = item::make_corpse();
@@ -684,14 +688,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const tripoint_omt_ms p4( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ), abs_sub.z );
             if( m.tr_at( p4 ).is_null() ) {
-                m.add_field( p4, fd_blood, rng( 1, 3 ) );
+                m.add_field( p4, field_fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( p4 );
                     for( const tripoint_omt_ms &loc : m.points_in_radius( p4, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( loc, fd_gibs_flesh, rng( 1, 3 ) );
+                            m.add_field( loc, field_fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -737,9 +741,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             std::vector<tripoint_omt_ms> blood_track = line_to( tripoint_omt_ms( 1, 6, abs_sub.z ),
                     tripoint_omt_ms( 8, 6, abs_sub.z ) );
             for( tripoint_omt_ms &i : blood_track ) {
-                m.add_field( i, fd_blood, 1 );
+                m.add_field( i, field_fd_blood, 1 );
             }
-            m.add_field( tripoint_omt_ms { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
+            m.add_field( tripoint_omt_ms { 1, 6, abs_sub.z }, field_fd_gibs_flesh, 1 );
 
             //Add the culprit
             m.add_vehicle( vehicle_prototype_car_fbi, tripoint_omt_ms( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
@@ -817,7 +821,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( i );
-                m.add_field( i, fd_blood, rng( 1, 3 ) );
+                m.add_field( i, field_fd_blood, rng( 1, 3 ) );
             }
         }
 
@@ -836,14 +840,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const tripoint_omt_ms p6( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ), abs_sub.z );
             if( m.tr_at( p6 ).is_null() ) {
-                m.add_field( p6, fd_blood, rng( 1, 3 ) );
+                m.add_field( p6, field_fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( p6 );
                     for( const tripoint_omt_ms &loc : m.points_in_radius( p6, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( loc, fd_gibs_flesh, rng( 1, 3 ) );
+                            m.add_field( loc, field_fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -873,7 +877,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn a soldier killed by gunfire, and a trail of blood
         if( one_in( 2 ) ) {
-            m.add_splatter_trail( fd_blood, { 14, 5, abs_sub.z }, { 17, 5, abs_sub.z } );
+            m.add_splatter_trail( field_fd_blood, { 14, 5, abs_sub.z }, { 17, 5, abs_sub.z } );
             item body = item::make_corpse();
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 15, 5, abs_sub.z } );
@@ -925,7 +929,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 23, 12, abs_sub.z } );
             m.add_item_or_charges( tripoint_omt_ms{ 23, 12, abs_sub.z }, body );
-            m.add_field( tripoint_omt_ms{ 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+            m.add_field( tripoint_omt_ms{ 23, 12, abs_sub.z }, field_fd_gibs_flesh, rng( 1, 3 ) );
 
             //Spawn broken bench and splintered wood
             m.furn_set( tripoint_omt_ms{ 23, 13, abs_sub.z }, furn_str_id::NULL_ID() );
@@ -935,7 +939,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             for( const tripoint_omt_ms &loc : m.points_in_radius( tripoint_omt_ms{ 23, 12, abs_sub.z }, 1,
                     0 ) ) {
                 if( one_in( 2 ) ) {
-                    m.add_field( { loc.xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                    m.add_field( { loc.xy(), abs_sub.z }, field_fd_blood, rng( 1, 3 ) );
                 }
             }
             //Spawn trash in a crate and its surroundings
@@ -979,14 +983,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const tripoint_omt_ms p8( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ), abs_sub.z );
             if( m.tr_at( p8 ).is_null() ) {
-                m.add_field( p8, fd_blood, rng( 1, 3 ) );
+                m.add_field( p8, field_fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( p8 );
                     for( const tripoint_omt_ms &loc : m.points_in_radius( p8, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( loc, fd_gibs_flesh, rng( 1, 3 ) );
+                            m.add_field( loc, field_fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -1050,7 +1054,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     switch( rng( 1, 6 ) ) {
         //Mycus spreading through the portal
         case 1: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, field_fd_fatigue, 3 );
             fungal_effects fe;
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
@@ -1064,7 +1068,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Netherworld monsters spawning around the portal
         case 2: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, field_fd_fatigue, 3 );
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), loc.z(), 1, true );
             }
@@ -1072,7 +1076,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Several cracks in the ground originating from the portal
         case 3: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, field_fd_fatigue, 3 );
             for( int i = 0; i < rng( 1, 10 ); i++ ) {
                 tripoint_bub_ms end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
                 std::vector<tripoint_bub_ms> failure = line_to( portal_location, end_location );
@@ -1084,7 +1088,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Radiation from the portal killed the vegetation
         case 4: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, field_fd_fatigue, 3 );
             const int rad = 5;
             for( int i = p.x() - rad; i <= p.x() + rad; i++ ) {
                 for( int j = p.y() - rad; j <= p.y() + rad; j++ ) {
@@ -1125,7 +1129,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 }
 
                 const tripoint_bub_ms portal_location = { p1 + tripoint_bub_ms( extra.x, extra.y, abs_sub.z ) };
-                m.add_field( portal_location, fd_fatigue, 3 );
+                m.add_field( portal_location, field_fd_fatigue, 3 );
 
                 std::set<point> ignited;
                 place_fumarole( m, p1, p2, ignited );
@@ -1137,7 +1141,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                     if( m.ter( i ) != ter_t_lava ) {
                         // Spawn an intense but short-lived fire
                         // Any furniture or buildings will catch fire, otherwise it will burn out quickly
-                        m.add_field( tripoint_bub_ms( i.x, i.y, abs_sub.z ), fd_fire, 15, 1_minutes );
+                        m.add_field( tripoint_bub_ms( i.x, i.y, abs_sub.z ), field_fd_fire, 15, 1_minutes );
                     }
                 }
             }
@@ -1145,7 +1149,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Anomaly caused by the portal and spawned an artifact
         case 6: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, field_fd_fatigue, 3 );
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
@@ -1906,13 +1910,13 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             }
             //Spawn blood and bloody rag and sometimes trail of blood
             if( one_in( 2 ) ) {
-                m.add_field( location, fd_blood, rng( 1, 3 ) );
+                m.add_field( location, field_fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint_bub_ms bloody_rag_loc = random_entry( m.points_in_radius( location, 3 ) );
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
-                    m.add_splatter_trail( fd_blood, location,
+                    m.add_splatter_trail( field_fd_blood, location,
                                           random_entry( m.points_in_radius( location, rng( 1, 4 ) ) ) );
                 }
             }
@@ -1940,7 +1944,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn blood and bloody rag in random place
             if( one_in( 2 ) ) {
                 const tripoint_bub_ms random_place = random_entry( m.points_in_radius( location, rng( 1, 10 ) ) );
-                m.add_field( random_place, fd_blood, rng( 1, 3 ) );
+                m.add_field( random_place, field_fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint_bub_ms bloody_rag_loc = random_entry( m.points_in_radius( random_place, 3 ) );
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
@@ -1958,7 +1962,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                 if( one_in( 2 ) ) {
                     m.spawn_items( { i.xy(), abs_sub.z }, items );
                     if( one_in( 2 ) ) {
-                        m.add_field( { i.xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                        m.add_field( { i.xy(), abs_sub.z }, field_fd_blood, rng( 1, 3 ) );
                     }
                 }
             }
@@ -1972,7 +1976,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             }
             //Spawn blood and bloody rag at the destination
             if( one_in( 2 ) ) {
-                m.add_field( from, fd_blood, rng( 1, 3 ) );
+                m.add_field( from, field_fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint_bub_ms bloody_rag_loc = random_entry( m.points_in_radius( to, 3 ) );
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
@@ -2009,26 +2013,26 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             }
             //Spawn blood and bloody rag at the first location, sometimes trail of blood
             if( one_in( 2 ) ) {
-                m.add_field( first_loc, fd_blood, rng( 1, 3 ) );
+                m.add_field( first_loc, field_fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint_bub_ms bloody_rag_loc = random_entry( m.points_in_radius( first_loc, 3 ) );
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0,
                     { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
-                    m.add_splatter_trail( fd_blood, first_loc,
+                    m.add_splatter_trail( field_fd_blood, first_loc,
                                           random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ) );
                 }
             }
             //Spawn blood and bloody rag at the second location, sometimes trail of blood
             if( one_in( 2 ) ) {
-                m.add_field( second_loc, fd_blood, rng( 1, 3 ) );
+                m.add_field( second_loc, field_fd_blood, rng( 1, 3 ) );
                 if( one_in( 2 ) ) {
                     const tripoint_bub_ms bloody_rag_loc = random_entry( m.points_in_radius( second_loc, 3 ) );
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
-                    m.add_splatter_trail( fd_blood, second_loc,
+                    m.add_splatter_trail( field_fd_blood, second_loc,
                                           random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ) );
                 }
             }
@@ -2046,7 +2050,7 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
     if( one_in( 4 ) && m.passable( center ) ) {
         m.add_corpse( center );
         for( int i = 0; i < rng( 1, 3 ); i++ ) {
-            m.add_field( random_entry( m.points_in_radius( center, 1 ) ), fd_blood, rng( 1, 3 ) );
+            m.add_field( random_entry( m.points_in_radius( center, 1 ) ), field_fd_blood, rng( 1, 3 ) );
         }
     }
 
@@ -2072,12 +2076,12 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint_bub_ms corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
         if( m.passable( corpse_location ) ) {
-            m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
+            m.add_field( corpse_location, field_fd_blood, rng( 1, 3 ) );
             m.put_items_from_loc( Item_spawn_data_everyday_corpse, corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
             for( const tripoint_bub_ms &loc : m.points_in_radius( corpse_location, 1 ) ) {
                 if( one_in( 2 ) ) {
-                    m.add_field( loc, fd_blood, rng( 1, 3 ) );
+                    m.add_field( loc, field_fd_blood, rng( 1, 3 ) );
                 }
             }
         }
@@ -2089,11 +2093,11 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
             item_group::items_from( Item_spawn_data_remains_human_generic,
                                     calendar::start_of_cataclysm );
         m.spawn_items( corpse_location, gibs );
-        m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
+        m.add_field( corpse_location, field_fd_gibs_flesh, rng( 1, 3 ) );
         //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius
         for( const tripoint_bub_ms &loc : m.points_in_radius( corpse_location, 1 ) ) {
             if( one_in( 2 ) ) {
-                m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+                m.add_field( { loc.xy(), abs_sub.z }, field_fd_gibs_flesh, rng( 1, 3 ) );
                 m.place_spawns( GROUP_STRAY_DOGS, 1, loc.xy(), loc.xy(), loc.z(), 1, true );
             }
         }

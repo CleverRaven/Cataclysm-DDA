@@ -27,7 +27,6 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "faction.h"
-#include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "harvest.h"
@@ -137,6 +136,8 @@ static const efftype_id effect_worked_on( "worked_on" );
 
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
+
+static const field_type_str_id field_fd_fire( "fd_fire" );
 
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 static const flag_id json_flag_GRAB( "GRAB" );
@@ -1827,12 +1828,12 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         map &here = get_map();
-        const field_type_id fd_fire = ::fd_fire; // convert to int_id once
+        const field_type_id field_fd_fire_int = field_fd_fire.id(); // convert to int_id once
         for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 3 ) ) {
             // note using `has_field_at` without bound checks,
             // as points that come from `points_in_radius` are guaranteed to be in bounds
             const int fire_intensity =
-                here.has_field_at( p, false ) ? 5 * here.get_field_intensity( p, fd_fire ) : 0;
+                here.has_field_at( p, false ) ? 5 * here.get_field_intensity( p, field_fd_fire_int ) : 0;
             ret += fire_intensity;
         }
         return ret;
@@ -1935,7 +1936,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_bleed ) {
-        return ( type->bloodType() == fd_null || type->bleed_rate == 0 );
+        return ( type->bloodType() == field_type_str_id::NULL_ID() || type->bleed_rate == 0 );
     }
 
     if( effect == effect_venom_dmg ||
@@ -2855,7 +2856,7 @@ void monster::process_turn()
                 const map_stack items = here.i_at( zap );
                 for( const item &item : items ) {
                     if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
-                        here.add_field( zap, fd_fire, 2, 1_minutes );
+                        here.add_field( zap, field_fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;
                     }
@@ -2872,7 +2873,7 @@ void monster::process_turn()
                     } else {
                         add_msg_if_player_sees( zap.raw(), m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
                                                 name(), here.tername( zap ) );
-                        here.add_field( zap, fd_fire, 1, 2_turns );
+                        here.add_field( zap, field_fd_fire, 1, 2_turns );
                     }
                 }
             }
@@ -3583,14 +3584,14 @@ bool monster::has_mind() const
 field_type_id monster::bloodType() const
 {
     if( is_hallucination() ) {
-        return fd_null;
+        return field_type_str_id::NULL_ID();
     }
     return type->bloodType();
 }
 field_type_id monster::gibType() const
 {
     if( is_hallucination() ) {
-        return fd_null;
+        return field_type_str_id::NULL_ID();
     }
     return type->gibType();
 }

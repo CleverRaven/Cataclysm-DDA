@@ -68,7 +68,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
 
     if( jo.has_member( "aoe" ) ) {
         JsonObject joa = jo.get_object( "aoe" );
-        optional( joa, was_loaded, "field_type", aoe_field_type_name, "fd_null" );
+        optional( joa, was_loaded, "field_type", aoe_field_type, field_type_str_id::NULL_ID() );
         optional( joa, was_loaded, "intensity_min", aoe_intensity_min, 0 );
         optional( joa, was_loaded, "intensity_max", aoe_intensity_max, 0 );
         optional( joa, was_loaded, "radius", aoe_radius, 1 );
@@ -81,7 +81,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
     }
     if( jo.has_member( "trail" ) ) {
         JsonObject joa = jo.get_object( "trail" );
-        optional( joa, was_loaded, "field_type", trail_field_type_name, "fd_null" );
+        optional( joa, was_loaded, "field_type", trail_field_type, field_type_str_id::NULL_ID() );
         optional( joa, was_loaded, "intensity_min", trail_intensity_min, 0 );
         optional( joa, was_loaded, "intensity_max", trail_intensity_max, 0 );
         optional( joa, was_loaded, "chance", trail_chance, 100 );
@@ -100,19 +100,10 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
 
 }
 
-void ammo_effect::finalize()
-{
-    for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        const_cast<ammo_effect &>( ae ).aoe_field_type = field_type_id( ae.aoe_field_type_name );
-        const_cast<ammo_effect &>( ae ).trail_field_type = field_type_id( ae.trail_field_type_name );
-    }
-
-}
-
 void ammo_effect::check() const
 {
     if( !aoe_field_type.is_valid() ) {
-        debugmsg( "No such field type %s", aoe_field_type_name );
+        debugmsg( "No such field type %s", aoe_field_type.c_str() );
     }
     if( aoe_check_sees_radius < 0 ) {
         debugmsg( "Value of aoe_check_sees_radius cannot be negative" );
@@ -133,7 +124,7 @@ void ammo_effect::check() const
         debugmsg( "Maximum intensity must be greater than or equal to minimum intensity" );
     }
     if( !trail_field_type.is_valid() ) {
-        debugmsg( "No such field type %s", trail_field_type_name );
+        debugmsg( "No such field type %s", trail_field_type.c_str() );
     }
     if( trail_chance > 100 || trail_chance <= 0 ) {
         debugmsg( "Field chance divisor cannot be negative" );
@@ -160,9 +151,6 @@ void ammo_effects::load( const JsonObject &jo, const std::string &src )
 void ammo_effects::finalize_all()
 {
     get_all_ammo_effects().finalize();
-    for( const ammo_effect &ae : get_all_ammo_effects().get_all() ) {
-        const_cast<ammo_effect &>( ae ).finalize();
-    }
 }
 
 void ammo_effects::check_consistency()

@@ -1369,8 +1369,7 @@ void species_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
-
-    optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
+    optional( jo, was_loaded, "bleeds", bleeds, field_type_str_id::NULL_ID() );
 }
 
 void mon_flag::load_mon_flags( const JsonObject &jo, const std::string &src )

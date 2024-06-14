@@ -45,7 +45,6 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
-#include "field_type.h"
 #include "flag.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -237,6 +236,14 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const field_type_str_id field_fd_acid( "fd_acid" );
+static const field_type_str_id field_fd_extinguisher( "fd_extinguisher" );
+static const field_type_str_id field_fd_fire( "fd_fire" );
+static const field_type_str_id field_fd_incendiary( "fd_incendiary" );
+static const field_type_str_id field_fd_methsmoke( "fd_methsmoke" );
+static const field_type_str_id field_fd_tear_gas( "fd_tear_gas" );
+static const field_type_str_id field_fd_tindalos_rift( "fd_tindalos_rift" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
@@ -1940,7 +1947,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint & 
 
     map &here = get_map();
     // Reduce the strength of fire (if any) in the target tile.
-    here.add_field( dest, fd_extinguisher, 3, 10_turns );
+    here.add_field( dest, field_fd_extinguisher, 3, 10_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest, true ) ) {
@@ -1972,7 +1979,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint & 
         dest.x() += ( dest.x() - p->posx() );
         dest.y() += ( dest.y() - p->posy() );
 
-        here.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
+        here.mod_field_intensity( dest, field_fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
     return 1;
@@ -2316,7 +2323,7 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint & )
     p->mod_moves( -to_moves<int>( 2_seconds ) );
 
     map &here = get_map();
-    here.add_field( dest, fd_tear_gas, 2, 3_turns );
+    here.add_field( dest, field_fd_tear_gas, 2, 3_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest, true ) ) {
@@ -3512,7 +3519,7 @@ std::optional<int> iuse::acidbomb_act( Character *p, item *it, const tripoint &p
         it->charges = -1;
         map &here = get_map();
         for( const tripoint_bub_ms &tmp : here.points_in_radius( tripoint_bub_ms( pos ), 1 ) ) {
-            here.add_field( tmp, fd_acid, 3 );
+            here.add_field( tmp, field_fd_acid, 3 );
         }
         return 1;
     }
@@ -3531,12 +3538,12 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint &
         tripoint_bub_ms dest( tripoint_bub_ms( pos ) + point( rng( -5, 5 ), rng( -5, 5 ) ) );
         std::vector<tripoint_bub_ms> flames = line_to( tripoint_bub_ms( pos ), dest, 0, 0 );
         for( tripoint_bub_ms &flame : flames ) {
-            here.add_field( flame, fd_fire, rng( 0, 2 ) );
+            here.add_field( flame, field_fd_fire, rng( 0, 2 ) );
         }
     }
     explosion_handler::explosion( p, pos, 8, 0.8, true );
     for( const tripoint_bub_ms &dest : here.points_in_radius( tripoint_bub_ms( pos ), 2 ) ) {
-        here.add_field( dest, fd_incendiary, 3 );
+        here.add_field( dest, field_fd_incendiary, 3 );
     }
 
     avatar &player = get_avatar();
@@ -3556,7 +3563,7 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint &po
         map &here = get_map();
         for( const tripoint_bub_ms &pt : here.points_in_radius( tripoint_bub_ms( pos ), 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, field_fd_fire, intensity );
         }
         avatar &player = get_avatar();
         if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
@@ -4481,7 +4488,7 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint 
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 12 ) ) {
         if( here.is_cornerfloor( dest ) ) {
-            here.add_field( dest, fd_tindalos_rift, 3 );
+            here.add_field( dest, field_fd_tindalos_rift, 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
     }
@@ -4920,7 +4927,8 @@ std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint & )
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), dest_.value() );
 }
 
-std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
+std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it,
+        const std::string &prefix,
         const tripoint &where )
 {
     map &here = get_map();
@@ -5924,7 +5932,8 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     return std::string();
 }
 
-static std::string colorized_feature_description_at( const tripoint &center_point, bool &item_found,
+static std::string colorized_feature_description_at( const tripoint &center_point,
+        bool &item_found,
         const units::volume &min_visible_volume )
 {
     item_found = false;

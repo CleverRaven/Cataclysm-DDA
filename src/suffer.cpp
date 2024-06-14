@@ -29,7 +29,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "field_type.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -110,6 +109,11 @@ static const efftype_id effect_weary_6( "weary_6" );
 static const efftype_id effect_weary_7( "weary_7" );
 static const efftype_id effect_weary_8( "weary_8" );
 static const efftype_id effect_winded( "winded" );
+
+static const field_type_str_id field_fd_fatigue( "fd_fatigue" );
+static const field_type_str_id field_fd_sludge( "fd_sludge" );
+static const field_type_str_id field_fd_tindalos_rift( "fd_tindalos_rift" );
+static const field_type_str_id field_fd_web( "fd_web" );
 
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_inhaler( "inhaler" );
@@ -1060,12 +1064,12 @@ void suffer::from_other_mutations( Character &you )
     //Web Weavers...weave web
     if( you.has_active_mutation( trait_WEB_WEAVER ) && !you.in_vehicle ) {
         // this adds intensity to if its not already there.
-        here.add_field( position, fd_web, 1 );
+        here.add_field( position, field_fd_web, 1 );
 
     }
 
     if( you.has_active_mutation( trait_SNAIL_TRAIL ) && !you.in_vehicle ) {
-        here.add_field( position, fd_sludge, 1 );
+        here.add_field( position, field_fd_sludge, 1 );
 
     }
 
@@ -1090,11 +1094,11 @@ void suffer::from_other_mutations( Character &you )
 
     if( you.has_trait( trait_WEB_SPINNER ) && !you.in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        here.add_field( position, fd_web, 1 );
+        here.add_field( position, field_fd_web, 1 );
     }
 
     if( you.has_trait( trait_MUCUS_SECRETION ) && !you.in_vehicle && one_in( 2033 ) ) {
-        here.add_field( position, fd_sludge, 1 );
+        here.add_field( position, field_fd_sludge, 1 );
     }
 
     bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&
@@ -1600,7 +1604,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 map &here = get_map();
                 for( const tripoint_bub_ms &dest : here.points_in_radius( you.pos_bub(), 12 ) ) {
                     if( here.is_cornerfloor( dest ) ) {
-                        here.add_field( dest, fd_tindalos_rift, 3 );
+                        here.add_field( dest, field_fd_tindalos_rift, 3 );
                         add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
                     }
                 }
@@ -1608,7 +1612,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
                                            _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
                 map &here = get_map();
-                here.add_field( you.pos_bub(), fd_fatigue, 1 );
+                here.add_field( you.pos_bub(), field_fd_fatigue, 1 );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );

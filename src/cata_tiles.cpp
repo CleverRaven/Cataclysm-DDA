@@ -3710,7 +3710,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                 auto has_field = [&]( field_type_id fld, const tripoint & q, const bool invis ) -> field_type_id {
                     // go through the fields and see if they are equal
-                    field_type_id found = fd_null;
+                    field_type_id found = field_type_str_id::NULL_ID();
                     for( std::pair<const field_type_id, field_entry> &this_fld : here.field_at( q ) )
                     {
                         if( this_fld.first == fld ) {
@@ -3719,7 +3719,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                     }
                     const auto it = field_override.find( tripoint_bub_ms( q ) );
                     return it != field_override.end() ? it->second :
-                           ( !fld_overridden || !invis ) ?  found : fd_null;
+                           ( !fld_overridden || !invis ) ?  found : field_type_str_id::NULL_ID();
                 };
                 // for rotation information
                 const std::array<int, 4> neighborhood = { {
@@ -3759,7 +3759,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
                 const auto it = field_override.find( tripoint_bub_ms( q ) );
                 return it != field_override.end() ? it->second :
-                ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
+                ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : field_type_str_id::NULL_ID();
             };
             // for rotation information
             const std::array<int, 4> neighborhood = {

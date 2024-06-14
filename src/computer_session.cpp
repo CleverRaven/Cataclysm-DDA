@@ -24,7 +24,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
-#include "field_type.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -67,6 +66,10 @@
 #include "ui_manager.h"
 
 static const efftype_id effect_amigara( "amigara" );
+
+static const field_type_str_id field_fd_nuke_gas( "fd_nuke_gas" );
+static const field_type_str_id field_fd_shock_vent( "fd_shock_vent" );
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
 
 static const furn_str_id furn_f_centrifuge( "f_centrifuge" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
@@ -764,7 +767,7 @@ void computer_session::action_miss_launch()
     const tripoint_bub_ms nuke_location = { get_player_character().pos_bub() - point( 12, 0 ) };
     for( const tripoint_bub_ms &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
         if( one_in( 4 ) ) {
-            get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
+            get_map().add_field( loc, field_fd_smoke, rng( 1, 9 ) );
         }
     }
 
@@ -1350,7 +1353,7 @@ void computer_session::action_irradiator()
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
-                        here.propagate_field( dest, fd_nuke_gas, 100, 3 );
+                        here.propagate_field( dest, field_fd_nuke_gas, 100, 3 );
                         here.translate_radius( ter_t_water_pool, ter_t_sewage, 8.0, dest, true );
                         here.adjust_radiation( dest, rng( 50, 500 ) );
                         for( const tripoint_bub_ms &radorigin : here.points_in_radius( dest, 5 ) ) {
@@ -1539,10 +1542,10 @@ void computer_session::action_deactivate_shock_vent()
     bool has_vent = false;
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 10 ) ) {
-        if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
+        if( here.get_field( dest, field_fd_shock_vent ) != nullptr ) {
             has_vent = true;
         }
-        here.remove_field( dest, fd_shock_vent );
+        here.remove_field( dest, field_fd_shock_vent );
     }
     print_line( _( "Initiating POWER-DIAG ver.2.34…" ) );
     if( has_vent ) {

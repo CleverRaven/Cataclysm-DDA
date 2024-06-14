@@ -17,6 +17,8 @@
 #include "point.h"
 #include "type_id.h"
 
+static const field_type_str_id field_fd_fatigue( "fd_fatigue" );
+
 static const spell_id spell_AO_CLOSE_TEAR( "AO_CLOSE_TEAR" );
 static const spell_id spell_test_line_spell( "test_line_spell" );
 
@@ -104,10 +106,10 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         tripoint_abs_ms p2 = player_initial_pos + tripoint_east * 11;
         tripoint_abs_ms p3 = player_initial_pos + tripoint_east * 12;
         tripoint_abs_ms p4 = player_initial_pos + tripoint_east * 13;
-        m.add_field( m.bub_from_abs( p1 ), fd_fatigue, 1, 1_hours );
-        m.add_field( m.bub_from_abs( p2 ), fd_fatigue, 2, 1_hours );
-        m.add_field( m.bub_from_abs( p3 ), fd_fatigue, 3, 1_hours );
-        m.add_field( m.bub_from_abs( p4 ), fd_fatigue, 3, 1_hours );
+        m.add_field( m.bub_from_abs( p1 ), field_fd_fatigue, 1, 1_hours );
+        m.add_field( m.bub_from_abs( p2 ), field_fd_fatigue, 2, 1_hours );
+        m.add_field( m.bub_from_abs( p3 ), field_fd_fatigue, 3, 1_hours );
+        m.add_field( m.bub_from_abs( p4 ), field_fd_fatigue, 3, 1_hours );
 
         if( with_light ) {
             player_add_headlamp();
@@ -120,7 +122,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         dummy.recalc_sight_limits();
 
         CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
-        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
+        CHECK( count_fields_near( p1, field_fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
         calendar::turn += 1_turns;
@@ -129,7 +131,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         m.process_fields();
 
         CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
-        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
+        CHECK( count_fields_near( p1, field_fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
         calendar::turn += 1_turns;
@@ -138,7 +140,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         m.process_fields();
 
         CHECK( m.getglobal( dummy.pos_bub() ) == player_initial_pos );
-        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
+        CHECK( count_fields_near( p1, field_fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
         calendar::turn += 1_turns;
@@ -146,7 +148,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p4 } );
+        CHECK( count_fields_near( p1, field_fd_fatigue ) == std::set<tripoint_abs_ms> { p4 } );
     };
 
     setup_and_remove_fields( true );

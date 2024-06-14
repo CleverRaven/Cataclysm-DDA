@@ -7,11 +7,15 @@
 #include <vector>
 
 #include "cata_catch.h"
-#include "field_type.h"
 #include "string_id_utils.h"
 #include "type_id.h"
 
 class json_flag;
+
+static const field_type_str_id field_fd_smoke( "fd_smoke" );
+static const field_type_str_id field_fd_toxic_gas( "fd_toxic_gas" );
+static const field_type_str_id field_fd_tear_gas( "fd_tear_gas" );
+static const field_type_str_id field_fd_nuke_gas( "fd_nuke_gas" );
 
 TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 {
@@ -22,17 +26,18 @@ TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 
 TEST_CASE( "static_string_ids_equality_test", "[string_id]" )
 {
+    // Check equivilance of interned string_id s to dynamic string_id s
     // NOLINTNEXTLINE(cata-static-string_id-constants)
-    CHECK( fd_smoke == string_id<field_type>( "fd_smoke" ) );
+    CHECK( field_fd_smoke == string_id<field_type>( "fd_smoke" ) );
     // NOLINTNEXTLINE(cata-static-string_id-constants)
-    CHECK( fd_toxic_gas == string_id<field_type>( "fd_toxic_gas" ) );
+    CHECK( field_fd_toxic_gas == string_id<field_type>( "fd_toxic_gas" ) );
     // NOLINTNEXTLINE(cata-static-string_id-constants)
-    CHECK( fd_tear_gas == string_id<field_type>( "fd_tear_gas" ) );
+    CHECK( field_fd_tear_gas == string_id<field_type>( "fd_tear_gas" ) );
     // NOLINTNEXTLINE(cata-static-string_id-constants)
-    CHECK( fd_nuke_gas == string_id<field_type>( "fd_nuke_gas" ) );
+    CHECK( field_fd_nuke_gas == string_id<field_type>( "fd_nuke_gas" ) );
 
     // NOLINTNEXTLINE(cata-static-string_id-constants)
-    CHECK( fd_nuke_gas != string_id<field_type>( "fd_nuke_gas1" ) );
+    CHECK( field_fd_nuke_gas != string_id<field_type>( "fd_nuke_gas1" ) );
 }
 
 TEST_CASE( "string_ids_intern_test", "[string_id]" )
