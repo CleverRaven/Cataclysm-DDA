@@ -94,7 +94,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "SIG Pro .40 pistol" },
+    "name": { "str": "SIG Pro pistol" },
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
     "ascii_picture": "sig_pro_40",
     "weight": "822 g",

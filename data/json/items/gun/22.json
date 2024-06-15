@@ -439,7 +439,7 @@
     "variants": [
       {
         "id": "ruger_charger",
-        "name": { "str": "Ruger 22 Charger pistol" },
+        "name": { "str": "Ruger 22 machine pistol" },
         "description": "This gun is essentially a shortened 10/22, feeding from the same magazines.  While it does feature a shorter barrel and a lack of a stock, it is a fair bit lighter, and comes included with a bipod to more steadily plink away at the undead."
       }
     ],
