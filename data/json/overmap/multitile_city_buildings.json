@@ -3262,7 +3262,8 @@
       { "point": [ 1, 1, 1 ], "overmap": "hdwr_large_1_1_1_south" },
       { "point": [ 0, 1, 1 ], "overmap": "hdwr_large_0_1_1_south" },
       { "point": [ 1, 2, 1 ], "overmap": "hdwr_large_1_2_1_south" },
-      { "point": [ 0, 2, 1 ], "overmap": "hdwr_large_0_2_1_south" }
+      { "point": [ 0, 2, 1 ], "overmap": "hdwr_large_0_2_1_south" },
+      { "point": [ 1, 1, 2 ], "overmap": "hdwr_large_1_1_2_south" }
     ],
     "city_sizes": [ 8, -1 ]
   },
