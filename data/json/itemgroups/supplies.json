@@ -361,6 +361,7 @@
       },
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
+      { "group": "wrapped_gasmask_filter", "count": [ 2, 6 ], "prob": 20 },
       [ "solder_wire", 20 ],
       [ "superglue", 30 ],
       [ "rubber_cement", 25 ],
