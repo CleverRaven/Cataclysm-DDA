@@ -6432,6 +6432,11 @@ float Character::get_bmi_fat() const
             2 ) * get_cached_organic_size() );
 }
 
+bool Character::has_calorie_deficit() const
+{
+    return get_bmi_fat() < character_weight_category::normal;
+}
+
 units::mass Character::bodyweight() const
 {
     return bodyweight_fat() + bodyweight_lean();
