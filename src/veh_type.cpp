@@ -434,9 +434,11 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
         optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
         optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
-        optional( jttd, was_loaded, "post_field", vtt.post_field );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 1 );
-        optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
+        if( jttd.has_string( "post_field" ) ) {
+            mandatory( jttd, was_loaded, "post_field", vtt.post_field );
+            mandatory( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity );
+            mandatory( jttd, was_loaded, "post_field_age", vtt.post_field_age );
+        }
     }
 }
 

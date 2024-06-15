@@ -3180,8 +3180,8 @@ Vehicle components when installed on a vehicle.
   "post_terrain": "t_dirtmound", // (Optional) The resulting terrain.
   "post_furniture": "f_boulder", // (Optional) The resulting furniture.
   "post_field": "fd_fire",    // (Optional) The resulting field.
-  "post_field_intensity": 10, // (Optional, default to 1) The field's intensity.
-  "post_field_age": "20 s"    // (Optional, default to 0 seconds) The field's time to live.
+  "post_field_intensity": 10, // (Mandatory if post_field is specified) The field's intensity.
+  "post_field_age": "20 s"    // (Mandatory if post_field is specified) The field's time to live.
 },
 "variants_bases": [ // variant bases to generate (see below)
   { "id": "scooter", "label": "Scooter" },

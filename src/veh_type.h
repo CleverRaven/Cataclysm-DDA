@@ -165,6 +165,7 @@ struct vpslot_terrain_transform {
     std::optional<ter_str_id> post_terrain;
     std::optional<furn_str_id> post_furniture;
     std::optional<field_type_str_id> post_field;
+    //Both only defined if(post_field)
     int post_field_intensity;
     time_duration post_field_age;
 };
