@@ -1491,6 +1491,7 @@
     "color": "light_blue",
     "container": "bottle_plastic",
     "sealed": false,
+    "delete": { "flags": [ "DECAYS_IN_AIR" ] },
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
   },
   {
@@ -1518,12 +1519,15 @@
     "phase": "liquid",
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
     "sealed": true,
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "//": "Clean water becomes regular water in about 4 weeks if exposed to air (1 week if outdoors).",
+    "properties": { "max_air_exposure_hours": "720" },
+    "revert_to": "water"
   },
   {
     "id": "water_spring",

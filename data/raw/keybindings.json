@@ -4446,7 +4446,7 @@
     "type": "keybinding",
     "id": "CHANGE_ARMOR_SPRITE",
     "category": "PLAYER_INFO",
-    "name": "Change sprite of armor.",
+    "name": "Change armor sprite",
     "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
   },
   {

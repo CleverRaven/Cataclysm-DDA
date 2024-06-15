@@ -119,6 +119,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "cs_open_sewer_roof" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                  rrrr  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "r": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "cs_open_sewer_undergound",
     "weight": 1000,
     "object": {
