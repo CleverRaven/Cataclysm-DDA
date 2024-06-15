@@ -144,7 +144,7 @@
     "bleed_rate": 80,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_TERMITE_ALATE" },
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 },
-    "extend": { "weakpoint_sets": [ "wps_arthropod_flying" ], "flags": [ "FLIES", "HARDTOSHOOT" ] }
+    "extend": { "weakpoint_sets": [ "wps_arthropod_flying" ], "families": [ "prof_wp_flying" ], "flags": [ "FLIES", "HARDTOSHOOT" ] }
   },
   {
     "id": "mon_termite_king",
@@ -185,8 +185,8 @@
   {
     "id": "mon_termite_queen",
     "type": "MONSTER",
-    "name": { "str": "termite queen" },
-    "description": "A colossal termite which is the basis of the colony along with her king.  Her enlarged abdomen limits her movements but she barely needs to move anyway.",
+    "name": { "str": "giant termite queen" },
+    "description": "A colossal termite making up the basis of the colony along with her king.  Her enlarged abdomen limits her movements but she barely needs to move anyway.",
     "copy-from": "mon_termite_worker",
     "volume": "625 L",
     "weight": "815 kg",
