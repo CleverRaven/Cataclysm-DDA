@@ -1969,7 +1969,14 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "components": [ [ [ "filament", 600, "LIST" ] ] ]
+    "components": [ [ [ "filament", 900, "LIST" ] ] ]
+  },
+  {
+    "copy-from": "espadrilles",
+    "result": "espadrilles",
+    "type": "recipe",
+    "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
+    "byproducts": [ [ "string_36", 3 ] ]
   },
   {
     "copy-from": "espadrilles",
@@ -1977,7 +1984,14 @@
     "type": "recipe",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1.5 ] ],
-    "components": [ [ [ "filament", 900, "LIST" ] ] ]
+    "components": [ [ [ "filament", 1200, "LIST" ] ] ]
+  },
+  {
+    "copy-from": "xl_espadrilles",
+    "result": "xl_espadrilles",
+    "type": "recipe",
+    "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
+    "byproducts": [ [ "string_36", 2 ] ]
   },
   {
     "copy-from": "espadrilles",
@@ -1985,6 +1999,13 @@
     "type": "recipe",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
-    "components": [ [ [ "filament", 300, "LIST" ] ] ]
+    "components": [ [ [ "filament", 600, "LIST" ] ] ]
+  },
+  {
+    "copy-from": "xs_espadrilles",
+    "result": "xs_espadrilles",
+    "type": "recipe",
+    "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
+    "byproducts": [ [ "string_36", 4 ] ]
   }
 ]
