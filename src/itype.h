@@ -739,7 +739,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Effects that are applied to the ammo when fired.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Location for gun mods.
      * Key is the location (untranslated!), value is the number of mods
@@ -1008,7 +1008,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * TODO: document me.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo
@@ -1017,6 +1017,9 @@ struct islot_ammo : common_ranged_data {
 
     /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
     int recoil = 0;
+
+    /** Percentage of chance to recover the ammo after a shot*/
+    int recovery_chance = 0;
 
     /**
      * Should this ammo explode in fire?

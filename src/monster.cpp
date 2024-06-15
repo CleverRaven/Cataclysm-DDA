@@ -71,6 +71,8 @@
 #include "weakpoint.h"
 #include "weather.h"
 
+static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
+
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
 static const damage_type_id damage_bash( "bash" );
@@ -1339,8 +1341,7 @@ bool monster::has_intelligence() const
 {
     return has_flag( mon_flag_PATH_AVOID_FALL ) ||
            has_flag( mon_flag_PATH_AVOID_FIRE ) ||
-           has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-           has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ||
+           has_flag( mon_flag_PATH_AVOID_DANGER ) ||
            has_flag( mon_flag_PRIORITIZE_TARGETS ) ||
            get_pathfinding_settings().avoid_sharp ||
            get_pathfinding_settings().avoid_traps;
@@ -2106,7 +2107,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &effects = proj.proj_effects;
 
     // Whip has a chance to scare wildlife even if it misses
-    if( effects.count( "WHIP" ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
+    if( effects.count( ammo_effect_WHIP ) && type->in_category( "WILDLIFE" ) && one_in( 3 ) ) {
         add_effect( effect_run, rng( 3_turns, 5_turns ) );
     }
 
@@ -3964,8 +3965,7 @@ std::unordered_set<tripoint> monster::get_path_avoid() const
 
     if( has_flag( mon_flag_PRIORITIZE_TARGETS ) ) {
         radius = 2;
-    } else if( has_flag( mon_flag_PATH_AVOID_DANGER_1 ) ||
-               has_flag( mon_flag_PATH_AVOID_DANGER_2 ) ) {
+    } else if( has_flag( mon_flag_PATH_AVOID_DANGER ) ) {
         radius = 1;
     } else {
         return ret;

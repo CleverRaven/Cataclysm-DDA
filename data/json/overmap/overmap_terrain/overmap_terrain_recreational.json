@@ -226,6 +226,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "TreeFarm_1a_roof",
+    "name": "tree farm",
+    "sym": "T",
+    "color": "i_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "shootingrange_1a", "shootingrange_2a" ],
     "name": "shooting range",
     "sym": "S",
@@ -407,6 +415,7 @@
     "id": [
       "s_baseballfield_a1",
       "s_baseballfield_a2",
+      "s_baseballfield_a2_2",
       "s_baseballfield_b1",
       "s_baseballfield_b2",
       "stadium_1_2",

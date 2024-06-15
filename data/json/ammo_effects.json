@@ -171,11 +171,6 @@
     "//": "Applies sensor-stunning effect to robots. Hardcoded"
   },
   {
-    "id": "RECOVER_X",
-    "type": "ammo_effect",
-    "//": " Has a [(X-1)/X] probability to create a single charge of the used ammo at the point of impact. Change the X with any number, like 'RECOVER_2' means [(2-1)/2]=50% chance. Hardcoded"
-  },
-  {
     "id": "RECYCLED",
     "type": "ammo_effect",
     "//": "Causes the gun to misfire sometimes, used in handloaded ammo; this is independent of the weapon flags. Hardcoded"

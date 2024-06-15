@@ -1505,7 +1505,7 @@ class Character : public Creature, public visitable
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
-        /** used for profession spawning and save migration for nested containers. remove after 0.F */
+        // TODO: Remove remaining calls to insert into the raw inventory and remove functions where appropriate so this can be removed
         void migrate_items_to_storage( bool disintegrate );
 
         /**
@@ -1898,6 +1898,10 @@ class Character : public Creature, public visitable
         bool enough_power_for( const bionic_id &bid ) const;
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info( bool customize_character = false );
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+        /** Opens the medical window */
+        void disp_medical();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -3009,6 +3013,7 @@ class Character : public Creature, public visitable
         float get_bmi() const;
         float get_bmi_fat() const;
         float get_bmi_lean() const;
+        bool has_calorie_deficit() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)

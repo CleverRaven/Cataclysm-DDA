@@ -3495,6 +3495,7 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
   ]
 },
 "range" : 5,          // Range when fired
+"recovery_chance": 6, // Percentage of chance to recover the ammo after firing
 "dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
 "shot_counter": 5,    // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5); designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
 "projectile_count": 5,// amount of pellets, that the ammo will shot, like in shotgun-like weapon; if used, shot_damage should be specified

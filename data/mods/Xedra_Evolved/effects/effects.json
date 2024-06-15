@@ -994,6 +994,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_fire_dot",
+    "name": [ "Fire in the Marrow" ],
+    "desc": [ "Your burning internal organs are making it more difficult to aim." ],
+    "rating": "bad",
+    "base_mods": { "hit_mod": [ -3 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_featherfall",
     "name": [ "" ],
     "desc": [ "" ],
@@ -1199,6 +1207,17 @@
     "remove_message": "Your feet touch the ground once again.",
     "rating": "good",
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_hindering_wind",
+    "name": [ "Hindering Winds" ],
+    "desc": [ "The winds are swirling around you and slowing you down!" ],
+    "apply_message": "A wind swirls up around you, slowing you.",
+    "remove_message": "The wind around you dies down.",
+    "rating": "bad",
+    "base_mods": { "dodge_mod": [ -2 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ]
   },
   {
     "type": "effect_type",

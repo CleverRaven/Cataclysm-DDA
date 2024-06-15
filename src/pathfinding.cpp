@@ -233,6 +233,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     const bool trapavoid = settings.avoid_traps;
     const bool roughavoid = settings.avoid_rough_terrain;
     const bool sharpavoid = settings.avoid_sharp;
+    const bool fieldavoid = settings.avoid_dangerous_fields;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     tripoint min( std::min( f.x, t.x ) - pad, std::min( f.y, t.y ) - pad, std::min( f.z, t.z ) );
@@ -333,7 +334,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
                 newg += cost;
                 if( cost == 0 ) {
-                    if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
+                    if( climb_cost > 0 && ( p_special & PF_CLIMBABLE ) ) {
                         // Climbing fences
                         newg += climb_cost;
                     } else if( doors && ( terrain.open || furniture.open ) &&
@@ -425,10 +426,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     }
                 }
 
-                if( sharpavoid && p_special & PF_SHARP ) {
+                if( sharpavoid && ( p_special & PF_SHARP ) ) {
                     layer.closed[index] = true; // Avoid sharp things
                 }
 
+                if( fieldavoid && ( p_special & PF_FIELD ) ) {
+                    // We'll walk through even known-dangerous fields if we absolutely have to.
+                    newg += 500;
+                }
             }
 
             pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );

@@ -31,6 +31,22 @@
   },
   {
     "type": "mutation",
+    "id": "ethereal_wings",
+    "name": { "str": "Ethereal Wings" },
+    "active": true,
+    "points": 1,
+    "visibility": 10,
+    "description": "A wide set of ethereal wings sprouts from your back.  Despite them phasing through every form of matter you've encountered, they still somehow lift you off the ground.  Their mere appearance makes you feel lighter",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "activated_eocs": [ "EOC_ETHEREAL_WINGS_INITIATE" ],
+    "//": "No body part is intentional.  The wings should not be attackable by enemies or get in the way of clothes or armor.  These are also intended as less of a wide stat boost than the other dream toggleable mutations and instead specifically allow flight and carry weight.",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ] } ],
+    "flags": [ "GLIDE", "FEATHER_FALL" ]
+  },
+  {
+    "type": "mutation",
     "id": "karma_arms",
     "name": { "str": "Karma" },
     "active": true,
