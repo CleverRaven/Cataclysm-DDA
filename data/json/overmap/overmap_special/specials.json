@@ -3741,6 +3741,7 @@
       { "point": [ 1, 0, 1 ], "overmap": "isolated_house_farm_roof_gunsmith" },
       { "point": [ 0, 1, 1 ], "overmap": "isolated_house_farm_roof_blacksmith" },
       { "point": [ 1, 1, 0 ], "overmap": "isolated_road_field_1" },
+      { "point": [ 1, 1, 1 ], "overmap": "isolated_road_field_1_roof" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
