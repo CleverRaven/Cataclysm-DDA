@@ -2,14 +2,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_ZAP_ENEMIES",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             { "and": [ { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "4" ] } ] }
           ]
         },
@@ -36,14 +39,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_MELEE_ATTACKS",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "5" ] },
@@ -74,95 +80,18 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_LEARNING_HACKING_INTERFACE",
-    "recurrence": [ "36 hours", "72 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "ELECTROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        {
-          "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
-            {
-              "and": [
-                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "4" ] },
-                { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "4" ] },
-                { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "4" ] }
-              ]
-            }
-          ]
-        },
-        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('electrokinetic_hacking_interface')", "<=", "0" ] },
-        { "not": { "u_know_recipe": "practice_electrokinetic_hacking_interface" } }
-      ]
-    },
-    "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "1" ] }
-      ]
-    },
-    "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
-      { "u_learn_recipe": "practice_electrokinetic_hacking_interface" },
-      {
-        "u_message": "Use of your powers has led to an insight.  You could create an electrical interface to hack nearby devices, if you can figure out the technique.",
-        "popup": true
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_LEARNING_ROBOT_INTERFACE",
-    "recurrence": [ "96 hours", "168 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "ELECTROKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        {
-          "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
-            {
-              "and": [
-                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "12" ] },
-                { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "8" ] },
-                { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "8" ] }
-              ]
-            }
-          ]
-        },
-        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('electrokinetic_robot_interface')", "<=", "0" ] },
-        { "not": { "u_know_recipe": "practice_electrokinetic_robot_interface" } }
-      ]
-    },
-    "deactivate_condition": {
-      "or": [
-        { "not": { "u_has_trait": "ELECTROKINETIC" } },
-        { "math": [ "u_spell_level('electrokinetic_robot_interface')", ">=", "1" ] }
-      ]
-    },
-    "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
-      { "u_learn_recipe": "practice_electrokinetic_robot_interface" },
-      {
-        "u_message": "Use of your powers has led to an insight.  You could directly manipulate a nearby robot's circuitry, if you can figure out the technique.",
-        "popup": true
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_PERSONAL_BATTERY",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "5" ] },
@@ -194,14 +123,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_PARALYSIS",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "6" ] },
@@ -238,14 +170,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_REDUCE_PAIN",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "or": [
                 { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "4" ] },
@@ -281,15 +216,61 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BOLT",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "id": "EOC_ELECTROKIN_LEARNING_HACKING_INTERFACE",
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "4" ] },
+                { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "4" ] },
+                { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "4" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('electrokinetic_hacking_interface')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_hacking_interface" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_hacking_interface" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could create an electrical interface to hack nearby devices, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BOLT",
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -326,14 +307,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_RECHARGE_VEHICLE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -370,13 +354,19 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_PAIN_IMMUNE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "9" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "9" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('electrokinetic_pain_immune')", "<=", "0" ] },
@@ -401,14 +391,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_SPEED_BOOST",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -449,15 +442,61 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_LEARNING_KILL_ROBOT",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "id": "EOC_ELECTROKIN_LEARNING_ROBOT_INTERFACE",
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [
+                { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "12" ] },
+                { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "8" ] },
+                { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "8" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('electrokinetic_robot_interface')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_electrokinetic_robot_interface" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "ELECTROKINETIC" } },
+        { "math": [ "u_spell_level('electrokinetic_robot_interface')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_electrokinetic_robot_interface" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could directly manipulate a nearby robot's circuitry, if you can figure out the technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_LEARNING_KILL_ROBOT",
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -495,14 +534,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_AURA",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "12" ] },
@@ -539,14 +581,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_LIGHTNING_BLAST",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -588,14 +633,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_LEARNING_REVIVE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_electrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "ELECTROKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('electrokinetic_speed_boost')", ">=", "8" ] },

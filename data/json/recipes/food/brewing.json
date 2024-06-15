@@ -91,7 +91,7 @@
     "//": "assuming grains are roasted, slightly variable weight roughly close to 20u flour, +10u for the junipers",
     "components": [
       [ [ "water_clean", 2 ] ],
-      [ [ "corn", 3 ], [ "cornmeal", 5 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 3 ] ],
+      [ [ "corn", 3 ], [ "popcorn_cob", 3 ], [ "cornmeal", 5 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 3 ] ],
       [ [ "juniper", 10 ] ]
     ],
     "//1": "Using 2x250ml of water, this should give us ~500ml of product. For brew_gin it is 7 charges",
@@ -232,7 +232,12 @@
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "//": "30u for corn and 30u to heat water & activate the yeast",
-    "components": [ [ [ "water_clean", 15 ] ], [ [ "cornmeal", 12 ], [ "corn", 2 ] ], [ [ "sugar", 100 ] ], [ [ "yeast", 2 ] ] ],
+    "components": [
+      [ [ "water_clean", 15 ] ],
+      [ [ "cornmeal", 12 ], [ "corn", 2 ], [ "popcorn_cob", 2 ] ],
+      [ [ "sugar", 100 ] ],
+      [ [ "yeast", 2 ] ]
+    ],
     "//1": "Using 15x250ml of water, this should give us ~3750ml of product. For brew_moonshine it is 7 charges per 250ml.",
     "//2": "Hence 3750/250ml*7=105 charges",
     "charges": 105
@@ -505,7 +510,10 @@
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ] ],
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "corn", 1 ], [ "popcorn_cob", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
+    ],
     "charges": 1
   },
   {

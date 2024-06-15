@@ -358,6 +358,16 @@
   },
   {
     "type": "snippet",
+    "category": "<serum_testing_regen>",
+    "text": [
+      {
+        "id": "serum_testing_regen_1",
+        "text": "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects were rounded off.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject cataract were not cured, for some reason."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",

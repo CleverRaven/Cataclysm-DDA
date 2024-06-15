@@ -226,7 +226,8 @@
         [ "welder_crude", 30 ],
         [ "integrated_welder", 30 ],
         [ "soldering_iron", 30 ],
-        [ "soldering_iron_portable", 30 ]
+        [ "soldering_iron_portable", 30 ],
+        [ "integrated_electrokit", 30 ]
       ]
     ],
     "components": [

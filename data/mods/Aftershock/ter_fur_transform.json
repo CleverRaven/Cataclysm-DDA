@@ -1,0 +1,61 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "//": "Used for unlocking all hackable furniture in the mod.",
+    "id": "afs_multi_unlock",
+    "furniture": [
+      {
+        "result": "f_intermodal_crate_open",
+        "valid_furniture": [ "f_sealed_intermodal_crate" ],
+        "message": "The shipping crate bolts slide back and the lid pops open.",
+        "message_good": true
+      },
+      {
+        "result": "f_reinforced_displaycase_o",
+        "valid_furniture": [ "f_reinforced_displaycase" ],
+        "message": "A panel of reinforced glass receeds into the case.",
+        "message_good": true
+      }
+    ],
+    "terrain": [
+      {
+        "result": "t_door_metal_c",
+        "valid_terrain": [ "t_afs_door_metal_elocked" ],
+        "message": "The door's PIN pad chimes happily as the locking mechanism releases.",
+        "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "transform_gratings",
+    "terrain": [
+      {
+        "result": "t_prison_grate_r",
+        "valid_terrain": [ "t_prison_grate" ],
+        "message": "The grating retracts into the floor and ceiling."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "engine_overload_transform",
+    "terrain": [ { "result": [ "t_afs_gun_ship_engine_console_burnt" ], "valid_terrain": [ "t_afs_gun_ship_engine_console" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_lights_on",
+    "terrain": [
+      { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] },
+      { "result": "t_linoleum_whitefloor_olight", "valid_terrain": [ "t_linoleum_white_olight_inactive" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "afs_lights_off",
+    "terrain": [
+      { "result": "t_metal_floor_olight_inactive", "valid_terrain": [ "t_metal_floor_olight" ] },
+      { "result": "t_linoleum_white_olight_inactive", "valid_terrain": [ "t_linoleum_whitefloor_olight" ] }
+    ]
+  }
+]

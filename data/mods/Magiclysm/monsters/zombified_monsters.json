@@ -91,7 +91,7 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "GRABS",
       "SWARMS",
@@ -124,7 +124,7 @@
       "vision_night": 19,
       "armor": { "bash": 3, "cut": 3, "bullet": 2 }
     },
-    "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] },
+    "delete": { "flags": [ "PATH_AVOID_DANGER" ] },
     "extend": { "special_attacks": [ [ "SMASH", 20 ] ] }
   },
   {
@@ -149,7 +149,7 @@
     "regenerates": 15,
     "proportional": { "volume": 1.05, "weight": 1.07 },
     "extend": { "species": [ "ZOMBIE" ], "flags": [ "BASHES", "POISON", "NO_BREATHE", "REVIVES" ] },
-    "delete": { "flags": [ "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE" ] }
+    "delete": { "flags": [ "PATH_AVOID_DANGER", "PATH_AVOID_FIRE" ] }
   },
   {
     "type": "MONSTER",
@@ -204,7 +204,7 @@
       "armor": { "bash": 2, "cut": 1, "bullet": -2 }
     },
     "proportional": { "volume": 1.01, "weight": 0.95 },
-    "extend": { "flags": [ "PATH_AVOID_DANGER_1" ], "special_attacks": [ { "type": "leap", "cooldown": 7, "max_range": 2 } ] }
+    "extend": { "flags": [ "PATH_AVOID_DANGER" ], "special_attacks": [ { "type": "leap", "cooldown": 7, "max_range": 2 } ] }
   },
   {
     "id": "mon_feral_human_magician_fungal_corpse",

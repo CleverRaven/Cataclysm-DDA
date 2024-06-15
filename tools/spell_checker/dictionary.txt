@@ -676,6 +676,8 @@ blacksmithy
 Blackstone
 blackwood
 Blacky
+bladderwrack
+bladelike
 bladesmithing
 blam
 Blandford
@@ -800,6 +802,7 @@ Breece
 Breedlove
 Bren
 Brenda
+Breton
 Brett
 brewable
 Brewster
@@ -1163,6 +1166,7 @@ coffeetable
 coffeetree
 Cohasset
 coilgun
+coilpistol
 coilguns
 coincidently
 coipo
@@ -1433,6 +1437,7 @@ dementias
 Demeter
 demi
 demihuman
+Demilled
 demining
 Demir
 demisexuality
@@ -2307,6 +2312,7 @@ gov
 gozu
 gozus
 GPMG
+GPNVG
 GR
 gr
 graboid
@@ -2758,6 +2764,8 @@ icecream
 Icelandic
 Ichaival
 Ichaivals
+ichcahuipilli
+ichcahuipillis
 Ichi
 ichthyostega
 ichthys
@@ -2859,6 +2867,14 @@ Irishman
 irising
 Ironfist
 ironshod
+irradiance
+irremovable
+irrecoverable
+irritants
+isable
+isassembled
+isk
+isopod
 Irradiants
 Isaac
 isekai
@@ -3162,6 +3178,7 @@ Kohler
 koi
 koji
 Kojiki
+kombu
 komodo
 kompot
 Kool
@@ -3178,6 +3195,7 @@ kPa
 krabgek
 krabgeks
 Krag
+krampouezh
 krar
 krars
 Krav
@@ -3396,6 +3414,7 @@ LMES
 LMG
 LMGs
 LMOE
+Locutus
 loadout
 loadouts
 lobotomizer
@@ -4182,6 +4201,7 @@ neuropsychology
 Neurosoft
 neurostimulators
 neurosynaptic
+neurotoxic
 neurotoxin
 NEURT
 neutrite
@@ -4310,6 +4330,8 @@ numpad
 nums
 Nunez
 NV
+NVG
+NVGs
 NW
 NY
 Nyâyis
@@ -4972,6 +4994,7 @@ reenabled
 reenactor
 reenactors
 refuelable
+refurb
 regenerators
 Reggie
 regia
@@ -5085,6 +5108,7 @@ Rochester
 Rockbolt
 rockclimbing
 Rockford
+rockin'
 Rockland
 Rockport
 rockwheel
@@ -5654,6 +5678,7 @@ spacebar
 Spaceborn
 spacefaring
 spacetime
+spadefoot
 spadelike
 spalling
 Spanish
@@ -5948,6 +5973,7 @@ SWD
 Swedish
 sweety
 Swiss
+swole
 swordfighting
 swording
 swordsmith
@@ -6170,6 +6196,7 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timestamp
 timey
 Timmy
 Timorese
@@ -6462,6 +6489,7 @@ unselectable
 unsetting
 unsleeping
 unsmoked
+unspun
 unstocked
 untamable
 untampered

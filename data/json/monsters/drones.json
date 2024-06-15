@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "autonomous drone" },
     "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
+    "species": [ "ROBOT_FLYING" ],
     "volume": "750 ml",
     "weight": "1 kg",
     "hp": 10,
@@ -158,7 +158,7 @@
       "BIOLOGICALPROOF",
       "NO_BREATHE",
       "INTERIOR_AMMO",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "STUN_IMMUNE"

@@ -196,7 +196,7 @@
     ],
     "responses": [
       { "text": "You're mother must've been very nice.", "topic": "TALK_GODCO_guard_food_mother" },
-      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_father" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
       { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
     ]
@@ -209,7 +209,7 @@
     ],
     "responses": [
       { "text": "Is that why you joined the Church?", "topic": "TALK_GODCO_guard_food_church" },
-      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_father" },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
       { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
     ]

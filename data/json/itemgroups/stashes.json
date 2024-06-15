@@ -20,8 +20,8 @@
       [ "can_corn", 35 ],
       [ "cooked_pumpkin", 20 ],
       [ "can_spam", 30 ],
-      { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 5, "group": "seasoning_salt_bag_plastic_100" },
+      { "prob": 10, "group": "salt_various" },
+      { "prob": 5, "group": "seasoning_salt_various" },
       [ "vinegar", 10 ],
       { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },
@@ -328,7 +328,9 @@
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
-      [ "bondage_mask", 20 ]
+      [ "bondage_mask", 20 ],
+      [ "gold_anklet", 25 ],
+      [ "silver_anklet", 25 ]
     ]
   },
   {
@@ -431,7 +433,7 @@
     "id": "tobacco_bag_plastic_1_20",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
   },
   {

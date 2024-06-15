@@ -25,7 +25,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -1112,7 +1112,9 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
+        // TODO: Get rid of untyped overload
         bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item *used, const std::string &method ) override;
         bool invoke_item( item * ) override;
 
@@ -1130,7 +1132,7 @@ class npc : public Character
         // among the different attack methods the npc has available, what's the best one in the current situation?
         // picks among melee, guns, spells, etc.
         // updates the ai_cache
-        void evaluate_best_weapon( const Creature *target );
+        void evaluate_best_attack( const Creature *target );
         float estimate_armour( const Character &candidate ) const;
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
@@ -1146,6 +1148,10 @@ class npc : public Character
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
+        // Returns score for how well this weapon might kill things
+        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
+        // Returns best weapon. Can return null (fists)
+        item *evaluate_best_weapon() const;
         // Returns true if did wield it
         bool wield_better_weapon();
 
@@ -1358,7 +1364,10 @@ class npc : public Character
         // Player orders a friendly NPC to move to this position
         std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
-        const item *wanted_item = nullptr;
+
+        //Safe reference to an item at a specific location in case it gets deleted before pickup
+        item_location wanted_item = {};
+
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;

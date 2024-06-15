@@ -40,7 +40,7 @@
       "POISON",
       "NO_BREATHE",
       "ARTHROPOD_BLOOD",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS",
       "SWIMS",
@@ -77,7 +77,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "FIRE", "HURT" ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "SWIMS", "CLIMBS", "SWARMS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "SWIMS", "CLIMBS", "SWARMS", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_shantak",
@@ -114,7 +114,7 @@
       "SMELLS",
       "PET_MOUNTABLE",
       "FLIES",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "NO_BREATHE",
       "LOUDMOVES",

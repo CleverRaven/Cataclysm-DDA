@@ -4,10 +4,10 @@
     "id": "EOC_TELEKINETIC_LIFTER",
     "condition": { "u_has_trait": "TELEKINETIC" },
     "effect": {
-      "switch": { "math": [ "u_school_level('TELEKINETIC')" ] },
+      "switch": { "math": [ "u_spell_level_sum('school': 'TELEKINETIC') / 8" ] },
       "cases": [
         {
-          "case": 2,
+          "case": 0,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_1" },
@@ -15,7 +15,7 @@
           ]
         },
         {
-          "case": 3,
+          "case": 1,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_2" },
@@ -23,7 +23,7 @@
           ]
         },
         {
-          "case": 4,
+          "case": 2,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_3" },
@@ -31,7 +31,7 @@
           ]
         },
         {
-          "case": 5,
+          "case": 3,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_4" },
@@ -39,7 +39,7 @@
           ]
         },
         {
-          "case": 6,
+          "case": 4,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_5" },
@@ -47,7 +47,7 @@
           ]
         },
         {
-          "case": 7,
+          "case": 5,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_6" },
@@ -55,7 +55,7 @@
           ]
         },
         {
-          "case": 8,
+          "case": 6,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_7" },
@@ -63,7 +63,7 @@
           ]
         },
         {
-          "case": 9,
+          "case": 7,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_8" },
@@ -71,7 +71,7 @@
           ]
         },
         {
-          "case": 10,
+          "case": 8,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_9" },
@@ -79,7 +79,7 @@
           ]
         },
         {
-          "case": 11,
+          "case": 9,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_10" },
@@ -87,7 +87,7 @@
           ]
         },
         {
-          "case": 12,
+          "case": 10,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_11" },
@@ -95,7 +95,7 @@
           ]
         },
         {
-          "case": 13,
+          "case": 11,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_12" },
@@ -103,7 +103,7 @@
           ]
         },
         {
-          "case": 14,
+          "case": 12,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_13" },
@@ -111,7 +111,7 @@
           ]
         },
         {
-          "case": 15,
+          "case": 13,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_14" },
@@ -119,7 +119,7 @@
           ]
         },
         {
-          "case": 16,
+          "case": 14,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_15" },
@@ -127,7 +127,7 @@
           ]
         },
         {
-          "case": 17,
+          "case": 15,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_16" },
@@ -135,7 +135,7 @@
           ]
         },
         {
-          "case": 18,
+          "case": 16,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_17" },
@@ -143,7 +143,7 @@
           ]
         },
         {
-          "case": 19,
+          "case": 17,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_18" },
@@ -151,7 +151,7 @@
           ]
         },
         {
-          "case": 20,
+          "case": 18,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_19" },
@@ -159,7 +159,7 @@
           ]
         },
         {
-          "case": 21,
+          "case": 19,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_20" },
@@ -167,7 +167,7 @@
           ]
         },
         {
-          "case": 22,
+          "case": 20,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_21" },
@@ -175,7 +175,7 @@
           ]
         },
         {
-          "case": 23,
+          "case": 21,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_22" },
@@ -183,7 +183,7 @@
           ]
         },
         {
-          "case": 24,
+          "case": 22,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_23" },
@@ -191,7 +191,7 @@
           ]
         },
         {
-          "case": 25,
+          "case": 23,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_24" },
@@ -199,7 +199,7 @@
           ]
         },
         {
-          "case": 26,
+          "case": 24,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_25" },
@@ -207,7 +207,7 @@
           ]
         },
         {
-          "case": 27,
+          "case": 25,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_26" },
@@ -215,7 +215,7 @@
           ]
         },
         {
-          "case": 28,
+          "case": 26,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_27" },
@@ -223,7 +223,7 @@
           ]
         },
         {
-          "case": 29,
+          "case": 27,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_28" },
@@ -231,7 +231,7 @@
           ]
         },
         {
-          "case": 30,
+          "case": 28,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_29" },
@@ -239,7 +239,7 @@
           ]
         },
         {
-          "case": 31,
+          "case": 29,
           "effect": [
             { "run_eocs": "EOC_TELEKIN_REMOVE_LIFTING_FIELD" },
             { "u_add_trait": "TELEKINETIC_LIFTER_30" },
@@ -284,6 +284,62 @@
       { "u_lose_trait": "TELEKINETIC_LIFTER_3" },
       { "u_lose_trait": "TELEKINETIC_LIFTER_2" },
       { "u_lose_trait": "TELEKINETIC_LIFTER_1" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_EXTENDED_CHANNELING_ON",
+    "condition": { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_EXTENDED_CHANNELING_ON_2",
+            "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+            "effect": [
+              { "u_deactivate_trait": "PSI_TORRENTIAL_CHANNELING" },
+              { "u_add_trait": "PSI_EXTENDED_CHANNELING_active" },
+              { "u_message": "You begin to take more care in channeling your powers.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_add_trait": "PSI_EXTENDED_CHANNELING_active" },
+              { "u_message": "You begin to take more care in channeling your powers.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "PSI_EXTENDED_CHANNELING_active" },
+      { "u_message": "You return to your previous speed in channeling your powers.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON",
+    "condition": { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON_2",
+            "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
+            "effect": [
+              { "u_deactivate_trait": "PSI_EXTENDED_CHANNELING" },
+              { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+              { "u_message": "You begin drawing deeply on the Nether.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+              { "u_message": "You begin drawing deeply on the Nether.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+      { "u_message": "The cut off the overflow of Nether power.", "type": "neutral" }
     ]
   }
 ]

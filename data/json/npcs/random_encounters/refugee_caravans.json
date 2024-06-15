@@ -48,6 +48,17 @@
         "topic": "TALK_CARAVAN_REFUGEE_A1_Job",
         "condition": { "not": { "u_has_trait": "KILLER" } }
       },
+      {
+        "text": "I don't mean any harm.  I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_CARAVAN_REFUGEES_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
       { "text": "I don't have time for zombie bait like you.", "topic": "TALK_DONE" }
     ]
   },
@@ -76,6 +87,34 @@
     "responses": [
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
       { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CARAVAN_REFUGEES_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The refugee nods along",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then frowns.  \"Nope, not ringing any bells, sorry.\"",
+          "no": ", looking thoughtful.  \"Maybe, yeah.  I saw a weird building sort of like that a while back, but we were on the move and couldn't stop to check it out.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
     ]
   },
   {

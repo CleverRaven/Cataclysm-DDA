@@ -10,7 +10,6 @@
     "price": "1 kUSD",
     "price_postapoc": "20 USD",
     "material": [ "superalloy", "qt_steel" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "symbol": "[",
     "looks_like": "PR24-extended",
     "color": "light_gray",
@@ -59,7 +58,6 @@
     "color": "light_blue",
     "looks_like": "arming_sword",
     "turns_per_charge": 4,
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "to_hit": 2,
     "flags": [ "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
@@ -70,7 +68,7 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade stops humming, and its edge dissipates into a smooth curve as it cools."
     },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8, "cut": 18, "afs_heat_melee": 35 }
   },
   {
     "id": "afs_hardlight_longbow",
@@ -248,6 +246,24 @@
     "weapon_category": [ "KNIVES" ]
   },
   {
+    "id": "afs_toxic_knife",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "neurotoxic knife", "str_pl": "neurotoxic knives" },
+    "description": "A broad white-ceramic knife that is constantly kept coated in neurotoxic oil by a handle mounted reservoir.  Don't cut yourself.",
+    "weight": "390 g",
+    "volume": "250 ml",
+    "price": "40 USD",
+    "material": [ "ceramic", "plastic" ],
+    "symbol": "/",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "weapon_category": [ "KNIVES" ],
+    "thrown_damage": [ { "damage_type": "afs_toxin_pierce", "amount": 14 } ],
+    "melee_damage": { "afs_toxin_pierce": 21 }
+  },
+  {
     "type": "GENERIC",
     "id": "trident",
     "looks_like": "pitchfork",
@@ -378,7 +394,7 @@
     "dispersion": 850,
     "durability": 6,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "extend": { "flags": [ "USE_UPS" ] },
     "melee_damage": { "bash": 12 }
   },

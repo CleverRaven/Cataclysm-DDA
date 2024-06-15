@@ -17,6 +17,15 @@ float item_reference::spoil_multiplier()
     } );
 }
 
+bool item_reference::has_watertight_container()
+{
+    return std::any_of(
+               pocket_chain.begin(), pocket_chain.end(),
+    []( item_pocket const * pk ) {
+        return pk->can_contain_liquid( false );
+    } );
+}
+
 bool active_item_cache::add( item &it, point location, item *parent,
                              std::vector<item_pocket const *> const &pocket_chain )
 {

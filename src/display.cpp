@@ -986,7 +986,14 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
 // Weight carried, relative to capacity, in %, like "90%".
 std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
 {
-    int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    int carry_wt;
+
+    if( u.weight_capacity() > 0_gram ) {
+        carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    } else {
+        carry_wt = 100;
+    }
+
     std::string weight_text = string_format( "%d%%", carry_wt );
 
     nc_color weight_color = c_green;
@@ -1355,7 +1362,7 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
                     name = colorize( "@", c_pink );
                     break;
             }
-            name = string_format( "%s %s", name, n->name );
+            name = string_format( "%s %s", name, n->get_name() );
             names.emplace_back( name );
         }
     }

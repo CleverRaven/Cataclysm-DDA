@@ -8,7 +8,7 @@ All powers have a kCal cost equal to (Difficulty of power * 5) times a randomize
 # Biokinesis
 **Note**: No biokinetic powers have a target listed because they only affect the psion. 
 
-**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 1.5% times the highest single biokinetic power the psion knows.
+**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 0.075% times the sum total levels of the psion's biokinetic powers, and increases the number of vitamins absorbed from food by a similar amount.
 
 ## Overcome Pain (C)
 *Difficulty*: 1<br />
@@ -149,7 +149,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Clairsentience
 
-**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creaturs within a radius of 2 squares plus 1.5 squares times the level of the psion's highest-level clairsentience power.
+**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
 
 ## Night Eyes (C)
 *Difficulty*: 1<br />
@@ -229,7 +229,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 2 minutes to 7 minutes and 30 seconds, plus 9 seconds to 17 seconds per level<br />
 *Stamina Cost*: 5500, minus 145 per level to a minimum of 2750<br />
 *Channeling Time*: 150 moves, minus 9 moves per level to a minimum of 70<br />
-*Effects*: Gaze a short time into the future to predict enemy movements.  Grants +1 bonus dodge and block, +1 addition bonus dodge and block per 6 power levels, prevents the psion from being grabbed, and applies the UNCANNY_DODGE flag.<br />
+*Effects*: Gaze a short time into the future to predict enemy movements.  Grants a 25% chance to avoid any damage from an attack plus 1.5% per power level to a maximum of a 70% chance, prevents the psion from being grabbed, and applies the HARDTOHIT flag.  It also increases your effective dodge skill by 1 per 2 power levels.<br />
 *Prerequisites*: Premonition 10 *or* Speed Reader 10 *or* Discern Weakness 6, Clairyovance 6<br />
 
 ## Intuitive Artisan (C)
@@ -297,7 +297,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Electrokinesis
 
-**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 1 per four levels of the psion's highest-leveled electrokinetic power and reduces incoming pain by 0.7% times the level of the psion's highest-level electrokinetic power.
+**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 0.2 per level of the psion's electrokinetic powers and reduces incoming pain by 0.035% times the sum total of the psion's levels in electrokinetic powers.
 
 ## Spark Sight (C)
 *Difficulty*: 1<br />
@@ -596,7 +596,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Pyrokinesis
 
-**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and becoming more comfortable when sleeping, as well as ignoring the first 10 points of wetness on any part of their body.
+**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and increasing their temperature when sleeping by 0.05 times the total levels in the psion's pyrokinetic powers, as well as ignoring the first 10 points of wetness on any part of their body.
 
 ## Brilliant Flash
 *Difficulty*: 1<br />
@@ -726,7 +726,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, though they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their total levels in their telekinetic powers, increasing by one rank per 8 total telekinetic levels, though they must use the recipe Contemplate Lifting Field to increase it.
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
@@ -876,7 +876,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 # Telepathy
 
-**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
+**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 0.075% times the psion's total levels in telepathic powers.
 
 Powers causing telepathic damage have a 5% chance to down the target, a 33% chance to stun the target for 1 second, and a 66% chance to daze the target for 1 second. Each of these is checked independently.
 
@@ -909,11 +909,11 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
-*Target*: Self (or dialogue)<br />
-*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level when used on self, indefinite when used on others<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
-*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Effects*: When used on oneself, edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). When used on others, increases a target NPC's trust by 0.25 per power level and reduces both fear and anger by 0.5 per power level (usable a maximum of once per 12 hours) or reduces a target monster's aggression by power level times 5 (usable once per 5 minutes). It may also be used in dialogue to calm down angry NPCs.<br />
 *Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
 
 ## Synaptic Blast
@@ -949,7 +949,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Aftereffects last from 2 to 5 seconds, plus 0.75 to 1.75 seconds per power level<br />
 *Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
 *Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 50<br />
-*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of moves depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3), and then multiply by 100 to get the moves subtracted from the target. Level 1 minimum is 46.5 moves lost, level 20 maximum is 625. For the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage.<br />
+*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of seconds depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3).  In addition, the target will suffer a lingering teror--for the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage. If an NPC, the target has their fear of the avatar increased by one-half the power level, and if a monster, the target has their morale reduced by 5 times the power level.<br />
 *Prerequisites*: Synaptic Blast 8, Mood Stabilization 8<br />
 
 ## Obscurity
@@ -999,7 +999,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 # Teleportation
 
-**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
+**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.025% times the psion's total levels in teleportation powers.
 
 ## Blink 
 *Difficulty*: 1<br />
@@ -1066,7 +1066,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Farstep 
 *Difficulty*: 6<br />
-*Target*: Anywhere within 2 square plus 1.5 squares per power level<br />
+*Target*: Anywhere within 1 square plus 2 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
 *Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
@@ -1102,7 +1102,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 # Vitakinesis
 
-**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 1% times the psion's highest-leveled vitakinetic power, faster healing equal to 10% plus 1% times the psion's highest-leveled vitakinetic power, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
+**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 0.05% times the psion's total levels in vitakinetic powers, faster healing equal to 10% plus 0.05% times the psion's total levels in vitakinetic powers, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
 
 ## Healthy Glow (C) 
 *Difficulty*: 1<br />

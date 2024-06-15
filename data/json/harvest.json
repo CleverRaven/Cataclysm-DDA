@@ -388,6 +388,26 @@
     "entries": [ { "drop": "wintergreen_berry", "base_num": [ 1, 4 ] }, { "drop": "wintergreen_leaves", "base_num": [ 1, 2 ] } ]
   },
   {
+    "id": "seaweed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "seaweed" } ]
+  },
+  {
+    "id": "kelp_sugar_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "kelp_sugar" } ]
+  },
+  {
+    "id": "bladderwrack_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "bladderwrack" } ]
+  },
+  {
+    "id": "sea_lettuce_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "sea_lettuce" } ]
+  },
+  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [
@@ -1107,7 +1127,7 @@
     "id": "bird_tiny",
     "type": "harvest",
     "entries": [
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
@@ -1117,9 +1137,9 @@
     "id": "bird_small",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
@@ -1129,9 +1149,9 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 },
@@ -2703,6 +2723,23 @@
     "type": "harvest",
     "entries": [
       { "drop": "skull_opossum", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "skunk_with_skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_skunk", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },

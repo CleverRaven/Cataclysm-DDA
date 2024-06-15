@@ -124,8 +124,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_clair_weak_point",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DISCERN_WEAKNESS",
     "shape": "blast",
     "min_range": {
       "math": [

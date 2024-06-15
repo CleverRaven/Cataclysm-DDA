@@ -140,7 +140,7 @@
             { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
             { "u_has_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
             { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
-            { "u_has_var": "dialogue_intercom_completed_robofac_lixa_sm_1", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
             {
               "or": [
                 { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
@@ -899,14 +899,14 @@
         "om_special": "physics_lab_LIXA",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 180,
+        "search_range": 800,
         "z": 0
       }
     },
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 5 },
-        { "u_add_var": "dialogue_intercom_completed_robofac_lixa_sm_1", "value": "yes" },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },

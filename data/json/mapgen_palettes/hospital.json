@@ -8,6 +8,7 @@
       ":": "t_pavement_y",
       "&": "t_floor",
       ".": "t_floor",
+      "a": "t_floor",
       "b": "t_floor",
       "c": "t_floor",
       "d": "t_floor",
@@ -53,7 +54,7 @@
       "b": "f_bench",
       "c": "f_chair",
       "B": "f_bed",
-      "f": "f_fridge",
+      "f": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "d": "f_desk",
       "k": "f_bookcase",
       "C": "f_counter",
@@ -76,7 +77,8 @@
       "N": "f_oxygen_concentrator",
       "Y": "f_hd_compressor_unit"
     },
-    "toilets": { "&": {  } }
+    "toilets": { "&": {  } },
+    "vehicles": { "a": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 } }
   },
   {
     "type": "palette",
@@ -157,7 +159,7 @@
       "l": "f_autodoc",
       "m": "f_autodoc_couch",
       "n": "f_autoclave",
-      "p": "f_fridge",
+      "p": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "q": "f_glass_fridge",
       "r": "f_table",
       "s": "f_table",

@@ -24,7 +24,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   },
   {
     "id": "slingshot",
@@ -51,7 +51,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel mount", 1 ], [ "stock mount", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   },
   {
     "id": "staff_sling",
@@ -91,7 +91,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "bore", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 16 }
   },
   {
@@ -119,6 +119,6 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel mount", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   }
 ]

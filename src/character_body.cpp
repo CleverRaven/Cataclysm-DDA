@@ -30,7 +30,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -90,6 +89,7 @@ static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_BARKY( "BARKY" );
 static const json_character_flag json_flag_COLDBLOOD( "COLDBLOOD" );
 static const json_character_flag json_flag_COLDBLOOD2( "COLDBLOOD2" );
 static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
@@ -101,7 +101,10 @@ static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
-static const trait_id trait_BARK( "BARK" );
+static const morale_type morale_comfy( "morale_comfy" );
+static const morale_type morale_pyromania_nearfire( "morale_pyromania_nearfire" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
@@ -458,7 +461,7 @@ void Character::update_bodytemp()
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
                                             get_location(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
-    const bool has_bark = has_trait( trait_BARK );
+    const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
@@ -624,14 +627,14 @@ void Character::update_bodytemp()
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
-                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
+                add_morale( morale_pyromania_nearfire, 10, 10, 1_hours,
                             30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                rem_morale( morale_pyromania_nofire );
             }
         } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
-            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
+            add_morale( morale_pyromania_nearfire, 5, 5, 30_minutes,
                         15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
-            rem_morale( MORALE_PYROMANIA_NOFIRE );
+            rem_morale( morale_pyromania_nofire );
         }
 
         mod_part_temp_conv( bp, sunlight_warmth );
@@ -706,7 +709,7 @@ void Character::update_bodytemp()
                 calendar::once_every( 1_minutes ) && get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
-                add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
+                add_morale( morale_comfy, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 

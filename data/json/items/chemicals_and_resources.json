@@ -355,13 +355,26 @@
     "name": { "str_sp": "fermentable liquid mixture" },
     "volume": "500 ml",
     "weight": "500 g",
-    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.",
+    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.  Also, biogas production will start after one month.",
     "copy-from": "fertilizer_liquid",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "time": "60 days", "results": [ "fermented_fertilizer_liquid", "biogas" ] },
+    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
     "charges": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fermentable_fish_mixture",
+    "name": { "str_sp": "fermentable fish mixture" },
+    "description": "A mixture of fish, sugars, and water.  Wait about two months for them to be fermented in an open tank.",
+    "copy-from": "fermentable_liquid_mixture",
+    "use_action": {
+      "type": "delayed_transform",
+      "target": "fermented_fertilizer_liquid",
+      "transform_age": 4320000,
+      "not_ready_msg": "The overpowering smell of the fermenting fish liquid makes it clear that it is not ready for use."
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -410,7 +423,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": [ "FUNGICIDE" ],
     "stim": -7,
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "MED",
     "symbol": "!",
     "healthy": -7,
@@ -430,7 +443,7 @@
     "weight": "50 g",
     "color": "pink",
     "looks_like": "fungicide",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "symbol": "!",
     "description": "Agricultural-grade chemical insecticide powder designed to eradicate insect pests.",
     "price": "5 cent",
@@ -519,7 +532,7 @@
     "volume": "250 ml",
     "weight": "1760 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 100
   },
   {
@@ -532,7 +545,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of silvery-white metallic powder composed of nickel.  Common industrial uses include production of stainless steel as well as other alloys.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
     "weight": "36 mg",
@@ -619,7 +632,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A handful of dark green crystalline powder, with a weak pungent smell similar to that of hydrochloric acid.  Commonly used as a Lewis acid for catalyzing various chemical reactions.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "2900 mg",
@@ -636,7 +649,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of soft, colorless powder with a sharp pungent odor, also known as butter of antimony.  It's a catalyst for polymerization, hydrocracking, and chlorination reactions, and has some other niche uses.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "3140 mg",
@@ -1068,7 +1081,7 @@
     "volume": "89 ml",
     "weight": "151 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 1000
   },
   {
@@ -1120,7 +1133,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 200
   },
   {
@@ -1138,7 +1151,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 200
   },
   {
@@ -1155,7 +1168,7 @@
     "volume": "250 ml",
     "weight": "70 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 10,
     "melee_damage": { "bash": 1 }
   },

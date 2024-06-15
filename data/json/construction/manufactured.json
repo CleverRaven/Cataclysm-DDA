@@ -1,0 +1,216 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_finisher",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "3 h",
+    "pre_note": "Carve a thick wooden door for the brick oven.",
+    "qualities": [ [ { "id": "AXE", "level": 2 } ], [ { "id": "CHISEL_WOOD", "level": 1 } ] ],
+    "components": [ [ [ "log", 1 ] ] ],
+    "pre_terrain": "t_brick_oven_struct",
+    "post_terrain": "t_brick_oven",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_finisher_metal",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "15 m",
+    "pre_note": "Weld together a metal door for the brick oven.",
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ] ],
+    "using": [ [ "welding_standard", 6 ] ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 5 ] ] ],
+    "pre_terrain": "t_brick_oven_struct",
+    "post_terrain": "t_brick_oven",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_prep",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "2 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "fire_brick", 30 ] ], [ [ "clay_lump", 5 ] ], [ [ "any_fresh_water", 2, "LIST" ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "t_brick_oven_base",
+    "activity_level": "ACTIVE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_oven_struct",
+    "group": "build_brick_oven",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "5 h",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "fire_brick", 60 ] ], [ [ "clay_lump", 30 ] ], [ [ "any_fresh_water", 15, "LIST" ] ] ],
+    "pre_terrain": "t_brick_oven_base",
+    "post_terrain": "t_brick_oven_struct",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_covered_well",
+    "group": "build_water_well",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "time": "480 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [
+      [ [ "rock", 40 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ],
+      [ [ "nails", 8, "LIST" ], [ "rope_natural_short", 2, "LIST" ] ]
+    ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_covered_well"
+  },
+  {
+    "type": "construction",
+    "id": "constr_leanto",
+    "skill": "survival",
+    "group": "build_pine_lean_to",
+    "category": "CONSTRUCT",
+    "difficulty": 2,
+    "time": "90m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "stick", 6 ], [ "stick_long", 3 ], [ "2x4", 3 ] ] ],
+    "pre_terrain": "t_tree_pine",
+    "post_terrain": "t_leanto"
+  },
+  {
+    "type": "construction",
+    "id": "constr_obstacle_rock",
+    "group": "obstacle_rock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "time": "5 m",
+    "components": [ [ [ "rock_large", 22 ] ] ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_rockyobstacle"
+  },
+  {
+    "type": "construction",
+    "id": "constr_radio_controls",
+    "skill": "fabrication",
+    "group": "build_a_radio_tower_console",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 3,
+    "time": "24h",
+    "on_display": false,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "processor", 2 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "circuit", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
+    ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_radio_controls"
+  },
+  {
+    "type": "construction",
+    "id": "constr_radio_tower",
+    "skill": "fabrication",
+    "group": "build_a_radio_tower",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 3,
+    "time": "24h",
+    "on_display": false,
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [
+        [ "wind_turbine", 4 ],
+        [ "xl_wind_turbine", 1 ],
+        [ "solar_panel", 4 ],
+        [ "reinforced_solar_panel", 4 ],
+        [ "solar_panel_v2", 2 ],
+        [ "reinforced_solar_panel_v2", 2 ]
+      ],
+      [ [ "storage_battery", 1 ], [ "medium_storage_battery", 5 ], [ "small_storage_battery", 50 ] ],
+      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "pipe", 24 ] ]
+    ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_radio_tower"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rootcellar",
+    "group": "build_root_cellar",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 4 ], [ "fabrication", 4 ] ],
+    "time": "130 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "rock", 40 ], [ "brick", 40 ] ],
+      [ [ "2x4", 6 ], [ "stick", 6 ], [ "stick_long", 3 ] ],
+      [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+    ],
+    "pre_note": "You need a deep pit to construct a root cellar.",
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_rootcellar"
+  },
+  {
+    "type": "construction",
+    "id": "constr_tarptent",
+    "skill": "survival",
+    "group": "build_tarp_lean_to",
+    "category": "CONSTRUCT",
+    "difficulty": 1,
+    "time": "50m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pointy_stick", 4 ] ], [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "post_terrain": "t_tarptent"
+  },
+  {
+    "type": "construction",
+    "id": "constr_water_pump",
+    "group": "build_water_well",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "well_pump", 1 ] ], [ [ "pipe", 6 ] ] ],
+    "pre_terrain": "t_covered_well",
+    "post_terrain": "t_water_pump"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wooden_well",
+    "group": "build_water_well",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "bucket", 1 ], [ "bucket_5gal", 1 ], [ "bucket_wood", 1 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ]
+    ],
+    "pre_terrain": "t_covered_well",
+    "post_terrain": "t_wooden_well"
+  }
+]

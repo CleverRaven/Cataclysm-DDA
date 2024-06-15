@@ -1922,7 +1922,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
-               " and 0-49 mg Vitamin C (0-54%)\n" );
+               " and 0-45 mg Vitamin C (0-50%)\n" );
     }
 }
 
@@ -2495,7 +2495,7 @@ TEST_CASE( "repairable_and_with_what_tools", "[iteminfo][repair]" )
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, portable soldering iron, or TEST soldering iron.\n"
+           "<color_c_white>Repair</color> using integrated soldering iron, integrated welder, gunsmith repair kit, firearm repair kit, soldering iron, portable soldering iron, or TEST soldering iron.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==

@@ -21,6 +21,12 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "Isherwood Farms",
+    "new_id": "Isherwood Farm Mutable",
+    "//": "Migrated in 0.I"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "FakeSpecial_cs_market_small",
     "new_id": "cs_market_small",
     "//": "Migrated in 0.I"
