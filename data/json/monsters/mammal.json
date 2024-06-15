@@ -1838,7 +1838,7 @@
     "species": [ "MAMMAL" ],
     "volume": "386 L",
     "weight": "386 kg",
-    "hp": 120,
+    "hp": 285,
     "speed": 200,
     "material": [ "flesh" ],
     "symbol": "M",
@@ -1857,7 +1857,7 @@
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
-    "reproduction": { "baby_type": { "baby_monster_group": "REPRODUCTION_MUT_MOOSE" }, "baby_count": 1, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster_group": "REPRODUCTION_MUT_MOOSE" }, "baby_count": 1, "baby_timer": 240 },
     "harvest": "moose_with_skull",
     "dissect": "dissect_cattle_sample_large",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
@@ -1865,7 +1865,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "CORNERED_FIGHTER", "EATS" ],
-    "armor": { "bash": 4, "cut": 1, "bullet": 1, "electric": 1 }
+    "armor": { "bash": 6, "cut": 6, "bullet": 5, "electric": 1 }
   },
   {
     "id": "mon_moose_calf",
@@ -1900,7 +1900,7 @@
     "dissect": "dissect_cattle_sample_single",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "upgrades": { "age_grow": 180, "into": "mon_moose" },
+    "upgrades": { "age_grow": 183, "into": "mon_moose" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 50 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW", "EATS" ],
