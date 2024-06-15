@@ -237,7 +237,7 @@
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": { "str_sp": "Chiappa Rhino" },
-    "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder, helping with muzzle flip.  This particular model features a 6 inch barrel.",
+    "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder, helping with muzzle flip.",
     "symbol": "(",
     "color": "light_gray",
     "looks_like": "sw_619",
