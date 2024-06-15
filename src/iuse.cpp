@@ -76,7 +76,6 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "music.h"
 #include "mutation.h"
@@ -302,6 +301,17 @@ static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
+
+static const morale_type morale_food_bad( "morale_food_bad" );
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_game( "morale_game" );
+static const morale_type morale_game_found_kitten( "morale_game_found_kitten" );
+static const morale_type morale_marloss( "morale_marloss" );
+static const morale_type morale_music( "morale_music" );
+static const morale_type morale_photos( "morale_photos" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+static const morale_type morale_wet( "morale_wet" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_dog_thing( "mon_dog_thing" );
@@ -998,7 +1008,7 @@ std::optional<int> iuse::datura( Character *p, item *it, const tripoint & )
     p->add_effect( effect_datura, rng( 3_hours, 13_hours ) );
     p->add_msg_if_player( _( "You eat the datura seed." ) );
     if( p->has_trait( trait_SPIRITUAL ) ) {
-        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false, it->type );
+        p->add_morale( morale_food_good, 36, 72, 2_hours, 1_hours, false, it->type );
     }
     return 1;
 }
@@ -1078,7 +1088,7 @@ std::optional<int> iuse::blech( Character *p, item *it, const tripoint & )
         p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
         p->mod_daily_health( it->get_comestible()->healthy * multiplier,
                              it->get_comestible()->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
+        p->add_morale( morale_food_bad, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
@@ -1125,7 +1135,7 @@ std::optional<int> iuse::plantblech( Character *p, item *it, const tripoint &pos
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->mod_daily_health( it->get_comestible()->healthy * multiplier,
                              it->get_comestible()->healthy * multiplier );
-        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
+        p->add_morale( morale_food_good, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return 1;
     } else {
         return blech( p, it, pos );
@@ -1251,7 +1261,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.add_msg_if_player( m_good,
                              _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings…" ),
                              it.tname() );
-        p.add_morale( MORALE_MARLOSS, 100, 1000 );
+        p.add_morale( morale_marloss, 100, 1000 );
         for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             if( pr.first != current_color ) {
                 p.add_addiction( pr.second, 50 );
@@ -1446,7 +1456,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
                               _( "As it settles in, you feel ecstasy radiating through every part of your body…" ) );
-        p->add_morale( MORALE_MARLOSS, 1000, 1000 ); // Last time you'll ever have it this good.  So enjoy.
+        p->add_morale( morale_marloss, 1000, 1000 ); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player( m_good,
                               _( "Your eyes roll back in your head.  Everything dissolves into a blissful haze…" ) );
         /** @EFFECT_INT slightly reduces sleep duration when eating Mycus */
@@ -1506,7 +1516,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
             p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_sleepiness( 5 );
-            p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
+            p->add_morale( morale_marloss, 25, 200 ); // still covers up mutation pain
         }
     } else if( p->has_trait( trait_THRESH_MYCUS ) ) {
         p->mod_painkiller( 5 );
@@ -2689,12 +2699,7 @@ std::optional<int> iuse::ma_manual( Character *p, item *it, const tripoint & )
     return 1;
 }
 
-// Remove after 0.G
-std::optional<int> iuse::hammer( Character *p, item *it, const tripoint &pos )
-{
-    return iuse::crowbar( p, it, pos );
-}
-
+// TODO: Why does this exist?
 std::optional<int> iuse::crowbar_weak( Character *p, item *it, const tripoint &pos )
 {
     return iuse::crowbar( p, it, pos );
@@ -2749,7 +2754,6 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint &pos )
         return std::nullopt;
     }
 
-    // previously iuse::hammer
     if( prying->prying_nails ) {
         p->assign_activity( prying_activity_actor( pnt, item_location{*p, it} ) );
         return std::nullopt;
@@ -3438,8 +3442,8 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint &
 
     avatar &player = get_avatar();
     if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
-        player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-        player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        player.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+        player.rem_morale( morale_pyromania_nofire );
         add_msg( m_good, _( "Fire…  Good…" ) );
     }
     return 0;
@@ -3457,8 +3461,8 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint &po
         }
         avatar &player = get_avatar();
         if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
-            player.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            player.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            player.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+            player.rem_morale( morale_pyromania_nofire );
             add_msg( m_good, _( "Fire…  Good…" ) );
         }
         return 1;
@@ -3781,7 +3785,7 @@ void iuse::play_music( Character *p, const tripoint &source, const int volume,
 
     if( do_effects ) {
         p->add_effect( effect_music, 1_turns );
-        p->add_morale( MORALE_MUSIC, 1, max_morale, 5_minutes, 2_minutes, true );
+        p->add_morale( morale_music, 1, max_morale, 5_minutes, 2_minutes, true );
         // mp3 player reduces hearing
         if( volume == 0 ) {
             p->add_effect( effect_earphones, 1_turns );
@@ -4133,11 +4137,11 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint &
         if( game_score != 0 ) {
             if( game_data.find( "moraletype" ) != game_data.end() ) {
                 std::string moraletype = game_data.find( "moraletype" )->second;
-                if( moraletype == "MORALE_GAME_FOUND_KITTEN" ) {
-                    p->add_morale( MORALE_GAME_FOUND_KITTEN, game_score, 110 );
+                if( moraletype == "morale_game_found_kitten" ) {
+                    p->add_morale( morale_game_found_kitten, game_score, 110 );
                 } /*else if ( ...*/
             } else {
-                p->add_morale( MORALE_GAME, game_score, 110 );
+                p->add_morale( morale_game, game_score, 110 );
             }
         }
 
@@ -4970,7 +4974,7 @@ int iuse::towel_common( Character *p, item *it, bool )
 
         // dry off from being wet
     } else if( p->has_atleast_one_wet_part() ) {
-        p->rem_morale( MORALE_WET );
+        p->rem_morale( morale_wet );
         p->set_all_parts_wetness( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
                               name );
@@ -5273,7 +5277,7 @@ std::optional<int> iuse::bell( Character *p, item *it, const tripoint & )
             const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
                                          0 : cattle_level->second );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
-                p->add_morale( MORALE_MUSIC, 1, std::min( cow_factor, 100 ) );
+                p->add_morale( morale_music, 1, std::min( cow_factor, 100 ) );
             }
         }
     } else {
@@ -5564,7 +5568,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, const tripoint & 
             if( p->has_trait( trait_PSYCHOPATH ) ) {
                 p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
             } else {
-                p->add_morale( MORALE_PHOTOS, rng( 15, 30 ), 100 );
+                p->add_morale( morale_photos, rng( 15, 30 ), 100 );
                 p->add_msg_if_player( m_good, "%s",
                                       SNIPPET.random_from_category( "examine_photo_msg" ).value_or( translation() ) );
             }
@@ -8086,15 +8090,66 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
     return {volume, ammo, time};
 }
 
+static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
+{
+    const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select a appliance" ),
+                                       _( "There is no appliance nearby" ), ACTION_EXAMINE, false );
+    if( !pt ) {
+        p->add_msg_if_player( m_info, _( "You haven't select any appliance" ) );
+        return std::nullopt;
+    } else {
+        optional_vpart_position vp_ = get_map().veh_at( pt.value() );
+        if( !vp_ ) {
+            p->add_msg_if_player( m_info, _( "It's not an appliance" ) );
+            return std::nullopt;
+        } else {
+            std::map<int, itype_id> pseudo_tools;
+            int n = 0;
+            for( const auto&[tool_item, hk] : vp_.value().get_tools() ) {
+                if( tool_item.has_quality( qual_HOTPLATE, 2 ) ) {
+                    pseudo_tools[n] = tool_item.typeId();
+                    n++;
+                }
+            }
+            if( pseudo_tools.empty() ) {
+                p->add_msg_if_player( m_info, _( "Appliance don't have proper heater" ) );
+                return std::nullopt;
+            } else {
+                uilist app_menu;
+                app_menu.title = _( "Select a built-in heater" );
+                for( const auto &[n, i] : pseudo_tools ) {
+                    app_menu.addentry( n, true, MENU_AUTOASSIGN, i->nname( 1 ) );
+                }
+                app_menu.query();
+                if( app_menu.ret < 0 || static_cast<size_t>( app_menu.ret ) >= pseudo_tools.size() ) {
+                    p->add_msg_if_player( m_info, _( "You haven't select any heater" ) );
+                    return std::nullopt;
+                } else {
+                    return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
 heater find_heater( Character *p, item *it )
 {
     bool consume_flag = true;
+    bool pseudo_flag = false;
     int available_heater = 1;
     int heating_effect = 0;
     item_location loc = item_location( *p, it );
+    tripoint_abs_ms vpt;
+    if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
+        pseudo_flag = true;
+    }
     if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
-        return {loc, false, 1, 0};
+        return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
         if( it->ammo_remaining() >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
@@ -8105,7 +8160,7 @@ heater find_heater( Character *p, item *it )
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else {
             p->add_msg_if_player( m_info, _( "The %s has been used up." ), it->tname() );
-            return {loc, true, -1, 0};
+            return {loc, true, -1, 0, vpt, pseudo_flag};
         }
     } else if( !it->has_quality( qual_HOTPLATE ) ) {
         auto filter = [p]( const item & e ) {
@@ -8124,14 +8179,31 @@ heater find_heater( Character *p, item *it )
             }
             return false;
         };
-        loc = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
-                                 _( "You don't have proper heating source." ) );
+        loc = g->inv_map_splice( filter, _( "Select a tool to heat (or cancel to select an appliance):" ),
+                                 1,
+                                 _( "You don't have proper heating tool.  Try select an appliance with heater." ) );
         if( !loc ) {
-            return {loc, true, -1, 0};
+            std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
+            if( !app ) {
+                return {loc, true, -1, 0, vpt, pseudo_flag};
+            } else {
+                pseudo_flag = true;
+                optional_vpart_position vp = get_map().veh_at( app.value().first );
+                available_heater = vp->vehicle().connected_battery_power_level().first;
+                heating_effect = app.value().second->charges_to_use();
+                vpt = get_map().getglobal( app.value().first );
+                if( available_heater >= heating_effect ) {
+                    return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
+                } else {
+                    p->add_msg_if_player( m_info, _( "Appliance don't have enough power." ) );
+                    return {loc, true, -1, 0, vpt, pseudo_flag};
+                }
+            }
         }
         p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
                               loc->tname() );
     }
+
     heating_effect = loc->type->charges_to_use();
     if( !loc->has_no_links() ) {
         available_heater = loc->link().t_veh->connected_battery_power_level().first;
@@ -8140,8 +8212,10 @@ heater find_heater( Character *p, item *it )
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p->available_ups() );
     }
-    return {loc, consume_flag, available_heater, heating_effect};
+    return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
+
 }
+
 
 static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
 {
@@ -8271,7 +8345,7 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, true, true ) ) {
+    if( heat_items( p, it, false, true ) ) {
         return 0;
     }
     return std::nullopt;
@@ -8291,7 +8365,7 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if( heat_items( p, it, true, true ) ) {
+    if( heat_items( p, it, true, false ) ) {
         return 0;
     }
     return std::nullopt;

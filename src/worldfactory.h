@@ -67,6 +67,7 @@ struct WORLD {
          * should be loaded for this world.
          */
         std::vector<mod_id> active_mod_order;
+        std::string timestamp;
 
         WORLD();
         explicit WORLD( const std::string &name );
@@ -79,6 +80,10 @@ struct WORLD {
 
         void load_options( const JsonArray &options_json );
         bool load_options();
+
+        bool save_timestamp() const;
+        bool load_timestamp();
+        bool create_timestamp();
 };
 
 class mod_manager;

@@ -142,7 +142,7 @@
       [ "rifle_22", 20 ],
       [ "crossbow", 15 ],
       [ "sig_mosquito", 15 ],
-      [ "sw_22", 15 ],
+      [ "ruger_mk4", 15 ],
       [ "glock_19", 15 ],
       [ "usp_9mm", 10 ],
       [ "m9", 35 ],
@@ -189,7 +189,7 @@
       },
       { "text": "Do you have anything to trade?", "topic": "TALK_MILITIA_TRADE" },
       {
-        "text": "Time for me to leave",
+        "text": "Time for me to leave.",
         "topic": "TALK_MILITIA_BYE",
         "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       }
