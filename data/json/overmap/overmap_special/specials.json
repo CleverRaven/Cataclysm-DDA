@@ -6729,7 +6729,8 @@
       { "point": [ 1, 4, 0 ], "overmap": "LIXA_road_north" },
       { "point": [ 1, 5, 0 ], "overmap": "LIXA_road_north" },
       { "point": [ 1, 6, 0 ], "overmap": "LIXA_road_north" },
-      { "point": [ 1, 7, 0 ], "overmap": "LIXA_road_guard_north" }
+      { "point": [ 1, 7, 0 ], "overmap": "LIXA_road_guard_north" },
+      { "point": [ 1, 7, 1 ], "overmap": "LIXA_road_guard_roof_north" }
     ],
     "connections": [ { "point": [ 1, 8, 0 ], "terrain": "road", "connection": "local_road", "existing": true, "from": [ 1, 7, 0 ] } ],
     "city_distance": [ 3, -1 ],
