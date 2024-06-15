@@ -93,11 +93,9 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -550,13 +548,7 @@ void Character::trait_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "key", key );
-
-    //Remove after 0.G
-    if( data.has_int( "charge" ) ) {
-        charge = time_duration::from_turns( data.get_int( "charge" ) );
-    } else {
-        data.read( "charge", charge );
-    }
+    data.read( "charge", charge );
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
     if( data.has_member( "variant-parent" ) ) {
@@ -673,8 +665,6 @@ void Character::load( const JsonObject &data )
     data.read( "hunger", hunger );
     data.read( "sleepiness", sleepiness );
     data.read( "cardio_acc", cardio_acc );
-    // Legacy read, remove after 0.F
-    data.read( "weary", activity_history );
     data.read( "activity_history", activity_history );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
@@ -1616,25 +1606,6 @@ void avatar::load( const JsonObject &data )
 {
     Character::load( data );
 
-    // TEMPORARY until 0.G
-    if( !data.has_member( "location" ) ) {
-        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
-    }
-
-    // TEMPORARY until 0.G
-    if( !data.has_member( "kill_xp" ) ) {
-        kill_xp = g->get_kill_tracker().legacy_kill_xp();
-    }
-
-    // Remove after 0.F
-    // Exists to prevent failed to visit member errors
-    if( data.has_member( "reactor_plut" ) ) {
-        data.get_int( "reactor_plut" );
-    }
-    if( data.has_member( "tank_plut" ) ) {
-        data.get_int( "tank_plut" );
-    }
-
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
         prof = &string_id<profession>( prof_ident ).obj();
@@ -2077,35 +2048,20 @@ void npc::load( const JsonObject &data )
     }
 
     int misstmp = 0;
-    int classtmp = 0;
     int atttmp = 0;
     std::string facID;
     std::string comp_miss_role;
     tripoint_abs_omt comp_miss_pt;
-    std::string classid;
     std::string companion_mission_role;
     time_point companion_mission_t = calendar::turn_zero;
     time_point companion_mission_t_r = calendar::turn_zero;
     std::string act_id;
 
-    // Remove after 0.F
-    // Exists to prevent failed to visit member errors
-    if( data.has_member( "reactor_plut" ) ) {
-        data.get_int( "reactor_plut" );
-    }
-    if( data.has_member( "tank_plut" ) ) {
-        data.get_int( "tank_plut" );
-    }
-
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
-    if( data.has_number( "myclass" ) ) {
-        data.read( "myclass", classtmp );
-        myclass = npc_class::from_legacy_int( classtmp );
-    } else if( data.has_string( "myclass" ) ) {
-        data.read( "myclass", classid );
-        myclass = npc_class_id( classid );
+    if( data.has_string( "myclass" ) ) {
+        data.read( "myclass", myclass );
     }
     if( data.has_string( "idz" ) ) {
         data.read( "idz", idz );
@@ -2500,7 +2456,8 @@ void monster::load( const JsonObject &data )
                 if( ptimeout >= 0 ) {
                     entry.cooldown = ptimeout;
                 } else { // -1 means disabled, unclear what <-1 values mean in old saves
-                    entry.cooldown = type->special_attacks.at( aname )->cooldown;
+                    dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
+                    entry.cooldown = type->special_attacks.at( aname )->cooldown.evaluate( d );
                     entry.enabled = false;
                 }
             }
@@ -2523,7 +2480,8 @@ void monster::load( const JsonObject &data )
         const std::string &aname = sa.first;
         if( special_attacks.find( aname ) == special_attacks.end() ) {
             auto &entry = special_attacks[aname];
-            entry.cooldown = rng( 0, sa.second->cooldown );
+            dialogue d( get_talker_for( this ), get_talker_for( get_avatar() ) );
+            entry.cooldown = rng( 0, sa.second->cooldown.evaluate( d ) );
         }
     }
 
@@ -3125,12 +3083,6 @@ void item::deserialize( const JsonObject &data )
         contents = item_contents( type->pockets );
     }
 
-    // FIXME: batch_size migration from charges - remove after 0.G
-    if( is_craft() && craft_data_->batch_size <= 0 ) {
-        craft_data_->batch_size = clamp( charges, 1, charges );
-        charges = 0;
-    }
-
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
         if( possible_itype_variant( typeId().str() ) ) {
             set_itype_variant( typeId().str() );
@@ -3607,11 +3559,8 @@ void mission::deserialize( const JsonObject &jo )
         target_id = string_id<oter_type_t>( omid );
     }
 
-    if( jo.has_int( "recruit_class" ) ) {
-        recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
-    } else {
-        recruit_class = npc_class_id( jo.get_string( "recruit_class", "NC_NONE" ) );
-    }
+    recruit_class = jo.has_string( "recruit_class" ) ? npc_class_id( jo.get_string( "recruit_class" ) )
+                    : npc_class_id::NULL_ID();
 
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
@@ -3873,9 +3822,7 @@ void Creature::load( const JsonObject &jsin )
 void player_morale::morale_point::deserialize( const JsonObject &jo )
 {
     jo.allow_omitted_members();
-    if( !jo.read( "type", type ) ) {
-        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
-    }
+    jo.read( "type", type );
     itype_id tmpitype;
     if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item::find_type( tmpitype );
@@ -4674,6 +4621,31 @@ void ter_furn_migrations::check()
     }
 }
 
+static std::unordered_map<field_type_str_id, field_type_str_id> field_migrations;
+
+void field_type_migrations::load( const JsonObject &jo )
+{
+    field_type_str_id from_field;
+    field_type_str_id to_field;
+    mandatory( jo, true, "from_field", from_field );
+    mandatory( jo, true, "to_field", to_field );
+    field_migrations.insert( std::make_pair( from_field, to_field ) );
+}
+
+void field_type_migrations::reset()
+{
+    field_migrations.clear();
+}
+
+void field_type_migrations::check()
+{
+    for( const auto &migration : field_migrations ) {
+        if( !migration.second.is_valid() ) {
+            debugmsg( "field_type_migration specifies invalid to_field id '%s'", migration.second.c_str() );
+        }
+    }
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -5060,25 +5032,23 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int j = fields_json.next_int();
             JsonArray field_json = fields_json.next_array();
             while( field_json.has_more() ) {
-                // TODO: Check enum->string migration below
-                int type_int = 0;
-                std::string type_str;
                 JsonValue type_value = field_json.next_value();
-                if( type_value.test_int() ) {
-                    type_int = type_value.get_int();
-                } else {
-                    type_str = type_value.get_string();
-                }
-                int intensity = field_json.next_int();
-                int age = field_json.next_int();
-                field_type_id ft;
-                if( !type_str.empty() ) {
-                    ft = field_type_id( type_str );
-                } else {
-                    ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
-                }
-                if( m->fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
-                    field_count++;
+                if( type_value.test_string() ) {
+                    field_type_str_id ft = field_type_str_id( type_value.get_string() );
+                    const int intensity = field_json.next_int();
+                    const int age = field_json.next_int();
+                    if( auto it = field_migrations.find( ft ); it != field_migrations.end() ) {
+                        ft = it->second;
+                    }
+                    if( !ft.is_valid() ) {
+                        debugmsg( "invalid field_type_str_id '%s'", ft.c_str() );
+                    } else if( ft != field_type_str_id::NULL_ID() &&
+                               m->fld[i][j].add_field( ft.id(), intensity, time_duration::from_turns( age ) ) ) {
+                        field_count++;
+                    }
+                } else { // Handle removed int enum method
+                    field_json.next_value(); // Skip intensity
+                    field_json.next_value(); // Skip age
                 }
             }
         }

@@ -17,12 +17,14 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 
 static const field_type_str_id field_fd_foamcrete( "fd_foamcrete" );
+
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const ter_str_id ter_t_foamcrete_floor( "t_foamcrete_floor" );
 static const ter_str_id ter_t_foamcrete_wall( "t_foamcrete_wall" );
@@ -140,7 +142,7 @@ static void foamcrete_build( const tripoint &p )
 }
 
 void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<std::string> &effects )
+                         const std::set<ammo_effect_str_id> &effects )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -149,7 +151,7 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
         if( !one_in( ae.trigger_chance ) ) {
             continue;
         }
-        if( effects.count( ae.id.str() ) > 0 ) {
+        if( effects.count( ae.id ) > 0 ) {
             for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
                     const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
@@ -158,13 +160,13 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
 
                         if( player_character.has_trait( trait_PYROMANIA ) &&
-                            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                            !player_character.has_morale( morale_pyromania_startfire ) ) {
                             for( const auto &fd : here.field_at( pt ) ) {
                                 if( fd.first->has_fire ) {
                                     player_character.add_msg_if_player( m_good,
                                                                         _( "You feel a surge of euphoria as flames burst out!" ) );
-                                    player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                                    player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                                    player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                                    player_character.rem_morale( morale_pyromania_nofire );
                                     break;
                                 }
                             }
@@ -194,12 +196,11 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
     }
 }
 
-
-int max_aoe_size( const std::set<std::string> &tags )
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
 {
     int aoe_size = 0;
     for( const ammo_effect &aed : ammo_effects::get_all() ) {
-        if( tags.count( aed.id.str() ) > 0 ) {
+        if( tags.count( aed.id ) > 0 ) {
             aoe_size = std::max( aoe_size,  aed.aoe_size ) ;
         }
     }

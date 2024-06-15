@@ -120,6 +120,10 @@ Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
 The player can swap between defined outfits with the 'set of clothes' item
+Corpses can decay into bones etc (defined as a harvest group)
+Support WASM build via emscripten
+Allow ammo effects to cast spells
+Automatic turrets will not fire guns if they are going to overheat
 
 
 ## Content:
@@ -248,6 +252,21 @@ Challenge start - hunted forever. Starts with the nemesis, but it comes back str
 Adds a new  globally unique special to spawn in the ocean : an Oil Platform !
 Overhaul and flesh out Barry Isherwood's rescue mission
 Prepper Militia Community
+Add Snow Cones and Snow Machines
+Add three new locations to Aftershock
+New jewelry added
+Night vision helmet attachments
+Add murky water, make regular water safer
+Add Alcoholic Snow Cones
+10/22 Pistol
+Adds a variety of marine plants.
+Adds bench vise
+Full auto 10/22s
+Reduces craters
+fish emulsion
+Static NPC factions have their own camps and food stores
+Regen serum
+Vitamin Cost per mutation
 
 
 ## Interface:
@@ -311,7 +330,9 @@ Adding spell name to the casting... widget
 Adding Classless as a supernatural category
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
-
+Display RAS weapon reload time in aim ui
+Warn on setting an auto feature when auto features are off
+support selecting all npcs
 
 
 ## Mods:
@@ -468,6 +489,19 @@ Aftershock: Add a space station clothes store
 [MoM] Add triffid psions
 Aftershock: Add poison based bullets, grenades and 'toxic flamethrower'
 Give Liam opinions in XE
+Add new homullus mutations that increase equipment durability
+Being mute prevents casting VERBAL spells
+[Magiclysm] Being grabbed makes SOMATIC spells harder to cast
+[Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
+Aftershock: Basic Hacking EOCs
+[Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
+Adds another variant of Habitat Block to Aftershock. Also adds a new item group and monster group.
+[Aftershock] Add the Esper scenario
+Aftershock: Adds one variant of Habitat Block to the Aftershock Exoplanet. Also adds hackable display cases and doors.
+Psionic powers say "Power level" instead of "Spell level" in the UI
+[MoM] Torrential channeling research no longer has required proficiencies
+Aftershock: Add urban farms as town buildings
+Summon Mojocycle gets better at lvl 10
 
 
 ## Balance:
@@ -538,6 +572,11 @@ Make Quadcopter Drones Produce Sound
 Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
 The average skill level of NPCs will rise over time
+Random NPCs have the same starting skills and proficiencies as the average new character
+Food continues to rot at temp above 63C
+Adjust Alpha to make breach harder while supporting future mutations
+Lower the warmth values of some undergarments and thin clothes.
+Switched Reload Speeds for Plasma Rifle and PPA
 
 
 ## Bugfixes:
@@ -704,6 +743,18 @@ Fixed issue where Android gesture inputs were not recognized by ImGui windows
 Fixed arrows disappearing when unwielded
 Fix for massive slowdown when NPC crafting speed drops below 0.0
 Pseudo terrain appearing in fields when using mods is fixed (won't affect existing fields)
+Fixes issue where loading a forge with coal does not work
+Characters' spellbooks will not load invalid spells
+Prevent segfault when butcher target disappears
+Make Skunks Less Bloodthirsty
+Oops - remove cramped space when no longer cramped
+Correctly display the cost to learn the proficiency
+Hordes won't wander without a reason
+Allow using hotkeys to select spells in other categories
+Monster difficulty (and exp for killing them) cannot be lower than 1
+Fix connections like roads sometimes failing to gen on cityless overmaps
+Correctly display pain penalties.
+Removes Railgun Fouling
 
 
 ## Performance:
@@ -732,6 +783,7 @@ Avoid wasteful loop in map special road connections
 Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
+cache available recipe list in craft menu
 
 
 ## Infrastructure:
@@ -788,6 +840,8 @@ Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
+refactor cataimgui::draw_colored_text
+Create header for forward declarations of point types
 
 
 ## Build:
@@ -807,6 +861,7 @@ Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
 Update Flatpak manifest to use clang and include the default soundpack
+stl_emulation span::count_ is not const anymore
 
 
 ## I18N and A11Y:

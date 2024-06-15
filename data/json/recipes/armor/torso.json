@@ -156,7 +156,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "12 h",
-    "book_learn": [ [ "textbook_armschina", 2 ] ],
+    "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_armeast", 2 ], [ "textbook_armschina", 2 ] ],
     "reversible": true,
     "using": [ [ "tailoring_cotton_small", 4 ], [ "tailoring_leather_patchwork", 8 ] ],
     "components": [ [ [ "cordage_superior", 4, "LIST" ] ] ],

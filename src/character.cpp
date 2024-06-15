@@ -324,6 +324,7 @@ static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
+static const json_character_flag json_flag_NVG_GREEN( "NVG_GREEN" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PLANTBLOOD( "PLANTBLOOD" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
@@ -487,6 +488,8 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const trap_str_id tr_ledge( "tr_ledge" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -2553,7 +2556,7 @@ void Character::recalc_sight_limits()
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() ) {
+    if( has_nv_goggles() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
@@ -2586,7 +2589,7 @@ void Character::recalc_sight_limits()
     }
 
     // Not exactly a sight limit thing, but related enough
-    if( has_flag( json_flag_INFRARED ) ||
+    if( has_flag( json_flag_INFRARED ) || has_worn_module_with_flag( flag_IR_EFFECT ) ||
         worn_with_flag( flag_IR_EFFECT ) || ( is_mounted() &&
                 mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
@@ -2620,8 +2623,8 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
-        vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
+    if( vision_mode_cache[NIGHTVISION_3] || vision_mode_cache[FULL_ELFA_VISION] ||
+        vision_mode_cache[CEPH_VISION] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
                vision_mode_cache[URSINE_VISION] || vision_mode_cache[ELFA_VISION] ) {
@@ -2634,7 +2637,12 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
-    range = enchantment_cache->modify_value( enchant_vals::mod::NIGHT_VIS, range );
+    // bionic night vision and other old night vision flagged items
+    if( worn_with_flag( flag_GNV_EFFECT ) || has_flag( json_flag_NIGHT_VISION ) ) {
+        range += 10;
+    } else {
+        range = enchantment_cache->modify_value( enchant_vals::mod::NIGHT_VIS, range );
+    }
 
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
@@ -3088,6 +3096,27 @@ void Character::on_move( const tripoint_abs_ms &old_pos )
     if( using_lifting_assist ) {
         invalidate_weight_carried_cache();
     }
+}
+
+units::volume Character::get_total_volume() const
+{
+    item_location wep = get_wielded_item();
+    units::volume wep_volume = wep ? wep->volume() : 0_ml;
+    // Note: Does not measure volume of worn items that do not themselves contain anything
+    return get_base_volume() + volume_carried() + wep_volume;
+}
+
+units::volume Character::get_base_volume() const
+{
+    const int your_height = height(); // avg 175cm
+    // Arbitrary number picked relative to aisle (100L), not necessarily accurate
+    const units::volume avg_human_volume = 70_liter;
+
+    // Very scientific video game size to metric human volume calculation. Avg height == avg_human_volume;
+    units::volume your_base_volume = units::from_liter( static_cast<double>( your_height ) / 2.5 );
+    double volume_proport = units::to_liter( your_base_volume ) / units::to_liter( avg_human_volume );
+
+    return std::pow( volume_proport, 3.0 ) * avg_human_volume;
 }
 
 units::mass Character::weight_carried() const
@@ -3848,17 +3877,26 @@ void Character::reset()
     reset_stats();
 }
 
-bool Character::has_nv()
+bool Character::has_nv_goggles()
 {
     static bool nv = false;
 
     if( !nv_cached ) {
         nv_cached = true;
-        nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_flag( json_flag_NIGHT_VISION ) );
+        nv = worn_with_flag( flag_GNV_EFFECT ) || has_flag( json_flag_NIGHT_VISION ) ||
+             worn_with_flag( json_flag_NVG_GREEN ) || has_worn_module_with_flag( json_flag_NVG_GREEN );
     }
-
     return nv;
+}
+
+bool Character::has_worn_module_with_flag( const flag_id &f )
+{
+    std::vector<item *> flag_items = cache_get_items_with( f );
+    bool has_flag = std::any_of( flag_items.begin(), flag_items.end(),
+    [this]( item * i ) {
+        return is_worn_module( *i );
+    } );
+    return has_flag;
 }
 
 void Character::calc_discomfort()
@@ -12351,10 +12389,14 @@ stat_mod Character::get_pain_penalty() const
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
     // Also not make character has 0 stats
-    ret.strength = std::clamp( ret.strength, 1, get_str() - 1 );
-    ret.dexterity = std::clamp( ret.dexterity, 1, get_dex() - 1 );
-    ret.intelligence = std::clamp( ret.intelligence, 1, get_int() - 1 );
-    ret.perception = std::clamp( ret.perception, 1, get_per() - 1 );
+    ret.strength = get_str() > 2 ? std::clamp( ret.strength, 1, get_str() - 1 ) :
+                   std::max( 0, get_str() - 1 );
+    ret.dexterity = get_dex() > 2 ? std::clamp( ret.dexterity, 1, get_dex() - 1 ) :
+                    std::max( 0, get_dex() - 1 );
+    ret.intelligence = get_int() > 2 ? std::clamp( ret.intelligence, 1, get_int() - 1 ) :
+                       std::max( 0, get_int() - 1 );
+    ret.perception = get_per() > 2 ? std::clamp( ret.perception, 1, get_per() - 1 ) :
+                     std::max( 0, get_per() - 1 );
 
 
     int speed_penalty = std::pow( pain, 0.7f );

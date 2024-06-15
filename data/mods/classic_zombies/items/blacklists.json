@@ -392,7 +392,13 @@
       "STI_DS_10",
       "xd_10",
       "xd_10_mag",
-      "taurus_judge"
+      "taurus_judge",
+      "cp33",
+      "cp33_mag",
+      "cp33_mag_50",
+      "ruger_mk4",
+      "ruger_mk4_mag",
+      "ruger_charger"
     ]
   }
 ]

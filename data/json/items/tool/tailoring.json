@@ -356,19 +356,12 @@
     "longest_side": "43 cm",
     "price": "8 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1800 W" } ],
     "melee_damage": { "bash": 2 }
   },
   {

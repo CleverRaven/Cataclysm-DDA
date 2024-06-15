@@ -688,7 +688,7 @@
     "type": "TOOL",
     "name": { "str": "retractable telescope" },
     "description": "A homemade collapsible telescope, perfect for a pirate.  Too large and inaccurate to use as a weapon scope, but carrying it in your inventory will double the distance that is mapped around you during your travels.",
-    "weight": "500 g",
+    "weight": "330 g",
     "volume": "250 ml",
     "price": "6 USD",
     "price_postapoc": "7 USD 50 cent",

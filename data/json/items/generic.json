@@ -287,6 +287,32 @@
   },
   {
     "type": "GENERIC",
+    "id": "dry_seaweed",
+    "name": { "str_sp": "dried seaweed" },
+    "looks_like": "withered",
+    "description": "A bit of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
+    "weight": "10 g",
+    "color": "green",
+    "symbol": ",",
+    "material": [ "dry_plant" ],
+    "volume": "10 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dry_seaweed_pile",
+    "name": { "str_sp": "pile of dried seaweed" },
+    "looks_like": "withered",
+    "description": "A big heap of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
+    "weight": "200 g",
+    "color": "green",
+    "symbol": ",",
+    "material": [ "dry_plant" ],
+    "volume": "200 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "superglue",
     "category": "spare_parts",
     "symbol": ",",
@@ -1139,23 +1165,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "skewer_bone",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "bone skewer" },
-    "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
-    "category": "other",
-    "material": [ "bone" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "10 g",
-    "volume": "25 ml",
-    "to_hit": -5,
-    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ]
-  },
-  {
-    "type": "GENERIC",
     "id": "drum_skin",
     "name": { "str": "drum skin" },
     "copy-from": "tanned_hide",
@@ -1458,7 +1467,7 @@
     "looks_like": "kord",
     "symbol": "(",
     "color": "light_gray",
-    "name": { "str": "Kord 6P67 rifle (Demilled)", "str_pl": "Kord 6P67 rifles (Demilled)" },
+    "name": { "str": "Kord AK rifle (Demilled)", "str_pl": "Kord AK rifles (Demilled)" },
     "weight": "3250 g",
     "volume": "2418 ml",
     "material": [ "steel", "plastic" ],
@@ -1467,6 +1476,14 @@
     "category": "other",
     "to_hit": -2,
     "description": "A special forces Russian rifle chambered in 5.45 that someone has taken a plasma cutter to, cutting it in three places to comply with import restrictions.  This thing would have been hard to source, and thankfully its unique complex recoil balance system remains intact, unlike the receiver and barrel.  The telltale rainbow patterns of torch cuts mar the otherwise beautiful receiver.  A well-equipped gunsmith with time and materials could probably build a new one out of this…",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "broken_kord",
+        "name": { "str": "Kord 6P67 rifle (Demilled)", "str_pl": "Kord 6P67 rifles (Demilled)" },
+        "description": "A special forces Russian rifle chambered in 5.45 that someone has taken a plasma cutter to, cutting it in three places to comply with import restrictions.  This thing would have been hard to source, and thankfully its unique complex recoil balance system remains intact, unlike the receiver and barrel.  The telltale rainbow patterns of torch cuts mar the otherwise beautiful receiver.  A well-equipped gunsmith with time and materials could probably build a new one out of this…"
+      }
+    ],
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "MISSION_ITEM" ]
   },
   {

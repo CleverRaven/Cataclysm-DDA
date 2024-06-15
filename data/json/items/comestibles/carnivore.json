@@ -1337,48 +1337,6 @@
     "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
-    "abstract": "bone_abstract",
-    "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
-    "name": { "str": "abstract bone" },
-    "category": "spare_parts",
-    "color": "white",
-    "price": "0 cent",
-    "material": [ "bone" ],
-    "weight": "1000 g",
-    "flags": [ "RAW", "NUTRIENT_OVERRIDE", "INEDIBLE", "LUPINE" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "bone",
-    "name": { "str": "bone" },
-    "copy-from": "bone_abstract",
-    "weight": "225 g",
-    "symbol": "%",
-    "description": "A bone from some creature or other.  Could be used in cooking and crafting.",
-    "price_postapoc": "10 cent",
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
-    "volume": "250 ml",
-    "longest_side": "40 cm",
-    "vitamins": [ [ "calcium", 96 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "large_bone",
-    "name": { "str": "large bone" },
-    "weight": "20 kg",
-    "symbol": "I",
-    "description": "A huge bone of a large creature.",
-    "copy-from": "bone_abstract",
-    "price_postapoc": "20 cent",
-    "//": "While it would make sense to be able to mill it, the bone won't fit into a mill...",
-    "volume": "36 L",
-    "longest_side": "2000 cm",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 13824 ] ],
-    "melee_damage": { "bash": 15 }
-  },
-  {
     "type": "COMESTIBLE",
     "id": "fat",
     "name": { "str": "chunk of fat", "str_pl": "chunks of fat" },
@@ -1557,27 +1515,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "bone_tainted",
-    "category": "other",
-    "name": { "str": "tainted bone" },
-    "weight": "212 g",
-    "color": "light_gray",
-    "use_action": [ "POISON" ],
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 17,
-    "description": "A rotten, brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal or glue.  You could eat it, but it will poison you.",
-    "price": "0 cent",
-    "price_postapoc": "5 cent",
-    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_1_4" },
-    "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
-    "material": [ "bone" ],
-    "volume": "250 ml",
-    "fun": -10,
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "tainted_marrow",
     "category": "other",
     "name": { "str_sp": "tainted bone marrow" },
@@ -1595,23 +1532,6 @@
     "volume": "50 ml",
     "fun": -10,
     "flags": [ "TRADER_AVOID", "RAW" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "bone_human",
-    "copy-from": "bone",
-    "name": { "str": "human bone" },
-    "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "//": "No extend support for vitamins, we need to overwrite",
-    "vitamins": [ [ "calcium", 96 ], [ "human_flesh_vitamin", 100 ] ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "bone_demihuman",
-    "copy-from": "bone",
-    "name": { "str": "demihuman bone" },
-    "description": "A bone from a demihuman being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",

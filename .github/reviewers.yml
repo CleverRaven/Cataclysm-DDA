@@ -2,6 +2,8 @@ files:
   'data/mods/Aftershock/**':
     - Maleclypse
     - John-Candlebury
+  'data/mods/Backrooms/**':
+    - onura46
   'data/mods/DinoMod/**':
     - LyleSY
   'data/mods/BombasticPerks/**':

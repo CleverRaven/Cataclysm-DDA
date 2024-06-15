@@ -54,8 +54,6 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "morale.h"
-#include "morale_types.h"
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
@@ -86,8 +84,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-class monfaction;
-
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
@@ -117,12 +113,17 @@ static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
+static const mfaction_str_id monfaction_player( "player" );
+
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_food_hot( "morale_food_hot" );
+static const morale_type morale_honey( "morale_honey" );
+static const morale_type morale_vomited( "morale_vomited" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_walk( "walk" );
-
-static const string_id<monfaction> monfaction_player( "player" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
@@ -133,7 +134,6 @@ static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
@@ -870,12 +870,12 @@ void avatar::vomit()
 {
     if( stomach.contains() != 0_ml ) {
         // Remove all joy from previously eaten food and apply the penalty
-        rem_morale( MORALE_FOOD_GOOD );
-        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( morale_food_good );
+        rem_morale( morale_food_hot );
         // bears must suffer too
-        rem_morale( MORALE_HONEY );
+        rem_morale( morale_honey );
         // 1.5 times longer
-        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
+        add_morale( morale_vomited, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
                     45_minutes, false );
 
     } else {
@@ -938,26 +938,6 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 mfaction_id avatar::get_monster_faction() const
 {
     return monfaction_player.id();
-}
-
-void avatar::disp_morale()
-{
-    int equilibrium = calc_focus_equilibrium();
-
-    int sleepiness_penalty = 0;
-    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
-
-    if( sleepiness_cap < equilibrium ) {
-        sleepiness_penalty = equilibrium - sleepiness_cap;
-        equilibrium = sleepiness_cap;
-    }
-
-    int pain_penalty = 0;
-    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
-    }
-
-    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
 }
 
 void avatar::reset_stats()
@@ -1257,6 +1237,9 @@ bool avatar::cant_see( const tripoint_bub_ms &p )
 
 void avatar::rebuild_aim_cache()
 {
+    aim_cache_dirty =
+        false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
+
     double pi = 2 * acos( 0.0 );
 
     const tripoint local_last_target = get_map().bub_from_abs( last_target_pos.value() ).raw();
@@ -1272,7 +1255,7 @@ void avatar::rebuild_aim_cache()
     // todo: this is not the correct weapon when aiming with fake items
     item *weapon = get_wielded_item() ? &*get_wielded_item() : &null_item_reference();
     // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
-    float range = 3.0f - 2.8f * calc_steadiness( *this, *weapon, last_target_pos.value(), recoil );
+    float range = 3.0f - 2.8f * calc_steadiness( *this, *weapon, local_last_target, recoil );
 
     // pin between pi and negative pi
     float upper_bound = base_angle + range;
@@ -1311,7 +1294,6 @@ void avatar::rebuild_aim_cache()
     }
 
     // set cache as no longer dirty
-    aim_cache_dirty = false;
 }
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )

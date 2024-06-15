@@ -676,6 +676,8 @@ blacksmithy
 Blackstone
 blackwood
 Blacky
+bladderwrack
+bladelike
 bladesmithing
 blam
 Blandford
@@ -1434,6 +1436,7 @@ dementias
 Demeter
 demi
 demihuman
+Demilled
 demining
 Demir
 demisexuality
@@ -3174,6 +3177,7 @@ Kohler
 koi
 koji
 Kojiki
+kombu
 komodo
 kompot
 Kool
@@ -3409,6 +3413,7 @@ LMES
 LMG
 LMGs
 LMOE
+Locutus
 loadout
 loadouts
 lobotomizer
@@ -4195,6 +4200,7 @@ neuropsychology
 Neurosoft
 neurostimulators
 neurosynaptic
+neurotoxic
 neurotoxin
 NEURT
 neutrite
@@ -6189,6 +6195,7 @@ Tilly
 tilmàtli
 Tim
 timelapse
+timestamp
 timey
 Timmy
 Timorese

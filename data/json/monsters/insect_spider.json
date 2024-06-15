@@ -701,7 +701,7 @@
     "harvest": "arachnid_centipede_mega",
     "dissect": "dissect_insect_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
     "armor": { "bash": 25, "cut": 35, "stab": 15, "bullet": 45, "electric": 3 }
   },
   {
@@ -1131,7 +1131,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR_GIANT" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GRABS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 1, "cut": 5, "acid": 3, "bullet": 2 }
   },
   {
@@ -1355,7 +1355,7 @@
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER" ],
     "armor": { "cut": 3, "bullet": 2 }
   },
   {
@@ -2854,7 +2854,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "CAN_DIG", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
+    "flags": [ "SEES", "CAN_DIG", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS" ],
     "armor": { "bash": 15, "cut": 18, "bullet": 20, "electric": 2 }
   },
   {
@@ -3187,7 +3187,7 @@
       "GOODHEARING",
       "BASHES",
       "DESTROYS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PUSH_MON",
       "PUSH_VEH",
       "PET_WONT_FOLLOW",
@@ -3678,7 +3678,7 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "FLIES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
+    "flags": [ "SEES", "FLIES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS" ],
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 2 }
   },
   {
@@ -3707,7 +3707,7 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "zombify_into": "mon_meat_cocoon_small",
     "special_attacks": [ [ "GRAZE", 100 ] ],
-    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "EATS" ],
+    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS", "EATS" ],
     "armor": { "bash": 15, "cut": 18, "bullet": 20, "electric": 2 }
   },
   {

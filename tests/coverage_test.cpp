@@ -128,7 +128,7 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
     proj.speed = 1000;
     proj.impact = damage_instance( damage_bullet, 20 );
     proj.range = 30;
-    proj.proj_effects = std::set<std::string>();
+    proj.proj_effects = std::set<ammo_effect_str_id>();
     proj.critical_multiplier = 1;
 
     int dam_acc = 0;

@@ -1010,7 +1010,7 @@
     "container": "null",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A bunch of dry unpopped corn.  It's intended for planting, but could be put to other uses.",
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

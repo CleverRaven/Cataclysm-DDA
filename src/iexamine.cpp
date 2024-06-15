@@ -62,7 +62,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "mission_companion.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -209,6 +208,9 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -296,6 +298,9 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const trap_str_id tr_ledge( "tr_ledge" );
+static const trap_str_id tr_telepad( "tr_telepad" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -2971,8 +2976,8 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     here.add_item( examp, result );
 
     if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( morale_pyromania_nofire );
         you.add_msg_if_player( m_good, _( "You happily light a fire in the charcoal kiln." ) );
     } else {
         add_msg( _( "You fire the charcoal kiln." ) );
@@ -6379,8 +6384,8 @@ static void smoker_activate( Character &you, const tripoint &examp )
     here.add_item( examp, result );
 
     if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( morale_pyromania_nofire );
         you.add_msg_if_player( m_good,
                                _( "You happily light a small fire under the rack and it starts to smoke." ) );
     } else {

@@ -96,6 +96,11 @@ static const ter_str_id ter_t_rock_red( "t_rock_red" );
 
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
+static const trap_str_id tr_pit( "tr_pit" );
+static const trap_str_id tr_shotgun_1( "tr_shotgun_1" );
+static const trap_str_id tr_shotgun_2( "tr_shotgun_2" );
+static const trap_str_id tr_temple_flood( "tr_temple_flood" );
+
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
 {
@@ -1636,13 +1641,8 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
     return true;
 }
 
-/**
- * Made to test sound-triggered traps.
- * Warning: generating a sound can trigger sound-triggered traps.
- */
-bool trapfunc::sound_detect( const tripoint &p, Creature *, item * )
+bool trapfunc::dummy_trap( const tripoint &, Creature *, item * )
 {
-    sounds::sound( p, 10, sounds::sound_t::alert, _( "Sound Detected!" ), false, "misc" );
     return true;
 }
 
@@ -1690,7 +1690,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "drain", trapfunc::drain },
             { "spell", trapfunc::cast_spell },
             { "snake", trapfunc::snake },
-            { "sound_detect", trapfunc::sound_detect }
+            { "dummy_trap", trapfunc::dummy_trap }
         }
     };
 
