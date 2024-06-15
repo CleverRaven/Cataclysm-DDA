@@ -2,16 +2,27 @@
 
 #include <stddef.h>
 #include <iterator>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_assert.h"
+#include "cata_path.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
+#include "filesystem.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "json.h"
+#include "json_error.h"
 #include "map.h"
 #include "messages.h"
+#include "path_info.h"
 #include "translations.h"
 
 class path
@@ -19,6 +30,13 @@ class path
         friend path_manager;
         friend path_manager_impl;
     public:
+        path() = default;
+        path( const path &other ) = default;
+        path( std::vector<tripoint_abs_ms> &&recorded_path_in )
+            : recorded_path( std::move( recorded_path_in ) ) {}
+        path &operator=( const path &other ) = default;
+        path &operator=( path &&other ) = default;
+        ~path() = default;
         /**
          * Record a single step of path.
          * If this step makes a loop, remove the whole loop.
@@ -194,6 +212,51 @@ bool path_manager::store()
 void path_manager::load()
 {
     pimpl = std::make_unique<path_manager_impl>();
+
+    const std::string name = base64_encode( get_avatar().get_save_id() + "_path_manager" );
+    cata_path path = PATH_INFO::world_base_save_path() / ( name + ".json" );
+    if( file_exist( path ) ) {
+        read_from_file_json( path, [&]( const JsonValue & jv ) {
+            deserialize( jv );
+        } );
+    }
+}
+
+void path_manager::serialize( std::ostream &fout )
+{
+    JsonOut jsout( fout, true );
+    jsout.start_object();
+    serialize( jsout );
+    jsout.end_object();
+}
+
+void path_manager::deserialize( const JsonValue &jsin )
+{
+    try {
+        JsonObject data = jsin.get_object();
+
+        data.read( "recording_path", pimpl->recording_path );
+        data.read( "current_path_index", pimpl->current_path_index );
+        // from `path` load only recorded_path
+        std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
+        data.read( "recorded_paths", recorded_paths );
+        for( std::vector<tripoint_abs_ms> &p : recorded_paths ) {
+            pimpl->paths.emplace_back( path( std::move( p ) ) );
+        }
+    } catch( const JsonError &e ) {
+    }
+}
+
+void path_manager::serialize( JsonOut &jsout )
+{
+    jsout.member( "recording_path", pimpl->recording_path );
+    jsout.member( "current_path_index", pimpl->current_path_index );
+    // from `path` save only recorded_path
+    std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
+    for( const path &p : pimpl->paths ) {
+        recorded_paths.emplace_back( p.recorded_path );
+    }
+    jsout.member( "recorded_paths", recorded_paths );
 }
 
 void path_manager::show()
