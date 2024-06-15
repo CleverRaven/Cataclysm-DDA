@@ -31,6 +31,12 @@ class path
         void set_avatar_path();
     private:
         std::vector<tripoint_abs_ms> recorded_path;
+        // std::string name_start;
+        // std::string name_end;
+        /// There are no 2 same tiles on the path
+        // bool optimize_loops;
+        /// A Character walking this path could never go from i-th tile to i+k-th tile, where k > 1
+        // bool optimize_nearby;
 };
 
 class path_manager_impl
@@ -52,6 +58,7 @@ class path_manager_impl
         void stop_recording();
     private:
         bool recording_path = false;
+        // todo int or size_t?
         /// Set recording to true/false on current path, current path must be valid
         void set_recording_path( bool set_to );
         /// Set current path to p_index and recording_path to true
@@ -64,6 +71,7 @@ class path_manager_impl
 void path::record_step( const tripoint_abs_ms &new_pos )
 {
     // if a loop exists find it and remove it
+    // todo optimize, probably with unordered set
     for( auto it = recorded_path.begin(); it != recorded_path.end(); ++it ) {
         if( *it == new_pos ) {
             const size_t old_path_len = recorded_path.size();
@@ -118,7 +126,11 @@ void path_manager_impl::stop_recording()
     } else {
         add_msg( m_info, _( "Auto path: Path saved." ) );
     }
+
     current_path_index = -1;
+    // TODO error when starts or stops at the same tile as another path ??
+    // or just prefer the higher path - this allows
+    // more flexibility, but it needs to be documented
 }
 
 void path_manager_impl::auto_route_from_path()
@@ -192,4 +204,7 @@ void path_manager::show()
     }
 
     pimpl->auto_route_from_path();
+
+    // todo activity title and progress
+    // player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
 }
