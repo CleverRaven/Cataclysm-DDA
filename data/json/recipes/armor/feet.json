@@ -1969,7 +1969,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
-    "components": [ [ [ "filament", 300, "LIST" ] ] ]
+    "components": [ [ [ "filament", 600, "LIST" ] ] ]
   },
   {
     "copy-from": "espadrilles",
@@ -1977,7 +1977,7 @@
     "type": "recipe",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1.5 ] ],
-    "components": [ [ [ "filament", 450, "LIST" ] ] ]
+    "components": [ [ [ "filament", 900, "LIST" ] ] ]
   },
   {
     "copy-from": "espadrilles",
@@ -1985,6 +1985,6 @@
     "type": "recipe",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
-    "components": [ [ [ "filament", 150, "LIST" ] ] ]
+    "components": [ [ [ "filament", 300, "LIST" ] ] ]
   }
 ]
