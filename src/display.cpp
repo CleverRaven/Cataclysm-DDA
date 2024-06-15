@@ -1362,7 +1362,7 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
                     name = colorize( "@", c_pink );
                     break;
             }
-            name = string_format( "%s %s", name, n->name );
+            name = string_format( "%s %s", name, n->get_name() );
             names.emplace_back( name );
         }
     }

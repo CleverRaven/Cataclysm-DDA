@@ -2494,11 +2494,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 }
 
 void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                             temperature_flag flag, float spoil_multiplier_parent )
+                             temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+                            watertight_container );
         }
     }
 }

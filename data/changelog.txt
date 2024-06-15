@@ -120,6 +120,8 @@ Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
 The player can swap between defined outfits with the 'set of clothes' item
+Corpses can decay into bones etc (defined as a harvest group)
+Support WASM build via emscripten
 Allow ammo effects to cast spells
 Automatic turrets will not fire guns if they are going to overheat
 
@@ -254,6 +256,13 @@ Add Snow Cones and Snow Machines
 Add three new locations to Aftershock
 New jewelry added
 Night vision helmet attachments
+Add murky water, make regular water safer
+Add Alcoholic Snow Cones
+10/22 Pistol
+Adds a variety of marine plants.
+Adds bench vise
+Full auto 10/22s
+Reduces craters
 fish emulsion
 Static NPC factions have their own camps and food stores
 Regen serum
@@ -322,8 +331,8 @@ Adding Classless as a supernatural category
 Mission UI migrated to imGUI
 Provide a visual UI for changing vehicle part shapes
 Display RAS weapon reload time in aim ui
+Warn on setting an auto feature when auto features are off
 support selecting all npcs
-
 
 
 ## Mods:
@@ -486,6 +495,8 @@ Being mute prevents casting VERBAL spells
 [Xedra Evolved] Make Paraclesian fae's magic easier in appropriate terrain
 Aftershock: Basic Hacking EOCs
 [Xedra Evolved] Make Paraclesian fae's magic harder in some circumstances
+Adds another variant of Habitat Block to Aftershock. Also adds a new item group and monster group.
+[Aftershock] Add the Esper scenario
 Aftershock: Adds one variant of Habitat Block to the Aftershock Exoplanet. Also adds hackable display cases and doors.
 Psionic powers say "Power level" instead of "Spell level" in the UI
 [MoM] Torrential channeling research no longer has required proficiencies
@@ -738,6 +749,10 @@ Prevent segfault when butcher target disappears
 Make Skunks Less Bloodthirsty
 Oops - remove cramped space when no longer cramped
 Correctly display the cost to learn the proficiency
+Hordes won't wander without a reason
+Allow using hotkeys to select spells in other categories
+Monster difficulty (and exp for killing them) cannot be lower than 1
+Fix connections like roads sometimes failing to gen on cityless overmaps
 Correctly display pain penalties.
 Removes Railgun Fouling
 

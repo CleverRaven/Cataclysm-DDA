@@ -2319,42 +2319,6 @@
     ]
   },
   {
-    "id": "nested_vz58ts",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "vz58ts", "charges": [ 0, 30 ] },
-      { "item": "vz58mag30" },
-      { "item": "vz58mag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_vz58p",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "vz58_p", "variant": "vz58_p", "charges": [ 0, 30 ] },
-      { "item": "vz58mag30" },
-      { "item": "vz58mag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
-    "id": "nested_vz58v",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "entries": [
-      { "item": "vz58_p", "variant": "vz58_v", "contents-group": "vz58v_mods", "prob": 1, "charges": [ 0, 30 ] },
-      { "item": "vz58mag30" },
-      { "item": "vz58mag30", "prob": 50 },
-      { "group": "on_hand_762" }
-    ]
-  },
-  {
     "id": "nested_m1carbine",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

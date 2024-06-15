@@ -557,7 +557,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1" ],
+    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1", "s_bike_shop_roof_1_shack_roof" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_bike_shop_roof",
     "name": "bike shop roof",

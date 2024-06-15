@@ -1505,6 +1505,9 @@ class Character : public Creature, public visitable
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
+        // TODO: Remove remaining calls to insert into the raw inventory and remove functions where appropriate so this can be removed
+        void migrate_items_to_storage( bool disintegrate );
+
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -1895,6 +1898,10 @@ class Character : public Creature, public visitable
         bool enough_power_for( const bionic_id &bid ) const;
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info( bool customize_character = false );
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+        /** Opens the medical window */
+        void disp_medical();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 

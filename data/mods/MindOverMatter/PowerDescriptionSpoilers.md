@@ -909,11 +909,11 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
-*Target*: Self (or dialogue)<br />
-*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level<br />
+*Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
+*Duration*: 16 minutes and 21 seconds to 42 minutes, plus 6 minutes and 21 seconds to 14 minutes and 59 seconds per power level when used on self, indefinite when used on others<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 300 moves, minus 9.5 moves per level to a minimum of 150<br />
-*Effects*: Further edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). It may also be used in dialogue to calm down angry NPCs.<br />
+*Effects*: When used on oneself, edit the psion's mind, removing negative thoughts and improving mood. Adds a morale bonus of +10 (building up to a maximum of 25). When used on others, increases a target NPC's trust by 0.25 per power level and reduces both fear and anger by 0.5 per power level (usable a maximum of once per 12 hours) or reduces a target monster's aggression by power level times 5 (usable once per 5 minutes). It may also be used in dialogue to calm down angry NPCs.<br />
 *Prerequisites*: Concentration Trance 6, Sense Minds 5<br />
 
 ## Synaptic Blast

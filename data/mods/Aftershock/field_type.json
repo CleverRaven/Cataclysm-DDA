@@ -124,5 +124,29 @@
     "display_items": true,
     "display_field": true,
     "looks_like": "fd_nuke_gas"
+  },
+  {
+    "id": "fd_rad_glimmer",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "radiative glimmer", "color": "light_red_yellow", "sym": "#", "light_emitted": 5, "extra_radiation_max": 1 },
+      { "name": "radiative glimmer", "color": "light_red_yellow", "extra_radiation_max": 2, "concentration": 2 },
+      {
+        "name": "intense radiative glimmer",
+        "color": "light_red_yellow",
+        "light_emitted": 10,
+        "extra_radiation_max": 15,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 2,
+        "radiation_hurt_message": "You feel a painful burning sensation."
+      }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "1 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_laser"
   }
 ]

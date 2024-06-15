@@ -182,7 +182,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MORALE_INITIATE",
+    "id": "EOC_TELEPATH_MORALE_INITIATE_SELF",
     "condition": { "not": { "u_has_effect": "effect_telepathic_morale" } },
     "effect": [
       { "u_message": "You begin to edit out your discouraging thoughts.", "type": "good" },

@@ -2315,6 +2315,7 @@ void Character::process_turn()
 {
     // Has to happen before reset_stats
     clear_miss_reasons();
+    migrate_items_to_storage( false );
 
     for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
@@ -9060,6 +9061,29 @@ void Character::fall_asleep( const time_duration &duration )
     }
     add_effect( effect_sleep, duration );
     get_event_bus().send<event_type::character_falls_asleep>( getID(), to_seconds<int>( duration ) );
+}
+
+void Character::migrate_items_to_storage( bool disintegrate )
+{
+    inv->visit_items( [&]( const item * it, item * ) {
+        if( disintegrate ) {
+            if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
+                std::string profession_id = prof->ident().str();
+                debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
+                          "profession (%s) has enough space.",
+                          it->tname(), it->typeId().str(), profession_id );
+                return VisitResponse::ABORT;
+            }
+        } else {
+            item_location added = i_add( *it, true, /*avoid=*/nullptr,
+                                         it, /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
+            if( added == item_location::nowhere ) {
+                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
+            }
+        }
+        return VisitResponse::SKIP;
+    } );
+    inv->clear();
 }
 
 std::string Character::is_snuggling() const
