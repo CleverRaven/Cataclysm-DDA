@@ -1413,7 +1413,10 @@ struct itype {
         /** Value after the Cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
         units::money price_post = -1_cent;
 
-        int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
+        // TODO: Add some very basic unweildiness calc for non specified to_hit?
+        int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#To-Hit Value
+        // itype a raw int input for m_to_hit, only intended to be used for enforcement test
+        bool using_legacy_to_hit = false;
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
