@@ -1,6 +1,6 @@
 #include "path_manager.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <iterator>
 #include <memory>
 #include <string>
@@ -39,7 +39,7 @@ class path
     public:
         path() = default;
         path( const path &other ) = default;
-        path( std::vector<tripoint_abs_ms> &&recorded_path_in )
+        explicit path( std::vector<tripoint_abs_ms> &&recorded_path_in )
             : recorded_path( std::move( recorded_path_in ) ) {}
         path &operator=( const path &other ) = default;
         path &operator=( path &&other ) = default;
@@ -96,7 +96,7 @@ class path_manager_impl
 class path_manager_ui : public cataimgui::window
 {
     public:
-        path_manager_ui( path_manager_impl *pimpl_in );
+        explicit path_manager_ui( path_manager_impl *pimpl_in );
         void run();
 
     protected:
@@ -149,7 +149,7 @@ void path::set_avatar_path()
 void path_manager_impl::start_recording()
 {
     current_path_index = paths.size();  // future_size - 1
-    paths.emplace_back( path() );
+    paths.emplace_back();
     set_recording_path( current_path_index );
     paths.back().record_step( get_avatar().get_location() );
 }
@@ -334,7 +334,7 @@ void path_manager::deserialize( const JsonValue &jsin )
         std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
         data.read( "recorded_paths", recorded_paths );
         for( std::vector<tripoint_abs_ms> &p : recorded_paths ) {
-            pimpl->paths.emplace_back( path( std::move( p ) ) );
+            pimpl->paths.emplace_back( std::move( p ) );
         }
     } catch( const JsonError &e ) {
     }
