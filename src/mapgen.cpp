@@ -5918,7 +5918,7 @@ void map::draw_lab( mapgendata &dat )
         } // end aboveground vs belowground
 
         // Ants will totally wreck up the place
-        if( true ) { //###is_ot_match( "ants", terrain_type, ot_match_type::contains ) ) {
+        if( is_ot_match( "ants", terrain_type, ot_match_type::contains ) ) {
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     // Carve out a diamond area that covers 2 spaces on each edge.
