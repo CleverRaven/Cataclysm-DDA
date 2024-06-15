@@ -1950,7 +1950,7 @@
     "id": "mon_tusked_moose_calf",
     "type": "MONSTER",
     "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
-    "description": "The baby moose is called a calf and so are it's tusked mutant descendants.  They can outrun a human within days of birth and gain weight at an incredible pace.",
+    "description": "The baby moose is called a calf and so are its mutant descendants.  They can outrun a human within days of birth and gain weight at an incredible pace.",
     "default_faction": "herbivore",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
