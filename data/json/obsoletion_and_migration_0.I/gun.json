@@ -379,30 +379,5 @@
     },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
-  },
-  {
-    "id": "bigun",
-    "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "12-gauge gatling gun" },
-    "description": "An electrically driven six barrel gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
-    "weight": "4980 g",
-    "volume": "4500 ml",
-    "longest_side": "110 cm",
-    "barrel_length": "762 mm",
-    "price": "1 kUSD 800 USD",
-    "price_postapoc": "17 USD 50 cent",
-    "to_hit": -2,
-    "material": [ "steel" ],
-    "dispersion": 855,
-    "durability": 8,
-    "modes": [ [ "DEFAULT", "burst", 6 ] ],
-    "energy_drain": "1 kJ",
-    "reload": 200,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "flags": [ "MOUNTED_GUN", "USE_UPS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
-    "melee_damage": { "bash": 9 }
   }
 ]

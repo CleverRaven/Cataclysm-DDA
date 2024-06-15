@@ -54,7 +54,6 @@ ID_WHITELIST = {
     'pneumatic_shotgun',
     'rifle_223',
     'ksg-25',
-    'bigun',
     'raging_judge',
     'american_180',
     'ppsh',

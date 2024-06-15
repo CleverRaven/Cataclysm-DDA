@@ -791,6 +791,7 @@
           "weight": 26,
           "items": {
             "ashot": 1,
+            "bigun": 1,
             "lever_shotgun": 1,
             "ksg": 1,
             "mossberg_500": 1,
@@ -1246,6 +1247,7 @@
           "type": "shotguns",
           "weight": 27,
           "items": {
+            "bigun": 1,
             "combination_gun_shotgun": 1,
             "ksg": 1,
             "ksg_aux_shotgun": 1,
