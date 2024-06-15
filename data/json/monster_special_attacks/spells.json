@@ -597,8 +597,9 @@
     "min_range": 24,
     "max_range": 24,
     "sound_description": "ssszziiipp",
-    "min_damage": 1,
-    "max_damage": 1,
+    "damage_type": "biological",
+    "min_damage": 5,
+    "max_damage": 17,
     "extra_effects": [ { "id": "spell_gene_sting_selector" } ]
   },
   {
@@ -610,7 +611,7 @@
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_sting_selector",
+    "effect_str": "EOC_random_mutate",
     "shape": "blast",
     "max_level": 1
   },
