@@ -23,22 +23,21 @@
     "flags": [ "RAW", "INEDIBLE", "LUPINE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "large_bone",
     "name": { "str": "large bone" },
     "description": "A huge bone of a large creature.",
-    "weight": "20 kg",
-    "volume": "36 L",
-    "longest_side": "2 meter",
+    "weight": "17700 g",
+    "volume": "19550 ml",
+    "longest_side": "110 cm",
+    "//": "Values based roughly on an adult female African elephant femur",
     "symbol": "I",
     "color": "white",
     "material": [ "bone" ],
-    "comestible_type": "INVALID",
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "//": "While it would make sense to be able to mill it, the bone won't fit into a mill…",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 13824 ] ],
     "melee_damage": { "bash": 15 }
   },
   {
