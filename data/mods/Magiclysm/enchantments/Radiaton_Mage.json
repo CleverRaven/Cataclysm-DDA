@@ -44,7 +44,7 @@
     "name": { "str": "Rad Senses" },
     "points": 0,
     "active": true,
-    "description": "You can feel the radiation emission near your body so perfectly it allows you to see while blind.  You suppress it now.",
+    "description": "You can perceive radiation being emitted in your surroundings with sufficient precision to see while totally blind.  You suppress it now.",
     "transform": { "target": "CLAIRVOYANCE_ON", "msg_transform": "You see everything!", "active": true, "moves": 10 }
   },
   {
@@ -56,7 +56,7 @@
     "active": true,
     "name": { "str": "Rad Senses (on)" },
     "points": 0,
-    "description": "You can feel the radiation emission near your body so perfectly it allows you to see while blind.",
+    "description": "You can perceive radiation being emitted in your surroundings with sufficient precision to see while totally blind.",
     "enchantments": [ "RADIATION_MAGE_CLAIRVOYANCE" ],
     "transform": { "target": "CLAIRVOYANCE_OFF", "msg_transform": "You suppress your rad senses.", "active": false, "moves": 10 }
   }

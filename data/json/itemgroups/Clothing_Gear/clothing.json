@@ -788,6 +788,10 @@
       [ "attachable_ear_muffs", 5 ],
       [ "mask_dust", 30 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
+      {
+        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "prob": 15
+      },
       { "item": "mask_gas_half", "prob": 30, "charges": [ 0, 100 ] },
       [ "glasses_safety", 30 ],
       [ "ear_plugs", 35 ],
@@ -890,7 +894,15 @@
     "//": "Full face protection worn with hazmat suits",
     "items": [
       { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter", "charges": [ 0, -1 ] } ], "prob": 40 },
-      { "item": "mask_gas", "prob": 60, "charges": [ 0, -1 ] },
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 25 },
+          { "group": "gasmask_bag_used", "prob": 60 }
+        ],
+        "prob": 60
+      },
       { "item": "mask_gas_half", "prob": 60, "charges": [ 0, -1 ] }
     ]
   },
@@ -2934,7 +2946,7 @@
       [ "kevlar", 10 ],
       { "group": "military_ballistic_vest", "prob": 30 },
       [ "vest", 15 ],
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, -1 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "backpack", 38 ],
@@ -2966,7 +2978,7 @@
     "type": "item_group",
     "id": "mil_accessories",
     "items": [
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       [ "duffelbag", 15 ],
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
@@ -3105,7 +3117,14 @@
     "items": [
       { "item": "mask_bunker", "prob": 70, "charges": [ 0, -1 ] },
       [ "mask_dust", 30 ],
-      { "item": "mask_gas", "prob": 20, "charges": [ 0, -1 ] },
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 50 }
+        ],
+        "prob": 20
+      },
       { "item": "mask_gas_half", "prob": 20, "charges": [ 0, -1 ] },
       { "item": "mask_filter", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "goggles_nv", "prob": 2, "charges": [ 0, 100 ] },
@@ -3138,7 +3157,14 @@
     "items": [
       [ "mask_dust", 80 ],
       { "item": "mask_filter", "prob": 20, "charges": [ 0, -1 ] },
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, -1 ] }
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 25 },
+          { "item": "mask_gas", "charges": [ 0, -1 ], "contents-group": "gasmask_inserts_in_use", "prob": 25 },
+          { "group": "gasmask_bag_full", "prob": 50 }
+        ],
+        "prob": 10
+      }
     ]
   },
   {
@@ -3341,7 +3367,7 @@
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
-      { "item": "mask_gas", "prob": 24, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 24 },
       { "item": "mask_gas_half", "prob": 24, "charges": [ 0, 100 ] },
       { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },
       [ "mask_bunker", 2 ],

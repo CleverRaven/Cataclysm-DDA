@@ -420,6 +420,9 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_array( "required_effects" ) ) {
         assign( jo, "required_effects", required_effects );
     }
+    if( jo.has_array( "disabled_by" ) ) {
+        assign( jo, "disabled_by", disabled_by );
+    }
     if( jo.has_array( "effects" ) ) {
         for( const JsonObject effect_jo : jo.get_array( "effects" ) ) {
             weakpoint_effect effect;
@@ -513,6 +516,12 @@ float weakpoint::hit_chance( const weakpoint_attack &attack ) const
             return 0.0f;
         }
     }
+    // Effects that disable this weakpoint
+    for( const auto &effect : disabled_by ) {
+        if( attack.target->has_effect( effect ) ) {
+            return 0.0f;
+        }
+    }
     // Retrieve multipliers.
     float constant_mult = coverage_mult.of( attack );
     // Probability of a sample from a normal distribution centered on `skill` with `SD = 2`
@@ -551,6 +560,12 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
     float reweighed = 0.0f;
     float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
+        if( weakpoint.hit_chance( attack ) == 0.0f ) {
+            add_msg_debug( debugmode::DF_MONSTER,
+                           "Weakpoint Selection: weakpoint %s, conditions not match",
+                           weakpoint.id );
+            continue;
+        }
         float new_base = base + weakpoint.hit_chance( attack );
         float new_reweighed = 100.0f * reweigh( new_base / 100.0f, rolls );
         float hit_chance = new_reweighed - reweighed;
