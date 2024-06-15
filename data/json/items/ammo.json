@@ -539,7 +539,8 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "recovery_chance": 80,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "melee_damage": { "cut": 9 }
   },
   {
@@ -560,7 +561,8 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80", "ALLOWS_BODY_BLOCK" ],
+    "recovery_chance": 80,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
   },

@@ -24,7 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -624,7 +624,7 @@ class turret_data
         bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
-        std::set<std::string> ammo_effects() const;
+        std::set<ammo_effect_str_id> ammo_effects() const;
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
@@ -1526,6 +1526,9 @@ class vehicle
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
+        // Get the total mass of the vehicle minus the weight of any creatures that are
+        // powering it; ie, the mass of the vehicle that the wheels are supporting
+        units::mass weight_on_wheels() const;
 
         // Gets the center of mass calculated for precalc[0] coordinates
         const point &rotated_center_of_mass() const;
@@ -1786,7 +1789,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
-        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+        static bool use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                      const itype_id &tool_type,
                                       bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair

@@ -40,7 +40,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 15, "cut": 25, "bullet": 20 }
@@ -85,7 +85,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE"
     ],
@@ -133,7 +133,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE"
     ],

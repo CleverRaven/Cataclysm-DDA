@@ -62,7 +62,6 @@
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "music.h"
 #include "mutation.h"
@@ -136,6 +135,10 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
+
+static const morale_type morale_music( "morale_music" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -262,8 +265,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
                                   _( "You light a fire, but it isn't enough.  You need to light more." ) );
         } else {
             p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+            p->rem_morale( morale_pyromania_nofire );
         }
     }
 
@@ -367,7 +370,8 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
+            !tmp.has_flag( flag_SEMITANGIBLE ) ) {
             for( const trait_id &mut : p.get_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
@@ -1347,8 +1351,8 @@ void firestarter_actor::resolve_firestarter_use( Character *p, const tripoint_bu
                                       _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p->add_msg_if_player( m_good, _( "You happily light a fire." ) );
-                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
-                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p->add_morale( morale_pyromania_startfire, 5, 10, 6_hours, 4_hours );
+                p->rem_morale( morale_pyromania_nofire );
             }
         }
     }
@@ -2232,7 +2236,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         }
         p->add_effect( effect_music, 1_turns );
         const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( MORALE_MUSIC, sign, morale_effect, 5_minutes, 2_minutes, true );
+        p->add_morale( morale_music, sign, morale_effect, 5_minutes, 2_minutes, true );
     }
 
     return 0;
@@ -2526,7 +2530,8 @@ static item_location form_loc( Character &you, const tripoint &p, item &it )
     if( you.has_item( it ) ) {
         return form_loc_recursive( you, it );
     }
-    map_cursor mc( p );
+    const tripoint_bub_ms bub = tripoint_bub_ms( p );
+    map_cursor mc( bub );
     if( mc.has_item( it ) ) {
         return form_loc_recursive( mc, it );
     }
@@ -2737,7 +2742,7 @@ static item_location get_item_location( Character &p, item &it, const tripoint &
     }
 
     // Item on the map
-    return item_location( map_cursor( pos ), &it );
+    return item_location( map_cursor( tripoint_bub_ms( pos ) ), &it );
 }
 
 std::optional<int> repair_item_actor::use( Character *p, item &it,
@@ -4614,7 +4619,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
             } else if( it.link().source == link_state::solarpack ) {
                 state_desc_lhs = _( "\nConnecting solar backpack to " );
             }
-            if( it.link().t_veh ) {
+            if( it.link().t_veh && it.link().source != link_state::needs_reeling ) {
                 state_desc_rhs = it.link().t_veh->name;
             } else if( it.link().target == link_state::bio_cable ) {
                 state_desc_rhs = _( "Cable Charger System" );
@@ -5569,23 +5574,22 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 }
 
 std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
-        const tripoint & ) const
+        const tripoint &point ) const
 {
-    if( !p ) {
-        debugmsg( "%s called action effect_on_conditons that requires character but no character is present",
-                  it.typeId().str() );
-        return std::nullopt;
-    }
-
     Character *char_ptr = nullptr;
-    if( avatar *u = p->as_avatar() ) {
-        char_ptr = u;
-    } else if( npc *n = p->as_npc() ) {
-        char_ptr = n;
+    item_location loc;
+    if( p ) {
+        if( avatar *u = p->as_avatar() ) {
+            char_ptr = u;
+        } else if( npc *n = p->as_npc() ) {
+            char_ptr = n;
+        }
+        loc = item_location( *p->as_character(), &it );
+    } else {
+        loc = item_location( map_cursor( tripoint_bub_ms( point ) ), &it );
     }
 
-    item_location loc( *p->as_character(), &it );
-    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    dialogue d( ( char_ptr == nullptr ? nullptr : get_talker_for( char_ptr ) ), get_talker_for( loc ) );
     write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
@@ -5595,7 +5599,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
         }
     }
     // Prevents crash from trying to spend charge with item removed
-    if( !p->has_item( it ) ) {
+    if( p && !p->has_item( it ) ) {
         return 0;
     }
     return 1;

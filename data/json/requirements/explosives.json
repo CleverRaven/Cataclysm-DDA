@@ -15,7 +15,9 @@
         [ "lamp_oil", 1 ],
         [ "motor_oil", 1 ],
         [ "jp8", 1 ],
-        [ "avgas", 1 ]
+        [ "avgas", 1 ],
+        [ "chem_turpentine", 1 ],
+        [ "camphine", 1 ]
       ]
     ]
   },
@@ -30,7 +32,8 @@
         [ "chem_methanol", 1 ],
         [ "ether", 1 ],
         [ "denat_alcohol", 1 ],
-        [ "avgas", 1 ]
+        [ "avgas", 1 ],
+        [ "chem_turpentine", 1 ]
       ]
     ]
   },
@@ -38,7 +41,7 @@
     "id": "fuel_liquid",
     "type": "requirement",
     "//": "This should contain all flammable liquids with a flash point above 30 degrees centigrade, 1 mL.",
-    "components": [ [ [ "diesel", 1 ], [ "biodiesel", 1 ], [ "lamp_oil", 1 ], [ "jp8", 1 ], [ "motor_oil", 1 ] ] ]
+    "components": [ [ [ "diesel", 1 ], [ "biodiesel", 1 ], [ "lamp_oil", 1 ], [ "jp8", 1 ], [ "motor_oil", 1 ], [ "camphine", 1 ] ] ]
   },
   {
     "id": "volatile_explosive",

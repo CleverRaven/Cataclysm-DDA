@@ -285,7 +285,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
         map &here = get_map();
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -634,7 +634,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
          allow_hallucinations_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -752,7 +752,7 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
     return [beta = is_beta( scope ), params, loc_var, radius_val, filter_val, f]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -886,6 +886,32 @@ std::function<void( dialogue &, double )> school_level_adjustment_ass( char scop
             }
         }
         return 0.0;
+    };
+}
+
+std::function<double( dialogue & )> get_daily_calories( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value type_val( std::string( "total" ) );
+    diag_value day_val( 0.0 );
+
+    if( kwargs.count( "day" ) != 0 ) {
+        day_val = *kwargs.at( "day" );
+    }
+
+    if( kwargs.count( "type" ) != 0 ) {
+        type_val = *kwargs.at( "type" );
+    }
+
+    return[beta = is_beta( scope ), day_val, type_val ]( dialogue const & d ) {
+        std::string type = type_val.str( d );
+        int const day = day_val.dbl( d );
+        if( day < 0 ) {
+            debugmsg( "get_daily_calories(): cannot access calorie diary from the future (day < 0)" );
+            return 0;
+        }
+
+        return static_cast<talker const *>( d.actor( beta ) )->get_daily_calories( day, type );
     };
 }
 
@@ -1560,6 +1586,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "pain", { "un", 0, pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
+    { "get_calories_daily", { "g", 0, get_daily_calories } },
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},

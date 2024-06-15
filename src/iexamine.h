@@ -10,6 +10,7 @@
 #include <tuple>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -48,7 +49,7 @@ namespace iexamine
 
 bool can_hack( Character &you );
 
-bool try_start_hacking( Character &you, const tripoint &examp );
+bool try_start_hacking( Character &you, const tripoint_bub_ms &examp );
 
 void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype );
 
@@ -146,9 +147,9 @@ void workout( Character &you, const tripoint &examp );
 void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
-std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
-bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
+std::optional<tripoint_bub_ms> getGasPumpByNumber( const tripoint_bub_ms &p, int number );
+bool toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units );
+std::optional<tripoint_bub_ms> getNearFilledGasTank( const tripoint_bub_ms &center, int &fuel_units,
         fuel_station_fuel_type &fuel_type );
 
 bool has_keg( const tripoint &pos );

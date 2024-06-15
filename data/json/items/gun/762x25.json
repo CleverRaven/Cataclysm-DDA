@@ -1,56 +1,5 @@
 [
   {
-    "id": "ppsh",
-    "looks_like": "hk_mp5",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "PPSh-41 submachine gun" },
-    "description": "The Soviet-made PPSh-41 is a mass-produced selective-fire submachine gun.  It has a relatively high rate of fire.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ppsh",
-        "name": { "str": "PPSh-41 submachine gun" },
-        "description": "A bulky and simple Second World War submachine gun of Russian manufacture, composed from a basic wooden buttstock, steel barrel shroud, and the hopes and prayers of Soviet soldiers under threat of German invasion.  Designed for mass production with limited materials, the weapon is notable for its high-capacity drum magazines, capability of rapidly depleting said magazines, and vicious 7.62x25mm chambering."
-      }
-    ],
-    "weight": "3640 g",
-    "volume": "2873 ml",
-    "longest_side": "844 mm",
-    "barrel_length": "269 mm",
-    "price": "2 kUSD 800 USD",
-    "price_postapoc": "22 USD 50 cent",
-    "to_hit": -2,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "762x25" ],
-    "skill": "smg",
-    "range": 2,
-    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
-    "dispersion": 120,
-    "durability": 8,
-    "min_cycle_recoil": 270,
-    "barrel_volume": "500 ml",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ],
-      [ "rail mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppshmag", "ppshdrum" ] } ],
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "tokarev",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",

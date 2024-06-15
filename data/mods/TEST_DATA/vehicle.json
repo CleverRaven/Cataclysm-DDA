@@ -564,5 +564,50 @@
       { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] },
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "female_underwear" ] }
     ]
+  },
+  {
+    "id": "character_volume_test_car",
+    "type": "vehicle",
+    "name": "DEBUG volume test car DEBUG",
+    "blueprint": [
+      [ "=====" ],
+      [ "=====" ],
+      [ "=====" ],
+      [ "=====" ],
+      [ "=====" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 0, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 1, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": 1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": -1, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": 0, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -1, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": 2, "y": -2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame", "aisle", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame", "aisle", "roof" ] }
+    ],
+    "items": [
+      { "x": 1, "y": 0, "chance": 100, "items": [ "rock_volume_test" ] },
+      { "x": -1, "y": 0, "chance": 100, "items": [ "rock_volume_test" ] },
+      { "x": 0, "y": 1, "chance": 100, "items": [ "rock_volume_test" ] },
+      { "x": 0, "y": -1, "chance": 100, "items": [ "rock_volume_test" ] }
+    ]
   }
 ]

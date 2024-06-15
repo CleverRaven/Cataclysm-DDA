@@ -8,6 +8,7 @@
       { "item": "grenade_cryo", "count": [ 1, 3 ] },
       { "item": "grenade", "count": [ 1, 3 ] },
       { "item": "afs_HE_grenade", "count": [ 1, 3 ] },
+      { "item": "afs_toxic_grenade", "count": [ 1, 3 ] },
       { "item": "grenade_inc", "count": [ 1, 3 ] },
       { "item": "smokebomb", "count": [ 1, 3 ] },
       { "item": "scrambler", "count": [ 1, 3 ] },

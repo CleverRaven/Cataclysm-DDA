@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "build_reqs.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -22,6 +23,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -44,16 +46,17 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "panels.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -100,6 +103,9 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
+static const morale_type morale_funeral( "morale_funeral" );
+static const morale_type morale_gravedigger( "morale_gravedigger" );
+
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
@@ -135,6 +141,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -157,6 +164,7 @@ static bool check_nothing( const tripoint_bub_ms & )
 static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowing water
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
+static bool check_unblocked( const tripoint_bub_ms & ); // tile is empty or empty space
 static bool check_support( const tripoint_bub_ms
                            & ); // at least two orthogonal supports or from below
 static bool check_support_below( const tripoint_bub_ms
@@ -202,6 +210,7 @@ static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
 static void remove_above( const tripoint_bub_ms &p, Character & );
 static void add_roof( const tripoint_bub_ms &p, Character & );
 
+static void do_turn_deconstruct( const tripoint_bub_ms &, Character & );
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
 
@@ -382,6 +391,66 @@ static std::string furniture_qualities_string( const furn_id &fid )
     return ret;
 }
 
+static std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
+        valid_constructions_near_player( const std::vector<construction_group_str_id> &groups,
+                const inventory &total_inv, avatar &player_character );
+
+static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
+    const std::map<tripoint_bub_ms, const construction *> &valid,
+    const std::optional<tripoint_bub_ms> &mouse_pos, const bool &blink )
+{
+    return make_shared_fast<game::draw_callback_t>( [&]() {
+        map &here = get_map();
+        // Draw construction result preview on valid squares
+        // TODO: fix point types
+        for( const auto &elem : valid ) {
+            const tripoint_bub_ms &loc = elem.first;
+            const construction &con = *elem.second;
+            const std::string &post_id = con.post_terrain;
+            const bool preview = !mouse_pos.has_value() || mouse_pos.value() == loc;
+            if( !post_id.empty() ) {
+                if( con.post_is_furniture ) {
+                    if( is_draw_tiles_mode() ) {
+                        if( blink && preview ) {
+                            g->draw_furniture_override( loc.raw(), furn_str_id( post_id ) );
+                        }
+                        g->draw_highlight( loc.raw() );
+                    } else {
+                        here.drawsq( g->w_terrain, loc,
+                                     drawsq_params().highlight( true )
+                                     .show_items( true )
+                                     .furniture_override( blink && preview
+                                                          ? furn_str_id( post_id )
+                                                          : furn_str_id::NULL_ID() ) );
+                    }
+                } else {
+                    if( is_draw_tiles_mode() ) {
+                        if( blink && preview ) {
+                            g->draw_terrain_override( loc.raw(), ter_str_id( post_id ) );
+                        }
+                        g->draw_highlight( loc.raw() );
+                    } else {
+                        here.drawsq( g->w_terrain, loc,
+                                     drawsq_params().highlight( true )
+                                     .show_items( true )
+                                     .terrain_override( blink && preview
+                                                        ? ter_str_id( post_id )
+                                                        : ter_str_id::NULL_ID() ) );
+                    }
+                }
+            } else {
+                if( is_draw_tiles_mode() ) {
+                    g->draw_highlight( loc.raw() );
+                } else {
+                    here.drawsq( g->w_terrain, loc,
+                                 drawsq_params().highlight( true )
+                                 .show_items( true ) );
+                }
+            }
+        }
+    } );
+}
+
 construction_id construction_menu( const bool blueprint )
 {
     if( !finalized ) {
@@ -446,6 +515,7 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
+    ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
 
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
     const int tabcount = static_cast<int>( construction_category::count() );
@@ -454,6 +524,20 @@ construction_id construction_menu( const bool blueprint )
 
     const nc_color color_stage = c_white;
     ui_adaptor ui;
+
+    std::unique_ptr<on_out_of_scope> restore_ui = std::make_unique<on_out_of_scope>( []() {
+#if defined( TILES )
+        tilecontext->set_disable_occlusion( false );
+#endif
+        // always needs to restore view
+        g->invalidate_main_ui_adaptor();
+    } );
+#if defined( TILES )
+    tilecontext->set_disable_occlusion( true );
+    g->invalidate_main_ui_adaptor();
+#endif
+    std::unique_ptr<restore_on_out_of_scope<tripoint>> restore_view
+            = std::make_unique<restore_on_out_of_scope<tripoint>>( player_character.view_offset );
 
     const auto recalc_buffer = [&]() {
         //leave room for top and bottom UI text
@@ -626,18 +710,78 @@ construction_id construction_menu( const bool blueprint )
     };
 
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w_height = TERMY;
+        const int left_panel_width = panel_manager::get_manager().get_width_left();
+        const int right_panel_width = panel_manager::get_manager().get_width_right();
+
+        // 3 tiles of valid construction locations around the player character,
+        // plus 2 tiles of padding.
+        const int reserve_tile_height = 5;
+#if defined( TILES )
+        const window_dimensions ter_dims = get_window_dimensions( g->w_terrain );
+        const window_dimensions norm_dims = get_window_dimensions( catacurses::stdscr );
+        const int tile_height = g->is_tileset_isometric()
+                                ? ter_dims.scaled_font_size.x / 2 : ter_dims.scaled_font_size.y;
+        const int tile_extra_height = use_tiles
+                                      ? tilecontext->get_max_tile_extent().p_max.y * get_scaling_factor()
+                                      - tile_height
+                                      : 0;
+        // desired number of reserved lines from the construction menu.
+        const int reserve_height = ( ( reserve_tile_height
+                                       // reserve the minimum number of full tiles that makes the
+                                       // extra tile height visible.
+                                       + ( tile_extra_height + tile_height - 1 ) / tile_height )
+                                     // reserve the minimum number of construction menu lines that
+                                     // makes the reserved tiles visible.
+                                     * tile_height + norm_dims.scaled_font_size.y - 1 )
+                                   / norm_dims.scaled_font_size.y;
+#else
+        // desired number of reserved lines from the construction menu.
+        const int reserve_height = reserve_tile_height;
+#endif
+
+        w_height = TERMY - reserve_height;
+        // reduce height to match content
         if( static_cast<int>( available.size() ) + 2 < w_height ) {
             w_height = available.size() + 2;
         }
+        // but no lower than FULL_SCREEN_HEIGHT
         if( w_height < FULL_SCREEN_HEIGHT ) {
             w_height = FULL_SCREEN_HEIGHT;
         }
+        // if there is no enough space for main UI, hide it
+        if( w_height + reserve_height > TERMY ) {
+            w_height = std::max( TERMY, FULL_SCREEN_HEIGHT );
+        }
+        // number of normal lines for main UI (may be larger than reserve_height)
+        const int w_y0 = TERMY - w_height;
 
-        w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3 );
-        const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
-        const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
+        // keep side panel visible
+        w_width = TERMX - left_panel_width - right_panel_width;
+        int w_x0 = left_panel_width;
+        // unless width is too small
+        if( w_width < FULL_SCREEN_WIDTH ) {
+            w_width = std::max( TERMX, FULL_SCREEN_WIDTH );
+            w_x0 = 0;
+        }
+
         w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
+
+        // center player tile in the visible part of main UI
+#if defined( TILES )
+        const point visible_center(
+            ter_dims.window_size_pixel.x / 2,
+            ( norm_dims.scaled_font_size.y * w_y0
+              // shift up to reveal the full height of the topmost tile
+              + ( tile_extra_height + tile_height - 1 ) / tile_height * tile_height ) / 2 );
+        const point_bub_ms target = cata_tiles::screen_to_player(
+                                        visible_center,
+                                        ter_dims.scaled_font_size, ter_dims.window_size_pixel,
+                                        player_character.pos_bub().xy(), g->is_tileset_isometric() );
+        player_character.view_offset = tripoint( ( player_character.pos_bub().xy() - target ).raw(), 0 );
+#else
+        player_character.view_offset = tripoint( 0, ( w_height + 1 ) / 2, 0 );
+#endif
+        g->invalidate_main_ui_adaptor();
 
         w_list_width = static_cast<int>( .375 * w_width );
         w_list_height = w_height - 4;
@@ -732,6 +876,14 @@ construction_id construction_menu( const bool blueprint )
         wnoutrefresh( w_list );
     } );
 
+    construction_group_str_id con_preview_group = construction_group_str_id::NULL_ID();
+    std::map<tripoint_bub_ms, const construction *> con_preview;
+    const std::optional<tripoint_bub_ms> mouse_pos; // dummy
+    bool blink = true;
+    shared_ptr_fast<game::draw_callback_t> draw_preview = construction_preview_callback(
+                con_preview, mouse_pos, blink );
+    g->add_draw_callback( draw_preview );
+
     do {
         if( update_cat ) {
             update_cat = false;
@@ -802,11 +954,29 @@ construction_id construction_menu( const bool blueprint )
             recalc_buffer();
         } // Finished updating
 
+        if( select < 0 || static_cast<size_t>( select ) >= constructs.size()
+            || con_preview_group != constructs[select] ) {
+            con_preview_group = ( select >= 0 && static_cast<size_t>( select ) < constructs.size() )
+                                ? constructs[select] : construction_group_str_id::NULL_ID();
+            if( con_preview_group.is_null() ) {
+                con_preview.clear();
+            } else {
+                con_preview = valid_constructions_near_player(
+                { con_preview_group }, total_inv, player_character ).first;
+            }
+        }
+
+        g->invalidate_main_ui_adaptor();
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         const int recmax = static_cast<int>( constructs.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
+        if( action == "TIMEOUT" ) {
+            blink = !blink;
+        } else {
+            blink = true;
+        }
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -857,6 +1027,9 @@ construction_id construction_menu( const bool blueprint )
                     if( !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
+                        draw_preview.reset();
+                        restore_view.reset();
+                        restore_ui.reset();
                         ui.reset();
                         place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
@@ -993,17 +1166,16 @@ bool can_construct( const construction &con )
     return false;
 }
 
-void place_construction( std::vector<construction_group_str_id> const &groups )
+std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
+        valid_constructions_near_player( const std::vector<construction_group_str_id> &groups,
+                const inventory &total_inv, avatar &player_character )
 {
-    avatar &player_character = get_avatar();
-    const inventory &total_inv = player_character.crafting_inventory();
-
-    std::map<tripoint_bub_ms, const construction *> valid;
-    std::vector<construction *> cons;
+    std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>> ret;
+    std::map<tripoint_bub_ms, const construction *> &valid = ret.first;
+    std::vector<construction *> &cons = ret.second;
     map &here = get_map();
     for( construction_group_str_id const &group : groups ) {
         std::vector<construction *> const temp = constructions_by_group( group );
-        // TODO: fix point types
         for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
             for( const auto *con : temp ) {
                 if( p != player_character.pos_bub() && can_construct( *con, p ) &&
@@ -1014,23 +1186,64 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         }
         std::move( temp.begin(), temp.end(), std::back_inserter( cons ) );
     }
+    return ret;
+}
 
-    shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
-        map &here = get_map();
-        for( auto &elem : valid ) {
-            // TODO: fix point types
-            here.drawsq( g->w_terrain, elem.first.raw(),
-                         drawsq_params().highlight( true ).show_items( true ) );
-        }
+void place_construction( std::vector<construction_group_str_id> const &groups )
+{
+    avatar &player_character = get_avatar();
+    const inventory &total_inv = player_character.crafting_inventory();
+
+    std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
+            valid_pair = valid_constructions_near_player( groups, total_inv, player_character );
+    std::map<tripoint_bub_ms, const construction *> &valid = valid_pair.first;
+    std::vector<construction *> &cons = valid_pair.second;
+    map &here = get_map();
+
+    bool blink = true;
+    std::optional<tripoint_bub_ms> mouse_pos;
+
+#if defined( TILES )
+    on_out_of_scope reenable_occlusion( []() {
+        tilecontext->set_disable_occlusion( false );
+        g->invalidate_main_ui_adaptor();
     } );
-    g->add_draw_callback( draw_valid );
+    tilecontext->set_disable_occlusion( true );
+    g->invalidate_main_ui_adaptor();
+#endif
 
-    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    shared_ptr_fast<game::draw_callback_t> draw_preview = construction_preview_callback(
+                valid, mouse_pos, blink );
+    g->add_draw_callback( draw_preview );
+
+    const tripoint_bub_ms &loc = player_character.pos_bub();
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent(
+                loc, _( "Construct where?" ),
+                /*allow_vertical=*/false, /*timeout=*/get_option<int>( "BLINK_SPEED" ),
+    [&]( const input_context & ctxt, const std::string & action ) {
+        if( action == "TIMEOUT" ) {
+            blink = !blink;
+        } else {
+            blink = true;
+        }
+        if( action == "MOUSE_MOVE" ) {
+            const std::optional<tripoint> mouse_pos_raw = ctxt.get_coordinates(
+                        g->w_terrain, g->ter_view_p.xy(), true );
+            if( mouse_pos_raw.has_value() && mouse_pos_raw->z == loc.z()
+                && mouse_pos_raw->x >= loc.x() - 1 && mouse_pos_raw->x <= loc.x() + 1
+                && mouse_pos_raw->y >= loc.y() - 1 && mouse_pos_raw->y <= loc.y() + 1 ) {
+                mouse_pos = tripoint_bub_ms( *mouse_pos_raw );
+            } else {
+                mouse_pos = std::nullopt;
+            }
+        }
+        g->invalidate_main_ui_adaptor();
+        return std::pair<bool, std::optional<tripoint_bub_ms>>( false, std::nullopt );
+    } );
     if( !pnt_ ) {
         return;
     }
-    // TODO: fix point types
-    const tripoint_bub_ms pnt( *pnt_ );
+    const tripoint_bub_ms &pnt = *pnt_;
 
     if( valid.find( pnt ) == valid.end() ) {
         cons.front()->explain_failure( pnt );
@@ -1245,9 +1458,21 @@ bool construct::check_empty( const tripoint_bub_ms &p )
     map &here = get_map();
     // @TODO should check for *visible* traps only. But calling code must
     // first know how to handle constructing on top of an invisible trap!
-    return ( here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) && !here.has_furn( p ) &&
-             g->is_empty( p ) && here.tr_at( p ).is_null() &&
-             here.i_at( p ).empty() && !here.veh_at( p ) );
+    return here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) && !here.has_furn( p ) &&
+           g->is_empty( p ) && here.tr_at( p ).is_null() &&
+           here.i_at( p ).empty() && !here.veh_at( p );
+}
+
+bool construct::check_unblocked( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    // @TODO should check for *visible* traps only. But calling code must
+    // first know how to handle constructing on top of an invisible trap!
+    // Should also check for empty space rather than open air, when such a check exists.
+    return !here.has_furn( p ) &&
+           ( g->is_empty( p ) || here.ter( p ) == ter_t_open_air ) && ( here.tr_at( p ).is_null() ||
+                   here.tr_at( p ) == tr_ledge ) &&
+           here.i_at( p ).empty() && !here.veh_at( p );
 }
 
 bool construct::check_support( const tripoint_bub_ms &p )
@@ -1412,7 +1637,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( mon_flag_HUMAN ) ) {
                     if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                        player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1421,7 +1646,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
                 }
             } else {
                 if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                    player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it.get_corpse_name() );
@@ -1832,6 +2057,66 @@ void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
     here.ter_set( p + tripoint_above, roof );
 }
 
+void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+    // Only run once at the start of construction
+    if( here.partial_con_at( p )->counter == 0 && who.is_avatar() &&
+        get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
+        bool cancel_construction = false;
+
+        auto deconstruct_items = []( const item_group_id & drop_group ) {
+            std::string ret;
+            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
+                        item_group::spawn_data_from_group( drop_group )->every_item_min_max();
+            for( const auto &deconstruct_item : deconstruct_items ) {
+                const int &min = deconstruct_item.second.first;
+                const int &max = deconstruct_item.second.second;
+                if( min != max ) {
+                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
+                } else {
+                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
+                }
+            }
+            return ret;
+        };
+        auto deconstruction_will_practice_skill = [ &who ]( auto & skill ) {
+            return who.get_skill_level( skill.id ) >= skill.min &&
+                   who.get_skill_level( skill.id ) < skill.max;
+        };
+
+        if( here.has_furn( p ) ) {
+            const furn_t &f = here.furn( p ).obj();
+            if( !!f.deconstruct.skill &&
+                deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ) );
+            }
+        } else {
+            const ter_t &t = here.ter( p ).obj();
+            if( !!t.deconstruct.skill &&
+                deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ) );
+            }
+        }
+        if( cancel_construction ) {
+            here.partial_con_remove( p );
+            who.cancel_activity();
+        }
+    }
+}
+
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
@@ -1850,12 +2135,12 @@ void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
 {
     do_turn_shovel( p, who );
-    if( !who.has_morale( MORALE_GRAVEDIGGER ) ) {
+    if( !who.has_morale( morale_gravedigger ) ) {
         if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
             if( who.query_yn(
                     _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
                 add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-                who.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                who.add_morale( morale_gravedigger, -50, -100, 48_hours, 12_hours );
                 if( one_in( 3 ) ) {
                     who.vomit();
                 }
@@ -1865,13 +2150,13 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
         } else if( who.has_trait( trait_PSYCHOPATH ) ) {
             who.add_msg_if_player(
                 m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, 25, 50, 2_hours, 1_hours );
         } else if( who.has_trait( trait_NUMB ) ) {
             who.add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
         } else if( !who.has_trait( trait_EATDEAD ) && !who.has_trait( trait_SAPROVORE ) ) {
             who.add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 who.vomit();
             }
@@ -2001,8 +2286,9 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, bool( * )( const tripoint_bub_ms & )> pre_special_map = {{
             { "", construct::check_nothing },
             { "check_channel", construct::check_channel },
-            { "check_empty", construct::check_empty },
             { "check_empty_lite", construct::check_empty_lite },
+            { "check_empty", construct::check_empty },
+            { "check_unblocked", construct::check_unblocked },
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
             { "check_single_support", construct::check_single_support },
@@ -2047,6 +2333,7 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
     do_turn_special_map = {{
             { "", construct::done_nothing },
+            { "do_turn_deconstruct", construct::do_turn_deconstruct },
             { "do_turn_shovel", construct::do_turn_shovel },
             { "do_turn_exhume", construct::do_turn_exhume },
         }

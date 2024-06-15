@@ -224,7 +224,7 @@
     "id": "perk_vengeful",
     "name": { "str": "Vengeful" },
     "points": 0,
-    "description": "Oh, they're not getting away with THAT.\n\nYou do +15% damage for two turns after you're hit.",
+    "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
     "category": [ "perk" ],
     "enchantments": [ "perk_ench_vengeful" ]
   },
@@ -250,6 +250,19 @@
       {
         "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies')", "==", "0" ] },
         "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_big_eater",
+    "name": { "str": "Big Eater" },
+    "points": 0,
+    "description": "You can really put it away.  You eat food 10% faster and can eat 33% more food at a time.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.1 }, { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.33 } ]
       }
     ]
   },
@@ -330,6 +343,31 @@
   },
   {
     "type": "mutation",
+    "id": "perk_static_stockpile",
+    "name": { "str": "Static Stockpile" },
+    "points": 0,
+    "description": "You can't touch a door without zapping yourself.  Whenever there is a shocker or a robot within 15 squares, or you are outside during a storm, you gain 500J of bionic power per second and your melee attacks will do a small amount of extra electrical damage.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "or": [ { "is_weather": "lightning" }, { "is_weather": "thunder" } ] } ] },
+            {
+              "math": [
+                "u_monsters_nearby('mon_zombie_brute_shocker', 'mon_zombie_electric', 'mon_skeleton_electric', 'mon_frog_shocker', 'mon_zombie_static', 'mon_amalgamation_zapper', 'mon_zombie_nullfield', 'mon_exodii_worker', 'mon_exodii_quad', 'mon_zomborg', 'mon_zomborg_devourer', 'mon_robofac_skittergun', 'mon_EMP_hack', 'mon_c4_hack', 'mon_flashbang_hack', 'mon_gasbomb_hack', 'mon_grenade_hack', 'mon_manhack', 'exodii_sniper_drone', 'mon_tazer_hack', 'mon_lab_security_drone_GM', 'mon_lab_security_drone_YM', 'mon_lab_security_drone_BM', 'mon_lab_security_drone_BM2', 'mon_lab_security_drone_GR', 'mon_lab_security_drone_BS', 'mon_secubot', 'mon_talon_m202a1', 'mon_secubot_america', 'mon_skitterbot', 'mon_science_bot', 'mon_robofac_prototype', 'mon_dispatch', 'mon_dispatch_military', 'radius': 15)",
+                ">",
+                "0"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_jumpy",
     "name": { "str": "Jumpy" },
     "points": 0,
@@ -353,6 +391,14 @@
     "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_early_to_rise",
+    "name": { "str": "Early to Rise" },
+    "points": 0,
+    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
@@ -495,6 +541,20 @@
     "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_firstest_aid",
+    "name": { "str": "Firstest Aid" },
+    "points": 0,
+    "description": "It's called \"First Aid\", right, so obviously it's better the faster you apply it.  Your bandages are 50% better at stopping bleeding, but only if you apply them within 2 minutes of taking damage.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_effect": "effect_perk_firstest_aid" },
+        "values": [ { "value": "BLEED_STOP_BONUS", "multiply": 0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -689,6 +749,22 @@
     "points": 0,
     "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
     "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_nocturnal",
+    "name": { "str": "Nocturnal" },
+    "points": 0,
+    "description": "Darkness is your ally.  Others have merely adopted the dark, but you were born in it, molded by it.  You gain +2 Perception and +1 Intelligence at night, and have a much easier time sleeping during the day.  However, you also suffer -2 Perception when outdoors during the day and have a harder time sleeping at night.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "PERCEPTION", "add": 2 }, { "value": "INTELLIGENCE", "add": 1 }, { "value": "SLEEPY", "add": -30 } ]
+      },
+      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] },
+      { "condition": { "and": [ "is_day", "u_is_outside" ] }, "values": [ { "value": "PERCEPTION", "add": -2 } ] }
+    ]
   },
   {
     "type": "mutation",

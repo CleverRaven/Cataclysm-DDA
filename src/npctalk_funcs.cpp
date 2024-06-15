@@ -44,7 +44,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
@@ -99,6 +98,10 @@ static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
+
+static const morale_type morale_chat( "morale_chat" );
+static const morale_type morale_haircut( "morale_haircut" );
+static const morale_type morale_shave( "morale_shave" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
@@ -358,6 +361,9 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
+        if( !overmap_buffer.seen( elem ) ) {
+            continue;
+        }
         std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
@@ -371,16 +377,21 @@ void talk_function::goto_location( npc &p )
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
+    if( !player_character.omt_path.empty() ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My destination" ) );
+    }
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
     int index = selection_menu.ret;
-    if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
-        index == static_cast<int>( camps.size() + 1 ) ) {
+    if( index < 0 || index >= i ) {
         return;
     }
     if( index == static_cast<int>( camps.size() ) ) {
         destination = player_character.global_omt_location();
+    } else if( index == static_cast<int>( camps.size() ) + 1 ) {
+        // This looks nuts, but omt_path is emplaced in reverse order. So the front of the vector is our destination
+        destination = player_character.omt_path.front();
     } else {
         const basecamp *selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();
@@ -484,7 +495,7 @@ void talk_function::wake_up( npc &p )
 
 void talk_function::reveal_stats( npc &p )
 {
-    p.disp_info();
+    p.disp_info( true );
 }
 
 void talk_function::end_conversation( npc &p )
@@ -780,7 +791,7 @@ void talk_function::barber_hair( npc &/*p*/ )
 void talk_function::buy_haircut( npc &p )
 {
     Character &player_character = get_player_character();
-    player_character.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
+    player_character.add_morale( morale_haircut, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
@@ -790,17 +801,11 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     Character &player_character = get_player_character();
-    player_character.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
+    player_character.add_morale( morale_shave, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.get_name() );
-}
-
-void talk_function::morale_chat( npc &p )
-{
-    get_player_character().add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
-    add_msg( m_good, _( "That was a pleasant conversation with %s…" ), p.disp_name() );
 }
 
 void talk_function::morale_chat_activity( npc &p )
@@ -830,7 +835,7 @@ void talk_function::morale_chat_activity( npc &p )
         }
         p.add_effect( effect_socialized_recently, 6_hours );
     }
-    player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    player_character.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 /*

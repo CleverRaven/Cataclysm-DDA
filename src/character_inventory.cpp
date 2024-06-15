@@ -334,7 +334,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                return item_location( map_cursor( pos_bub() ), &get_map().add_item_or_charges( pos(), it ) );
             } else {
                 return added;
             }
@@ -368,7 +368,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( pos() ), &map_added );
+            added = added ? added : item_location( map_cursor( pos_bub() ), &map_added );
         }
     }
     return added;
@@ -394,7 +394,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                    loc = item_location( map_cursor( pos_bub() ), &get_map().add_item_or_charges( pos(), it ) );
                 }
             } else {
                 loc = item_location( *this, &weapon );
@@ -454,25 +454,23 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    int added = 0;
     inv->assign_empty_invlet( it, *this );
     map &here = get_map();
-    drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
     for( int i = 0; i < qty; ++i ) {
+        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
-            // No need to loop now, we already knew that there isn't enough room for the item.
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
-            added++;
-            break;
+            if( !retval ) {
+                // No need to loop now, we already knew that there isn't enough room for the item.
+                break;
+            }
         } else if( add ) {
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
-            added++;
+        } else {
+            retval = false;
+            break;
         }
-    }
-
-    for( int i = added; i < qty; ++i ) {
-        retval &= !here.add_item_or_charges( pos(), it ).is_null();
     }
 
     return retval;
@@ -630,7 +628,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( pickup_activity_actor( items, quantities, pos(), false ) );
+    assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false ) );
 }
 
 invlets_bitset Character::allocated_invlets() const

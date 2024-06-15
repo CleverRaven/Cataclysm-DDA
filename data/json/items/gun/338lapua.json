@@ -66,7 +66,6 @@
     "default_mods": [ "match_trigger", "muzzle_brake" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
@@ -77,6 +76,7 @@
     ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ],
+    "barrel_volume": "820 ml",
     "melee_damage": { "bash": 12 }
   },
   {

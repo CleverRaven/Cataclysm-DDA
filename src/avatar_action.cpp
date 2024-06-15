@@ -1136,10 +1136,10 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
         if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
             loc->deactivate();
-            loc.get_item()->set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            loc.get_item()->set_fault( faults::random_of_type( "wet" ) );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc.get_item()->set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+                loc.get_item()->set_fault( faults::random_of_type( "shorted" ) );
             }
         } else {
             return;

@@ -30,7 +30,7 @@
     "//grab": "Assuming they are grabbing you with their paws",
     "grab_strength": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid", "cooldown": 7 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "GRABS", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "GRABS", "PATH_AVOID_DANGER", "WARM", "GRABS", "SWARMS" ],
     "zombify_into": "mon_owlbear_zombie",
     "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   },
@@ -68,7 +68,7 @@
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 12, "stab": 14, "acid": 15 }
   },
   {
@@ -78,7 +78,7 @@
     "symbol": "K",
     "color": "dark_gray",
     "type": "MONSTER",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER", "WARM" ],
     "harvest": "mutant_human",
     "material": [ "hflesh" ],
     "bodytype": "human",
@@ -143,7 +143,7 @@
     "upgrades": { "age_grow": 240, "into": "mon_nightmare_sheep" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_nightmare_sheep",
@@ -180,7 +180,7 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_owlbear_cub",
@@ -241,7 +241,7 @@
       },
       { "id": "smash", "throw_strength": 50 }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ],
     "armor": { "bash": 32, "cut": 30, "bullet": 24 }
   },
   {
@@ -273,18 +273,7 @@
     "death_drops": "wisp_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "FLIES",
-      "PATH_AVOID_DANGER_1",
-      "ELECTRIC",
-      "HARDTOSHOOT",
-      "NOGIB",
-      "NOHEAD",
-      "NO_BREATHE",
-      "SWARMS"
-    ]
+    "flags": [ "SEES", "HEARS", "FLIES", "PATH_AVOID_DANGER", "ELECTRIC", "HARDTOSHOOT", "NOGIB", "NOHEAD", "NO_BREATHE", "SWARMS" ]
   },
   {
     "id": "mon_troll",
@@ -346,7 +335,7 @@
       "SMELLS",
       "KEENNOSE",
       "HAS_MIND",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "WARM",
       "GRABS",
@@ -514,7 +503,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "cooldown": 25 } ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "COLDPROOF" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "COLDPROOF" ],
     "armor": { "bash": 3, "cut": 3, "heat": 50 }
   },
   {
@@ -548,7 +537,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_were_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ],
     "armor": { "bash": 48, "cut": 36, "bullet": 40 }
   },
   {
@@ -597,7 +586,7 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 12, "cut": 12, "bullet": 25 }
   },
   {
@@ -904,7 +893,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "BRIGHT_LIGHT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HAS_MIND", "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HAS_MIND", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
     "armor": { "bash": 15, "cut": 2, "heat": 10, "necrotic": 5, "poison": 100 }
   }
 ]

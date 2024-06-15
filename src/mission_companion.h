@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
 #include "point.h"

@@ -131,7 +131,7 @@ TEST_CASE( "overflow_test_into_parent_item", "[item]" )
     }
     REQUIRE( contents_pre == 1 );
 
-    item_location jar_loc( map_cursor( origin ), &jar );
+    item_location jar_loc( map_cursor( tripoint_bub_ms( origin ) ), &jar );
     jar_loc.overflow();
     map &here = get_map();
     CHECK( here.i_at( origin ).empty() );

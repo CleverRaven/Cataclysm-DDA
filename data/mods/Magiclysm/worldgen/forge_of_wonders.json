@@ -184,7 +184,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "forge_1A_roof_north" },
       { "point": [ 1, 0, 0 ], "overmap": "forge_2A_north" },
       { "point": [ 1, 0, 1 ], "overmap": "forge_2A_roof_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "forge_3A_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "forge_3A_north", "camp": "forge_lords", "camp_name": "Forge of Wonders" },
       { "point": [ 2, 0, 1 ], "overmap": "forge_3A_roof_north" },
       { "point": [ 3, 0, 0 ], "overmap": "forge_4A_north" },
       { "point": [ 3, 0, 1 ], "overmap": "forge_4A_roof_north" },
@@ -204,7 +204,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 1 ]
+    "occurrences": [ 1, 16 ],
+    "flags": [ "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_terrain",

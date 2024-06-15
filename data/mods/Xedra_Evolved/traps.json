@@ -1,0 +1,19 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_salamander_bomb",
+    "name": "sigil of detonation",
+    "color": "red",
+    "symbol": "#",
+    "always_invisible": false,
+    "memorial_male": { "ctxt": "memorial_male", "str": "Detonated by elemental magicks." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Detonated by elemental magicks." },
+    "visibility": 2,
+    "avoidance": 14,
+    "difficulty": 10,
+    "trap_radius": 0,
+    "action": "spell",
+    "flags": [ "UNDODGEABLE" ],
+    "spell_data": { "id": "salamander_explosion_trap_spell_activated" }
+  }
+]

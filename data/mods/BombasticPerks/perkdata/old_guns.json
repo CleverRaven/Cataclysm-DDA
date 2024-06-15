@@ -7,13 +7,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "moss_brownie",
-    "type": "GUN",
-    "copy-from": "moss_brownie",
-    "name": { "str": "Mossberg Brownie" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "win70",
     "type": "GUN",
     "copy-from": "win70",
@@ -228,20 +221,6 @@
     "type": "GUN",
     "copy-from": "winchester_1897",
     "name": { "str": "6-round trenchgun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "ppsh",
-    "type": "GUN",
-    "copy-from": "ppsh",
-    "name": { "str": "PPSh-41 submachine gun" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "mp18",
-    "type": "GUN",
-    "copy-from": "mp18",
-    "name": { "str": "MP 18 submachine gun" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {

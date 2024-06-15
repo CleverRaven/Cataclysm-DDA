@@ -654,7 +654,7 @@
   {
     "id": "mon_zllama",
     "type": "MONSTER",
-    "name": { "str_sp": "vicious vicuña" },
+    "name": { "str": "vicious vicuña" },
     "//": "The wild ancestor of the llama is called a vicuña.",
     "description": "This llama oozes a dark oil from a multitude of lesions and cuts.  Its wool has sloughed off with parts of its skin, revealing pulsating muscles and flesh.  Its mouth drips with a sickly green substance which it seems to be chewing on.",
     "default_faction": "zombie",

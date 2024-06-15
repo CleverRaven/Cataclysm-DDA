@@ -1378,5 +1378,95 @@
     "type": "MIGRATION",
     "replace": "deck_of_cards",
     "variant": "deck_of_cards_makeshift"
+  },
+  {
+    "id": "mp18",
+    "type": "MIGRATION",
+    "replace": "p08"
+  },
+  {
+    "id": "plr16",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "oa93",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "m231pfw",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "moss_brownie",
+    "type": "MIGRATION",
+    "replace": "ruger_lcr_22"
+  },
+  {
+    "id": "vz58_p",
+    "type": "MIGRATION",
+    "replace": "ak47"
+  },
+  {
+    "id": "vz58ts",
+    "type": "MIGRATION",
+    "replace": "aksemi"
+  },
+  {
+    "id": "vz58mag10",
+    "type": "MIGRATION",
+    "replace": "akmag10"
+  },
+  {
+    "id": "vz58mag30",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
+    "id": "stowed_fridge",
+    "type": "MIGRATION",
+    "replace": "apartment_fridge"
+  },
+  {
+    "id": "stowed_freezer",
+    "type": "MIGRATION",
+    "replace": "apartment_freezer"
+  },
+  {
+    "id": "stowed_glass_fridge",
+    "type": "MIGRATION",
+    "replace": "glass_fridge"
+  },
+  {
+    "id": "spear_survivor",
+    "type": "MIGRATION",
+    "replace": "naginata"
+  },
+  {
+    "id": "j22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "j22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "sw_22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "sw22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "cop_38",
+    "type": "MIGRATION",
+    "replace": "sw_619"
   }
 ]
