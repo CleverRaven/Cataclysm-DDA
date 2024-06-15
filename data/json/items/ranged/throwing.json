@@ -61,7 +61,6 @@
     "material": [ "cotton", "stone" ],
     "symbol": "H",
     "color": "white",
-    "to_hit": -2,
     "ammo_type": "thrown",
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
@@ -133,7 +132,6 @@
     "material": [ "steel" ],
     "volume": "100 ml",
     "weight": "460 g",
-    "to_hit": -2,
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],

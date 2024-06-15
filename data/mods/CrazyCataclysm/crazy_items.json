@@ -94,7 +94,6 @@
     "weight": "709 g",
     "volume": "539 ml",
     "price": "75 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "9mm" ],

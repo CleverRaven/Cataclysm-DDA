@@ -282,7 +282,6 @@
     "material": [ "dry_plant" ],
     "weight": "20 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "TINDER" ]
   },
   {
@@ -324,7 +323,6 @@
     "material": [ "plastic" ],
     "weight": "8 g",
     "volume": "10 ml",
-    "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -341,7 +339,6 @@
     "material": [ "plastic" ],
     "weight": "52 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -357,7 +354,6 @@
     "material": [ "bone" ],
     "weight": "45 g",
     "volume": "150 ml",
-    "to_hit": -2,
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
@@ -382,7 +378,6 @@
     "material": [ "steel" ],
     "techniques": [ "WRAP" ],
     "volume": "1 L",
-    "to_hit": -2,
     "price": "80 USD",
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
@@ -404,7 +399,6 @@
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -936,7 +930,6 @@
     "material": [ "steel" ],
     "weight": "1000 g",
     "volume": "1500 ml",
-    "to_hit": -2,
     "qualities": [ [ "BUTCHER", -38 ] ],
     "melee_damage": { "bash": 6, "cut": 8 }
   },
@@ -1025,8 +1018,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "151 g",
-    "volume": "100 ml",
-    "to_hit": -2
+    "volume": "100 ml"
   },
   {
     "type": "GENERIC",
@@ -1040,8 +1032,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "1 g",
-    "volume": "3 ml",
-    "to_hit": -2
+    "volume": "3 ml"
   },
   {
     "type": "GENERIC",
@@ -1055,8 +1046,7 @@
     "price_postapoc": "1 USD",
     "material": [ "lc_steel" ],
     "weight": "151 g",
-    "volume": "100 ml",
-    "to_hit": -2
+    "volume": "100 ml"
   },
   {
     "type": "GENERIC",
@@ -1098,8 +1088,7 @@
     "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
-    "flags": [ "HURT_WHEN_WIELDED" ],
-    "to_hit": -2
+    "flags": [ "HURT_WHEN_WIELDED" ]
   },
   {
     "type": "GENERIC",
@@ -1474,7 +1463,6 @@
     "longest_side": "48 cm",
     "price": "2 kUSD 500 USD",
     "category": "other",
-    "to_hit": -2,
     "description": "A special forces Russian rifle chambered in 5.45 that someone has taken a plasma cutter to, cutting it in three places to comply with import restrictions.  This thing would have been hard to source, and thankfully its unique complex recoil balance system remains intact, unlike the receiver and barrel.  The telltale rainbow patterns of torch cuts mar the otherwise beautiful receiver.  A well-equipped gunsmith with time and materials could probably build a new one out of this…",
     "variant_type": "gun",
     "variants": [
@@ -2393,7 +2381,6 @@
     "material": [ "wood" ],
     "weight": "220 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
@@ -2407,7 +2394,6 @@
     "//": "Commercial pinecones average 300g. We're assuming wild ones weigh less than this.",
     "weight": "200 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
@@ -2537,7 +2523,6 @@
     "name": { "str": "sunflower" },
     "description": "The top of a sunflower, with yellow petals and some seeds that have yet to be eaten by animals.",
     "weight": "450 g",
-    "to_hit": -2,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
@@ -2642,7 +2627,6 @@
     "material": [ "clay", "stone" ],
     "weight": "969 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 8 }
   },
@@ -2716,7 +2700,6 @@
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "1500 g",
     "volume": "2250 ml",
-    "to_hit": -2,
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -2967,8 +2950,7 @@
     "material": [ "veggy", "dry_plant" ],
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -3752,7 +3734,6 @@
     "material": [ "clay", "stone" ],
     "weight": "969 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 8 }
   },
@@ -4130,7 +4111,6 @@
     "material": [ "wood" ],
     "weight": "50 kg",
     "volume": "80 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 12 }
   },
   {
@@ -4146,7 +4126,6 @@
     "material": [ "steel", "wood" ],
     "weight": "55 kg",
     "volume": "80 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 14 }
   },
   {
@@ -4181,7 +4160,6 @@
     "weight": "5 kg",
     "volume": "22 L",
     "longest_side": "36 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

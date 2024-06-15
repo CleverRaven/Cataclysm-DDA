@@ -507,7 +507,6 @@
     "category": "tools",
     "weight": "2500 g",
     "color": "green",
-    "to_hit": -2,
     "use_action": [ { "type": "play_instrument" } ],
     "tick_action": {
       "type": "musical_instrument",

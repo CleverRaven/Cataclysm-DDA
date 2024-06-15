@@ -114,7 +114,6 @@
     "longest_side": "165 mm",
     "price": "3 kUSD 300 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -2,
     "material": [ "superalloy", "ceramic" ],
     "symbol": "(",
     "color": "dark_gray",

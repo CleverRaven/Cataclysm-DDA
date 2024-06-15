@@ -165,7 +165,6 @@
     "weight": "7500 g",
     "volume": "15 L",
     "price": "15 kUSD",
-    "to_hit": -2,
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",

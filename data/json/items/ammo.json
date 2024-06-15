@@ -538,7 +538,6 @@
     "range": 12,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -2,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "melee_damage": { "cut": 9 }
   },
@@ -1515,7 +1514,6 @@
     "//": "300g / 8.8g/ml = ~34.1ml. Add 10% to take an uneven chunk into account = 37.5ml rounded upwards to 38ml.",
     "price": "1 USD 69 cent",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "bronze" ],
     "symbol": ",",
     "color": "yellow",

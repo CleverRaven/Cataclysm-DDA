@@ -35,8 +35,7 @@
     "material": [ "anomaly" ],
     "symbol": "O",
     "volume": "35 ml",
-    "weight": "50 g",
-    "to_hit": -2
+    "weight": "50 g"
   },
   {
     "id": "art_lamp",
@@ -47,8 +46,7 @@
     "material": [ "anomaly" ],
     "symbol": "[",
     "volume": "1 L",
-    "weight": "80 g",
-    "to_hit": -2
+    "weight": "80 g"
   },
   {
     "id": "art_snake",
@@ -86,8 +84,7 @@
     "material": [ "anomaly" ],
     "symbol": "O",
     "volume": "76 ml",
-    "weight": "125 g",
-    "to_hit": -2
+    "weight": "125 g"
   },
   {
     "id": "art_napkin",
@@ -111,7 +108,6 @@
     "symbol": "O",
     "volume": "1 L",
     "weight": "800 g",
-    "to_hit": -2,
     "melee_damage": { "cut": 3 }
   },
   {
@@ -214,8 +210,7 @@
     "material": [ "anomaly" ],
     "symbol": "C",
     "volume": "35 ml",
-    "weight": "50 g",
-    "to_hit": -2
+    "weight": "50 g"
   },
   {
     "id": "art_robe",
@@ -349,7 +344,6 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "weapon_category": [ "KNIVES" ],
     "flags": [ "SHEATH_KNIFE", "TRADER_AVOID" ],
-    "to_hit": -2,
     "melee_damage": { "bash": 2, "stab": 13 }
   },
   {

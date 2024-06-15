@@ -500,7 +500,6 @@
     "barrel_length": "470 mm",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -2,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
