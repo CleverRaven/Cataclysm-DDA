@@ -8092,15 +8092,15 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 
 static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( Character *p )
 {
-    const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select a appliance" ),
-                                       _( "There is no appliance nearby" ), ACTION_EXAMINE, false );
+    const std::optional<tripoint> pt = choose_adjacent_highlight( _( "Select an appliance." ),
+                                       _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
     if( !pt ) {
-        p->add_msg_if_player( m_info, _( "You haven't select any appliance" ) );
+        p->add_msg_if_player( m_info, _( "You haven't selected any appliance." ) );
         return std::nullopt;
     } else {
         optional_vpart_position vp_ = get_map().veh_at( pt.value() );
         if( !vp_ ) {
-            p->add_msg_if_player( m_info, _( "It's not an appliance" ) );
+            p->add_msg_if_player( m_info, _( "This isn't an appliance." ) );
             return std::nullopt;
         } else {
             std::map<int, itype_id> pseudo_tools;
@@ -8112,17 +8112,17 @@ static std::optional<std::pair<tripoint, itype_id>> appliance_heater_selector( C
                 }
             }
             if( pseudo_tools.empty() ) {
-                p->add_msg_if_player( m_info, _( "Appliance don't have proper heater" ) );
+                p->add_msg_if_player( m_info, _( "The appliance doesn't have a proper heater." ) );
                 return std::nullopt;
             } else {
                 uilist app_menu;
-                app_menu.title = _( "Select a built-in heater" );
+                app_menu.title = _( "Select a built-in heater." );
                 for( const auto &[n, i] : pseudo_tools ) {
                     app_menu.addentry( n, true, MENU_AUTOASSIGN, i->nname( 1 ) );
                 }
                 app_menu.query();
                 if( app_menu.ret < 0 || static_cast<size_t>( app_menu.ret ) >= pseudo_tools.size() ) {
-                    p->add_msg_if_player( m_info, _( "You haven't select any heater" ) );
+                    p->add_msg_if_player( m_info, _( "You haven't selected any heater." ) );
                     return std::nullopt;
                 } else {
                     return std::make_pair( pt.value(), pseudo_tools[app_menu.ret] );
@@ -8181,7 +8181,7 @@ heater find_heater( Character *p, item *it )
         };
         loc = g->inv_map_splice( filter, _( "Select a tool to heat (or cancel to select an appliance):" ),
                                  1,
-                                 _( "You don't have proper heating tool.  Try select an appliance with heater." ) );
+                                 _( "You don't have a proper heating tool.  Try selecting an appliance with a heater." ) );
         if( !loc ) {
             std::optional<std::pair<tripoint, itype_id>> app = appliance_heater_selector( p );
             if( !app ) {
@@ -8195,7 +8195,7 @@ heater find_heater( Character *p, item *it )
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
-                    p->add_msg_if_player( m_info, _( "Appliance don't have enough power." ) );
+                    p->add_msg_if_player( m_info, _( "The appliance doesn't have enough power." ) );
                     return {loc, true, -1, 0, vpt, pseudo_flag};
                 }
             }
