@@ -432,10 +432,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         JsonObject jttd = jo.get_object( "transform_terrain" );
         vpslot_terrain_transform &vtt = *transform_terrain_info;
         optional( jttd, was_loaded, "pre_flags", vtt.pre_flags, {} );
-        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain, "t_null" );
-        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture, "f_null" );
-        optional( jttd, was_loaded, "post_field", vtt.post_field, "fd_null" );
-        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 0 );
+        optional( jttd, was_loaded, "post_terrain", vtt.post_terrain );
+        optional( jttd, was_loaded, "post_furniture", vtt.post_furniture );
+        optional( jttd, was_loaded, "post_field", vtt.post_field );
+        optional( jttd, was_loaded, "post_field_intensity", vtt.post_field_intensity, 1 );
         optional( jttd, was_loaded, "post_field_age", vtt.post_field_age, 0_seconds );
     }
 }
