@@ -233,11 +233,11 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "chiappa_rhino",
+    "id": "revolver_357",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": "Chiappa Rhino" },
-    "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder, helping with muzzle flip.",
+    "name": { "str_sp": ".357 revolver" },
+    "description": "A revolver chambered in .357.",
     "symbol": "(",
     "color": "light_gray",
     "looks_like": "sw_619",
@@ -270,6 +270,14 @@
         "rigid": true,
         "ammo_restriction": { "357mag": 6, "38": 6 },
         "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "chiappa_rhino",
+        "name": { "str": "Chiappa Rhino" },
+        "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder, helping with muzzle flip."
       }
     ]
   }
