@@ -198,7 +198,18 @@
     "replace": "pistol_speedloader"
   },
   {
-    "id": [ "mosquitomag", "ruger1022bigmag", "ruger1022mag", "sw22mag", "j22mag", "wp22mag", "kp32mag", "cp33_mag", "cp33_mag_50", "ruger_mk4_mag" ],
+    "id": [
+      "mosquitomag",
+      "ruger1022bigmag",
+      "ruger1022mag",
+      "sw22mag",
+      "j22mag",
+      "wp22mag",
+      "kp32mag",
+      "cp33_mag",
+      "cp33_mag_50",
+      "ruger_mk4_mag"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
   },
