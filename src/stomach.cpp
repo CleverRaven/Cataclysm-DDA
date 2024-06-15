@@ -317,24 +317,14 @@ bool stomach_contents::would_be_engorged_with( const Character &owner, units::vo
         bool calorie_deficit ) const
 {
     const double fullness_ratio = ( contains() + intake ) / capacity( owner );
-    if( calorie_deficit && fullness_ratio >= 1.0 ) {
-        return true;
-    } else if( fullness_ratio >= 5.0 / 6.0 ) {
-        return true;
-    }
-    return false;
+    return ( calorie_deficit && fullness_ratio >= 1.0 ) || ( fullness_ratio >= 5.0 / 6.0 );
 }
 
 bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
         bool calorie_deficit ) const
 {
     const double fullness_ratio = ( contains() + intake ) / capacity( owner );
-    if( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) {
-        return true;
-    } else if( fullness_ratio >= 3.0 / 4.0 ) {
-        return true;
-    }
-    return false;
+    return ( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) || ( fullness_ratio >= 3.0 / 4.0 );
 }
 
 units::volume stomach_contents::contains() const
