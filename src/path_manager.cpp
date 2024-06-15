@@ -2,12 +2,14 @@
 
 #include <stddef.h>
 #include <iterator>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -18,17 +20,22 @@
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "imgui/imgui.h"
+#include "input_context.h"
 #include "json.h"
 #include "json_error.h"
 #include "map.h"
 #include "messages.h"
+#include "output.h"
 #include "path_info.h"
 #include "translations.h"
+#include "ui_manager.h"
 
 class path
 {
         friend path_manager;
         friend path_manager_impl;
+        friend class path_manager_ui;
     public:
         path() = default;
         path( const path &other ) = default;
@@ -60,6 +67,7 @@ class path
 class path_manager_impl
 {
         friend path_manager;
+        friend class path_manager_ui;
     public:
         /**
          * Try to find a path then walk on it.
@@ -83,6 +91,20 @@ class path_manager_impl
         void set_recording_path( int p_index );
         int current_path_index = -1;
         std::vector<path> paths;
+};
+
+class path_manager_ui : public cataimgui::window
+{
+    public:
+        path_manager_ui( path_manager_impl *pimpl_in );
+        void run();
+
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override;
+    private:
+        std::string msg;
+        path_manager_impl *pimpl;
 };
 
 
@@ -171,7 +193,6 @@ void path_manager_impl::auto_route_from_path()
     start_recording();
 }
 
-
 void path_manager_impl::set_recording_path( bool set_to )
 {
     if( set_to ) {
@@ -185,6 +206,78 @@ void path_manager_impl::set_recording_path( int p_index )
     cata_assert( 0 <= p_index && p_index < static_cast<int>( paths.size() ) );
     current_path_index = p_index;
     recording_path = true;
+}
+
+path_manager_ui::path_manager_ui( path_manager_impl *pimpl_in )
+    : cataimgui::window( _( "Path Manager" ) ), pimpl( pimpl_in ) {}
+
+cataimgui::bounds path_manager_ui::get_bounds()
+{
+    return { -1.f, -1.f, float( str_width_to_pixels( TERMX ) ), float( str_height_to_pixels( TERMY ) ) };
+}
+
+void path_manager_ui::draw_controls()
+{
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 4,
+                             ImGuiTableFlags_ScrollY | ImGuiTableFlags_Resizable
+                             | ImGuiTableFlags_BordersOuter ) ) {
+        return;
+    }
+    // TODO invlet
+    ImGui::TableSetupColumn( "start name" );
+    ImGui::TableSetupColumn( "start distance" );
+    ImGui::TableSetupColumn( "end name" );
+    ImGui::TableSetupColumn( "end distance" );
+    ImGui::TableHeadersRow();
+
+    ImGuiListClipper clipper;
+    clipper.Begin( pimpl->paths.size() );
+    int selected_id = -1;
+    while( clipper.Step() ) {
+        for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
+            const path &curr_path = pimpl->paths[i];
+            ImGui::TableNextColumn();
+            if( ImGui::Selectable( ( "##" + std::to_string( i ) ).c_str(), selected_id == i,
+                                   ImGuiSelectableFlags_SpanAllColumns )
+              ) {
+                //set_selected_id( i );
+            }
+            ImGui::SameLine();
+
+            ImGui::Text( "%s", "start" );
+
+            ImGui::TableNextColumn();
+            ImGui::Text( "%d", rl_dist( get_avatar().get_location(), curr_path.recorded_path.front() ) );
+
+            ImGui::TableNextColumn();
+            ImGui::Text( "%s", "end" );
+
+            ImGui::TableNextColumn();
+            ImGui::Text( "%d", rl_dist( get_avatar().get_location(), curr_path.recorded_path.back() ) );
+        }
+    }
+    ImGui::EndTable();
+}
+
+void path_manager_ui::run()
+{
+    input_context ctxt( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    std::string action;
+
+    ui_manager::redraw();
+
+    while( is_open ) {
+        ui_manager::redraw();
+        action = ctxt.handle_input( 17 );
+        if( action == "QUIT" ) {
+            break;
+        }
+    }
 }
 
 // These need to be here so that pimpl works with unique ptr
@@ -261,6 +354,8 @@ void path_manager::serialize( JsonOut &jsout )
 
 void path_manager::show()
 {
+    path_manager_ui( pimpl.get() ).run();
+    // todo move to GUI
     if( pimpl->recording_path ) {
         pimpl->stop_recording();
         return;
