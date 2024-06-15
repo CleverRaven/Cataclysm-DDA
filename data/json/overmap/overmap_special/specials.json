@@ -3294,7 +3294,9 @@
       { "point": [ 1, 0, 0 ], "overmap": "junkyard_1b_north" },
       { "point": [ 1, 0, 1 ], "overmap": "junkyard_roof_1b_north" },
       { "point": [ 0, 1, 0 ], "overmap": "junkyard_2a_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "junkyard_roof_2a_north" },
       { "point": [ 1, 1, 0 ], "overmap": "junkyard_2b_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "junkyard_roof_2b_north" },
       { "point": [ 0, -1, 0 ], "locations": [ "land", "road" ] },
       { "point": [ 1, -1, 0 ], "locations": [ "land", "road" ] }
     ],
