@@ -46,7 +46,6 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -103,6 +102,9 @@ static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
+
+static const morale_type morale_funeral( "morale_funeral" );
+static const morale_type morale_gravedigger( "morale_gravedigger" );
 
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -208,6 +210,7 @@ static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
 static void remove_above( const tripoint_bub_ms &p, Character & );
 static void add_roof( const tripoint_bub_ms &p, Character & );
 
+static void do_turn_deconstruct( const tripoint_bub_ms &, Character & );
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
 
@@ -1634,7 +1637,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( mon_flag_HUMAN ) ) {
                     if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                        player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1643,7 +1646,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
                 }
             } else {
                 if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                    player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it.get_corpse_name() );
@@ -2054,6 +2057,66 @@ void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
     here.ter_set( p + tripoint_above, roof );
 }
 
+void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+    // Only run once at the start of construction
+    if( here.partial_con_at( p )->counter == 0 && who.is_avatar() &&
+        get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
+        bool cancel_construction = false;
+
+        auto deconstruct_items = []( const item_group_id & drop_group ) {
+            std::string ret;
+            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
+                        item_group::spawn_data_from_group( drop_group )->every_item_min_max();
+            for( const auto &deconstruct_item : deconstruct_items ) {
+                const int &min = deconstruct_item.second.first;
+                const int &max = deconstruct_item.second.second;
+                if( min != max ) {
+                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
+                } else {
+                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
+                }
+            }
+            return ret;
+        };
+        auto deconstruction_will_practice_skill = [ &who ]( auto & skill ) {
+            return who.get_skill_level( skill.id ) >= skill.min &&
+                   who.get_skill_level( skill.id ) < skill.max;
+        };
+
+        if( here.has_furn( p ) ) {
+            const furn_t &f = here.furn( p ).obj();
+            if( !!f.deconstruct.skill &&
+                deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ) );
+            }
+        } else {
+            const ter_t &t = here.ter( p ).obj();
+            if( !!t.deconstruct.skill &&
+                deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ) );
+            }
+        }
+        if( cancel_construction ) {
+            here.partial_con_remove( p );
+            who.cancel_activity();
+        }
+    }
+}
+
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
@@ -2072,12 +2135,12 @@ void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
 {
     do_turn_shovel( p, who );
-    if( !who.has_morale( MORALE_GRAVEDIGGER ) ) {
+    if( !who.has_morale( morale_gravedigger ) ) {
         if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
             if( who.query_yn(
                     _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
                 add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-                who.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                who.add_morale( morale_gravedigger, -50, -100, 48_hours, 12_hours );
                 if( one_in( 3 ) ) {
                     who.vomit();
                 }
@@ -2087,13 +2150,13 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
         } else if( who.has_trait( trait_PSYCHOPATH ) ) {
             who.add_msg_if_player(
                 m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, 25, 50, 2_hours, 1_hours );
         } else if( who.has_trait( trait_NUMB ) ) {
             who.add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
         } else if( !who.has_trait( trait_EATDEAD ) && !who.has_trait( trait_SAPROVORE ) ) {
             who.add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 who.vomit();
             }
@@ -2270,6 +2333,7 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
     do_turn_special_map = {{
             { "", construct::done_nothing },
+            { "do_turn_deconstruct", construct::do_turn_deconstruct },
             { "do_turn_shovel", construct::do_turn_shovel },
             { "do_turn_exhume", construct::do_turn_exhume },
         }

@@ -574,6 +574,27 @@
     "spell_class": "DREAMER"
   },
   {
+    "id": "spell_ethereal_wings",
+    "type": "SPELL",
+    "name": "Ethereal Wings",
+    "description": "Two ethereal wings sprout out of your back indefinitely until toggled off.  They work as phantasmal pair of wings that can somehow lift your weight even without conscious effort.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ETHEREAL_WINGS_INITIATE",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "DREAMER",
+    "energy_source": "MANA",
+    "difficulty": 9,
+    "base_casting_time": { "math": [ "u_has_trait('ethereal_wings') ? 0 : 2000" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('ethereal_wings') ? 0 : 200" ] },
+    "max_level": { "math": [ "dreamer_level(1)" ] },
+    "min_duration": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)*100" ] },
+    "max_duration": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)*100" ] }
+  },
+  {
     "id": "spell_karma_arms",
     "type": "SPELL",
     "name": "Karma Arms",

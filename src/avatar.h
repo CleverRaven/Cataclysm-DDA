@@ -159,10 +159,6 @@ class avatar : public Character
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
-        /** Provides the window and detailed morale data */
-        void disp_morale();
-        /** Opens the medical window */
-        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */

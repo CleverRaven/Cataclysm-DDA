@@ -1165,23 +1165,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "skewer_bone",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "bone skewer" },
-    "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
-    "category": "other",
-    "material": [ "bone" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "10 g",
-    "volume": "25 ml",
-    "to_hit": -5,
-    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ]
-  },
-  {
-    "type": "GENERIC",
     "id": "drum_skin",
     "name": { "str": "drum skin" },
     "copy-from": "tanned_hide",

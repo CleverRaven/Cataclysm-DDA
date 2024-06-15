@@ -393,7 +393,7 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "DROPS_AMMO" ],
     "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
@@ -428,7 +428,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "ATTACKMON" ],
     "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
@@ -602,7 +602,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
     ],
@@ -648,7 +648,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
@@ -697,7 +697,7 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"

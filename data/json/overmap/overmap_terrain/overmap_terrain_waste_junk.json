@@ -266,7 +266,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cs_open_sewer", "cs_open_sewer_undergound" ],
+    "id": [ "cs_open_sewer", "cs_open_sewer_roof", "cs_open_sewer_undergound" ],
     "copy-from": "generic_city_building",
     "name": "open sewer",
     "sym": "s",

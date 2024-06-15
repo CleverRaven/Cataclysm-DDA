@@ -28,6 +28,8 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+
 static const damage_type_id damage_bullet( "bullet" );
 
 enum class outcome_type {
@@ -40,7 +42,7 @@ static float get_damage_vs_target( const std::string &target_id )
     proj.speed = 1000;
     // Arbitrary damage, we only care about scaling.
     proj.impact = damage_instance( damage_bullet, 10 );
-    proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.proj_effects.insert( ammo_effect_NULL_SOURCE );
     dealt_projectile_attack frag;
     frag.proj = proj;
 

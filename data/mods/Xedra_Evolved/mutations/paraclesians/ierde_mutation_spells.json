@@ -145,6 +145,27 @@
     "max_range": 1
   },
   {
+    "id": "ierde_reveal_earth_map_spell",
+    "type": "SPELL",
+    "name": "Knowing Every Furrow",
+    "description": "Commune with the earth, whispering to it to reveal its secrets to you.  This spell will reveal natural features within a large radius around the Ierde.  The spell must be cast while standing on the living earth.",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "spell_class": "IERDE",
+    "difficulty": 7,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_IERDE_REVEAL_MAP",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 700,
+    "final_energy_cost": 450,
+    "energy_increment": -12,
+    "base_casting_time": 30000
+  },
+  {
     "id": "ierde_reshape_the_earth_spell",
     "type": "SPELL",
     "name": "Reshape the Living Earth",

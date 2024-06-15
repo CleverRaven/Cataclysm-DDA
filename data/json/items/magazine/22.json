@@ -17,141 +17,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 8 } } ]
   },
   {
-    "id": "a180mag",
-    "looks_like": "mp5mag",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 165-round magazine" },
-    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "a180mag",
-        "name": { "str": "American-180 165-round magazine" },
-        "description": "An unusually-shaped pan magazine for the American-180."
-      }
-    ],
-    "weight": "1039 g",
-    "volume": "892 ml",
-    "longest_side": "14 cm",
-    "price": "73 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "reload_time": 150,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
-  },
-  {
-    "id": "a180mag1",
-    "looks_like": "mp5mag",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 165-round polymer magazine" },
-    "description": "An unusually-shaped polymer constructed pan magazine for use with .22 caliber submachine guns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "a180mag1",
-        "name": { "str": "American-180 polymer 165-round magazine" },
-        "description": "An unusually-shaped, polymer pan magazine for the American-180."
-      }
-    ],
-    "weight": "779 g",
-    "volume": "892 ml",
-    "longest_side": "14 cm",
-    "price": "73 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "reload_time": 150,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
-  },
-  {
-    "id": "a180mag2",
-    "looks_like": "mp5mag",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 177-round magazine" },
-    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "a180mag2",
-        "name": { "str": "American-180 177-round magazine" },
-        "description": "An unusually-shaped pan magazine for the American-180."
-      }
-    ],
-    "weight": "1133 g",
-    "volume": "973 ml",
-    "longest_side": "15 cm",
-    "price": "75 USD",
-    "price_postapoc": "3 USD",
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "reload_time": 150,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 177 } } ]
-  },
-  {
-    "id": "a180mag3",
-    "looks_like": "mp5mag",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 220-round polymer magazine" },
-    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "a180mag3",
-        "name": { "str": "American-180 polymer 220-round magazine" },
-        "description": "An unusually-shaped polymer pan magazine for the American-180."
-      }
-    ],
-    "weight": "1258 g",
-    "volume": "1081 ml",
-    "longest_side": "16 cm",
-    "price": "80 USD",
-    "price_postapoc": "4 USD",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "reload_time": 150,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 220 } } ]
-  },
-  {
-    "id": "a180mag4",
-    "looks_like": "mp5mag",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 275-round polymer magazine" },
-    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "a180mag4",
-        "name": { "str": "American-180 polymer 275-round magazine" },
-        "description": "An unusually-shaped polymer pan magazine for the American-180."
-      }
-    ],
-    "weight": "1258 g",
-    "volume": "1081 ml",
-    "longest_side": "17 cm",
-    "price": "80 USD",
-    "price_postapoc": "4 USD",
-    "material": [ "plastic", "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "reload_time": 150,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 275 } } ]
-  },
-  {
     "id": "marlin_tubeloader",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
@@ -181,14 +46,15 @@
     "id": "mosquitomag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Mosquito 10-round magazine" },
-    "description": "A factory specification 10-round magazine for the Mosquito pistol.",
+    "name": { "str": "Firefly 10-round magazine" },
+    "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
+    "description": "A factory specification 10-round magazine for the Firefly pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mosquitomag",
-        "name": { "str": "SIG Mosquito 10-round magazine" },
-        "description": "A factory specification 10-round magazine for the SIG Mosquito."
+        "name": { "str": "GSG Firefly 10-round magazine" },
+        "description": "A factory specification 10-round magazine for the GSG Firefly."
       }
     ],
     "weight": "60 g",
@@ -255,58 +121,6 @@
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
-  },
-  {
-    "id": "sw22mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": ".22 10-round S&W magazine" },
-    "description": "A 10-round handgun magazine for use with Smith and Wesson's .22 caliber pocket pistol.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "sw22mag",
-        "name": { "str": "22A 10-round magazine" },
-        "description": "A standard capacity magazine for the popular S&W 22A pistol."
-      }
-    ],
-    "weight": "60 g",
-    "volume": "72 ml",
-    "longest_side": "9 cm",
-    "price": "21 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
-  },
-  {
-    "id": "j22mag",
-    "looks_like": "glock17_17",
-    "type": "MAGAZINE",
-    "name": { "str": "cheap 6-round magazine" },
-    "description": "A cheaply built, low quality 6-round magazine, for use in only the most ineffectual of .22 caliber pocket pistols.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "j22mag",
-        "name": { "str": "J-22 6-round magazine" },
-        "description": "A cheap 6-round steel box magazine for the Jennings J-22."
-      }
-    ],
-    "weight": "55 g",
-    "volume": "27ml",
-    "longest_side": "7 cm",
-    "price": "28 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "22" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ]
   },
   {
     "id": "wp22mag",
