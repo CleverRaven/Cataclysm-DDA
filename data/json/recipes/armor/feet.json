@@ -1974,7 +1974,9 @@
   {
     "copy-from": "espadrilles",
     "result": "espadrilles",
+    "id_suffix": "from_rope",
     "type": "recipe",
+    "time": "2 h",
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "byproducts": [ [ "string_36", 3 ] ]
   },
@@ -1982,14 +1984,15 @@
     "copy-from": "espadrilles",
     "result": "xl_espadrilles",
     "type": "recipe",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1.5 ] ],
     "components": [ [ [ "filament", 1200, "LIST" ] ] ]
   },
   {
     "copy-from": "xl_espadrilles",
     "result": "xl_espadrilles",
+    "id_suffix": "from_rope",
     "type": "recipe",
+    "time": "2 h",
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "byproducts": [ [ "string_36", 2 ] ]
   },
@@ -1997,14 +2000,15 @@
     "copy-from": "espadrilles",
     "result": "xs_espadrilles",
     "type": "recipe",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
     "using": [ [ "tailoring_cotton", 1 ] ],
     "components": [ [ [ "filament", 600, "LIST" ] ] ]
   },
   {
     "copy-from": "xs_espadrilles",
     "result": "xs_espadrilles",
+    "id_suffix": "from_rope",
     "type": "recipe",
+    "time": "2 h",
     "components": [ [ [ "rope_natural_short", 1, "LIST" ] ] ],
     "byproducts": [ [ "string_36", 4 ] ]
   }
