@@ -125,6 +125,7 @@
     "category": "weapons",
     "price": "52 USD",
     "price_postapoc": "5 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
     "name": { "str": "throwing knife", "str_pl": "throwing knives" },
     "symbol": ";",
     "color": "light_gray",

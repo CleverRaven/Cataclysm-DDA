@@ -235,6 +235,7 @@
     "volume": "250 ml",
     "price": "40 USD",
     "material": [ "ceramic", "plastic" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "good" },
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
@@ -256,6 +257,7 @@
     "color": "white",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "weapon_category": [ "KNIVES" ],
     "thrown_damage": [ { "damage_type": "afs_toxin_pierce", "amount": 14 } ],
     "melee_damage": { "afs_toxin_pierce": 21 }
@@ -278,6 +280,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": "75 USD",
     "price_postapoc": "12 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 5, "stab": 28 },
     "weapon_category": [ "POLEARMS", "SPEARS" ]
   },

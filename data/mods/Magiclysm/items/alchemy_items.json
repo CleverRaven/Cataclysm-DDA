@@ -264,6 +264,7 @@
     "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
     "melee_damage": { "stab": 8 }
   },
   {

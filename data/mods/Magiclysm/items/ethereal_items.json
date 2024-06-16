@@ -869,6 +869,7 @@
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "every", "balance": "good" },
     "weapon_category": [ "CLAWS" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
