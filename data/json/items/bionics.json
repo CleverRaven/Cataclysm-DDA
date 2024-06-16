@@ -11,10 +11,9 @@
     "color": "yellow",
     "price_postapoc": "10 USD",
     "use_action": [ "install_bionic" ],
-    "flags": [ "CBM" ],
+    "flags": [ "CBM", "FRAGILE_MELEE" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ],
-    "melee_damage": { "bash": 8 }
+    "faults": [ "fault_bionic_salvaged" ]
   },
   {
     "abstract": "bionic_general_npc_usable",
