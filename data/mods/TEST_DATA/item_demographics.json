@@ -709,7 +709,6 @@
             "ar15": 1,
             "ar_pistol": 1,
             "famas": 1,
-            "fs2000": 1,
             "scar_l": 1,
             "m16a4": 1,
             "m16_auto_rifle": 1,
@@ -854,11 +853,7 @@
           "weight": 8,
           "items": { "combination_gun": 1, "browning_blr": 1, "garand": 1, "m1903": 1, "m1918": 1, "remington_700": 1, "ruger_m77": 1 }
         },
-        {
-          "type": "45colt",
-          "weight": 8,
-          "items": { "colt_lightning": 1, "colt_saa": 1, "bond_410": 1, "taurus_judge": 1 }
-        },
+        { "type": "45colt", "weight": 8, "items": { "colt_saa": 1, "bond_410": 1, "taurus_judge": 1 } },
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "saiga_410": 1, "shotgun_410": 1 } },
@@ -1096,7 +1091,6 @@
             "bren2_556": 1,
             "bren2_762": 1,
             "browning_blr": 1,
-            "colt_lightning": 1,
             "combination_gun": 1,
             "cx4": 1,
             "cz600": 1,
@@ -1104,7 +1098,6 @@
             "famas": 1,
             "fn_fal": 1,
             "fn_ps90": 1,
-            "fs2000": 1,
             "garand": 1,
             "henry_big_boy": 1,
             "hk417_13": 1,

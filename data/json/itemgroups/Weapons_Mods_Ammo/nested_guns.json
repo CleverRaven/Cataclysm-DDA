@@ -1505,14 +1505,6 @@
     ]
   },
   {
-    "id": "nested_colt_lightning",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "colt_lightning", "charges": [ 0, 14 ] }, { "group": "on_hand_45colt" } ]
-  },
-  {
     "id": "nested_fn_fal",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1523,19 +1515,6 @@
       { "item": "falmag" },
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
-    ]
-  },
-  {
-    "id": "nested_fs2000",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "fs2000", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
-      { "group": "on_hand_223" }
     ]
   },
   {

@@ -607,7 +607,6 @@
     "type": "item_group",
     "id": "guns_rifle_rare_223",
     "items": [
-      { "group": "nested_fs2000", "prob": 6 },
       { "group": "nested_hk_g36", "prob": 30 },
       { "group": "nested_m249_semi", "prob": 5 },
       { "group": "nested_m4_carbine", "prob": 45 },
@@ -655,11 +654,6 @@
     "type": "item_group",
     "id": "guns_rifle_rare_45",
     "items": [ { "group": "nested_hk_usc45", "prob": 20 }, { "group": "nested_greasegun", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_rare_45colt",
-    "items": [ { "group": "nested_colt_lightning", "prob": 15 } ]
   },
   {
     "type": "item_group",
@@ -743,11 +737,6 @@
     "type": "item_group",
     "id": "guns_rifle_rare_display_45",
     "items": [ { "item": "hk_usc45", "prob": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_rare_display_45colt",
-    "items": [ { "group": "nested_colt_lightning", "prob": 10 } ]
   },
   {
     "type": "item_group",

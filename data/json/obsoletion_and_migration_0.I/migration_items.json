@@ -1468,5 +1468,15 @@
     "id": "cop_38",
     "type": "MIGRATION",
     "replace": "sw_619"
+  },
+  {
+    "id": "fs2000",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "factory_handguard",
+    "type": "MIGRATION",
+    "replace": "grip"
   }
 ]
