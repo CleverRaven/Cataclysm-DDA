@@ -93,6 +93,14 @@
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 
+static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
+static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_JET( "JET" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+static const ammo_effect_str_id ammo_effect_NO_OVERSHOOT( "NO_OVERSHOOT" );
+
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const damage_type_id damage_acid( "acid" );
@@ -286,7 +294,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.speed = 10;
     proj.range = range;
     proj.impact.add( dam );
-    proj.proj_effects.insert( "NO_OVERSHOOT" );
+    proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
 
     dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(),
                                   dispersion_sources{ 500 }, z );
@@ -792,7 +800,7 @@ bool mattack::acid( monster *z )
     // Mostly just for momentum
     proj.impact.add_damage( damage_acid, 5 );
     proj.range = 10;
-    proj.proj_effects.insert( "NO_OVERSHOOT" );
+    proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
     dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 },
                                     z );
     const tripoint &hitp = dealt.end_point;
@@ -904,8 +912,8 @@ bool mattack::acid_accurate( monster *z )
     projectile proj;
     proj.speed = 10;
     proj.range = 10;
-    proj.proj_effects.insert( "BLINDS_EYES" );
-    proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    proj.proj_effects.insert( ammo_effect_BLINDS_EYES );
+    proj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     proj.impact.add_damage( damage_acid, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
@@ -1046,7 +1054,7 @@ bool mattack::pull_metal_weapon( monster *z )
                     proj.impact = damage_instance( damage_bash, pulled_weapon.weight() / 250_gram );
                     // make the projectile stop one tile short to prevent hitting the monster
                     proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
-                    proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
+                    proj.proj_effects = { { ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET } };
 
                     dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources{ 0 },
                                                     z );
@@ -1826,7 +1834,7 @@ bool mattack::spit_sap( monster *z )
     projectile proj;
     proj.speed = 10;
     proj.range = 12;
-    proj.proj_effects.insert( "APPLY_SAP" );
+    proj.proj_effects.insert( ammo_effect_APPLY_SAP );
     proj.impact.add_damage( damage_acid, rng( 5, 10 ) );
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 

@@ -1051,7 +1051,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         set_thirst( 0 );
     }
 
-    const bool calorie_deficit = get_bmi_fat() < character_weight_category::normal;
+    const bool calorie_deficit = has_calorie_deficit();
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity( *this );
 
@@ -1068,9 +1068,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // > 3/4 cap    full        full        full
         // > 1/2 cap    satisfied   v. hungry   famished/(near)starving
         // <= 1/2 cap   hungry      v. hungry   famished/(near)starving
-        if( contains >= cap ) {
+        if( stomach.would_be_engorged_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_engorged;
-        } else if( contains > cap * 3 / 4 ) {
+        } else if( stomach.would_be_full_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_full;
         } else if( just_ate && contains > cap / 2 ) {
             hunger_effect = effect_hunger_satisfied;
@@ -1093,9 +1093,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // >= 3/8 cap   satisfied   satisfied   blank
         // > 0          blank       blank       blank
         // 0            blank       blank       (v.) hungry
-        if( contains >= cap * 5 / 6 ) {
+        if( stomach.would_be_engorged_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_engorged;
-        } else if( contains > cap * 11 / 20 ) {
+        } else if( stomach.would_be_full_with( *this, 0_ml, calorie_deficit ) ) {
             hunger_effect = effect_hunger_full;
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_effect = effect_hunger_satisfied;

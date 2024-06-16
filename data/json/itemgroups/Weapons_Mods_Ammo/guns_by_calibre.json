@@ -377,7 +377,6 @@
       { "item": "sw_500", "prob": 15 },
       { "item": "walther_p38", "prob": 10 },
       { "item": "raging_bull", "prob": 10 },
-      { "item": "raging_judge", "prob": 20 },
       { "item": "mauser_m714", "prob": 15 },
       { "item": "m1911-460", "prob": 10 },
       { "item": "bfr", "prob": 10 },

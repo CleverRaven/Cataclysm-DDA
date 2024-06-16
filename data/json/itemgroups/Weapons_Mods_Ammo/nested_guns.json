@@ -914,14 +914,6 @@
     "entries": [ { "item": "raging_bull" }, { "group": "on_hand_454" } ]
   },
   {
-    "id": "nested_raging_judge",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "raging_judge" }, { "group": "on_hand_454" } ]
-  },
-  {
     "id": "nested_tokarev",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1211,19 +1203,6 @@
       { "item": "tdi_mag" },
       { "item": "tdi_mag", "prob": 50 },
       { "group": "on_hand_45" }
-    ]
-  },
-  {
-    "id": "nested_american_180",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "american_180", "charges": [ 0, 100 ] },
-      { "item": "a180mag" },
-      { "item": "a180mag", "prob": 50 },
-      { "group": "on_hand_22" }
     ]
   },
   {
@@ -2139,14 +2118,6 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "ksg", "charges": [ 0, 7 ] }, { "group": "on_hand_shot" } ]
-  },
-  {
-    "id": "nested_ksg-25",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "ksg", "charges": [ 0, 12 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_tavor_12",

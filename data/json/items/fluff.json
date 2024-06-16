@@ -1640,7 +1640,7 @@
     "id": "sketch",
     "copy-from": "paper",
     "category": "other",
-    "name": { "str_sp": "sketch" },
+    "name": { "str": "sketch", "str_pl": "sketches" },
     "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
     "price": "0 cent",
     "price_postapoc": "5 cent",
