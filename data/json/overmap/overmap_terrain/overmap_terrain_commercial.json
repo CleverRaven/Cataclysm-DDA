@@ -59,7 +59,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_doctor_roof", "office_doctor_roof_1", "office_doctor_roof_2", "office_doctor_upper_roof_2" ],
+    "id": [
+      "office_doctor_roof",
+      "office_doctor_access_roof",
+      "office_doctor_roof_1",
+      "office_doctor_access_roof_1",
+      "office_doctor_roof_2",
+      "office_doctor_upper_roof_2"
+    ],
     "copy-from": "generic_city_building",
     "looks_like": "office_doctor_roof",
     "name": "doctor's office roof",

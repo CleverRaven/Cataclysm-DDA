@@ -4158,7 +4158,8 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "office_doctor_access_roof_north" }
     ]
   },
   {
@@ -4167,7 +4168,8 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "office_doctor_1_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_1_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "office_doctor_access_roof_1_north" }
     ]
   },
   {
