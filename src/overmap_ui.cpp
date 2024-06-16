@@ -1895,9 +1895,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             // We go faster per-tile the more we have to go
             cursor_advance_time = std::chrono::milliseconds( 1000 ) / display_path.size();
             cursor_advance_time = std::max( cursor_advance_time, std::chrono::milliseconds( 1 ) );
-            curs = *display_path_iter;
             if( now > last_advance + cursor_advance_time ) {
                 if( display_path_iter != display_path.rend() ) {
+                    curs = *display_path_iter;
                     last_advance = now;
                     display_path_iter++;
                 } else if( now > last_advance + cursor_advance_time * 10 ) {
