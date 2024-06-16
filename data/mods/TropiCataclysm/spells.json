@@ -5,7 +5,6 @@
     "name": { "str": "Spread Glue" },
     "description": "Splatters a glue-like substance along the ground in a cone.",
     "valid_targets": [ "hostile", "ground" ],
-    "hit_self": false,
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
     "min_aoe": 2,
