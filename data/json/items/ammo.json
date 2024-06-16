@@ -1200,7 +1200,7 @@
     "description": "Liquid made up of propylene glycol, vegetable glycerin, flavorings, and nicotine.  Intended for use in an advanced electronic cigarette.",
     "container": "bottle_plastic_small",
     "phase": "liquid",
-    "volume": "250 ml",
+    "volume": "30 ml",
     "weight": "2 g",
     "ammo_type": "components",
     "count": 50
