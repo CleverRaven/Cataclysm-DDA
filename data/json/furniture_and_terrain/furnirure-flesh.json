@@ -6,7 +6,7 @@
     "description": "Thin cartilage webbing stretches between the overgrowth, forming a sticky, elastic barrier.",
     "symbol": "#",
     "color": "white",
-    "move_cost": -1,
+    "move_cost_mod": -1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "BLOCK_WIND", "NOITEM", "PERMEABLE", "CLIMB_SIMPLE" ],
     "looks_like": "fd_web",
