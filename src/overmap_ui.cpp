@@ -1898,19 +1898,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             curs = *display_path_iter;
             if( now > last_advance + cursor_advance_time ) {
                 if( display_path_iter != display_path.rend() ) {
-                    std::chrono::nanoseconds time_since_last = now - last_advance;
-                    // If we would have gone over multiple cursors since the last process
-                    // then advance that many (max 5) instead of just 1
-                    int num_to_advance = std::chrono::duration_cast<std::chrono::milliseconds>
-                                         ( time_since_last ) / cursor_advance_time;
                     last_advance = now;
-                    num_to_advance = std::clamp( num_to_advance, 1, 5 );
-                    for( int i = 0; i < num_to_advance; i++ ) {
-                        if( display_path_iter != display_path.rend() ) {
-                            display_path_iter++;
-                        }
-                    }
-                    continue;
+                    display_path_iter++;
                 } else if( now > last_advance + cursor_advance_time * 10 ) {
                     action = "QUIT";
                     break;
