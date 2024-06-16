@@ -122,6 +122,7 @@
     "aggro_character": true,
     "dodge": 2,
     "bleed_rate": 80,
+    "vision_day": 15,
     "special_attacks": [
       {
         "type": "spell",
