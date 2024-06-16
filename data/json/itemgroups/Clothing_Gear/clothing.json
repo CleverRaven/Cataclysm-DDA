@@ -1447,7 +1447,7 @@
   {
     "id": "dress_shoes",
     "type": "item_group",
-    "items": [ [ "dress_shoes", 50 ], [ "heels", 50 ], [ "leathersandals", 20 ] ]
+    "items": [ [ "dress_shoes", 50 ], [ "heels", 50 ], [ "espadrilles", 20 ] ]
   },
   {
     "id": "wedding_dresses",
@@ -1781,6 +1781,7 @@
       [ "boots_western", 10 ],
       [ "clogs", 1 ],
       [ "leathersandals", 10 ],
+      [ "espadrilles", 5 ],
       [ "rollerskates", 1 ],
       [ "roller_blades", 5 ],
       [ "roller_shoes_off", 1 ],
@@ -2084,6 +2085,7 @@
       [ "boots_western", 60 ],
       [ "clogs", 60 ],
       [ "leathersandals", 100 ],
+      [ "espadrilles", 50 ],
       [ "rollerskates", 10 ],
       [ "roller_blades", 20 ],
       [ "roller_shoes_off", 10 ],
@@ -2686,7 +2688,7 @@
       [ "wetsuit_booties_thick", 5 ],
       [ "bastsandals", 5 ],
       [ "straw_sandals", 5 ],
-      [ "leathersandals", 5 ]
+      [ "espadrilles", 5 ]
     ]
   },
   {
@@ -4358,7 +4360,8 @@
           { "item": "straw_sandals", "prob": 20 },
           { "item": "flip_flops", "prob": 40 },
           { "item": "flip_flops_exp", "prob": 5 },
-          { "item": "leathersandals", "prob": 35 }
+          { "item": "leathersandals", "prob": 35 },
+          { "item": "espadrilles", "prob": 20 }
         ],
         "prob": 60
       },
