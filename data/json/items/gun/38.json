@@ -243,8 +243,6 @@
     "looks_like": "sw_619",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "80 USD",
-    "to_hit": -2,
-    "melee_damage": { "bash": 9 },
     "material": [ "steel", "wood" ],
     "weight": "936 g",
     "volume": "700 ml",
