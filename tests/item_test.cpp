@@ -735,22 +735,26 @@ TEST_CASE( "item_new_to_hit_enforcement", "[item]" )
         const bool on_blacklist = blacklist.find( type->get_id() ) != blacklist.end();
         if( type->using_legacy_to_hit ) {
             if( !on_blacklist ) {
-                msg_enforce += string_format( "\"%s\",\n", type->get_id().str() );
+                msg_enforce += msg_enforce.empty() ? string_format( "\n[\n  \"%s\"", type->get_id().str() ) :
+                               string_format( ",\n  \"%s\"", type->get_id().str() );
             }
         } else if( on_blacklist ) {
-            msg_prune += string_format( "\"%s\",\n", type->get_id().str() );
+            msg_prune += msg_prune.empty() ? string_format( "\n[\n  \"%s\"", type->get_id().str() ) :
+                         string_format( ",\n  \"%s\"", type->get_id().str() );
         }
     }
-    if( msg_enforce != "" ) {
+    if( !msg_enforce.empty() ) {
         msg_enforce +=
-            "The item(s) above use legacy to_hit, please change them to the newer object method (see /docs/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
+            "\n]\nThe item(s) above use legacy to_hit, please change them to the newer object method (see /docs/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
     }
-    if( msg_prune != "" ) {
+    if( !msg_prune.empty() ) {
         msg_prune +=
-            "The item(s) above should be removed from the blacklist at /data/mods/TEST_DATA/legacy_to_hit.json.";
+            "\n]\nThe item(s) above should be removed from the blacklist at /data/mods/TEST_DATA/legacy_to_hit.json.";
     }
-    REQUIRE( msg_enforce == "" );
-    REQUIRE( msg_prune == "" );
+    CAPTURE( msg_enforce );
+    REQUIRE( msg_enforce.empty() );
+    CAPTURE( msg_prune );
+    REQUIRE( msg_prune.empty() );
 }
 
 static float max_density_for_mats( const std::map<material_id, int> &mats, float total_size )
