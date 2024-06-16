@@ -166,6 +166,12 @@
       {
         "type": "SNIPPET_ID",
         "condition": "mutation_testing",
+        "value": "mutation_testing_5",
+        "name": { "str_sp": "Report PE026/HM09-005" }
+      },
+      {
+        "type": "SNIPPET_ID",
+        "condition": "mutation_testing",
         "value": "mutation_testing_8",
         "name": { "str_sp": "Report PE012/HM33-008" }
       },
@@ -176,7 +182,7 @@
         "name": { "str_sp": "Report PE012/HF23-009" }
       }
     ],
-    "description": "Accompanying document, that describes tests performed on different subjects.",
+    "description": "An accompanying document, that describes tests performed on different subjects.",
     "expand_snippets": true,
     "variants": [
       {
