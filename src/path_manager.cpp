@@ -24,6 +24,7 @@
 #include "input_context.h"
 #include "json.h"
 #include "json_error.h"
+#include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "output.h"
@@ -247,13 +248,15 @@ void path_manager_ui::draw_controls()
             ImGui::Text( "%s", "start" );
 
             ImGui::TableNextColumn();
-            ImGui::Text( "%d", rl_dist( get_avatar().get_location(), curr_path.recorded_path.front() ) );
+            std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
+            ImGui::Text( "%s", dist == "" ? _( "It's under your feet." ) : dist );
 
             ImGui::TableNextColumn();
             ImGui::Text( "%s", "end" );
 
             ImGui::TableNextColumn();
-            ImGui::Text( "%d", rl_dist( get_avatar().get_location(), curr_path.recorded_path.back() ) );
+            dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
+            ImGui::Text( "%s", dist == "" ? _( "It's under your feet." ) : dist );
         }
     }
     ImGui::EndTable();
