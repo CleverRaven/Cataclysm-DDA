@@ -368,6 +368,49 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_RADIATION_MUTATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_radioactively_mutates",
+    "condition": { "or": [ { "u_is_character" }, { "u_is_npc" } ] },
+    "effect": [
+      { "set_string_var": "<radiation_category>", "target_var": { "context_val": "radiation_mutation_category" }, "parse_tags": true },
+      { "u_mutate_category": { "context_val": "radiation_mutation_category" }, "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<radiation_category>",
+    "text": [
+      { "text": "CHIMERA" },
+      { "text": "INSECT" },
+      { "text": "ALPHA" },
+      { "text": "URSINE" },
+      { "text": "CHIROPTERAN" },
+      { "text": "BIRD" },
+      { "text": "MEDICAL" },
+      { "text": "LUPINE" },
+      { "text": "RAT" },
+      { "text": "SLIME" },
+      { "text": "PLANT" },
+      { "text": "BATRACHIAN" },
+      { "text": "RAPTOR" },
+      { "text": "MOUSE" },
+      { "text": "CEPHALOPOD" },
+      { "text": "ELFA" },
+      { "text": "FISH" },
+      { "text": "HUMAN" },
+      { "text": "RABBIT" },
+      { "text": "GASTROPOD" },
+      { "text": "BEAST" },
+      { "text": "FELINE" },
+      { "text": "CATTLE" },
+      { "text": "LIZARD" },
+      { "text": "TROGLOBITE" },
+      { "text": "CRUSTACEAN" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ink_grand_spray",
     "//": "will cast 'ink_gland_spray' spell when player has stored ink charges",
     "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
