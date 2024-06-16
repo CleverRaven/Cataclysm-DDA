@@ -2872,7 +2872,9 @@
       { "point": [ 0, 0, 1 ], "overmap": "office_tower_roof_nw_north" },
       { "point": [ 1, 0, 1 ], "overmap": "office_tower_roof_ne_north" },
       { "point": [ 0, 1, 1 ], "overmap": "office_tower_roof_sw_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "office_tower_roof_se_north" }
+      { "point": [ 1, 1, 1 ], "overmap": "office_tower_roof_se_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "office_tower_roof_ne_roof_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "office_tower_roof_se_roof_north" }
     ],
     "city_sizes": [ 8, -1 ]
   },
@@ -2919,7 +2921,7 @@
       { "point": [ 2, 1, 0 ], "overmap": "office_tower_2_b3_north" },
       { "point": [ 0, 0, 1 ], "overmap": "tower_lab_stairs" },
       { "point": [ 1, 0, 1 ], "overmap": "tower_lab" },
-      { "point": [ 2, 0, 1 ], "overmap": "office_tower_open_air_corner_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "office_tower_2_a3_1_north" },
       { "point": [ 0, 1, 1 ], "overmap": "tower_lab" },
       { "point": [ 1, 1, 1 ], "overmap": "tower_lab" },
       { "point": [ 2, 1, 1 ], "overmap": "tower_lab" },

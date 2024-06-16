@@ -117,7 +117,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
+    "id": [
+      "office_tower_roof_nw",
+      "office_tower_roof_ne",
+      "office_tower_roof_sw",
+      "office_tower_roof_se",
+      "office_tower_roof_ne_roof",
+      "office_tower_roof_se_roof"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "office building roof",
     "sym": "t",
