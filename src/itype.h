@@ -1414,8 +1414,8 @@ struct itype {
         units::money price_post = -1_cent;
 
         // TODO: Add some very basic unweildiness calc for non specified to_hit?
-        int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#To-Hit Value
-        // itype a raw int input for m_to_hit, only intended to be used for enforcement test
+        int m_to_hit = -2;  // To-hit bonus for melee combat, see GAME_BALANCE.md#to-hit-value
+        // itype specifies a legacy raw int to_hit, for use with for item_new_to_hit_enforcement TEST_CASE
         bool using_legacy_to_hit = false;
 
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
