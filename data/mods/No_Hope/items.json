@@ -241,7 +241,6 @@
     "volume": "30 L",
     "price": "6 kUSD",
     "price_postapoc": "120 USD",
-    "to_hit": -3,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "white",

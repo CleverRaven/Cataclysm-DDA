@@ -141,7 +141,6 @@
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
     "weight": "15000 g",
-    "to_hit": -8,
     "color": "light_blue",
     "symbol": "{",
     "material": [ "steel" ],
