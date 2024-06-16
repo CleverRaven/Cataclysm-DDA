@@ -113,6 +113,7 @@ enum class event_type : int {
     player_levels_spell,
     reads_book,
     releases_subspace_specimens,
+    rad_mutate,
     removes_cbm,
     seals_hazardous_material_sarcophagus,
     spellcasting_finish,

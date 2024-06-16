@@ -103,6 +103,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::player_fails_conduct: return "player_fails_conduct";
         case event_type::player_gets_achievement: return "player_gets_achievement";
         case event_type::player_levels_spell: return "player_levels_spell";
+        case event_type::rad_mutate: return "rad_mutate";
         case event_type::reads_book: return "reads_book";
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
@@ -206,6 +207,7 @@ DEFINE_EVENT_FIELDS( opens_spellbook )
 DEFINE_EVENT_FIELDS( player_fails_conduct )
 DEFINE_EVENT_FIELDS( player_gets_achievement )
 DEFINE_EVENT_FIELDS( player_levels_spell )
+DEFINE_EVENT_FIELDS( rad_mutate )
 DEFINE_EVENT_FIELDS( removes_cbm )
 DEFINE_EVENT_FIELDS( spellcasting_finish )
 DEFINE_EVENT_FIELDS( telefrags_creature )
