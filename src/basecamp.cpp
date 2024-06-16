@@ -879,7 +879,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
         if( checked_camp->get_owner() == get_owner() ) {
             add_msg_debug( debugmode::DF_CAMPS,
                            "Camp %s at %s is owned by %s, adding it to plunder calculations.",
-                           checked_camp->name, checked_camp->camp_omt_pos().to_string(), get_owner()->name );
+                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
             num_of_owned_camps++;
         }
     }
@@ -898,7 +898,7 @@ void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
     nutrients taken_from_camp = -captured_with_camp;
     camp_food_supply( taken_from_camp );
     add_msg_debug( debugmode::DF_CAMPS,
-                   "Food supplies of %s plundered by %d kilocalories! Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
+                   "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
                    fac()->name, captured_with_camp.kcal(), fac()->food_supply.kcal(),
                    1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
     set_owner( new_owner );
