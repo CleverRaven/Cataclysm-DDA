@@ -3413,7 +3413,7 @@ Weakpoints only match if they share the same id, so it's important to define the
   "bash": 0,
   "cut": 0
 },
-"to_hit" {                                   // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see GAME_BALANCE.md#To-Hit Value for individual value breakdowns.
+"to_hit" {                                   // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) Value for individual value breakdowns.
   "grip": "solid",                           // the item's grip value
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
@@ -3474,7 +3474,7 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
-See [GAME_BALANCE.md](GAME_BALANCE.md#To-Hit Value)
+See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
@@ -4061,7 +4061,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
   "cut": 12
 },
 "flags" : ["CHOP"],    // Indicates special effects
-"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see GAME_BALANCE.md#To-Hit Value for individual value breakdowns.
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           
   "length": "long",                          
   "surface": "point",                        
@@ -4235,7 +4235,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
   "bash": 12,
   "cut": 0
 },
-"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see GAME_BALANCE.md#To-Hit Value for individual value breakdowns.
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           
   "length": "long",                          
   "surface": "point",                        
