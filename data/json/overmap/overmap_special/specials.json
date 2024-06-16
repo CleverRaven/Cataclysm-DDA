@@ -3006,6 +3006,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "state_park_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "state_park_1_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "state_park_1_0_1_north" },
       { "point": [ 0, 1, 0 ], "overmap": "state_park_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "state_park_1_1_north" },
       { "point": [ 1, -1, 0 ], "locations": [ "land", "road" ] }
