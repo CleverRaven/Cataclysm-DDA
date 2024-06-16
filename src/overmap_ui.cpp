@@ -539,7 +539,7 @@ static void draw_ascii(
     const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data,
-    std::vector<tripoint_abs_omt> display_path )
+    const std::vector<tripoint_abs_omt> &display_path )
 {
 
     const int om_map_width = OVERMAP_WINDOW_WIDTH;
@@ -691,7 +691,7 @@ static void draw_ascii(
             followers.push_back( npc_to_add );
         }
         if( !display_path.empty() ) {
-            for( auto &elem : display_path ) {
+            for( const tripoint_abs_omt &elem : display_path ) {
                 npc_path_route.insert( elem );
             }
         }
@@ -1263,7 +1263,8 @@ tiles_redraw_info redraw_info;
 static void draw(
     ui_adaptor &ui, const tripoint_abs_omt &center, const tripoint_abs_omt &orig,
     bool blink, bool show_explored, bool fast_scroll,
-    input_context *inp_ctxt, const draw_data_t &data, std::vector<tripoint_abs_omt> display_path )
+    input_context *inp_ctxt, const draw_data_t &data,
+    const std::vector<tripoint_abs_omt> &display_path )
 {
     draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
@@ -2080,7 +2081,7 @@ void ui::omap::display()
 }
 
 void ui::omap::display_npc_path( tripoint_abs_omt starting_pos,
-                                 std::vector<tripoint_abs_omt> display_path )
+                                 const std::vector<tripoint_abs_omt> &display_path )
 {
     overmap_ui::display( starting_pos, overmap_ui::draw_data_t(), display_path );
 }
