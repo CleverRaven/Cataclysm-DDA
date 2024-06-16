@@ -407,7 +407,9 @@ void talk_function::goto_location( npc &p )
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
         return;
     }
+    g->follower_path_to_show = &p; // Necessary for overmap display in tiles version...
     ui::omap::display_npc_path( p.global_omt_location(), p.omt_path );
+    g->follower_path_to_show = nullptr;
     if( !query_yn( _( "Is this path and destination acceptable?" ) ) ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
