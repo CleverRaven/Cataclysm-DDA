@@ -1501,13 +1501,8 @@
     "difficulty": 3,
     "skill_used": "chemistry",
     "time": "1 h",
-    "tools": [ [ [ "vac_oven_small" , 1000 ] ] ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 2 ],
-      [ "textbook_chemistry", 3 ],
-      [ "adv_chemistry", 3 ],
-      [ "textbook_anarch", 3 ]
-    ],
+    "tools": [ [ [ "vac_oven_small", 1000 ] ] ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
     "components": [ [ [ "white_phosphorous", 4 ] ] ]
   },
   {
