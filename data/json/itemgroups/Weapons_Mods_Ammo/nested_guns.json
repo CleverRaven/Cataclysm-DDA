@@ -2260,6 +2260,36 @@
     "entries": [ { "item": "mossberg_590", "charges": [ 0, 9 ] }, { "group": "on_hand_shot" } ]
   },
   {
+    "id": "nested_mossberg_590m",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mossberg_590", "charges": [ 0, 5 ] },
+      { "item": "mossberg_590m_mag_10" },
+      { "item": "mossberg_590m_mag_10", "prob": 50 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "mossberg_590m_mag_5" }, { "item": "mossberg_590m_mag_5", "prob": 50 } ], "prob": 3 },
+          {
+            "collection": [ { "item": "mossberg_590m_mag_10" }, { "item": "mossberg_590m_mag_10", "prob": 50 } ],
+            "prob": 2
+          },
+          {
+            "collection": [ { "item": "mossberg_590m_mag_15" }, { "item": "mossberg_590m_mag_15", "prob": 50 } ],
+            "prob": 1
+          },
+          {
+            "collection": [ { "item": "mossberg_590m_mag_20" }, { "item": "mossberg_590m_mag_20", "prob": 50 } ],
+            "prob": 1
+          }
+        ]
+      },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
     "id": "nested_remington_870_breacher",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

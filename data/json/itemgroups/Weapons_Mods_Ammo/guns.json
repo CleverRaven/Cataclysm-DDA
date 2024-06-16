@@ -554,6 +554,7 @@
       { "item": "benelli_sa", "variant": "sbe", "prob": 37 },
       { "item": "benelli_tsa", "variant": "m2_tac", "contents-item": [ "rail_mount" ], "prob": 12 },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 6 },
+      { "item": "mossberg_590m", "prob": 1 },
       { "item": "remington_870", "variant": "ithaca37", "prob": 6 },
       { "item": "remington_870", "variant": "remington_1100", "prob": 17 },
       { "item": "mossberg_930", "prob": 15 },
@@ -573,7 +574,8 @@
       { "group": "nested_ksg-25", "prob": 8 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
-      { "group": "nested_slp", "prob": 10 }
+      { "group": "nested_slp", "prob": 10 },
+      { "group": "nested_mossberg_590m", "prob": 2 }
     ]
   },
   {
@@ -587,7 +589,8 @@
       { "item": "ksg-25", "prob": 8, "charges": [ 0, 12 ] },
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
+      { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
     ]
   },
   {
@@ -599,7 +602,8 @@
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
+      { "item": "mossberg_590m", "prob": 2 }
     ]
   },
   {

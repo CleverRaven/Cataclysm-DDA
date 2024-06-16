@@ -230,6 +230,48 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
   },
   {
+    "id": "mossberg_590m",
+    "copy-from": "mossberg_590",
+    "looks_like": "mossberg_590",
+    "type": "GUN",
+    "name": { "str": "magazine-fed pump shotgun" },
+    "description": "Classic pump-action shotgun, where manufacturer modified the gun in order to use box magazines instead of tube.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590",
+        "name": { "str": "Mossberg 590M shotgun" },
+        "description": "Classic Mossberg 590, modified by manufacturer to be able to utilize box magazines."
+      }
+    ],
+    "weight": "3628 g",
+    "volume": "2548 ml",
+    "longest_side": "1033 mm",
+    "barrel_length": "469 mm",
+    "price": "770 USD",
+    "price_postapoc": "19 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "mossberg_590m_mag_5", "mossberg_590m_mag_10", "mossberg_590m_mag_15", "mossberg_590m_mag_20" ]
+      }
+    ]
+  },
+  {
     "id": "mossberg_930",
     "copy-from": "shotgun_base",
     "type": "GUN",
