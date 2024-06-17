@@ -3574,6 +3574,18 @@
   },
   {
     "type": "keybinding",
+    "id": "RENAME_START",
+    "category": "PATH_MANAGER",
+    "name": "Rename start"
+  },
+  {
+    "type": "keybinding",
+    "id": "RENAME_END",
+    "category": "PATH_MANAGER",
+    "name": "Rename end"
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add zone",

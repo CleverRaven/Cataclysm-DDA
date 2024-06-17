@@ -1,5 +1,6 @@
 #include "path_manager.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <memory>
@@ -13,6 +14,7 @@
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
 #include "debug.h"
@@ -29,6 +31,7 @@
 #include "messages.h"
 #include "output.h"
 #include "path_info.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -55,10 +58,16 @@ class path
          * Avatar must be at one of the ends of the path.
          */
         void set_avatar_path();
+        void set_name_start();
+        void set_name_end();
+
+        void serialize( JsonOut &jsout );
+        void deserialize( const JsonObject &jsin );
     private:
+        std::string set_name_popup( std::string old_name, const std::string &label );
         std::vector<tripoint_abs_ms> recorded_path;
-        // std::string name_start;
-        // std::string name_end;
+        std::string name_start;
+        std::string name_end;
         /// There are no 2 same tiles on the path
         // bool optimize_loops;
         /// A Character walking this path could never go from i-th tile to i+k-th tile, where k > 1
@@ -97,7 +106,6 @@ class path_manager_impl
         void move_selected_down();
     private:
         bool recording_path();
-        // todo int or size_t?
         /**
          * Set recording_path_index to p_index.
          * -1 means not recording.
@@ -163,21 +171,62 @@ void path::set_avatar_path()
     player_character.set_destination( route );
 }
 
+void path::set_name_start()
+{
+    name_start = set_name_popup( name_start, _( "Name path start:" ) );
+}
+
+void path::set_name_end()
+{
+    name_end = set_name_popup( name_end, _( "Name path end:" ) );
+}
+
+std::string path::set_name_popup( std::string old_name, const std::string &label )
+{
+    std::string new_name = old_name;
+    string_input_popup popup;
+    popup
+    .title( label )
+    .width( 85 )
+    .edit( new_name );
+    if( popup.confirmed() ) {
+        return new_name;
+    }
+    return old_name;
+}
+
+void path::serialize( JsonOut &jsout )
+{
+    jsout.start_object();
+    jsout.member( "recorded_path", recorded_path );
+    jsout.member( "name_start", name_start );
+    jsout.member( "name_end", name_end );
+    jsout.end_object();
+}
+
+void path::deserialize( const JsonObject &jsin )
+{
+    jsin.read( "recorded_path", recorded_path );
+    jsin.read( "name_start", name_start );
+    jsin.read( "name_end", name_end );
+}
+
 void path_manager_impl::start_recording()
 {
-    paths.emplace_back();
+    path &p = paths.emplace_back();
     set_recording_path( paths.size() - 1 );
-    paths.back().record_step( get_avatar().get_location() );
+    p.record_step( get_avatar().get_location() );
+    p.set_name_start();
 }
 
 void path_manager_impl::stop_recording()
 {
-    const path &current_path = paths[recording_path_index];
-    const std::vector<tripoint_abs_ms> &curr_path = current_path.recorded_path;
-    if( curr_path.size() <= 1 ) {
+    path &current_path = paths[recording_path_index];
+    if( current_path.recorded_path.size() <= 1 ) {
         paths.erase( paths.begin() + recording_path_index );
         popup( _( "Recorded path has no lenght.  Path erased." ) );
     } else {
+        current_path.set_name_end();
         popup( _( "Path saved." ) );
     }
 
@@ -283,6 +332,10 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "MOVE_PATH_DOWN", pimpl->selected_id != -1 &&
                            pimpl->selected_id + 1 < static_cast<int>( pimpl->paths.size() ) );
 
+    enabled_active_button( "RENAME_START", pimpl->selected_id != -1 );
+    ImGui::SameLine();
+    enabled_active_button( "RENAME_END", pimpl->selected_id != -1 );
+
     ImGui::BeginChild( "table" );
     if( ! ImGui::BeginTable( "PATH_MANAGER", 5, ImGuiTableFlags_Resizable ) ) {
         return;
@@ -307,7 +360,7 @@ void path_manager_ui::draw_controls()
                 pimpl->selected_id = i;
             }
             ImGui::SameLine();
-            draw_colored_text( "start", c_white );
+            draw_colored_text( curr_path.name_start, c_white );
 
             ImGui::TableNextColumn();
             std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
@@ -315,7 +368,7 @@ void path_manager_ui::draw_controls()
             draw_colored_text( dist, c_white );
 
             ImGui::TableNextColumn();
-            draw_colored_text( "end", c_white );
+            draw_colored_text( curr_path.name_end, c_white );
 
             ImGui::TableNextColumn();
             dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
@@ -344,6 +397,8 @@ void path_manager_ui::run()
     ctxt.register_action( "DELETE_PATH" );
     ctxt.register_action( "MOVE_PATH_UP" );
     ctxt.register_action( "MOVE_PATH_DOWN" );
+    ctxt.register_action( "RENAME_START" );
+    ctxt.register_action( "RENAME_END" );
     std::string action;
 
     ui_manager::redraw();
@@ -373,6 +428,10 @@ void path_manager_ui::run()
                    pimpl->selected_id + 1 < static_cast<int>( pimpl->paths.size() )
                  ) {
             pimpl->move_selected_down();
+        } else if( action == "RENAME_START" && pimpl->selected_id != -1 ) {
+            pimpl->paths[pimpl->selected_id].set_name_start();
+        } else if( action == "RENAME_END" && pimpl->selected_id != -1 ) {
+            pimpl->paths[pimpl->selected_id].set_name_end();
         } else if( action == "QUIT" ) {
             break;
         }
@@ -424,29 +483,27 @@ void path_manager::serialize( std::ostream &fout )
 
 void path_manager::deserialize( const JsonValue &jsin )
 {
-    try {
-        JsonObject data = jsin.get_object();
+    JsonObject data = jsin.get_object();
+    data.read( "recording_path_index", pimpl->recording_path_index );
 
-        data.read( "recording_path_index", pimpl->recording_path_index );
-        // from `path` load only recorded_path
-        std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
-        data.read( "recorded_paths", recorded_paths );
-        for( std::vector<tripoint_abs_ms> &p : recorded_paths ) {
-            pimpl->paths.emplace_back( std::move( p ) );
-        }
-    } catch( const JsonError &e ) {
+    JsonArray data_paths = data.get_array( "paths" );
+    for( int i = 0; data_paths.has_object( i ); ++i ) {
+        JsonObject obj = data_paths.next_object();
+        path p;
+        p.deserialize( obj );
+        pimpl->paths.emplace_back( p );
     }
 }
 
 void path_manager::serialize( JsonOut &jsout )
 {
     jsout.member( "recording_path_index", pimpl->recording_path_index );
-    // from `path` save only recorded_path
-    std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
-    for( const path &p : pimpl->paths ) {
-        recorded_paths.emplace_back( p.recorded_path );
+    jsout.member( "paths" );
+    jsout.start_array();
+    for( path &p : pimpl->paths ) {
+        p.serialize( jsout );
     }
-    jsout.member( "recorded_paths", recorded_paths );
+    jsout.end_array();
 }
 
 void path_manager::show()
