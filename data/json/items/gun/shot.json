@@ -241,7 +241,7 @@
       {
         "id": "mossberg_590",
         "name": { "str": "Mossberg 590M shotgun" },
-        "description": "A classic Mossberg 590 pump-action shotgun, modified by the manufacturer to utilise box magazines."
+        "description": "A classic Mossberg 590 pump-action shotgun, modified by the manufacturer to utilize box magazines."
       }
     ],
     "weight": "3628 g",
