@@ -204,15 +204,24 @@
     "symbol": "(",
     "color": "light_gray",
     "//2": "Price of one according to colt's own website. Goddamn.",
-    "price": "1599 USD",
+    "price": "1 kUSD 599 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -2,
+    "to_hit": { "grip": "solid", "length": "short", "balance": "neutral", "surface": "point" },
     "material": [ "steel", "wood" ],
     "ammo": [ "357mag", "38" ],
     "dispersion": 300,
     "durability": 10,
     "blackpowder_tolerance": 48,
     "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "stocks mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
