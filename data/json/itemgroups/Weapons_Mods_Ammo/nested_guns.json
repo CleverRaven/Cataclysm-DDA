@@ -311,7 +311,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "revolver_357", "variant": "chiappa_rhino", "charges": [ 0, 6 ] },
+      { "item": "chiappa_rhino", "charges": [ 0, 6 ] },
       { "group": "on_hand_357_38mixed" },
       { "item": "38_speedloader6" },
       { "item": "38_speedloader6", "prob": 50 }

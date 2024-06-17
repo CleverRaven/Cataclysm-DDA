@@ -233,11 +233,11 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "revolver_357",
+    "id": "chiappa_rhino",
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": { "str_sp": ".357 revolver" },
-    "description": "A revolver chambered in .357.",
+    "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
     "symbol": "(",
     "color": "light_gray",
     "looks_like": "sw_619",
