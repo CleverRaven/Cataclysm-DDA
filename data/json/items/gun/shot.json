@@ -641,6 +641,46 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "dp_12",
+    "copy-from": "shotgun_pump",
+    "type": "GUN",
+    "name": { "str": "two-barrel pump shotgun" },
+    "description": "Hefty shotgun, that has two barrels, and each barrel has it's own magazine, which makes it actually a two shotguns in a single frame.  Each barrel has it's own trigger, but because there is a single pump for both barrels, you can't really utilize it well, not saying the precision of the weapon do not make it fit for anything but shooting zombies at point blank.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "dp_12",
+        "name": { "str": "DP-12" },
+        "description": "Bullpup 12-gauge pump action double-barreled shotgun.  Each barrel has it's own magazine, which makes it actually a two shotguns in a single frame.  Each barrel has it's own trigger, but because there is a single pump for both barrels, you can't really utilize it well, not saying the precision of the weapon do not make it fit for anything but shooting zombies at point blank."
+      }
+    ],
+    "weight": "4989 g",
+    "volume": "8862 ml",
+    "//": "180 x 750 x 101 mm, trimmed about 35% down for empty spaces",
+    "longest_side": "749 mm",
+    "barrel_length": "479 mm",
+    "price": "1599 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 550,
+    "sight_dispersion": 700,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "winchester_1887",
     "copy-from": "shotgun_base",
     "type": "GUN",
@@ -852,6 +892,47 @@
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "//": "no provision for separate triggers",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
+  },
+  {
+    "id": "srm_1216",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "revolver magazine-fed shotgun" },
+    "description": "Lengthy shotgun, that accept rotating 16-round tube magazine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "srm_1216",
+        "name": { "str": "SRM Arms Model 1216" },
+        "description": "Delayed blowback semi-automatic shotgun, that accept 16-round detachable revolver magazine."
+      }
+    ],
+    "weight": "3062 g",
+    "volume": "8015 ml",
+    "//": "857 x 195 x 97 mm, trimmed about 30% down for empty spaces, minus 3670 ml of magazine volume.",
+    "longest_side": "857 mm",
+    "barrel_length": "470 mm",
+    "price": "1799 USD",
+    "price_postapoc": "50 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "m26_mass_standalone",
