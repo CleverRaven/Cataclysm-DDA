@@ -6252,24 +6252,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "bunker shop",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "bunker_shop_g_south" },
-      {
-        "point": [ 0, 0, -1 ],
-        "overmap": "bunker_shop_b_south",
-        "camp": "wasteland_scavengers",
-        "camp_name": "Merchant"
-      }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "field", "forest_without_trail" ],
-    "occurrences": [ 10, 100 ],
-    "priority": -1,
-    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "nursing_home_sh",
     "locations": [ "land" ],
     "overmaps": [
