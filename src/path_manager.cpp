@@ -84,11 +84,12 @@ class path_manager_impl
          */
         void stop_recording();
     private:
-        bool recording_path = false;
+        bool recording_path();
         // todo int or size_t?
-        /// Set recording to true/false on current path, current path must be valid
-        void set_recording_path( bool set_to );
-        /// Set current path to p_index and recording_path to true
+        /**
+         * Set recording_path_index to p_index.
+         * -1 means not recording.
+         */
         void set_recording_path( int p_index );
         int recording_path_index = -1;
         int selected_id = -1;
@@ -149,16 +150,13 @@ void path::set_avatar_path()
 
 void path_manager_impl::start_recording()
 {
-    recording_path_index = paths.size();  // future_size - 1
     paths.emplace_back();
-    set_recording_path( recording_path_index );
+    set_recording_path( paths.size() - 1 );
     paths.back().record_step( get_avatar().get_location() );
 }
 
 void path_manager_impl::stop_recording()
 {
-    set_recording_path( false );
-
     const path &current_path = paths[recording_path_index];
     const std::vector<tripoint_abs_ms> &curr_path = current_path.recorded_path;
     if( curr_path.size() <= 1 ) {
@@ -168,10 +166,15 @@ void path_manager_impl::stop_recording()
         add_msg( m_info, _( "Auto path: Path saved." ) );
     }
 
-    recording_path_index = -1;
+    set_recording_path( -1 );
     // TODO error when starts or stops at the same tile as another path ??
     // or just prefer the higher path - this allows
     // more flexibility, but it needs to be documented
+}
+
+bool path_manager_impl::recording_path()
+{
+    return recording_path_index != -1;
 }
 
 void path_manager_impl::auto_route_from_path()
@@ -191,19 +194,10 @@ void path_manager_impl::auto_route_from_path()
     start_recording();
 }
 
-void path_manager_impl::set_recording_path( bool set_to )
-{
-    if( set_to ) {
-        cata_assert( 0 <= recording_path_index && recording_path_index < static_cast<int>( paths.size() ) );
-    }
-    recording_path = set_to;
-}
-
 void path_manager_impl::set_recording_path( int p_index )
 {
-    cata_assert( 0 <= p_index && p_index < static_cast<int>( paths.size() ) );
+    cata_assert( -1 <= p_index && p_index < static_cast<int>( paths.size() ) );
     recording_path_index = p_index;
-    recording_path = true;
 }
 
 path_manager_ui::path_manager_ui( path_manager_impl *pimpl_in )
@@ -288,7 +282,7 @@ path_manager::~path_manager() = default;
 
 void path_manager::record_step( const tripoint_abs_ms &new_pos )
 {
-    if( !pimpl->recording_path ) {
+    if( !pimpl->recording_path() ) {
         return;
     }
     pimpl->paths[pimpl->recording_path_index].record_step( new_pos );
@@ -330,7 +324,6 @@ void path_manager::deserialize( const JsonValue &jsin )
     try {
         JsonObject data = jsin.get_object();
 
-        data.read( "recording_path", pimpl->recording_path );
         data.read( "recording_path_index", pimpl->recording_path_index );
         // from `path` load only recorded_path
         std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
@@ -344,7 +337,6 @@ void path_manager::deserialize( const JsonValue &jsin )
 
 void path_manager::serialize( JsonOut &jsout )
 {
-    jsout.member( "recording_path", pimpl->recording_path );
     jsout.member( "recording_path_index", pimpl->recording_path_index );
     // from `path` save only recorded_path
     std::vector<std::vector<tripoint_abs_ms>> recorded_paths;
@@ -358,7 +350,7 @@ void path_manager::show()
 {
     path_manager_ui( pimpl.get() ).run();
     // todo move to GUI
-    if( pimpl->recording_path ) {
+    if( pimpl->recording_path() ) {
         pimpl->stop_recording();
         return;
     }
