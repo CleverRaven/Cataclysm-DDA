@@ -6284,7 +6284,7 @@ void vehicle::refresh( const bool remove_fakes )
     }
 
     const auto need_fake_part = [&]( const point & real_mount, const std::string & flag ) {
-        int real = part_with_feature( real_mount, flag, true );
+        int real = part_with_feature( real_mount, flag, false );
         if( real >= 0 && real < part_count() ) {
             return real;
         }
@@ -7402,6 +7402,10 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         invalidate_mass();
         coeff_air_changed = true;
 
+        // update the fake part
+        if( vp.has_fake ) {
+            parts[vp.fake_part_at].base = vp.base;
+        }
         // refresh cache in case the broken part has changed the status
         // do not remove fakes parts in case external vehicle part references get invalidated
         refresh( false );
