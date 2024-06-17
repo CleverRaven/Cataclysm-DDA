@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "corpse_yugg_rubber",
     "name": { "str": "rubber yugg corpse" },
-    "description": "An oversized hollow tube made of black rubber, not unlike the kind used to make tires.  It is shaped like a yugg.",
+    "description": "An oversized hollow tube made of black semi-liquid rubbery substance.  It is vaguely shaped like a yugg.",
     "symbol": "W",
     "color": "dark_gray",
     "category": "corpses",
