@@ -104,7 +104,6 @@ class path_manager_ui : public cataimgui::window
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
     private:
-        std::string msg;
         path_manager_impl *pimpl;
 };
 
