@@ -78,9 +78,9 @@ static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
-static const efftype_id effect_quadruped_full( "quadruped_full" );
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
