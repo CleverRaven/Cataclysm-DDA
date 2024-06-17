@@ -83,6 +83,18 @@ class path_manager_impl
          * Stop recording path.
          */
         void stop_recording();
+        /**
+         * Delete path selected by `select_id`.
+         */
+        void delete_selected();
+        /**
+         * Move path selected by `select_id` up.
+         */
+        void move_selected_up();
+        /**
+         * Move path selected by `select_id` down.
+         */
+        void move_selected_down();
     private:
         bool recording_path();
         // todo int or size_t?
@@ -91,6 +103,7 @@ class path_manager_impl
          * -1 means not recording.
          */
         void set_recording_path( int p_index );
+        void swap_selected( int index_a, int index_b );
         int recording_path_index = -1;
         int selected_id = -1;
         std::vector<path> paths;
@@ -102,6 +115,8 @@ class path_manager_ui : public cataimgui::window
         explicit path_manager_ui( path_manager_impl *pimpl_in );
         void run();
 
+        input_context ctxt = input_context( "PATH_MANAGER" );
+        void enabled_active_button( const std::string action, bool enabled );
     protected:
         void draw_controls() override;
         cataimgui::bounds get_bounds() override;
@@ -160,16 +175,52 @@ void path_manager_impl::stop_recording()
     const path &current_path = paths[recording_path_index];
     const std::vector<tripoint_abs_ms> &curr_path = current_path.recorded_path;
     if( curr_path.size() <= 1 ) {
-        add_msg( m_info, _( "Auto path: Recorded path has no lenght.  Path erased." ) );
         paths.erase( paths.begin() + recording_path_index );
+        popup( _( "Recorded path has no lenght.  Path erased." ) );
     } else {
-        add_msg( m_info, _( "Auto path: Path saved." ) );
+        popup( _( "Path saved." ) );
     }
 
     set_recording_path( -1 );
     // TODO error when starts or stops at the same tile as another path ??
     // or just prefer the higher path - this allows
     // more flexibility, but it needs to be documented
+}
+
+void path_manager_impl::delete_selected()
+{
+    cata_assert( 0 <= selected_id && selected_id < static_cast<int>( paths.size() ) );
+    if( selected_id == recording_path_index ) {
+        set_recording_path( -1 );
+    } else if( selected_id < recording_path_index ) {
+        set_recording_path( recording_path_index - 1 );
+    }
+    paths.erase( paths.begin() + selected_id );
+    selected_id = std::min( selected_id, static_cast<int>( paths.size() ) - 1 );
+}
+
+void path_manager_impl::swap_selected( int index_a, int index_b )
+{
+    cata_assert( 0 <= index_a && index_a < static_cast<int>( paths.size() ) );
+    cata_assert( 0 <= index_b && index_b < static_cast<int>( paths.size() ) );
+    if( index_a == recording_path_index ) {
+        set_recording_path( index_b );
+    } else if( index_b == recording_path_index ) {
+        set_recording_path( index_a );
+    }
+    std::swap( paths[index_a], paths[index_b] );
+}
+
+void path_manager_impl::move_selected_up()
+{
+    swap_selected( selected_id, selected_id - 1 );
+    --selected_id;
+}
+
+void path_manager_impl::move_selected_down()
+{
+    swap_selected( selected_id, selected_id + 1 );
+    ++selected_id;
 }
 
 bool path_manager_impl::recording_path()
@@ -189,9 +240,7 @@ void path_manager_impl::auto_route_from_path()
             return;
         }
     }
-    add_msg( m_info,
-             _( "Auto path: Player doesn't stand at start or end of existing path.  Recording new path." ) );
-    start_recording();
+    popup( _( "Player doesn't stand at start or end of existing path." ) );
 }
 
 void path_manager_impl::set_recording_path( int p_index )
@@ -208,9 +257,34 @@ cataimgui::bounds path_manager_ui::get_bounds()
     return { -1.f, -1.f, float( str_width_to_pixels( TERMX ) ), float( str_height_to_pixels( TERMY ) ) };
 }
 
+void path_manager_ui::enabled_active_button( const std::string action, bool enabled )
+{
+    ImGui::BeginDisabled( !enabled );
+    action_button( action, ctxt.get_button_text( action ) );
+    ImGui::EndDisabled();
+}
+
 void path_manager_ui::draw_controls()
 {
-    if( ! ImGui::BeginTable( "PATH_MANAGER", 5, ImGuiTableFlags_Resizable )) {
+    // general buttons
+    enabled_active_button( "WALK_PATH", true );
+    ImGui::SameLine();
+    enabled_active_button( "START_RECORDING", !pimpl->recording_path() );
+    ImGui::SameLine();
+    enabled_active_button( "STOP_RECORDING", pimpl->recording_path() );
+
+    // buttons related to selected path
+    draw_colored_text( _( "Selected path:" ), c_white );
+    ImGui::SameLine();
+    enabled_active_button( "DELETE_PATH", pimpl->selected_id != -1 );
+    ImGui::SameLine();
+    enabled_active_button( "MOVE_PATH_UP", pimpl->selected_id > 0 );
+    ImGui::SameLine();
+    enabled_active_button( "MOVE_PATH_DOWN", pimpl->selected_id != -1 &&
+                           pimpl->selected_id + 1 < static_cast<int>( pimpl->paths.size() ) );
+
+    ImGui::BeginChild( "table" );
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 5, ImGuiTableFlags_Resizable ) ) {
         return;
     }
     // TODO invlet
@@ -253,24 +327,53 @@ void path_manager_ui::draw_controls()
         }
     }
     ImGui::EndTable();
+    ImGui::EndChild();
 }
 
 void path_manager_ui::run()
 {
-    input_context ctxt( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    ctxt.register_action( "WALK_PATH" );
+    ctxt.register_action( "START_RECORDING" );
+    ctxt.register_action( "STOP_RECORDING" );
+    ctxt.register_action( "DELETE_PATH" );
+    ctxt.register_action( "MOVE_PATH_UP" );
+    ctxt.register_action( "MOVE_PATH_DOWN" );
     std::string action;
 
     ui_manager::redraw();
 
     while( is_open ) {
         ui_manager::redraw();
-        action = ctxt.handle_input( 17 );
-        if( action == "QUIT" ) {
+        if( has_button_action() ) {
+            action = get_button_action();
+        } else {
+            action = ctxt.handle_input( 17 );
+        }
+
+        if( action == "WALK_PATH" ) {
+            pimpl->auto_route_from_path();
+            break;
+        } else if( action == "START_RECORDING" && !pimpl->recording_path() ) {
+            pimpl->start_recording();
+            break;
+        } else if( action == "STOP_RECORDING" && pimpl->recording_path() ) {
+            pimpl->stop_recording();
+            break;
+        } else if( action == "DELETE_PATH" && pimpl->selected_id != -1 ) {
+            pimpl->delete_selected();
+        } else if( action == "MOVE_PATH_UP" && pimpl->selected_id > 0 ) {
+            pimpl->move_selected_up();
+        } else if( action == "MOVE_PATH_DOWN" && pimpl->selected_id != -1 &&
+                   pimpl->selected_id + 1 < static_cast<int>( pimpl->paths.size() )
+                 ) {
+            pimpl->move_selected_down();
+        } else if( action == "QUIT" ) {
             break;
         }
     }
@@ -349,14 +452,6 @@ void path_manager::serialize( JsonOut &jsout )
 void path_manager::show()
 {
     path_manager_ui( pimpl.get() ).run();
-    // todo move to GUI
-    if( pimpl->recording_path() ) {
-        pimpl->stop_recording();
-        return;
-    }
-
-    pimpl->auto_route_from_path();
-
     // todo activity title and progress
     // player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
 }

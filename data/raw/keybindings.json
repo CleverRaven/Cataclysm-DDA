@@ -3538,6 +3538,42 @@
   },
   {
     "type": "keybinding",
+    "id": "WALK_PATH",
+    "category": "PATH_MANAGER",
+    "name": "Walk path"
+  },
+  {
+    "type": "keybinding",
+    "id": "START_RECORDING",
+    "category": "PATH_MANAGER",
+    "name": "Start recording"
+  },
+  {
+    "type": "keybinding",
+    "id": "STOP_RECORDING",
+    "category": "PATH_MANAGER",
+    "name": "Stop recording"
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE_PATH",
+    "category": "PATH_MANAGER",
+    "name": "Delete"
+  },
+  {
+    "type": "keybinding",
+    "id": "MOVE_PATH_UP",
+    "category": "PATH_MANAGER",
+    "name": "Move up"
+  },
+  {
+    "type": "keybinding",
+    "id": "MOVE_PATH_DOWN",
+    "category": "PATH_MANAGER",
+    "name": "Move down"
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add zone",
