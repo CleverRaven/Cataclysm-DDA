@@ -1128,22 +1128,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    "delete": { "flags": [ "SWARMS", "GROUP_MORALE" ] }
   },
   {
     "id": "mon_dog_bull_pup",
@@ -1218,21 +1203,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER"
-    ]
+    "delete": { "flags": [ "SWARMS", "GROUP_MORALE" ] }
   },
   {
     "id": "mon_dog_pitbullmix_pup",
@@ -1310,26 +1281,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "GROUP_MORALE",
-      "HARDTOSHOOT",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "SWARMS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS",
-      "SMALL_HIDER"
-    ]
+    "extend": { "flags": [ "HARDTOSHOOT", "SMALL_HIDER" ] }
   },
   {
     "id": "mon_dog_beagle_pup",
@@ -1406,23 +1358,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [
-      "ANIMAL",
-      "CLIMBS",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    "delete": { "flags": [ "SWARMS", "GROUP_MORALE" ] }
   },
   {
     "id": "mon_dog_bcollie_pup",
@@ -1571,30 +1507,15 @@
     "vision_night": 6,
     "harvest": "dog_tiny_with_skull",
     "fear_triggers": [ "HURT" ],
-    "delete": { "zombify_into": "mon_zombie_dog" },
+    "delete": { "zombify_into": "mon_zombie_dog", "flags": [ "SWARMS", "GROUP_MORALE" ] },
+    "extend": { "flags": [ "HARDTOSHOOT", "SMALL_HIDER" ] },
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
-    },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "HARDTOSHOOT",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "EATS",
-      "SMALL_HIDER"
-    ]
+    }
   },
   {
     "id": "mon_dog_chihuahua_pup",
@@ -1666,32 +1587,15 @@
     "vision_night": 6,
     "fear_triggers": [ "HURT" ],
     "harvest": "dog_small_with_skull_leather",
-    "delete": { "zombify_into": "mon_zombie_dog" },
+    "delete": { "zombify_into": "mon_zombie_dog", "flags": [ "SWARMS", "GROUP_MORALE" ] },
+    "extend": { "flags": [ "STUMBLES", "SMALL_HIDER", "HARDTOSHOOT" ] },
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
-    },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "HARDTOSHOOT",
-      "HEARS",
-      "PET_MOUNTABLE",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "EATS",
-      "SMALL_HIDER"
-    ]
+    }
   },
   {
     "id": "mon_dog_dachshund_pup",
@@ -1761,28 +1665,14 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 6,
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
+    "delete": { "flags": [ "SWARMS", "HIT_AND_RUN", "GROUP_MORALE" ] },
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
-    },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    }
   },
   {
     "id": "mon_dog_gshepherd_pup",
@@ -1863,22 +1753,7 @@
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
     },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    "delete": { "flags": [ "SWARMS", "GROUP_MORALE" ] }
   },
   {
     "id": "mon_dog_gpyrenees_pup",
@@ -1953,29 +1828,14 @@
     "stomach_size": 650,
     "harvest": "dog_with_skull_leather",
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
+    "delete": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
-    },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    }
   },
   {
     "id": "mon_dog_rottweiler_pup",
@@ -2045,30 +1905,14 @@
     "dodge": 4,
     "vision_night": 6,
     "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
+    "delete": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s happily wags its tail while you pat its head."
-    },
-    "flags": [
-      "ANIMAL",
-      "DOGFOOD",
-      "CLIMBS",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "PET_MOUNTABLE",
-      "HEARS",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER",
-      "SEES",
-      "SMELLS",
-      "WARM",
-      "CORNERED_FIGHTER",
-      "EATS"
-    ]
+    }
   },
   {
     "id": "mon_dog_auscattle_pup",
