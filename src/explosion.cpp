@@ -64,6 +64,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_heat( "heat" );
@@ -399,7 +401,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     projectile proj;
     proj.speed = fragment_velocity;
     proj.range = range;
-    proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.proj_effects.insert( ammo_effect_NULL_SOURCE );
 
     struct local_caches {
         cata::mdarray<fragment_cloud, point_bub_ms> obstacle_cache;

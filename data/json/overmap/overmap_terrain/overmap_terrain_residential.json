@@ -656,6 +656,7 @@
       "apartments_mod_tower_013",
       "apartments_mod_tower_103",
       "apartments_mod_tower_113",
+      "apartments_mod_tower_shack_roof",
       "s_apt_roof",
       "s_apt_2_upper_roof",
       "s_apt_2_roof",
@@ -772,26 +773,6 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "build"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bunker_shop_g",
-    "name": "derelict property",
-    "sym": "X",
-    "color": "i_brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bunker_shop_b",
-    "name": "scavenger bunker",
-    "sym": "B",
-    "color": "light_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

@@ -117,7 +117,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string_view )
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
-        const std::string &src )
+        std::string_view src )
 {
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );

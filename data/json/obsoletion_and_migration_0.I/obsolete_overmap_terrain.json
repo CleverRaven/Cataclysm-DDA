@@ -1,5 +1,10 @@
 [
   {
+    "type": "overmap_special_migration",
+    "//": "Removed in 0.I, remove in 0.J",
+    "id": "bunker shop"
+  },
+  {
     "type": "oter_id_migration",
     "//": "Migrated in 0.I, remove after 0.I stable",
     "oter_ids": {
@@ -26,6 +31,14 @@
       "horse_farm_10": "omt_obsolete",
       "horse_farm_10_roof": "omt_obsolete",
       "horse_farm_13_2ndfloor": "omt_obsolete",
+      "bunker_shop_g_north": "derelict_property_north",
+      "bunker_shop_g_south": "derelict_property_south",
+      "bunker_shop_g_east": "derelict_property_east",
+      "bunker_shop_g_west": "derelict_property_west",
+      "bunker_shop_b_north": "solid_earth",
+      "bunker_shop_b_south": "solid_earth",
+      "bunker_shop_b_east": "solid_earth",
+      "bunker_shop_b_west": "solid_earth",
       "megastore_parking": "omt_obsolete"
     }
   },

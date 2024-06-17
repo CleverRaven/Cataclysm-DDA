@@ -63,6 +63,7 @@
     "condition": {
       "or": [
         { "math": [ "u_spell_level('arvore_nurture_the_green')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_nurture_the_green_aoe')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_growing_wood_walls')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_commune_with_nature')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_briars')", "<", "int_to_level(1)" ] },
@@ -89,6 +90,7 @@
     "effect": {
       "weighted_list_eocs": [
         [ "EOC_LEVELER_ARVORE_NURTURING_THE_GREEN", 9 ],
+        [ "EOC_LEVELER_ARVORE_NURTURING_THE_GREEN_AOE", 2 ],
         [ "EOC_LEVELER_ARVORE_SUMMON_WOOD_WALL", 5 ],
         [ "EOC_LEVELER_ARVORE_COMMUNE_WITH_NATURE", 7 ],
         [ "EOC_LEVELER_ARVORE_SUMMON_BRIARS", 6 ],
@@ -128,6 +130,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('arvore_nurture_the_green')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_NURTURING_THE_GREEN_AOE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_nurture_the_green_aoe')", ">=", "0" ] },
+        { "math": [ "u_spell_level('arvore_nurture_the_green_aoe')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent under the shadows of the trees has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('arvore_nurture_the_green_aoe')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

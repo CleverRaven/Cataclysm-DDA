@@ -236,8 +236,16 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": ".45 Luty submachine gun" },
+    "name": { "str": "MAC-10 Luty submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "smg_45",
+        "name": { "str": ".45 Luty submachine gun" },
+        "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines."
+      }
+    ],
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3520 g",
     "volume": "1110 ml",
@@ -394,7 +402,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Hi-Point pistol" },
+    "name": { "str": "Model JHP pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting Hi-Point magazines.",
     "variant_type": "gun",
     "variants": [

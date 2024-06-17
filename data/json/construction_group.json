@@ -957,12 +957,12 @@
   {
     "type": "construction_group",
     "id": "deconstruct_furniture",
-    "name": "Deconstruct Furniture"
+    "name": "Deconstruct Terrain/Furniture"
   },
   {
     "type": "construction_group",
     "id": "deconstruct_simple_furniture",
-    "name": "Deconstruct Simple Furniture"
+    "name": "Deconstruct Simple Terrain/Furniture"
   },
   {
     "type": "construction_group",

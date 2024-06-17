@@ -549,7 +549,7 @@
   {
     "type": "COMESTIBLE",
     "id": "stuffed_clams",
-    "name": { "str_sp": "stuffed clam" },
+    "name": { "str_sp": "stuffed clams" },
     "copy-from": "fish_fried",
     "weight": "150 g",
     "calories": 115,
@@ -1967,7 +1967,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicken_rice_hianese",
-    "name": { "str": "Hinanese chicken rice" },
+    "name": { "str_sp": "Hinanese chicken rice" },
     "weight": "195 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -1986,7 +1986,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicken_parm",
-    "name": { "str": "chicken parmesan" },
+    "name": { "str_sp": "chicken parmesan" },
     "weight": "250 g",
     "color": "brown",
     "spoils_in": "1 day",

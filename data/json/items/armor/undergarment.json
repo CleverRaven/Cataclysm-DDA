@@ -1058,7 +1058,7 @@
   {
     "id": "tights",
     "type": "ARMOR",
-    "name": { "str_sp": "tights" },
+    "name": { "str": "tights", "str_pl": "pairs of tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
     "weight": "114 g",
     "volume": "250 ml",
@@ -1071,7 +1071,38 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ],
+    "variants": [
+      {
+        "id": "tights_basic",
+        "name": { "str": "tights", "str_pl": "pairs of tights" },
+        "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
+        "expand_snippets": true,
+        "weight": 50
+      },
+      {
+        "id": "tights_polka_dot",
+        "name": { "str": "polka dot tights", "str_pl": "pairs of polka dot tights" },
+        "description": "These are adorned with dozens of <color> polka dots.",
+        "expand_snippets": true,
+        "append": true,
+        "weight": 50
+      },
+      {
+        "id": "tights_print",
+        "name": { "str": "animal print tights", "str_pl": "pairs of animal print tights" },
+        "description": "A pair of snug cotton tights, featuring a classic <animal_print> pattern.",
+        "expand_snippets": true,
+        "weight": 150
+      },
+      {
+        "id": "tights_solid",
+        "name": { "str": "solid color tights", "str_pl": "pairs of solid color tights" },
+        "description": "A pair of cotton tights, these are a solid <color> color.",
+        "expand_snippets": true,
+        "weight": 300
+      }
+    ]
   },
   {
     "id": "under_armor",

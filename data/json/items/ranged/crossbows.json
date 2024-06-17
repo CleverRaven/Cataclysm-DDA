@@ -11,7 +11,7 @@
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_2" ]
+    "recovery_chance": 2
   },
   {
     "type": "AMMO",
@@ -26,7 +26,7 @@
     "price": "5 USD",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_6" ]
+    "recovery_chance": 6
   },
   {
     "type": "AMMO",
@@ -41,7 +41,8 @@
     "price": "6 USD 50 cent",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_10", "NOGIB" ]
+    "recovery_chance": 10,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -57,7 +58,7 @@
     "price_postapoc": "30 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
-    "effects": [ "RECOVER_8" ]
+    "recovery_chance": 8
   },
   {
     "type": "AMMO",
@@ -69,7 +70,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 10 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 1 },
-    "effects": [ "RECOVER_25" ]
+    "recovery_chance": 25
   },
   {
     "type": "AMMO",
@@ -89,7 +90,7 @@
     "dispersion": 100,
     "loudness": 0,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 30,
     "melee_damage": { "bash": 3 }
   },
   {
@@ -102,7 +103,8 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 30 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "recovery_chance": 35,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -115,7 +117,7 @@
     "relative": { "dispersion": 80 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25, "armor_penetration": 1 },
     "show_stats": true,
-    "effects": [ "RECOVER_20" ]
+    "recovery_chance": 20
   },
   {
     "type": "AMMO",
@@ -131,7 +133,7 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 2 },
     "range": 2,
-    "effects": [ "RECOVER_35" ]
+    "recovery_chance": 35
   },
   {
     "type": "AMMO",
@@ -147,7 +149,7 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 4 },
     "range": 2,
-    "effects": [ "RECOVER_40" ]
+    "recovery_chance": 40
   },
   {
     "type": "AMMO",
@@ -161,7 +163,8 @@
     "relative": { "dispersion": -30 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
-    "effects": [ "RECOVER_45", "NOGIB" ]
+    "recovery_chance": 45,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -177,7 +180,7 @@
     "price_postapoc": "60 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
-    "effects": [ "RECOVER_30" ]
+    "recovery_chance": 30
   },
   {
     "id": "bullet_crossbow",
