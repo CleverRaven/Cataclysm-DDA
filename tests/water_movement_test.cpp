@@ -144,7 +144,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     // Put us back at 0. We shouldn't have to do this but other tests are
     // making assumptions about what z-level they're on.
-    g->vertical_shift( 0 );
+    dummy.setpos( test_origin );
 }
 
 static const efftype_id effect_winded( "winded" );
@@ -905,6 +905,7 @@ static std::map<std::string, swim_result> expected_results = {
 
 TEST_CASE( "check_swim_move_cost_and_distance_values", "[swimming][slow]" )
 {
+    clear_avatar();
     setup_test_lake();
 
     avatar &dummy = get_avatar();
