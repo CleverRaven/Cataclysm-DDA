@@ -572,7 +572,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
+    "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof", "town_hall_1_1_upper_roof" ],
     "name": "town hall",
     "sym": "^",
     "color": "i_black",
