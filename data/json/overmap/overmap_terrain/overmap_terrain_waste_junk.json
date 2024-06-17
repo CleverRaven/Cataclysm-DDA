@@ -45,7 +45,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "sewage_treatment_1_0_roof", "sewage_treatment_1_1_roof" ],
+    "id": [ "sewage_treatment_1_0_roof", "sewage_treatment_1_1_roof", "sewage_treatment_1_0_upper_roof" ],
     "name": "sewage treatment plant roof",
     "sym": "P",
     "color": "red",
