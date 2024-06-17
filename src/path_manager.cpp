@@ -245,19 +245,20 @@ void path_manager_ui::draw_controls()
                 //set_selected_id( i );
             }
             ImGui::SameLine();
-
-            ImGui::Text( "%s", "start" );
+            draw_colored_text( "start", c_white );
 
             ImGui::TableNextColumn();
             std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
-            ImGui::Text( "%s", dist == "" ? _( "It's under your feet." ) : dist );
+            dist = dist == "" ? _( "It's under your feet." ) : dist;
+            draw_colored_text( dist, c_white );
 
             ImGui::TableNextColumn();
-            ImGui::Text( "%s", "end" );
+            draw_colored_text( "end", c_white );
 
             ImGui::TableNextColumn();
             dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
-            ImGui::Text( "%s", dist == "" ? _( "It's under your feet." ) : dist );
+            dist = dist == "" ? _( "It's under your feet." ) : dist;
+            draw_colored_text( dist, c_white );
 
             ImGui::TableNextColumn();
             ImGui::Text( "%zu", curr_path.recorded_path.size() );
