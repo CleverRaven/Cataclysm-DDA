@@ -273,7 +273,7 @@ Small lighthouse
 Red Phosphorus Using Matchbox Strikers and Potassium Chloride Using Match-heads
 Add brick construction to camp expansions
 Clean water in open containers reverts to water after a while
- Updates the basic gas mask, related filtr, filter ammunition, and gas mask bag to modern standards of CDDA, adds possible inserts and outserts, disassembly craft, and item group goodness.
+Update the basic gas mask, related filter, filter ammunition, and gas mask bag to modern CDDA standards, add possible inserts and outserts, disassembly recipe, and item group goodness.
 
 
 ## Interface:
