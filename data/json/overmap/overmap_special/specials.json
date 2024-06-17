@@ -4202,6 +4202,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "ws_biker_dump_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "ws_biker_dump_2_0_north" },
       { "point": [ 3, 0, 0 ], "overmap": "ws_biker_dump_3_0_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "ws_biker_dump_3_0_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "ws_biker_dump_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "ws_biker_dump_1_1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "ws_biker_dump_2_1_north" },
