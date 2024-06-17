@@ -91,6 +91,7 @@ class path_manager_impl
         /// Set current path to p_index and recording_path to true
         void set_recording_path( int p_index );
         int recording_path_index = -1;
+        int selected_id = -1;
         std::vector<path> paths;
 };
 
@@ -228,15 +229,14 @@ void path_manager_ui::draw_controls()
 
     ImGuiListClipper clipper;
     clipper.Begin( pimpl->paths.size() );
-    int selected_id = -1;
     while( clipper.Step() ) {
         for( int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++ ) {
             const path &curr_path = pimpl->paths[i];
             ImGui::TableNextColumn();
-            if( ImGui::Selectable( ( "##" + std::to_string( i ) ).c_str(), selected_id == i,
+            if( ImGui::Selectable( ( "##" + std::to_string( i ) ).c_str(), pimpl->selected_id == i,
                                    ImGuiSelectableFlags_SpanAllColumns )
               ) {
-                //set_selected_id( i );
+                pimpl->selected_id = i;
             }
             ImGui::SameLine();
             draw_colored_text( "start", c_white );
