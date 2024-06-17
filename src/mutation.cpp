@@ -1317,7 +1317,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate_category: mutate_towards category %s", cat.c_str() );
-    if( select_mutation || mutation_selector( valid, cat, use_vitamins ) ) {
+    if( select_mutation && mutation_selector( valid, cat, use_vitamins ) ) {
         // Stop if mutation properly handled by mutation selector
         return;
     }
