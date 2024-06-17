@@ -219,9 +219,7 @@ cataimgui::bounds path_manager_ui::get_bounds()
 
 void path_manager_ui::draw_controls()
 {
-    if( ! ImGui::BeginTable( "PATH_MANAGER", 5,
-                             ImGuiTableFlags_ScrollY | ImGuiTableFlags_Resizable
-                             | ImGuiTableFlags_BordersOuter ) ) {
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 5, ImGuiTableFlags_Resizable )) {
         return;
     }
     // TODO invlet
