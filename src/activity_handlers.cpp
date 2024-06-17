@@ -3413,12 +3413,10 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
     // Current progress in moves
     const double current_progress = old_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
+    you->set_moves( 0 );
+    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
     // Current progress as a percent of base_total_moves to 2 decimal places
     pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
-
-    you->set_moves( 0 );
-
-    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {

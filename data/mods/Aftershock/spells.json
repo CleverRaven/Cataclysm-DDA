@@ -52,7 +52,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "self" ],
-    "field_id": "fd_nuke_gas",
+    "field_id": "fd_rad_glimmer",
     "field_chance": 60,
     "min_field_intensity": 2,
     "max_field_intensity": 2,

@@ -142,7 +142,7 @@ static void foamcrete_build( const tripoint &p )
 }
 
 void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<std::string> &effects )
+                         const std::set<ammo_effect_str_id> &effects )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -151,7 +151,7 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
         if( !one_in( ae.trigger_chance ) ) {
             continue;
         }
-        if( effects.count( ae.id.str() ) > 0 ) {
+        if( effects.count( ae.id ) > 0 ) {
             for( const tripoint &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
                     const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
@@ -196,12 +196,11 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
     }
 }
 
-
-int max_aoe_size( const std::set<std::string> &tags )
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
 {
     int aoe_size = 0;
     for( const ammo_effect &aed : ammo_effects::get_all() ) {
-        if( tags.count( aed.id.str() ) > 0 ) {
+        if( tags.count( aed.id ) > 0 ) {
             aoe_size = std::max( aoe_size,  aed.aoe_size ) ;
         }
     }

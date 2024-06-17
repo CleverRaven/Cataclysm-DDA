@@ -1084,41 +1084,60 @@
   {
     "id": "gas_mask_pouch",
     "type": "ARMOR",
-    "//": " stats taken from: https://condoroutdoor.com/ma11.html this one is much larger than an in game gas mask so I've take some liberties on size",
+    "looks_like": "holster",
+    "//": " stats taken from: https://condoroutdoor.com/ma11.html",
     "name": { "str": "gas mask pouch", "str_pl": "gas mask pouches" },
     "description": "A large pouch capable of holding a gas mask and an additional filter, keeping both accessible and secure.  Has MOLLE straps for attaching to a belt or vest.",
     "weight": "300 g",
     "volume": "250 ml",
-    "price": "20 USD",
-    "price_postapoc": "4 USD",
+    "//2": "Dimensions: 10.5x6.75x4 inches.",
+    "price": "19 USD 95 cent",
+    "price_postapoc": "1 USD 90 cent",
     "material": [ "nylon" ],
     "symbol": "[",
-    "looks_like": "holster",
     "color": "dark_gray",
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": [ 3, 4 ],
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "holster": true,
-        "max_contains_volume": "1250 ml",
-        "max_contains_weight": "2 kg",
-        "//": "gas masks don't seem to have lengths currently",
-        "max_item_length": "30 cm",
+        "max_contains_volume": "3546 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "27 cm",
+        "description": "The main compartment for a respirator.",
         "moves": 80,
         "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "950 ml",
         "max_contains_weight": "500 g",
-        "max_item_length": "8 cm",
+        "max_item_length": "12 cm",
+        "description": "A side pocket for a single spare filter.",
         "moves": 80,
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "150 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "17 cm",
+        "description": "An internal divider pocket for some small accessories.",
+        "moves": 80,
+        "volume_encumber_modifier": 0
       }
     ],
     "material_thickness": 0.5,
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ]
   },
   {
     "id": "tactical_grenade_pouch",

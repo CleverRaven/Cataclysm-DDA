@@ -383,7 +383,7 @@
     "melee_dice_sides": 6,
     "morale": 20,
     "starting_ammo": { "afs_foamtoxic": 400 },
-    "death_function": { "corpse_type": "BROKEN", "message": "The Croplord crahses into the ground." },
+    "death_function": { "corpse_type": "BROKEN", "message": "The Croplord crashes into the ground." },
     "special_attacks": [
       {
         "type": "gun",

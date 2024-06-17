@@ -14,5 +14,13 @@
     "intensity": 3,
     "qty": 60,
     "chance": 100
+  },
+  {
+    "id": "heavy_rad_glimmer",
+    "type": "emit",
+    "field": "fd_rad_glimmer",
+    "intensity": 3,
+    "chance": 70,
+    "qty": 70
   }
 ]

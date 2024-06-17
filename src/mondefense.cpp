@@ -32,6 +32,9 @@
 #include "type_id.h"
 #include "viewer.h"
 
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_electric( "electric" );
 
@@ -128,8 +131,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     projectile prj;
     prj.speed = 10;
     prj.range = 4;
-    prj.proj_effects.insert( "DRAW_AS_LINE" );
-    prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    prj.proj_effects.insert( ammo_effect_DRAW_AS_LINE );
+    prj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     prj.impact.add_damage( damage_acid, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );

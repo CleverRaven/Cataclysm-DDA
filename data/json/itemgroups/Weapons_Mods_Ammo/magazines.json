@@ -207,7 +207,6 @@
       [ "22_speedloader8", 15 ],
       [ "44_speedloader6", 15 ],
       [ "454_speedloader5", 5 ],
-      [ "454_speedloader6", 5 ],
       [ "500_speedloader5", 5 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
@@ -256,8 +255,7 @@
       { "item": "38_speedloader", "prob": 40, "charges": 0 },
       { "item": "40_speedloader6", "prob": 30, "charges": 0 },
       { "item": "44_speedloader6", "prob": 30, "charges": 0 },
-      { "item": "454_speedloader5", "prob": 20, "charges": 0 },
-      { "item": "454_speedloader6", "prob": 20, "charges": 0 }
+      { "item": "454_speedloader5", "prob": 20, "charges": 0 }
     ]
   },
   {
@@ -304,11 +302,6 @@
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
-      [ "a180mag", 1 ],
-      [ "a180mag1", 1 ],
-      [ "a180mag2", 1 ],
-      [ "a180mag3", 1 ],
-      [ "a180mag4", 1 ],
       [ "calicomag", 19 ],
       [ "calicomag_100rd", 15 ],
       [ "fnp90mag", 150 ],
@@ -420,8 +413,6 @@
       [ "akmag20", 40 ],
       [ "akmag40", 40 ],
       [ "akdrum75", 30 ],
-      [ "vz58mag30", 30 ],
-      [ "vz58mag10", 30 ],
       [ "clip303_5rd", 15 ],
       [ "clip_77mm_arisaka", 10 ],
       [ "enfield_303mag", 4 ],
@@ -568,8 +559,6 @@
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
       [ "af2011a1mag", 1 ],
-      [ "vz58mag30", 8 ],
-      [ "vz58mag10", 8 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],
@@ -577,8 +566,6 @@
       [ "mp40mag_32rd", 5 ],
       [ "p08mag_32rd", 1 ],
       [ "p08mag_8rd", 10 ],
-      [ "ppshmag", 10 ],
-      [ "ppshdrum", 10 ],
       [ "rpk74mag", 10 ],
       [ "tokarevmag", 10 ],
       [ "greasegun30mag", 5 ]
