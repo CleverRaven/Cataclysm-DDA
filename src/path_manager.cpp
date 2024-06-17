@@ -182,13 +182,10 @@ void path_manager_impl::auto_route_from_path()
         if( player_character.pos_bub() == get_map().bub_from_abs( p.front() )
             || player_character.pos_bub() == get_map().bub_from_abs( p.back() )
           ) {
-            current_path_index = path_index;
             paths[path_index].set_avatar_path();
             return;
         }
     }
-    // Didn't find any, set index to invalid.
-    current_path_index = -1;
     add_msg( m_info,
              _( "Auto path: Player doesn't stand at start or end of existing path.  Recording new path." ) );
     start_recording();
