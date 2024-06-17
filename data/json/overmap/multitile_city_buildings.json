@@ -3034,7 +3034,8 @@
       { "point": [ 2, 1, 3 ], "overmap": "school_4_4_north" },
       { "point": [ 0, 2, 3 ], "overmap": "school_4_9_north" },
       { "point": [ 1, 2, 3 ], "overmap": "school_4_8_north" },
-      { "point": [ 2, 2, 3 ], "overmap": "school_4_7_north" }
+      { "point": [ 2, 2, 3 ], "overmap": "school_4_7_north" },
+      { "point": [ 0, 1, 4 ], "overmap": "school_5_6_north" }
     ]
   },
   {
