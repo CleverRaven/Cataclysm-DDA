@@ -144,6 +144,7 @@
     "color": "light_gray",
     "dodge": 2,
     "bleed_rate": 80,
+    "harvest": "arachnid_flying",
     "upgrades": { "age_grow": 30, "into_group": "GROUP_TERMITE_ALATE" },
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 },
     "extend": { "weakpoint_sets": [ "wps_arthropod_flying" ], "families": [ "prof_wp_flying" ], "flags": [ "FLIES", "HARDTOSHOOT" ] }
@@ -183,7 +184,7 @@
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "armor": { "bash": 15, "cut": 24, "bullet": 15, "electric": 4 },
-    "extend": { "flags": [ "DESTROYS", "GRABS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
+    "extend": { "flags": [ "DESTROYS", "GRABS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "id": "mon_termite_queen",
