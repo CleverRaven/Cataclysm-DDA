@@ -11,10 +11,10 @@
         "queue_eocs": "EOC_AFS_ELECTROKIN_SEE_ELECTRICITY_MAINTENANCE",
         "time_in_future": [
           {
-            "math": [ "( (u_spell_level('electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 150) + 900) * (scaling_factor(u_val('intelligence') ) )" ]
           },
           {
-            "math": [ "( (u_spell_level('electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
+            "math": [ "( (u_spell_level('afs_electrokinetic_see_electric') * 300) + 1800) * (scaling_factor(u_val('intelligence') ) )" ]
           }
         ]
       }

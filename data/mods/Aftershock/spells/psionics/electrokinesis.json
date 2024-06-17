@@ -7,7 +7,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "spell_class": "ELECTROKINETIC",
+    "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 2,
@@ -41,7 +41,7 @@
     "message": "Your hands crackle with sparks!",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
-    "spell_class": "ELECTROKINETIC",
+    "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 1,
@@ -83,7 +83,7 @@
     "message": "Your skin tingles.",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "spell_class": "ELECTROKINETIC",
+    "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 3,
@@ -113,7 +113,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "spell_class": "ELECTROKINETIC",
+    "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 4,
@@ -139,7 +139,7 @@
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max((350 -(u_spell_level('electrokinetic_hacking_interface') * 9)), 150)"
+        "u_effect_intensity('effect_electrokin_hacking_interface') > 0 ? 10 : max((350 -(u_spell_level('afs_electrokinetic_hacking_interface') * 9)), 150)"
       ]
     }
   },
@@ -151,7 +151,7 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "spell_class": "ELECTROKINETIC",
+    "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
@@ -182,7 +182,7 @@
     "message": "Power flows into your target.",
     "teachable": false,
     "valid_targets": [ "ground" ],
-    "spell_class": "ELECTROKINETIC",
+    "spell_class": "AFS_ELECTROKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "difficulty": 8,

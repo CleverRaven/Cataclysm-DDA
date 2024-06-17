@@ -219,6 +219,7 @@
     "professions": [ "afs_esper_electrokinetic", "afs_esper_telepath" ],
     "flags": [ "LONE_START" ],
     "start_name": "Lost on the Surface",
+    "reveal_locale": false,
     "eoc": [ "EOC_ESPER_SCENARIO_SETUP" ]
   }
 ]
