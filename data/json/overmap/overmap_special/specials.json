@@ -6664,6 +6664,7 @@
       { "point": [ 5, 7, 1 ], "overmap": "speedway_5_7_1_north" },
       { "point": [ 6, 7, 1 ], "overmap": "speedway_6_7_1_north" },
       { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" },
+      { "point": [ 6, 7, 3 ], "overmap": "speedway_6_7_3_north" },
       { "point": [ 5, 10, 0 ], "locations": [ "land", "road" ] }
     ],
     "occurrences": [ 50, 100 ],
