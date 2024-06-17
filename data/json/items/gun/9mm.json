@@ -54,7 +54,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "9x19mm pistol-caliber carbine" },
+    "name": { "str": "M9 pistol-caliber carbine" },
     "description": "Designed to be a companion rifle with provided M9 handguns, this compact and light weight pistol-caliber carbine makes use of the same 9x19mm magazines.  Originally intended for use by law enforcement units, this style of small caliber, semi-automatic carbine failed to achieve the same level of popularity as regular and more potent rifles.  However, despite being inadequate for their original purpose, before the Cataclysm these modestly sized weapons still found a home in sport shooting and self-defense civilian roles.",
     "variant_type": "gun",
     "variants": [
@@ -247,8 +247,16 @@
     "id": "hk_mp5_semi_pistol",
     "type": "GUN",
     "copy-from": "hk_mp5",
-    "name": { "str": "PTR 603 submachine gun" },
-    "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler & Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts.",
+    "name": { "str": "MP5 pistol" },
+    "description": "A semi-automatic copy of the famous MP5 series, domestically produced for the US market.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ptr_603",
+        "name": { "str": "PTR 603 submachine gun" },
+        "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler & Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts."
+      }
+    ],
     "weight": "2177 g",
     "volume": "2110 ml",
     "longest_side": "377 mm",
@@ -278,8 +286,16 @@
     "copy-from": "hk_mp5k",
     "looks_like": "hk_briefcase",
     "type": "GUN",
-    "name": { "str": "H&K operational briefcase" },
+    "name": { "str": "MP5 operational briefcase" },
     "description": "A hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the hole is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered by the shape of the briefcase, but if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open, the MP5 may be reloaded or dismounted.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "briefcase_smg",
+        "name": { "str": "H&K operational briefcase" },
+        "description": "A hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the hole is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered by the shape of the briefcase, but if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open, the MP5 may be reloaded or dismounted."
+      }
+    ],
     "weight": "3800 g",
     "volume": "15232 ml",
     "longest_side": "544 mm",
@@ -353,7 +369,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Broomhandle pistol" },
+    "name": { "str": "Mauser pistol" },
     "description": "A semi-automatic German pistol developed prior to 1900, the firearm features a burned and painted number '9' on its broom handle-shaped grip to signify its chambering, 9x19mm parabellum, and makes use of appropriate stripper clips or single round loading.  Quite possibly the most aesthetically steampunk weapon that one could ever possibly get their hands on, this example likely found its way into the US via early import or as a holdover from the Great War.",
     "variant_type": "gun",
     "variants": [
@@ -404,7 +420,7 @@
     "id": "mauser_m714",
     "copy-from": "mauser_c96",
     "type": "GUN",
-    "name": { "str": "reproduction Broomhandle pistol" },
+    "name": { "str": "reproduction Mauser pistol" },
     "description": "A modern take on the original Mauser design, this variant is chambered for 9x19mm cartridges and, unlike its elder brother, the pre-1900 Mauser Broomhandle, this firearm feeds from detachable box magazines.  Whilst it features surplus Mauser parts in its construction, the frame of the pistol is of relatively modern manufacture.",
     "variant_type": "gun",
     "variants": [
@@ -498,8 +514,16 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Kel-Tec SUB-2000 carbine" },
-    "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
+    "name": { "str": "Glock carbine" },
+    "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, this is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ksub2000",
+        "name": { "str": "Kel-Tec SUB-2000 carbine" },
+        "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded."
+      }
+    ],
     "weight": "1930 g",
     "volume": "1240 ml",
     "longest_side": "410 mm",
@@ -623,7 +647,7 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": "9x19mm Luty submachine gun" },
+    "name": { "str": "STEN Luty submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN-compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3520 g",
@@ -1209,8 +1233,16 @@
     "copy-from": "smg_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "Colt Model 635 submachine gun" },
+    "name": { "str": "Colt submachine gun (Uzi)", "str_pl": "Colt submachine guns (Uzi)" },
     "description": "A 9x19mm submachine gun based on the M16 rifle design, it is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_ro635",
+        "name": { "str": "Colt Model 635 submachine gun" },
+        "description": "A 9x19mm submachine gun based on the M16 rifle design, it is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines."
+      }
+    ],
     "weight": "2690 g",
     "volume": "3450 ml",
     "longest_side": "655 mm",

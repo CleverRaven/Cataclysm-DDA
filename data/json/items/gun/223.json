@@ -606,7 +606,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm AK rifle" },
+    "name": { "str": "ZPAP AK-style rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
     "variant_type": "gun",
     "variants": [
@@ -651,14 +651,14 @@
     "copy-from": "pistol_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm Mini Draco rifle" },
-    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock",
+    "name": { "str": "ZPAP AK-style pistol" },
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "zpap85",
         "name": { "str": "ZPAP 85 rifle" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock"
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock."
       }
     ],
     "weight": "2563 g",
