@@ -4032,7 +4032,8 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_restaurant_2_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_roof_2_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "s_restaurant_roof_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_restaurant_upper_roof_2_north" }
     ]
   },
   {
