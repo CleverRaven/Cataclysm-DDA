@@ -53,10 +53,6 @@
   },
   {
     "type": "camp_migration",
-    "camp_migrations": { "name": "Merchant", "overmap_terrain": "bunker_shop_b", "faction": "wasteland_scavengers" }
-  },
-  {
-    "type": "camp_migration",
     "camp_migrations": { "name": "The Great Library", "overmap_terrain": "campus_media_0_0_0", "faction": "the_great_library" }
   }
 ]

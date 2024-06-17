@@ -59,7 +59,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_doctor_roof", "office_doctor_roof_1", "office_doctor_roof_2", "office_doctor_upper_roof_2" ],
+    "id": [
+      "office_doctor_roof",
+      "office_doctor_access_roof",
+      "office_doctor_roof_1",
+      "office_doctor_access_roof_1",
+      "office_doctor_roof_2",
+      "office_doctor_upper_roof_2"
+    ],
     "copy-from": "generic_city_building",
     "looks_like": "office_doctor_roof",
     "name": "doctor's office roof",
@@ -110,7 +117,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
+    "id": [
+      "office_tower_roof_nw",
+      "office_tower_roof_ne",
+      "office_tower_roof_sw",
+      "office_tower_roof_se",
+      "office_tower_roof_ne_roof",
+      "office_tower_roof_se_roof"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "office building roof",
     "sym": "t",
@@ -346,7 +360,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4", "s_gunstore_roof" ],
+    "id": [
+      "s_gun_roof",
+      "s_gun_upper_roof",
+      "s_gun_roof_1",
+      "s_gun_upper_roof_1",
+      "s_gun_roof_3",
+      "s_gun_roof_4",
+      "s_gunstore_roof"
+    ],
     "name": "gun store roof",
     "looks_like": "s_gun_roof",
     "copy-from": "generic_city_building",
@@ -453,6 +475,7 @@
       "s_restaurant_roof",
       "s_restaurant_roof_1",
       "s_restaurant_roof_2",
+      "s_restaurant_upper_roof_2",
       "s_restaurant_roof_3"
     ],
     "copy-from": "generic_city_building",

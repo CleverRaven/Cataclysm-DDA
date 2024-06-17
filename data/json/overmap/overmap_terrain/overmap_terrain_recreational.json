@@ -92,7 +92,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ],
+    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1", "state_park_1_0_1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": "S",
@@ -808,9 +808,11 @@
       "movietheater_roof_0_0",
       "movietheater_roof_1_0",
       "movietheater_roof_2_0",
+      "movietheater_2_2_0",
       "movietheater_roof_0_1",
       "movietheater_roof_1_1",
       "movietheater_roof_2_1",
+      "movietheater_2_2_1",
       "movietheater_roof_0_2",
       "movietheater_roof_1_2",
       "movietheater_roof_2_2"
