@@ -360,7 +360,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4", "s_gunstore_roof" ],
+    "id": [
+      "s_gun_roof",
+      "s_gun_upper_roof",
+      "s_gun_roof_1",
+      "s_gun_upper_roof_1",
+      "s_gun_roof_3",
+      "s_gun_roof_4",
+      "s_gunstore_roof"
+    ],
     "name": "gun store roof",
     "looks_like": "s_gun_roof",
     "copy-from": "generic_city_building",
