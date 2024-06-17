@@ -219,7 +219,7 @@ cataimgui::bounds path_manager_ui::get_bounds()
 
 void path_manager_ui::draw_controls()
 {
-    if( ! ImGui::BeginTable( "PATH_MANAGER", 4,
+    if( ! ImGui::BeginTable( "PATH_MANAGER", 5,
                              ImGuiTableFlags_ScrollY | ImGuiTableFlags_Resizable
                              | ImGuiTableFlags_BordersOuter ) ) {
         return;
@@ -229,6 +229,7 @@ void path_manager_ui::draw_controls()
     ImGui::TableSetupColumn( "start distance" );
     ImGui::TableSetupColumn( "end name" );
     ImGui::TableSetupColumn( "end distance" );
+    ImGui::TableSetupColumn( "total lenght" );
     ImGui::TableHeadersRow();
 
     ImGuiListClipper clipper;
@@ -257,6 +258,9 @@ void path_manager_ui::draw_controls()
             ImGui::TableNextColumn();
             dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
             ImGui::Text( "%s", dist == "" ? _( "It's under your feet." ) : dist );
+
+            ImGui::TableNextColumn();
+            ImGui::Text( "%zu", curr_path.recorded_path.size() );
         }
     }
     ImGui::EndTable();
