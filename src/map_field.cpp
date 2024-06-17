@@ -1482,7 +1482,7 @@ void map::player_in_field( Character &you )
                     // Apply the effect to the remaining body parts
                     total_damage += burn_body_part( you, cur, bodypart_id( "leg_l" ), 2 );
                     total_damage += burn_body_part( you, cur, bodypart_id( "leg_r" ), 2 );
-                    if ( !you.has_effect( effect_quadruped_full ) ) { 
+                    if( !you.has_effect( effect_quadruped_full ) ) {
                         total_damage += burn_body_part( you, cur, bodypart_id( "hand_l" ), 2 );
                         total_damage += burn_body_part( you, cur, bodypart_id( "hand_r" ), 2 );
                     }
