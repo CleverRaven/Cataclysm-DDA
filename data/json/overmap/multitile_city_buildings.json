@@ -3758,7 +3758,8 @@
       { "point": [ 0, 0, 2 ], "overmap": "town_hall_0_0_roof_north" },
       { "point": [ 1, 0, 2 ], "overmap": "town_hall_1_0_roof_north" },
       { "point": [ 0, 1, 2 ], "overmap": "town_hall_0_1_roof_north" },
-      { "point": [ 1, 1, 2 ], "overmap": "town_hall_1_1_roof_north" }
+      { "point": [ 1, 1, 2 ], "overmap": "town_hall_1_1_roof_north" },
+      { "point": [ 1, 1, 3 ], "overmap": "town_hall_1_1_upper_roof_north" }
     ],
     "city_sizes": [ 10, -1 ],
     "flags": [ "CITY_UNIQUE" ]
