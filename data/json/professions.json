@@ -424,6 +424,25 @@
   },
   {
     "type": "profession_item_substitutions",
+    "trait": "VEGAN",
+    "sub": [
+      { "item": "blazer", "new": [ "jacket_light" ] },
+      { "item": "hat_hunting", "new": [ "hat_cotton" ] },
+      { "item": "hat_newsboy", "new": [ "hat_cotton" ] },
+      { "item": "peacoat", "new": [ "jacket_flannel" ] },
+      { "item": "sweater", "new": [ "sweatshirt" ] },
+      { "item": "boots_winter", "new": [ "boots_faux_fur" ] },
+      { "item": "cloak_wool", "new": [ "cloak" ] },
+      { "item": "gloves_wool", "new": [ "gloves_light" ] },
+      { "item": "gloves_leather", "new": [ "gloves_light" ] },
+      { "item": "socks_wool", "new": [ "socks" ] },
+      { "item": "kilt", "new": [ "kilt_utility" ] },
+      { "item": "dress_shoes", "new": [ "espadrilles" ] },
+      { "item": "mask_ski", "new": [ "balclava" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
     "item": "sunglasses",
     "sub": [
       { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
@@ -486,6 +505,7 @@
       { "present": [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "new": [ "fried_spam", "fork" ] },
       { "present": [ "LACTOSE" ], "absent": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "hamburger" ] },
       { "present": [ "LACTOSE", "VEGETARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_veggy" ] },
+      { "present": [ "VEGAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_veggy" ] },
       {
         "present": [ "VEGETARIAN" ],
         "absent": [ "ANTIWHEAT", "LACTOSE" ],
@@ -498,7 +518,9 @@
     "item": "pizza_meat",
     "sub": [
       { "present": [ "VEGETARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_veggy" ] },
+      { "present": [ "VEGAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_veggy" ] },
       { "present": [ "VEGETARIAN", "ANTIWHEAT" ], "new": [ "veggy_salad", "fork" ] },
+      { "present": [ "VEGAN", "ANTIWHEAT" ], "new": [ "veggy_salad", "fork" ] },
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
@@ -516,6 +538,7 @@
     "item": "pizza_veggy",
     "sub": [
       { "present": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "veggy_salad", "fork" ] },
+      { "present": [ "ANTIWHEAT", "VEGAN" ], "new": [ "veggy_salad", "fork" ] },
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
