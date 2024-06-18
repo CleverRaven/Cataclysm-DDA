@@ -498,6 +498,16 @@
   },
   {
     "type": "overmap_terrain",
+    "name": "Enforcer Station",
+    "id": [ "afs_enforcer_station_a1", "afs_enforcer_station_a1_floor2", "afs_enforcer_station_a1_roof" ],
+    "sym": "E",
+    "color": "blue",
+    "see_cost": 3,
+    "mondensity": 3,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "afs_pwr_sub_s", "afs_pwr_sub_s_roof" ],
     "name": "small power substation",
     "sym": "H",

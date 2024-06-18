@@ -23,6 +23,12 @@
         "valid_terrain": [ "t_afs_door_metal_elocked" ],
         "message": "The door's PIN pad chimes happily as the locking mechanism releases.",
         "message_good": true
+      },
+      {
+        "result": "t_afs_security_door_frame",
+        "valid_terrain": [ "t_afs_security_gate_closed" ],
+        "message": "The security gate recedes into the cieling.",
+        "message_good": true
       }
     ]
   },

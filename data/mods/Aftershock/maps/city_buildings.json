@@ -153,6 +153,16 @@
     "locations": [ "land" ]
   },
   {
+    "id": "afs_enforcer_station_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_enforcer_station_a1_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_enforcer_station_a1_floor2_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_enforcer_station_a1_roof_south" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_habitat_block_1",
     "type": "city_building",
     "overmaps": [

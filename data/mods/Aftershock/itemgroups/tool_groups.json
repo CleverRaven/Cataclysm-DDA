@@ -146,6 +146,13 @@
   },
   {
     "type": "item_group",
+    "id": "afs_police_hacker_gear",
+    "//": "specialized tools used specifcally by cyber security specialists. Currently difers to the programming group but if advanced hacking tools get made they should be placed here.",
+    "subtype": "collection",
+    "items": [ { "group": "afs_tools_programing", "prob": 60 }, { "group": "afs_consumer_vr", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_tools_agricultural_hazardous",
     "//": "tools used by large farms",
     "subtype": "distribution",

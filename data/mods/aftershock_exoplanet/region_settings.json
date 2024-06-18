@@ -45,7 +45,8 @@
         "afs_augmentation_clinic_1": 400,
         "afs_astrobiology_lab": 400,
         "afs_general_store_1": 400,
-        "afs_city_urban_farm_small": 300
+        "afs_city_urban_farm_small": 300,
+        "afs_enforcer_station_1": 100
       }
     },
     "weather": {
