@@ -53,7 +53,8 @@
         [ "t_shrub_huckleberry", 1 ],
         [ "t_shrub_raspberry", 1 ],
         [ "t_shrub_grape", 1 ]
-      ]
+      ],
+	  "‡": "t_grass"
     },
     "furniture": {
       "‡": [
