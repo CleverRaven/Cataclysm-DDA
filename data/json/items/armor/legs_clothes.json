@@ -551,7 +551,7 @@
   {
     "id": "kilt_utility",
     "type": "ARMOR",
-    "name": { "str": "kilt, utility" },
+    "name": { "str": "utility kilt" },
     "description": "Common in America, the utility kilt takes the traditional woolen kilt and constructs it out of cotton canvas and then adds a pocket that would never be on a traditional kilt.",
     "weight": "500 g",
     "volume": "1500 ml",
