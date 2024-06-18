@@ -503,8 +503,8 @@
     "sym": "P",
     "color": "green",
     "see_cost": 3,
-	"mondensity": 1,
-	"flags": [ "SIDEWALK" ]
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
