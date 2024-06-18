@@ -51,14 +51,13 @@
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
         "condition": { "and": [ { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] } ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "u_message": "You spend some time meditating and contemplating your powers.", "type": "good" },
+          { "set_string_var": "biokin_overcome_pain", "target_var": { "context_val": "studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] },
+          { "queue_eocs": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS", "time_in_future": [ "30 minutes", "30 minutes" ] },
+          { "u_add_effect": "effect_psi_studying_power", "duration": "16 hours" },
+          { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "16 hours" }
         ]
       }
     ]

@@ -1,19 +1,64 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSI_STUDYING_POWER",
+    "effect": [
+      { "math": [ "u_psi_studying_tick_experience_counter", "+=", "contemplation_factor(1)" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_STUDYING_POWER_INTEGER_TICK_OVER",
+            "condition": { "math": [ "u_psi_studying_tick_experience_counter", ">=", "1" ] },
+            "effect": [
+              { "math": [ "u_spell_exp(studied_power_name)", "+=", "1" ] },
+              { "math": [ "u_psi_studying_tick_experience_counter", "=", "0" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION",
+    "condition": { "u_has_effect": "effect_psi_studying_power" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION_2",
+            "condition": { "math": [ "u_val('focus')", ">=", "20" ] },
+            "effect": [ { "math": [ "u_val('focus')", "--" ] } ]
+          }
+        ]
+      },
+      { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS",
+    "condition": { "u_has_effect": "effect_psi_studying_power" },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+      { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(u_latest_studied_power_difficulty)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSI_MOVING_CANCELS_RESEARCH",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "u_has_effect": "effect_psi_learning_new_power" },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+    "condition": { "or": [ { "u_has_effect": "effect_psi_learning_new_power" }, { "u_has_effect": "effect_psi_studying_power" } ] },
+    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_CHANNELING_CANCELS_RESEARCH",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
-    "condition": { "u_has_effect": "effect_psi_learning_new_power" },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+    "condition": { "or": [ { "u_has_effect": "effect_psi_learning_new_power" }, { "u_has_effect": "effect_psi_studying_power" } ] },
+    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
   },
   {
     "type": "effect_on_condition",
@@ -22,11 +67,18 @@
     "required_event": "character_finished_activity",
     "condition": {
       "and": [
-        { "compare_string": [ "ACT_PSI_LEARNING_NEW_POWER", { "context_val": "activity" } ] },
-        { "u_has_effect": "effect_psi_learning_new_power" }
+        {
+          "or": [
+            { "compare_string": [ "ACT_PSI_LEARNING_NEW_POWER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PSI_STUDYING_POWER", { "context_val": "activity" } ] }
+          ]
+        },
+        {
+          "or": [ { "u_has_effect": "effect_psi_learning_new_power" }, { "u_has_effect": "effect_psi_studying_power" } ]
+        }
       ]
     },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" } ]
+    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
   },
   {
     "type": "effect_on_condition",
