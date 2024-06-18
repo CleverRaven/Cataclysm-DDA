@@ -341,7 +341,6 @@
       { "group": "guns_rifle_rare_3006", "prob": 35 },
       { "group": "guns_rifle_rare_44", "prob": 10 },
       { "group": "guns_rifle_rare_45", "prob": 21 },
-      { "group": "guns_rifle_rare_45colt", "prob": 7 },
       { "group": "guns_rifle_rare_762R", "prob": 27 },
       { "group": "guns_rifle_rare_300blk", "prob": 10 },
       { "group": "guns_rifle_rare_other", "prob": 94 }
@@ -360,7 +359,6 @@
       { "group": "guns_rifle_rare_display_3006", "prob": 20 },
       { "group": "guns_rifle_rare_display_44", "prob": 10 },
       { "group": "guns_rifle_rare_display_45", "prob": 10 },
-      { "group": "guns_rifle_rare_display_45colt", "prob": 5 },
       { "group": "guns_rifle_rare_display_762R", "prob": 17 },
       { "group": "guns_rifle_rare_display_300blk", "prob": 15 },
       { "group": "guns_rifle_rare_display_other", "prob": 106 }
@@ -465,7 +463,6 @@
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
-      { "item": "fs2000", "prob": 6 },
       { "item": "acr_300blk", "prob": 15 },
       { "item": "hk417_13", "prob": 40 },
       { "item": "m2carbine", "prob": 5 },
