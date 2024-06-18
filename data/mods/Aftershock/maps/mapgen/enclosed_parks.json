@@ -43,8 +43,7 @@
             [ "afs_park_dome_c", 1 ],
             [ "afs_park_dome_d", 1 ],
             [ "afs_park_dome_e", 1 ],
-            [ "afs_park_dome_f", 1 ],
-            [ "afs_park_dome_g", 1 ]
+            [ "afs_park_dome_f", 1 ]
           ],
           "x": 0,
           "y": 0
@@ -258,7 +257,7 @@
 		"y": "t_sidewalk"
       },
       "furniture": { "6": "f_trashcan", "7": "f_planter", "8": "f_rack" },
-      "items": { "8": { "item": "tools_earthworking", "chance": 40, "repeat": [ 1, 2 ] } }
+      "items": { "8": { "item": "farming_tools", "chance": 80, "repeat": [ 1, 2 ] } }
     }
   },
   {
@@ -395,43 +394,6 @@
       },
       "furniture": { "6": "f_trashcan", "7": "f_rack" },
       "items": { "7": { "item": "afs_old_food_storage", "chance": 60, "repeat": [ 1, 2 ] } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "afs_park_dome_g",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "  ,,,,,4444..444...444  ",
-        "  ,,,,,‡44,..444,,,,44  ",
-        "  ,,4,,,,,‡..4,,,,,,‡4  ",
-        "  ,4444,,44..,,,444,,,  ",
-        "  ,4444,444..‡,4444,,,  ",
-        "  ,,44,,444..‡,444,,,,  ",
-        "  ,,‡,,,,4,..,,,4,,,,,  ",
-        "  ,,,,,4,,,..4,,,,,,44  ",
-        "  ,,44,,,,‡..44,,,,444  ",
-        "  ,,444,,44..44,,,,444  ",
-        "  ,,,,4,444..44,,,,444  ",
-        "  ,,4,,,,44..‡,,,4,,,,  ",
-        "  ,4444,,4...,,4444,,,  ",
-        "  ,444‡,....‡,,,444,‡,  ",
-        "  ..........,,,,44,,,,  ",
-        "  ..............,,,,,,  ",
-        "        .bb.bb.6,,44,,  ",
-        "        .yy.yy..,4444,  ",
-        "        .bb.bb.6444444  ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "afs_terra", "afs_habitat_residential_furnishing" ],
-      "terrain": { ",": "t_grass", ".": "t_sidewalk", "4": "t_grass_tall", "6": "t_sidewalk", "b": "t_sidewalk", "y": "t_sidewalk" },
-      "furniture": { "6": "f_trashcan" }
     }
   }
 ]
