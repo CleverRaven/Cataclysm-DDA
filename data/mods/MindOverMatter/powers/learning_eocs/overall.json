@@ -59,7 +59,7 @@
     "id": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY",
     "condition": { "u_has_effect": "effect_psi_studying_power" },
     "effect": [
-      { "math": [ "u_proficiency(u_latest_studied_power_proficiency, 'format': 'percent')", "+=", "(rand(4) / 50) * (u_val('focus') / 100)" ] }
+      { "math": [ "u_proficiency(u_latest_studied_power_proficiency, 'format': 'percent')", "+=", "(rand(4) / 50)" ] },
       { "queue_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] }
     ]
   },

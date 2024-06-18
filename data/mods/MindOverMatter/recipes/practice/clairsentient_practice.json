@@ -2,7 +2,6 @@
   {
     "id": "clairsentient_practice",
     "type": "nested_category",
-    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_METAPHYSICS",
@@ -55,10 +54,13 @@
         "id": "EOC_PRACTICE_CLAIR_NIGHT_VISION",
         "condition": { "math": [ "u_spell_level('clair_night_vision')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_night_vision", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_night_vision", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -89,10 +91,13 @@
         "id": "EOC_PRACTICE_CLAIR_DANGER_SENSE",
         "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_danger_sense", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_danger_sense", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -174,10 +179,13 @@
         "id": "EOC_PRACTICE_CLAIR_SPEED_READING",
         "condition": { "math": [ "u_spell_level('clair_speed_reading')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_speed_reading", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_speed_reading", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -208,10 +216,13 @@
         "id": "EOC_PRACTICE_CLAIR_SPOT_WEAKNESS",
         "condition": { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_spot_weakness", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_spot_weakness", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -293,10 +304,13 @@
         "id": "EOC_PRACTICE_CLAIR_SENSE_RADS",
         "condition": { "math": [ "u_spell_level('clair_sense_rads')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_sense_rads", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_sense_rads", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -327,10 +341,13 @@
         "id": "EOC_PRACTICE_CLAIR_SEE_AURAS",
         "condition": { "math": [ "u_spell_level('clair_see_auras')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_see_auras", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_see_auras", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -413,10 +430,13 @@
         "id": "EOC_PRACTICE_CLAIR_RANGED_ENHANCE",
         "condition": { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_ranged_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -499,10 +519,13 @@
         "id": "EOC_PRACTICE_CLAIR_VOYANCE",
         "condition": { "math": [ "u_spell_level('clair_voyance')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_voyance", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_voyance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -585,10 +608,13 @@
         "id": "EOC_PRACTICE_CLAIR_COMBAT_SENSE",
         "condition": { "math": [ "u_spell_level('clair_dodge_power')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_dodge_power", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_dodge_power", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -671,10 +697,13 @@
         "id": "EOC_PRACTICE_CLAIR_CRAFT_BONUS",
         "condition": { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_craft_bonus", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_craft_bonus", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -757,10 +786,13 @@
         "id": "EOC_PRACTICE_CLAIR_SEE_MAP",
         "condition": { "math": [ "u_spell_level('clair_see_map')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_see_map", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_see_map", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -843,10 +875,13 @@
         "id": "EOC_PRACTICE_CLAIR_PERFECT_SHOT",
         "condition": { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_perfect_shot", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_perfect_shot", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -929,10 +964,13 @@
         "id": "EOC_PRACTICE_CLAIR_CLEAR_SIGHT",
         "condition": { "math": [ "u_spell_level('clair_clear_sight')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_clear_sight", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_clear_sight", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1015,10 +1053,13 @@
         "id": "EOC_PRACTICE_CLAIR_ASTRAL_PROJECTION",
         "condition": { "math": [ "u_spell_level('clair_astral_projection')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_astral_projection", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_astral_projection", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1101,10 +1142,13 @@
         "id": "EOC_PRACTICE_CLAIR_GROUP_TACTICS",
         "condition": { "math": [ "u_spell_level('clair_group_tactics')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_group_tactics", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_group_tactics", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1187,10 +1231,13 @@
         "id": "EOC_PRACTICE_CLAIR_OMNISCENCE",
         "condition": { "math": [ "u_spell_level('clair_omniscience')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "clair_omniscience", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_clairsentience", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "clair_omniscience", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_clairsentience",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },

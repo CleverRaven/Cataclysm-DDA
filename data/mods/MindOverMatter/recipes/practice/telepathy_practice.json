@@ -45,10 +45,13 @@
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
         "condition": { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_concentration", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_concentration", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -73,10 +76,13 @@
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
         "condition": { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -101,10 +107,13 @@
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
         "condition": { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -176,10 +185,13 @@
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
         "condition": { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_morale", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_morale", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -252,10 +264,13 @@
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
         "condition": { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -328,10 +343,13 @@
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
         "condition": { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_animal_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_animal_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -404,10 +422,13 @@
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
         "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -480,10 +501,13 @@
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
         "condition": { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -556,10 +580,13 @@
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
         "condition": { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_fear", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_fear", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -632,10 +659,13 @@
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
         "condition": { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_blast_radius", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_blast_radius", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -708,10 +738,13 @@
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
         "condition": { "math": [ "u_spell_level('telepathic_beast_taming')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_beast_taming", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_beast_taming", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -784,10 +817,13 @@
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
         "condition": { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_mind_control", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -860,10 +896,13 @@
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
         "condition": { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "telepathic_network", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_telepathy", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "telepathic_network", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telepathy",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },

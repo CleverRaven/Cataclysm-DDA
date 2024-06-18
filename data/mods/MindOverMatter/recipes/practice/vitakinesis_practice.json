@@ -52,10 +52,13 @@
         "id": "EOC_PRACTICE_VITAKIN_HEALTH",
         "condition": { "math": [ "u_spell_level('vita_health_power')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_health_power", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_health_power", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -82,10 +85,13 @@
         "id": "EOC_PRACTICE_VITAKIN_SLOW_BLEEDING",
         "condition": { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_slow_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_slow_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -112,10 +118,13 @@
         "id": "EOC_PRACTICE_VITAKIN_STAUNCHING",
         "condition": { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_stop_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_stop_bleeding", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -193,10 +202,13 @@
         "id": "EOC_PRACTICE_VITAKIN_HURT",
         "condition": { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_hurt_touch", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_hurt_touch", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -274,10 +286,13 @@
         "id": "EOC_PRACTICE_VITAKIN_HEAL_TOUCH_ALLY",
         "condition": { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_health_power_ally", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_health_power_ally", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -355,10 +370,13 @@
         "id": "EOC_PRACTICE_VITAKIN_REMOVE_POISON",
         "condition": { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_remove_poison", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_remove_poison", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -437,10 +455,13 @@
         "id": "EOC_PRACTICE_VITAKIN_SLEEP",
         "condition": { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_sleeping_trance", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_sleeping_trance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -519,10 +540,13 @@
         "id": "EOC_PRACTICE_VITAKIN_CURE_DISEASE",
         "condition": { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_cure_disease", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_cure_disease", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -601,10 +625,13 @@
         "id": "EOC_PRACTICE_VITAKIN_DAMAGE_BALANCE",
         "condition": { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_pain_split", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_pain_split", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -683,10 +710,13 @@
         "id": "EOC_PRACTICE_VITAKIN_STOP_INFECTION",
         "condition": { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_stop_infection", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_stop_infection", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -765,10 +795,13 @@
         "id": "EOC_PRACTICE_VITAKIN_HEALING_TRANCE",
         "condition": { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_healing_trance", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_healing_trance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -847,10 +880,13 @@
         "id": "EOC_PRACTICE_VITAKIN_PURGE_RADS",
         "condition": { "math": [ "u_spell_level('vita_purge_rads')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_purge_rads", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_purge_rads", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -877,10 +913,13 @@
         "id": "EOC_PRACTICE_VITAKIN_ATTACK_TOUCH",
         "condition": { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_attack_touch", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_attack_touch", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -959,10 +998,13 @@
         "id": "EOC_PRACTICE_VITAKIN_PURGE",
         "condition": { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_blood_purge", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_blood_purge", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1041,10 +1083,13 @@
         "id": "EOC_PRACTICE_VITAKIN_BANISH_ILLNESS",
         "condition": { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_banish_illness", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_banish_illness", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1123,10 +1168,13 @@
         "id": "EOC_PRACTICE_VITAKIN_SUPER_HEAL",
         "condition": { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_super_heal", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_super_heal", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1205,10 +1253,13 @@
         "id": "EOC_PRACTICE_VITAKIN_LIMB_RESTORE",
         "condition": { "math": [ "u_spell_level('vita_limb_restore')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_limb_restore", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_limb_restore", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -1236,10 +1287,13 @@
         "id": "EOC_PRACTICE_VITAKIN_RETURN_FROM_DEATH",
         "condition": { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "vita_return_from_death", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_vitakinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "vita_return_from_death", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_vitakinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },

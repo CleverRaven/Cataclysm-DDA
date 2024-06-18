@@ -51,10 +51,13 @@
         "id": "EOC_PRACTICE_BIOKIN_OVERCOME_PAIN",
         "condition": { "and": [ { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] } ] },
         "effect": [
-          { "set_string_var": "biokin_overcome_pain", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_overcome_pain", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -81,10 +84,13 @@
         "id": "EOC_PRACTICE_BIOKIN_PHYSICAL_ENHANCE",
         "condition": { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_physical_enhance", "target_var": { "u_val": "latest_studied_power_name" } },  
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_physical_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -111,10 +117,13 @@
         "id": "EOC_PRACTICE_BIOKIN_BREATHE_SKIN",
         "condition": { "and": [ { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "1" ] } ] },
         "effect": [
-          { "set_string_var": "biokin_breathe_skin", "target_var": { "u_val": "latest_studied_power_name" } },       
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_breathe_skin", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -192,10 +201,13 @@
         "id": "EOC_PRACTICE_BIOKIN_FLEXIBILITY",
         "condition": { "math": [ "u_spell_level('biokin_flexibility')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_flexibility", "target_var": { "u_val": "latest_studied_power_name" } },     
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_flexibility", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -269,10 +281,13 @@
         "id": "EOC_PRACTICE_BIOKIN_DASH",
         "condition": { "math": [ "u_spell_level('biokin_dash')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_dash", "target_var": { "u_val": "latest_studied_power_name" } },     
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_dash", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -347,10 +362,13 @@
         "id": "EOC_PRACTICE_BIOKIN_ARMOR_SKIN",
         "condition": { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_armor_skin", "target_var": { "u_val": "latest_studied_power_name" } },    
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_armor_skin", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -425,10 +443,13 @@
         "id": "EOC_PRACTICE_BIOKIN_CLIMATE_CONTROL",
         "condition": { "math": [ "u_spell_level('biokin_climate_control')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_climate_control", "target_var": { "u_val": "latest_studied_power_name" } },      
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_climate_control", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -503,10 +524,13 @@
         "id": "EOC_PRACTICE_BIOKIN_ADRENALINE",
         "condition": { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_adrenaline", "target_var": { "u_val": "latest_studied_power_name" } },    
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_adrenaline", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -581,10 +605,13 @@
         "id": "EOC_PRACTICE_BIOKIN_ENHANCE_MOBILITY",
         "condition": { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_enhance_mobility", "target_var": { "u_val": "latest_studied_power_name" } },   
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_enhance_mobility", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -659,10 +686,13 @@
         "id": "EOC_PRACTICE_BIOKIN_HAMMERHAND",
         "condition": { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_hammerhand", "target_var": { "u_val": "latest_studied_power_name" } },  
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_hammerhand", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -736,11 +766,14 @@
       {
         "id": "EOC_PRACTICE_BIOKIN_REFLEX_ENHANCE",
         "condition": { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "1" ] },
-        "effect": [    
-          { "set_string_var": "biokin_reflex_enhance", "target_var": { "u_val": "latest_studied_power_name" } },     
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+        "effect": [
+          { "set_string_var": "biokin_reflex_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -815,10 +848,13 @@
         "id": "EOC_PRACTICE_BIOKIN_SEALED_SYSTEM",
         "condition": { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_sealed_system", "target_var": { "u_val": "latest_studied_power_name" } },  
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_sealed_system", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -893,10 +929,13 @@
         "id": "EOC_PRACTICE_BIOKIN_METABOLISM_ENHANCE",
         "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "1" ] },
         "effect": [
-          { "set_string_var": "biokin_metabolism_enhance", "target_var": { "u_val": "latest_studied_power_name" } },    
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          { "set_string_var": "biokin_metabolism_enhance", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -972,9 +1011,12 @@
         "condition": { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "1" ] },
         "effect": [
           { "set_string_var": "biokin_combat_dance", "target_var": { "u_val": "latest_studied_power_name" } },
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1050,9 +1092,12 @@
         "condition": { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "1" ] },
         "effect": [
           { "set_string_var": "biokin_perfected_motion", "target_var": { "u_val": "latest_studied_power_name" } },
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1128,9 +1173,12 @@
         "condition": { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "1" ] },
         "effect": [
           { "set_string_var": "biokin_hurricane_blows", "target_var": { "u_val": "latest_studied_power_name" } },
-          { "set_string_var": "prof_contemplation_biokinesis", "target_var": { "u_val": "latest_studied_power_proficiency" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
           { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
-          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ]  }
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
