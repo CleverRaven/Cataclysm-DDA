@@ -2277,7 +2277,7 @@
   {
     "id": "mon_ant_acid_queen",
     "type": "MONSTER",
-    "name": { "str": "acidic queen ant" },
+    "name": { "str": "giant acidic queen ant" },
     "description": "An enormous brown ant with an elongated, pulsating abdomen.  Her orifice seems developed only for egg-laying rather than spraying acid like the rest of the colony, but she doesn't seem affected by the acrid liquid either.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
@@ -2311,7 +2311,7 @@
   {
     "id": "mon_ant_acid_soldier",
     "type": "MONSTER",
-    "name": { "str": "oversized acidic soldier ant" },
+    "name": { "str": "giant acidic soldier ant" },
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with her huge mandibles, a corrosive liquid seeps from the end of her bloated abdomen.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
@@ -2351,7 +2351,7 @@
   {
     "id": "mon_ant_acid_soldier_mega",
     "type": "MONSTER",
-    "name": { "str": "super soldier acid ant" },
+    "name": { "str": "super soldier acidic ant" },
     "description": "A cow-sized, woolly brown ant.  Corrosive liquid seeping from her huge mandibles.  Given the relative strength of ants to their body size, you don't doubt that this one could shove cars around or rip through solid walls.",
     "copy-from": "mon_ant_acid_soldier",
     "proportional": { "hp": 5, "dodge": 0.5, "vision_day": 2 },
@@ -2401,7 +2401,7 @@
   {
     "id": "mon_ant_queen",
     "type": "MONSTER",
-    "name": { "str": "oversized queen ant" },
+    "name": { "str": "giant queen ant" },
     "description": "A colossal red ant with a bulging, bloated thorax.  She moves slowly and deliberately, tending to nearby eggs and continually laying more.",
     "default_faction": "ant",
     "bodytype": "insect",
@@ -2434,7 +2434,7 @@
   {
     "id": "mon_ant_soldier",
     "type": "MONSTER",
-    "name": { "str": "oversized soldier ant" },
+    "name": { "str": "giant soldier ant" },
     "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from her jaws.",
     "default_faction": "ant",
     "bodytype": "insect",
