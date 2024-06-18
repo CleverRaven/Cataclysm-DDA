@@ -23,6 +23,7 @@
     "id": "EOC_PSI_STUDYING_POWER_BEGIN",
     "effect": [
       { "u_message": "You spend some time meditating and contemplating your powers.", "type": "good" },
+      { "math": [ "u_psi_studying_tick_experience_counter", "=", "0" ] },
       { "u_add_effect": "effect_psi_studying_power", "duration": "24 hours" },
       { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "24 hours" }
     ]
@@ -32,6 +33,7 @@
     "id": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS",
     "effect": [
       { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] },
+      { "queue_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] },
       { "queue_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
     ]
   },
@@ -50,6 +52,15 @@
         ]
       },
       { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY",
+    "condition": { "u_has_effect": "effect_psi_studying_power" },
+    "effect": [
+      { "math": [ "u_proficiency(u_latest_studied_power_proficiency, 'format': 'percent')", "+=", "(rand(4) / 96) * (u_val('focus') / 100)" ] }
+      { "queue_eocs": "EOC_PSI_STUDYING_POWER_ADD_PROFICIENCY", "time_in_future": [ "1 minutes", "1 minutes" ] }
     ]
   },
   {
