@@ -416,83 +416,57 @@
   {
     "type": "profession_item_substitutions",
     "item": "hat_hunting",
-    "sub": [
-      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "hat_newsboy",
-    "sub": [
-      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "peacoat",
-    "sub": [
-      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "jacket_flannel" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "jacket_flannel" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "sweater",
-    "sub": [
-      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "sweatshirt" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "sweatshirt" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "boots_winter",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "boots_fur" ] },
-      { "present": [ "VEGAN" ], "new": [ "boots_faux_fur" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "boots_fur" ] }, { "present": [ "VEGAN" ], "new": [ "boots_faux_fur" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "cloak_wool",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "cloak_leather" ] },
-      { "present": [ "VEGAN" ], "new": [ "cloak" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "cloak_leather" ] }, { "present": [ "VEGAN" ], "new": [ "cloak" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "gloves_wool",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "gloves_leather" ] },
-      { "present": [ "VEGAN" ], "new": [ "gloves_light" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "gloves_leather" ] }, { "present": [ "VEGAN" ], "new": [ "gloves_light" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "socks_wool",
-    "sub": [
-      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "socks" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "socks" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "mask_ski",
-    "sub": [
-      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "balclava" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "balclava" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "item": "kilt",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "kilt_leather" ] },
-      { "present": [ "VEGAN" ], "new": [ "kilt_utility" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "kilt_leather" ] }, { "present": [ "VEGAN" ], "new": [ "kilt_utility" ] } ]
   },
   {
     "type": "profession_item_substitutions",
     "trait": "VEGAN",
-    "sub": [
-      { "item": "dress_shoes", "new": [ "espadrilles" ] }
-    ]
+    "sub": [ { "item": "dress_shoes", "new": [ "espadrilles" ] } ]
   },
   {
     "type": "profession_item_substitutions",
