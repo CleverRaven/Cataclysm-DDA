@@ -47,7 +47,8 @@
           ],
           "x": 0,
           "y": 0
-        }
+        },
+        { "chunks": [ [ "null", 70 ], [ "afs_dead_plants", 30 ] ], "x": 0, "y": 0 }
       ]
     }
   },
@@ -120,6 +121,15 @@
         "                        "
       ],
       "terrain": { ".": "t_clearcrete_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_dead_plants",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_ter_furn_transforms": [ { "transform": "afs_deadify_plants", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },
   {
@@ -254,7 +264,7 @@
         "6": "t_sidewalk",
         "7": "t_sidewalk",
         "8": "t_sidewalk",
-		"y": "t_sidewalk"
+        "y": "t_sidewalk"
       },
       "furniture": { "6": "f_trashcan", "7": "f_planter", "8": "f_rack" },
       "items": { "8": { "item": "farming_tools", "chance": 80, "repeat": [ 1, 2 ] } }

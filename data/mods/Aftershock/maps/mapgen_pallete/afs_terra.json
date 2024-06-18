@@ -36,8 +36,7 @@
         [ "t_tree_pistachio", 1 ],
         [ "t_tree_almond", 1 ],
         [ "t_tree_pecan", 1 ],
-        [ "t_tree_sassafras", 1 ],
-        [ "t_tree_pistachio", 1 ]
+        [ "t_tree_sassafras", 1 ]
       ],
       "†": [
         [ "t_underbrush", 7 ],
@@ -54,7 +53,7 @@
         [ "t_shrub_raspberry", 1 ],
         [ "t_shrub_grape", 1 ]
       ],
-	  "‡": "t_grass"
+      "‡": "t_grass"
     },
     "furniture": {
       "‡": [
