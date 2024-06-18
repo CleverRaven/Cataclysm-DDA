@@ -8807,8 +8807,10 @@ void map::actualize( const tripoint &grid )
     tmpsub->last_touched = calendar::turn;
 }
 
-void map::add_roofs( const tripoint &grid )
+void map::add_roofs(const tripoint& grid)
 {
+    return;
+
     if( !zlevels ) {
         // No roofs required!
         // Why not? Because submaps below and above don't exist yet
