@@ -121,8 +121,7 @@
       "STEERABLE",
       "UNMOUNT_ON_DAMAGE",
       "UNSTABLE_WHEEL",
-      "WHEEL",
-      "HUGE_OK"
+      "WHEEL"
     ],
     "damage_reduction": { "all": 2 },
     "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
@@ -161,8 +160,7 @@
       "STEERABLE",
       "UNMOUNT_ON_DAMAGE",
       "UNSTABLE_WHEEL",
-      "WHEEL",
-      "HUGE_OK"
+      "WHEEL"
     ],
     "damage_reduction": { "all": 20 },
     "variants": [ { "symbols": "H", "symbols_broken": "M" } ]
@@ -189,16 +187,7 @@
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
-    "flags": [
-      "ENGINE",
-      "BOARDABLE",
-      "E_STARTS_INSTANTLY",
-      "ANIMAL_CTRL",
-      "HARNESS_human",
-      "STEERABLE",
-      "UNMOUNT_ON_DAMAGE",
-      "HUGE_OK"
-    ],
+    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
     "damage_reduction": { "all": 2 },
     "variants": [ { "symbols": "-", "symbols_broken": "~" } ]
   },
@@ -213,7 +202,7 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": "100 L",
+    "size": "50 L",
     "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 700,
@@ -309,10 +298,9 @@
     "color": "white",
     "durability": 400,
     "description": "An aisle.",
-    "size": "100 L",
     "item": "sheet_metal",
     "location": "center",
-    "//": ".5m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
+    "//": "1m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -326,7 +314,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO" ],
+    "flags": [ "AISLE", "BOARDABLE" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [
@@ -360,7 +348,7 @@
     "description": "A collapsible aisle.",
     "folded_volume": "12500 ml",
     "item": "foldwoodframe",
-    "flags": [ "AISLE", "BOARDABLE", "CARGO" ]
+    "flags": [ "AISLE", "BOARDABLE" ]
   },
   {
     "type": "vehicle_part",
@@ -370,7 +358,7 @@
     "categories": [ "cargo" ],
     "color": "white",
     "durability": 400,
-    "description": "An aisle.  A hatch lets you access a cargo space beneath it, keeping items stored here out of the way.",
+    "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
     "size": "87500 ml",
     "item": "cargo_aisle",
     "location": "center",
@@ -388,7 +376,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "CARGO_PASSABLE", "LOCKABLE_CARGO", "COVERED" ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
@@ -875,7 +863,7 @@
     "size": "75 L",
     "item": "frame_wood_light",
     "location": "center",
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "HUGE_OK", "CARGO_PASSABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
@@ -902,7 +890,7 @@
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
@@ -926,7 +914,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 4 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
@@ -1199,7 +1187,7 @@
     "looks_like": "inflatable_airbag",
     "categories": [ "hull" ],
     "color": "green",
-    "size": "85 L",
+    "size": "15 L",
     "durability": 50,
     "item": "inflatable_section",
     "location": "structure",
@@ -1296,7 +1284,7 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 8 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "flags": [ "CONTROLS", "NEED_LEG", "INOPERABLE_SMALL" ],
+    "flags": [ "CONTROLS" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -1305,60 +1293,6 @@
     ],
     "damage_reduction": { "all": 6 },
     "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "hand_controls",
-    "name": { "str": "hand controls" },
-    "categories": [ "other" ],
-    "broken_color": "red",
-    "durability": 250,
-    "description": "A pair of adjustable rods with a simple trigger.  They easily can be easily installed on top of vehicle controls and will allow a car or similar vehicle to be driven by those who can't use their legs to do so, whether due to disability or small stature.  These are designed for automobiles and will not work on bicycle style foot pedals.",
-    "bonus": 10,
-    "folded_volume": "740 ml",
-    "item": "hand_controls",
-    "flags": [ "IGNORE_LEG_REQUIREMENT", "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "pipe", "count": [ 0, 1 ] } ],
-    "variants": [ { "symbols": "/", "symbols_broken": "/" } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "pedal_extenders",
-    "name": { "str": "pedal extenders" },
-    "categories": [ "other" ],
-    "broken_color": "red",
-    "durability": 250,
-    "description": "Thick rubber pads which can be easily clamped onto gas and brake pedals to allow vehicle controls to be used even by people who are very short.",
-    "bonus": 10,
-    "folded_volume": "2 L",
-    "item": "pedal_extenders",
-    "flags": [ "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "breaks_into": [
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 8 ] },
-      { "item": "clamp", "count": [ 0, 1 ] },
-      { "item": "scrap", "count": [ 0, 2 ] }
-    ],
-    "variants": [ { "symbols": ",", "symbols_broken": "," } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "pedal_extenders_makeshift",
-    "name": { "str": "makeshift pedal extenders" },
-    "categories": [ "other" ],
-    "broken_color": "red",
-    "durability": 50,
-    "description": "Blocks of wood, taped to the pedals to allow vehicle controls to be used even by people who are very short.",
-    "bonus": 10,
-    "folded_volume": "2 L",
-    "item": "pedal_extenders_makeshift",
-    "flags": [ "IGNORE_HEIGHT_REQUIREMENT", "ON_CONTROLS" ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "350 s", "components": [ [ [ "duct_tape", 25 ] ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ] ] }
-    },
-    "breaks_into": [ { "item": "splinter", "count": [ 0, 4 ] } ],
-    "variants": [ { "symbols": ",", "symbols_broken": "," } ]
   },
   {
     "type": "vehicle_part",
@@ -2271,7 +2205,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "HUGE_OK" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
@@ -2290,8 +2224,7 @@
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
     "//1": "240cm weld to install, 60cm per damage quadrant to repair",
-    "size": "300 L",
-    "comfort": 2,
+    "size": "200 L",
     "item": "livestock_carrier",
     "location": "center",
     "requirements": {
@@ -2307,7 +2240,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "HUGE_OK", "BED", "BELTABLE" ],
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
@@ -2538,7 +2471,7 @@
     "broken_color": "brown",
     "damage_modifier": 20,
     "durability": 75,
-    "description": "A place to sit, barely.",
+    "description": "A place to sit.",
     "item": "frame_wood_light",
     "location": "center",
     "requirements": {
@@ -2562,16 +2495,14 @@
     "damage_modifier": 60,
     "durability": 125,
     "description": "A place to sit.",
-    "comfort": 1,
     "item": "frame_wood",
     "location": "center",
-    "size": "85 L",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
+    "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 },
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
@@ -2582,7 +2513,6 @@
     "name": { "str": "wooden bench" },
     "copy-from": "seat_wood",
     "durability": 150,
-    "size": "95 L",
     "description": "A benchlike place to sit."
   },
   {
@@ -3040,7 +2970,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "8", "symbols_broken": "*" } ]
@@ -3073,7 +3003,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },

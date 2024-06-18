@@ -117,7 +117,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
     { "CARGO", VPFLAG_CARGO },
-    { "CARGO_PASSABLE", VPFLAG_CARGO_PASSABLE },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
@@ -138,12 +137,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ROOF", VPFLAG_ROOF },
     { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
     { "BATTERY", VPFLAG_BATTERY },
-    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER },
-    { "HUGE_OK", VPFLAG_HUGE_OK },
-    { "NEED_LEG", VPFLAG_NEED_LEG },
-    { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
-    { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
-    { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
+    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER }
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
