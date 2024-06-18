@@ -33,7 +33,7 @@
     "type": "jmath_function",
     "id": "psionics_contemplation_kcal_cost",
     "num_args": 1,
-    "return": "( (25 * _0) * rng( 0.3, 1.7) )"
+    "return": "( (2.5 * _0) * rng( 0.3, 1.7) )"
   },
   {
     "type": "jmath_function",
@@ -57,7 +57,7 @@
     "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
-    "return": "(u_val('focus') * 0.0001) * (_0)"
+    "return": "(u_val('focus') * 0.001) * (_0)"
   },
   {
     "type": "jmath_function",

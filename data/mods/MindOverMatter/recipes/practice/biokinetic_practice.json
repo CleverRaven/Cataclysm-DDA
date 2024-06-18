@@ -39,7 +39,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 0,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
     "tools": [
@@ -52,10 +52,10 @@
         "condition": { "and": [ { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "1" ] } ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers.", "type": "good" },
-          { "set_string_var": "biokin_overcome_pain", "target_var": { "context_val": "studied_power_name" } },
+          { "set_string_var": "biokin_overcome_pain", "target_var": { "u_val": "latest_studied_power_name" } },
           { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
           { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] },
-          { "queue_eocs": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS", "time_in_future": [ "30 minutes", "30 minutes" ] },
+          { "queue_eocs": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS", "time_in_future": [ "3 minutes", "3 minutes" ] },
           { "u_add_effect": "effect_psi_studying_power", "duration": "16 hours" },
           { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "16 hours" }
         ]
