@@ -500,7 +500,7 @@
     "type": "overmap_terrain",
     "name": "Enclosed Park",
     "id": [ "afs_park_dome_ground_floor", "afs_park_dome_2nd_floor", "afs_park_dome_roof" ],
-	"sym": "P",
+    "sym": "P",
     "color": "green",
     "see_cost": 3,
 	"mondensity": 1,
