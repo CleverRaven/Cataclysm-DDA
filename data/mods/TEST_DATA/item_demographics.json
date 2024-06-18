@@ -782,7 +782,7 @@
           "weight": 34,
           "items": { "ak47": 1, "arx160": 1, "sks": 1, "aksemi": 1, "draco": 1, "mk47": 1, "vz58_p": 1, "bren2_762": 1 }
         },
-        { "type": "357mag", "weight": 34, "items": { "mr73": 1, "sw_619": 1 } },
+        { "type": "357mag", "weight": 34, "items": { "mr73": 1, "sw_619": 1, "chiappa_rhino": 1 } },
         {
           "type": "shot",
           "weight": 26,
@@ -1005,6 +1005,7 @@
             "minidraco556": 1,
             "model_10_revolver": 1,
             "mr73": 1,
+            "chiappa_rhino": 1,
             "p08": 1,
             "p220_10": 1,
             "p226_357sig": 1,

@@ -291,7 +291,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_357mag",
-    "items": [ { "group": "nested_mr73", "prob": 8 } ]
+    "items": [ { "group": "nested_chiappa_rhino", "prob": 5 }, { "group": "nested_mr73", "prob": 8 } ]
   },
   {
     "type": "item_group",
@@ -355,7 +355,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_display_357mag",
-    "items": [ { "item": "mr73", "prob": 8 }, { "group": "modular_deagle_357", "prob": 4 } ]
+    "items": [ { "item": "chiappa_rhino", "prob": 5 }, { "item": "mr73", "prob": 8 }, { "group": "modular_deagle_357", "prob": 4 } ]
   },
   {
     "type": "item_group",
