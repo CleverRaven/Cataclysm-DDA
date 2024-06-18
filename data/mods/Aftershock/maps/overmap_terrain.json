@@ -498,6 +498,16 @@
   },
   {
     "type": "overmap_terrain",
+    "name": "Enclosed Park",
+    "id": [ "afs_park_dome_ground_floor", "afs_park_dome_2nd_floor", "afs_park_dome_roof" ],
+    "sym": "P",
+    "color": "green",
+    "see_cost": 3,
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "name": "Enforcer Station",
     "id": [ "afs_enforcer_station_a1", "afs_enforcer_station_a1_floor2", "afs_enforcer_station_a1_roof" ],
     "sym": "E",
