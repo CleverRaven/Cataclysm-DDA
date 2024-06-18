@@ -64,7 +64,7 @@
     "id": "mon_yrax_triakis",
     "type": "MONSTER",
     "name": { "str_sp": "Yrax triakis" },
-    "description": "Short-snakelike limbs seamlessly extend from its aggressively faceted body.  Its movements keep it low to the ground, coiled like a trap waiting to spring.",
+    "description": "Short-snakelike limbs seamlessly extend from an aggressively faceted body.  Its movements keep it low to the ground, coiled like a trap waiting to spring.",
     "default_faction": "yrax",
     "volume": "50 L",
     "weight": "30 kg",

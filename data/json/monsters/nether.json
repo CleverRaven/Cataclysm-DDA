@@ -1025,7 +1025,7 @@
     "id": "mon_tindalos",
     "type": "MONSTER",
     "name": { "str_sp": "star-crowned hound" },
-    "description": "Isometry is torn from the fine structure of space, and the emptiness between disgorges its terrible brood upon the world.  Its form is both incomprehensibly vast and infinitely narrow, with splayed limbs that could fold into the paper-thinnes of edges.",
+    "description": "Isometry is torn from the fine structure of space, and the emptiness between disgorges its terrible brood upon the world.  Its form is both incomprehensibly vast and infinitely narrow, with splayed limbs that could fold into the paper-thinness of edges.",
     "default_faction": "nether",
     "looks_like": "mon_hound_tindalos",
     "bodytype": "dog",

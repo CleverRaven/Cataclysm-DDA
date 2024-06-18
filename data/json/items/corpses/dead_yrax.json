@@ -22,7 +22,7 @@
     "color": "light_gray",
     "name": { "str_sp": "triakis remains" },
     "category": "other",
-    "description": "Its broken spiked shell reveal an interior made from a single piece of quartz, intricately carved into a series of nested tetrahedra.",
+    "description": "Its broken shell reveals an interior made from a single piece of quartz, intricately carved into a series of nested tetrahedra.",
     "price": "10 USD",
     "material": [ "steel", "yrax_quartz" ],
     "volume": "119 L",
