@@ -1,0 +1,11 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_dino",
+    "name": { "str_sp": "dinosaur droppings" },
+    "copy-from": "feces_bird",
+    "weight": "750 g",
+    "volume": "250 ml",
+    "description": "Dinosaur fecal matter; this could probably be used to make some great fertilizer."
+  }
+]

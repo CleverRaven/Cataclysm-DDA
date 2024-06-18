@@ -18,14 +18,10 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
-static auto isMemberExpr( const std::string &/*type*/, const std::string &member_,
+static auto isMemberExpr( const std::string_view/*type*/, const std::string &member_,
                           const std::string &objBind )
 {
     return ignoringParenCasts(
@@ -58,6 +54,9 @@ struct ExpressionCategory {
 
     ExpressionCategory( const MatchFinder::MatchResult &Result, const Expr *E ) :
         Replacement( getText( Result, E ) ) {
+        if( StringRef( Replacement ).endswith( "->" ) ) {
+            Replacement.erase( Replacement.end() - 2, Replacement.end() );
+        }
         QualType EType = E->getType();
         if( EType->isPointerType() ) {
             IsArrowRef = true;
@@ -167,6 +166,4 @@ void SimplifyPointConstructorsCheck::check( const MatchFinder::MatchResult &Resu
     CheckConstructor( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

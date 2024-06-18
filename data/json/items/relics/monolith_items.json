@@ -1,0 +1,27 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "monolith_disc",
+    "category": "artifacts",
+    "symbol": ".",
+    "color": "dark_gray",
+    "name": { "str": "inscribed disc" },
+    "description": "A thin, palm-sized disc of incredibly dense stone, engraved with meaningless swirls.  Its surface seems to repel grime and debris, and it refuses to tarnish or scratch.",
+    "material": [ "monolith" ],
+    "weight": "5320 g",
+    "volume": "190 ml",
+    "longest_side": "11 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "monolith_brick",
+    "category": "artifacts",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": { "str": "warped brick" },
+    "description": "This brick of too-dense stone is warped in a way that just barely makes it worthless as a building material.  Its smooth surface is unmarred by texture, dirt, or color.",
+    "material": [ "monolith" ],
+    "weight": "28 kg",
+    "volume": "1 L"
+  }
+]

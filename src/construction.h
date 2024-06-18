@@ -2,24 +2,23 @@
 #ifndef CATA_SRC_CONSTRUCTION_H
 #define CATA_SRC_CONSTRUCTION_H
 
-#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "int_id.h"
+#include "coords_fwd.h"
+#include "game_constants.h"
 #include "item.h"
-#include "optional.h"
-#include "string_id.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class inventory;
-class player;
+class Character;
+class read_only_visitable;
 struct construction;
 struct point;
 
@@ -29,7 +28,6 @@ class window;
 } // namespace catacurses
 class JsonObject;
 class nc_color;
-struct tripoint;
 
 struct partial_con {
     int counter = 0;
@@ -55,10 +53,11 @@ struct construction {
         std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
-        cata::optional<item_group_id> byproduct_item_group;
+        std::optional<item_group_id> byproduct_item_group;
 
-        // Flags beginning terrain must have
-        std::set<std::string> pre_flags;
+        // Flags beginning furniture/terrain must have
+        // Second element forces flags to be evaluated on terrain
+        std::map<std::string, bool> pre_flags;
 
         // Post construction flags
         std::set<std::string> post_flags;
@@ -80,11 +79,15 @@ struct construction {
         bool vehicle_start = false;
 
         // Custom constructibility check
-        std::function<bool( const tripoint & )> pre_special;
+        bool ( *pre_special )( const tripoint_bub_ms & );
+        std::vector<bool ( * )( const tripoint_bub_ms & )> pre_specials;
+        // Custom while constructing effects
+        void ( *do_turn_special )( const tripoint_bub_ms &, Character & );
         // Custom after-effects
-        std::function<void( const tripoint & )> post_special;
+        void ( *post_special )( const tripoint_bub_ms &, Character & );
+        std::vector<void ( * )( const tripoint_bub_ms &, Character & )> post_specials;
         // Custom error message display
-        std::function<void( const tripoint & )> explain_failure;
+        void ( *explain_failure )( const tripoint_bub_ms & );
         // Whether it's furniture or terrain
         bool pre_is_furniture = false;
         // Whether it's furniture or terrain
@@ -102,6 +105,11 @@ struct construction {
 
         //can be build in the dark
         bool dark_craftable = false;
+
+        // if true, this construction will only look for prerequisites in the same group
+        bool strict = false;
+
+        float activity_level = MODERATE_EXERCISE;
     private:
         std::string get_time_string() const;
 };
@@ -111,12 +119,18 @@ const std::vector<construction> &get_constructions();
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
+void place_construction( std::vector<construction_group_str_id> const &groups );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );
-void complete_construction( player *p );
-bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( player &p, const read_only_visitable &inv, const construction &con );
+void complete_construction( Character *you );
+bool can_construct_furn_ter( const construction &con, furn_id const &furn, ter_id const &ter );
+bool can_construct( const construction &con, const tripoint_bub_ms &p );
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
+                       bool can_construct_skip = false );
+std::vector<construction *> constructions_by_group( const construction_group_str_id &group );
+std::vector<construction *> constructions_by_filter( std::function<bool( construction const & )>
+        const &filter );
 void check_constructions();
 void finalize_constructions();
 

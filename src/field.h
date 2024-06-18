@@ -7,10 +7,10 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "color.h"
 #include "enums.h"
 #include "field_type.h"
-#include "int_id.h"
 #include "type_id.h"
 
 /**
@@ -29,26 +29,8 @@ class field_entry
 
         std::string symbol() const;
 
-        //returns the move cost of this field
-        int move_cost() const;
-
-        int extra_radiation_min() const;
-        int extra_radiation_max() const;
-        int radiation_hurt_damage_min() const;
-        int radiation_hurt_damage_max() const;
-        std::string radiation_hurt_message() const;
-        int intensity_upgrade_chance() const;
-        time_duration intensity_upgrade_duration() const;
-        int monster_spawn_chance() const;
-        int monster_spawn_count() const;
-        int monster_spawn_radius() const;
-        mongroup_id monster_spawn_group() const;
-
-        float light_emitted() const;
-        float local_light_override() const;
-        float translucency() const;
-        bool is_transparent() const;
-        int convection_temperature_mod() const;
+        // return intensity level object corresponding to the current field intensity
+        const field_intensity_level &get_intensity_level() const;
 
         //Returns the field_type_id of the current field entry.
         field_type_id get_field_type() const;
@@ -77,10 +59,8 @@ class field_entry
             return set_field_age( get_field_age() + mod_age );
         }
 
-        //Returns if the current field is dangerous or not.
-        bool is_dangerous() const {
-            return type.obj().is_dangerous();
-        }
+        bool is_dangerous() const;
+        bool is_mopsafe() const;
 
         //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke
@@ -89,26 +69,15 @@ class field_entry
         }
 
         //Returns true if this is an active field, false if it should be removed.
-        bool is_field_alive() {
-            return is_alive;
+        bool is_field_alive() const {
+            return intensity > 0 && is_alive;
         }
 
-        bool gas_can_spread() {
+        bool gas_can_spread() const {
             return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
-        time_duration get_underwater_age_speedup() const {
-            return type.obj().underwater_age_speedup;
-        }
-
-        int get_gas_absorption_factor() const {
-            return type.obj().gas_absorption_factor;
-        }
-
-        bool decays_on_actualize() const {
-            return type.obj().accelerated_decay;
-        }
-
+        void initialize_decay();
         void do_decay();
 
         std::vector<field_effect> field_effects() const;
@@ -142,18 +111,16 @@ class field
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
+         * @param alive_only if true, returns non-null result only if field is alive
          */
-        field_entry *find_field( const field_type_id &field_type_to_find );
+        field_entry *find_field( const field_type_id &field_type_to_find, bool alive_only = true );
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
+         * @param alive_only if true, returns non-null result only if field is alive
          */
-        const field_entry *find_field_c( const field_type_id &field_type_to_find ) const;
-        /**
-         * Returns a field entry corresponding to the field_type_id parameter passed in.
-         * If no fields are found then nullptr is returned.
-         */
-        const field_entry *find_field( const field_type_id &field_type_to_find ) const;
+        const field_entry *find_field( const field_type_id &field_type_to_find,
+                                       bool alive_only = true ) const;
 
         /**
          * Inserts the given field_type_id into the field list for a given tile if it does not already exist.
@@ -178,6 +145,12 @@ class field
          */
         void remove_field( std::map<field_type_id, field_entry>::iterator );
 
+        /**
+         * Removes all fields.
+         * Don't forget to update field count in submap!
+         */
+        void clear();
+
         // Returns the number of fields existing on the current tile.
         unsigned int field_count() const;
 
@@ -185,6 +158,11 @@ class field
          * Returns field type that should be drawn.
          */
         field_type_id displayed_field_type() const;
+
+        /**
+         * Returns the intensity of the drawn tile
+         */
+        int displayed_intensity() const;
 
         description_affix displayed_description_affix() const;
 
@@ -203,7 +181,7 @@ class field
 
     private:
         // A pointer lookup table of all field effects on the current tile.
-        std::map<field_type_id, field_entry> _field_type_list;
+        lazy<std::map<field_type_id, field_entry>> _field_type_list;
         //_displayed_field_type currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
         field_type_id _displayed_field_type;
 };

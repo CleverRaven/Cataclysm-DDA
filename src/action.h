@@ -4,18 +4,17 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-struct tripoint;
-struct point;
+#include "coords_fwd.h"
+
+class input_context;
 struct input_event;
+struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -30,6 +29,8 @@ enum action_id : int {
     ACTION_SELECT,
     /** Click on a point with secondary mouse button (usually right button) */
     ACTION_SEC_SELECT,
+    /** action on left mouse button-down, for clicking and dragging */
+    ACTION_CLICK_AND_DRAG,
     /**@}*/
 
     // Character movement actions
@@ -60,12 +61,16 @@ enum action_id : int {
     ACTION_MOVE_UP,
     /** Cycle run/walk/crouch mode */
     ACTION_CYCLE_MOVE,
+    /** Cycle run/walk/crouch mode in opposite direction */
+    ACTION_CYCLE_MOVE_REVERSE,
     /** Reset movement mode to walk  */
     ACTION_RESET_MOVE,
     /** Toggle run on/off */
     ACTION_TOGGLE_RUN,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
+    /** Toggle lying down on/off */
+    ACTION_TOGGLE_PRONE,
     /** Open movement mode menu */
     ACTION_OPEN_MOVEMENT,
     /**@}*/
@@ -102,16 +107,21 @@ enum action_id : int {
     ACTION_CLOSE,
     /** Smash something */
     ACTION_SMASH,
-    /** Examine or pick up items from adjacent square */
+    /** Examine adjacent terrain or furniture */
     ACTION_EXAMINE,
-    /** Pick up items from current/adjacent squares */
+    /** Examine adjacent terrain or furniture, or pick up items.
+     *  Deprecated UX flow but still supported (for now). */
+    ACTION_EXAMINE_AND_PICKUP,
+    /** Pick up items from one current/adjacent square */
     ACTION_PICKUP,
-    /** Pick up items from current square. Auto pickup if only one item */
-    ACTION_PICKUP_FEET,
+    /** Pick up items from all current/adjacent squares */
+    ACTION_PICKUP_ALL,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
     ACTION_HAUL,
+    /** Quickly toggle hauling on/off */
+    ACTION_HAUL_TOGGLE,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */
@@ -174,8 +184,14 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Change default ammo for current weapon */
+    ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Open the insert-item menu */
+    ACTION_INSERT_ITEM,
+    /** Unload container in a given direction */
+    ACTION_UNLOAD_CONTAINER,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */
@@ -216,6 +232,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTOSAFE,
     /** Toggle permanent attitude to stealing */
     ACTION_TOGGLE_THIEF_MODE,
+    /** Switch current language to English and back */
+    ACTION_TOGGLE_LANGUAGE_TO_EN,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
@@ -242,16 +260,20 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display scores screen */
-    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
-    /** Display morale effects screen */
+    /** Displays morale menu */
     ACTION_MORALE,
+    /** Displays medical menu */
+    ACTION_MEDICAL,
     /** Display messages screen */
     ACTION_MESSAGES,
     /** Display help screen */
     ACTION_HELP,
+    /** Display Diary window*/
+    ACTION_DIARY,
+    /** Open body status menu **/
+    ACTION_BODYSTATUS,
     /** Display main menu */
     ACTION_MAIN_MENU,
     /** Display keybindings list */
@@ -268,6 +290,8 @@ enum action_id : int {
     ACTION_COLOR,
     /** Open active world mods */
     ACTION_WORLD_MODS,
+    /** Open distraction manager */
+    ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
     // Debug Functions
@@ -320,8 +344,9 @@ enum action_id : int {
     ACTION_DISPLAY_RADIATION,
     /** Toggle transparency map */
     ACTION_DISPLAY_TRANSPARENCY,
-    /** Toggle reachability zones map */
-    ACTION_DISPLAY_REACHABILITY_ZONES,
+    /** Toggle retracted/transparent high sprites */
+    ACTION_TOGGLE_PREVENT_OCCLUSION,
+    ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
     /** Not an action, serves as count of enumerated actions */
@@ -386,9 +411,9 @@ std::vector<input_event> keys_bound_to( action_id act,
  *        keys only if they are printable (space counts as non-printable
  *        here). If `false`, all keys (whether they are printable or not)
  *        are returned.
- * @returns the input event for the hotkey or cata::nullopt if no key is associated with the given action.
+ * @returns the input event for the hotkey or std::nullopt if no key is associated with the given action.
  */
-cata::optional<input_event> hotkey_for_action( action_id action,
+std::optional<input_event> hotkey_for_action( action_id action,
         int maximum_modifier_count = -1, bool restrict_to_printable = true );
 
 /**
@@ -441,8 +466,22 @@ bool can_action_change_worldstate( action_id act );
  *
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
+ * @param[in] timeout Makes a timeout event happen every this many milliseconds.
+ *            A negative value disables the timeout.
+ * @param[in] action_cb A callback that is called on every input event that does
+ *            not cause the function to exit. The callback should return a pair
+ *            of bool and optional tripoint. If the bool is true, this function
+ *            exits with the return value set to the tripoint, or std::nullopt
+ *            if the tripoint is not a valid adjacent location.
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+// TODO: Get rid of untyped overload.
+std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
+        bool allow_vertical = false );
+std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
+        const std::string &message, bool allow_vertical = false, int timeout = -1,
+        const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -454,9 +493,24 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow
  *
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ * @param[in] allow_mouse Allows mouse movement and clicks. This function does not handle
+ *            the mouse events, because it does not know where the center position is.
+ *            Use `choose_adjacent` instead to handle mouse automatically.
+ * @param[in] timeout Makes a timeout event happen every this many milliseconds.
+ *            A negative value disables the timeout.
+ * @param[in] action_cb A callback that is called on every input event that does
+ *            not cause the function to exit. The callback should return a pair
+ *            of bool and optional tripoint. If the bool is true, this function
+ *            exits with the return value set to the tripoint, or std::nullopt
+ *            if the tripoint is not a valid direction.
  */
-cata::optional<tripoint> choose_direction( const std::string &message,
+// TODO: Get rid of untyped version and typed name extension.
+std::optional<tripoint> choose_direction( const std::string &message,
         bool allow_vertical = false );
+std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
+        bool allow_vertical = false, bool allow_mouse = false, int timeout = -1,
+        const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -472,9 +526,15 @@ cata::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] failure_message Message used if there is no valid adjacent tile
  * @param[in] action An action ID to drive the highlighting output
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, action_id action, bool allow_vertical = false );
+// TODO: Get rid of untyped version and change name of typed one.
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, action_id action,
+        bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
+        const std::string &failure_message, action_id action,
+        bool allow_vertical = false, bool allow_autoselect = true );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -491,10 +551,23 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] failure_message Message used if there is no valid adjacent tile
  * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+// TODO: Get rid of untyped overload.
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false );
+        bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
+        bool allow_vertical = false, bool allow_autoselect = true );
+// TODO: Get rid of untyped overload.
+std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
+        const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
+        bool allow_vertical = false, bool allow_autoselect = true );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );
@@ -505,7 +578,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 // Return "Press X" or nullopt if not bound
-cata::optional<std::string> press_x_if_bound( action_id act );
+std::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
 enum class iso_rotate : int {
@@ -570,7 +643,9 @@ action_id handle_main_menu();
  * @param p Point to perform test at
  * @returns true if movement is possible in the indicated direction
  */
+// TODO: Get rid of untyped overload.
 bool can_interact_at( action_id action, const tripoint &p );
+bool can_interact_at( action_id action, const tripoint_bub_ms &p );
 
 /**
  * Test whether it is possible to perform butcher action
@@ -611,8 +686,9 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  * @ref can_interact_at()
  *
  * @param p Point to perform the test at
+ * @param with_pickup True if the presence of items to pick up is sufficient eligibility
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint &p );
+bool can_examine_at( const tripoint &p, bool with_pickup = false );
 
 #endif // CATA_SRC_ACTION_H

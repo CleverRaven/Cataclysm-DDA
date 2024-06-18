@@ -1,0 +1,52 @@
+[
+  {
+    "id": "prac_health_care_beg",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_HEALTH",
+    "name": "bandaging (beginner)",
+    "description": "Practice bandaging imaginary wounds while making sure your bandage won't fall off during activities.",
+    "skill_used": "firstaid",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 1 },
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "autolearn": [ [ "firstaid", 0 ] ],
+    "flags": [ "BLIND_HARD" ],
+    "tools": [
+      [
+        [ "bandages", -1 ],
+        [ "bandages_makeshift", -1 ],
+        [ "bandages_makeshift_bleached", -1 ],
+        [ "bandages_makeshift_boiled", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "prac_health_care_int",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_HEALTH",
+    "name": "bandaging (advanced)",
+    "description": "Practice bandaging different limbs and less accessible parts of your body using both hands and each of your hands alone.",
+    "skill_used": "firstaid",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "required": true },
+      { "proficiency": "prof_wound_care_expert", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "autolearn": [ [ "firstaid", 1 ] ],
+    "flags": [ "BLIND_HARD" ],
+    "book_learn": [ [ "booklet_firstaid", 0 ], [ "mag_firstaid", 0 ], [ "pocket_firstaid", 0 ], [ "manual_first_aid", 0 ] ],
+    "tools": [
+      [
+        [ "bandages", -1 ],
+        [ "bandages_makeshift", -1 ],
+        [ "bandages_makeshift_bleached", -1 ],
+        [ "bandages_makeshift_boiled", -1 ]
+      ]
+    ]
+  }
+]

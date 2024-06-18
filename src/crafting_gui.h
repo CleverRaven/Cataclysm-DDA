@@ -3,12 +3,25 @@
 #define CATA_SRC_CRAFTING_GUI_H
 
 #include <string>
+#include <utility>
 #include <vector>
 
-class recipe;
-class JsonObject;
+#include "type_id.h"
 
-const recipe *select_crafting_recipe( int &batch_size );
+class Character;
+class JsonObject;
+class recipe;
+
+/**
+ * Open crafting menu where user selects who will craft what (the crafter & the recipe).
+ *
+ * @param crafter: who opened the menu - the initial crafter
+ * @param filterstring: initial filter to execute
+ *
+ * Return: if recipe * is not nullptr, then Character * is not nullptr either.
+ */
+std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
+        const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "" );
 
 void load_recipe_category( const JsonObject &jsobj );
 void reset_recipe_categories();

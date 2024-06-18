@@ -1,0 +1,128 @@
+[
+  {
+    "id": "mon_shifting_mass",
+    "type": "MONSTER",
+    "name": { "str": "shifting mass", "str_pl": "shifting masses" },
+    "description": "A small, shifting mass floating in midair.  It is not even real enough to have a stable shape.  You can see through it, not as if it were transparent, but as if it isn't quite fully there.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "1000 ml",
+    "weight": "0 g",
+    "hp": 10,
+    "speed": 110,
+    "symbol": "Q",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 2,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "shifting_mass_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "For a moment the shifting mass passes into you as if it were an illusion and a slight wave of fatigue washes over you."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES" ]
+  },
+  {
+    "id": "mon_impossible_shape",
+    "type": "MONSTER",
+    "name": { "str": "impossible shape" },
+    "description": "A twisted shape floating in midair; its angles don't quite seem to add up - it hurts to look at. You can see through it, not as if it were transparent but as if it isn't quite fully there.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 30,
+    "speed": 90,
+    "symbol": "X",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "impossible_shape_attack", "min_level": 1 },
+        "cooldown": 5,
+        "monster_message": "You get a very clear view of the impossible shape."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER" ]
+  },
+  {
+    "id": "mon_absence",
+    "type": "MONSTER",
+    "name": { "str": "absence" },
+    "description": "Every sense you have claims this space to be empty, but your mind is not fooled.  There is an emptiness here that is far from natural or safe.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 150,
+    "speed": 40,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "absence_capture_attack", "min_level": 1 },
+        "cooldown": 10,
+        "monster_message": "The absence intensifies."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s returns to normal levels of empty." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "RANGED_ATTACKER" ]
+  },
+  {
+    "id": "mon_giant_appendage",
+    "type": "MONSTER",
+    "name": { "str": "giant appendage" },
+    "description": "A gigantic appendage reaching through what looks like a portal, as if this is merely a probing piece of something much larger.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 1000000000,
+    "speed": 90,
+    "symbol": "A",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "dodge": 8,
+    "melee_skill": 6,
+    "melee_dice": 5,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 14 } ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is pulled back through the closing portal." },
+    "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS" ]
+  },
+  {
+    "id": "mon_memory",
+    "type": "MONSTER",
+    "name": { "str": "memory", "str_pl": "memories" },
+    "description": "The shade of a human body reaching towards you like it needs help.  Though it has no eyes you feel as though it is staring through you.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 25,
+    "speed": 100,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "special_attacks": [ [ "PARROT", 4 ] ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s begins to cry as it disappears." },
+    "flags": [ "SEES", "NO_BREATHE", "PUSH_MON" ]
+  }
+]

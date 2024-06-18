@@ -3,67 +3,69 @@
 #include <set>
 
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "int_id.h"
-#include "json.h"
+#include "init.h"
 
-namespace
+generic_factory<ammo_effect> &get_all_ammo_effects()
 {
-
-generic_factory<ammo_effect> all_ammo_effects( "ammo effects" );
-
-} // namespace
+    static generic_factory<ammo_effect> all_ammo_effects( "ammo effects" );
+    return all_ammo_effects;
+}
 
 /** @relates int_id */
 template<>
 bool int_id<ammo_effect>::is_valid() const
 {
-    return all_ammo_effects.is_valid( *this );
+    return get_all_ammo_effects().is_valid( *this );
 }
 
 /** @relates int_id */
 template<>
 const ammo_effect &int_id<ammo_effect>::obj() const
 {
-    return all_ammo_effects.obj( *this );
+    return get_all_ammo_effects().obj( *this );
 }
 
 /** @relates int_id */
 template<>
-const string_id<ammo_effect> &int_id<ammo_effect>::id() const
+const ammo_effect_str_id &int_id<ammo_effect>::id() const
 {
-    return all_ammo_effects.convert( *this );
+    return get_all_ammo_effects().convert( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<ammo_effect>::is_valid() const
+bool ammo_effect_str_id::is_valid() const
 {
-    return all_ammo_effects.is_valid( *this );
+    return get_all_ammo_effects().is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const ammo_effect &string_id<ammo_effect>::obj() const
+const ammo_effect &ammo_effect_str_id::obj() const
 {
-    return all_ammo_effects.obj( *this );
+    return get_all_ammo_effects().obj( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<ammo_effect> string_id<ammo_effect>::id() const
+int_id<ammo_effect> ammo_effect_str_id::id() const
 {
-    return all_ammo_effects.convert( *this, AE_NULL );
+    return get_all_ammo_effects().convert( *this, AE_NULL );
 }
 
 /** @relates int_id */
 template<>
-int_id<ammo_effect>::int_id( const string_id<ammo_effect> &id ) : _id( id.id() )
+int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( const JsonObject &jo, const std::string & )
+void ammo_effect::load( const JsonObject &jo, const std::string_view )
 {
+    optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
+
     if( jo.has_member( "aoe" ) ) {
         JsonObject joa = jo.get_object( "aoe" );
         optional( joa, was_loaded, "field_type", aoe_field_type_name, "fd_null" );
@@ -91,6 +93,8 @@ void ammo_effect::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
+    optional( jo, was_loaded, "spell_data", spell_data );
+
 
 }
 
@@ -143,35 +147,35 @@ void ammo_effect::check() const
 
 size_t ammo_effect::count()
 {
-    return all_ammo_effects.size();
+    return get_all_ammo_effects().size();
 }
 
 void ammo_effects::load( const JsonObject &jo, const std::string &src )
 {
-    all_ammo_effects.load( jo, src );
+    get_all_ammo_effects().load( jo, src );
 }
 
 void ammo_effects::finalize_all()
 {
-    all_ammo_effects.finalize();
-    for( const ammo_effect &ae : all_ammo_effects.get_all() ) {
+    get_all_ammo_effects().finalize();
+    for( const ammo_effect &ae : get_all_ammo_effects().get_all() ) {
         const_cast<ammo_effect &>( ae ).finalize();
     }
 }
 
 void ammo_effects::check_consistency()
 {
-    all_ammo_effects.check();
+    get_all_ammo_effects().check();
 }
 
 void ammo_effects::reset()
 {
-    all_ammo_effects.reset();
+    get_all_ammo_effects().reset();
 }
 
 const std::vector<ammo_effect> &ammo_effects::get_all()
 {
-    return all_ammo_effects.get_all();
+    return get_all_ammo_effects().get_all();
 }
 
 ammo_effect_id AE_NULL;

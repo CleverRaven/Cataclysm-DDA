@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <cmath>
+#include <new>
 
 #include "assign.h"
 #include "calendar.h"
@@ -12,10 +12,10 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"
-#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -52,7 +52,7 @@ static nc_color sev( const size_t level )
 void scent_map::reset()
 {
     for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
+        for( int &val : elem ) {
             val = 0;
         }
     }
@@ -62,7 +62,7 @@ void scent_map::reset()
 void scent_map::decay()
 {
     for( auto &elem : grscent ) {
-        for( auto &val : elem ) {
+        for( int &val : elem ) {
             val = std::max( 0, val - 1 );
         }
     }
@@ -100,6 +100,11 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
+int scent_map::get( const tripoint_bub_ms &p ) const
+{
+    return scent_map::get( p.raw() );
+}
+
 void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
@@ -116,7 +121,7 @@ void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &ty
 }
 int scent_map::get_unsafe( const tripoint &p ) const
 {
-    return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z - p.z );
+    return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z() - p.z );
 }
 
 scenttype_id scent_map::get_type() const
@@ -138,7 +143,7 @@ bool scent_map::inbounds( const tripoint &p ) const
     // HACK: This weird long check here is a hack around the fact that scentmap is 2D
     // A z-level can access scentmap if it is within SCENT_MAP_Z_REACH flying z-level move from player's z-level
     // That is, if a flying critter could move directly up or down (or stand still) and be on same z-level as player
-    const int levz = get_map().get_abs_sub().z;
+    const int levz = get_map().get_abs_sub().z();
     const bool scent_map_z_level_inbounds = ( p.z == levz ) ||
                                             ( std::abs( p.z - levz ) == SCENT_MAP_Z_REACH &&
                                                     get_map().valid_move( p, tripoint( p.xy(), levz ), false, true ) );
@@ -179,7 +184,7 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> squares_used_y;
 
     // these are for caching flag lookups
-    scent_array<bool> blocks_scent; // currently only TFLAG_NO_SCENT blocks scent
+    scent_array<bool> blocks_scent; // currently only ter_furn_flag::TFLAG_NO_SCENT blocks scent
     scent_array<bool> reduces_scent;
 
     // for loop constants
@@ -281,7 +286,7 @@ void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
     scent_factory.load( jo, src );
 }
 
-void scent_type::load( const JsonObject &jo, const std::string & )
+void scent_type::load( const JsonObject &jo, const std::string_view )
 {
     assign( jo, "id", id );
     assign( jo, "receptive_species", receptive_species );

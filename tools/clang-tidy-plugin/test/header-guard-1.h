@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-header-guard %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-header-guard %t -- --load=%cata_plugin --
 
 #ifndef THE_WRONG_HEADER_GUARD
 // CHECK-MESSAGES: warning: Header guard does not follow preferred style. [cata-header-guard]

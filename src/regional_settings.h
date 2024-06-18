@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_REGIONAL_SETTINGS_H
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
@@ -11,11 +11,9 @@
 #include <vector>
 
 #include "enums.h"
-#include "int_id.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "weather_gen.h"
 #include "weighted_list.h"
@@ -35,6 +33,9 @@ class building_bin
         std::vector<std::string> all;
         void clear();
         void finalize();
+        weighted_int_list<overmap_special_id> get_all_buildings() const {
+            return buildings;
+        }
 };
 
 struct city_settings {
@@ -61,6 +62,18 @@ struct city_settings {
 
     overmap_special_id pick_park() const {
         return parks.pick()->id;
+    }
+
+    weighted_int_list<overmap_special_id> get_all_houses() const {
+        return houses.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_shops() const {
+        return shops.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_parks() const {
+        return parks.get_all_buildings();
     }
 
     void finalize();
@@ -139,7 +152,7 @@ struct forest_biome {
 
 struct forest_mapgen_settings {
     std::map<std::string, forest_biome> unfinalized_biomes;
-    std::map<oter_id, forest_biome> biomes;
+    std::map<oter_type_id, forest_biome> biomes;
 
     void finalize();
     forest_mapgen_settings() = default;
@@ -154,12 +167,6 @@ struct forest_trail_settings {
     int random_point_size_scalar = 100;
     int trailhead_chance = 1;
     int trailhead_road_distance = 6;
-    int trail_center_variance = 3;
-    int trail_width_offset_min = 1;
-    int trail_width_offset_max = 3;
-    bool clear_trail_terrain = false;
-    std::map<std::string, int> unfinalized_trail_terrain;
-    weighted_int_list<ter_id> trail_terrain;
     building_bin trailheads;
 
     void finalize();
@@ -204,6 +211,18 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
+struct overmap_ocean_settings {
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 0;
+    int ocean_start_east = 10;
+    int ocean_start_west = 0;
+    int ocean_start_south = 0;
+    int sandy_beach_width = 2;
+    overmap_ocean_settings() = default;
+};
+
 struct overmap_ravine_settings {
     int num_ravines = 0;
     int ravine_range = 45;
@@ -214,12 +233,26 @@ struct overmap_ravine_settings {
     overmap_ravine_settings() = default;
 };
 
+struct overmap_connection_settings {
+    overmap_connection_id trail_connection;
+    overmap_connection_id sewer_connection;
+    overmap_connection_id subway_connection;
+    overmap_connection_id rail_connection;
+    overmap_connection_id intra_city_road_connection;
+    overmap_connection_id inter_city_road_connection;
+
+    void finalize();
+    overmap_connection_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
-    weighted_int_list<std::string> values;
+    weighted_int_list<map_extra_id> values;
 
     map_extras() : chance( 0 ) {}
-    map_extras( const unsigned int embellished ) : chance( embellished ) {}
+    explicit map_extras( const unsigned int embellished ) : chance( embellished ) {}
+
+    map_extras filtered_by( const mapgendata & ) const;
 };
 
 struct region_terrain_and_furniture_settings {
@@ -240,25 +273,26 @@ struct region_terrain_and_furniture_settings {
  */
 struct regional_settings {
     std::string id;           //
-    oter_str_id default_oter; // 'field'
+    std::array<oter_str_id, OVERMAP_LAYERS> default_oter;
     double river_scale = 1;
     weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
-    groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
     forest_trail_settings forest_trail;
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    overmap_ocean_settings overmap_ocean;
     overmap_ravine_settings overmap_ravine;
+    overmap_connection_settings overmap_connection;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
-    regional_settings() : id( "null" ), default_oter( "field" ) {
+    regional_settings() : id( "null" ) {
         default_groundcover.add( t_null, 0 );
     }
     void finalize();
@@ -269,6 +303,7 @@ using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
 void load_region_settings( const JsonObject &jo );
+void check_region_settings();
 void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );

@@ -10,10 +10,12 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ] ],
+    "//": "60cm weld",
+    "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -26,18 +28,20 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "difficulty": 10,
+    "difficulty": 2,
     "time": "2 h",
     "reversible": true,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
-    "using": [ [ "welding_standard", 5 ] ],
+    "autolearn": true,
+    "//": "60cm weld",
+    "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -50,11 +54,13 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 10 ] ], [ [ "soldering_iron", 10 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "GLARE", "level": 1 } ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "scrap", 2 ] ], [ [ "circuit", 1 ] ] ]
@@ -62,9 +68,32 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "UPS_off",
+    "result": "it_handheld_battery_mount",
     "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "components": [
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "UPS_OFF",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "45 m",
@@ -74,24 +103,12 @@
     "book_learn": [ [ "advanced_electronics", 4 ], [ "recipe_lab_elec", 4 ], [ "textbook_anarch", 4 ] ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "adv_UPS_off",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-    "skill_used": "electronics",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 9,
-    "time": "1 h 25 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "recipe_lab_elec", 7 ] ],
-    "using": [ [ "soldering_standard", 24 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 14 ] ], [ [ "plut_cell", 2 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -107,6 +124,11 @@
     "book_learn": [ [ "textbook_mechanics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ], [ "textbook_robots", 5 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
   },
   {
@@ -122,7 +144,12 @@
     "decomp_learn": 0,
     "autolearn": [ [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "amplifier", 1 ] ], [ [ "plastic_chunk", 1 ], [ "duct_tape", 10 ] ], [ [ "cable", 10 ] ] ]
@@ -140,9 +167,15 @@
     "decomp_learn": 5,
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
+    "//": "50cm weld",
+    "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 50 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "byproducts": [ [ "sheet_metal_small", 8 ], [ "scrap", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
     "components": [
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
@@ -167,7 +200,38 @@
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 12 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "ground_solar_panel",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "50 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "solar_panel", 4 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "ground_solar_panel_v2",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "50 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "solar_panel_v2", 4 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -182,14 +246,19 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" }
+    ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 20 ] ],
+      [ [ "nails", 20, "LIST" ] ],
       [ [ "pipe", 4 ] ]
     ]
   },
@@ -206,9 +275,20 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "book_learn": [ [ "manual_electronics", 4 ], [ "textbook_electronics", 4 ], [ "advanced_electronics", 4 ] ],
+    "//": "100cm weld",
+    "using": [ [ "welding_standard", 100 ], [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
     "components": [
       [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
       [ [ "sheet_metal_small", 12 ] ],
@@ -221,8 +301,10 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 120 ] ],
-      [ [ "pipe", 20 ] ]
+      [ [ "nails", 120, "LIST" ] ],
+      [ [ "pipe", 20 ] ],
+      [ [ "nuts_bolts", 50 ] ],
+      [ [ "pipe_fittings", 10 ] ]
     ]
   },
   {
@@ -240,19 +322,50 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 2 },
-      { "id": "SAW_W", "level": 2 }
+      { "id": "SAW_W", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
     ],
     "components": [
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 80 ] ],
+      [ [ "nails", 80, "LIST" ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "wheel_wood_b", 2 ] ]
+      [ [ "wheel_wood_b", 2 ] ],
+      [ [ "nuts_bolts", 20 ] ],
+      [ [ "pipe_fittings", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "water_wheel",
+    "id_suffix": "with_power_saw",
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 35 ], [ "power_saw_short", 20 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
+    "components": [
+      [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "nails", 80, "LIST" ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "wheel_wood_b", 2 ] ],
+      [ [ "nuts_bolts", 20 ] ],
+      [ [ "pipe_fittings", 3 ] ]
     ]
   },
   {
@@ -270,6 +383,11 @@
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 85 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_carpentry_basic" },
+      { "proficiency": "prof_elec_soldering" }
+    ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
@@ -288,9 +406,42 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 240 ] ],
+      [ [ "nails", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
-      [ [ "wheel_wood_b", 6 ] ]
+      [ [ "wheel_wood_b", 6 ] ],
+      [ [ "nuts_bolts", 42 ] ],
+      [ [ "pipe_fittings", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "xl_water_wheel",
+    "id_suffix": "with_power_saw",
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 85 ], [ "power_saw_short", 50 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 }
+    ],
+    "components": [
+      [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
+      [ [ "sheet_metal_small", 18 ] ],
+      [
+        [ "motor_small", 3 ],
+        [ "alternator_bicycle", 3 ],
+        [ "alternator_motorbike", 3 ],
+        [ "alternator_car", 2 ],
+        [ "alternator_truck", 1 ],
+        [ "motor", 2 ],
+        [ "motor_large", 1 ]
+      ],
+      [ [ "nails", 240, "LIST" ] ],
+      [ [ "pipe", 24 ] ],
+      [ [ "wheel_wood_b", 6 ] ],
+      [ [ "nuts_bolts", 42 ] ],
+      [ [ "pipe_fittings", 10 ] ]
     ]
   },
   {
@@ -300,27 +451,48 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "difficulty": 10,
+    "difficulty": 9,
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
+    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "solar_cell", 8 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "solar_panel", 1 ] ]
-    ]
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell_v2", 12 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "large_storage_battery",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 4 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "storage_battery", 2 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "medium_storage_battery",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
@@ -328,15 +500,20 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 14 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "small_storage_battery", 10 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "storage_battery",
     "id_suffix": "from_medium",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 3,
@@ -344,20 +521,19 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "medium_storage_battery", 5 ] ],
-      [ [ "small_storage_battery", 10 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 5 ] ]
-    ]
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "medium_storage_battery", 5 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "storage_battery",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "electronics",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 3,
@@ -365,7 +541,12 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 80 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_elec_semiconductors" }
+    ],
+    "components": [ [ [ "small_storage_battery", 50 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -389,14 +570,18 @@
     ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" }
+    ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
       [ [ "superglue", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "scrap", 3 ] ],
-      [ [ "motor_tiny", 1 ] ]
+      [ [ "motor_micro", 1 ] ]
     ]
   },
   {
@@ -410,10 +595,12 @@
     "difficulty": 4,
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
+    "reversible": true,
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
+      [ [ "compressor", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
     ]
@@ -436,20 +623,21 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "light_minus_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
     "time": "45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
-      [ [ "zinc_metal", 2 ] ],
-      [ [ "chem_potassium_hydroxide", 7 ] ],
+      [ [ "zinc_metal", 8 ] ],
+      [ [ "chem_potassium_hydroxide", 7 ], [ "lye_powder", 2 ] ],
+      [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
     ]
@@ -458,20 +646,21 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "light_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "using": [ [ "blacksmithing_standard", 12 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 6 ] ],
-      [ [ "chem_potassium_hydroxide", 20 ] ],
+      [ [ "zinc_metal", 24 ] ],
+      [ [ "chem_potassium_hydroxide", 20 ], [ "lye_powder", 4 ] ],
+      [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
     ]
@@ -479,21 +668,44 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "light_dry_cell",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "using": [ [ "blacksmithing_standard", 12 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "cathod_mix", 166 ] ],
+      [ [ "zinc_metal", 24 ] ],
+      [ [ "carbon_electrode", 1 ] ],
+      [ [ "duct_tape", 5 ] ],
+      [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "medium_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
     "time": "1 h 20 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "using": [ [ "blacksmithing_standard", 48 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 82 ] ],
+      [ [ "zinc_metal", 96 ] ],
+      [ [ "chem_potassium_hydroxide", 82 ], [ "lye_powder", 22 ] ],
+      [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
       [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
     ]
@@ -501,23 +713,151 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "medium_dry_cell",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 3,
+    "time": "1 h 20 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "using": [ [ "blacksmithing_standard", 48 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "cathod_mix", 664 ] ],
+      [ [ "zinc_metal", 96 ] ],
+      [ [ "carbon_electrode", 4 ] ],
+      [ [ "duct_tape", 20 ] ],
+      [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "heavy_disposable_cell",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
     "skills_required": [ "electronics", 5 ],
     "difficulty": 4,
     "time": "1 h 45 m",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "using": [ [ "blacksmithing_standard", 100 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 50 ] ],
-      [ [ "chem_potassium_hydroxide", 170 ] ],
+      [ [ "zinc_metal", 200 ] ],
+      [ [ "chem_potassium_hydroxide", 170 ], [ "lye_powder", 34 ] ],
+      [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "heavy_dry_cell",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 3,
+    "time": "1 h 45 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "using": [ [ "blacksmithing_standard", 100 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "cathod_mix", 1328 ] ],
+      [ [ "zinc_metal", 200 ] ],
+      [ [ "carbon_electrode", 8 ] ],
+      [ [ "duct_tape", 40 ] ],
+      [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "5l_methanol_tank",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "mechanics",
+    "time": "2 h 40 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "5l_methanol_tank", 1 ] ], [ [ "chem_methanol", 5000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "10l_methanol_tank",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "mechanics",
+    "time": "5 h 20 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "10l_methanol_tank", 1 ] ], [ [ "chem_methanol", 10000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "28l_methanol_tank",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "mechanics",
+    "time": "14 h 56 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "28l_methanol_tank", 1 ] ], [ [ "chem_methanol", 28000 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "60l_methanol_tank",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "mechanics",
+    "time": "32 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "tools": [ [ [ "syringe", -1 ] ] ],
+    "components": [ [ [ "60l_methanol_tank", 1 ] ], [ [ "chem_methanol", 60000 ] ] ]
+  },
+  {
+    "result": "carbon_electrode",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "chemistry", 2 ],
+    "time": "20 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ], [ [ "paper", -1 ], [ "aluminum_foil", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "sugar", 2 ] ], [ [ "charcoal", 3 ] ] ]
+  },
+  {
+    "result": "cathod_mix",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "chemistry",
+    "charges": 1000,
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "chem_zinc_powder", 200 ] ], [ [ "chem_manganese_dioxide", 262 ] ] ]
   }
 ]

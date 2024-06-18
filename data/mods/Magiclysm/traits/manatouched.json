@@ -4,14 +4,9 @@
     "id": "MANATOUCHED",
     "name": "Manatouched",
     "threshold_mut": "THRESH_MANA",
-    "mutagen_message": "Your ley lines surge with mana.",
-    "iv_message": "A crackle of power comes from within.",
-    "iv_sound": true,
-    "iv_sound_message": "a crackle",
-    "iv_sound_id": "crackle",
-    "iv_noise": 1,
-    "iv_additional_mutations": 1,
-    "memorial_message": "Ascended to the metaphysical."
+    "mutagen_message": "Your ley lines surge with mana and power.",
+    "memorial_message": "Ascended to the metaphysical.",
+    "vitamin": "mutagen_manatouched"
   },
   {
     "type": "mutation",
@@ -19,7 +14,7 @@
     "name": { "str": "Manatouched" },
     "points": 1,
     "description": "Magic is in you.  Magic is you.",
-    "mana_multiplier": 1.5,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.5 } ] } ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -32,7 +27,7 @@
     "category": [ "MANATOUCHED" ],
     "threshreq": [ "THRESH_MANA" ],
     "description": "Your internal ley lines have become much easier for you to control, resulting in you being able to naturally create crystallized mana.",
-    "spells_learned": [ [ "manatouched_crystal", 5 ] ]
+    "spells_learned": [ [ "crystallize_mana", 1 ] ]
   },
   {
     "type": "mutation",
@@ -40,7 +35,7 @@
     "name": { "str": "Seeker Bolts" },
     "description": "Your hands glow with mana energy.  You can fire seeker bolts from your fingertips.",
     "points": 2,
-    "mana_modifier": 250,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 250 } ] } ],
     "lumination": [ [ "hand_r", 8 ], [ "hand_l", 8 ] ],
     "prereqs": [ "MANA_LUM" ],
     "category": [ "MANATOUCHED" ],
@@ -51,7 +46,7 @@
     "type": "mutation",
     "id": "MANA_SUBTLE_SPELL",
     "name": { "str": "Subtle Spell" },
-    "description": "You no longer need to move your arms to cast spells, due to your ley lines becoming untethered from your arms.  Arm encumbrance no longer applies to spell failure chance.",
+    "description": "You no longer need to move your arms to cast spells, due to your ley lines becoming untethered from your arms.  Hand and arm encumbrance no longer applies to spells, and you can cast regardless of wielded objects.",
     "points": 3,
     "lumination": [ [ "arm_r", 4 ], [ "arm_l", 4 ] ],
     "threshreq": [ "THRESH_MANA" ],
@@ -63,7 +58,7 @@
     "type": "mutation",
     "id": "MANA_SILENT_SPELL",
     "name": { "str": "Silent Spell" },
-    "description": "You no longer need to use your voice to enforce your will upon the world.  Mouth encumbrance no longer applies to spell failure chance.",
+    "description": "You no longer need to use your voice to enforce your will upon the world.  Verbal spells do not require an incantation, and mouth encumbrance no longer applies to spell failure chance.",
     "points": 3,
     "lumination": [ [ "mouth", 4 ] ],
     "threshreq": [ "THRESH_MANA" ],
@@ -75,17 +70,24 @@
     "id": "WEAK",
     "type": "mutation",
     "name": { "str": "Weak" },
-    "passive_mods": { "str_mod": -2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -2 } ] } ],
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
-    "category": [ "MANATOUCHED", "MOUSE", "RAT", "BIRD", "SLIME" ],
-    "cancels": [ "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+    "types": [ "STR" ],
+    "category": [ "MANATOUCHED", "RAT", "BIRD", "SLIME", "SPECIES_ELF" ],
+    "cancels": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+  },
+  {
+    "id": "STR_UP",
+    "type": "mutation",
+    "copy-from": "STR_UP",
+    "extend": { "cancels": [ "WEAK" ], "category": [ "SPECIES_LIZARDFOLK", "SPECIES_DWARF" ] }
   },
   {
     "id": "STR_UP_2",
     "type": "mutation",
     "copy-from": "STR_UP_2",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": [ "WEAK" ], "category": [ "SPECIES_DWARF" ] }
   },
   {
     "id": "STR_UP_3",
@@ -100,9 +102,9 @@
     "extend": { "cancels": [ "WEAK" ] }
   },
   {
-    "id": "STR_UP_ALPHA",
+    "id": "STR_ALPHA",
     "type": "mutation",
-    "copy-from": "STR_UP_ALPHA",
+    "copy-from": "STR_ALPHA",
     "extend": { "cancels": [ "WEAK" ] }
   },
   {
@@ -117,6 +119,15 @@
   },
   {
     "type": "mutation",
+    "id": "PALE",
+    "copy-from": "PALE",
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] },
+    "visibility": 0,
+    "ugliness": 0,
+    "starting_trait": true
+  },
+  {
+    "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
     "extend": { "category": [ "MANATOUCHED" ] }
@@ -125,6 +136,12 @@
     "type": "mutation",
     "id": "BIOLUM0",
     "copy-from": "BIOLUM0",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ROT1",
+    "copy-from": "ROT1",
     "extend": { "category": [ "MANATOUCHED" ] }
   },
   {
@@ -169,8 +186,9 @@
     "name": { "str": "Mana Siphon" },
     "points": 1,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
+    "category": [ "MANATOUCHED", "DRAGON_BLACK", "SPECIES_ELF" ],
+    "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK", "THRESH_SPECIES_ELF" ],
+    "types": [ "MANA_SIPHON" ],
     "changes_to": [ "MANA_SIPHON_2" ],
     "enchantments": [ "ench_mana_siphon_1" ]
   },
@@ -180,9 +198,10 @@
     "name": { "str": "Mana Drain" },
     "points": 2,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
+    "category": [ "MANATOUCHED", "DRAGON_BLACK" ],
+    "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "MANA_SIPHON_1" ],
+    "types": [ "MANA_SIPHON" ],
     "changes_to": [ "MANA_SIPHON_3" ],
     "enchantments": [ "ench_mana_siphon_2" ]
   },
@@ -192,8 +211,9 @@
     "name": { "str": "Mana Vortex" },
     "points": 3,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
+    "category": [ "MANATOUCHED", "DRAGON_BLACK" ],
+    "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
+    "types": [ "MANA_SIPHON" ],
     "prereqs": [ "MANA_SIPHON_2" ],
     "enchantments": [ "ench_mana_siphon_3" ]
   },
@@ -208,7 +228,7 @@
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_ADD3" ],
     "category": [ "MANATOUCHED" ],
-    "mana_modifier": 2500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2500 } ] } ]
   },
   {
     "type": "mutation",
@@ -221,7 +241,7 @@
     "threshreq": [ "THRESH_MANA" ],
     "types": [ "MANA_REGEN" ],
     "category": [ "MANATOUCHED" ],
-    "mana_regen_multiplier": 2
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -234,6 +254,72 @@
     "types": [ "MANA_MULT" ],
     "category": [ "MANATOUCHED" ],
     "prereqs": [ "MANA_MULT3" ],
-    "mana_multiplier": 2.65
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 1.65 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BADBACK",
+    "copy-from": "BADBACK",
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHTWEIGHT",
+    "copy-from": "LIGHTWEIGHT",
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LIGHT_BONES",
+    "copy-from": "LIGHT_BONES",
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THINSKIN",
+    "copy-from": "THINSKIN",
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTREADER",
+    "copy-from": "FASTREADER",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GOODMEMORY",
+    "copy-from": "GOODMEMORY",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_LIZARDFOLK", "SPECIES_RAVENFOLK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LOVES_BOOKS",
+    "copy-from": "LOVES_BOOKS",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SAVANT",
+    "copy-from": "SAVANT",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "RADIOGENIC",
+    "copy-from": "RADIOGENIC",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "MORE_PAIN",
+    "copy-from": "MORE_PAIN",
+    "valid": true,
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
   }
 ]

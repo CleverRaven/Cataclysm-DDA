@@ -1,0 +1,187 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;       ;     ;    ",
+        ";;;;;;       ;     ;    ",
+        ";;;;;;       ;     ;    ",
+        ";;;;;;       ;     ;    ",
+        ";;;;;;       ;     ;    ",
+        ";;;;;;       ;;;;;;;    ",
+        ";;;;;;             ;    ",
+        ";;;;;;             ;    ",
+        ";;;;;;             ;    ",
+        ";;;;;;             ;    ",
+        ";;;;;;         ;;;;;    ",
+        ";;;;;;         ;;;;;    ",
+        ";;;;;;         ;;;;;    ",
+        ";;;;;;         ;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_livestock_2_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_2" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_coop_yard",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_chickenwire_fence", "x": 13, "x2": 13, "y": 8, "y2": 13 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 14, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 15, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_gate_c", "x": 16, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 17, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 18, "y": 7 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 14, "y": 13 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 15, "y": 13 },
+        { "point": "terrain", "id": "t_chickenwire_gate_c", "x": 16, "y": 13 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 17, "y": 13 },
+        { "point": "terrain", "id": "t_chickenwire_fence", "x": 18, "y": 13 },
+        { "line": "terrain", "id": "t_chickenwire_fence", "x": 19, "x2": 19, "y": 8, "y2": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "F  ",
+        "g  ",
+        "Fbb"
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_bench",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "F    ",
+        "g    ",
+        "Fb   ",
+        " b   ",
+        " b   "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "F  ",
+        "g  ",
+        "F  "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "g    ",
+        "Fb   ",
+        " b   ",
+        "Fb   ",
+        "g    "
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_furniture",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "rrr",
+        "  t",
+        "  w"
+      ],
+      "palettes": [ "fbml_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_remote_fence",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 6, "y": 0 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 7, "y": 0 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 8, "y": 0 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 9, "y": 0 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 10, "y": 0 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 11, "y": 0 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 12, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_side_fence",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 19, "y": 14 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 19, "y": 15 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 19, "y": 16 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 19, "y": 17 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_2_near_fence",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 6, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 7, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 8, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 9, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 10, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 11, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fencegate_c", "x": 12, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 13, "y": 22 },
+        { "point": "terrain", "id": "t_splitrail_fence", "x": 14, "y": 22 }
+      ]
+    }
+  }
+]

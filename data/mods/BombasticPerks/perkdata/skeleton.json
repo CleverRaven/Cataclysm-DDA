@@ -1,0 +1,12 @@
+[
+  {
+    "id": "skeleton_plate",
+    "type": "TOOL_ARMOR",
+    "copy-from": "armor_lc_plate",
+    "name": { "str": "skeletal plate" },
+    "description": "A full body multilayered suit of skeletal plate armor.",
+    "replace_materials": { "lc_steel": "bone", "lc_steel_chain": "flesh" },
+    "extend": { "flags": [ "INTEGRATED", "UNBREAKABLE", "NO_SALVAGE" ] },
+    "proportional": { "encumbrance": 0.3 }
+  }
+]

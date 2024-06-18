@@ -4,18 +4,23 @@
 
 #include <memory>
 #include <string>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"
-#include "string_id.h"
-#include "translations.h"
+#include "translation.h"
+#include "type_id.h"
 
 class cata_variant;
+
 enum class cata_variant_type : int;
 class event_multiset;
+
 enum class event_type : int;
 class JsonObject;
+
 enum class monotonically : int;
 class stats_tracker;
 class stats_tracker_state;
@@ -43,19 +48,21 @@ class event_transformation
         event_multiset value( stats_tracker & ) const;
         std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
         void check() const;
         static void load_transformation( const JsonObject &, const std::string & );
         static void check_consistency();
         static void reset();
 
         string_id<event_transformation> id;
+        std::vector<std::pair<string_id<event_transformation>, mod_id>> src;
         bool was_loaded = false;
 
         event_fields_type fields() const;
         monotonically monotonicity() const;
 
         class impl;
+
     private:
         cata::clone_ptr<impl> impl_;
 };
@@ -67,13 +74,14 @@ class event_statistic
         cata_variant value( stats_tracker & ) const;
         std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
         void check() const;
         static void load_statistic( const JsonObject &, const std::string & );
         static void check_consistency();
         static void reset();
 
         string_id<event_statistic> id;
+        std::vector<std::pair<string_id<event_statistic>, mod_id>> src;
         bool was_loaded = false;
 
         const translation &description() const {
@@ -84,6 +92,7 @@ class event_statistic
         monotonically monotonicity() const;
 
         class impl;
+
     private:
         translation description_;
         cata::clone_ptr<impl> impl_;
@@ -97,7 +106,7 @@ class score
         std::string description( stats_tracker & ) const;
         cata_variant value( stats_tracker & ) const;
 
-        void load( const JsonObject &, const std::string & );
+        void load( const JsonObject &, std::string_view );
         void check() const;
         static void load_score( const JsonObject &, const std::string & );
         static void check_consistency();
@@ -105,6 +114,7 @@ class score
         static void reset();
 
         string_id<score> id;
+        std::vector<std::pair<string_id<score>, mod_id>> src;
         bool was_loaded = false;
     private:
         translation description_;

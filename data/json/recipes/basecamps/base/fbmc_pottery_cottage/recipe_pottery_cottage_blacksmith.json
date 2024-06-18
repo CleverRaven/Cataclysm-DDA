@@ -1,0 +1,61 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_pottery_cottage_blacksmith_construction",
+    "description": "Let's build a shack for our blacksmith's workshop.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_pottery_cottage_blacksmith_construction",
+    "blueprint_provides": [ { "id": "blacksmith" }, { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
+    "blueprint_requires": [ { "id": "fbmc_pottery_cottage_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
+    "blueprint_name": "blacksmith workshop",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_pottery_cottage_blacksmith_1",
+    "description": "Let's build a rock forge and a workbench to start smithing.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_pottery_cottage_blacksmith_1",
+    "blueprint_provides": [ { "id": "blacksmith_recipes_1" }, { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
+    "blueprint_resources": [ "fake_forge" ],
+    "blueprint_requires": [ { "id": "fbmc_pottery_cottage_blacksmith_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
+    "blueprint_name": "workbench and forge"
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_pottery_cottage_blacksmith_2",
+    "description": "Let's build a second workbench and a drop hammer for more productive smithing.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_pottery_cottage_blacksmith_2",
+    "blueprint_provides": [ { "id": "blacksmith_recipes_7" }, { "id": "fbmc_pottery_cottage_blacksmith_2" } ],
+    "blueprint_resources": [ "fake_drop_hammer" ],
+    "blueprint_requires": [ { "id": "fbmc_pottery_cottage_blacksmith_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_pottery_cottage_blacksmith_2" } ],
+    "blueprint_name": "workbench and drop hammer"
+  }
+]

@@ -2,14 +2,14 @@
 #ifndef CATA_TESTS_TEST_STATISTICS_H
 #define CATA_TESTS_TEST_STATISTICS_H
 
-#include <cmath>
-#include <limits>
-#include <vector>
 #include <algorithm>
-#include <string>
+#include <cmath>
+#include <iosfwd>
+#include <limits>
 #include <type_traits>
+#include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 // Z-value for confidence interval
 constexpr double Z95 = 1.96;
@@ -34,7 +34,7 @@ struct upper_lower_threshold {
 
 // we cache the margin of error so when adding a new value we must invalidate
 // it so it gets calculated a again
-static constexpr double invalid_err = -1;
+constexpr double invalid_err = -1;
 
 template<typename T>
 class statistics
@@ -43,15 +43,16 @@ class statistics
         int _types;
         int _n;
         double _sum;
-        double _error;
-        const double _Z;
-        const double _Zsq;
+        mutable double _error;
+        const double Z_;
+        const double Zsq_;
         T _max;
         T _min;
         std::vector< T > samples;
     public:
-        statistics( const double Z = Z99_9 ) : _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
-            _Z( Z ),  _Zsq( Z * Z ), _max( std::numeric_limits<T>::min() ),
+        explicit statistics( const double Z = Z99_9 ) :
+            _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
+            Z_( Z ),  Zsq_( Z * Z ), _max( std::numeric_limits<T>::min() ),
             _min( std::numeric_limits<T>::max() ) {}
 
         void new_type() {
@@ -79,19 +80,19 @@ class statistics
         // Outside of this class, this should only be used for debugging
         // purposes.
         template<typename U = T>
-        typename std::enable_if< std::is_same< U, bool >::value, double >::type
-        margin_of_error() {
+        std::enable_if_t< std::is_same_v< U, bool >, double >
+        margin_of_error() const {
             if( _error != invalid_err ) {
                 return _error;
             }
             // Implementation of outline from https://measuringu.com/ci-five-steps/
-            const double adj_numerator = ( _Zsq / 2 ) + _sum;
-            const double adj_denominator = _Zsq + _n;
+            const double adj_numerator = ( Zsq_ / 2 ) + _sum;
+            const double adj_denominator = Zsq_ + _n;
             const double adj_proportion = adj_numerator / adj_denominator;
             const double a = adj_proportion * ( 1.0 - adj_proportion );
             const double b = a / adj_denominator;
             const double c = std::sqrt( b );
-            _error = c * _Z;
+            _error = c * Z_;
             return _error;
         }
         // Standard error is intended to be used with continuous data samples.
@@ -101,13 +102,13 @@ class statistics
         // Outside of this class, this should only be used for debugging purposes.
         // https://measuringu.com/ci-five-steps/
         template<typename U = T>
-        typename std::enable_if < ! std::is_same< U, bool >::value, double >::type
-        margin_of_error() {
+        std::enable_if_t < ! std::is_same_v< U, bool >, double >
+        margin_of_error() const {
             if( _error != invalid_err ) {
                 return _error;
             }
             const double std_err = stddev() / std::sqrt( _n );
-            _error = std_err * _Z;
+            _error = std_err * Z_;
             return _error;
         }
 
@@ -116,27 +117,27 @@ class statistics
          *
          * Returns true if the confidence interval partially overlaps the target region.
          */
-        bool uncertain_about( const epsilon_threshold &t ) {
+        bool uncertain_about( const epsilon_threshold &t ) const {
             return !test_threshold( t ) && // Inside target
                    t.midpoint - t.epsilon < upper() && // Below target
                    t.midpoint + t.epsilon > lower(); // Above target
         }
 
-        bool test_threshold( const epsilon_threshold &t ) {
-            return ( ( t.midpoint - t.epsilon ) < lower() &&
-                     ( t.midpoint + t.epsilon ) > upper() );
+        bool test_threshold( const epsilon_threshold &t ) const {
+            return ( t.midpoint - t.epsilon ) < lower() &&
+                   ( t.midpoint + t.epsilon ) > upper();
         }
-        bool test_threshold( const upper_lower_threshold &t ) {
-            return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
+        bool test_threshold( const upper_lower_threshold &t ) const {
+            return t.lower_thresh < lower() && t.upper_thresh > upper();
         }
-        double upper() {
+        double upper() const {
             double result = avg() + margin_of_error();
             if( std::is_same<T, bool>::value ) {
                 result = std::min( result, 1.0 );
             }
             return result;
         }
-        double lower() {
+        double lower() const {
             double result = avg() - margin_of_error();
             if( std::is_same<T, bool>::value ) {
                 result = std::max( result, 0.0 );
@@ -151,8 +152,8 @@ class statistics
 
         bool is_within_epsilon( const double v, const double epsilon ) const {
             const double average = avg();
-            return( ( average + epsilon > v ) &&
-                    ( average - epsilon < v ) );
+            return( average + epsilon > v ) &&
+                  ( average - epsilon < v );
         }
         // Theoretically a one-pass formula is more efficient, however because
         // we keep handles onto _sum and _n as class members and calculate them
@@ -199,7 +200,7 @@ class statistics
         int n() const {
             return _n;
         }
-        std::vector<T> get_samples() {
+        const std::vector<T> &get_samples() const {
             return samples;
         }
 };
@@ -222,7 +223,7 @@ class BinomialMatcher : public Catch::MatcherBase<int>
 // distribution.  Uses a normal approximation to the binomial, and permits a
 // deviation up to max_deviation (measured in standard deviations).
 inline BinomialMatcher IsBinomialObservation(
-    const int num_samples, const double p, const double max_deviation = Z99_99 )
+    const int num_samples, const double p, const double max_deviation = Z99_999 )
 {
     return BinomialMatcher( num_samples, p, max_deviation );
 }

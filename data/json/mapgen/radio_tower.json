@@ -7,10 +7,10 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        " ---------------------- ",
-        " |                    | ",
-        " |                    | ",
-        " |        R____R      | ",
+        " -2222222-------------- ",
+        " |_______             | ",
+        " |_______             | ",
+        " |_______ R____R      | ",
         " |_______ ______      | ",
         " |_______ ______      | ",
         " |_______ ______      | ",
@@ -33,14 +33,14 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": "t_region_groundcover",
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
         "-": "t_chainfence_h",
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
-        "_": "t_pavement",
+        "_": "t_concrete",
         "<": "t_stairs_up"
       }
     }
@@ -62,8 +62,8 @@
         " |_______ ______      | ",
         " |_______ _<____      | ",
         " |_______ R____R      | ",
-        " |___________         | ",
-        " |___________         | ",
+        " |_______  _          | ",
+        " |__________          | ",
         " --------##+########--- ",
         "         #..ll#rrrC#4   ",
         "         w....+..h6#    ",
@@ -79,17 +79,17 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": "t_region_groundcover",
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
         "-": "t_chainfence_h",
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
-        "_": "t_pavement",
+        "_": "t_concrete",
         "+": "t_door_c",
         "4": "t_gutter_downspout",
-        "<": "t_stairs_up",
+        "<": "t_ladder_up",
         "w": "t_window"
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
@@ -114,16 +114,16 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "          aaaa ,        ",
-        "          a><a ,        ",
+        "          a≷,a ,        ",
         "          Raaa,R        ",
         "                        ",
         "                        ",
-        "         ...........3   ",
-        "         ...........5   ",
-        "         ...........3   ",
-        "         .......&...3   ",
-        "          R   ......3   ",
-        "              ......3   ",
+        "         ------------   ",
+        "         -..........5   ",
+        "         -..........-   ",
+        "         ------.&...-   ",
+        "          R   -.....-   ",
+        "              -------   ",
         "                        ",
         "                        ",
         "                        ",
@@ -133,7 +133,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down", "&": "t_flat_roof" }
     }
   },
   {
@@ -150,7 +150,7 @@
         "        :a,,,,,,aX      ",
         "         a,,::,,a       ",
         "         a,,::,,a       ",
-        "        :a,<>,,,aX      ",
+        "        :a,≷,,,,aX      ",
         "         aR,,,,Ra       ",
         "         aaaaaaaa       ",
         "            :           ",
@@ -169,7 +169,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
     }
   },
   {
@@ -186,7 +186,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "         Xaaaa ,        ",
-        "         Xa<>a ,:       ",
+        "         Xa≷,a ,:       ",
         "         XRaaa,R        ",
         "                        ",
         "                        ",
@@ -205,7 +205,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "nested": { ",": { "chunks": [ [ "null", 190 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
   {
@@ -222,7 +223,7 @@
         "          ,    ,        ",
         "          ,    ,        ",
         "         Xaaaa ,        ",
-        "         Xa><a ,:       ",
+        "         Xa≷,a ,:       ",
         "         XRaaa,R        ",
         "                        ",
         "                        ",
@@ -241,7 +242,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "nested": { ",": { "chunks": [ [ "null", 200 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
   {
@@ -258,7 +260,7 @@
         "          a,,,,a        ",
         "          a,RR,a        ",
         "          a,RR,a        ",
-        "          a>,,,a        ",
+        "          av,,,a        ",
         "          aaaaaa        ",
         "                        ",
         "                        ",
@@ -277,10 +279,16 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_stairs_down" },
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof" },
       "place_nested": [
         {
-          "chunks": [ [ "null", 40 ], [ "radio_tower_2x2_map", 40 ], [ "radio_tower_2x2_holdout", 10 ], [ "radio_tower_2x2_sniper", 10 ] ],
+          "chunks": [
+            [ "null", 40 ],
+            [ "radio_tower_2x2_map", 40 ],
+            [ "radio_tower_2x2_holdout", 10 ],
+            [ "radio_tower_2x2_sniper", 2 ],
+            [ "radio_tower_wasp", 5 ]
+          ],
           "x": 10,
           "y": 5
         }
@@ -324,14 +332,22 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "radio_tower_wasp",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 }, { "furn": "f_makeshift_bed", "x": 1, "y": 1 } ],
+      "place_loot": [ { "group": "wasp_lair", "x": 1, "y": 1, "repeat": [ 0, 2 ] }, { "group": "human_parts", "x": 1, "y": 1 } ],
+      "place_monster": [ { "group": "GROUP_WASP_QUEEN", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "place_nested": [ { "chunks": [ "wasp_gibs" ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 5, 7 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_map",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_loot": [
-        { "item": "survivor_scope", "x": 1, "y": 0 },
-        { "item": "survivormap", "x": 1, "y": 0 },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 }
-      ]
+      "place_loot": [ { "item": "binoculars", "x": 1, "y": 0 }, { "item": "survivormap", "x": 1, "y": 0 } ]
     }
   }
 ]

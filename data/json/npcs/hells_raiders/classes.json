@@ -1,0 +1,147 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_BANDIT_TRADER",
+    "name": { "str": "Fenceman" },
+    "job_description": "I sell illegal things.",
+    "common": false,
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "IGNORE_SOUND" }
+    ],
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "shopkeeper_item_group": "bandit_merchant_sell",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BANDIT_QUARTERMASTER",
+    "name": { "str": "Quartermaster" },
+    "job_description": "I manage garrison supplies.",
+    "common": false,
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "IGNORE_SOUND" }
+    ],
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "shopkeeper_item_group": "bandit_quartermaster_sell",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BANDIT_LEADER",
+    "name": { "str": "Bandit Leader" },
+    "job_description": "I lead a bandit clan.",
+    "common": false,
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "IGNORE_SOUND" }
+    ],
+    "bonus_str": { "rng": [ 3, 5 ] },
+    "bonus_dex": { "rng": [ 1, 3 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -4 } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 2, 6 ] } },
+      { "skill": "stabbing", "bonus": { "rng": [ 2, 6 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 2, 6 ] } }
+    ]
+  },
+  {
+    "id": "bandit_quartermaster_sell",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Stuff a quartermaster from the Hell's Raiders might sell.",
+    "entries": [
+      { "group": "preserved_food", "prob": 50 },
+      { "group": "cannedfood", "prob": 70 },
+      { "group": "big_canned_food", "prob": 30 },
+      { "group": "dry_goods", "prob": 40 }
+    ]
+  },
+  {
+    "id": "bandit_merchant_sell",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Stuff a fenceman from the Hell's Raiders might sell.",
+    "entries": [
+      { "group": "bandit_drugs", "prob": 30 },
+      { "group": "bandit_guns&ammo", "prob": 25 },
+      { "group": "traveler", "prob": 50 },
+      { "group": "alcohol", "prob": 30 }
+    ]
+  },
+  {
+    "id": "bandit_drugs",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Stuff a fenceman from the Hell's Raiders might sell.",
+    "entries": [
+      { "group": "drugs_pharmacy", "prob": 80 },
+      { "group": "drugs_analgesic", "prob": 80 },
+      { "group": "tobacco_products", "prob": 80 },
+      { "group": "drugs_soldier", "prob": 40 }
+    ]
+  },
+  {
+    "id": "bandit_guns&ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Stuff a fenceman from the Hell's Raiders might sell.",
+    "entries": [
+      { "group": "guns_pistol_common", "prob": 75 },
+      { "group": "guns_pistol_rare", "prob": 50 },
+      { "group": "guns_pistol_obscure", "prob": 30 },
+      { "group": "guns_pistol_improvised", "prob": 95 },
+      { "group": "guns_smg_improvised", "prob": 90 },
+      { "group": "guns_smg_common", "prob": 70 },
+      { "group": "guns_smg_rare", "prob": 50 },
+      { "group": "guns_smg_obscure", "prob": 10 },
+      { "group": "guns_rifle_common", "prob": 65 },
+      { "group": "guns_rifle_rare", "prob": 40 },
+      { "group": "ammo_pistol_common", "prob": 75 },
+      { "group": "ammo_pistol_rare", "prob": 50 },
+      { "group": "ammo_pistol_obscure", "prob": 30 },
+      { "group": "ammo_smg_common", "prob": 70 },
+      { "group": "ammo_smg_rare", "prob": 50 },
+      { "group": "ammo_smg_obscure", "prob": 10 },
+      { "group": "ammo_rifle_common", "prob": 65 },
+      { "group": "ammo_rifle_rare", "prob": 40 }
+    ]
+  }
+]

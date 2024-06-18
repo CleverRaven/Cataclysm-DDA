@@ -1,0 +1,181 @@
+[
+  {
+    "type": "palette",
+    "id": "portal_storm_palette",
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_cell",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 3, "y2": 3 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 4 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 4, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 4, "y": 0, "x2": 4, "y2": 4 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 4, "x2": 4, "y2": 4 },
+        { "point": "variable", "id": "cell_start", "x": 2, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_cell_roof",
+    "object": {
+      "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_cell_cleanup",
+    "object": { "set": [ { "square": "item_remove", "x": 0, "y": 0, "x2": 5, "y2": 5 } ], "flags": [ "NO_UNDERLYING_ROTATE" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE", "AVOID_CREATURES" ],
+      "set": [
+        { "square": "terrain", "id": "t_floor_warped", "x": 1, "y": 1, "x2": 23, "y2": 23 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 0, "y2": 23 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 0, "x2": 23, "y2": 0 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 23, "y": 0, "x2": 23, "y2": 23 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 0, "y": 23, "x2": 23, "y2": 23 },
+        { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 },
+        { "point": "trap", "id": "tr_portal_dungeon_exit", "x": 1, "y": 1 },
+        { "point": "trap", "id": "tr_portal_dungeon_next_level", "x": [ 1, 22 ], "y": 22 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 3, "x2": 22, "y2": 3 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 3 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 6, "x2": 22, "y2": 6 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 6 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 9, "x2": 22, "y2": 9 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 9 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 12, "x2": 22, "y2": 12 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 12 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 15, "x2": 22, "y2": 15 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 15 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 18, "x2": 22, "y2": 18 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 18 },
+        { "line": "terrain", "id": "t_wall_warped", "x": 1, "y": 21, "x2": 22, "y2": 21 },
+        { "point": "terrain", "id": "t_floor_warped", "x": [ 1, 22 ], "y": 21 },
+        { "point": "terrain", "id": "t_wall_warped", "x": [ 2, 22 ], "y": [ 2, 22 ], "repeat": [ 65, 85 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon_roof",
+    "object": {
+      "set": [ { "square": "terrain", "id": "t_warped_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon_cleanup",
+    "object": {
+      "set": [
+        { "square": "item_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "trap_remove", "id": "tr_null", "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon_entrance",
+    "object": {
+      "rows": [
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaa001100aaaaaaaaa",
+        "aaaaaaaaa000000aaaaaaaaa",
+        "aaaaaaaaa100001aaaaaaaaa",
+        "aaaaaaaaa000000aaaaaaaaa",
+        "aaaaaaaaa001100aaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "palettes": [ "portal_storm_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [
+        { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "point": "trap", "id": "tr_portal_dungeon_entrance", "x": 11, "y": 11 },
+        { "point": "variable", "id": "portal_dungeon_exit", "x": 12, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon",
+    "object": {
+      "rows": [
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaa0111111111111111aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "palettes": [ "portal_storm_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "portal_dungeon_trap_change",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "trap_remove", "id": "tr_swirling_vortex", "x": 5, "x2": 18, "y": 3, "y2": 20 },
+        { "point": "trap", "id": "tr_swirling_vortex", "x": [ 5, 18 ], "y": [ 3, 20 ], "repeat": [ 50, 75 ] },
+        { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
+      ]
+    }
+  }
+]

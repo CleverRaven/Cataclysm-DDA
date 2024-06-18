@@ -17,7 +17,8 @@ def get_data(argsDict, resource_name):
     for resource_filename in resource_sources:
         if resource_filename.endswith(".json"):
             try:
-                with open(resource_filename) as resource_file:
+                with open(
+                        resource_filename, encoding="utf-8") as resource_file:
                     resource += json.load(resource_file)
             except FileNotFoundError:
                 exit("Failed: could not find {}".format(resource_filename))
@@ -28,9 +29,9 @@ def get_data(argsDict, resource_name):
 
 # stupid stinking Python 2 versus Python 3 syntax
 def write_to_json(pathname, data):
-    with open(pathname, "w") as fp:
+    with open(pathname, "w", encoding="utf-8") as fp:
         try:
-            json.dump(data, fp)
+            json.dump(data, fp, ensure_ascii=False)
         except ValueError:
             fp.write(json.dumps(data))
 

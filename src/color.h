@@ -4,14 +4,11 @@
 
 #include <array>
 #include <iosfwd>
-#include <list>
 #include <string>
+#include <string_view>
 #include <unordered_map>
-#include <utility>
 
-#include "translations.h"
-
-class nc_color;
+#include "translation.h"
 
 #define all_colors get_all_colors()
 
@@ -329,7 +326,8 @@ enum color_id {
     num_colors
 };
 
-class JsonIn;
+class cata_path;
+class JsonArray;
 class JsonOut;
 
 void init_colors();
@@ -346,16 +344,22 @@ enum hl_enum {
     NUM_HL
 };
 
+struct ImVec4;
+
 class nc_color
 {
     private:
         // color is actually an ncurses attribute.
         int attribute_value;
+        int index; // NOLINT(cata-serialize)
 
-        nc_color( const int a ) : attribute_value( a ) { }
+        explicit nc_color( const int a ) : attribute_value( a ), index( 0 ) { }
+        explicit nc_color( const int a, const int i ) : attribute_value( a ), index( i ) { }
 
     public:
-        nc_color() : attribute_value( 0 ) { }
+        nc_color() : attribute_value( 0 ), index( 0 ) { }
+
+        operator ImVec4(); // NOLINT(google-explicit-constructor): the conversion is not expensive
 
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).
@@ -363,8 +367,15 @@ class nc_color
         static nc_color from_color_pair_index( int index );
         int to_color_pair_index() const;
 
-        operator int() const {
+        explicit operator int() const {
             return attribute_value;
+        }
+        int to_int() const {
+            return attribute_value;
+        }
+
+        int get_index() const {
+            return index;
         }
 
         // Returns this attribute plus A_BOLD.
@@ -375,7 +386,17 @@ class nc_color
         bool is_blink() const;
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( int value );
+
+        friend bool operator==( const nc_color &l, const nc_color &r ) {
+            return l.attribute_value == r.attribute_value;
+        }
+        friend bool operator!=( const nc_color &l, const nc_color &r ) {
+            return !( l == r );
+        }
+        friend bool operator<( const nc_color &l, const nc_color &r ) {
+            return l.attribute_value < r.attribute_value;
+        }
 };
 
 // Support hashing of nc_color by forwarding the hash of the contained int.
@@ -388,6 +409,10 @@ struct hash<nc_color> {
     }
 };
 } // namespace std
+
+enum class report_color_error {
+    no, yes
+};
 
 class color_manager
 {
@@ -413,10 +438,10 @@ class color_manager
         };
 
         std::array<color_struct, num_colors> color_array;
-        std::unordered_map<nc_color, color_id> inverted_map;
-        std::unordered_map<std::string, color_id> name_map;
+        std::unordered_map<nc_color, color_id> inverted_map; // NOLINT(cata-serialize)
+        std::unordered_map<std::string, color_id> name_map; // NOLINT(cata-serialize)
 
-        bool save_custom();
+        bool save_custom() const;
 
     public:
         color_manager() = default;
@@ -428,22 +453,24 @@ class color_manager
         nc_color get_random() const;
 
         color_id color_to_id( const nc_color &color ) const;
-        color_id name_to_id( const std::string &name ) const;
+        color_id name_to_id( const std::string &name,
+                             report_color_error color_error = report_color_error::yes ) const;
 
         std::string get_name( const nc_color &color ) const;
         std::string id_to_name( color_id id ) const;
 
-        nc_color name_to_color( const std::string &name ) const;
+        nc_color name_to_color( const std::string &name,
+                                report_color_error color_error = report_color_error::yes ) const;
 
         nc_color highlight_from_names( const std::string &name, const std::string &bg_name ) const;
 
         void load_default();
-        void load_custom( const std::string &sPath = "" );
+        void load_custom( const cata_path &sPath );
 
         void show_gui();
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 };
 
 color_manager &get_all_colors();
@@ -461,7 +488,9 @@ class deferred_color
     private:
         color_id id;
     public:
+        // NOLINTNEXTLINE(google-explicit-constructor)
         deferred_color( const color_id id ) : id( id ) { }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator nc_color() const {
             return all_colors.get( id );
         }
@@ -490,17 +519,20 @@ nc_color green_background( const nc_color &c );
 nc_color yellow_background( const nc_color &c );
 nc_color magenta_background( const nc_color &c );
 nc_color cyan_background( const nc_color &c );
+std::string hilite_string( const std::string &text );
 
-nc_color color_from_string( const std::string &color );
+nc_color color_from_string( std::string_view color,
+                            report_color_error color_error = report_color_error::yes );
 std::string string_from_color( const nc_color &color );
 nc_color bgcolor_from_string( const std::string &color );
-color_tag_parse_result get_color_from_tag( const std::string &s );
+color_tag_parse_result get_color_from_tag( std::string_view s,
+        report_color_error color_error = report_color_error::yes );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 std::string colorize( const translation &text, const nc_color &color );
 
 std::string get_note_string_from_color( const nc_color &color );
-nc_color get_note_color( const std::string &note_id );
+nc_color get_note_color( std::string_view note_id );
 const std::unordered_map<std::string, note_color> &get_note_color_names();
 
 #endif // CATA_SRC_COLOR_H

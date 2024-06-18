@@ -1,0 +1,88 @@
+[
+  {
+    "id": "exo_flame_thrower",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit heavy flamethrower" },
+    "description": "A bulky flamethrower unit mounted on the shoulder of an exosuit.  An internal compressor adds extra range and spread to the flame compared to most handheld flame units.",
+    "weight": "7300 g",
+    "volume": "10 L",
+    "longest_side": "100 cm",
+    "material": [ "qt_steel", "ceramic" ],
+    "symbol": "f",
+    "color": "light_gray",
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "charges_per_use": 30,
+    "ammo": "flammable",
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ] } ],
+    "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "exo_sonic_unit",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit sonic cannon" },
+    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit, it emits an extremely loud high-frequency pulse in a wide arc.  Useful for discouraging crowds, less useful for stealthy operations.",
+    "weight": "6000 g",
+    "volume": "10 L",
+    "longest_side": "100 cm",
+    "material": [ "qt_steel", "ceramic" ],
+    "symbol": "f",
+    "color": "light_gray",
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "ammo": "battery",
+    "charges_per_use": 80,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "exo_sonic", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "exo_microwave_cannon",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit microwave cannon" },
+    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit.  Causes a painful burning sensation as water molecules are turned to high temperature vapor.  Infamous for it's use by UICA forces used it to break up protests, the effectiveness can be hard to predict due to variables like the moisture in the air and protective layers on the target.",
+    "weight": "7500 g",
+    "volume": "10 L",
+    "longest_side": "100 cm",
+    "material": [ "qt_steel", "ceramic" ],
+    "symbol": "f",
+    "color": "light_gray",
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "ammo": "battery",
+    "charges_per_use": 100,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "exo_microwave", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "exo_electrolaser",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit electrolaser" },
+    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit.  A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge.  The result is a powerful explosion that can impact a large area.  Requires significant energy reserves, draining a standard power cartridge per shot.",
+    "weight": "9900 g",
+    "volume": "10 L",
+    "longest_side": "100 cm",
+    "material": [ "qt_steel", "superalloy", "ceramic" ],
+    "symbol": "f",
+    "color": "light_gray",
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "charges_per_use": 1500,
+    "ammo": "battery",
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_cartridge", "afs_archeotech_cartridge" ] }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "exosuit_electrolaser", "no_fail": true, "level": 1 }
+  }
+]

@@ -9,10 +9,10 @@
     "weight": "2041 g",
     "volume": "716 ml",
     "longest_side": "247 mm",
-    "price": 479900,
-    "price_postapoc": 2000,
+    "barrel_length": "125 mm",
+    "price": "4 kUSD 799 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel" ],
     "color": "light_gray",
     "ammo": [ "38super" ],
@@ -23,28 +23,19 @@
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "magazine", 1 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [
-      {
-        "magazine_well": "500 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "af2011a1mag" ]
-      }
-    ]
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "af2011a1mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "m1911a1_38super",
@@ -56,25 +47,19 @@
     "weight": "1157 g",
     "volume": "462 ml",
     "longest_side": "247 mm",
-    "price": 78400,
-    "price_postapoc": 2000,
+    "barrel_length": "127 mm",
+    "price": "784 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
     "ammo": [ "38super" ],
     "dispersion": 480,
     "durability": 7,
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "m1911mag_10rd_38super" ]
-      }
-    ]
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag_10rd_38super" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

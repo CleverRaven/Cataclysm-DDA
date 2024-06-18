@@ -1,11 +1,14 @@
 #include "shadowcasting.h"
 
-#include "cached_options.h"
+#include <cstdint>
+#include <cstdlib>
+#include <iterator>
+
 #include "cuboid_rectangle.h"
-#include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
 #include "list.h"
+#include "point.h"
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
@@ -43,15 +46,17 @@ template<typename T>
 struct span {
     span( const slope &s_major, const slope &e_major,
           const slope &s_minor, const slope &e_minor,
-          const T &value, bool skip_first_row = false ) :
+          const T &value, bool skip_first_row = false, bool skip_first_column = false ) :
         start_major( s_major ), end_major( e_major ), start_minor( s_minor ), end_minor( e_minor ),
-        cumulative_value( value ), skip_first_row( skip_first_row ) {}
+        cumulative_value( value ), skip_first_row( skip_first_row ),
+        skip_first_column( skip_first_column ) {}
     slope start_major;
     slope end_major;
     slope start_minor;
     slope end_minor;
     T cumulative_value;
     bool skip_first_row;
+    bool skip_first_column;
 };
 
 /**
@@ -95,20 +100,22 @@ static void split_span( cata::list<span<T>> &spans,
     // If check returns false, A and B are opaque and have no spans.
     if( is_transparent( current_transparency, last_intensity ) ) {
         // Emit the A span if present, placing it before the current span in the list
+        // If the parent span is to skip the first column, inherit it.
         if( trailing_edge_major > this_span->start_major ) {
             spans.emplace( this_span,
                            this_span->start_major, trailing_edge_major,
                            this_span->start_minor, this_span->end_minor,
-                           next_cumulative_transparency );
+                           next_cumulative_transparency, false, this_span->skip_first_column );
         }
 
         // Emit the B span if present, placing it before the current span in the list
+        // If the parent span is to skip the first column, inherit it.
         if( trailing_edge_minor > this_span->start_minor ) {
             spans.emplace( this_span,
                            std::max( this_span->start_major, trailing_edge_major ),
                            std::min( this_span->end_major, leading_edge_major ),
                            this_span->start_minor, trailing_edge_minor,
-                           next_cumulative_transparency );
+                           next_cumulative_transparency, false, this_span->skip_first_column );
         }
 
         // Overwrite new_start_minor since previous tile is transparent.
@@ -116,6 +123,7 @@ static void split_span( cata::list<span<T>> &spans,
     }
 
     // Emit the D span if present, placing it after the current span in the list
+    // If the parent span is to skip the first column, inherit it.
     if( leading_edge_major < this_span->end_major ) {
         // Pass true to the span constructor to set skip_first_row to true
         // This prevents the same row we are currently checking being checked by the
@@ -123,7 +131,16 @@ static void split_span( cata::list<span<T>> &spans,
         spans.emplace( std::next( this_span ),
                        leading_edge_major, this_span->end_major,
                        this_span->start_minor, this_span->end_minor,
-                       this_span->cumulative_value, true );
+                       this_span->cumulative_value, true, this_span->skip_first_column );
+    }
+    // If the split is due to two transparent squares with different transparency, set skip_first_column to true
+    // This prevents the last column of B span being checked by the new C span
+    if( is_transparent( current_transparency, last_intensity ) &&
+        is_transparent( new_transparency, last_intensity ) ) {
+        this_span->skip_first_column = true;
+    } else {
+        this_span->skip_first_column = false;
+
     }
 
     // Truncate this_span to the current block.
@@ -146,7 +163,7 @@ void cast_horizontal_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, const int offset_distance,
+    const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
     const int radius = 60 - offset_distance;
@@ -157,7 +174,7 @@ void cast_horizontal_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -168,14 +185,14 @@ void cast_horizontal_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.y = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -199,15 +216,17 @@ void cast_horizontal_zlight_segment(
                 // leading and trailing edges being considered.
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
                 const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
-                current.z = offset.z + delta.z * z_transform;
+                current.z = offset.z() + delta.z * z_transform;
                 if( current.z > max_z || current.z < min_z ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
-                } else if( this_span->start_major > leading_edge_major ) {
+                }
+                if( this_span->start_major > leading_edge_major ) {
                     // Current span has a higher z-value,
                     // jump to next iteration to catch up.
                     continue;
-                } else if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
+                }
+                if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
                     // Prevents an infinite loop in some cases after splitting off the D span.
                     // We don't want to recheck the row that just caused the D span to be split off,
                     // since that can lead to an identical span being split off again, hence the
@@ -216,7 +235,8 @@ void cast_horizontal_zlight_segment(
                     // This could also be accomplished by adding a small epsilon to the start_major
                     // of the D span but that causes artifacts.
                     continue;
-                } else if( this_span->end_major < trailing_edge_major ) {
+                }
+                if( this_span->end_major < trailing_edge_major ) {
                     // We've escaped the bounds of the current span we're considering,
                     // So continue to the next span.
                     break;
@@ -225,8 +245,8 @@ void cast_horizontal_zlight_segment(
                 bool started_span = false;
                 const int z_index = current.z + OVERMAP_DEPTH;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
-                    current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
-                    current.y = offset.y + delta.x * yx_transform + delta.y * yy_transform;
+                    current.x = offset.x() + delta.x * xx_transform + delta.y * xy_transform;
+                    current.y = offset.y() + delta.x * yx_transform + delta.y * yy_transform;
                     // See definition of trailing_edge_major and leading_edge_major for clarification.
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.y * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.y * 2 - 1 );
@@ -234,10 +254,19 @@ void cast_horizontal_zlight_segment(
                     if( !bounds.contains( current.xy() ) ) {
                         // Current tile is out of bounds, advance to the next tile.
                         continue;
-                    } else if( this_span->start_minor > leading_edge_minor ) {
+                    }
+                    if( this_span->start_minor > leading_edge_minor ) {
                         // Current tile comes before the span we're considering, advance to the next tile.
                         continue;
-                    } else if( this_span->end_minor < trailing_edge_minor ) {
+                    }
+                    if( this_span->skip_first_column && this_span->start_minor == leading_edge_minor ) {
+                        // If the split is due to two transparent squares with different transparency,
+                        // We want to check the blocks that are likely to cause split only in B,
+                        // rather than in B & C, which can lead to performance hit.
+                        continue;
+                    }
+
+                    if( this_span->end_minor < trailing_edge_minor ) {
                         // Current tile is after the span we're considering, continue to next row.
                         break;
                     }
@@ -249,12 +278,12 @@ void cast_horizontal_zlight_segment(
                     // TODO: Revisit this logic and differentiate between "can see bottom of tile"
                     // and "can see majority of tile".
                     bool floor_block = false;
-                    if( current.z < offset.z ) {
+                    if( current.z < offset.z() ) {
                         if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
-                    } else if( current.z > offset.z ) {
+                    } else if( current.z > offset.z() ) {
                         if( ( *floor_caches[z_index] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
@@ -301,15 +330,16 @@ void cast_horizontal_zlight_segment(
                 }
             }
 
-            if( !started_block ) {
-                // If we didn't scan at least 1 z-level, don't iterate further
+            if( // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-                this_span = spans.erase( this_span );
-            } else if( !is_transparent( current_transparency, last_intensity ) ) {
-                // If we reach the end of the span with terrain being opaque, we don't iterate further.
+                !started_block ||
+                // If we reach the end of the span with terrain being opaque, we don't iterate
+                // further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
+                !is_transparent( current_transparency, last_intensity )
+            ) {
                 this_span = spans.erase( this_span );
             } else {
                 // Cumulative average of the values encountered.
@@ -329,7 +359,7 @@ void cast_vertical_zlight_segment(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &offset, const int offset_distance,
+    const tripoint_bub_ms &offset, const int offset_distance,
     const T numerator )
 {
     const int radius = 60 - offset_distance;
@@ -339,7 +369,7 @@ void cast_vertical_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -350,14 +380,14 @@ void cast_vertical_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.z = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -365,15 +395,17 @@ void cast_vertical_zlight_segment(
                 // See comment above trailing_edge_major and leading_edge_major in above function.
                 const slope trailing_edge_major( delta.y * 2 - 1, delta.z * 2 + 1 );
                 const slope leading_edge_major( delta.y * 2 + 1, delta.z * 2 - 1 );
-                current.y = offset.y + delta.y * y_transform;
+                current.y = offset.y() + delta.y * y_transform;
                 if( current.y < 0 || current.y >= MAPSIZE_Y ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
-                } else if( this_span->start_major > leading_edge_major ) {
+                }
+                if( this_span->start_major > leading_edge_major ) {
                     // Current span has a higher z-value,
                     // jump to next iteration to catch up.
                     continue;
-                } else if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
+                }
+                if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
                     // Prevents an infinite loop in some cases after splitting off the D span.
                     // We don't want to recheck the row that just caused the D span to be split off,
                     // since that can lead to an identical span being split off again, hence the
@@ -382,7 +414,8 @@ void cast_vertical_zlight_segment(
                     // This could also be accomplished by adding a small epsilon to the start_major
                     // of the D span but that causes artifacts.
                     continue;
-                } else if( this_span->end_major < trailing_edge_major ) {
+                }
+                if( this_span->end_major < trailing_edge_major ) {
                     // We've escaped the bounds of the current span we're considering,
                     // So continue to the next span.
                     break;
@@ -390,8 +423,8 @@ void cast_vertical_zlight_segment(
 
                 bool started_span = false;
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
-                    current.x = offset.x + delta.x * x_transform;
-                    current.z = offset.z + delta.z * z_transform;
+                    current.x = offset.x() + delta.x * x_transform;
+                    current.z = offset.z() + delta.z * z_transform;
                     // See comment above trailing_edge_major and leading_edge_major in above function.
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.z * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.z * 2 - 1 );
@@ -400,10 +433,12 @@ void cast_vertical_zlight_segment(
                         current.z > max_z || current.z < min_z ) {
                         // Current tile is out of bounds, advance to the next tile.
                         continue;
-                    } else if( this_span->start_minor > leading_edge_minor ) {
+                    }
+                    if( this_span->start_minor > leading_edge_minor ) {
                         // Current tile comes before the span we're considering, advance to the next tile.
                         continue;
-                    } else if( this_span->end_minor < trailing_edge_minor ) {
+                    }
+                    if( this_span->end_minor < trailing_edge_minor ) {
                         // Current tile is after the span we're considering, continue to next row.
                         break;
                     }
@@ -415,12 +450,12 @@ void cast_vertical_zlight_segment(
                     // If we're looking at a tile with floor or roof from the floor/roof side,
                     // that tile is actually invisible to us.
                     bool floor_block = false;
-                    if( current.z < offset.z ) {
+                    if( current.z < offset.z() ) {
                         if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
-                    } else if( current.z > offset.z ) {
+                    } else if( current.z > offset.z() ) {
                         if( ( *floor_caches[z_index] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
@@ -467,15 +502,16 @@ void cast_vertical_zlight_segment(
                 }
             }
 
-            if( !started_block ) {
-                // If we didn't scan at least 1 z-level, don't iterate further
+            if( // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-                this_span = spans.erase( this_span );
-            } else if( !is_transparent( current_transparency, last_intensity ) ) {
-                // If we reach the end of the span with terrain being opaque, we don't iterate further.
+                !started_block ||
+                // If we reach the end of the span with terrain being opaque, we don't iterate
+                // further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
+                !is_transparent( current_transparency, last_intensity )
+            ) {
                 this_span = spans.erase( this_span );
             } else {
                 // Cumulative average of the values encountered.
@@ -494,7 +530,8 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, const int offset_distance, const T numerator, vertical_direction dir )
+    const tripoint_bub_ms &origin, const int offset_distance, const T numerator,
+    vertical_direction dir )
 {
     if( dir == vertical_direction::DOWN || dir == vertical_direction::BOTH ) {
         // Down lateral
@@ -624,16 +661,15 @@ void cast_zlight(
 // I can't figure out how to make implicit instantiation work when the parameters of
 // the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
 template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-    const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, int offset_distance, float numerator,
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const tripoint_bub_ms &origin, int offset_distance, float numerator,
     vertical_direction dir );
 
 template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-    const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
-    &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &origin, int offset_distance, fragment_cloud numerator,
+    const array_of_grids_of<fragment_cloud> &output_caches,
+    const array_of_grids_of<const fragment_cloud> &input_arrays,
+    const array_of_grids_of<const bool> &floor_caches,
+    const tripoint_bub_ms &origin, int offset_distance, fragment_cloud numerator,
     vertical_direction dir );

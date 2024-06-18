@@ -1,0 +1,26 @@
+name: Auto request review
+
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+
+concurrency:
+  group: request-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+
+jobs:
+  auto-request-review:
+    # Do not spam reviewer with PRs in forks. If fork owners wish to alert
+    # people of their changes they may change this line themselves.
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    name: Auto request review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request review
+        uses: qrox/auto-request-review@481e6cd2f5d57b6e914d81ca731211384a76798f
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config: .github/reviewers.yml

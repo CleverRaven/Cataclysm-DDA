@@ -2,13 +2,16 @@
   {
     "id": "BGSS_SCIENTIST_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I've got a memory blank for about three days before and after <the_cataclysm> actually.  I worked at a lab - nothing to do with any of this; physics stuff.  I think I was working there when things happened.  My first clear memory is running through the underbrush a few miles from town.  I was bandaged up, I had a messenger bag loaded with gear, and I'd taken a hard hit to the side of my head.  I have no idea what happened to me, but clearly I had already been on the run for a bit.",
+    "dynamic_line": {
+      "gendered_line": "I've got a memory blank for about three days before and after <the_cataclysm> actually.  I worked at a lab - nothing to do with any of this; physics stuff.  I think I was working there when things happened.  My first clear memory is running through the underbrush a few miles from town.  I was bandaged up, I had a messenger bag loaded with gear, and I'd taken a hard hit to the side of my head.  I have no idea what happened to me, but clearly I had already been on the run for a bit.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Do you think there's some way your knowledge could help us understand all this?",
         "topic": "BGSS_SCIENTIST_2_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

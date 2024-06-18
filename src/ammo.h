@@ -3,9 +3,8 @@
 #define CATA_SRC_AMMO_H
 
 #include <string>
-#include <utility>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;

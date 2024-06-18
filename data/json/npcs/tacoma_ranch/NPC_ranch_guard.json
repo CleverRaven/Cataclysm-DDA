@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "commune_guard",
-    "//": "A generic guard for the Tacoma Commune faction.",
+    "//": "A generic guard for the Tacoma Commune faction companion missions.",
     "name_suffix": "Guard",
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 0,

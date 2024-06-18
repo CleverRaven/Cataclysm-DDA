@@ -1,12 +1,7 @@
-// RUN: %check_clang_tidy %s cata-no-long %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-no-long %t -- --load=%cata_plugin --
 
-#include <stdint.h>
-
-// Want these defines without including limits.h.  They're probably not the
-// correct values, but it doesn't matter.
-#define LONG_MIN -2147483647
-#define LONG_MAX 2147483647
-#define ULONG_MAX 4294967295
+#include <inttypes.h>
+#include <limits.h>
 
 long i1;
 // CHECK-MESSAGES: warning: Variable 'i1' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]
@@ -105,3 +100,20 @@ void Bf()
 template<typename T>
 long g1( T g1p0 );
 // CHECK-MESSAGES: warning: Function 'g1' declared as returning 'long'. Prefer int or int64_t to long. [cata-no-long]
+
+template<typename T>
+struct A1 {
+    void f( T a1a ) {
+    }
+    T a1b;
+};
+
+template<typename T>
+A1<T> f5()
+{
+    return {};
+}
+
+// Would be nice to get warnings here but haven't found a way to do so.
+extern template A1<long> f5<long>();
+template A1<long> f5<long>();

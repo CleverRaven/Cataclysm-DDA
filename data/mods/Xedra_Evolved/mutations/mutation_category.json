@@ -1,0 +1,72 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "IERDE",
+    "name": "Ierde",
+    "threshold_mut": "THRESH_IERDE",
+    "mutagen_message": "Soil and stone.",
+    "vitamin": "mutagen_earthkin",
+    "memorial_message": "Returned to the earth."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SYLPH",
+    "name": "Sylph",
+    "threshold_mut": "THRESH_SYLPH",
+    "mutagen_message": "Wind and weather.",
+    "vitamin": "mutagen_airkin",
+    "memorial_message": "Dissipated into the atmosphere."
+  },
+  {
+    "type": "mutation_category",
+    "id": "UNDINE",
+    "name": "Undine",
+    "threshold_mut": "THRESH_UNDINE",
+    "mutagen_message": "Rain and wave.",
+    "vitamin": "mutagen_waterkin",
+    "memorial_message": "Dissolved into the sea."
+  },
+  {
+    "type": "mutation_category",
+    "id": "ARVORE",
+    "name": "Arvore",
+    "threshold_mut": "THRESH_ARVORE",
+    "mutagen_message": "Growth in adversity.",
+    "vitamin": "mutagen_plantkin",
+    "memorial_message": "Fell with a great sound."
+  },
+  {
+    "type": "mutation_category",
+    "id": "SALAMANDER",
+    "name": "Salamander",
+    "threshold_mut": "THRESH_SALAMANDER",
+    "mutagen_message": "Touched by fire.",
+    "vitamin": "mutagen_flamekin",
+    "memorial_message": "Snuffed out."
+  },
+  {
+    "type": "mutation_category",
+    "id": "HOMULLUS",
+    "name": "Homullus",
+    "threshold_mut": "THRESH_HOMULLUS",
+    "mutagen_message": "Wish upon a star.",
+    "vitamin": "mutagen_dollkin",
+    "memorial_message": "Real enough for you?"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_ADD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_MULT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_REGEN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MANA_SIPHON"
+  }
+]

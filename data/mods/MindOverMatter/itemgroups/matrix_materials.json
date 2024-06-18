@@ -1,0 +1,196 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystals",
+    "items": [
+      [ "matrix_crystal_biokinesis", 10 ],
+      [ "matrix_crystal_clairsentience", 10 ],
+      [ "matrix_crystal_electrokinesis", 10 ],
+      [ "matrix_crystal_photokinesis", 10 ],
+      [ "matrix_crystal_pyrokinesis", 10 ],
+      [ "matrix_crystal_telekinesis", 10 ],
+      [ "matrix_crystal_telepathy", 10 ],
+      [ "matrix_crystal_teleportation", 10 ],
+      [ "matrix_crystal_vitakinesis", 10 ],
+      [ "matrix_crystal_coruscating", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystals_rare",
+    "items": [
+      [ "null", 100 ],
+      [ "matrix_crystal_biokinesis", 10 ],
+      [ "matrix_crystal_clairsentience", 10 ],
+      [ "matrix_crystal_electrokinesis", 10 ],
+      [ "matrix_crystal_photokinesis", 10 ],
+      [ "matrix_crystal_pyrokinesis", 10 ],
+      [ "matrix_crystal_telekinesis", 10 ],
+      [ "matrix_crystal_telepathy", 10 ],
+      [ "matrix_crystal_teleportation", 10 ],
+      [ "matrix_crystal_vitakinesis", 10 ],
+      [ "matrix_crystal_coruscating", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystals_50_50",
+    "items": [
+      [ "matrix_crystal_drained", 9 ],
+      [ "matrix_crystal_biokinesis", 1 ],
+      [ "matrix_crystal_clairsentience", 1 ],
+      [ "matrix_crystal_electrokinesis", 1 ],
+      [ "matrix_crystal_photokinesis", 1 ],
+      [ "matrix_crystal_pyrokinesis", 1 ],
+      [ "matrix_crystal_telekinesis", 1 ],
+      [ "matrix_crystal_telepathy", 1 ],
+      [ "matrix_crystal_teleportation", 1 ],
+      [ "matrix_crystal_vitakinesis", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "collection_matrix_dust",
+    "items": [
+      { "item": "matrix_crystal_biokin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_clair_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_electrokin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_photokin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_pyrokin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_telekin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_telepath_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_teleport_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_vitakin_dust", "prob": 30, "container-item": "test_tube" },
+      { "item": "matrix_crystal_drained_dust", "prob": 80, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "distribution_matrix_dust",
+    "items": [
+      { "item": "matrix_crystal_biokin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_clair_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_electrokin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_photokin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_pyrokin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_telekin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_telepath_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_teleport_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_vitakin_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_drained_dust", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_biokin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_biokin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_biokin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_clair_dust_group",
+    "items": [
+      { "item": "matrix_crystal_clair_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_clair_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_electrokin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_electrokin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_electrokin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_photokin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_photokin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_photokin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_pyrokin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_pyrokin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_pyrokin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_telekin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_telekin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_telekin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_telepath_dust_group",
+    "items": [
+      { "item": "matrix_crystal_telepath_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_telepath_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_teleport_dust_group",
+    "items": [
+      { "item": "matrix_crystal_teleport_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_teleport_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_shard_group",
+    "items": [ { "item": "matrix_shard", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_vitakin_dust_group",
+    "items": [
+      { "item": "matrix_crystal_vitakin_dust", "prob": 3, "container-item": "test_tube" },
+      { "item": "matrix_crystal_vitakin_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "dist_matrix_crystal_skyscraper_lab_group",
+    "items": [ [ "matrix_crystal_drained", 4 ], [ "matrix_crystal_clairsentience", 1 ], [ "matrix_crystal_telepathy", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_drained_dust",
+    "items": [
+      { "item": "matrix_crystal_drained_dust", "prob": 1, "container-item": "test_tube" },
+      { "item": "matrix_crystal_drained_dust_refined", "prob": 1, "container-item": "test_tube" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "matrix_crystal_drained_group",
+    "items": [ [ "matrix_crystal_drained", 50 ], [ "null", 50 ] ]
+  }
+]

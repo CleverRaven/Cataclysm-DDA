@@ -2,14 +2,16 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
 #include <memory>
+#include <optional>
 #include <set>
-#include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -17,11 +19,14 @@
 #include "explosion.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
+#include "npc.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
@@ -31,17 +36,35 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
-#include "visitable.h"
 #include "vpart_position.h"
+
+static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
+static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
+static const ammo_effect_str_id ammo_effect_BURST( "BURST" );
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_HEAVY_HIT( "HEAVY_HIT" );
+static const ammo_effect_str_id ammo_effect_JET( "JET" );
+static const ammo_effect_str_id ammo_effect_MUZZLE_SMOKE( "MUZZLE_SMOKE" );
+static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+static const ammo_effect_str_id ammo_effect_NO_OVERSHOOT( "NO_OVERSHOOT" );
+static const ammo_effect_str_id ammo_effect_NO_PENETRATE_OBSTACLES( "NO_PENETRATE_OBSTACLES" );
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
+static const ammo_effect_str_id ammo_effect_STREAM( "STREAM" );
+static const ammo_effect_str_id ammo_effect_STREAM_BIG( "STREAM_BIG" );
+static const ammo_effect_str_id ammo_effect_STREAM_TINY( "STREAM_TINY" );
+static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 
 static const efftype_id effect_bounced( "bounced" );
 
-static const std::string flag_LIQUID( "LIQUID" );
+static const itype_id itype_glass_shard( "glass_shard" );
+
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
-    const auto &proj = attack.proj;
+    const projectile &proj = attack.proj;
     const item &drop_item = proj.get_drop();
     const auto &effects = proj.proj_effects;
     if( drop_item.is_null() ) {
@@ -50,22 +73,36 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
     const tripoint &pt = attack.end_point;
 
-    if( effects.count( "SHATTER_SELF" ) ) {
+    if( effects.count( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
         add_msg_if_player_sees( pt, _( "The %s shatters!" ), drop_item.tname() );
-        drop_item.visit_items( [&pt]( const item * it, item * ) {
-            get_map().add_item_or_charges( pt, *it );
-            return VisitResponse::NEXT;
-        } );
+
+        // copies the drop item to spill the contents
+        item( drop_item ).spill_contents( pt );
 
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
+
+        const units::mass shard_mass = itype_glass_shard->weight;
+        const int max_nb_of_shards = floor( to_gram( drop_item.type->weight ) / to_gram( shard_mass ) );
+        //between half and max_nb_of_shards-1 will be usable
+        const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );
+        //feel free to remove this msg_debug
+        /*add_msg_debug( "Shattered %s dropped %i shards out of a max of %i, based on mass %i g",
+                       drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
+
+        for( int i = 0; i < nb_of_dropped_shard; ++i ) {
+            item shard( "glass_shard" );
+            //actual dropping of shards
+            get_map().add_item_or_charges( pt, shard );
+        }
+
         return;
     }
 
-    if( effects.count( "BURST" ) ) {
+    if( effects.count( ammo_effect_BURST ) ) {
         // Drop the contents, not the thrown item
         add_msg_if_player_sees( pt, _( "The %s bursts!" ), drop_item.tname() );
 
@@ -84,7 +121,8 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // We can only embed in monsters
     bool mon_there = mon != nullptr && !mon->is_dead_state();
     // And if we actually want to embed
-    bool embed = mon_there && effects.count( "NO_EMBED" ) == 0 && effects.count( "TANGLE" ) == 0;
+    bool embed = mon_there && effects.count( ammo_effect_NO_EMBED ) == 0 &&
+                 effects.count( ammo_effect_TANGLE ) == 0;
     // Don't embed in small creatures
     if( embed ) {
         const creature_size critter_size = mon->get_size();
@@ -93,10 +131,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
+        // FIXME: Hardcoded damage types
         embed = embed &&
-                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( damage_type::STAB ) >
-                attack.dealt_dam.type_damage( damage_type::BASH ) +
+                ( attack.dealt_dam.type_damage( STATIC( damage_type_id( "cut" ) ) ) / 2 ) +
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "stab" ) ) ) >
+                attack.dealt_dam.type_damage( STATIC( damage_type_id( "bash" ) ) ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 
@@ -111,10 +150,10 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // if they aren't friendly they will try and break out of the net/bolas/lasso
         // players and NPCs just get the downed effect, and item is dropped.
         // TODO: storing the item on player until they recover from downed
-        if( effects.count( "TANGLE" ) && mon_there ) {
+        if( effects.count( ammo_effect_TANGLE ) && mon_there ) {
             do_drop = false;
         }
-        if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
+        if( effects.count( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
             do_drop = !dropped_item.activate_thrown( attack.end_point );
         }
@@ -124,16 +163,17 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             here.add_item_or_charges( attack.end_point, dropped_item );
         }
 
-        if( effects.count( "HEAVY_HIT" ) ) {
-            if( here.has_flag( flag_LIQUID, pt ) ) {
+        if( effects.count( ammo_effect_HEAVY_HIT ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
-            const trap &tr = here.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, dropped_item );
-            }
+        }
+
+        const trap &tr = here.tr_at( pt );
+        if( tr.triggered_by_item( dropped_item ) ) {
+            tr.trigger( pt, dropped_item );
         }
     }
 }
@@ -178,19 +218,30 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
 }
 
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
-        const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin, const vehicle *in_veh )
+        const tripoint &target_arg, const dispersion_sources &dispersion, Creature *origin,
+        const vehicle *in_veh, const weakpoint_attack &wp_attack, bool first )
 {
-    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
+    const bool do_animation = first && get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
-    Creature *target_critter = g->critter_at( target_arg );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
     double target_size = target_critter != nullptr ?
                          target_critter->ranged_target_size() :
                          here.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
+
+    if( target_critter && target_critter->as_character() &&
+        target_critter->as_character()->has_flag( json_flag_HARDTOHIT ) ) {
+
+        projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
+        // if the target's lucky they're more likely to be missed
+        if( lucky_aim.missed_by > aim.missed_by ) {
+            aim = lucky_aim;
+        }
+    }
 
     // TODO: move to-hit roll back in here
 
@@ -207,20 +258,22 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool stream = proj_effects.count( "STREAM" ) > 0 ||
-                        proj_effects.count( "STREAM_BIG" ) > 0 ||
-                        proj_effects.count( "JET" ) > 0;
+    const bool stream = proj_effects.count( ammo_effect_STREAM ) > 0 ||
+                        proj_effects.count( ammo_effect_STREAM_TINY ) > 0 ||
+                        proj_effects.count( ammo_effect_STREAM_BIG ) > 0 ||
+                        proj_effects.count( ammo_effect_JET ) > 0;
     const char bullet = stream ? '#' : '*';
-    const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
-    const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
-    const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
+    const bool no_item_damage = proj_effects.count( ammo_effect_NO_ITEM_DAMAGE ) > 0;
+    const bool do_draw_line = proj_effects.count( ammo_effect_DRAW_AS_LINE ) > 0;
+    const bool null_source = proj_effects.count( ammo_effect_NULL_SOURCE ) > 0;
     // Determines whether it can penetrate obstacles
-    const bool is_bullet = proj_arg.speed >= 200 && !proj_effects.count( "NO_PENETRATE_OBSTACLES" );
+    const bool is_bullet = proj_arg.speed >= 200 &&
+                           !proj_effects.count( ammo_effect_NO_PENETRATE_OBSTACLES );
 
     // If we were targeting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
-    const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
-                              ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );
+    const bool no_overshoot = proj_effects.count( ammo_effect_NO_OVERSHOOT ) ||
+                              ( creatures.creature_at( target_arg ) == nullptr && here.passable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
@@ -256,17 +309,18 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         range = rl_dist( source, target );
         extend_to_range = range;
 
-        sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
-                                 sfx::get_heard_angle( target ) );
+        if( first ) {
+            sfx::play_variant_sound( "bullet_hit", "hit_wall", sfx::get_heard_volume( target ),
+                                     sfx::get_heard_angle( target ) );
+        }
         // TODO: Z dispersion
-        // If we missed, just draw a straight line.
-        trajectory = line_to( source, target );
-    } else {
-        // Go around obstacles a little if we're on target.
-        trajectory = here.find_clear_path( source, target );
     }
 
-    add_msg_debug( "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+    //Use find clear path to draw the trajectory with optimal initial tile offsets.
+    trajectory = here.find_clear_path( source, target );
+
+    add_msg_debug( debugmode::DF_BALLISTIC,
+                   "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
                    aim.missed_by_tiles, aim.missed_by,
                    target_arg.x, target_arg.y, target_arg.z,
                    target.x, target.y, target.z );
@@ -279,7 +333,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     trajectory.insert( trajectory.begin(), source );
 
     static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
-    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
+    if( proj_effects.count( ammo_effect_MUZZLE_SMOKE ) ) {
         here.emit_field( trajectory.front(), muzzle_smoke );
     }
 
@@ -307,14 +361,26 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         prev_point = tp;
         tp = trajectory[i];
 
-        if( ( tp.z > prev_point.z && here.has_floor( tp ) ) ||
-            ( tp.z < prev_point.z && here.has_floor( prev_point ) ) ) {
-            // Currently strictly no shooting through floor
-            // TODO: Bash the floor
-            tp = prev_point;
-            traj_len = --i;
-            break;
+        if( tp.z != prev_point.z ) {
+            tripoint floor1 = prev_point;
+            tripoint floor2 = tp;
+
+            if( floor1.z < floor2.z ) {
+                floor1.z++;
+            } else {
+                floor2.z++;
+            }
+            // We only stop the bullet if there are two floors in a row
+            // this allow the shooter to shoot adjacent enemies from rooftops.
+            if( here.has_floor_or_water( floor1 ) && here.has_floor_or_water( floor2 ) ) {
+                // Currently strictly no shooting through floor
+                // TODO: Bash the floor
+                tp = prev_point;
+                traj_len = --i;
+                break;
+            }
         }
+
         // Drawing the bullet uses player g->u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if( do_animation && !do_draw_line ) {
@@ -338,7 +404,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
-        Creature *critter = g->critter_at( tp );
+        Creature *critter = creatures.creature_at( tp );
         if( origin == critter ) {
             // No hitting self with "weird" attacks.
             critter = nullptr;
@@ -372,23 +438,48 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
-                critter->is_player() ) {
+                critter->is_avatar() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
             }
+            // avoid friendly fire
+            if( critter->attitude_to( *origin ) == Creature::Attitude::FRIENDLY &&
+                origin->check_avoid_friendly_fire() ) {
+                continue;
+            }
             attack.missed_by = cur_missed_by;
-            critter->deal_projectile_attack( null_source ? nullptr : origin, attack );
+            bool print_messages = true;
+            // If the attack is shot, once we're past point-blank,
+            // overwrite the default damage with shot damage.
+            if( proj.count > 1 && rl_dist( source, tp ) > 1 ) {
+                attack.proj.impact = attack.proj.shot_impact;
+                print_messages = false;
+            }
+            critter->deal_projectile_attack( null_source ? nullptr : origin, attack, print_messages,
+                                             wp_attack );
+
+            if( critter->is_npc() ) {
+                critter->as_npc()->on_attacked( *origin );
+            }
+
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
-                if( bt_len > 0 ) {
-                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
-                    here.add_splatter_trail( critter->bloodType(), tp, dest );
+                const field_type_id blood_type = critter->bloodType();
+                if( blood_type ) {
+                    const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                    if( bt_len > 0 ) {
+                        const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                        here.add_splatter_trail( blood_type, tp, dest );
+                    }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
+                // on-hit effects for inflicted damage types
+                for( const std::pair<const damage_type_id, int> &dt : attack.dealt_dam.dealt_dams ) {
+                    dt.first->onhit_effects( origin, attack.hit_critter );
+                }
             } else {
                 attack.missed_by = aim.missed_by;
             }
@@ -420,14 +511,14 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.proj_effects );
-    const auto &expl = proj.get_custom_explosion();
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
+    const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        explosion_handler::explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?
-    if( proj.proj_effects.count( "BOUNCE" ) ) {
+    if( proj.proj_effects.count( ammo_effect_BOUNCE ) ) {
         // Add effect so the shooter is not targeted itself.
         if( origin && !origin->has_effect( effect_bounced ) ) {
             origin->add_effect( effect_bounced, 1_turns );

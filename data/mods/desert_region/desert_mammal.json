@@ -20,12 +20,9 @@
     "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 0,
-    "armor_bash": 6,
-    "armor_cut": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "path_settings": { "max_dist": 20 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "MATING_SEASON" ],
-    "death_function": [ "NORMAL" ],
     "baby_flags": [ "SPRING" ],
     "//": "Baby elephants don't actually exist (yet), but Spring is the wet season (their mating season) so baby_flags is defined so that they get angry then",
     "harvest": "mammal_large_leather",
@@ -36,14 +33,14 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "PUSH_MON",
       "DESTROYS",
-      "CATTLEFODDER",
       "GROUP_MORALE",
       "GOODHEARING",
       "SWARMS"
-    ]
+    ],
+    "armor": { "bash": 6, "cut": 3 }
   }
 ]

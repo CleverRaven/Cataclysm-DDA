@@ -1,9 +1,24 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include <set>
 
+#include "damage.h"
 #include "item.h"
 #include "type_id.h"
+#include "units.h"
+
+static const ammotype ammo_762( "762" );
+static const ammotype ammo_9mm( "9mm" );
+static const ammotype ammo_battery( "battery" );
+
+static const itype_id itype_44army( "44army" );
+static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_battery( "battery" );
+static const itype_id itype_fish_bait( "fish_bait" );
+static const itype_id itype_pebble( "pebble" );
+static const itype_id itype_test_100mm_ammo( "test_100mm_ammo" );
+static const itype_id itype_test_100mm_ammo_relative( "test_100mm_ammo_relative" );
+static const itype_id itype_thread( "thread" );
 
 // Functions:
 // - item::ammo_types
@@ -26,7 +41,7 @@ static bool has_ammo_types( const item &it )
     return !it.ammo_types().empty();
 }
 
-TEST_CASE( "ammo types", "[ammo][ammo_types]" )
+TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
 {
     // Only a few kinds of item have ammo_types:
     // - Items with type=MAGAZINE (including batteries as well as gun magazines)
@@ -50,8 +65,8 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "large_storage_battery" ) ) );
 
         SECTION( "battery magazines include 'battery' ammo type" ) {
-            CHECK( item( "light_battery_cell" ).ammo_types().count( ammotype( "battery" ) ) == 1 );
-            CHECK( item( "battery_car" ).ammo_types().count( ammotype( "battery" ) ) == 1 );
+            CHECK( item( "light_battery_cell" ).ammo_types().count( ammo_battery ) == 1 );
+            CHECK( item( "battery_car" ).ammo_types().count( ammo_battery ) == 1 );
         }
 
         // Gun magazines
@@ -65,8 +80,8 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "glockmag" ) ) );
 
         SECTION( "gun magazines include ammo type for that magazine" ) {
-            CHECK( item( "glockmag" ).ammo_types().count( ammotype( "9mm" ) ) == 1 );
-            CHECK( item( "akmag10" ).ammo_types().count( ammotype( "762" ) ) == 1 );
+            CHECK( item( "glockmag" ).ammo_types().count( ammo_9mm ) == 1 );
+            CHECK( item( "akmag10" ).ammo_types().count( ammo_762 ) == 1 );
         }
     }
 
@@ -108,7 +123,7 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "m1911" ) ) );
         CHECK( has_ammo_types( item( "usp_9mm" ) ) );
         CHECK( has_ammo_types( item( "tommygun" ) ) );
-        CHECK( has_ammo_types( item( "ak74" ) ) );
+        CHECK( has_ammo_types( item( "ak74_semi" ) ) );
         CHECK( has_ammo_types( item( "ak47" ) ) );
     }
 
@@ -147,7 +162,7 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
 }
 
 // The same items with no ammo_types, also have no ammo_default.
-TEST_CASE( "ammo default", "[ammo][ammo_default]" )
+TEST_CASE( "ammo_default", "[ammo][ammo_default]" )
 {
     // TOOLMOD type, and TOOL type items with MAGAZINE_WELL pockets have no ammo_default
     SECTION( "items without ammo_default" ) {
@@ -163,25 +178,88 @@ TEST_CASE( "ammo default", "[ammo][ammo_default]" )
         // MAGAZINE type items
         item battery( "light_battery_cell" );
         item glockmag( "glockmag" );
-        CHECK( battery.ammo_default() == itype_id( "battery" ) );
-        CHECK( glockmag.ammo_default() == itype_id( "9mm" ) );
+        CHECK( battery.ammo_default() == itype_battery );
+        CHECK( glockmag.ammo_default() == itype_9mm );
 
         // TOOL type items with integral magazines
         item sewing_kit( "sewing_kit" );
         item needle( "needle_bone" );
         item fishtrap( "fish_trap" );
-        CHECK( sewing_kit.ammo_default() == itype_id( "thread" ) );
-        CHECK( needle.ammo_default() == itype_id( "thread" ) );
-        CHECK( fishtrap.ammo_default() == itype_id( "fish_bait" ) );
+        CHECK( sewing_kit.ammo_default() == itype_thread );
+        CHECK( needle.ammo_default() == itype_thread );
+        CHECK( fishtrap.ammo_default() == itype_fish_bait );
 
         // GUN type items with integral magazine
         item slingshot( "slingshot" );
         item colt( "colt_army" );
-        item lemat( "lemat_revolver" );
-        CHECK( slingshot.ammo_default() == itype_id( "pebble" ) );
+        CHECK( slingshot.ammo_default() == itype_pebble );
         // Revolver ammo is "44paper" but default ammunition type is "44army"
-        CHECK( colt.ammo_default() == itype_id( "44army" ) );
-        CHECK( lemat.ammo_default() == itype_id( "44army" ) );
+        CHECK( colt.ammo_default() == itype_44army );
     }
+}
+
+TEST_CASE( "barrel_test", "[ammo][weapon]" )
+{
+    SECTION( "basic ammo and barrel length test" ) {
+        item base_gun( "test_glock_super_long" );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 65 );
+    }
+
+    SECTION( "basic ammo and mod length test" ) {
+        item base_gun( "test_glock_super_long" );
+        item gun_mod( "barrel_glock_short" );
+        REQUIRE( base_gun.put_in( gun_mod, pocket_type::MOD ).success() );
+        REQUIRE( base_gun.barrel_length().value() == 100 );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 60 );
+    }
+
+    SECTION( "inherited ammo and barrel length test" ) {
+        item base_gun( "test_glock_super_long" );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo_relative ).total_damage() == 66 );
+    }
+}
+
+TEST_CASE( "battery_energy_test", "[ammo][energy][item]" )
+{
+    item test_battery( "medium_battery_cell" );
+    test_battery.ammo_set( test_battery.ammo_default(), 300 );
+
+    SECTION( "Integer drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 200_kJ, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 100_kJ );
+        CHECK( consumed == 200_kJ );
+    }
+
+    SECTION( "Integer over-drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 400_kJ, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 0_kJ );
+        CHECK( consumed == 300_kJ );
+    }
+
+    SECTION( "Non-integer drain from battery" ) {
+        // Battery charge is in chunks of kj. Non integer kj drain is rounded up.
+        // 4.5 kJ drain becomes 5 kJ drain
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 4500_J, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 295_kJ );
+        CHECK( consumed == 5_kJ );
+    }
+
+    SECTION( "Non-integer over-drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 500500_J, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 0_kJ );
+        CHECK( consumed == 300_kJ );
+    }
+
+    SECTION( "zero drain from battery" ) {
+        REQUIRE( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        units::energy consumed = test_battery.energy_consume( 0_J, tripoint_zero, nullptr );
+        CHECK( test_battery.energy_remaining( nullptr ) == 300_kJ );
+        CHECK( consumed == 0_kJ );
+    }
+
 }
 

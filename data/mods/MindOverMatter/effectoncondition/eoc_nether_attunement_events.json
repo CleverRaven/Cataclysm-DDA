@@ -1,0 +1,1542 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER_2",
+            "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", "<", "25" ] },
+            "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "+=", "rng(1,2.4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_SCALING_CHECK",
+            "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_CHECKER",
+                    "condition": {
+                      "x_in_y_chance": {
+                        "x": {
+                          "math": [
+                            "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + (u_nether_conduit_repeated_channeling_value / 3) + (u_vitamin('vitamin_maintained_powers') * 3)"
+                          ]
+                        },
+                        "y": 100
+                      }
+                    },
+                    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD" } ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_CHECKER",
+                    "condition": {
+                      "x_in_y_chance": {
+                        "x": {
+                          "math": [
+                            "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + u_nether_conduit_repeated_channeling_value  + (u_vitamin('vitamin_maintained_powers') * 3)"
+                          ]
+                        },
+                        "y": 100
+                      }
+                    },
+                    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD" } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD",
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD",
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rand((u_latest_channeled_power_difficulty) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
+    "//": "This is the EoC called by concentration checks. Name is to avoid JSON churn",
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_CHECKER_MAINTENANCE",
+            "condition": {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + (u_nether_conduit_repeated_channeling_value / 3) + (u_vitamin('vitamin_maintained_powers') * 3)"
+                  ]
+                },
+                "y": 100
+              }
+            },
+            "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_CHECKER_MAINTENANCE",
+            "condition": {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + u_nether_conduit_repeated_channeling_value  + (u_vitamin('vitamin_maintained_powers') * 3)"
+                  ]
+                },
+                "y": 100
+              }
+            },
+            "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE",
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE",
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rand((u_latest_channeled_power_difficulty) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_CONDUIT_VALUE_DECREASER",
+    "recurrence": [ "3 seconds", "15 seconds" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", ">", "0" ] },
+    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "-=", "1" ] } ],
+    "false_effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_active",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "not": { "u_has_effect": "effect_noetic_resilience" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST_2",
+            "condition": { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } },
+            "effect": {
+              "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+              "cases": [
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
+                { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
+                { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] } },
+                { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.1" ] } },
+                { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.17" ] } },
+                { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.25" ] } },
+                { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.35" ] } },
+                { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
+              ]
+            },
+            "false_effect": {
+              "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+              "cases": [
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "false_effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_SETUP",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_CHECK_EXTENDED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_CHECK_EXTENDED",
+    "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_CHECK_EXTENDED_2",
+            "condition": { "x_in_y_chance": { "x": { "math": [ "u_effect_intensity('effect_disease_psionic_drain')" ] }, "y": 15 } },
+            "effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES",
+    "//": "Switch statement below is to ensure there is always a chance of something happening.",
+    "effect": {
+      "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+      "cases": [
+        {
+          "case": 15,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ]
+            ]
+          }
+        },
+        {
+          "case": 25,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ]
+            ]
+          }
+        },
+        {
+          "case": 50,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ]
+            ]
+          }
+        },
+        {
+          "case": 70,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ]
+            ]
+          }
+        },
+        {
+          "case": 85,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ]
+            ]
+          }
+        },
+        {
+          "case": 100,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ]
+            ]
+          }
+        },
+        {
+          "case": 125,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ]
+            ]
+          }
+        },
+        {
+          "case": 150,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ]
+            ]
+          }
+        },
+        {
+          "case": 175,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ]
+            ]
+          }
+        },
+        {
+          "case": 200,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 1 ]
+            ]
+          }
+        },
+        {
+          "case": 235,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 12 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 9 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 6 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 6 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 12 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 11 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 8 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_MUTATION", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_RIFT", 1 ]
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
+    "//": "Base is 0.5% chance from 15 attunement to 60 attunement, then scaling up 0.1% per attunement up to 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 60), 0, 160) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 1.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 5)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your head begins to throb.", "type": "bad" },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": {
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_COLD_WIND",
+    "//": "Base is 3% chance from 15 attunement to 50 attunement, then scaling up 0.1% per attunement up to 11% chance at 130 attunement, then scaling up 0.25% chance per attunement up to 41% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 50), 0, 200) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 130) * 1.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, the temperature suddenly drops!", "type": "bad" },
+      { "u_cast_spell": { "id": "nether_attunement_cold_chill", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT",
+    "//": "Base is 2% chance from 15 attunement to 150 attunement, then scaling up 0.05% per attunement up 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "clamp( ( ( u_vitamin('vitamin_psionic_drain') / 2) - 75), 0, 80) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(5) + 2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE",
+    "//": "Base is 1.5% chance from 25 attunement to 70 attunement, then scaling up 0.1% per attunement up to 6.5% chance at 120 attunement, then scaling up 0.2% chance per attunement up to 32.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "25" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 70), 0, 50) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 120) * 2 ), 0, 310) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE_2",
+            "condition": { "math": [ "rand(1)", ">=", "1" ] },
+            "effect": [
+              { "u_add_effect": "effect_nether_attunement_health_bonus", "duration": "30 seconds" },
+              { "u_message": "As you unleash your powers, you bloom with vitality.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_add_effect": "effect_nether_attunement_health_penalty", "duration": "30 seconds" },
+              { "u_message": "As you unleash your powers, you are struck with malaise.", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED",
+    "//": "Base is 1% chance from 25 attunement to 60 attunement, then scaling up 0.1% per attunement up to 12% chance at 150 attunement, then scaling up 0.25% chance per attunement up to 37% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "25" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 60), 0, 90) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 2.5 ), 0, 300) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+      { "math": [ "u_hp('head')", "-=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS",
+    "//": "Base is 2% chance from 50 attunement to 100 attunement, then scaling up 0.1% per attunement up to 8% chance at 160 attunement, then scaling up 0.28% chance per attunement up to 17.2% chance at 200 attunement, then scaling up 0.18% to 26.2% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "50" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 100), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 160) * 1.8 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, they take more out of you than you expected.", "type": "bad" },
+      { "math": [ "u_val('stamina')", "-=", "rng(3000,9000)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS",
+    "//": "Base is 2% chance from 70 attunement to 125 attunement, then scaling up 0.15% per attunement up to 9.5% chance at 175 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "70" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 1.5 ) - 125), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 3 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel tired.", "type": "bad" },
+      { "math": [ "u_val('sleepiness')", "+=", "rng(30,90)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT",
+    "//": "Base is 3% chance from 70 attunement to 90 attunement, then scaling up 0.15% per attunement up to 15.75% chance at 175 attunement, then scaling up 0.3% chance per attunement up to 38.25% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "70" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 90) * 1.5), 0, 120) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 1.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT_2",
+          "condition": { "not": { "u_has_proficiency": "effect_nether_attunement_attenuation" } },
+          "effect": [
+            {
+              "u_message": "As you unleash your powers, you feel a strange tingling sensation that does not go away.",
+              "type": "mixed"
+            },
+            {
+              "u_add_effect": "effect_nether_attunement_raiser",
+              "duration": {
+                "math": [ "time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_FEEDBACK",
+    "//": "Base is 3% chance from 100 attunement to 135 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 175 attunement, then scaling up 0.25% chance per attunement up to 32% chance at 210 attunement, then scaling up 0.5% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "100" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 135), 0, 125) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 175) * 1.5 ), 0, 250) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 5 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a stabbing pain!", "type": "good" },
+      { "math": [ "u_pain()", "+=", "rand(7) + 3" ] },
+      {
+        "u_add_effect": "effect_nether_attunement_feedback",
+        "duration": {
+          "math": [ "time(' 2 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
+    "//": "Base is 1.5% chance from 80 attunement to 120 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 180 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "85" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 180) * 3 ), 0, 250) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 15)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a surge of strength!", "type": "good" },
+      {
+        "u_add_effect": "effect_nether_attunement_power_surge",
+        "duration": { "math": [ "u_vitamin('vitamin_psionic_drain') * rng(1,10)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK",
+    "//": "Base is 1% chance from 85 attunement to 120 attunement, then scaling up 0.1% per attunement up to 8% chance at 190 attunement, then scaling up 0.35% chance per attunement up to 29% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "85" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (u_vitamin('vitamin_psionic_drain') - 120), 0, 130) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 190) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your skin feels tight!", "type": "bad" },
+      {
+        "u_add_effect": "effect_psi_teleport_lock",
+        "duration": {
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRAIN_EFFECT_CHECK_WEAKNESS",
+    "//": "Base is 2% chance from 100 attunement to 150 attunement, then scaling up 0.1% per attunement up to 9% chance at 220 attunement, then scaling up 0.5% chance per attunement up to 24% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "100" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 150), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, your muscles tremble and weaken.", "type": "bad" },
+      {
+        "u_add_effect": "effect_biokin_overload",
+        "duration": {
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_ATTENUATION",
+    "//": "Base is 4% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 11.5% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 25.5% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') - 160) * 1.5), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 2 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 40)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_NETHER_EFFECT_CHECK_ATTENUATION_2",
+          "condition": { "not": { "u_has_proficiency": "effect_nether_attunement_raiser" } },
+          "effect": [
+            { "u_message": "As you unleash your powers, the flow of energy slows to a trickle!", "type": "bad" },
+            {
+              "u_add_effect": "effect_nether_attunement_attenuation",
+              "duration": {
+                "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_BREATHING",
+    "//": "Base is 2% chance from 100 attunement to 150 attunement, then scaling up 0.1% per attunement up to 9% chance at 220 attunement, then scaling up 0.5% chance per attunement up to 24% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "100" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( u_vitamin('vitamin_psionic_drain') - 150), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 220) * 4 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you gasp and your breath gives out.", "type": "bad" },
+      {
+        "u_add_effect": "effect_psi_reduced_breathing",
+        "duration": {
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS",
+    "//": "Base is 1% chance from 125 attunement to 160 attunement, then scaling up 0.1% per attunement up to 6% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 20% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( u_vitamin('vitamin_psionic_drain')  - 160), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 210) * 3.5 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 10)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you begin to feel a sudden sense of dread and paranoia!", "type": "bad" },
+      {
+        "u_add_effect": "hallu",
+        "duration": {
+          "math": [ "time(' 90 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE",
+    "//": "Base is 3% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 9.75% chance at 205 attunement, then scaling up 0.45% chance per attunement up to 29.75% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ( (u_vitamin('vitamin_psionic_drain') * 1.5) - 160), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 205) * 3 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, a soundless explosion hurls you off your feet.", "type": "bad" },
+      { "u_cast_spell": { "id": "nether_attunement_everyone_downed", "hit_self": true } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS",
+    "//": "Base is 2% chance from 150 attunement to 200 attunement, then scaling up 0.15% per attunement up to 5.75% chance at 225 attunement, then scaling up 0.5% chance per attunement up to 18.25% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "150" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( (( u_vitamin('vitamin_psionic_drain') * 1.5) - 200), 0, 100) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 3.5 ), 0, 150) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you unleash your powers, the flow of Nether energy you are channeling is suddenly cut off!",
+        "type": "bad"
+      },
+      {
+        "u_add_effect": "effect_psi_null_unbound",
+        "duration": {
+          "math": [ "time(' 3 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+        }
+      },
+      { "u_add_effect": "effect_psi_neutralized", "duration": 2 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING",
+    "//": "Base is 3% chance from 175 attunement to 200 attunement, then scaling up 0.2% per attunement up to 8% chance at 225 attunement, then scaling up 0.45% chance per attunement up to 19.25% chance at max, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "( clamp( ((u_vitamin('vitamin_psionic_drain') - 200) * 2), 0, 200) + clamp( ( (u_vitamin('vitamin_psionic_drain') - 225) * 2.5 ), 0, 375) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30)"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, crackling energy erupts all around you!", "type": "bad" },
+      { "u_cast_spell": { "id": "nether_attunement_nether_lightning", "hit_self": false } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS",
+    "//": "Base is 3% chance at 200 attunement, scaling up 0.1% per attunement up to 8% chance at 250 attunement, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "psi_nether_attention" }, { "u_has_effect": "effect_nether_attunement_raiser" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "(clamp( (u_vitamin('vitamin_psionic_drain') - 200), 0, 50) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "tindrift", "duration": "1 day" },
+      { "u_message": "As you unleash your powers, you feel a horrible sensation of watching eyes.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_MUTATION",
+    "//": "Base is 3% chance at 235 attunement, scaling up 0.2% per attunement up to 6% chance at 250 attunement, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "(clamp( ((u_vitamin('vitamin_psionic_drain') - 235) * 2), 0, 15) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_NETHER_ATTUNEMENT_MUTATION_GAINER" },
+      { "u_message": "As you unleash your powers, feel an internal wrenching sensation.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_RIFT",
+    "//": "Base is 2% chance at 235 attunement, scaling up 0.1% per attunement up to 3.5% chance at 250 attunement, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "psi_nether_attention" }, { "u_has_effect": "effect_nether_attunement_raiser" } ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "(clamp( (u_vitamin('vitamin_psionic_drain') - 235), 0, 15) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 20"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_set_field": "fd_fatigue", "radius": 0, "intensity": 3, "hit_player": false },
+      { "u_message": "As you unleash your powers, the air around you twists and warps in on itself.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTUNEMENT_FEEDBACK_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_effect": "effect_nether_attunement_feedback" },
+        { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 250 } }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a burning sensation in your veins!", "type": "bad" },
+      { "math": [ "u_pain()", "+=", "rand(4) + 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTUNEMENT_MUTATION_GAINER",
+    "effect": {
+      "u_roll_remainder": [ "BADTEMPER", "INSOMNIA", "ANIMALDISCORD", "MOODSWINGS", "CHEMIMBALANCE", "SCHIZOPHRENIC", "JITTERY" ],
+      "type": "mutation"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTUNEMENT_FEEDBACK_CHECK_CONCENTRATION",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_nether_attunement_feedback" },
+        { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 250 } }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a burning sensation in your veins!", "type": "bad" },
+      { "math": [ "u_pain()", "+=", "rand(4) + 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_BIOKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_BIOKINESIS_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_BIOKINESIS" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_CLAIRSENTIENCE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CLAIRSENTIENT" },
+        { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_CLAIRSENTIENCE_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_CLAIRSENTIENCE" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_ELECTROKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_ELECTROKINESIS_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_ELECTROKINESIS" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_PHOTOKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_PHOTOKINESIS_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PHOTOKINESIS" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_PYROKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PYROKINETIC" },
+        { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_PYROKINESIS_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_PYROKINESIS" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_TELEKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEKINETIC" },
+        { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_TELEKINESIS_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEKINESIS" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_TELEPATHY",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_TELEPATHY_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPATHY" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_TELEPORTATION",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_TELEPORTATION_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_TELEPORTATION" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_CHECK_VITAKINESIS",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_CHECK_VITAKINESIS_2",
+            "condition": { "u_has_wielded_with_flag": "MATRIX_CRYSTAL_VITAKINESIS" },
+            "effect": [ { "run_eocs": [ "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] } ],
+            "false_effect": [
+              { "run_eocs": [ "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING", "EOC_POWERS_IN_NETHER_LOCATION_CHECKER" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER",
+    "condition": { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_NEAR_NETHER_2",
+            "condition": { "x_in_y_chance": { "x": { "math": [ "(u_vitamin('vitamin_psionic_drain') * 2) + 250 " ] }, "y": 1000 } },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_NEAR_NETHER_3",
+                    "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "!=", "1" ] },
+                    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] } ],
+                    "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_IN_NETHER_2",
+            "condition": { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_POWERS_IN_NETHER_LOCATION_CHECKER_IN_NETHER_3",
+                    "condition": { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "!=", "1" ] },
+                    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 1" ] } ],
+                    "false_effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2)" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_HOLDING_MATRIX_CRYSTAL_WARNING",
+    "condition": { "not": { "u_has_effect": "effect_in_the_nether_warning_timer" } },
+    "effect": [
+      { "u_add_effect": "effect_in_the_nether_warning_timer", "duration": "2 hours" },
+      {
+        "u_message": "As you unleash your powers, you feel a strange fluctuation in the energies, but the matrix crystal you're holding seems to dissipate it.  Still, there's something odd about this place.",
+        "type": "mixed"
+      },
+      { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "1" ] }
+    ],
+    "false_effect": [ { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWERS_IN_NETHER_NOT_HOLDING_MATRIX_CRYSTAL_WARNING",
+    "condition": { "not": { "u_has_effect": "effect_in_the_nether_warning_timer" } },
+    "effect": [
+      { "u_add_effect": "effect_in_the_nether_warning_timer", "duration": "2 hours" },
+      {
+        "u_message": "As you unleash your powers, you feel a strange fluctuation in the energies.  There's something odd about this place.",
+        "type": "mixed"
+      },
+      { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "0" ] }
+    ],
+    "false_effect": [ { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_IN_NETHER_AREAS_ATTUNEMENT",
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+        { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+      ]
+    },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2) + 1" ] } ]
+  }
+]

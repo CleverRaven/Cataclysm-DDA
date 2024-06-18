@@ -1,0 +1,123 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "salon",
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "sssssssssssdssssssssssss",
+        " Я|||||||X||||||||||X|Я ",
+        "  |t.|t.|.uuu|fBkDaT.|  ",
+        "  |a.|a.|....|.......|  ",
+        "  |K.|K.|....|c.c....|  ",
+        "  |T.|T.|uuu.|bbblll.|  ",
+        "  ||x||x||||x|||||||x|  ",
+        "  |..................|  ",
+        "  |||.....|||||....|||  ",
+        "  |m.......A|A......m|  ",
+        "  |kc.....ck|k.....ck|  ",
+        "  |A.......m|m......A|  ",
+        "  |||.....|||||....|||  ",
+        "  |rr.....rrirr.....m|  ",
+        "  |................ck|  ",
+        "  |.................A|  ",
+        "  |iTc......;;;;;;;|||  ",
+        "  |aa$aa....irrieeieeG  ",
+        "  |r.................G  ",
+        "  |r.......TC.C.C.C.CG  ",
+        " Я||x|GGG||GGG||GGG|||Я ",
+        "  #sss################  ",
+        " ! sss !              ! "
+      ],
+      "terrain": {
+        "!": "t_region_tree_shade",
+        "#": "t_region_shrub_decorative",
+        ";": "t_rock_wall_half",
+        "|": "t_wall_P",
+        "d": "t_sidewalk",
+        " ": "t_region_groundcover_urban",
+        "G": "t_wall_glass",
+        "s": "t_sidewalk",
+        "x": "t_door_c",
+        "X": "t_door_locked",
+        "Я": "t_gutter_downspout"
+      },
+      "furniture": {
+        "$": "f_counter",
+        "a": "f_counter",
+        "A": "f_counter",
+        "B": "f_cupboard",
+        "b": "f_table",
+        "C": "f_armchair",
+        "c": "f_chair",
+        "D": "f_cupboard",
+        "d": "f_dumpster",
+        "e": "f_table",
+        "f": "f_fridge",
+        "i": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "k": "f_sink",
+        "K": "f_sink",
+        "l": "f_locker",
+        "m": "f_bigmirror",
+        "r": "f_rack",
+        "T": "f_trashcan",
+        "u": "f_utility_shelf"
+      },
+      "toilets": { "t": {  } },
+      "items": {
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "A": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
+        "B": { "item": "SUS_dishes", "chance": 100 },
+        "D": { "item": "SUS_silverware", "chance": 100 },
+        "d": { "item": "trash", "chance": 100, "repeat": [ 2, 4 ] },
+        "e": { "item": "waitingroom", "chance": 100, "repeat": [ 2, 4 ] },
+        "f": { "item": "SUS_fridge_partial_empty", "chance": 100 },
+        "K": { "item": "SUS_bathroom_sink", "chance": 100 },
+        "l": { "item": "SUS_desks_bedroom_unisex", "chance": 50 },
+        "r": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
+        "T": { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] }
+      },
+      "place_loot": [
+        { "group": "SUS_janitors_closet", "chance": 100, "repeat": [ 0, 2 ], "x": [ 10, 12 ], "y": [ 3 ] },
+        { "group": "beauty", "chance": 100, "repeat": [ 3, 6 ], "x": [ 9, 11 ], "y": [ 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "salon_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  5------------------5  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -...X..........&...-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -............A.....-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  5------------------5  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  }
+]

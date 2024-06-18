@@ -4,7 +4,6 @@
 
 #include <iosfwd>
 
-class JsonIn;
 class JsonOut;
 
 class character_id
@@ -29,7 +28,7 @@ class character_id
         }
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( int );
 
     private:
         int value;

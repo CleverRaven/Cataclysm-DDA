@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_MELEE_H
 #define CATA_SRC_MELEE_H
 
+class item;
+
 /*
  * statistics data for melee attacks, used for test purposes
  */
@@ -22,6 +24,7 @@ namespace melee
 float melee_hit_range( float accuracy );
 melee_statistic_data get_stats();
 void clear_stats();
+int blocking_ability( const item &shield );
 extern melee_statistic_data melee_stats;
 } // namespace melee
 

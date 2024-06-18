@@ -1,0 +1,129 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_sprig", "weight": 200, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_young", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_fungal_fighter", "weight": 100 },
+      { "monster": "mon_triffid", "weight": 80 },
+      { "monster": "mon_triffid", "weight": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_biter", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_acid", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_queen", "weight": 60, "cost_multiplier": 20 },
+      { "monster": "mon_biollante_sprig", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_biollante_sprout", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_biollante", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_gas", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_lasher", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_lifegiver", "weight": 100, "cost_multiplier": 4 },
+      { "monster": "mon_triffid_flower", "weight": 100, "cost_multiplier": 4 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_URBAN",
+    "default": "mon_triffid",
+    "//": "Group for triffids + plant zeds on special urban locations",
+    "monsters": [
+      { "monster": "mon_triffid_gardenling", "weight": 300, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_fungal_fighter", "weight": 100 },
+      { "monster": "mon_triffid", "weight": 80 },
+      { "monster": "mon_triffid", "weight": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_biter", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_acid", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_queen", "weight": 60, "cost_multiplier": 20 },
+      { "monster": "mon_biollante_sprig", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_biollante_sprout", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_biollante", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_gas", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_lasher", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_lifegiver", "weight": 100, "cost_multiplier": 4 },
+      { "monster": "mon_triffid_flower", "weight": 100, "cost_multiplier": 4 },
+      { "monster": "mon_zombie_garden", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_seedling", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_boomer_moss", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_swimmer_swamped", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_shrieker_vines", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_brute_thorns", "weight": 60, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_GARDENLING",
+    "default": "mon_triffid",
+    "//": "Group for triffids gardenlings to evolve",
+    "monsters": [
+      { "monster": "mon_triffid", "weight": 30 },
+      { "monster": "mon_fungal_fighter", "weight": 20 },
+      { "monster": "mon_vinebeast", "weight": 20 },
+      { "monster": "mon_triffid_biter", "weight": 20 },
+      { "monster": "mon_triffid_acid", "weight": 20 },
+      { "monster": "mon_triffid_queen", "weight": 10 },
+      { "monster": "mon_biollante_sprig", "weight": 20, "cost_multiplier": 0, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_biollante_sprout", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_biollante", "weight": 20 },
+      { "monster": "mon_triffid_gas", "weight": 20 },
+      { "monster": "mon_triffid_lasher", "weight": 20 },
+      { "monster": "mon_triffid_lifegiver", "weight": 10 },
+      { "monster": "mon_triffid_flower", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PLANT_ZEDS",
+    "default": "mon_zombie_garden",
+    "//": "Group for plant zeds",
+    "monsters": [
+      { "monster": "mon_zombie_garden", "weight": 70, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_seedling", "weight": 70, "cost_multiplier": 0 },
+      { "monster": "mon_boomer_moss", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_swimmer_swamped", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_brute_thorns", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_shrieker_vines", "weight": 30, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_OUTER",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_sprig", "weight": 80, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_triffid_young", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_triffid", "weight": 205 },
+      { "monster": "mon_triffid", "weight": 300, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_fungal_fighter", "weight": 160, "cost_multiplier": 0 },
+      { "monster": "mon_vinebeast", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_biter", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_acid", "weight": 160, "cost_multiplier": 10 },
+      { "monster": "mon_biollante_sprig", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_biollante_sprout", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_biollante", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_gas", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_lasher", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_lifegiver", "weight": 25, "cost_multiplier": 4 },
+      { "monster": "mon_triffid_flower", "weight": 25, "cost_multiplier": 4 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HEARTGUARDS",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid", "weight": 280, "cost_multiplier": 0 },
+      { "monster": "mon_triffid", "weight": 300, "cost_multiplier": 0, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_vinebeast", "weight": 260, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_biter", "weight": 260, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_acid", "weight": 260, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_queen", "weight": 160, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TRIFFID_HEART",
+    "monsters": [ { "monster": "mon_triffid_heart" } ]
+  }
+]

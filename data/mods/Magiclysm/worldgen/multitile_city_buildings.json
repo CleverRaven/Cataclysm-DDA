@@ -4,9 +4,18 @@
     "id": "magic_shop",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "magic_shop_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "magic_shop_north", "camp": "healers_grey", "camp_name": "Healer's respite" },
       { "point": [ 0, 0, 1 ], "overmap": "magic_shop_2ndfloor_north" },
       { "point": [ 0, 0, 2 ], "overmap": "magic_shop_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "used_bookstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "used_bookstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "used_bookstore_roof_north" }
     ]
   },
   {

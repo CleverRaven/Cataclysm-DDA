@@ -1,0 +1,51 @@
+[
+  {
+    "type": "mutation",
+    "id": "VAULT_DEFENDER",
+    "name": { "str": "Vault Defender" },
+    "points": 99,
+    "valid": false,
+    "player_display": false,
+    "description": "To cast bug killing spells.",
+    "debug": false,
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "ARMOR_BULLET", "add": -100 }, { "value": "PERCEPTION", "add": 15 } ] }
+    ]
+  },
+  {
+    "id": "librarian_blinding",
+    "type": "SPELL",
+    "name": "Soul Pressure",
+    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "effect": "attack",
+    "effect_str": "blind",
+    "extra_effects": [ { "id": "fireball", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": 20,
+    "max_damage": 20,
+    "min_range": 6,
+    "max_range": 6,
+    "min_duration": 200,
+    "max_duration": 200,
+    "damage_type": "pure"
+  },
+  {
+    "type": "mutation",
+    "id": "LIBRARY_DEFENDER",
+    "name": { "str": "library defender" },
+    "points": 99,
+    "valid": false,
+    "player_display": false,
+    "description": "To cast bug killing spells.",
+    "debug": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "PERCEPTION", "add": 5 } ],
+        "hit_me_effect": [ { "id": "librarian_blinding", "hit_self": false } ]
+      }
+    ]
+  }
+]

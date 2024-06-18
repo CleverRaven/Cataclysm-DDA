@@ -1,0 +1,85 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "psionic_instability_remover",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_MEDICAL",
+    "skill_used": "chemistry",
+    "skills_required": [ "metaphysics", 4 ],
+    "difficulty": 7,
+    "time": "240 m",
+    "batch_time_factors": [ 80, 3 ],
+    "book_learn": [ [ "schematics_instability_remover", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false },
+      { "proficiency": "prof_psionic_morphic", "required": false }
+    ],
+    "using": [ [ "serum_production_standard", 25 ] ],
+    "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
+    "components": [
+      [ [ "psionic_serum_base", 10 ] ],
+      [ [ "matrix_crystal_biokin_dust", 4 ] ],
+      [ [ "matrix_crystal_vitakin_dust_refined", 4 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "psionic_purifier_vita",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_MEDICAL",
+    "skill_used": "chemistry",
+    "skills_required": [ "metaphysics", 5 ],
+    "difficulty": 8,
+    "time": "350 m",
+    "book_learn": [ [ "schematics_psionic_purifier", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": true },
+      { "proficiency": "prof_psionic_morphic", "required": false }
+    ],
+    "using": [ [ "serum_production_standard", 25 ] ],
+    "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
+    "components": [
+      [ [ "psionic_serum_base", 5 ] ],
+      [ [ "matrix_crystal_biokin_dust_refined", 3 ] ],
+      [ [ "matrix_crystal_pyrokin_dust", 2 ] ],
+      [ [ "matrix_crystal_vitakin_dust_refined", 3 ] ],
+      [ [ "mutagen_chelator", 1 ], [ "iv_purifier", 1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "psi_noetic_resilience_treatment",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_MEDICAL",
+    "skill_used": "chemistry",
+    "skills_required": [ "metaphysics", 3 ],
+    "difficulty": 6,
+    "time": "280 m",
+    "book_learn": [ [ "schematics_noetic_resilience", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false },
+      { "proficiency": "prof_psionic_warping", "required": false }
+    ],
+    "using": [ [ "serum_production_standard", 25 ], [ "matrix_dust_refined", 4, "LIST" ] ],
+    "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
+    "components": [ [ [ "psionic_serum_base", 3 ] ], [ [ "thorazine", 2 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ]
+  }
+]

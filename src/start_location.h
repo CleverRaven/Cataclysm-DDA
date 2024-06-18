@@ -2,28 +2,43 @@
 #ifndef CATA_SRC_START_LOCATION_H
 #define CATA_SRC_START_LOCATION_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "assign.h"
+#include "common_types.h"
+#include "coords_fwd.h"
 #include "enums.h"
-#include "string_id.h"
+#include "game_constants.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-class player;
+class avatar;
+struct city;
 class tinymap;
-struct tripoint;
+
+struct start_location_placement_constraints {
+    numeric_interval<int> city_size{ 0, INT_MAX };
+    numeric_interval<int> city_distance{ 0, INT_MAX };
+    numeric_interval<int> allowed_z_levels{ -OVERMAP_DEPTH, OVERMAP_HEIGHT };
+};
+
+struct omt_types_parameters {
+    std::string omt;
+    ot_match_type omt_type;
+    std::unordered_map<std::string, std::string> parameters;
+};
 
 class start_location
 {
     public:
         start_location_id id;
+        std::vector<std::pair<start_location_id, mod_id>> src;
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -31,7 +46,7 @@ class start_location
 
         std::string name() const;
         int targets_count() const;
-        std::pair<std::string, ot_match_type> random_target() const;
+        omt_types_parameters random_target() const;
         const std::set<std::string> &flags() const;
 
         /**
@@ -40,7 +55,21 @@ class start_location
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        tripoint_abs_omt find_player_initial_location() const;
+        std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+                find_player_initial_location( const point_abs_om &origin ) const;
+        /**
+         * Find a suitable start location on the overmap in specific city.
+         * @return Global, absolute overmap terrain coordinates where the player should spawn.
+         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * in the world.
+         */
+        std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+                find_player_initial_location( const city &origin ) const;
+        /**
+         * Set any parameters assigned to the chosen start location
+         */
+        void set_parameters( const tripoint_abs_omt &omtstart,
+                             const std::unordered_map<std::string, std::string> &parameters_to_set ) const;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
@@ -49,7 +78,7 @@ class start_location
         /**
          * Place the player somewhere in the reality bubble (g->m).
          */
-        void place_player( player &u ) const;
+        void place_player( avatar &you, const tripoint_abs_omt &omtstart ) const;
         /**
          * Burn random terrain / furniture with FLAMMABLE or FLAMMABLE_ASH tag.
          * Doors and windows are excluded.
@@ -61,9 +90,9 @@ class start_location
         /**
          * Adds a map extra, see map_extras.h and map_extras.cpp. Look at the namespace MapExtras and class map_extras.
          */
-        void add_map_extra( const tripoint_abs_omt &omtstart, const std::string &map_extra ) const;
+        void add_map_extra( const tripoint_abs_omt &omtstart, const map_extra_id &map_extra ) const;
 
-        void handle_heli_crash( player &u ) const;
+        void handle_heli_crash( avatar &you ) const;
 
         /**
          * Adds surround start monsters.
@@ -71,10 +100,18 @@ class start_location
          */
         void surround_with_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
                                      float expected_points ) const;
+        const start_location_placement_constraints &get_constraints() const {
+            return constraints_;
+        }
+        /** @returns true if this start location requires a city */
+        bool requires_city() const;
+        /** @returns whether the start location at specified tripoint can belong to the specified city. */
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
     private:
         translation _name;
-        std::vector<std::pair<std::string, ot_match_type>> _omt_types;
+        std::vector<omt_types_parameters> _locations;
         std::set<std::string> _flags;
+        start_location_placement_constraints constraints_;
 
         void prepare_map( tinymap &m ) const;
 };

@@ -90,6 +90,7 @@
         "                ........",
         "                       ."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": [ 12, 17 ], "y": 7, "chance": 3, "rotation": 180 },
@@ -129,6 +130,7 @@
         ".......                 ",
         ".                       "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": [ 1, 7 ], "y": 7, "chance": 3, "rotation": 180 },
@@ -168,6 +170,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": 7, "y": [ 6, 11 ], "chance": 3, "rotation": 90 },
@@ -207,6 +210,7 @@
         " ..-x---x-....-x---x-.. ",
         "...^X^^^X^....^X^^^X^..."
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "subway_underground" ],
       "place_vehicles": [
         { "vehicle": "trains_draisine", "x": 16, "y": [ 12, 17 ], "chance": 3, "rotation": 270 },

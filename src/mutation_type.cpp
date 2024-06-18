@@ -1,7 +1,6 @@
-#include <algorithm>
+#include "mutation.h" // IWYU pragma: associated
 
 #include "json.h"
-#include "mutation.h" // IWYU pragma: associated
 
 struct mutation_type {
     std::string id;
@@ -25,9 +24,26 @@ bool mutation_type_exists( const std::string &id )
 std::vector<trait_id> get_mutations_in_type( const std::string &id )
 {
     std::vector<trait_id> ret;
-    for( mutation_branch it : mutation_branch::get_all() ) {
+    for( const mutation_branch &it : mutation_branch::get_all() ) {
         if( it.types.find( id ) != it.types.end() ) {
             ret.push_back( it.id );
+        }
+    }
+    return ret;
+}
+
+std::vector<trait_and_var> mutations_var_in_type( const std::string &id )
+{
+    std::vector<trait_and_var> ret;
+    for( const mutation_branch &it : mutation_branch::get_all() ) {
+        if( it.types.find( id ) != it.types.end() ) {
+            if( it.variants.empty() ) {
+                ret.emplace_back( it.id, "" );
+                continue;
+            }
+            for( const std::pair<const std::string, mutation_variant> &var : it.variants ) {
+                ret.emplace_back( it.id, var.second.id );
+            }
         }
     }
     return ret;

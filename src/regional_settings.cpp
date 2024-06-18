@@ -9,14 +9,17 @@
 
 #include "debug.h"
 #include "enum_conversions.h"
-#include "int_id.h"
+#include "generic_factory.h"
 #include "json.h"
+#include "map_extras.h"
 #include "options.h"
+#include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 
-ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
+ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
+    furn( furn_str_id::NULL_ID().id() ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -165,8 +168,34 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                 continue;
             }
             JsonObject forest_biome_jo = member.get_object();
-            load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
-                               overlay );
+            if( forest_biome_jo.has_array( "terrains" ) ) {
+                JsonArray forest_biome_ter_keys = forest_biome_jo.get_array( "terrains" );
+                if( forest_biome_ter_keys.empty() ) {
+                    forest_biome_jo.throw_error( "Biome is not associated with any terrains." );
+                }
+                std::string default_ter_name = member.name();
+                auto default_ter_it = forest_mapgen_settings.unfinalized_biomes.find( default_ter_name );
+                if( default_ter_it == forest_mapgen_settings.unfinalized_biomes.end() ) {
+                    if( overlay ) {
+                        forest_biome_jo.throw_error( "Terrain " + default_ter_name +
+                                                     " is not defined, cannot be used for forest biome." );
+                    }
+                    default_ter_it = forest_mapgen_settings.unfinalized_biomes.emplace( default_ter_name, forest_biome{} ).first;
+                }
+                forest_biome &default_ter = default_ter_it->second;
+                load_forest_biome( forest_biome_jo, default_ter, overlay );
+                for( size_t biome_ter_idx = 0; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                    std::string biome_ter_name = forest_biome_ter_keys.get_string( biome_ter_idx );
+                    if( biome_ter_name == default_ter_name ) {
+                        continue;
+                    }
+                    forest_mapgen_settings.unfinalized_biomes.insert( std::pair<std::string, forest_biome>
+                            ( forest_biome_ter_keys.get_string( biome_ter_idx ), default_ter ) );
+                }
+            } else {
+                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
+                                   overlay );
+            }
         }
     }
 }
@@ -197,31 +226,6 @@ static void load_forest_trail_settings( const JsonObject &jo,
                                     forest_trail_settings.trailhead_chance, !overlay );
         read_and_set_or_throw<int>( forest_trail_settings_jo, "trailhead_road_distance",
                                     forest_trail_settings.trailhead_road_distance, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_center_variance",
-                                    forest_trail_settings.trail_center_variance, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_min",
-                                    forest_trail_settings.trail_width_offset_min, !overlay );
-        read_and_set_or_throw<int>( forest_trail_settings_jo, "trail_width_offset_max",
-                                    forest_trail_settings.trail_width_offset_max, !overlay );
-        read_and_set_or_throw<bool>( forest_trail_settings_jo, "clear_trail_terrain",
-                                     forest_trail_settings.clear_trail_terrain, !overlay );
-
-        if( forest_trail_settings.clear_trail_terrain ) {
-            forest_trail_settings.unfinalized_trail_terrain.clear();
-        }
-
-        if( !forest_trail_settings_jo.has_object( "trail_terrain" ) ) {
-            if( !overlay ) {
-                forest_trail_settings_jo.throw_error( "trail_terrain required" );
-            }
-        } else {
-            for( const JsonMember member : forest_trail_settings_jo.get_object( "trail_terrain" ) ) {
-                if( member.is_comment() ) {
-                    continue;
-                }
-                forest_trail_settings.unfinalized_trail_terrain[member.name()] = member.get_int();
-            }
-        }
 
         if( !forest_trail_settings_jo.has_object( "trailheads" ) ) {
             if( !overlay ) {
@@ -329,6 +333,33 @@ static void load_overmap_ravine_settings(
     }
 }
 
+static void load_overmap_connection_settings(
+    const JsonObject &jo, overmap_connection_settings &overmap_connection_settings, const bool strict,
+    const bool overlay )
+{
+    if( !jo.has_object( "overmap_connection_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_connection_settings\": { … } required for default" );
+        }
+    } else {
+        JsonObject overmap_connection_settings_jo = jo.get_object( "overmap_connection_settings" );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "trail_connection",
+                overmap_connection_settings.trail_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "sewer_connection",
+                overmap_connection_settings.sewer_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "subway_connection",
+                overmap_connection_settings.subway_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "rail_connection",
+                overmap_connection_settings.rail_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo,
+                "intra_city_road_connection",
+                overmap_connection_settings.intra_city_road_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo,
+                "inter_city_road_connection",
+                overmap_connection_settings.inter_city_road_connection, !overlay );
+    }
+}
+
 static void load_overmap_lake_settings( const JsonObject &jo,
                                         overmap_lake_settings &overmap_lake_settings,
                                         const bool strict, const bool overlay )
@@ -373,6 +404,35 @@ static void load_overmap_lake_settings( const JsonObject &jo,
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
         }
+    }
+}
+
+static void load_overmap_ocean_settings( const JsonObject &jo,
+        overmap_ocean_settings &overmap_ocean_settings,
+        const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_ocean_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "OVERMAP_PLACE_OCEANS set to true, but \"overmap_ocean_settings\" not defined in region_settings" );
+        }
+    } else {
+        JsonObject overmap_ocean_settings_jo = jo.get_object( "overmap_ocean_settings" );
+        read_and_set_or_throw<double>( overmap_ocean_settings_jo, "noise_threshold_ocean",
+                                       overmap_ocean_settings.noise_threshold_ocean, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_size_min",
+                                    overmap_ocean_settings.ocean_size_min, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_depth",
+                                    overmap_ocean_settings.ocean_depth, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_north",
+                                    overmap_ocean_settings.ocean_start_north, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_east",
+                                    overmap_ocean_settings.ocean_start_east, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_west",
+                                    overmap_ocean_settings.ocean_start_west, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "ocean_start_south",
+                                    overmap_ocean_settings.ocean_start_south, !overlay );
+        read_and_set_or_throw<int>( overmap_ocean_settings_jo, "sandy_beach_width",
+                                    overmap_ocean_settings.sandy_beach_width, !overlay );
     }
 }
 
@@ -436,9 +496,9 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "No 'id' field." );
     }
     bool strict = new_region.id == "default";
-    if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
-        jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
-    }
+    mandatory( jo, false, "default_oter", new_region.default_oter );
+    // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
+    std::reverse( new_region.default_oter.begin(), new_region.default_oter.end() );
     if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
         jo.throw_error( "river_scale required for default" );
     }
@@ -452,52 +512,6 @@ void load_region_settings( const JsonObject &jo )
         }
     } else if( strict ) {
         jo.throw_error( "Weighted list 'default_groundcover' required for 'default'" );
-    }
-
-    if( !jo.has_object( "field_coverage" ) ) {
-        if( strict ) {
-            jo.throw_error( "\"field_coverage\": { … } required for default" );
-        }
-    } else {
-        JsonObject pjo = jo.get_object( "field_coverage" );
-        double tmpval = 0.0f;
-        if( !pjo.read( "percent_coverage", tmpval ) ) {
-            pjo.throw_error( "field_coverage: percent_coverage required" );
-        }
-        new_region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-        if( !pjo.read( "default_ter", new_region.field_coverage.default_ter_str ) ) {
-            pjo.throw_error( "field_coverage: default_ter required" );
-        }
-        tmpval = 0.0f;
-        if( pjo.has_object( "other" ) ) {
-            for( const JsonMember member : pjo.get_object( "other" ) ) {
-                if( member.is_comment() ) {
-                    continue;
-                }
-                new_region.field_coverage.percent_str[member.name()] = member.get_float();
-            }
-        }
-        if( pjo.read( "boost_chance", tmpval ) && tmpval != 0.0f ) {
-            new_region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
-            if( !pjo.read( "boosted_percent_coverage", tmpval ) ) {
-                pjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
-            }
-            new_region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-            if( !pjo.read( "boosted_other_percent", tmpval ) ) {
-                pjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
-            }
-            new_region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
-            if( pjo.has_object( "boosted_other" ) ) {
-                for( const JsonMember member : pjo.get_object( "boosted_other" ) ) {
-                    if( member.is_comment() ) {
-                        continue;
-                    }
-                    new_region.field_coverage.boosted_percent_str[member.name()] = member.get_float();
-                }
-            } else {
-                pjo.throw_error( "boost_chance > 0 requires boosted_other { … }" );
-            }
-        }
     }
 
     load_forest_mapgen_settings( jo, new_region.forest_composition, strict, false );
@@ -529,7 +543,7 @@ void load_region_settings( const JsonObject &jo )
                     if( member.is_comment() ) {
                         continue;
                     }
-                    extras.values.add( member.name(), member.get_int() );
+                    extras.values.add( map_extra_id( member.name() ), member.get_int() );
                 }
             }
 
@@ -588,12 +602,49 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
+    load_overmap_ocean_settings( jo, new_region.overmap_ocean, strict, false );
+
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
+
+    load_overmap_connection_settings( jo, new_region.overmap_connection, strict, false );
 
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
 
     region_settings_map[new_region.id] = new_region;
+}
+
+void check_region_settings()
+{
+    for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+        const std::string &region_name = p.first;
+        const regional_settings &region = p.second;
+        for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
+            const std::string extras_name = p2.first;
+            const map_extras &extras = p2.second;
+            if( extras.chance == 0 ) {
+                continue;
+            }
+            const weighted_int_list<map_extra_id> &values = extras.values;
+            if( !values.is_valid() ) {
+                if( values.empty() ) {
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras have nonzero chance but no extras are listed.",
+                              region_name, extras_name );
+                } else {
+                    std::string list_of_values =
+                        enumerate_as_string( values,
+                    []( const weighted_object<int, map_extra_id> &w ) {
+                        return '"' + w.obj.str() + '"';
+                    } );
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras %s are listed, but all have zero weight.",
+                              region_name, extras_name,
+                              list_of_values );
+                }
+            }
+        }
+    }
 }
 
 void reset_region_settings()
@@ -646,52 +697,6 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
         }
     }
 
-    JsonObject fieldjo = jo.get_object( "field_coverage" );
-    double tmpval = 0.0f;
-    if( fieldjo.read( "percent_coverage", tmpval ) ) {
-        region.field_coverage.mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-    }
-
-    fieldjo.read( "default_ter", region.field_coverage.default_ter_str );
-
-    for( const JsonMember member : fieldjo.get_object( "other" ) ) {
-        if( member.is_comment() ) {
-            continue;
-        }
-        region.field_coverage.percent_str[member.name()] = member.get_float();
-    }
-
-    if( fieldjo.read( "boost_chance", tmpval ) ) {
-        region.field_coverage.boost_chance = static_cast<int>( tmpval * 10000.0 );
-    }
-    if( fieldjo.read( "boosted_percent_coverage", tmpval ) ) {
-        if( region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f ) {
-            fieldjo.throw_error( "boost_chance > 0 requires boosted_percent_coverage" );
-        }
-
-        region.field_coverage.boosted_mpercent_coverage = static_cast<int>( tmpval * 10000.0 );
-    }
-
-    if( fieldjo.read( "boosted_other_percent", tmpval ) ) {
-        if( region.field_coverage.boost_chance > 0.0f && tmpval == 0.0f ) {
-            fieldjo.throw_error( "boost_chance > 0 requires boosted_other_percent" );
-        }
-
-        region.field_coverage.boosted_other_mpercent = static_cast<int>( tmpval * 10000.0 );
-    }
-
-    for( const JsonMember member : fieldjo.get_object( "boosted_other" ) ) {
-        if( member.is_comment() ) {
-            continue;
-        }
-        region.field_coverage.boosted_percent_str[member.name()] = member.get_float();
-    }
-
-    if( region.field_coverage.boost_chance > 0.0f &&
-        region.field_coverage.boosted_percent_str.empty() ) {
-        fieldjo.throw_error( "boost_chance > 0 requires boosted_other { … }" );
-    }
-
     load_forest_mapgen_settings( jo, region.forest_composition, false, true );
 
     load_forest_trail_settings( jo, region.forest_trail, false, true );
@@ -701,17 +706,25 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             continue;
         }
         JsonObject zonejo = zone.get_object();
+        map_extras &extras = region.region_extras[zone.name()];
 
         int tmpval = 0;
         if( zonejo.read( "chance", tmpval ) ) {
-            region.region_extras[zone.name()].chance = tmpval;
+            extras.chance = tmpval;
         }
 
         for( const JsonMember member : zonejo.get_object( "extras" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
-            region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
+            extras.values.add_or_replace( map_extra_id( member.name() ), member.get_int() );
+        }
+
+        // It's possible that all the entries of the weighted list have their
+        // weights set to zero by this overlay.  In that case we want to reset
+        // the chance to zero.
+        if( !extras.values.is_valid() ) {
+            extras.chance = 0;
         }
     }
 
@@ -722,7 +735,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     cityjo.read( "park_radius", region.city_spec.park_radius );
     cityjo.read( "park_sigma", region.city_spec.park_sigma );
 
-    const auto load_building_types = [&cityjo]( const std::string & type, building_bin & dest ) {
+    const auto load_building_types = [&cityjo]( const std::string_view type, building_bin & dest ) {
         for( const JsonMember member : cityjo.get_object( type ) ) {
             if( member.is_comment() ) {
                 continue;
@@ -740,7 +753,11 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
+    load_overmap_ocean_settings( jo, region.overmap_ocean, false, true );
+
     load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
+
+    load_overmap_connection_settings( jo, region.overmap_connection, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
@@ -755,8 +772,8 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
-        tf_id.ter = t_null;
-        tf_id.furn = f_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
+        tf_id.furn = furn_str_id::NULL_ID();
         if( it->second < 0.0001 ) {
             continue;
         }
@@ -776,8 +793,8 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
-        tf_id.ter = t_null;
-        tf_id.furn = f_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
+        tf_id.furn = furn_str_id::NULL_ID();
         if( it->second < 0.0001 ) {
             continue;
         }
@@ -817,7 +834,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
         debugmsg( "boosted plant coverage total (%s=%de-4) exceeds 100%%", ss.str(), btotal );
     }
 
-    tf_id.furn = f_null;
+    tf_id.furn = furn_str_id::NULL_ID();
     tf_id.ter = default_ter;
     weightlist[ 1000000 ] = tf_id;
     boosted_weightlist[ 1000000 ] = tf_id;
@@ -838,8 +855,8 @@ void forest_biome_component::finalize()
 {
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
-        tf_id.ter = t_null;
-        tf_id.furn = f_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
+        tf_id.furn = furn_str_id::NULL_ID();
         const ter_str_id tid( pr.first );
         const furn_str_id fid( pr.first );
         if( tid.is_valid() ) {
@@ -916,22 +933,13 @@ void forest_mapgen_settings::finalize()
 {
     for( auto &pr : unfinalized_biomes ) {
         pr.second.finalize();
-        const oter_id ot( pr.first );
+        const oter_type_id ot( pr.first );
         biomes[ot] = pr.second;
     }
 }
 
 void forest_trail_settings::finalize()
 {
-    for( const std::pair<const std::string, int> &pr : unfinalized_trail_terrain ) {
-        const ter_str_id tid( pr.first );
-        if( !tid.is_valid() ) {
-            debugmsg( "Tried to add invalid terrain %s to forest_trail_settings trail_terrain.", tid.c_str() );
-            continue;
-        }
-        trail_terrain.add( tid.id(), pr.second );
-    }
-
     trailheads.finalize();
 }
 
@@ -955,6 +963,22 @@ void overmap_lake_settings::finalize()
             continue;
         }
     }
+}
+
+map_extras map_extras::filtered_by( const mapgendata &dat ) const
+{
+    map_extras result( chance );
+    for( const weighted_object<int, map_extra_id> &obj : values ) {
+        const map_extra_id &extra_id = obj.obj;
+        if( extra_id->is_valid_for( dat ) ) {
+            result.values.add( extra_id, obj.weight );
+        }
+    }
+    if( !values.empty() && result.values.empty() ) {
+        // OMT is too tall / too deep for all map extras. Skip map extra generation.
+        result.chance = 0;
+    }
+    return result;
 }
 
 void region_terrain_and_furniture_settings::finalize()
@@ -1025,7 +1049,6 @@ void regional_settings::finalize()
             default_groundcover.add( pr.obj.id(), pr.weight );
         }
 
-        field_coverage.finalize();
         default_groundcover_str.reset();
         city_spec.finalize();
         forest_composition.finalize();
@@ -1033,6 +1056,9 @@ void regional_settings::finalize()
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
+        for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+            p.second.weather.sort_weather();
+        }
     }
 }
 

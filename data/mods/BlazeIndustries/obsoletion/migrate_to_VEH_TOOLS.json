@@ -1,0 +1,46 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "afs_metal_rig",
+    "to": "veh_tools_workshop",
+    "add_veh_tools": [ "welder", "soldering_iron", "forge", "kiln" ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "afs_kitchen_rig",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [
+      "vac_sealer",
+      "dehydrator",
+      "food_processor",
+      "press",
+      "puller",
+      "pot",
+      "pan",
+      "chemistry_set",
+      "electrolysis_kit",
+      "water_purifier"
+    ]
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "afs_cooking_rig",
+    "to": "veh_tools_kitchen",
+    "add_veh_tools": [ "pot", "pan", "chemistry_set", "electrolysis_kit" ]
+  },
+  {
+    "id": "afs_metal_rig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_workshop"
+  },
+  {
+    "id": "afs_kitchen_rig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  },
+  {
+    "id": "afs_cooking_rig",
+    "type": "MIGRATION",
+    "replace": "veh_tools_kitchen"
+  }
+]

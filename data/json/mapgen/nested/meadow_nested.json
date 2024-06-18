@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "meadow_12x12_pond",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " 7   7777   ",
+        "   77 ~ 77  ",
+        " 777 ~~~ 77 ",
+        "77 ~~~~~~ 7 ",
+        " 77 ~~~~~ 77",
+        "  7 ~~~~~~77",
+        "  77 ~~~~ 7 ",
+        "7  77  ~ 77 ",
+        "  77777777  ",
+        " 7  777777  ",
+        "       7  7 ",
+        "   7        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        " ": "t_null",
+        "7": [ [ "t_null", 250 ], [ "t_region_tree_forest", 25 ], [ "t_region_shrub_forest", 25 ] ],
+        "~": "t_water_sh"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "meadow_12x12_shrubs",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_null", "7": [ [ "t_null", 250 ], [ "t_region_shrub_forest", 25 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "meadow_12x12_trees",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "    7777    ",
+        "   777777   ",
+        "   777777   ",
+        "  77777777  ",
+        " 7777777777 ",
+        "777777777777",
+        "777777777777",
+        " 7777777777 ",
+        "  77777777  ",
+        "   777777   ",
+        "   777777   ",
+        "    7777    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { " ": "t_null", "7": [ [ "t_null", 500 ], [ "t_region_tree_forest", 80 ], [ "t_region_shrub_forest", 5 ] ] }
+    }
+  }
+]

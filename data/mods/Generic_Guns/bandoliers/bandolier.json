@@ -32,7 +32,7 @@
     "copy-from": "flintlock_pouch",
     "type": "ARMOR",
     "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
-    "pocket_data": [ { "ammo_restriction": { "ammo_black_powder": 14, "blunderbuss": 14, "shotcanister": 14 }, "moves": 20 } ]
+    "pocket_data": [ { "ammo_restriction": { "ammo_black_powder": 14, "blunderbuss": 14 }, "moves": 20 } ]
   },
   {
     "id": "bandolier_wrist",
@@ -67,7 +67,6 @@
           "stimpack_ammo": 60,
           "ampoule": 60,
           "blunderbuss": 60,
-          "shotcanister": 60,
           "paintball": 60
         },
         "moves": 35

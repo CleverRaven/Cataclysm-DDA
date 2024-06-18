@@ -1,0 +1,21 @@
+[
+  {
+    "id": "pellet_airgun",
+    "copy-from": "varmint_airgun",
+    "type": "GUN",
+    "name": { "str": "varmint air rifle" },
+    "description": "A cheap varmint air rifle chambered in .177, suitable for hunting small game.",
+    "ammo": [ "airgun_pellet" ],
+    "reload": 300,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ]
+  }
+]

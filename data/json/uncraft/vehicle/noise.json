@@ -11,16 +11,6 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "beeper",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "500 s",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "cable", 2 ] ], [ [ "scrap", 3 ] ] ]
-  },
-  {
-    "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "stereo",
     "skill_used": "mechanics",

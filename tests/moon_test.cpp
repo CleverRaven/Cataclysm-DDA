@@ -1,8 +1,8 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <string>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "enum_conversions.h"
 
 // MOON TESTS
@@ -37,7 +37,7 @@
 
 // The full lunar cycle takes a duration defined by lunar_month(), by default the synodic month
 // ~29.53 days when using the default season length of 91 days.
-TEST_CASE( "moon phase repeats once per synodic month", "[calendar][moon][phase][synodic]" )
+TEST_CASE( "moon_phase_repeats_once_per_synodic_month", "[calendar][moon][phase][synodic]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -73,7 +73,7 @@ TEST_CASE( "moon phase repeats once per synodic month", "[calendar][moon][phase]
 // length, one lunar (synodic) month is about 29.53 days. Longer or shorter seasons scale the lunar
 // month accordingly.
 //
-TEST_CASE( "lunar month is scaled by season default ratio", "[calendar][moon][month][season]" )
+TEST_CASE( "lunar_month_is_scaled_by_season_default_ratio", "[calendar][moon][month][season]" )
 {
     const time_point zero = calendar::turn_zero;
 
@@ -117,7 +117,7 @@ TEST_CASE( "lunar month is scaled by season default ratio", "[calendar][moon][mo
 // With 8 discrete phases during a 29-day period, each phase lasts three or four days.
 // Over a 1-month period of 30 or 31 days, the moon should go through all 8 phases.
 //
-TEST_CASE( "moon phases each day for a month", "[calendar][moon][phase]" )
+TEST_CASE( "moon_phases_each_day_for_a_month", "[calendar][moon][phase]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -162,7 +162,7 @@ TEST_CASE( "moon phases each day for a month", "[calendar][moon][phase]" )
 // To prevent the light level from abruptly changing in the middle of the night, the moon's phase
 // change occurs at noon (rather than midnight) on the appropriate day during the lunar cycle.
 //
-TEST_CASE( "moon phase changes at noon", "[calendar][moon][phase][change]" )
+TEST_CASE( "moon_phase_changes_at_noon", "[calendar][moon][phase][change]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -203,7 +203,7 @@ TEST_CASE( "moon phase changes at noon", "[calendar][moon][phase][change]" )
 
 // At dawn, light transitions from moonlight to sunlight level.
 // At dusk, light transitions from sunlight to moonlight level.
-TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk]" )
+TEST_CASE( "moonlight_at_dawn_and_dusk", "[calendar][moon][moonlight][dawn][dusk]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -216,30 +216,20 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point new_sunset = sunset( new_midnight );
         time_point new_noon = new_midnight + 12_hours;
 
-        // Daylight level should be 100 at first new moon
-        float daylight_level = current_daylight_level( new_noon );
-        float half_twilight = ( daylight_level + 1.0f ) / 2.0f;
+        // Daylight level should be ~100 at first new moon
+        float daylight_level = sun_moon_light_at( new_noon );
+        CHECK( daylight_level == Approx( 110 ).margin( 10 ) );
         float moonlight_level = 1.0f;
 
         THEN( "at night, light is only moonlight" ) {
-            CHECK( sunlight( new_sunset + 61_minutes ) == moonlight_level );
-            CHECK( sunlight( new_midnight ) == moonlight_level );
-            CHECK( sunlight( new_sunrise - 1_minutes ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_sunset + 2_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_midnight ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_sunrise - 2_hours ) == moonlight_level );
         }
         THEN( "at dawn, light increases from moonlight to daylight" ) {
-            CHECK( sunlight( new_sunrise ) == moonlight_level );
-            CHECK( sunlight( new_sunrise + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( new_sunrise + 1_hours ) == daylight_level );
-        }
-        THEN( "after dawn, until dusk, light is full daylight" ) {
-            CHECK( sunlight( new_sunrise + 61_minutes ) == daylight_level );
-            CHECK( sunlight( new_noon ) == daylight_level );
-            CHECK( sunlight( new_sunset - 1_minutes ) == daylight_level );
-        }
-        THEN( "at dusk, light decreases from daylight to moonlight" ) {
-            CHECK( sunlight( new_sunset ) == daylight_level );
-            CHECK( sunlight( new_sunset + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( new_sunset + 1_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( new_sunrise ) > sun_moon_light_at( new_sunrise - 2_hours ) );
+            CHECK( sun_moon_light_at( new_sunrise + 1_hours ) ==
+                   sun_light_at( new_sunrise + 1_hours ) + moonlight_level );
         }
     }
 
@@ -252,29 +242,20 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point full_noon = full_midnight + 12_hours;
 
         // Daylight level is higher, later in the season (~104 at first full moon)
-        float daylight_level = current_daylight_level( full_noon );
-        float half_twilight = ( daylight_level + 10.0f ) / 2.0f;
-        float moonlight_level = 10.0f;
+        float daylight_level = sun_moon_light_at( full_noon );
+        CHECK( daylight_level == Approx( 120 ).margin( 10 ) );
+        float moonlight_level = 7.0f;
 
         THEN( "at night, light is only moonlight" ) {
-            CHECK( sunlight( full_sunset + 61_minutes ) == moonlight_level );
-            CHECK( sunlight( full_midnight ) == moonlight_level );
-            CHECK( sunlight( full_sunrise - 1_minutes ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_sunset + 2_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_midnight ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_sunrise - 2_hours ) == moonlight_level );
         }
         THEN( "at dawn, light increases from moonlight to daylight" ) {
-            CHECK( sunlight( full_sunrise ) == moonlight_level );
-            CHECK( sunlight( full_sunrise + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( full_sunrise + 1_hours ) == daylight_level );
-        }
-        THEN( "after dawn, until dusk, light is full daylight" ) {
-            CHECK( sunlight( full_sunrise + 61_minutes ) == daylight_level );
-            CHECK( sunlight( full_noon ) == daylight_level );
-            CHECK( sunlight( full_sunset - 1_minutes ) == daylight_level );
-        }
-        THEN( "at dusk, light decreases from daylight to moonlight" ) {
-            CHECK( sunlight( full_sunset ) == daylight_level );
-            CHECK( sunlight( full_sunset + 30_minutes ) == Approx( half_twilight ) );
-            CHECK( sunlight( full_sunset + 1_hours ) == moonlight_level );
+            CHECK( sun_moon_light_at( full_sunrise ) >
+                   sun_moon_light_at( full_sunrise - 2_hours ) );
+            CHECK( sun_moon_light_at( full_sunrise + 1_hours ) ==
+                   sun_light_at( full_sunrise + 1_hours ) + moonlight_level );
         }
     }
 }
@@ -314,11 +295,11 @@ static float phase_moonlight( const float phase_scale, const moon_phase expect_p
                expect_phase_enum ) );
 
     // Finally, get the amount of moonlight
-    return sunlight( this_night );
+    return sun_moon_light_at( this_night );
 }
 
 // Moonlight level varies with moon phase, from 1.0 at new moon to 10.0 at full moon.
-TEST_CASE( "moonlight for each phase", "[calendar][moon][phase][moonlight]" )
+TEST_CASE( "moonlight_for_each_phase", "[calendar][moon][phase][moonlight]" )
 {
     calendar::set_season_length( 91 );
     REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
@@ -326,13 +307,13 @@ TEST_CASE( "moonlight for each phase", "[calendar][moon][phase][moonlight]" )
     // At the start of each phase, moonlight is 1.0 + (2.25 per quarter)
     SECTION( "moonlight increases as moon goes from new to full" ) {
         CHECK( 1.00f == phase_moonlight( 0.0f, MOON_NEW ) );
-        CHECK( 3.25f == phase_moonlight( 0.25f, MOON_WAXING_CRESCENT ) );
-        CHECK( 5.50f == phase_moonlight( 0.5f, MOON_HALF_MOON_WAXING ) );
-        CHECK( 7.75f == phase_moonlight( 0.75f, MOON_WAXING_GIBBOUS ) );
-        CHECK( 10.0f == phase_moonlight( 1.0f, MOON_FULL ) );
-        CHECK( 7.75f == phase_moonlight( 1.25f, MOON_WANING_GIBBOUS ) );
-        CHECK( 5.50f == phase_moonlight( 1.5f, MOON_HALF_MOON_WANING ) );
-        CHECK( 3.25f == phase_moonlight( 1.75f, MOON_WANING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.25f, MOON_WAXING_CRESCENT ) );
+        CHECK( 4.f == phase_moonlight( 0.5f, MOON_HALF_MOON_WAXING ) );
+        CHECK( 5.5f == phase_moonlight( 0.75f, MOON_WAXING_GIBBOUS ) );
+        CHECK( 7.0f == phase_moonlight( 1.0f, MOON_FULL ) );
+        CHECK( 5.5f == phase_moonlight( 1.25f, MOON_WANING_GIBBOUS ) );
+        CHECK( 4.f == phase_moonlight( 1.5f, MOON_HALF_MOON_WANING ) );
+        CHECK( 2.5f == phase_moonlight( 1.75f, MOON_WANING_CRESCENT ) );
     }
 
     SECTION( "moonlight is constant during each phase" ) {
@@ -343,9 +324,9 @@ TEST_CASE( "moonlight for each phase", "[calendar][moon][phase][moonlight]" )
         // FIXME: Make moonlight gradually transition from one phase to the next
         // ex., from NEW to WAXING_CRESCENT should smoothly go from 1.0 to 3.25
         // instead of jumping suddenly in the middle.
-        CHECK( 3.25f == phase_moonlight( 0.11f, MOON_WAXING_CRESCENT ) );
-        CHECK( 3.25f == phase_moonlight( 0.20f, MOON_WAXING_CRESCENT ) );
-        CHECK( 3.25f == phase_moonlight( 0.30f, MOON_WAXING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.11f, MOON_WAXING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.20f, MOON_WAXING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.30f, MOON_WAXING_CRESCENT ) );
     }
 }
 

@@ -1,0 +1,484 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_arthropod",
+    "weakpoints": [
+      { "id": "abdomen", "name": "abdomen", "coverage": 25 },
+      {
+        "id": "leg",
+        "name": "a leg",
+        "difficulty": { "melee": 3, "ranged": 3 },
+        "damage_mult": { "all": 0.66 },
+        "crit_mult": { "all": 0.66 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 5, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 15,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 30, 100 ]
+          }
+        ],
+        "coverage": 10
+      },
+      {
+        "id": "leg_joint",
+        "name": "a joint",
+        "damage_mult": { "all": 0.66 },
+        "crit_mult": { "all": 0.66 },
+        "armor_mult": { "all": 0.5 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 5, 20 ] },
+          {
+            "effect": "staggered",
+            "chance": 40,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 21, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's leg falls limp!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's leg falls limp!",
+            "damage_required": [ 11, 30 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": 86400,
+            "message": "The %s's leg is disabled!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 2
+      },
+      {
+        "id": "body_joint",
+        "name": "a gap in the exoskeleton",
+        "armor_mult": { "all": 0.5 },
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "broad": 0.25, "ranged": 0.5 },
+        "difficulty": { "melee": 4, "ranged": 7 },
+        "coverage": 5
+      },
+      {
+        "id": "armor_thick",
+        "name": "a thick part of the exoskeleton",
+        "armor_mult": { "all": 1.5 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "cut": 1.5 },
+        "coverage": 5
+      },
+      {
+        "id": "antenna",
+        "name": "the antennae",
+        "difficulty": { "melee": 4, "ranged": 8 },
+        "damage_mult": { "all": 0.5 },
+        "armor_mult": { "all": 0.5 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 0, 20 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 6 ],
+            "chance": 50,
+            "message": "The %s is stunned!",
+            "damage_required": [ 21, 100 ]
+          }
+        ],
+        "coverage": 3,
+        "coverage_mult": { "point": 0.5 }
+      },
+      {
+        "id": "head",
+        "name": "the head",
+        "damage_mult": { "all": 1.1 },
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "effects": [
+          { "effect": "stunned", "duration": 1, "chance": 5, "message": "The %s is stunned!", "damage_required": [ 30, 50 ] },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 33,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ],
+        "coverage": 3
+      },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0.4 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 8, "melee": 6 },
+        "effects": [
+          {
+            "effect": "blind",
+            "duration": 86400,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 35, 100 ]
+          }
+        ],
+        "coverage": 2
+      },
+      {
+        "id": "mandible",
+        "name": "the mandibles",
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's mandibles are destroyed!",
+            "damage_required": [ 41, 100 ]
+          }
+        ],
+        "coverage": 2
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_arthropod_centipede",
+    "weakpoints": [
+      {
+        "id": "abdomen",
+        "name": "the underbelly",
+        "crit_mult": { "all": 1.5 },
+        "difficulty": { "melee": 2 },
+        "armor_mult": { "physical": 0.35 },
+        "coverage_mult": { "ranged": 0 },
+        "coverage": 15
+      },
+      {
+        "id": "antenna",
+        "name": "the antennae",
+        "difficulty": { "melee": 4, "ranged": 8 },
+        "damage_mult": { "all": 0.5 },
+        "armor_mult": { "all": 0.5 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 0, 20 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 3 ],
+            "chance": 50,
+            "message": "The %s is stunned!",
+            "damage_required": [ 21, 100 ]
+          }
+        ],
+        "coverage": 8,
+        "coverage_mult": { "point": 0.5 }
+      },
+      {
+        "id": "mandible",
+        "name": "the mandibles",
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 1, 15 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 16, 30 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's mandibles are destroyed!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 5
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_arthropod_hymenoptera",
+    "weakpoints": [
+      {
+        "id": "petiole",
+        "name": "the waist",
+        "crit_mult": { "all": 2 },
+        "difficulty": { "melee": 5, "ranged": 8 },
+        "coverage_mult": { "stab": 0.1, "ranged": 0.33 },
+        "coverage": 5
+      },
+      {
+        "id": "abdomen",
+        "name": "the abdomen",
+        "coverage": 30,
+        "effects": [ { "effect": "maimed_stinger", "chance": 100, "duration": [ 5, 30 ], "message": "The %s retracts its stinger!" } ]
+      },
+      {
+        "id": "stinger",
+        "name": "the stinger",
+        "difficulty": { "melee": 8, "ranged": 12 },
+        "coverage_mult": { "broad": 2 },
+        "coverage": 5,
+        "effects": [ { "effect": "maimed_stinger", "chance": 25, "duration": 86400, "message": "The %s's stinger is disabled!" } ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_arthropod_flying",
+    "weakpoints": [
+      {
+        "id": "wings_stagger",
+        "name": "the wings",
+        "damage_mult": { "all": 0.2 },
+        "crit_mult": { "all": 0.2 },
+        "armor_mult": { "physical": 0.2 },
+        "difficulty": { "ranged": 7, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 0, 20 ] },
+          {
+            "effect": "staggered",
+            "chance": 50,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 21, 100 ]
+          },
+          {
+            "effect": "maimed_wings",
+            "duration": [ 5, 10 ],
+            "chance": 5,
+            "message": "The %s's wings flutter uselessly",
+            "damage_required": [ 21, 100 ]
+          }
+        ],
+        "coverage": 10
+      },
+      {
+        "id": "wings_down",
+        "name": "the wings",
+        "damage_mult": { "all": 0.2 },
+        "crit_mult": { "all": 0.2 },
+        "armor_mult": { "physical": 0.2 },
+        "difficulty": { "ranged": 7, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "required_effects": [ "staggered" ],
+        "effects": [
+          { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 1, 100 ] },
+          {
+            "effect": "maimed_wings",
+            "chance": 20,
+            "duration": 86400,
+            "message": "The %s's wings are disabled!",
+            "damage_required": [ 25, 100 ]
+          }
+        ],
+        "coverage": 10
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_arthropod_beetle",
+    "weakpoints": [
+      {
+        "id": "armor_thick",
+        "name": "a thick part of its armor",
+        "armor_mult": { "all": 1.5 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "cut": 1.5 },
+        "coverage": 20,
+        "effects": [
+          {
+            "effect": "maimed_armor",
+            "chance": 15,
+            "duration": 86400,
+            "message": "The %s's armor cracks!",
+            "damage_required": [ 10, 30 ]
+          },
+          {
+            "effect": "maimed_armor",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's armor cracks!",
+            "damage_required": [ 31, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "armor_cracked",
+        "name": "a crack in the armor",
+        "armor_mult": { "all": 0.33 },
+        "crit_mult": { "all": 1.2 },
+        "coverage": 15,
+        "required_effects": [ "maimed_armor" ]
+      },
+      {
+        "id": "abdomen",
+        "name": "the underside",
+        "armor_mult": { "all": 0.25 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 5 },
+        "coverage_mult": { "ranged": 0 },
+        "coverage": 5
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_arthropod_spider",
+    "//": "TODO: When webweavers get the spinneret attack add a disabling WP",
+    "weakpoints": [
+      {
+        "id": "leg",
+        "name": "a leg",
+        "damage_mult": { "all": 0.66 },
+        "crit_mult": { "all": 0.66 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 5, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 15,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 30, 100 ]
+          }
+        ],
+        "coverage": 15
+      },
+      {
+        "id": "leg_joint",
+        "name": "a joint",
+        "damage_mult": { "all": 0.66 },
+        "crit_mult": { "all": 0.66 },
+        "armor_mult": { "all": 0.5 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 25, "message": "The %s is knocked off-balance!", "damage_required": [ 5, 20 ] },
+          {
+            "effect": "staggered",
+            "chance": 40,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 21, 100 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 10,
+            "duration": [ 5, 25 ],
+            "message": "The %s's leg falls limp!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": [ 15, 50 ],
+            "message": "The %s's leg falls limp!",
+            "damage_required": [ 11, 30 ]
+          },
+          {
+            "effect": "maimed_leg",
+            "chance": 25,
+            "duration": 86400,
+            "message": "The %s's leg is disabled!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 5
+      },
+      { "id": "antenna", "coverage": 0 },
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0.4 },
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 8, "melee": 6 },
+        "effects": [
+          {
+            "effect": "blind",
+            "duration": 86400,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 35, 100 ]
+          }
+        ],
+        "coverage": 3
+      },
+      {
+        "id": "mandible",
+        "name": "the mandibles",
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 5, "melee": 3 },
+        "effects": [
+          {
+            "effect": "maimed_mandible",
+            "chance": 25,
+            "duration": [ 1, 10 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 1, 20 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": [ 5, 25 ],
+            "message": "The %s's mandibles are maimed!",
+            "damage_required": [ 21, 40 ]
+          },
+          {
+            "effect": "maimed_mandible",
+            "chance": 50,
+            "duration": 86400,
+            "message": "The %s's mandibles are destroyed!",
+            "damage_required": [ 41, 100 ]
+          }
+        ],
+        "coverage": 4
+      },
+      { "id": "abdomen", "name": "the abdomen", "coverage": 35 }
+    ]
+  }
+]

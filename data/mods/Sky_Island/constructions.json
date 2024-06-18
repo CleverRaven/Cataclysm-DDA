@@ -1,0 +1,345 @@
+[
+  {
+    "type": "construction",
+    "id": "copy_autodoc_with_plate",
+    "group": "autodoc_copy",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "warp_autodoc_inert", 1 ] ] ],
+    "byproducts": [ { "item": "warp_autodoc_active", "count": 1 } ],
+    "pre_terrain": "f_autodoc",
+    "post_terrain": "f_wreckage",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "build_autodoc_from_plate",
+    "group": "autodoc_paste",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 h",
+    "components": [ [ [ "warp_autodoc_active", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_autodoc",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sofa",
+    "group": "build_sofa",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ], [ "tailor", 4 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 10 ] ], [ [ "cotton_patchwork", 100 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_sofa",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "couch_to_autodoc_couch",
+    "group": "autodoc_couch_conversion",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 6 ], [ "electronics", 3 ] ],
+    "time": "120 m",
+    "components": [ [ [ "nail", 10 ] ], [ [ "cable", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "circuit", 1 ] ] ],
+    "pre_terrain": "f_sofa",
+    "post_terrain": "f_autodoc_couch",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "plant_grass",
+    "group": "sow_grass",
+    "category": "OTHER",
+    "components": [ [ [ "warp_grassbag", 1 ] ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "5 s",
+    "pre_terrain": "t_dirt",
+    "post_flags": [ "keep_items" ],
+    "post_terrain": "t_grass",
+    "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_apple_tree",
+    "group": "warped_apple_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "apple", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_apple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_cherry_tree",
+    "group": "warped_cherry_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "cherries", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_cherry",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_maple_tree",
+    "group": "warped_maple_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "syrup", 24 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_maple",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_pear_tree",
+    "group": "warped_pear_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "pear", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_pear",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_plum_tree",
+    "group": "warped_plum_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "plums", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_plum",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_peach_tree",
+    "group": "warped_peach_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "peach", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_peach",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_oak_tree",
+    "group": "warped_oak_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "acorns", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_pine_tree",
+    "group": "warped_pine_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "pinecone", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_pine",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_birch_tree",
+    "group": "warped_birch_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "birchbark", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_birch",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "grow_warped_mulberry_tree",
+    "group": "warped_mulberry_tree",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 3 ] ],
+    "time": "120 m",
+    "components": [
+      [ [ "warptoken", 1 ] ],
+      [ [ "stick_long", 1 ], [ "stick", 2 ], [ "twig", 6 ] ],
+      [ [ "leaves", 8 ], [ "young_leaves", 8 ] ],
+      [ [ "mulberries", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_tree_mulberry",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "turn_water_into_pond",
+    "group": "water_into_pond",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "120 m",
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "water_clean", 1000 ] ] ],
+    "//": "Intention is for decoration, not to give you infinite water early",
+    "pre_special": "check_empty",
+    "post_terrain": "t_water_sh",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "turn_pond_into_deep_pond",
+    "group": "water_into_deep_pond",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "120 m",
+    "components": [ [ [ "warptoken", 1 ] ], [ [ "water_clean", 250 ] ] ],
+    "pre_terrain": "t_water_sh",
+    "post_terrain": "t_water_dp",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "sow_grass",
+    "name": "Cover soil with grass"
+  },
+  {
+    "type": "construction_group",
+    "id": "autodoc_copy",
+    "name": "Store Autodoc onto copyplate"
+  },
+  {
+    "type": "construction_group",
+    "id": "autodoc_paste",
+    "name": "Place Autodoc from copyplate"
+  },
+  {
+    "type": "construction_group",
+    "id": "autodoc_couch_conversion",
+    "name": "Convert sofa into Autodoc couch"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sofa",
+    "name": "Build sofa"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_apple_tree",
+    "name": "Grow a Warped Apple Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_cherry_tree",
+    "name": "Grow a Warped Cherry Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_maple_tree",
+    "name": "Grow a Warped Maple Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_pear_tree",
+    "name": "Grow a Warped Pear Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_plum_tree",
+    "name": "Grow a Warped Plum Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_peach_tree",
+    "name": "Grow a Warped Peach Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_oak_tree",
+    "name": "Grow a Warped Oak Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_pine_tree",
+    "name": "Grow a Warped Pine Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_birch_tree",
+    "name": "Grow a Warped Birch Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "warped_mulberry_tree",
+    "name": "Grow a Warped Mulberry Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "water_into_pond",
+    "name": "Warp water into a pond"
+  },
+  {
+    "type": "construction_group",
+    "id": "water_into_deep_pond",
+    "name": "Deepen a warped pond"
+  }
+]

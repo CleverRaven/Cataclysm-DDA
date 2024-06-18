@@ -2,7 +2,7 @@
   {
     "id": "BGRS_AFTERLIFE_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "What level of hell is this?  I spent weeks in a sulforous hell being tortured.",
+    "dynamic_line": "What level of hell is this?  I spent weeks in a sulfurous hell being tortured.",
     "responses": [
       { "text": "What was that like?", "topic": "BGRS_AFTERLIFE_1_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

@@ -1,0 +1,35 @@
+[
+{
+    "id": "death_sap",
+    "type": "SPELL",
+    "name": { "str": "Death Sap" },
+    "description": "Sap Explosion",
+    "valid_targets": [ "ground", "hostile", "ally", "self" ],
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "aoe_increment": 1,
+    "max_level": 1,
+    "min_duration": 2400,
+    "max_duration": 2400,
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "sap",
+    "field_chance": 1,
+    "field_id": "fd_bile",
+    "max_field_intensity": 2,
+    "min_field_intensity": 2,
+    "affected_body_parts": [ "TORSO", "ARM_R", "ARM_L", "LEG_R", "LEG_L" ],
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  },
+  {
+    "id": "death_pollen",
+    "type": "SPELL",
+    "name": { "str": "Triffid Pollen Explosion" },
+    "description": "Causes a small explosion of alien pollen.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_pollen",
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
+  }
+]

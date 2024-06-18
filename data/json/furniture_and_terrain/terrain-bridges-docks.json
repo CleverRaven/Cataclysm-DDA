@@ -8,7 +8,8 @@
     "looks_like": "t_pavement",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ]
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER"
   },
   {
     "type": "terrain",
@@ -20,6 +21,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
       "str_min": 8,
@@ -39,6 +41,7 @@
     "color": "brown",
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
+    "connect_groups": "WATER",
     "examine_action": "water_source",
     "deconstruct": { "ter_set": "t_water_moving_dp", "items": [ { "item": "spike", "count": 4 }, { "item": "wood_beam", "count": 1 } ] },
     "looks_like": "t_column",
@@ -60,6 +63,7 @@
     "color": "brown",
     "move_cost": 6,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "log", "count": 4 } ] },
     "looks_like": "t_wall_log_half",
     "bash": {
@@ -80,6 +84,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_dock_deep_frame",
       "items": [ { "item": "nail", "charges": [ 12, 24 ] }, { "item": "2x4", "count": 16 } ]
@@ -104,6 +109,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
       "str_min": 8,
@@ -118,12 +124,13 @@
     "type": "terrain",
     "id": "t_pontoon_dp",
     "name": "pontoon bridge",
-    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "description": "A floating temporary bridge over still water, like the ones armies used to make to cross lakes.",
     "looks_like": "t_pontoon",
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_dp",
       "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
@@ -141,12 +148,13 @@
     "type": "terrain",
     "id": "t_riverbridge_dp",
     "name": "river bridge",
-    "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
+    "description": "A floating temporary bridge over flowing water, like the ones armies used to make to cross rivers.",
     "looks_like": "t_pontoon",
     "symbol": "8",
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_moving_dp",
       "items": [ { "item": "rope_makeshift_6", "count": [ 3, 4 ] }, { "item": "2x4", "count": 8 } ]
@@ -156,7 +164,7 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "whump!",
-      "ter_set": "t_water_dp",
+      "ter_set": "t_water_moving_dp",
       "items": [ { "item": "2x4", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 2, 4 ] } ]
     }
   },
@@ -164,13 +172,14 @@
     "type": "terrain",
     "id": "t_pavement_bg_dp",
     "name": "bridge pavement",
-    "connects_to": "PAVEMENT",
     "description": "A bridge section made out of concrete and metal.",
     "looks_like": "t_pavement",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "connect_groups": [ "PAVEMENT", "WATER" ],
+    "connects_to": "PAVEMENT",
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -184,13 +193,14 @@
     "type": "terrain",
     "id": "t_pavement_y_bg_dp",
     "name": "bridge yellow pavement",
-    "connects_to": "PAVEMENT",
     "description": "A bridge section made out of concrete and metal.  It's painted yellow.",
     "looks_like": "t_pavement_y",
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "connect_groups": [ "PAVEMENT", "WATER" ],
+    "connects_to": "PAVEMENT",
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -210,6 +220,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "connect_groups": "WATER",
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -229,6 +240,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_sh",
       "items": [ { "item": "scrap", "charges": [ 3, 6 ] }, { "item": "sheet_metal", "count": 2 } ]
@@ -252,6 +264,7 @@
     "color": "light_gray",
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
+    "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_water_moving_dp",
       "items": [ { "item": "rebar", "count": [ 4, 6 ] }, { "item": "rock", "count": [ 6, 10 ] } ]
@@ -278,6 +291,7 @@
     "color": "light_gray",
     "move_cost": 6,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_concrete_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "pipe", "count": 4 } ] },
     "looks_like": "t_sconc_wall_halfway",
     "bash": {
@@ -298,6 +312,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": {
       "ter_set": "t_metal_dock_deep_frame",
       "items": [ { "item": "nail", "charges": [ 12, 24 ] }, { "item": "sheet_metal", "count": 4 } ]
@@ -322,6 +337,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
+    "connect_groups": "WATER",
     "deconstruct": { "ter_set": "t_water_dp", "items": [ { "item": "sheet_metal", "count": [ 2, 4 ] }, { "item": "scrap", "count": 8 } ] },
     "bash": {
       "str_min": 20,

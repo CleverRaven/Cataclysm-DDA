@@ -1,18 +1,23 @@
 #include "event_field_transformations.h"
 
+#include <cmath>
+#include <cstdlib>
+#include <optional>
 #include <set>
+#include <string>
 
-#include "int_id.h"
+#include "coordinates.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"
-#include "string_id.h"
+#include "overmapbuffer.h"
+#include "point.h"
 #include "type_id.h"
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
 {
-    const auto &flags = v.get<itype_id>()->get_flags();
+    const itype::FlagsSetType &flags = v.get<itype_id>()->get_flags();
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
     for( const flag_id &s : flags ) {
@@ -42,9 +47,15 @@ static std::vector<cata_variant> is_mounted( const cata_variant &v )
 static std::vector<cata_variant> is_swimming_terrain( const cata_variant &v )
 {
     const ter_id ter = v.get<ter_id>();
-    const bool swimming = ter->has_flag( ter_bitflags::TFLAG_DEEP_WATER ) &&
-                          ter->has_flag( ter_bitflags::TFLAG_SWIMMABLE );
+    const bool swimming = ter->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) &&
+                          ter->has_flag( ter_furn_flag::TFLAG_SWIMMABLE );
     std::vector<cata_variant> result = { cata_variant( swimming ) };
+    return result;
+}
+
+static std::vector<cata_variant> math_abs( const cata_variant &v )
+{
+    std::vector<cata_variant> result = { cata_variant( std::abs( v.get<int>() ) ) };
     return result;
 }
 
@@ -55,13 +66,24 @@ static std::vector<cata_variant> oter_type_of_oter( const cata_variant &v )
     return result;
 }
 
+static std::vector<cata_variant> overmap_special_at( const cata_variant &v )
+{
+    const tripoint_abs_omt p( v.get<tripoint>() );
+    std::optional<overmap_special_id> special = overmap_buffer.overmap_special_at( p );
+    if( special ) {
+        return { cata_variant( *special ) };
+    } else {
+        return {};
+    }
+}
+
 static std::vector<cata_variant> species_of_monster( const cata_variant &v )
 {
     const std::set<species_id> &species = v.get<mtype_id>()->species;
     std::vector<cata_variant> result;
     result.reserve( species.size() );
     for( const species_id &s : species ) {
-        result.push_back( cata_variant( s ) );
+        result.emplace_back( s );
     }
     return result;
 }
@@ -69,11 +91,11 @@ static std::vector<cata_variant> species_of_monster( const cata_variant &v )
 const std::unordered_map<std::string, event_field_transformation> event_field_transformations = {
     {
         "flags_of_itype",
-        {flags_of_itype, cata_variant_type::flag_id, { cata_variant_type::itype_id}}
+        { flags_of_itype, cata_variant_type::flag_id, { cata_variant_type::itype_id } }
     },
     {
         "flags_of_terrain",
-        {flags_of_terrain, cata_variant_type::string, { cata_variant_type::ter_id}}
+        { flags_of_terrain, cata_variant_type::string, { cata_variant_type::ter_id } }
     },
     {
         "is_mounted",
@@ -81,11 +103,19 @@ const std::unordered_map<std::string, event_field_transformation> event_field_tr
     },
     {
         "is_swimming_terrain",
-        {is_swimming_terrain, cata_variant_type::bool_, { cata_variant_type::ter_id } }
+        { is_swimming_terrain, cata_variant_type::bool_, { cata_variant_type::ter_id } }
+    },
+    {
+        "math_abs",
+        { math_abs, cata_variant_type::int_, { cata_variant_type::int_ } }
     },
     {
         "oter_type_of_oter",
         { oter_type_of_oter, cata_variant_type::oter_type_str_id, { cata_variant_type::oter_id } }
+    },
+    {
+        "overmap_special_at",
+        { overmap_special_at, cata_variant_type::overmap_special_id, { cata_variant_type::tripoint } }
     },
     {
         "species_of_monster",

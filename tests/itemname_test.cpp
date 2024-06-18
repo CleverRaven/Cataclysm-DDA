@@ -1,18 +1,21 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <set>
 #include <string>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 
-TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+
+TEST_CASE( "item_sizing_display", "[item][iteminfo][display_name][sizing]" )
 {
     Character &player_character = get_player_character();
     GIVEN( "player is a normal size" ) {
@@ -21,14 +24,14 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate" );
+                CHECK( name == "<color_c_green>++</color>\u00A0bookplate" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
+                CHECK( name == "<color_c_green>++</color>\u00A0ankle sheath" );
             }
         }
 
@@ -44,7 +47,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             }
 
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic (too small)" );
+                CHECK( name == "<color_c_green>++</color>\u00A0tunic (too small)" );
             }
         }
 
@@ -52,19 +55,19 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
     GIVEN( "player is a huge size" ) {
         player_character.clear_mutations();
-        player_character.toggle_trait( trait_id( "HUGE_OK" ) );
+        player_character.toggle_trait( trait_HUGE_OK );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name says its too small" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too small)" );
+                CHECK( name == "<color_c_green>++</color>\u00A0bookplate (too small)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath" );
+                CHECK( name == "<color_c_green>++</color>\u00A0ankle sheath" );
             }
         }
 
@@ -80,7 +83,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             }
 
             THEN( "the item name says its tiny" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic (tiny!)" );
+                CHECK( name == "<color_c_green>++</color>\u00A0tunic (tiny!)" );
             }
         }
 
@@ -88,19 +91,19 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
     GIVEN( "player is a small size" ) {
         player_character.clear_mutations();
-        player_character.toggle_trait( trait_id( "SMALL_OK" ) );
+        player_character.toggle_trait( trait_SMALL_OK );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
             THEN( "the item name says its too big" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>bookplate (too big)" );
+                CHECK( name == "<color_c_green>++</color>\u00A0bookplate (too big)" );
             }
         }
 
         WHEN( "the item is oversized" ) {
             std::string name = item( "bootsheath" ).display_name();
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>ankle sheath (huge!)" );
+                CHECK( name == "<color_c_green>++</color>\u00A0ankle sheath (huge!)" );
             }
         }
 
@@ -116,13 +119,13 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             }
 
             THEN( "the item name has no qualifier" ) {
-                CHECK( name == "<color_c_light_green>||\u00A0</color>tunic" );
+                CHECK( name == "<color_c_green>++</color>\u00A0tunic" );
             }
         }
     }
 }
 
-TEST_CASE( "display name includes item contents", "[item][display_name][contents]" )
+TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents]" )
 {
     clear_avatar();
 
@@ -137,19 +140,54 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     REQUIRE_FALSE( quiver.magazine_current() );
     // But they do have ammo types and can contain ammo
     REQUIRE_FALSE( quiver.ammo_types().empty() );
-    REQUIRE( quiver.can_contain( arrow ) );
+    REQUIRE( quiver.can_contain( arrow ).success() );
 
     // Check empty quiver display
     CHECK( quiver.display_name() ==
-           "<color_c_light_green>||\u00A0</color>"
+           "<color_c_green>++</color>\u00A0"
            "test quiver (0)" );
 
     // Insert one arrow
-    quiver.put_in( arrow, item_pocket::pocket_type::CONTAINER );
+    quiver.put_in( arrow, pocket_type::CONTAINER );
     // Expect 1 arrow remaining and displayed
     CHECK( quiver.ammo_remaining() == 10 );
+    std::string const arrow_color = get_tag_from_color( arrow.color_in_inventory() );
+    std::string const color_end_tag = "</color>";
     CHECK( quiver.display_name() ==
-           "<color_c_light_green>||\u00A0</color>"
-           "test quiver > test wooden broadhead arrows (10)" );
+           "<color_c_green>++</color>\u00A0"
+           "test quiver > " + arrow_color + "test wooden broadhead arrows" + color_end_tag + " (10)" );
 }
 
+TEST_CASE( "display_name_rotten_food", "[item][display_name][contents]" )
+{
+    clear_avatar();
+
+    item wrapper( "wrapper" );
+    item butter_std( "butter" );
+    item butter_rot1( "butter" );
+    item butter_rot2( "butter" );
+    butter_std.set_relative_rot( 0.5 );
+    butter_rot1.set_relative_rot( 1.01 );
+    butter_rot2.set_relative_rot( 1.02 );
+
+    const std::string butter_std_tname =
+        colorize( butter_std.tname(), butter_std.color_in_inventory() );
+    const std::string butter_rot_tname =
+        colorize( butter_rot1.tname(), butter_rot1.color_in_inventory() );
+    REQUIRE( butter_std_tname == "<color_c_light_cyan>butter</color>" );
+    REQUIRE( butter_rot_tname == "<color_c_brown>butter (rotten)</color>" );
+    REQUIRE_FALSE( butter_std.stacks_with( butter_rot1 ) );
+    REQUIRE( butter_rot1.stacks_with( butter_rot2 ) );
+
+    REQUIRE( wrapper.put_in( butter_rot1, pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > " + butter_rot_tname );
+
+    REQUIRE( wrapper.put_in( butter_rot2, pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > 2 " + butter_rot_tname );
+
+    REQUIRE( wrapper.put_in( butter_std, pocket_type::CONTAINER ).success() );
+    CHECK( wrapper.display_name() ==
+           "paper wrapper > 3 " + butter_std_tname );
+}

@@ -1,6 +1,6 @@
 #include "TestFilenameCheck.h"
 
-#include <ClangTidyDiagnosticConsumer.h>
+#include <clang-tidy/ClangTidyDiagnosticConsumer.h>
 #include <clang/Basic/IdentifierTable.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/SourceManager.h>
@@ -19,18 +19,14 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 class TestFilenameCallbacks : public PPCallbacks
 {
     public:
-        TestFilenameCallbacks( TestFilenameCheck *Check, CompilerInstance *Compiler ) :
-            Check( Check ), Compiler( Compiler ) {}
+        TestFilenameCallbacks( TestFilenameCheck *Check, const SourceManager *SrcM ) :
+            Check( Check ), SM( SrcM ) {}
 
         void MacroExpands( const Token &MacroNameTok,
                            const MacroDefinition &,
@@ -39,8 +35,7 @@ class TestFilenameCallbacks : public PPCallbacks
             StringRef MacroName = MacroNameTok.getIdentifierInfo()->getName();
 
             if( MacroName == "TEST_CASE" ) {
-                SourceManager &SM = Compiler->getSourceManager();
-                StringRef Filename = SM.getBufferName( Range.getBegin() );
+                StringRef Filename = SM->getBufferName( Range.getBegin() );
                 bool IsTestFilename = Filename.endswith( "_test.cpp" );
 
                 if( !IsTestFilename ) {
@@ -52,15 +47,13 @@ class TestFilenameCallbacks : public PPCallbacks
         }
     private:
         TestFilenameCheck *Check;
-        CompilerInstance *Compiler;
+        const SourceManager *SM;
 };
 
-void TestFilenameCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void TestFilenameCheck::registerPPCallbacks( const SourceManager &SM, Preprocessor *PP,
+        Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<TestFilenameCallbacks>( this, &Compiler ) );
+    PP->addPPCallbacks( std::make_unique<TestFilenameCallbacks>( this, &SM ) );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -1,9 +1,10 @@
-#include "catch/catch.hpp"
-#include "calendar.h"
-
+#include <iosfwd>
 #include <string>
 
-TEST_CASE( "time_duration_to_string", "[calendar]" )
+#include "calendar.h"
+#include "cata_catch.h"
+
+TEST_CASE( "time_duration_to_string", "[calendar][nogame]" )
 {
     calendar::set_season_length( 91 );
     CHECK( to_string( 10_seconds ) == "10 seconds" );
@@ -26,7 +27,7 @@ TEST_CASE( "time_duration_to_string", "[calendar]" )
     CHECK( to_string( 3650_days ) == "10 years and 1 week" );
 }
 
-TEST_CASE( "time_duration_to_string_eternal_season", "[calendar]" )
+TEST_CASE( "time_duration_to_string_eternal_season", "[calendar][nogame]" )
 {
     calendar::set_season_length( 91 );
     calendar::set_eternal_season( true );

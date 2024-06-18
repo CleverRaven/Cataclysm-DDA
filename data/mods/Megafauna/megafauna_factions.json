@@ -1,0 +1,39 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mega_wolf",
+    "base_faction": "animal",
+    "hate": [ "small_animal", "herbivore", "human", "mega_herbivore" ],
+    "by_mood": [ "felidae", "mega_bird" ],
+    "neutral": [ "dog" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mega_cat",
+    "base_faction": "animal",
+    "hate": [ "small_animal", "herbivore", "human", "mega_herbivore" ],
+    "by_mood": [ "fish", "canidae", "mega_bird" ],
+    "neutral": [ "cat" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mega_herbivore",
+    "base_faction": "animal",
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "passive_machine", "herbivore" ],
+    "by_mood": [ "wolf", "big_cat", "mega_cat", "mega_wolf" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mega_bear",
+    "base_faction": "animal",
+    "hate": [ "small_animal", "bee" ],
+    "by_mood": [ "fish", "human", "herbivore" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mega_bird",
+    "base_faction": "animal",
+    "hate": [ "small_animal", "herbivore", "mega_herbivore" ],
+    "by_mood": [ "felidae", "canidae", "fish", "human" ]
+  }
+]

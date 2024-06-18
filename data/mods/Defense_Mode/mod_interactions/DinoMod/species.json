@@ -1,0 +1,10 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "DINOSAUR",
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "ALL_SEEING", "NEMESIS" ],
+    "bleeds": "fd_blood",
+    "description": "a dinosaur"
+  }
+]

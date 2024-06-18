@@ -1,39 +1,76 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
-#include "morale_types.h"
+#include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+static const efftype_id effect_antifungal( "antifungal" );
+static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_cureall( "cureall" );
+static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_high( "high" );
+static const efftype_id effect_paincysts( "paincysts" );
+static const efftype_id effect_shakes( "shakes" );
+static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_smoke_lungs( "smoke_lungs" );
+static const efftype_id effect_spores( "spores" );
+static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_teargas( "teargas" );
+static const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
+static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
+static const efftype_id effect_valium( "valium" );
+static const efftype_id effect_visuals( "visuals" );
+
+static const itype_id itype_albuterol( "albuterol" );
+static const itype_id itype_antifungal( "antifungal" );
+static const itype_id itype_antiparasitic( "antiparasitic" );
+static const itype_id itype_diazepam( "diazepam" );
+static const itype_id itype_thorazine( "thorazine" );
+static const itype_id itype_towel_wet( "towel_wet" );
+
+static const morale_type morale_wet( "morale_wet" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item eyedrops( "saline", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar is boomered" ) {
-        dummy.add_effect( efftype_id( "boomered" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
+        dummy.add_effect( effect_boomered, 1_hours );
+        REQUIRE( dummy.has_effect( effect_boomered ) );
 
         WHEN( "they use eye drops" ) {
-            dummy.invoke_item( &eyedrops );
+            dummy.consume( eyedrops );
 
             THEN( "one dose is depleted" ) {
                 CHECK( eyedrops.charges == charges_before - 1 );
 
                 AND_THEN( "it removes the boomered effect" ) {
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
+                    CHECK_FALSE( dummy.has_effect( effect_boomered ) );
                 }
             }
         }
@@ -43,10 +80,10 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         dummy.set_underwater( true );
 
         WHEN( "they try to use eye drops" ) {
-            bool used = dummy.invoke_item( &eyedrops );
+            dummy.consume( eyedrops );
 
-            THEN( "it can't be used underwater" ) {
-                CHECK_FALSE( used );
+            THEN( "None were used" ) {
+                CHECK( eyedrops.charges == charges_before );
             }
         }
     }
@@ -55,30 +92,35 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
-    item antifungal( "antifungal", calendar::turn_zero, item::default_charges_tag{} );
+    dummy.normalize();
 
-    int charges_before = antifungal.charges;
-    REQUIRE( charges_before > 0 );
+    item_location antifungal = dummy.i_add( item( itype_antifungal, calendar::turn ) );
+
+    REQUIRE( dummy.has_item_with( []( const item & it ) {
+        return it.typeId() == itype_antifungal;
+    } ) );
 
     GIVEN( "avatar has a fungal infection" ) {
-        dummy.add_effect( efftype_id( "fungus" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
+        dummy.add_effect( effect_fungus, 1_hours );
+        REQUIRE( dummy.has_effect( effect_fungus ) );
 
         WHEN( "they take an antifungal drug" ) {
-            dummy.invoke_item( &antifungal );
+            dummy.consume( antifungal );
 
-            THEN( "one dose is depleted" ) {
-                CHECK( antifungal.charges == charges_before - 1 );
+            THEN( "antifungal is used up" ) {
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_antifungal;
+                } ) );
 
                 AND_THEN( "it applies the antifungal effect" ) {
-                    CHECK( dummy.has_effect( efftype_id( "antifungal" ) ) );
+                    CHECK( dummy.has_effect( effect_antifungal ) );
                 }
                 AND_WHEN( "time passes" ) {
-                    const time_duration fungal_clock = dummy.get_effect_dur( efftype_id( "fungus" ) );
+                    const time_duration fungal_clock = dummy.get_effect_dur( effect_fungus );
                     REQUIRE( fungal_clock == 1_hours );
                     dummy.process_effects();
                     THEN( "duration of fungal infection shortens" ) {
-                        CHECK( fungal_clock > dummy.get_effect_dur( efftype_id( "fungus" ) ) );
+                        CHECK( fungal_clock > dummy.get_effect_dur( effect_fungus ) );
                     }
                 }
             }
@@ -86,17 +128,19 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
     }
 
     GIVEN( "avatar has fungal spores" ) {
-        dummy.add_effect( efftype_id( "spores" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "spores" ) ) );
+        dummy.add_effect( effect_spores, 1_hours );
+        REQUIRE( dummy.has_effect( effect_spores ) );
 
         WHEN( "they take an antifungal drug" ) {
-            dummy.invoke_item( &antifungal );
+            dummy.consume( antifungal );
 
-            THEN( "one dose is depleted" ) {
-                CHECK( antifungal.charges == charges_before - 1 );
+            THEN( "antifungal is used up" ) {
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_antifungal;
+                } ) );
 
                 AND_THEN( "it has no effect on the spores" ) {
-                    CHECK( dummy.has_effect( efftype_id( "spores" ) ) );
+                    CHECK( dummy.has_effect( effect_spores ) );
                 }
             }
         }
@@ -106,53 +150,64 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
-    item antiparasitic( "antiparasitic", calendar::turn_zero, item::default_charges_tag{} );
+    dummy.normalize();
 
-    int charges_before = antiparasitic.charges;
-    REQUIRE( charges_before > 0 );
+    item_location antiparasitic = dummy.i_add( item( itype_antiparasitic, calendar::turn ) );
+
+    REQUIRE( dummy.has_item_with( []( const item & it ) {
+        return it.typeId() == itype_antiparasitic;
+    } ) );
 
     GIVEN( "avatar has parasite infections" ) {
-        dummy.add_effect( efftype_id( "dermatik" ), 1_hours );
-        dummy.add_effect( efftype_id( "tapeworm" ), 1_hours );
-        dummy.add_effect( efftype_id( "bloodworms" ), 1_hours );
-        dummy.add_effect( efftype_id( "brainworms" ), 1_hours );
-        dummy.add_effect( efftype_id( "paincysts" ), 1_hours );
+        dummy.add_effect( effect_dermatik, 1_hours );
+        dummy.add_effect( effect_tapeworm, 1_hours );
+        dummy.add_effect( effect_bloodworms, 1_hours );
+        dummy.add_effect( effect_brainworms, 1_hours );
+        dummy.add_effect( effect_paincysts, 1_hours );
 
-        REQUIRE( dummy.has_effect( efftype_id( "dermatik" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "tapeworm" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "bloodworms" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "brainworms" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "paincysts" ) ) );
+        REQUIRE( dummy.has_effect( effect_dermatik ) );
+        REQUIRE( dummy.has_effect( effect_tapeworm ) );
+        REQUIRE( dummy.has_effect( effect_bloodworms ) );
+        REQUIRE( dummy.has_effect( effect_brainworms ) );
+        REQUIRE( dummy.has_effect( effect_paincysts ) );
 
         WHEN( "they use an antiparasitic drug" ) {
-            dummy.invoke_item( &antiparasitic );
+            dummy.consume( antiparasitic );
 
-            THEN( "one dose is depleted" ) {
-                CHECK( antiparasitic.charges == charges_before - 1 );
+            THEN( "antiparasitic was used up" ) {
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_antiparasitic;
+                } ) );
 
                 AND_THEN( "it cures all parasite infections" ) {
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "dermatik" ) ) );
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "tapeworm" ) ) );
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "bloodworms" ) ) );
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "brainworms" ) ) );
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "paincysts" ) ) );
+                    CHECK_FALSE( dummy.has_effect( effect_dermatik ) );
+                    CHECK_FALSE( dummy.has_effect( effect_tapeworm ) );
+                    CHECK_FALSE( dummy.has_effect( effect_bloodworms ) );
+                    CHECK_FALSE( dummy.has_effect( effect_brainworms ) );
+                    CHECK_FALSE( dummy.has_effect( effect_paincysts ) );
                 }
             }
         }
     }
 
     GIVEN( "avatar has a fungal infection" ) {
-        dummy.add_effect( efftype_id( "fungus" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "fungus" ) ) );
+        REQUIRE( dummy.has_item_with( []( const item & it ) {
+            return it.typeId() == itype_antiparasitic;
+        } ) );
+
+        dummy.add_effect( effect_fungus, 1_hours );
+        REQUIRE( dummy.has_effect( effect_fungus ) );
 
         WHEN( "they use an antiparasitic drug" ) {
-            dummy.invoke_item( &antiparasitic );
+            dummy.consume( antiparasitic );
 
-            THEN( "one dose is depleted" ) {
-                CHECK( antiparasitic.charges == charges_before - 1 );
+            THEN( "antiparasitic was used up" ) {
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_antiparasitic;
+                } ) );
 
                 AND_THEN( "it has no effect on the fungal infection" ) {
-                    CHECK( dummy.has_effect( efftype_id( "fungus" ) ) );
+                    CHECK( dummy.has_effect( effect_fungus ) );
                 }
             }
         }
@@ -162,28 +217,33 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
     avatar dummy;
-    item anticonvulsant( "diazepam", calendar::turn_zero, item::default_charges_tag{} );
+    dummy.normalize();
 
-    int charges_before = anticonvulsant.charges;
-    REQUIRE( charges_before > 0 );
+    item_location anticonvulsant = dummy.i_add( item( itype_diazepam, calendar::turn ) );
+
+    REQUIRE( dummy.has_item_with( []( const item & it ) {
+        return it.typeId() == itype_diazepam;
+    } ) );
 
     GIVEN( "avatar has the shakes" ) {
-        dummy.add_effect( efftype_id( "shakes" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "shakes" ) ) );
+        dummy.add_effect( effect_shakes, 1_hours );
+        REQUIRE( dummy.has_effect( effect_shakes ) );
 
         WHEN( "they use an anticonvulsant drug" ) {
-            dummy.invoke_item( &anticonvulsant );
+            dummy.consume( anticonvulsant );
 
-            THEN( "one dose is depleted" ) {
-                CHECK( anticonvulsant.charges == charges_before - 1 );
+            THEN( "anticonvulsant was used up" ) {
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_diazepam;
+                } ) );
 
                 AND_THEN( "it cures the shakes" ) {
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "shakes" ) ) );
+                    CHECK_FALSE( dummy.has_effect( effect_shakes ) );
 
                     AND_THEN( "it has side-effects" ) {
-                        CHECK( dummy.has_effect( efftype_id( "valium" ) ) );
-                        CHECK( dummy.has_effect( efftype_id( "high" ) ) );
-                        CHECK( dummy.has_effect( efftype_id( "took_anticonvulsant_visible" ) ) );
+                        CHECK( dummy.has_effect( effect_valium ) );
+                        CHECK( dummy.has_effect( effect_high ) );
+                        CHECK( dummy.has_effect( effect_took_anticonvulsant_visible ) );
                     }
                 }
             }
@@ -192,9 +252,11 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 }
 
 // test the `iuse::oxygen_bottle` function
-TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
+TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item oxygen( "oxygen_tank" );
     itype_id o2_ammo( "oxygen" );
     oxygen.ammo_set( o2_ammo );
@@ -207,13 +269,13 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
     REQUIRE( dummy.get_painkiller() == 0 );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
-        dummy.add_effect( efftype_id( "smoke" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
+        dummy.add_effect( effect_smoke_lungs, 1_hours );
+        REQUIRE( dummy.has_effect( effect_smoke_lungs ) );
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
             CHECK( oxygen.ammo_remaining() == charges_before - 1 );
-            CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
+            CHECK_FALSE( dummy.has_effect( effect_smoke_lungs ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
                 CHECK( dummy.get_painkiller() == 2 );
@@ -222,13 +284,13 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
     }
 
     GIVEN( "avatar is suffering from tear gas" ) {
-        dummy.add_effect( efftype_id( "teargas" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "teargas" ) ) );
+        dummy.add_effect( effect_teargas, 1_hours );
+        REQUIRE( dummy.has_effect( effect_teargas ) );
 
         THEN( "a dose of oxygen relieves the effects of tear gas" ) {
             dummy.invoke_item( &oxygen );
             CHECK( oxygen.ammo_remaining() == charges_before - 1 );
-            CHECK_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
+            CHECK_FALSE( dummy.has_effect( effect_teargas ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
                 CHECK( dummy.get_painkiller() == 2 );
@@ -237,13 +299,13 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
     }
 
     GIVEN( "avatar is suffering from asthma" ) {
-        dummy.add_effect( efftype_id( "asthma" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
+        dummy.add_effect( effect_asthma, 1_hours );
+        REQUIRE( dummy.has_effect( effect_asthma ) );
 
         THEN( "a dose of oxygen relieves the effects of asthma" ) {
             dummy.invoke_item( &oxygen );
             CHECK( oxygen.ammo_remaining() == charges_before - 1 );
-            CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+            CHECK_FALSE( dummy.has_effect( effect_asthma ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
                 CHECK( dummy.get_painkiller() == 2 );
@@ -252,9 +314,9 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
     }
 
     GIVEN( "avatar has no ill effects for the oxygen to treat" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_smoke_lungs ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_teargas ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_asthma ) );
 
         WHEN( "they are not already stimulated" ) {
             dummy.set_stim( 0 );
@@ -294,13 +356,14 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 }
 
 // test the `iuse::caff` and `iuse::atomic_caff` functions
-TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
+TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
 {
     avatar dummy;
+    dummy.normalize();
 
-    // Baseline fatigue level before caffeinating
-    int fatigue_before = 200;
-    dummy.set_fatigue( fatigue_before );
+    // Baseline sleepiness level before caffeinating
+    int sleepiness_before = 200;
+    dummy.set_sleepiness( sleepiness_before );
 
     // No stimulants or radiation
     dummy.set_stim( 0 );
@@ -308,17 +371,18 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_stim() == 0 );
     REQUIRE( dummy.get_rad() == 0 );
 
-    SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
+    SECTION( "coffee reduces sleepiness, but does not give stimulant effect" ) {
         item coffee( "coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before - coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
-    SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
+    SECTION( "atomic caffeine greatly reduces sleepiness, and increases stimulant effect" ) {
         item atomic_coffee( "atomic_coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( atomic_coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before -
+               atomic_coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
 }
@@ -326,12 +390,13 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
-    dummy.set_body();
+    dummy.normalize();
+
     item towel( "towel", calendar::turn_zero, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
-        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+        dummy.drench( 100, { body_part_torso, body_part_head, body_part_arm_l, body_part_arm_r },
                       false );
         REQUIRE( dummy.get_part_wetness( bodypart_id( "torso" ) ) > 0 );
         REQUIRE( dummy.get_part_wetness( bodypart_id( "head" ) ) > 0 );
@@ -355,7 +420,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         }
 
         WHEN( "they use a wet towel" ) {
-            towel.convert( itype_id( "towel_wet" ) );
+            towel.convert( itype_towel_wet );
             REQUIRE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
@@ -369,18 +434,18 @@ TEST_CASE( "towel", "[iuse][towel]" )
     }
 
     GIVEN( "avatar has poor morale due to being wet" ) {
-        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+        dummy.drench( 100, { body_part_torso, body_part_head, body_part_arm_l, body_part_arm_r },
                       false );
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
+        dummy.add_morale( morale_wet, -10, -10, 1_hours, 1_hours );
+        REQUIRE( dummy.has_morale( morale_wet ) == -10 );
 
         WHEN( "they use a wet towel" ) {
-            towel.convert( itype_id( "towel_wet" ) );
+            towel.convert( itype_towel_wet );
             REQUIRE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
             THEN( "it does not improve their morale" ) {
-                CHECK( dummy.has_morale( MORALE_WET ) == -10 );
+                CHECK( dummy.has_morale( morale_wet ) == -10 );
             }
         }
 
@@ -389,54 +454,54 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it improves their morale" ) {
-                CHECK( dummy.has_morale( MORALE_WET ) == 0 );
+                CHECK( dummy.has_morale( morale_wet ) == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_wet" ) );
+                    CHECK( towel.typeId() == itype_towel_wet );
                 }
             }
         }
     }
 
     GIVEN( "avatar is slimed, boomered, and glowing" ) {
-        dummy.add_effect( efftype_id( "slimed" ), 1_hours );
-        dummy.add_effect( efftype_id( "boomered" ), 1_hours );
-        dummy.add_effect( efftype_id( "glowing" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "slimed" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "glowing" ) ) );
+        dummy.add_effect( effect_slimed, 1_hours );
+        dummy.add_effect( effect_boomered, 1_hours );
+        dummy.add_effect( effect_glowing, 1_hours );
+        REQUIRE( dummy.has_effect( effect_slimed ) );
+        REQUIRE( dummy.has_effect( effect_boomered ) );
+        REQUIRE( dummy.has_effect( effect_glowing ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
             THEN( "it removes all those effects at once" ) {
-                CHECK_FALSE( dummy.has_effect( efftype_id( "slimed" ) ) );
-                CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
-                CHECK_FALSE( dummy.has_effect( efftype_id( "glowing" ) ) );
+                CHECK_FALSE( dummy.has_effect( effect_slimed ) );
+                CHECK_FALSE( dummy.has_effect( effect_boomered ) );
+                CHECK_FALSE( dummy.has_effect( effect_glowing ) );
 
-                AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
+                AND_THEN( "the towel becomes filthy" ) {
+                    CHECK( towel.is_filthy() );
                 }
             }
         }
     }
 
     GIVEN( "avatar is boomered and wet" ) {
-        dummy.add_effect( efftype_id( "boomered" ), 1_hours );
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( std::abs( dummy.has_morale( MORALE_WET ) ) );
+        dummy.add_effect( effect_boomered, 1_hours );
+        dummy.add_morale( morale_wet, -10, -10, 1_hours, 1_hours );
+        REQUIRE( std::abs( dummy.has_morale( morale_wet ) ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
-                CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
-                CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
+                CHECK_FALSE( dummy.has_effect( effect_boomered ) );
+                CHECK( std::abs( dummy.has_morale( morale_wet ) ) );
 
-                AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
+                AND_THEN( "the towel becomes filthy" ) {
+                    CHECK( towel.is_filthy() );
                 }
             }
         }
@@ -446,47 +511,58 @@ TEST_CASE( "towel", "[iuse][towel]" )
 TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
-    dummy.set_fatigue( 0 );
-    item thorazine( "thorazine", calendar::turn_zero, item::default_charges_tag{} );
+    dummy.normalize();
+    item_location thorazine = dummy.i_add( item( itype_thorazine, calendar::turn ) );
 
-    int charges_before = thorazine.charges;
-    REQUIRE( charges_before >= 2 );
+    REQUIRE( dummy.has_item_with( []( const item & it ) {
+        return it.typeId() == itype_thorazine;
+    } ) );
+    dummy.set_sleepiness( 0 );
 
     GIVEN( "avatar has hallucination, visuals, and high effects" ) {
-        dummy.add_effect( efftype_id( "hallu" ), 1_hours );
-        dummy.add_effect( efftype_id( "visuals" ), 1_hours );
-        dummy.add_effect( efftype_id( "high" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "hallu" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "visuals" ) ) );
-        REQUIRE( dummy.has_effect( efftype_id( "high" ) ) );
+        dummy.add_effect( effect_hallu, 1_hours );
+        dummy.add_effect( effect_visuals, 1_hours );
+        dummy.add_effect( effect_high, 1_hours );
+        REQUIRE( dummy.has_effect( effect_hallu ) );
+        REQUIRE( dummy.has_effect( effect_visuals ) );
+        REQUIRE( dummy.has_effect( effect_high ) );
 
         WHEN( "they take some thorazine" ) {
-            dummy.invoke_item( &thorazine );
+            dummy.consume( thorazine );
 
             THEN( "it relieves all those effects with a single dose" ) {
-                CHECK( thorazine.charges == charges_before - 1 );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "hallu" ) ) );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "visuals" ) ) );
-                REQUIRE_FALSE( dummy.has_effect( efftype_id( "high" ) ) );
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_thorazine;
+                } ) );
+                REQUIRE_FALSE( dummy.has_effect( effect_hallu ) );
+                REQUIRE_FALSE( dummy.has_effect( effect_visuals ) );
+                REQUIRE_FALSE( dummy.has_effect( effect_high ) );
 
-                AND_THEN( "it causes some fatigue" ) {
-                    CHECK( dummy.get_fatigue() >= 5 );
+                AND_THEN( "it causes some sleepiness" ) {
+                    CHECK( dummy.get_sleepiness() >= 5 );
                 }
             }
         }
     }
 
     GIVEN( "avatar has already taken some thorazine" ) {
-        dummy.invoke_item( &thorazine );
-        REQUIRE( thorazine.charges == charges_before - 1 );
-        REQUIRE( dummy.has_effect( efftype_id( "took_thorazine" ) ) );
+        item thora( itype_thorazine, calendar::turn );
+        dummy.consume( thora );
+
+        REQUIRE( dummy.has_item_with( []( const item & it ) {
+            return it.typeId() == itype_thorazine;
+        } ) );
+
+        REQUIRE( dummy.has_effect( effect_took_thorazine ) );
 
         WHEN( "they take more thorazine" ) {
-            dummy.invoke_item( &thorazine );
+            dummy.consume( thorazine );
 
-            THEN( "it only causes more fatigue" ) {
-                CHECK( thorazine.charges == charges_before - 2 );
-                CHECK( dummy.get_fatigue() >= 20 );
+            THEN( "it only causes more sleepiness" ) {
+                CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
+                    return it.typeId() == itype_thorazine;
+                } ) );
+                CHECK( dummy.get_sleepiness() >= 20 );
             }
         }
     }
@@ -495,61 +571,67 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item prozac( "prozac", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac_visible" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_took_prozac_visible ) );
 
-        dummy.invoke_item( &prozac );
-        CHECK( dummy.has_effect( efftype_id( "took_prozac" ) ) );
-        CHECK( dummy.has_effect( efftype_id( "took_prozac_visible" ) ) );
+        dummy.consume( prozac );
+        CHECK( dummy.has_effect( effect_took_prozac ) );
+        CHECK( dummy.has_effect( effect_took_prozac_visible ) );
     }
 
     SECTION( "taking prozac twice gives a stimulant effect" ) {
         dummy.set_stim( 0 );
 
-        dummy.invoke_item( &prozac );
-        CHECK( dummy.get_stim() == 0 );
-        dummy.invoke_item( &prozac );
-        CHECK( dummy.get_stim() > 0 );
+        dummy.consume( prozac );
+        CHECK( dummy.get_stim() == -5 ); // The iuse action gives +0 and item itself -5
+        dummy.consume( prozac );
+        CHECK( dummy.get_stim() == -7 ); // Second iuse gives +3
     }
 }
 
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
-    avatar dummy;
+    clear_avatar();
+    avatar &dummy = get_avatar();
     item inhaler( "inhaler" );
-    inhaler.ammo_set( itype_id( "albuterol" ) );
+    inhaler.ammo_set( itype_albuterol );
     REQUIRE( inhaler.ammo_remaining() > 0 );
 
+    item_location inhaler_loc = dummy.i_add( inhaler );
+    REQUIRE( dummy.has_item( *inhaler_loc ) );
+
     GIVEN( "avatar is suffering from smoke inhalation" ) {
-        dummy.add_effect( efftype_id( "smoke" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "smoke" ) ) );
+        dummy.add_effect( effect_smoke_lungs, 1_hours );
+        REQUIRE( dummy.has_effect( effect_smoke_lungs ) );
 
         THEN( "inhaler relieves it" ) {
-            dummy.invoke_item( &inhaler );
-            CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
+            dummy.use( inhaler_loc );
+            CHECK_FALSE( dummy.has_effect( effect_smoke_lungs ) );
         }
     }
 
     GIVEN( "avatar is suffering from asthma" ) {
-        dummy.add_effect( efftype_id( "asthma" ), 1_hours );
-        REQUIRE( dummy.has_effect( efftype_id( "asthma" ) ) );
+        dummy.add_effect( effect_asthma, 1_hours );
+        REQUIRE( dummy.has_effect( effect_asthma ) );
 
         THEN( "inhaler relieves the effects of asthma" ) {
-            dummy.invoke_item( &inhaler );
-            CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+            dummy.use( inhaler_loc );
+            CHECK_FALSE( dummy.has_effect( effect_asthma ) );
         }
     }
 
     GIVEN( "avatar is not suffering from asthma" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_asthma ) );
 
-        THEN( "inhaler reduces fatigue" ) {
-            dummy.set_fatigue( 10 );
-            dummy.invoke_item( &inhaler );
-            CHECK( dummy.get_fatigue() < 10 );
+        THEN( "inhaler reduces sleepiness" ) {
+            dummy.set_sleepiness( 10 );
+            dummy.use( inhaler_loc );
+            CHECK( dummy.get_sleepiness() < 10 );
         }
     }
 }
@@ -557,28 +639,32 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item panacea( "panacea", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "panacea gives cure-all effect" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_cureall ) );
 
         dummy.consume( panacea );
-        CHECK( dummy.has_effect( efftype_id( "cureall" ) ) );
+        CHECK( dummy.has_effect( effect_cureall ) );
     }
 }
 
 TEST_CASE( "xanax", "[iuse][xanax]" )
 {
     avatar dummy;
+    dummy.normalize();
+
     item xanax( "xanax", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );
-        REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_took_xanax ) );
+        REQUIRE_FALSE( dummy.has_effect( effect_took_xanax_visible ) );
 
-        dummy.invoke_item( &xanax );
-        CHECK( dummy.has_effect( efftype_id( "took_xanax" ) ) );
-        CHECK( dummy.has_effect( efftype_id( "took_xanax_visible" ) ) );
+        dummy.consume( xanax );
+        CHECK( dummy.has_effect( effect_took_xanax ) );
+        CHECK( dummy.has_effect( effect_took_xanax_visible ) );
     }
 }
 

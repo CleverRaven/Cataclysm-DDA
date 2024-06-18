@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_PATHFINDING_H
 #define CATA_SRC_PATHFINDING_H
 
+#include "coords_fwd.h"
 #include "game_constants.h"
+#include "mdarray.h"
 
 enum pf_special : int {
     PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
@@ -40,11 +42,11 @@ inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
 
 struct pathfinding_cache {
     pathfinding_cache();
-    ~pathfinding_cache();
 
     bool dirty = false;
+    std::unordered_set<point> dirty_points;
 
-    pf_special special[MAPSIZE_X][MAPSIZE_Y];
+    cata::mdarray<pf_special, point_bub_ms> special;
 };
 
 struct pathfinding_settings {
@@ -58,18 +60,21 @@ struct pathfinding_settings {
     int climb_cost = 0;
 
     bool allow_open_doors = false;
+    bool allow_unlock_doors = false;
     bool avoid_traps = false;
     bool allow_climb_stairs = true;
     bool avoid_rough_terrain = false;
     bool avoid_sharp = false;
+    bool avoid_dangerous_fields = false;
 
     pathfinding_settings() = default;
     pathfinding_settings( const pathfinding_settings & ) = default;
-    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool at, bool acs, bool art,
-                          bool as )
+
+    pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool aud, bool at, bool acs,
+                          bool art, bool as )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
-          allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ), avoid_rough_terrain( art ),
-          avoid_sharp( as ) {}
+          allow_open_doors( aod ), allow_unlock_doors( aud ), avoid_traps( at ), allow_climb_stairs( acs ),
+          avoid_rough_terrain( art ), avoid_sharp( as ) {}
 
     pathfinding_settings &operator=( const pathfinding_settings & ) = default;
 };

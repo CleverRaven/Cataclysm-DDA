@@ -2,14 +2,14 @@
 #ifndef CATA_SRC_CLOTHING_MOD_H
 #define CATA_SRC_CLOTHING_MOD_H
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "string_id.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -42,11 +42,12 @@ struct mod_value {
 };
 
 struct clothing_mod {
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     float get_mod_val( const clothing_mod_type &type, const item &it ) const;
     bool has_mod_type( const clothing_mod_type &type ) const;
 
     clothing_mod_id id;
+    std::vector<std::pair<clothing_mod_id, mod_id>> src;
     bool was_loaded = false;
 
     flag_id flag;

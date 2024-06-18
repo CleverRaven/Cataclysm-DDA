@@ -1,23 +1,6 @@
-// RUN: %check_clang_tidy %s cata-text-style %t -- -plugins=%cata_plugin -config="{CheckOptions: [{key: cata-text-style.EscapeUnicode, value: 1}]}" --
+// RUN: %check_clang_tidy -allow-stdinc %s cata-text-style %t -- --load=%cata_plugin -config="{CheckOptions: [{key: cata-text-style.EscapeUnicode, value: 1}]}" --
 
-// check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
-namespace std
-{
-template<class CharT, class Traits = void, class Allocator = void>
-class basic_string
-{
-    private:
-        using This = basic_string<CharT, Traits, Allocator>;
-    public:
-        basic_string();
-        basic_string( const CharT * );
-        CharT *c_str();
-        const CharT *c_str() const;
-        This &operator+=( const This & );
-};
-using string = basic_string<char>;
-string operator+( const string &, const string & );
-} // namespace std
+#include <string>
 
 class some_stream
 {
@@ -40,6 +23,7 @@ static void bar()
     foo( "Dark days ahead;" );
     foo( "What?!?" );
     foo( "Yes\u2026" );
+    foo( "\"It'll work.\"" );
     foo( "C.R.I.T." );
     foo( "C. D. D. A." );
     foo( "Periods (.) should be followed by double spaces." );
@@ -89,6 +73,11 @@ static void bar()
     foo( "foo..." );
     // CHECK-MESSAGES: [[@LINE-1]]:14: warning: ellipsis preferred over three dots.
     // CHECK-FIXES: foo( "foo\u2026" );
+    foo( "\u201CIt doesn\u2019t work\u201D" );
+    // CHECK-MESSAGES: [[@LINE-1]]:11: warning: double quote preferred over left double quote.
+    // CHECK-MESSAGES: [[@LINE-2]]:25: warning: single quote preferred over right single quote.
+    // CHECK-MESSAGES: [[@LINE-3]]:37: warning: double quote preferred over right double quote.
+    // CHECK-FIXES: foo( "\"It doesn't work\"" )
     foo( "Three.  \nTwo.  One." );
     // CHECK-MESSAGES: [[@LINE-1]]:17: warning: unnecessary spaces at end of line.
     // CHECK-FIXES: foo( "Three.\nTwo.  One." );

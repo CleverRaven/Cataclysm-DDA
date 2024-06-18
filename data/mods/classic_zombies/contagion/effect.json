@@ -1,0 +1,68 @@
+[
+  {
+    "//": "bitten by a zombie",
+    "type": "effect_type",
+    "id": "zombie_virus",
+    "name": [ "Zombie bite", "Zombie contagion", "Zombie contagion" ],
+    "desc": [
+      "You've got a painful bite from a zombie.  You know how this ends.",
+      "The area around your zombie bite is festering and red, and you're feeling hot and cold at once.",
+      "Everything's so dark.  You can feel it, you don't have much time left."
+    ],
+    "apply_message": "You've been bitten.  It's bad.",
+    "death_msg": "You succumb to your zombie bite.",
+    "apply_memorial_log": "Died of the zombie plague.",
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ 1, 100000 ] ],
+    "death_event": "dies_of_infection",
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": 1,
+    "int_decay_tick": 86400,
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "pain_chance": [ -10, -10 ], "pain_chance_bot": [ 1000, 10000 ], "pain_min": [ 1, 0 ], "pain_max": [ 5, 1 ] },
+    "scaling_mods": {
+      "pain_chance": [ 5.5, 3.5 ],
+      "pain_chance_bot": [ 1, 5 ],
+      "int_mod": [ 0, -1 ],
+      "per_mod": [ 0, -1 ],
+      "dex_mod": [ -1, -2 ],
+      "str_mod": [ -1, -2 ],
+      "speed_mod": [ -5, -25 ]
+    }
+  },
+  {
+    "//": "Scratched by a zombie. This effect is not currently functional.",
+    "type": "effect_type",
+    "id": "zombie_virus_scratch",
+    "name": [ "", "Zombie wound", "Zombie wound", "Zombie contagion", "Zombie contagion" ],
+    "desc": [
+      "",
+      "The area around your zombie scratch is looking a little red.",
+      "Redness is creeping up from your wound.  You feel weak, and look pale.",
+      "Why is it so cold in here?  And so hot, at the same time?",
+      "Everything's so dark.  You can feel it, you don't have much time left."
+    ],
+    "apply_message": "You've been cut by a zombie.  Did it get infected?",
+    "death_msg": "You succumb to your zombie contagion.",
+    "apply_memorial_log": "Died of the zombie plague.",
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 864000 ], [ 1, 100000 ] ],
+    "death_event": "dies_of_infection",
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "int_decay_step": 1,
+    "int_decay_tick": 86400,
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "pain_chance": [ -5, -5 ], "pain_chance_bot": [ 500, 5000 ], "pain_min": [ 1, 0 ], "pain_max": [ 5, 1 ] },
+    "scaling_mods": {
+      "pain_chance": [ 3.5, 2.5 ],
+      "pain_chance_bot": [ 1, 5 ],
+      "int_mod": [ 0, -1 ],
+      "per_mod": [ 0, -1 ],
+      "dex_mod": [ 0, -2 ],
+      "str_mod": [ 0, -2 ],
+      "speed_mod": [ -5, -15 ]
+    }
+  }
+]

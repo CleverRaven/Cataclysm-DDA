@@ -5,19 +5,15 @@
     "items": [
       { "item": "grenade", "prob": 5 },
       { "item": "binoculars", "prob": 5 },
-      { "item": "mre_maplesausage_box", "prob": 5 },
-      { "item": "mre_ravioli_box", "prob": 5 },
-      { "item": "mre_hashbrownbacon_box", "prob": 0 },
-      { "item": "mre_lemontuna_box", "prob": 5 },
-      { "item": "mre_asianbeef_box", "prob": 5 },
-      { "item": "ak47", "prob": 20 },
-      { "item": "akmag30", "prob": 20 },
-      { "item": "762_m43", "prob": 20 },
-      { "item": "cig", "prob": 10 },
+      { "group": "any_MRE", "count": [ 1, 5 ] },
+      { "item": "ak47", "prob": 20, "charges": [ 0, 30 ] },
+      { "item": "akmag30", "prob": 20, "charges": [ 0, 30 ] },
+      { "item": "762_m87", "prob": 20, "charges": [ 1, 30 ] },
+      { "prob": 10, "group": "cig_box_cigarette_1_20" },
       { "item": "joint_roach", "prob": 20 },
       { "item": "cig_butt", "prob": 20 },
       { "item": "joint", "prob": 10 },
-      { "item": "762_51_incendiary", "prob": 5 }
+      { "item": "762_51_incendiary", "prob": 5, "charges": [ 1, 20 ] }
     ]
   },
   {
@@ -31,6 +27,9 @@
       [ "bottle_glass", 10 ],
       [ "sharp_rock", 10 ],
       [ "2x4", 10 ],
+      [ "american_flag", 2 ],
+      [ "national_flag", 1 ],
+      [ "pride_flag", 2 ],
       [ "pipe", 10 ]
     ]
   },
@@ -41,8 +40,8 @@
     "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 15 ],
-      [ "meth", 2 ],
-      [ "heroin", 1 ],
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
       [ "string_6", 2 ],
       [ "chain", 20 ],
       { "item": "glass_shard", "prob": 20, "count": [ 1, 8 ] },
@@ -57,8 +56,8 @@
       [ "can_drink", 10 ],
       [ "bubblewrap", 50 ],
       [ "cig_butt", 30 ],
-      { "item": "lighter", "prob": 60, "charges-min": 0, "charges-max": 10 },
-      { "item": "matches", "prob": 60, "charges-min": 0, "charges-max": 20 },
+      { "item": "lighter", "prob": 60, "charges": [ 0, 10 ] },
+      { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       [ "syringe", 8 ],
       [ "hairpin", 1 ],
       [ "software_hacking", 5 ],
@@ -70,7 +69,7 @@
       [ "flyer", 10 ],
       [ "scorecard", 2 ],
       { "item": "talking_doll", "prob": 20, "charges": [ 0, 10 ] },
-      [ "marble", 15 ],
+      { "item": "marble", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "creepy_doll", "prob": 1, "charges": [ 0, 10 ] },
       [ "straw_doll", 1 ],
       [ "razor_blade", 10 ],

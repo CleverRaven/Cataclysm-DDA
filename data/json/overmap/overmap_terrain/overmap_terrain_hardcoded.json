@@ -5,15 +5,7 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "crater",
-    "name": "crater",
-    "sym": "O",
-    "color": "red",
-    "see_cost": 2,
+    "travel_cost_type": "air",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -26,6 +18,7 @@
     "see_cost": 2,
     "extras": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -38,6 +31,7 @@
     "see_cost": 3,
     "extras": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
+    "travel_cost_type": "forest",
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
@@ -64,35 +58,27 @@
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "travel_cost_type": "swamp",
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "temple",
-    "name": "strange temple",
-    "sym": "T",
-    "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "standing_stones",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "standing stones",
+    "sym": "O",
+    "color": "dark_gray",
     "see_cost": 3,
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "temple_stairs",
+    "id": [ "temple_stairs", "temple_underground_1", "temple_underground_2", "temple_underground_3", "temple_underground_4" ],
     "name": "strange temple",
     "sym": "T",
     "color": "pink",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -101,70 +87,7 @@
     "sym": "T",
     "color": "yellow",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_entrance",
-    "name": "mine entrance",
-    "sym": "M",
-    "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "name": "mine shaft",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine",
-    "name": "mine",
-    "sym": "M",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_down",
-    "name": "mine",
-    "sym": "M",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_finale",
-    "name": "mine",
-    "sym": "M",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "KNOWN_DOWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -188,6 +111,7 @@
     "type": "overmap_terrain",
     "id": "cave_rat_underground",
     "name": "rat cave",
+    "looks_like": "cave_underground",
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
@@ -197,55 +121,11 @@
     "type": "overmap_terrain",
     "id": "cave_rat",
     "name": "rat cave",
+    "looks_like": "cave",
     "sym": "C",
     "color": "dark_gray",
     "see_cost": 2,
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hive",
-    "name": "bee hive",
-    "sym": "8",
-    "color": "yellow",
-    "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
-    "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spider_pit_under",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "anthill",
-    "name": "anthill",
-    "sym": "%",
-    "color": "brown",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "acid_anthill",
-    "name": "sulfurous anthill",
-    "sym": "%",
-    "color": "green",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -267,45 +147,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "triffid_grove",
-    "name": "triffid grove",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_roots",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_finale",
-    "name": "triffid heart",
-    "sym": "T",
-    "color": "red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cavern",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rock",
-    "//": "This is old rock type, new one (below) will replace it in new overmaps",
+    "//": "This is old rock type replaced by empty_rock/deep_rock, now only used for edges of slimepits",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
@@ -318,59 +163,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rift",
-    "name": "rift",
-    "sym": "^",
-    "color": "red",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "name": "hellmouth",
-    "sym": "^",
-    "color": "light_red",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants",
-    "name": "ant tunnel",
-    "color": "brown",
-    "see_cost": 5,
-    "flags": [ "LINEAR" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_food",
-    "name": "ant food storage",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_larvae",
-    "name": "ant larva chamber",
-    "sym": "O",
-    "color": "white",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ants_queen",
-    "name": "ant queen chamber",
-    "sym": "O",
-    "color": "red",
-    "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -380,6 +173,24 @@
     "sym": "O",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial_roof",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial_underground",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   }
 ]

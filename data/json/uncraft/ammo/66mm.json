@@ -7,8 +7,7 @@
     "difficulty": 6,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "incendiary", 295 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "incendiary", 295 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "66mm_HEAT",
@@ -18,8 +17,7 @@
     "difficulty": 6,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "copper", 50 ] ], [ [ "chem_compositionb", 300 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "copper", 50 ] ], [ [ "chem_compositionb", 300 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "LAW",
@@ -29,7 +27,6 @@
     "difficulty": 6,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "copper", 50 ] ], [ [ "chem_compositionb", 300 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "copper", 50 ] ], [ [ "chem_compositionb", 300 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

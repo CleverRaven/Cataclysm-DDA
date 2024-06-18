@@ -1,0 +1,61 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_mansion_+1_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_mansion_+1",
+    "blueprint_provides": [
+      { "id": "fbmc_mansion_+1" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "gathering" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "tool_storage" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_mansion_+1_garden",
+    "description": "Let's remove plants from garden and plow a few plots.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_mansion_+1_farm",
+    "blueprint_name": "prepare garden",
+    "blueprint_requires": [ { "id": "fbmc_mansion_+1" } ],
+    "blueprint_provides": [ { "id": "fbmc_mansion_+1_farm" }, { "id": "farming" }, { "id": "farm_recipes_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_mansion_+1_farm" } ],
+    "blueprint_needs": { "time": "7 h", "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 1 } ] ] } },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_mansion_+1_radio",
+    "description": "Let's set up a radio tower to improve our recruitment efforts.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_mansion_+1_radio",
+    "blueprint_name": "build a radio tower and console",
+    "blueprint_requires": [ { "id": "fbmc_mansion_+1_farm" } ],
+    "blueprint_provides": [ { "id": "fbmc_mansion_+1_radio" }, { "id": "recruiting" }, { "id": "radio" } ],
+    "blueprint_excludes": [ { "id": "fbmc_mansion_+1_radio" } ]
+  }
+]

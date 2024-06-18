@@ -1,0 +1,99 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_surface",
+    "name": "monster corpse",
+    "copy-from": "corpse_bowels_empty_edge",
+    "flags": [ "RISK_HIGH", "REQUIRES_PREDECESSOR" ],
+    "sym": "T"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_bowels_neck_right",
+      "corpse_bowels_neck_left",
+      "corpse_bowels_neck_edge_center",
+      "corpse_bowels_rcorner",
+      "corpse_bowels_lcorner",
+      "corpse_bowels_empty_edge"
+    ],
+    "name": "monster corpse bowels",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_bowels_mid" ],
+    "name": "monster corpse bowels",
+    "sym": "O",
+    "color": "light_red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse tentacle",
+    "sym": "|",
+    "color": "light_blue",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_entry",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse tentacle",
+    "sym": "M",
+    "color": "blue",
+    "flags": [ "RISK_HIGH", "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_tentacle_surface_entry",
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse",
+    "sym": "M",
+    "color": "blue",
+    "flags": [ "RISK_HIGH", "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "corpse_bowels_tentacle_edge",
+    "copy-from": "corpse_bowels_empty_edge",
+    "color": "red",
+    "sym": "E"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "corpse_neck", "corpse_neck_center" ],
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse neck",
+    "color": "red",
+    "sym": "N"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "corpse_head",
+      "corpse_brain",
+      "corpse_under_brain",
+      "corpse_head_edge",
+      "corpse_head_fin",
+      "corpse_head_lcorner",
+      "corpse_head_rcorner",
+      "corpse_head_neck_l",
+      "corpse_head_neck_r",
+      "corpse_head_neck_center",
+      "corpse_head_neck_l_decap",
+      "corpse_head_neck_r_decap",
+      "corpse_head_neck_center_decap"
+    ],
+    "copy-from": "corpse_bowels_empty_edge",
+    "name": "monster corpse head",
+    "color": "red",
+    "sym": "H"
+  }
+]

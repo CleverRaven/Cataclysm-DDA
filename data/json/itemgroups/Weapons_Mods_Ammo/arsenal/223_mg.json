@@ -1,0 +1,40 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_mg_gun&mags&cans",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_223_mg_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_fat_50_223_1tracer4ball_800", "count": [ 1, 4 ], "prob": 100 },
+          { "item": "ammo_can_fat_50_223_1tracer4ap_800", "count": [ 1, 4 ], "prob": 50 },
+          { "item": "ammo_can_fat_50_223ap_800", "count": [ 1, 4 ], "prob": 40 },
+          { "item": "ammo_can_fat_50_223fmj_800", "count": [ 1, 4 ], "prob": 80 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_mg_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_223_mg_gun&mags" },
+      { "group": "ammo_can_223_any_full", "prob": 30 },
+      { "group": "ammo_can_223_any_full", "prob": 80, "count": [ 0, 1 ] },
+      { "group": "ammo_can_223_any_part", "count": [ 1, 2 ] },
+      { "group": "ammo_can_223_any_part", "count": [ 1, 2 ], "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_mg_gun&mags",
+    "subtype": "collection",
+    "items": [
+      { "item": "m249", "count": 1 },
+      { "item": "m249", "count": 1, "prob": 40 },
+      { "item": "m249", "count": 1, "prob": 10 }
+    ]
+  }
+]

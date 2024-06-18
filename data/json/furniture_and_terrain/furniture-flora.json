@@ -3,13 +3,13 @@
     "type": "furniture",
     "id": "f_mutpoppy",
     "name": "mutated poppy flower",
-    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the seeds of the mundane poppy they're named after.  The dirt around them gently churns as their roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
+    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the seeds of the mundane poppy they're named after.  The dirt around it gently churns as its roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
     "symbol": "f",
     "color": "light_red",
     "looks_like": "f_dandelion",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "flower_poppy",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -24,7 +24,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dandelion_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -39,14 +39,66 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_burdock", "base_num": [ 1, 4 ] } ] } ],
+    "harvest_by_season": [
+      { "seasons": [ "spring", "autumn" ], "id": "burdock_harv" },
+      { "seasons": [ "summer" ], "id": "burdock_summer_harv" }
+    ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_carrot_wild",
+    "name": "wild carrot",
+    "description": "A common white wildflower which could be harvested for its root.",
+    "symbol": "f",
+    "color": "red",
+    "looks_like": "f_lily",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "wild_carrot_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_maianthemum_stellatum",
+    "name": "starry false Solomon's seal",
+    "description": "The blossoms of this flower look like stars in the night sky.  Its crimson berries are edible.",
+    "symbol": "f",
+    "color": "white",
+    "looks_like": "f_lily",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "m_stellatum_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_salsify",
+    "name": "salsify",
+    "description": "Tragopogon porrifolius, a ragged-looking purple flower with a nutritious root.",
+    "symbol": "f",
+    "color": "light_red",
+    "looks_like": "f_dahlia",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Root can always be harvested, but there is no flower to harvest seeds from in winter.",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "salsify_seed_harv" },
+      { "seasons": [ "autumn", "winter" ], "id": "salsify_harv" }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_chamomile",
     "name": "chamomile",
-    "description": "Ahh, soothing chamomile tea.",
+    "description": "A cute white flower with a yellow center, used to brew a soothing tea.",
     "symbol": "f",
     "color": "white",
     "looks_like": "f_dandelion",
@@ -54,34 +106,29 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 4, 8 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "chamomille_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_flower_tulip",
     "name": "tulip",
-    "description": "A bright, colorful flower with petals forming a small cup at its top.",
+    "description": "A bright, colorful flower with petals forming a small cup at its top.  It can be poisonous to livestock.",
     "symbol": "f",
     "looks_like": "f_mutpoppy",
     "color": "light_blue",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_flower_spurge",
     "name": "spurge flower",
-    "description": "A yellow-green flower that grows in densely packed bushes.",
+    "description": "A yellow-green flower that grows in densely-packed bushes.",
     "symbol": "f",
     "looks_like": "f_dandelion",
     "color": "light_green",
@@ -89,16 +136,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [
-          { "drop": "withered", "base_num": [ 1, 2 ] },
-          { "drop": "seed_spurge", "base_num": [ 1, 2 ] },
-          { "drop": "spurge", "base_num": [ 1, 4 ] }
-        ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "spurge_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -110,35 +148,27 @@
     "color": "brown",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "SMALL_HIDE" ],
     "examine_action": "harvest_furn",
     "harvest_by_season": [
-      { "seasons": [ "winter" ], "entries": [ { "drop": "cattail_rhizome" } ] },
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "cattail_rhizome" }, { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } ]
-      }
+      { "seasons": [ "winter" ], "id": "cattails_winter_harv" },
+      { "seasons": [ "spring", "summer", "autumn" ], "id": "cattails_summer_harv" }
     ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_black_eyed_susan",
-    "name": "black eyed susan",
-    "description": "A yellow flower that has a dark ball in the middle.  Sometimes known as an ox-eye daisy.",
+    "name": "black eyed Susan",
+    "description": "A mildly poisonous yellow flower with a dark ball in the middle.  Sometimes known as an ox-eye daisy.",
     "looks_like": "f_dandelion",
     "symbol": "f",
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -152,14 +182,9 @@
     "color": "pink",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -167,19 +192,18 @@
     "type": "furniture",
     "id": "f_lotus",
     "name": "lotus",
-    "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
+    "description": "A lovely flower that grows on the surface of bodies of fresh water.  A traditional symbol of many Eastern cultures.",
     "looks_like": "f_lily",
     "symbol": "f",
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "lotus", "base_num": [ 1, 2 ] } ]
-      }
+      { "seasons": [ "spring", "summer", "autumn" ], "id": "lotus_harv" },
+      { "seasons": [ "summer" ], "id": "lotus_summer_harv" },
+      { "seasons": [ "autumn" ], "id": "lotus_autumn_harv" }
     ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -196,21 +220,36 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "sunflower" } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "sunflower_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_jerusalem_artichoke",
+    "name": "Jerusalem artichoke plant",
+    "description": "Looking similar to a sunflower, this tall plant has a nutritious tuber.",
+    "looks_like": "f_sunflower",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "jerusalem_artichoke_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_lilypad",
     "name": "lilypad",
-    "description": "These lilypads don't look they'd support the weight of the things you've heard croaking in the swamp.",
+    "description": "This lilypad doesn't look like it would support the weight of the things you've heard croaking in the swamp.",
     "symbol": "f",
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "generic_flower_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -223,21 +262,16 @@
     "color": "blue",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "bluebell_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_dahlia",
     "name": "dahlia",
-    "description": "A puffy flower with many tightly layered petals.",
+    "description": "A puffy flower with many tightly-layered petals.",
     "symbol": "f",
     "color": "magenta",
     "looks_like": "f_dandelion",
@@ -251,15 +285,15 @@
     "type": "furniture",
     "id": "f_chicory",
     "name": "chicory",
-    "description": "A blue flower imported from Europe, also known as a Cornflower.",
+    "description": "A blue flower imported from Europe, also known as a cornflower.",
     "symbol": "f",
     "color": "cyan",
-    "looks_like": "f_dandelion",
+    "looks_like": "f_bluebell",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "chicory_raw", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "chicory_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -272,14 +306,9 @@
     "looks_like": "f_dandelion",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC", "GRAZER_INEDIBLE" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "summer", "autumn" ],
-        "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] }, { "drop": "withered", "base_num": [ 1, 2 ] } ]
-      }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "datura_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -295,21 +324,21 @@
     "comfort": 1,
     "floor_bedding_warmth": 50,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "leaves", "count": 100 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
+      "items": [ { "item": "leaves", "count": [ 62, 75 ] } ]
     }
   },
   {
     "type": "furniture",
     "id": "f_mustard",
     "name": "mustard",
-    "description": "Yellow flower known as Brassica Nigra.  Known for its seeds that can be used for making table mustard.",
+    "description": "A yellow flower known as Brassica Nigra.  Known for its seeds that can be used for making table mustard.",
     "symbol": "f",
     "color": "yellow",
     "looks_like": "f_dandelion",
@@ -317,56 +346,203 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "seed_mustard", "base_num": [ 2, 6 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "mustard_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
-    "type": "terrain",
-    "id": "t_tree_alder",
-    "name": "alder tree",
-    "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
-    "symbol": "7",
-    "color": [ "green", "green", "yellow_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_alder_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "harvest_by_season": [
-      {
-        "seasons": [ "spring", "autumn" ],
-        "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
-      }
-    ],
+    "type": "furniture",
+    "id": "f_wild_sarsaparilla",
+    "name": "wild sarsaparilla",
+    "description": "A small, flowering plant known as 'Aralia nudicaulis'.  It is colored in vibrant shades of orange and red in autumn, making it easy to spot.",
+    "symbol": ",",
+    "looks_like": "f_lily",
+    "color": [ "brown_green", "green", "red", "brown" ],
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_sarsaparilla_harv" } ],
     "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "twig", "prob": 50 } ]
     }
   },
   {
-    "type": "terrain",
-    "id": "t_tree_alder_harvested",
-    "name": "alder tree",
-    "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_alder",
-    "looks_like": "t_tree_hickory_harvested",
+    "type": "furniture",
+    "id": "f_wintergreen",
+    "name": "wintergreen",
+    "description": "A small shrub native to North America.  The leaves, which remain green even in winter, are valued for medicinal purposes.  It produces edible and sweet berries, too!",
+    "symbol": ",",
+    "looks_like": "f_mutpoppy",
+    "//": "green all year long",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "wintergreen_harv" } ],
     "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_japanese_knotweed",
+    "name": "Japanese knotweed",
+    "description": "An invasive species originating from Japan.  The stem looks like it might contain some water.",
+    "symbol": ",",
+    "looks_like": "f_cattails",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "move_cost_mod": 3,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fireweed",
+    "name": "fireweed",
+    "description": "Vibrant purple, it tends to be the first to appear after fires, hence its name.",
+    "symbol": ",",
+    "looks_like": "f_dahlia",
+    "move_cost_mod": 0,
+    "color": [ "brown_green", "magenta", "magenta", "brown" ],
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" }
+    ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_selfheal",
+    "name": "common selfheal",
+    "description": "A small purple flower.  It got its name due to its usage in traditional medicine.",
+    "symbol": ",",
+    "looks_like": "f_dahlia",
+    "color": [ "brown_green", "magenta", "magenta", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_spring_harv" },
+      { "seasons": [ "summer", "autumn" ], "id": "generic_edible_flower_harv" }
+    ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dogbane",
+    "name": "spreading dogbane",
+    "description": "It is not only toxic to dogs when eaten by them.  Humans and many other animals are affected, too.  Its fibers sure are worth salvaging though.  Despite its name, it is not actually spreading fast.",
+    "symbol": ",",
+    "looks_like": "f_chamomile",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dogbane_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_thistle",
+    "name": "thistle",
+    "looks_like": "f_burdock",
+    "description": "A prickly and invasive small plant.",
+    "symbol": ",",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "TINY", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "thistle_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_purple_loosestrife",
+    "name": "purple loosestrife",
+    "looks_like": "f_dahlia",
+    "description": "A pretty violet flower that likes water.  Unfortunately it is invasive and does not benefit the environment.",
+    "symbol": ",",
+    "color": [ "brown_green", "magenta", "magenta", "brown" ],
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSPARENT", "SHORT", "FLOWER", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_wild_rice",
+    "name": "wild rice",
+    "description": "Also called Indian rice, Northern wild rice, or manoomin in Ojibwe, is a species of rice that has been harvested and used by Native American tribes of the northeast for hundreds of years.  It's similar to other types of wild rice, offering a fiber-rich and healthy basis of a meal.",
+    "symbol": "f",
+    "looks_like": "f_cattails",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "move_cost_mod": 3,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "SMALL_HIDE" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_rice_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
     }
   },
   {
@@ -380,14 +556,19 @@
     "move_cost_mod": 3,
     "coverage": 50,
     "required_str": -1,
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE", "SMALL_HIDE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 2, 3 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "item": "leaves", "count": [ 5, 8 ] }
+      ]
     }
   },
   {
@@ -401,14 +582,19 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 14,
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE", "BLOCK_WIND", "NOITEM" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE", "BLOCK_WIND", "NOITEM", "SMALL_HIDE" ],
     "bash": {
       "str_min": 16,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -422,13 +608,17 @@
     "move_cost_mod": 4,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -442,13 +632,17 @@
     "move_cost_mod": 4,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -462,13 +656,41 @@
     "move_cost_mod": 4,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "PERMEABLE" ],
     "bash": {
       "str_min": 10,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaver_dam",
+    "name": "dam",
+    "description": "A house that beavers built.  The entrance is underwater making it harder for predators to access.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_wall_log",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "crunch.",
+      "sound_fail": "bonk.",
+      "items": [
+        { "item": "twig", "count": [ 5, 12 ] },
+        { "item": "stick", "count": [ 5, 12 ] },
+        { "item": "stick_long", "count": [ 5, 12 ] },
+        { "item": "splinter", "count": [ 12, 38 ] }
+      ]
     }
   }
 ]

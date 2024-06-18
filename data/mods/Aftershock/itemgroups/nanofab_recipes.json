@@ -1,0 +1,8 @@
+[
+  {
+    "type": "item_group",
+    "id": "afs_template_10mm_smart",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_10mm_smart", "prob": 10 } ]
+  }
+]

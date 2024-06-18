@@ -1,0 +1,13 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "iso_nether",
+    "terrains": [ "nether_glass_impassable" ]
+  },
+  {
+    "type": "start_location",
+    "id": "iso_entry_setpiece",
+    "name": "Entrance Lobby",
+    "terrain": [ "iso_first_elevator" ]
+  }
+]

@@ -3,13 +3,12 @@
 #define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include <array>
-#include <list>
 #include <string>
 #include <vector>
 
+#include "item_location.h"
 #include "point.h"
 #include "units.h"
-#include "units_fwd.h"
 
 enum aim_location : char {
     AIM_INVENTORY = 0,
@@ -25,16 +24,19 @@ enum aim_location : char {
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
+    AIM_PARENT,
     AIM_WORN,
     NUM_AIM_LOCATIONS,
+    // cannot be selected, destination for when wearing item fails but item can be WIELDed
+    AIM_WIELD,
     // only useful for AIM_ALL
     AIM_AROUND_BEGIN = AIM_SOUTHWEST,
     AIM_AROUND_END = AIM_NORTHEAST
 };
 
-class advanced_inv_listitem;
 class item;
 class vehicle;
+class vehicle_stack;
 
 /**
  * Defines the source of item stacks.
@@ -81,6 +83,7 @@ class advanced_inv_area
         // used for isometric view
         const aim_location relative_location;
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area(
             aim_location id, const point &hscreen, tripoint off, const std::string &name,
@@ -91,25 +94,15 @@ class advanced_inv_area
 
         template <typename T>
         advanced_inv_area::itemstack i_stacked( T items );
-        // if you want vehicle cargo, specify so via `in_vehicle'
-        units::volume free_volume( bool in_vehicle = false ) const;
         int get_item_count() const;
         // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
         bool is_same( const advanced_inv_area &other ) const;
         // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
-        bool canputitems( const advanced_inv_listitem *advitem = nullptr );
-        // if you want vehicle cargo, specify so via `in_vehicle'
-        item *get_container( bool in_vehicle = false );
-        void set_container( const advanced_inv_listitem *advitem );
-        bool is_container_valid( const item *it ) const;
+        bool canputitems( const item_location &container = item_location::nowhere ) const;
         void set_container_position();
         aim_location offset_to_location() const;
-        bool can_store_in_vehicle() const {
-            // disallow for non-valid vehicle locations
-            if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
-                return false;
-            }
-            return veh != nullptr && vstor >= 0;
-        }
+        bool can_store_in_vehicle() const;
+        // @return vehicle_stack for this area, call only if can_store_in_vehicle is true
+        vehicle_stack get_vehicle_stack() const;
 };
 #endif // CATA_SRC_ADVANCED_INV_AREA_H

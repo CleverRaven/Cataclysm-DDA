@@ -1,6 +1,8 @@
 #if defined(TILES)
 #include "sdl_geometry.h"
+
 #include "debug.h"
+#include "sdl_utils.h"
 
 void GeometryRenderer::horizontal_line( const SDL_Renderer_Ptr &renderer, const point &pos, int x2,
                                         int thickness, const SDL_Color &color ) const
@@ -32,34 +34,26 @@ void DefaultGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_
 
 ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer )
 {
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    static const Uint32 rmask = 0xff000000;
-    static const Uint32 gmask = 0x00ff0000;
-    static const Uint32 bmask = 0x0000ff00;
-    static const Uint32 amask = 0x000000ff;
-#else
-    static const Uint32 rmask = 0x000000ff;
-    static const Uint32 gmask = 0x0000ff00;
-    static const Uint32 bmask = 0x00ff0000;
-    static const Uint32 amask = 0xff000000;
-#endif
-    SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
-    if( alt_surf ) {
-        FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
-
-        tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
-        alt_surf.reset();
-
-        // Test to make sure color modulation is supported by renderer
-        bool tex_enable = !SetTextureColorMod( tex, 0, 0, 0 );
-        if( !tex_enable ) {
-            tex.reset();
-        }
-        DebugLog( D_INFO, DC_ALL ) << "ColorModulatedGeometryRenderer constructor() = " <<
-                                   ( tex_enable ? "FAIL" : "SUCCESS" ) << ". tex_enable = " << tex_enable;
-    } else {
+    SDL_Surface_Ptr alt_surf;
+    try {
+        alt_surf = create_surface_32( 1, 1 );
+    } catch( const std::runtime_error & ) {
         DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
+        return;
     }
+
+    FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
+
+    tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
+    alt_surf.reset();
+
+    // Test to make sure color modulation is supported by renderer
+    bool tex_enable = !SetTextureColorMod( tex, 0, 0, 0 );
+    if( !tex_enable ) {
+        tex.reset();
+    }
+    DebugLog( D_INFO, DC_ALL ) << "ColorModulatedGeometryRenderer constructor() = " <<
+                               ( tex_enable ? "SUCCESS" : "FAIL" ) << ". tex_enable = " << tex_enable;
 }
 
 void ColorModulatedGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,

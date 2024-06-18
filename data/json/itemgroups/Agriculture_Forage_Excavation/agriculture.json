@@ -16,13 +16,16 @@
       [ "seed_onion", 60 ],
       [ "seed_carrot", 60 ],
       [ "seed_sunflower", 60 ],
+      [ "seed_watermelon", 60 ],
       [ "seed_pumpkin", 60 ],
+      [ "seed_bottle_gourd", 5 ],
       [ "seed_corn", 60 ],
       [ "seed_oats", 60 ],
       [ "soybean_seed", 60 ],
       [ "seed_broccoli", 60 ],
       [ "seed_celery", 60 ],
       [ "seed_cucumber", 60 ],
+      [ "seed_gherkin", 60 ],
       [ "seed_potato_raw", 60 ],
       [ "seed_zucchini", 60 ],
       [ "seed_cotton_boll", 10 ],
@@ -31,11 +34,13 @@
       [ "seed_flower", 60 ],
       [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
+      [ "seed_spinach", 60 ],
       [ "seed_tomato", 60 ],
       [ "seed_horseradish", 10 ],
       [ "seed_spurge", 10 ],
       [ "seed_popcorn", 10 ],
-      [ "seed_mustard", 10 ]
+      [ "seed_mustard", 10 ],
+      [ "seed_hops", 20 ]
     ]
   },
   {
@@ -48,22 +53,24 @@
       [ "trimmer_off", 60 ],
       [ "boots", 60 ],
       [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       [ "gloves_rubber", 60 ],
       [ "fertilizer_liquid", 20 ],
-      [ "fertilizer_commercial", 30 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
       [ "fungicide", 20 ],
-      [ "insecticide", 30 ],
-      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
+      { "group": "insecticide_bag_plastic", "prob": 30 },
+      { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] },
       [ "sickle", 40 ],
       { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],
       [ "distaff_spindle", 2 ],
       [ "carding_paddles", 2 ],
       [ "scythe", 40 ],
+      [ "scythe_fake", 1 ],
       [ "shears", 20 ],
       [ "elec_shears", 10 ],
       [ "tree_spile", 40 ],
-      [ "material_quicklime", 30 ],
+      { "group": "quicklime_bag", "prob": 30 },
       [ "pitchfork", 40 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
@@ -82,7 +89,7 @@
   {
     "type": "item_group",
     "id": "fertilizers",
-    "items": [ [ "fertilizer_liquid", 90 ], [ "fertilizer_commercial", 60 ] ]
+    "items": [ [ "fertilizer_liquid", 90 ], { "group": "fertilizer_commercial_bag_canvas_60", "prob": 60 } ]
   },
   {
     "type": "item_group",
@@ -99,7 +106,7 @@
       [ "oats", 6 ],
       [ "barley", 6 ],
       [ "sugar_beet", 4 ],
-      [ "hops", 4 ],
+      [ "hops", 5 ],
       [ "cotton_boll", 1 ],
       [ "seed_cotton_boll", 1 ],
       [ "seed_wheat", 1 ],
@@ -115,14 +122,16 @@
       [ "seed_cabbage", 1 ],
       [ "seed_onion", 1 ],
       [ "seed_carrot", 1 ],
+      [ "seed_watermelon", 1 ],
       [ "seed_pumpkin", 1 ],
+      [ "seed_bottle_gourd", 1 ],
       [ "seed_sunflower", 1 ],
       [ "seed_flower", 1 ],
       [ "seed_cactus", 1 ],
       [ "seed_corn", 1 ],
       [ "soybean_seed", 1 ],
       [ "raw_edamame", 1 ],
-      [ "seed_hops", 1 ],
+      [ "seed_hops", 4 ],
       [ "seed_beans", 1 ],
       [ "seed_lentils", 1 ],
       [ "seed_chili_pepper", 1 ],
@@ -133,6 +142,7 @@
       [ "seed_oats", 1 ],
       [ "tomato", 9 ],
       [ "pumpkin", 6 ],
+      [ "watermelon", 2 ],
       [ "broccoli", 9 ],
       [ "cucumber", 10 ],
       [ "zucchini", 7 ],
@@ -146,5 +156,57 @@
       [ "straw_pile", 20 ],
       [ "survnote", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "orchard_supplies",
+    "subtype": "distribution",
+    "items": [
+      [ "fertilizer_liquid", 10 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 10 },
+      { "group": "insecticide_bag_plastic", "prob": 10 },
+      [ "pot_canning", 5 ],
+      { "item": "jar_3l_glass_sealed", "prob": 25, "count": [ 2, 10 ] },
+      { "item": "wooden_barrel", "prob": 20, "count": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "orchard_tools",
+    "subtype": "collection",
+    "items": [
+      [ "shovel", 5 ],
+      { "item": "trimmer_off", "prob": 5, "charges": [ 0, 600 ] },
+      [ "bucket", 5 ],
+      [ "bucket_5gal", 10 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 5 ],
+      [ "stepladder", 15 ],
+      { "item": "pointy_stick", "prob": 20, "count": [ 3, 10 ] },
+      [ "hammer", 10 ],
+      [ "rope_makeshift_6", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stored_pulp",
+    "ammo": 100,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [ { "item": "wooden_barrel", "prob": 100, "sealed": true }, { "prob": 100, "group": "juice_pulp_wooden_barrel_7_77" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sometimes_manure",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 3 }, { "item": "feces_manure", "prob": 1, "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "juice_pulp_wooden_barrel_7_77",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wooden_barrel",
+    "entries": [ { "item": "juice_pulp", "count": [ 7, 77 ] } ]
   }
 ]

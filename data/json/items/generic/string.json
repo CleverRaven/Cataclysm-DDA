@@ -25,8 +25,8 @@
     "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
     "weight": "6 g",
     "volume": "10ml",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "light_gray",
@@ -41,12 +41,40 @@
     "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
+    "id": "cordage_6_leather",
+    "copy-from": "string_6",
+    "type": "GENERIC",
+    "name": { "str": "short leather lace" },
+    "description": "A 6-inch (or about 15 cm) long piece of leather lace.  Useful for some purposes, but not as flexible as proper string.",
+    "color": "brown",
+    "proportional": { "price": 0.7 },
+    "material": [ "leather" ]
+  },
+  {
+    "id": "cordage_36_leather",
+    "copy-from": "cordage_6_leather",
+    "type": "GENERIC",
+    "name": { "str": "long leather lace" },
+    "description": "A 3-foot (or about 90 cm) long piece of leather lace, made from smaller pieces that are tied together.  Useful for some purposes, but not as flexible as proper string.",
+    "proportional": { "weight": 6, "volume": 6, "price": 6 }
+  },
+  {
     "id": "rope_6",
     "copy-from": "string_36",
     "type": "GENERIC",
     "name": { "str": "short rope" },
     "description": "A 6-foot (or about 180 cm) long piece of rope.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 3, "material_thickness": 2 },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 3,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "pocket_data": [
       {
@@ -71,7 +99,16 @@
     "type": "GENERIC",
     "name": { "str": "long rope" },
     "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 6.0 } ],
+          "encumbrance": 12,
+          "coverage": 10,
+          "covers": [ "torso" ]
+        }
+      ]
+    },
     "qualities": [ [ "ROPE", 2 ] ],
     "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "pocket_data": [
@@ -125,17 +162,66 @@
     "proportional": { "price": 0.5 }
   },
   {
+    "id": "seatbelt",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": { "str": "seat belt" },
+    "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
+    "material": "nylon",
+    "weight": "800 g",
+    "volume": "696 ml",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 3,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "pocket_data": [
+      {
+        "//": "Universal pocket, can store almost anything sans liquid, at the price of high move and encumbrance cost.",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "110 cm",
+        "moves": 2000,
+        "holster": true
+      }
+    ],
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Tie what to the rope?",
+      "holster_msg": "You use an elaborate knot to tie your %s to your %s"
+    },
+    "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
+  },
+  {
     "id": "stick_fiber",
     "type": "COMESTIBLE",
     "category": "spare_parts",
-    "name": "fibrous stalk",
+    "name": { "str": "fibrous stalk" },
     "symbol": "=",
     "material": [ "dry_plant" ],
     "description": "A rather green stick.  Very fibrous.",
+    "comestible_type": "INVALID",
     "fun": -100,
     "healthy": -20,
-    "volume": "1 L",
-    "stack_size": 10,
+    "volume": "100 ml",
     "weight": "80 g"
+  },
+  {
+    "id": "rubber_band",
+    "type": "GENERIC",
+    "name": { "str": "rubber band" },
+    "description": "An elastic loop of rubber commonly used to hold multiple objects together.",
+    "copy-from": "string_6",
+    "looks_like": "string_6",
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "red",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

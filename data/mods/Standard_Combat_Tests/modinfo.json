@@ -1,0 +1,206 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "standard_combat_test",
+    "name": "Standard combat test suite",
+    "authors": [ "Venera3" ],
+    "maintainers": [ "Venera3" ],
+    "description": "A set of standard character loadouts to facilitate objective monster testing.  Disables all but the test scenarios.",
+    "category": "misc",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "evacuee", "scavenger", "survivor" ]
+  },
+  {
+    "type": "scenario",
+    "id": "evacuee",
+    "name": "Evacuee",
+    "points": 0,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  You also took the time to cobble together some improvised weaponry!",
+    "allowed_locs": [ "sloc_shelter_a" ],
+    "start_name": "Evac Shelter",
+    "professions": [ "sct_day1" ],
+    "map_extra": "mx_sct_day1",
+    "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "scavenger",
+    "name": "Scavenger",
+    "points": 0,
+    "description": "You are getting by in the Apocalypse.  Your gear is still scavenged from the ruins of the old world, but you have gathered the skills to use it to good effect.  Midsummer start.",
+    "allowed_locs": [ "sloc_shelter_a" ],
+    "start_name": "Evac Shelter",
+    "professions": [ "sct_mid" ],
+    "map_extra": "mx_sct_mid",
+    "flags": [ "CITY_START", "LONE_START" ],
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 45, "season": "summer", "year": 1 }
+  },
+  {
+    "type": "scenario",
+    "id": "survivor",
+    "name": "Survivor",
+    "points": 0,
+    "description": "You are as close to thriving as anybody can be these days.  Your gear is handcrafted with the threats of the new world in mind, and your skills are honed to perfection.  Mid-autumn start.",
+    "allowed_locs": [ "sloc_shelter_a" ],
+    "start_name": "Evac Shelter",
+    "professions": [ "sct_late" ],
+    "map_extra": "mx_sct_late",
+    "flags": [ "CITY_START", "LONE_START" ],
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 45, "season": "autumn", "year": 1 }
+  },
+  {
+    "id": "mx_sct_day1",
+    "type": "map_extra",
+    "name": { "str": "Standard early game combat test area" },
+    "description": "There are some improvised weapons nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sct_day1" },
+    "min_max_zlevel": [ 0, 0 ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_sct_day1",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_utility_light", "x": 5, "y": 10 },
+        { "ter": "t_utility_light", "x": 7, "y": 22 },
+        { "ter": "t_utility_light", "x": 17, "y": 9 },
+        { "ter": "t_utility_light", "x": 17, "y": 22 }
+      ],
+      "place_loot": [
+        { "item": "makeshift_machete", "x": 11, "y": 10, "chance": 100 },
+        { "item": "mace_pipe", "x": 12, "y": 10, "chance": 100 },
+        { "item": "spear_knife", "x": 13, "y": 10, "chance": 100 },
+        { "item": "glock_17", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
+        { "item": "glock17_17", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "id": "mx_sct_mid",
+    "type": "map_extra",
+    "name": { "str": "Standard midgame combat test area" },
+    "description": "There are some scavenged weapons nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sct_mid" },
+    "min_max_zlevel": [ 0, 0 ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_sct_mid",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_utility_light", "x": 5, "y": 10 },
+        { "ter": "t_utility_light", "x": 7, "y": 22 },
+        { "ter": "t_utility_light", "x": 17, "y": 9 },
+        { "ter": "t_utility_light", "x": 17, "y": 22 }
+      ],
+      "place_loot": [
+        { "item": "fire_ax", "x": 11, "y": 10, "chance": 100 },
+        { "item": "shillelagh", "x": 12, "y": 10, "chance": 100 },
+        { "item": "knife_combat", "x": 13, "y": 10, "chance": 100 },
+        { "group": "modular_ar15", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
+        { "item": "stanag30", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "id": "mx_sct_late",
+    "type": "map_extra",
+    "name": { "str": "Standard lategame combat test area" },
+    "description": "There are some survivor weapons nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sct_late" },
+    "min_max_zlevel": [ 0, 0 ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_sct_late",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_utility_light", "x": 5, "y": 10 },
+        { "ter": "t_utility_light", "x": 7, "y": 22 },
+        { "ter": "t_utility_light", "x": 17, "y": 9 },
+        { "ter": "t_utility_light", "x": 17, "y": 22 }
+      ],
+      "place_loot": [
+        { "item": "nodachi", "x": 11, "y": 10, "chance": 100 },
+        { "item": "broadsword", "x": 11, "y": 10, "chance": 100 },
+        { "item": "mace", "x": 12, "y": 10, "chance": 100 },
+        { "item": "lucern_hammer", "x": 12, "y": 10, "chance": 100 },
+        { "item": "pike", "x": 13, "y": 10, "chance": 100 },
+        { "item": "rapier", "x": 13, "y": 10, "chance": 100 },
+        { "item": "m107a1", "x": 14, "y": 10, "ammo": 100, "chance": 100 },
+        { "item": "m107a1mag", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "sct_day1",
+    "name": "Day 1",
+    "description": "Starter evacuee gear, no skills - probably not going to have a good time.",
+    "copy-from": "unemployed"
+  },
+  {
+    "type": "profession",
+    "id": "sct_mid",
+    "name": "Midgame",
+    "points": 0,
+    "description": "Scavenged armor and mid-range skills, meant to represent an established survivor before making the jump to (self)-fabricated custom gear.",
+    "skills": [
+      { "level": 4, "name": "melee" },
+      { "level": 4, "name": "bashing" },
+      { "level": 4, "name": "cutting" },
+      { "level": 4, "name": "stabbing" },
+      { "level": 4, "name": "unarmed" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "socks", "bunker_pants", "gambeson", "boots_combat", "gloves_tactical", "tac_helmet" ],
+        "entries": [ { "group": "us_ballistic_vest_pristine" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "sct_late",
+    "name": "Lategame",
+    "points": 0,
+    "description": "Heavy (survivor pneumatic) post-cataclysm gear, excluding rare lootables.",
+    "skills": [
+      { "level": 8, "name": "melee" },
+      { "level": 8, "name": "bashing" },
+      { "level": 8, "name": "cutting" },
+      { "level": 8, "name": "stabbing" },
+      { "level": 8, "name": "unarmed" },
+      { "level": 8, "name": "dodge" },
+      { "level": 8, "name": "gun" },
+      { "level": 8, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "robofac_kevlar_vambraces",
+          "robofac_kevlar_greaves",
+          "armor_nomad_heavyplate",
+          "nomad_bodyglove_2",
+          "boots_combat",
+          "hc_helm_close",
+          "hc_demi_gaunt"
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "crater_bomb",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_item": [ { "item": "crater_bomb", "x": 0, "y": 0, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_crater",
+    "object": { "place_nested": [ { "chunks": [ [ "crater_bomb", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  }
+]

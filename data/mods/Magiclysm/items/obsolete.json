@@ -1,68 +1,182 @@
 [
   {
-    "id": "wand_fireball",
-    "name": { "str": "wand of fireballs", "str_pl": "wands of fireballs" },
-    "description": "A classic, this wand shoots fireballs without fail.  A more skilled Kelvinist could cast them more efficiently, though.",
-    "type": "TOOL",
-    "weight": "230 g",
-    "volume": "500 ml",
-    "price": 10000,
-    "bashing": 3,
-    "to_hit": 2,
-    "material": [ "wood" ],
-    "symbol": "|",
-    "color": "brown",
-    "charges_per_use": 1,
-    "ammo": [ "crystallized_mana" ],
-    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true },
-    "pocket_data": [
+    "id": "tainted_blood",
+    "type": "MIGRATION",
+    "replace": "blood_tainted"
+  },
+  {
+    "id": "shotcestus",
+    "copy-from": "shotgun_base",
+    "type": "ARMOR",
+    "name": { "str": "shotcestus", "str_pl": "shotcestuses" },
+    "description": "A sawn-off double-barrel shotgun mounted on a metal cestus.  The lack of a stock to absorb recoil means some strength is required to fire.",
+    "weight": "1566 g",
+    "volume": "1500 ml",
+    "price": "200 USD",
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "min_strength": 7,
+    "flags": [ "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE", "OBSOLETE" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ],
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "type": "recipe",
+    "result": "shotcestus",
+    "obsolete": true
+  },
+  {
+    "id": "obfuscating_aura",
+    "type": "ARMOR",
+    "name": "obfuscating aura",
+    "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
+    "armor": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "small_mana_crystal" ]
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
   },
   {
-    "copy-from": "mtoken",
-    "type": "GENERIC",
-    "id": "mtoken_toolbox",
-    "name": "toolbox token",
-    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a toolbox.",
-    "use_action": {
-      "type": "transform",
-      "target": "toolbox",
-      "active": false,
-      "moves": 200,
-      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine toolbox!"
+    "id": "shape_of_dust",
+    "type": "ARMOR",
+    "name": "dust cloak",
+    "description": "You are unseen in between of the sand that cover you.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "cloak",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+          "emitter": "emit_eshaper_dust",
+          "values": [ { "value": "BONUS_DODGE", "add": 2 } ]
+        }
+      ]
     }
   },
   {
-    "id": "wand_magic_missile",
-    "name": { "str": "wand of magic missiles", "str_pl": "wands of magic missiles" },
-    "description": "A classic, this wand shoots magic missiles without fail.  A more skilled Magus could cast them more efficiently, though.",
-    "type": "TOOL",
-    "weight": "230 g",
-    "volume": "500 ml",
-    "price": 10000,
-    "bashing": 3,
-    "to_hit": 2,
-    "material": [ "wood" ],
-    "symbol": "|",
-    "color": "brown",
-    "charges_per_use": 1,
-    "ammo": [ "crystallized_mana" ],
-    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true },
-    "pocket_data": [
+    "id": "acid_res_aura",
+    "type": "ARMOR",
+    "name": { "str": "acid resistance aura" },
+    "description": "An all-encompassing, invisible layer of protection against acid.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "green",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
+    },
+    "armor": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "small_mana_crystal" ]
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
     ]
+  },
+  {
+    "id": "acid_res_aura_greater",
+    "type": "ARMOR",
+    "name": "greater acid resistance aura",
+    "description": "An all-encompassing, invisible layer of protection against acid.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": "36 USD 46 cent",
+    "symbol": "o",
+    "color": "green",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
+    },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "thorns_electric",
+    "type": "ARMOR",
+    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
+    "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "magical_material" ],
+    "flags": [
+      "AURA",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
   }
 ]

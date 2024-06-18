@@ -18,12 +18,9 @@
       "PLANT",
       "MOLLUSK",
       "WORM",
-      "ZOMBIE",
-      "ROBOT",
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",
-      "HUMAN",
       "UNKNOWN"
     ]
   },
@@ -51,8 +48,6 @@
       "PLANT",
       "MOLLUSK",
       "WORM",
-      "ZOMBIE",
-      "ROBOT",
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",

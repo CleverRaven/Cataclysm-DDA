@@ -1,0 +1,120 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_hide_site_0",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_improvised_shelter", "x": 11, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_N_0",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit", "x": 12, "y": 0, "x2": 12, "y2": 2 },
+        { "line": "terrain", "id": "t_pit", "x": 11, "y": 2, "x2": 12, "y2": 5 },
+        { "line": "terrain", "id": "t_pit", "x": 12, "y": 5, "x2": 12, "y2": 8 },
+        { "line": "terrain", "id": "t_pit", "x": 11, "y": 8, "x2": 12, "y2": 11 },
+        { "line": "terrain", "id": "t_pit", "x": 12, "y": 11, "x2": 12, "y2": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_N_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 0, "x2": 12, "y2": 2 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 2, "x2": 12, "y2": 5 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 5, "x2": 12, "y2": 8 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 8, "x2": 12, "y2": 11 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 11, "x2": 12, "y2": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_S_0",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit", "x": 12, "y": 22, "x2": 12, "y2": 23 },
+        { "line": "terrain", "id": "t_pit", "x": 11, "y": 19, "x2": 12, "y2": 22 },
+        { "line": "terrain", "id": "t_pit", "x": 12, "y": 16, "x2": 12, "y2": 19 },
+        { "line": "terrain", "id": "t_pit", "x": 11, "y": 13, "x2": 12, "y2": 16 },
+        { "line": "terrain", "id": "t_pit", "x": 12, "y": 11, "x2": 12, "y2": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_S_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 22, "x2": 12, "y2": 23 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 19, "x2": 12, "y2": 22 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 16, "x2": 12, "y2": 19 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 13, "x2": 12, "y2": 16 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 12, "y": 11, "x2": 12, "y2": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_E_0",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit", "x": 11, "y": 12, "x2": 13, "y2": 12 },
+        { "line": "terrain", "id": "t_pit", "x": 13, "y": 13, "x2": 16, "y2": 13 },
+        { "line": "terrain", "id": "t_pit", "x": 16, "y": 12, "x2": 19, "y2": 12 },
+        { "line": "terrain", "id": "t_pit", "x": 19, "y": 13, "x2": 22, "y2": 13 },
+        { "line": "terrain", "id": "t_pit", "x": 22, "y": 12, "x2": 23, "y2": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_E_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 12, "x2": 13, "y2": 12 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 13, "y": 13, "x2": 16, "y2": 13 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 16, "y": 12, "x2": 19, "y2": 12 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 19, "y": 13, "x2": 22, "y2": 13 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 22, "y": 12, "x2": 23, "y2": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_W_0",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit", "x": 0, "y": 12, "x2": 2, "y2": 12 },
+        { "line": "terrain", "id": "t_pit", "x": 2, "y": 13, "x2": 5, "y2": 13 },
+        { "line": "terrain", "id": "t_pit", "x": 5, "y": 12, "x2": 8, "y2": 12 },
+        { "line": "terrain", "id": "t_pit", "x": 8, "y": 13, "x2": 11, "y2": 13 },
+        { "line": "terrain", "id": "t_pit", "x": 11, "y": 12, "x2": 12, "y2": 12 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_wall_level_W_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_pit_spiked", "x": 0, "y": 12, "x2": 2, "y2": 12 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 2, "y": 13, "x2": 5, "y2": 13 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 5, "y": 12, "x2": 8, "y2": 12 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 8, "y": 13, "x2": 11, "y2": 13 },
+        { "line": "terrain", "id": "t_pit_spiked", "x": 11, "y": 12, "x2": 12, "y2": 12 }
+      ]
+    }
+  }
+]

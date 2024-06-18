@@ -1,0 +1,67 @@
+[
+  {
+    "id": "power_desc",
+    "type": "widget",
+    "label": "Bionic Power",
+    "style": "text",
+    "var": "power_text"
+  },
+  {
+    "id": "power_short_desc",
+    "//": "Omits the word 'Bionic' from the label.",
+    "type": "widget",
+    "label": "Power",
+    "style": "text",
+    "var": "power_text"
+  },
+  {
+    "id": "power_graph_label",
+    "type": "widget",
+    "style": "graph",
+    "var": "power_percentage",
+    "label": "Power",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ],
+    "breaks": [ 26, 34, 50 ]
+  },
+  {
+    "id": "power_graph_no_label",
+    "type": "widget",
+    "style": "graph",
+    "var": "power_percentage",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ],
+    "breaks": [ 26, 34, 50 ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "power_balance_short_desc",
+    "type": "widget",
+    "label": "PwBal",
+    "style": "text",
+    "var": "power_balance_text"
+  },
+  {
+    "id": "power_balance_desc_no_label",
+    "type": "widget",
+    "style": "text",
+    "var": "power_balance_text",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "power_balance_graph_label",
+    "type": "widget",
+    "style": "graph",
+    "var": "log_power_balance",
+    "label": "PwBal",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_white", "c_light_green", "c_green", "c_light_blue" ],
+    "breaks": [ 23, 40, 50, 51, 60, 77 ]
+  }
+]

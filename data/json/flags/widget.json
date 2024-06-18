@@ -1,0 +1,27 @@
+[
+  {
+    "type": "json_flag",
+    "id": "W_LABEL_NONE",
+    "//": "Omit the widget's label from being rendered in the sidebar"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_DISABLED_WHEN_EMPTY",
+    "//": "Prevents the widget from being rendered in the sidebar if the widget's text is empty"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_DISABLED_BY_DEFAULT",
+    "//": "Makes the panel disabled in the panel manager if there's no panel_options.json"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_DYNAMIC_HEIGHT",
+    "//": "Allow multi-line widgets to dynamically adjust their height"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_NO_PADDING",
+    "//": "Removes alignment padding from widgets and sub-widgets"
+  }
+]

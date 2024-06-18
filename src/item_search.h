@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ITEM_SEARCH_H
 #define CATA_SRC_ITEM_SEARCH_H
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <string>
 #include <vector>
@@ -38,7 +38,7 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
         std::vector<std::function<bool( const T & )> > inv_functions;
         size_t comma = filter.find( ',' );
         while( !filter.empty() ) {
-            const auto &current_filter = trim( filter.substr( 0, comma ) );
+            const std::string &current_filter = trim( filter.substr( 0, comma ) );
             if( !current_filter.empty() ) {
                 auto current_func = filter_from_string( current_filter, basic_filter );
                 if( current_filter[0] == '-' ) {

@@ -1,0 +1,282 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "spellcraft_beginner",
+    "name": "Spellcraft (Beginner)",
+    "description": "You took a few classes about magical theory before the Cataclysm and still remember most of it.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "spellcraft" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "spellcraft_intermediate",
+    "name": "Spellcraft (Intermediate)",
+    "description": "You were either a practicing mage or made a formal study of magical theory.  You could have designed spells in your spare time, if you had wanted.",
+    "points": 5,
+    "skills": [ { "level": 4, "name": "spellcraft" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "spellcraft_expert",
+    "name": "Spellcraft (Expert)",
+    "description": "You could have taught magical theory to mages, whether you know any spells or not.",
+    "points": 8,
+    "skills": [ { "level": 6, "name": "spellcraft" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_freshen_up",
+    "name": "Dabbler (Freshen Up)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Freshen Up, the most common spell in the pre-Cataclysm world.  It saved up a lot of time before work in your old life and you've certainly made a lot of use of it now that there's no more running water.",
+    "points": 4,
+    "spells": [ { "id": "classless_clean_clothing_and_self", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_crystallize_mana",
+    "name": "Dabbler (Crystallize Mana)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Crystallize Mana.  Sure, it ruined your social life and you slept for 12 hours a day, but you made a tidy sum of money producing mana crystals for mages who needed them.  Too bad all that money is useless now.",
+    "points": 4,
+    "spells": [ { "id": "crystallize_mana", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magical_light",
+    "name": "Dabbler (Magical Light)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Magical Light.  It was mostly a party trick, to be honest, and the weeks learning to cast a spell that any smartphone could replicate showed you how much work trying to learn real magic actually was.  But the nights are dark enough nowadays that you're glad you put in the effort.",
+    "points": 4,
+    "spells": [ { "id": "create_atomic_light", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_protection_aura",
+    "name": "Dabbler (Aura of Protection)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Aura of Protection.  To be honest, you originally learned it to try to replace the umbrella you kept leaving at home and were very disappointed when that didn't work.  It's saved you at least once from some strange gas in the air, though, so all that effort paid off.",
+    "points": 4,
+    "spells": [ { "id": "protection_aura", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_sound_bomb",
+    "name": "Dabbler (Sound Bomb)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Sound Bomb.  You mostly used it for jokes, to play pranks on your friends and annoy the neighborhood dogs, but it's proven its worth now at the end of the world.",
+    "points": 4,
+    "spells": [ { "id": "sound_bomb", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_watch_spell",
+    "name": "Dabbler (Knowing the Day and the Hour)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Knowing the Day and the Hour.  Your non-mage friends were always asking you why you bothered learning what was widely considered to be the least useful spell in the world, and sometimes you weren't sure yourself.  Even now that the network is done, you're still not entirely sure how important it is to know that it's exactly 6:12 a.m. vs. just \"sunrise\".  But if it ever is important, you'll know it.",
+    "points": 4,
+    "spells": [ { "id": "classless_watch_spell", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_easy_sleep_spell",
+    "name": "Dabbler (Peaceful Rest)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Peaceful Rest.  Ever since you were a child, you dreaded bedtime.  Falling asleep was an ordeal, a battle between you and the bed, and it seemed like no matter how many sheep you counted, sleep hygiene habits you practiced, or exhausted you felt, it was an hour or more until you finally fell into sleep.  You became a mage because you were tired of having 5% of your life stuck staring at the ceiling while waiting for sleep to come, and ever since the world ended, you're even more grateful you can fall asleep whenever you need to.",
+    "points": 4,
+    "spells": [ { "id": "classless_easy_sleep_spell", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_summon_wisps",
+    "name": "Dabbler (Ignus Fatuus)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Ignus Fatuus.  It was mostly just for your amusement, summoning the will-o'-the-wisps at sundown and watching them dance, but they've proven handy more than once lately by leading some monster astray while you ran for your life.",
+    "points": 4,
+    "spells": [ { "id": "summon_wisps", "level": 5 } ],
+    "traits": [ "ANIMIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_animist_summon_watcher",
+    "name": "Dabbler (Summon Watcher Spirit)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Summon Watcher Spirit.  You initially learned it to keep an eye on your cat while you were doing chores around the house, but it ended up being even more valuable than you thought once the world ended.",
+    "points": 4,
+    "spells": [ { "id": "animist_summon_watcher", "level": 5 } ],
+    "traits": [ "ANIMIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_light_healing",
+    "name": "Dabbler (Cure Light Wounds)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Cure Light Wounds.  Certainly no one ever asked your reasons for studying biomancy, especially after you saw that guy get hit by a truck running a red light and managed to stop him from bleeding out before the paramedics arrived.  As long as you're light on your feet, you won't have to worry about dying of your injuries now.",
+    "points": 4,
+    "spells": [ { "id": "light_healing", "level": 5 } ],
+    "traits": [ "BIOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_biomancer_carrion_feast",
+    "name": "Dabbler (Carrion Feast)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Carrion Feast.  You had your reasons for studying it, certainly, and perhaps it is best not to speculate about them now.",
+    "points": 4,
+    "spells": [ { "id": "biomancer_carrion_feast", "level": 5 } ],
+    "traits": [ "BIOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_druid_anti_heat",
+    "name": "Dabbler (Water's Cooling Touch)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Water's Cooling Touch.  You always hated summer, the stickiness, the heat, the sunburns, and your dislike of the weather drove you to study druidic magic to overcome it.  With your water bottle handy, you'll never have to worry about being too hot in the sun again.",
+    "points": 4,
+    "spells": [ { "id": "druid_anti_heat", "level": 5 } ],
+    "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_druid_traverse_the_wilds",
+    "name": "Dabbler (Traverse the Wilds)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Traverse the Wilds.  Part of the joy of hiking is taking your time, of being away from the tyranny of clocks and schedules and deadlines.  But sometimes, it was nice to just see the miles fly by, to reach the summit before sunrise and take in the view without getting up at 2 a.m., to finish the entire trail and still have time to sit down and eat a leisurely dinner.  And it's not like you teleported, after all.  Regardless of the magic, you still had to walk every single step.",
+    "points": 4,
+    "spells": [ { "id": "druid_traverse_the_wilds", "level": 5 } ],
+    "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_eshaper_spawn_tools",
+    "name": "Dabbler (Utility Molding)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Utility Molding.  You read a pamphlet once entitled, \"One Spell is All You Need!\" and thought it seemed like a good idea.  And true, maybe you've never needed a mining pick before, but the ability to all up a knife or a shovel or a hammer whenever you want has come in handy countless times.",
+    "points": 4,
+    "spells": [ { "id": "eshaper_spawn_tools", "level": 5 } ],
+    "traits": [ "EARTHSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_earthshaper_danger_sense",
+    "name": "Dabbler (Tremorsense)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Tremorsense.  It kept you safe, letting you know if someone was nearby even if you were absorbed in a task or listening to music, but now that most of the people you meet want to eat you it's proven invaluable.",
+    "points": 4,
+    "spells": [ { "id": "earthshaper_danger_sense", "level": 5 } ],
+    "traits": [ "EARTHSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_earthshaper_turning_of_earth",
+    "name": "Dabbler (The Turning of the Earth)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, the Turning of the Earth.  Gardening was your passion and you got sick of manually digging rows in early spring or mid-summer weather.  After your studies you could just cast the spell and the earth neatly parted, waiting for seeds to be planted.  Once the canned food runs out, you're sure you'll get even more use of your powers.",
+    "points": 4,
+    "spells": [ { "id": "earthshaper_turning_of_earth", "level": 5 } ],
+    "traits": [ "EARTHSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_create_lighter",
+    "name": "Dabbler (Finger Firelighter)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Finger Firelighter.  You had a lot of great conversations with people, late at night outside clubs and restaurants, when they'd ask for a light and you'd just snap your fingers.  Lately, though, you've used it to cook food more than light cigarettes and haven't had anyone to talk to, but at least the fires at night are warm.",
+    "points": 4,
+    "spells": [ { "id": "create_lighter", "level": 5 } ],
+    "traits": [ "KELVINIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_kelvinist_persuasion_spell",
+    "name": "Dabbler (Flames of Passion)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Flames of Passion.  Alcohol is a social lubricant, and if you already had a drink in your hand, why not use it to let you loosen up and make it easier to talk to people?  You were out at parties almost every weekend and had a wide circle of friends.  Hopefully at least a few of them made it through all of this.",
+    "points": 4,
+    "spells": [ { "id": "kelvinist_persuasion_spell", "level": 5 } ],
+    "traits": [ "KELVINIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magus_slowfall",
+    "name": "Dabbler (Slowfall)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Slowfall.  Some people become mages due to a dream, or a goal they want to pursue, but for you it was the memory of falling down the stairs as a child and breaking your leg.  With your magic you could jump off a roof and it was no more dangerous than jumping off a low stone wall, and that's been pretty useful for some of the situations you've found yourself in since the Cataclysm.",
+    "points": 4,
+    "spells": [ { "id": "magus_slowfall", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magus_far_hand_pull",
+    "name": "Dabbler (Sorcerer's Hand)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Sorcerer's Hand.  Alright, fine, you admit it, you learned magic because of laziness.  It seems odd to say, with all the hours after work and late at night, studying until you could make your keys twitch and fall off the table and eventually until you can grab a drink from across the room, but it's true.  You could reach nearly everything without having to get up.  Anyway, you're way more active now, and being able to grab things from across the room has come in handy more than once since the end of the world.",
+    "points": 4,
+    "spells": [ { "id": "magus_far_hand_pull", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magus_spiderclimb",
+    "name": "Dabbler (Spider Climb)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Spider Climb.  A lot of people in the rockclimbing community said you were cheating, and, to be honest, they were right.  But every time you saw one of those spectacular views from the summit, well, those complaints didn't mean that much.",
+    "points": 4,
+    "spells": [ { "id": "magus_spiderclimb", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_windrun",
+    "name": "Dabbler (Windrunning)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Windrunning.  It's embarrassing to admit, but you became a mage because you were always running late.  Just one spell made it much easier to catch that bus, to beat that red light across the crosswalk, to make it to work on time instead of a few minutes late.  Nowadays you have a lot more practice at running and that speed still comes in handy.",
+    "points": 4,
+    "spells": [ { "id": "windrun", "level": 5 } ],
+    "traits": [ "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_create_electric_lighter",
+    "name": "Dabbler (Fire Spark)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Fire Spark.  Most people when they wanted to light a fire thought of kelvinists, but electricity always fascinated you.  You used to love watching the storms roll in, sitting on your porch as the lightning played across the sky, and while summoning lightning bolts wouldn't have been useful for anything at all, catching fires with a spark has come in handy.",
+    "points": 4,
+    "spells": [ { "id": "create_electric_lighter", "level": 5 } ],
+    "traits": [ "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_air_bubble",
+    "name": "Dabbler (Air Bubble)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Air Bubble.  It was originally because of your diving trips.  You were sick of having the goggles and the respirator between you and the sea, and if one simple spell would make it so you didn't have to worry about that again, you were willing to put in the time to learn it.  When you had to swim across that river to escape the horde a while ago, it definitely proved its worth.",
+    "points": 4,
+    "spells": [ { "id": "air_bubble", "level": 5 } ],
+    "traits": [ "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_create_atomic_lamp",
+    "name": "Dabbler (Lamp)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Lamp.  Sure, phones had lights, but they weren't nearly as bright as a magical one was, and it was pretty nice to just recite the words and light up an entire room like a high-powered flashlight.  Now that the power's out, it's even more useful.",
+    "points": 4,
+    "spells": [ { "id": "create_atomic_lamp", "level": 5 } ],
+    "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_knock",
+    "name": "Dabbler (Knock)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Knock.  You originally learned it because you always forgot your keys and after the third time you were locked out of your apartment, to turned to magic to solve the problem.  Of course, once you did have to use magic to get back in you realized that anyone else could have done the same thing, so in the end it just ruined your peace of mind.  At least now you can be sure there's no one home at the places you're entering.",
+    "points": 4,
+    "spells": [ { "id": "knock", "level": 5 } ],
+    "traits": [ "TECHNOMANCER" ]
+  }
+]

@@ -1,12 +1,50 @@
-#include "catch/catch.hpp"
-#include "submap.h"
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <vector>
 
-#include <istream>
-
-#include "game.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "colony.h"
+#include "construction.h"
+#include "field.h"
+#include "game_constants.h"
+#include "item.h"
+#include "json.h"
+#include "json_loader.h"
 #include "make_static.h"
+#include "mapdata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "vehicle.h"
+
+static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
+static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
+
+static const field_type_str_id field_test_fd_migration_new_id( "test_fd_migration_new_id" );
+
+static const furn_str_id furn_f_bookcase( "f_bookcase" );
+static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
+static const furn_str_id furn_f_crate_o( "f_crate_o" );
+static const furn_str_id furn_f_dresser( "f_dresser" );
+static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" );
+
+// NOLINTNEXTLINE(cata-static-declarations)
+extern const int savegame_version;
 
 static const point &corner_ne = point_zero;
 static const point corner_nw( SEEX - 1, 0 );
@@ -14,9 +52,9 @@ static const point corner_se( 0, SEEY - 1 );
 static const point corner_sw( SEEX - 1, SEEY - 1 );
 static const point random_pt( 4, 7 );
 
-static std::istringstream submap_empty_ss(
+static std::string submap_empty_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -33,9 +71,9 @@ static std::istringstream submap_empty_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_terrain_rle_ss(
+static std::string submap_terrain_rle_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -61,9 +99,31 @@ static std::istringstream submap_terrain_rle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_furniture_ss(
+static std::string submap_terrain_with_invalid_ter_ids_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
+    "  \"coordinates\": [ 0, 0, 0 ],\n"
+    "  \"turn_last_touched\": 0,\n"
+    "  \"temperature\": 0,\n"
+    "  \"terrain\": [\n"
+    "    [ \"t_this_ter_id_does_not_exist\", 143 ],\n"
+    "    \"t_rock_floor\""
+    "  ],\n"
+    "  \"radiation\": [ 0, 144 ],\n"
+    "  \"furniture\": [ ],\n"
+    "  \"items\": [ ],\n"
+    "  \"traps\": [ ],\n"
+    "  \"fields\": [ ],\n"
+    "  \"cosmetics\": [ ],\n"
+    "  \"spawns\": [ ],\n"
+    "  \"vehicles\": [ ],\n"
+    "  \"partial_constructions\": [ ],\n"
+    "  \"computers\": [ ]\n"
+    "}\n"
+);
+static std::string submap_furniture_ss(
+    "{\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -86,9 +146,9 @@ static std::istringstream submap_furniture_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_trap_ss(
+static std::string submap_trap_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -111,9 +171,9 @@ static std::istringstream submap_trap_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_rad_ss(
+static std::string submap_rad_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -140,9 +200,9 @@ static std::istringstream submap_rad_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_item_ss(
+static std::string submap_item_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -272,9 +332,9 @@ static std::istringstream submap_item_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_field_ss(
+static std::string submap_field_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -298,9 +358,9 @@ static std::istringstream submap_field_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_graffiti_ss(
+static std::string submap_graffiti_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -324,9 +384,9 @@ static std::istringstream submap_graffiti_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_spawns_ss(
+static std::string submap_spawns_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -338,7 +398,7 @@ static std::istringstream submap_spawns_ss(
     "  \"fields\": [ ],\n"
     "  \"cosmetics\": [ ],\n"
     "  \"spawns\": [\n"
-    "    [ \"mon_cockatrice\", 1, 0, 0, -1, -1, false, \"NONE\" ],\n"
+    "    [ \"mon_pheasant\", 1, 0, 0, -1, -1, false, \"NONE\" ],\n"
     "    [ \"mon_mininuke_hack\", 2, 0, 11, -1, -1, true, \"Tim\" ],\n"
     "    [ \"mon_fish_eel\", 3, 11, 0, -1, -1, false, \"Bob\" ],\n"
     "    [ \"mon_zombie_fungus\", 4, 11, 11, -1, -1, false, \"Hopper\" ],\n"
@@ -349,9 +409,9 @@ static std::istringstream submap_spawns_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_vehicle_ss(
+static std::string submap_vehicle_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -378,7 +438,6 @@ static std::istringstream submap_vehicle_ss(
     "      \"flying\": false,\n"
     "      \"cruise_velocity\": 0,\n"
     "      \"vertical_velocity\": 0,\n"
-    "      \"cruise_on\": true,\n"
     "      \"engine_on\": false,\n"
     "      \"tracking_on\": false,\n"
     "      \"skidding\": false,\n"
@@ -416,9 +475,9 @@ static std::istringstream submap_vehicle_ss(
     "          \"ammo_pref\": \"null\"\n"
     "        },\n"
     "        {\n"
-    "          \"id\": \"wheel_caster\",\n"
+    "          \"id\": \"wheel_caster_large\",\n"
     "          \"base\": {\n"
-    "            \"typeid\": \"wheel_caster\",\n"
+    "            \"typeid\": \"wheel_caster_large\",\n"
     "            \"damaged\": 3372,\n"
     "            \"item_tags\": [ \"VEHICLE\" ],\n"
     "            \"relic_data\": null,\n"
@@ -490,9 +549,9 @@ static std::istringstream submap_vehicle_ss(
     "          \"ammo_pref\": \"null\"\n"
     "        },\n"
     "        {\n"
-    "          \"id\": \"welding_rig\",\n"
+    "          \"id\": \"veh_tools_workshop\",\n"
     "          \"base\": {\n"
-    "            \"typeid\": \"weldrig\",\n"
+    "            \"typeid\": \"veh_tools_workshop\",\n"
     "            \"damaged\": 2000,\n"
     "            \"item_tags\": [ \"VEHICLE\" ],\n"
     "            \"relic_data\": null,\n"
@@ -552,9 +611,9 @@ static std::istringstream submap_vehicle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_construction_ss(
+static std::string submap_construction_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -648,9 +707,9 @@ static std::istringstream submap_construction_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_computer_ss(
+static std::string submap_computer_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -696,9 +755,9 @@ static std::istringstream submap_computer_ss(
     "  ]\n"
     "}\n"
 );
-static std::istringstream submap_cosmetic_ss(
+static std::string submap_cosmetic_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -724,36 +783,84 @@ static std::istringstream submap_cosmetic_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
+static std::string submap_ter_furn_pre_migration_ss(
+    "{\n"
+    "  \"version\": 32,\n"
+    "  \"coordinates\": [ 0, 0, 0 ],\n"
+    "  \"turn_last_touched\": 0,\n"
+    "  \"temperature\": 0,\n"
+    "  \"terrain\": [ [ \"test_t_migration_old_id\", 1 ], [ \"t_dirt\", 10 ], [ \"test_t_migration_old_id\", 1 ], [ \"t_dirt\", 132 ] ],\n"
+    "  \"radiation\": [ 0, 144 ],\n"
+    "  \"furniture\": [\n"
+    "    [ 0, 0, \"f_bookcase\" ],\n"
+    "    [ 0, 11, \"test_f_migration_old_id\" ],\n"
+    "    [ 11, 11, \"test_f_migration_old_id\" ]\n"
+    "  ],\n"
+    "  \"items\": [ ],\n"
+    "  \"traps\": [ ],\n"
+    "  \"fields\": [ ],\n"
+    "  \"cosmetics\": [ ],\n"
+    "  \"spawns\": [ ],\n"
+    "  \"vehicles\": [ ],\n"
+    "  \"partial_constructions\": [ ],\n"
+    "  \"computers\": [ ]\n"
+    "}\n"
+);
+static std::string submap_fd_pre_migration_ss(
+    "{\n"
+    "  \"version\": 32,\n"
+    "  \"coordinates\": [ 0, 0, 0 ],\n"
+    "  \"turn_last_touched\": 0,\n"
+    "  \"temperature\": 0,\n"
+    "  \"terrain\": [ [ \"t_dirt\", 144 ] ],\n"
+    "  \"radiation\": [ 0, 144 ],\n"
+    "  \"furniture\": [ ],\n"
+    "  \"items\": [ ],\n"
+    "  \"traps\": [ ],\n"
+    "  \"fields\": [ 0, 0, [ \"test_fd_migration_old_id\", 1, 1997 ] ],\n"
+    "  \"cosmetics\": [ ],\n"
+    "  \"spawns\": [ ],\n"
+    "  \"vehicles\": [ ],\n"
+    "  \"partial_constructions\": [ ],\n"
+    "  \"computers\": [ ]\n"
+    "}\n"
+);
 
 static_assert( SEEX == 12, "Reminder to update submap tests when SEEX changes." );
 static_assert( SEEY == 12, "Reminder to update submap tests when SEEY changes." );
 
-static JsonIn submap_empty( submap_empty_ss );
-static JsonIn submap_terrain_rle( submap_terrain_rle_ss );
-static JsonIn submap_furniture( submap_furniture_ss );
-static JsonIn submap_trap( submap_trap_ss );
-static JsonIn submap_rad( submap_rad_ss );
-static JsonIn submap_item( submap_item_ss );
-static JsonIn submap_field( submap_field_ss );
-static JsonIn submap_graffiti( submap_graffiti_ss );
-static JsonIn submap_spawns( submap_spawns_ss );
-static JsonIn submap_vehicle( submap_vehicle_ss );
-static JsonIn submap_construction( submap_construction_ss );
-static JsonIn submap_computer( submap_computer_ss );
-static JsonIn submap_cosmetic( submap_cosmetic_ss );
+static JsonValue submap_empty = json_loader::from_string( submap_empty_ss );
+static JsonValue submap_terrain_rle = json_loader::from_string( submap_terrain_rle_ss );
+static JsonValue submap_terrain_with_invalid_ter_ids = json_loader::from_string(
+            submap_terrain_with_invalid_ter_ids_ss );
+static JsonValue submap_furniture = json_loader::from_string( submap_furniture_ss );
+static JsonValue submap_trap = json_loader::from_string( submap_trap_ss );
+static JsonValue submap_rad = json_loader::from_string( submap_rad_ss );
+static JsonValue submap_item = json_loader::from_string( submap_item_ss );
+static JsonValue submap_field = json_loader::from_string( submap_field_ss );
+static JsonValue submap_graffiti = json_loader::from_string( submap_graffiti_ss );
+static JsonValue submap_spawns = json_loader::from_string( submap_spawns_ss );
+static JsonValue submap_vehicle = json_loader::from_string( submap_vehicle_ss );
+static JsonValue submap_construction = json_loader::from_string( submap_construction_ss );
+static JsonValue submap_computer = json_loader::from_string( submap_computer_ss );
+static JsonValue submap_cosmetic = json_loader::from_string( submap_cosmetic_ss );
+static JsonValue submap_ter_furn_pre_migration = json_loader::from_string(
+            submap_ter_furn_pre_migration_ss );
+static JsonValue submap_fd_pre_migration = json_loader::from_string( submap_fd_pre_migration_ss );
 
-static void load_from_jsin( submap &sm, JsonIn &jsin )
+static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    cata_assert( savegame_version == 31 );
-    jsin.start_object();
+    REQUIRE( savegame_version == 33 );
     int version = 0;
-    while( !jsin.end_object() ) {
-        std::string name = jsin.get_member_name();
-        if( name == "version" ) {
-            version = jsin.get_int();
-        } else {
-            sm.load( jsin, name, version );
+    JsonObject sm_json = jsin.get_object();
+    if( sm_json.has_member( "version" ) ) {
+        version = sm_json.get_int( "version" );
+    }
+    for( JsonMember member : sm_json ) {
+        std::string name = member.name();
+        if( name != "version" ) {
+            sm.load( member, name, version );
         }
     }
 }
@@ -791,10 +898,10 @@ static bool is_normal_submap( const submap &sm, submap_checks checks = {} )
     // For every point on the submap
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            if( terrain && sm.get_ter( { x, y } ) != t_dirt ) {
+            if( terrain && sm.get_ter( { x, y } ) != ter_t_dirt ) {
                 return false;
             }
-            if( furniture && sm.get_furn( { x, y } ) != f_null ) {
+            if( furniture && sm.get_furn( { x, y } ) != furn_str_id::NULL_ID() ) {
                 return false;
             }
             if( traps && sm.get_trap( {x, y} ) != tr_null ) {
@@ -859,28 +966,50 @@ TEST_CASE( "submap_terrain_rle_load", "[submap][load]" )
     INFO( string_format( "sw: %s", ter_sw.id().str() ) );
     INFO( string_format( "se: %s", ter_se.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( ter_nw == t_floor_green );
-    REQUIRE( ter_ne == t_floor_red );
-    REQUIRE( ter_sw == t_floor );
-    REQUIRE( ter_se == t_floor_blue );
+    REQUIRE( ter_nw == ter_t_floor_green );
+    REQUIRE( ter_ne == ter_t_floor_red );
+    REQUIRE( ter_sw == ter_t_floor );
+    REQUIRE( ter_se == ter_t_floor_blue );
 
     // And for the rest of the map, half of it is t_dirt, the other half t_rock_floor
     for( int x = 1; x < SEEX - 2; ++x ) {
-        CHECK( sm.get_ter( { x, 0 } ) == t_dirt );
+        CHECK( sm.get_ter( { x, 0 } ) == ter_t_dirt );
     }
     for( int y = 1; y < SEEY / 2; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            CHECK( sm.get_ter( { x, y } ) == t_dirt );
+            CHECK( sm.get_ter( { x, y } ) == ter_t_dirt );
         }
     }
     for( int y = SEEY / 2; y < SEEY - 1; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            CHECK( sm.get_ter( { x, y } ) == t_rock_floor );
+            CHECK( sm.get_ter( { x, y } ) == ter_t_rock_floor );
         }
 
     }
     for( int x = 1; x < SEEX - 2; ++x ) {
-        CHECK( sm.get_ter( { x, SEEY - 1 } ) == t_rock_floor );
+        CHECK( sm.get_ter( { x, SEEY - 1 } ) == ter_t_rock_floor );
+    }
+}
+
+TEST_CASE( "submap_terrain_load_invalid_ter_ids_as_t_dirt", "[submap][load]" )
+{
+    submap sm;
+    const std::string error = capture_debugmsg_during( [&sm]() {
+        load_from_jsin( sm, submap_terrain_with_invalid_ter_ids );
+    } );
+    submap_checks checks;
+    checks.terrain = false;
+    REQUIRE( is_normal_submap( sm, checks ) );
+    REQUIRE( error == "invalid ter_str_id 't_this_ter_id_does_not_exist'" );
+
+    //capture_debugmsg_during
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            CAPTURE( x, y );
+            // expect t_rock_floor patch in a corner
+            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? ter_t_rock_floor : ter_t_dirt;
+            CHECK( sm.get_ter( {x, y} ) == expected );
+        }
     }
 }
 
@@ -906,11 +1035,11 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     INFO( string_format( "se: %s", furn_se.id().str() ) );
     INFO( string_format( "ra: %s", furn_ra.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( furn_nw == f_coffin_c );
-    REQUIRE( furn_ne == f_bookcase );
-    REQUIRE( furn_sw == f_dresser );
-    REQUIRE( furn_se == f_crate_o );
-    REQUIRE( furn_ra == STATIC( furn_id( "f_gas_tank" ) ) );
+    REQUIRE( furn_nw == furn_f_coffin_c );
+    REQUIRE( furn_ne == furn_f_bookcase );
+    REQUIRE( furn_sw == furn_f_dresser );
+    REQUIRE( furn_se == furn_f_crate_o );
+    REQUIRE( furn_ra == STATIC( furn_str_id( "f_gas_tank" ) ) );
 
     // Also, check we have no other furniture
     for( int x = 0; x < SEEX; ++x ) {
@@ -920,7 +1049,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
                 tested == random_pt ) {
                 continue;
             }
-            CHECK( sm.get_furn( tested ) == f_null );
+            CHECK( sm.get_furn( tested ) == furn_str_id::NULL_ID() );
         }
     }
 }
@@ -947,11 +1076,11 @@ TEST_CASE( "submap_trap_load", "[submap][load]" )
     INFO( string_format( "se: %s", trap_se.id().str() ) );
     INFO( string_format( "ra: %s", trap_ra.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( trap_nw == STATIC( trap_id( "tr_rollmat" ) ) );
-    REQUIRE( trap_ne == STATIC( trap_id( "tr_bubblewrap" ) ) );
-    REQUIRE( trap_sw == STATIC( trap_id( "tr_beartrap" ) ) );
-    REQUIRE( trap_se == STATIC( trap_id( "tr_funnel" ) ) );
-    REQUIRE( trap_ra == STATIC( trap_id( "tr_landmine" ) ) );
+    REQUIRE( trap_nw == STATIC( trap_str_id( "tr_rollmat" ) ) );
+    REQUIRE( trap_ne == STATIC( trap_str_id( "tr_bubblewrap" ) ) );
+    REQUIRE( trap_sw == STATIC( trap_str_id( "tr_beartrap" ) ) );
+    REQUIRE( trap_se == STATIC( trap_str_id( "tr_funnel" ) ) );
+    REQUIRE( trap_ra == STATIC( trap_str_id( "tr_landmine" ) ) );
 
     // Also, check we have no other traps
     for( int x = 0; x < SEEX; ++x ) {
@@ -994,7 +1123,7 @@ TEST_CASE( "submap_rad_load", "[submap][load]" )
     REQUIRE( rad_se == 3 );
     REQUIRE( rad_ra == 5 );
 
-    int rads[SEEX];
+    std::array<int, SEEX> rads;
     // Also, check we have no other radiation
     INFO( "Below is the radiation on the row above and the current row.  Unknown values are -1" );
     for( int y = 0; y < SEEY; ++y ) {
@@ -1097,12 +1226,12 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     const field &field_sw = sm.get_field( corner_sw );
     const field &field_se = sm.get_field( corner_se );
     const field &field_ra = sm.get_field( random_pt );
-    const field_entry *fd_nw = field_nw.find_field( STATIC( field_type_id( "fd_web" ) ) );
-    const field_entry *fd_ne = field_ne.find_field( STATIC( field_type_id( "fd_laser" ) ) );
-    const field_entry *fd_sw = field_sw.find_field( STATIC( field_type_id( "fd_electricity" ) ) );
-    const field_entry *fd_se = field_se.find_field( STATIC( field_type_id( "fd_acid" ) ) );
-    const field_entry *fd_ra = field_ra.find_field( STATIC( field_type_id( "fd_nuke_gas" ) ) );
-    const field_entry *fd_ow = field_nw.find_field( STATIC( field_type_id( "fd_smoke" ) ) );
+    const field_entry *fd_nw = field_nw.find_field( STATIC( field_type_str_id( "fd_web" ) ) );
+    const field_entry *fd_ne = field_ne.find_field( STATIC( field_type_str_id( "fd_laser" ) ) );
+    const field_entry *fd_sw = field_sw.find_field( STATIC( field_type_str_id( "fd_electricity" ) ) );
+    const field_entry *fd_se = field_se.find_field( STATIC( field_type_str_id( "fd_acid" ) ) );
+    const field_entry *fd_ra = field_ra.find_field( STATIC( field_type_str_id( "fd_nuke_gas" ) ) );
+    const field_entry *fd_ow = field_nw.find_field( STATIC( field_type_str_id( "fd_smoke" ) ) );
     // No nullptrs for me
     REQUIRE( fd_nw != nullptr );
     REQUIRE( fd_ow != nullptr );
@@ -1254,36 +1383,36 @@ TEST_CASE( "submap_spawns_load", "[submap][load]" )
 
     // We placed a unique spawn in a couple of places. Check that those are correct
     INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x, nw.pos.y, nw.count, nw.type.str(),
-                         nw.friendly ? "friendly" : "hostile", nw.name ) );
+                         nw.friendly ? "friendly" : "hostile", nw.name.value_or( "NONE" ) ) );
     INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x, ne.pos.y, ne.count, ne.type.str(),
-                         ne.friendly ? "friendly" : "hostile", ne.name ) );
+                         ne.friendly ? "friendly" : "hostile", ne.name.value_or( "NONE" ) ) );
     INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x, sw.pos.y, sw.count, sw.type.str(),
-                         sw.friendly ? "friendly" : "hostile", sw.name ) );
+                         sw.friendly ? "friendly" : "hostile", sw.name.value_or( "NONE" ) ) );
     INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x, se.pos.y, se.count, se.type.str(),
-                         se.friendly ? "friendly" : "hostile", se.name ) );
+                         se.friendly ? "friendly" : "hostile", se.name.value_or( "NONE" ) ) );
     INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x, ra.pos.y, ra.count, ra.type.str(),
-                         ra.friendly ? "friendly" : "hostile", ra.name ) );
+                         ra.friendly ? "friendly" : "hostile", ra.name.value_or( "NONE" ) ) );
     // Require to prevent the lower CHECK from being spammy
     CHECK( nw.count == 3 );
     CHECK( nw.type.str() == "mon_fish_eel" );
     CHECK( !nw.friendly );
-    CHECK( nw.name == "Bob" );
+    CHECK( nw.name.value_or( "NONE" ) == "Bob" );
     CHECK( ne.count == 1 );
-    CHECK( ne.type.str() == "mon_cockatrice" );
+    CHECK( ne.type.str() == "mon_pheasant" );
     CHECK( !ne.friendly );
-    CHECK( ne.name == "NONE" );
+    CHECK( ne.name.value_or( "NONE" ) == "NONE" );
     CHECK( sw.count == 4 );
     CHECK( sw.type.str() == "mon_zombie_fungus" );
     CHECK( !sw.friendly );
-    CHECK( sw.name == "Hopper" );
+    CHECK( sw.name.value_or( "NONE" ) == "Hopper" );
     CHECK( se.count == 2 );
     CHECK( se.type.str() == "mon_mininuke_hack" );
     CHECK( se.friendly );
-    CHECK( se.name == "Tim" );
+    CHECK( se.name.value_or( "NONE" ) == "Tim" );
     CHECK( ra.count == 5 );
     CHECK( ra.type.str() == "mon_plague_vector" );
     CHECK( ra.friendly );
-    CHECK( ra.name == "Alice" );
+    CHECK( ra.name.value_or( "NONE" ) == "Alice" );
 
     // Also, check we have no other spawns
     CHECK( sm.spawns.size() == 5 );
@@ -1317,12 +1446,12 @@ TEST_CASE( "submap_construction_load", "[submap][load]" )
     const partial_con &con1 = sm.partial_constructions[ {3, 2, 0}];
     CHECK( con1.counter == 123334 );
     CHECK( con1.components.size() == 1 );
-    CHECK( con1.id.id() == construction_str_id( "constr_ground_cable" ) );
+    CHECK( con1.id.id() == construction_constr_ground_cable );
     REQUIRE( sm.partial_constructions.find( { 3, 3, 0 } ) != sm.partial_constructions.end() );
     const partial_con &con2 = sm.partial_constructions[ {3, 3, 0}];
     CHECK( con2.counter == 4934 );
     CHECK( con2.components.size() == 4 );
-    CHECK( con2.id.id() == construction_str_id( "constr_rack_coat" ) );
+    CHECK( con2.id.id() == construction_constr_rack_coat );
 }
 
 TEST_CASE( "submap_computer_load", "[submap][load]" )
@@ -1337,4 +1466,74 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     // Checking more is complicated
     REQUIRE( sm.has_computer( point_south ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
+}
+
+TEST_CASE( "submap_ter_furn_migration", "[submap][load]" )
+{
+    submap sm;
+    load_from_jsin( sm, submap_ter_furn_pre_migration );
+    submap_checks checks;
+    checks.terrain = false;
+    checks.furniture = false;
+
+    REQUIRE( is_normal_submap( sm, checks ) );
+
+    const ter_id ter_nw = sm.get_ter( corner_nw );
+    const ter_id ter_ne = sm.get_ter( corner_ne );
+    const ter_id ter_sw = sm.get_ter( corner_sw );
+    const ter_id ter_se = sm.get_ter( corner_se );
+
+    const furn_id furn_nw = sm.get_furn( corner_nw );
+    const furn_id furn_ne = sm.get_furn( corner_ne );
+    const furn_id furn_sw = sm.get_furn( corner_sw );
+    const furn_id furn_se = sm.get_furn( corner_se );
+
+    // North corners should have migrated from test_t_migration_old_id to test_t_migration_new_id
+    INFO( string_format( "ter nw: %s", ter_nw.id().str() ) );
+    INFO( string_format( "ter ne: %s", ter_ne.id().str() ) );
+    REQUIRE( ter_nw == ter_test_t_migration_new_id );
+    REQUIRE( ter_ne == ter_test_t_migration_new_id );
+    // West one could still have a f_bookcase as it may override the test_f_migration_new_id placed by migration, as the load order for the json members isn't defined
+    INFO( string_format( "furn nw: %s", furn_nw.id().str() ) );
+    REQUIRE( ( furn_nw == furn_f_bookcase || furn_nw == furn_test_f_migration_new_id ) );
+    // East one should now have test_f_migration_new_id as per the migration
+    INFO( string_format( "furn ne: %s", furn_ne.id().str() ) );
+    REQUIRE( furn_ne == furn_test_f_migration_new_id );
+    // South corners should still have t_dirt
+    INFO( string_format( "ter sw: %s", ter_sw.id().str() ) );
+    INFO( string_format( "ter se: %s", ter_se.id().str() ) );
+    REQUIRE( ter_sw == ter_t_dirt );
+    REQUIRE( ter_se == ter_t_dirt );
+    // But should have migrated test_f_migration_old_id to test_f_migration_new_id
+    INFO( string_format( "furn sw: %s", furn_sw.id().str() ) );
+    INFO( string_format( "furn se: %s", furn_se.id().str() ) );
+    REQUIRE( furn_sw == furn_test_f_migration_new_id );
+    REQUIRE( furn_se == furn_test_f_migration_new_id );
+}
+
+TEST_CASE( "submap_fd_migration", "[submap][load]" )
+{
+    submap sm;
+    load_from_jsin( sm, submap_fd_pre_migration );
+    submap_checks checks;
+    checks.fields = false;
+
+    REQUIRE( is_normal_submap( sm, checks ) );
+
+    const field field_ne = sm.get_field( corner_ne );
+
+    // North east corner should have migrated from test_fd_migration_old_id to test_fd_migration_new_id
+    std::string fields_list;
+    bool found_field_new_id = false;
+    int total_fields = 0;
+    auto it = field_ne.begin();
+    while( it != field_ne.end() ) {
+        const field_type_id &type = it->first;
+        fields_list += type.id().str() + " ";
+        found_field_new_id |= type == field_test_fd_migration_new_id;
+        total_fields++;
+        it++;
+    }
+    INFO( string_format( "%d fields found: %s", total_fields, fields_list ) );
+    REQUIRE( ( found_field_new_id && total_fields == 1 ) );
 }

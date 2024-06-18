@@ -1,0 +1,74 @@
+[
+  {
+    "result": "sling-ready_molotov",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "molotov", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "sling-ready_grenade",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "grenade", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "sling-ready_small_homemade_grenade",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "small_homemade_grenade", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "sling-ready_homemade_grenade",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "homemade_grenade", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "sling-ready_small_homemade_grenade_2",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "military_explosive_small_grenade", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "sling-ready_homemade_grenade_2",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "military_explosive_grenade", 1 ] ], [ [ "fuse", 1 ] ] ]
+  }
+]

@@ -1,17 +1,17 @@
 #include "drawing_primitives.h"
 
 #include <functional>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "line.h"
-#include "rng.h"
 #include "point.h"
+#include "rng.h"
 
 void draw_line( const std::function<void( const point & )> &set, const point &p1, const point &p2 )
 {
     std::vector<point> line = line_to( p1, p2, 0 );
-    for( auto &i : line ) {
+    for( point &i : line ) {
         set( i );
     }
     set( p1 );

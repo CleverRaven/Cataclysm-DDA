@@ -4,7 +4,9 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <string>
+#include <string_view>
 #include <vector>
 
 constexpr int ANY_LENGTH = 5;
@@ -24,8 +26,7 @@ inline uint32_t UTF8_getch( const std::string &str )
 }
 // convert cursorx value to byte position
 int cursorx_to_position( const char *line, int cursorx, int *prevpos = nullptr, int maxlen = -1 );
-int utf8_width( const char *s, bool ignore_tags = false );
-int utf8_width( const std::string &str, bool ignore_tags = false );
+int utf8_width( std::string_view str, bool ignore_tags = false );
 int utf8_width( const utf8_wrapper &str, bool ignore_tags = false );
 
 std::string left_justify( const std::string &str, int width, bool ignore_tags = false );
@@ -51,15 +52,15 @@ std::string base64_decode( const std::string &str );
 std::wstring utf8_to_wstr( const std::string &str );
 std::string wstr_to_utf8( const std::wstring &wstr );
 
-std::string native_to_utf8( const std::string &str );
-std::string utf8_to_native( const std::string &str );
+std::string wstr_to_native( const std::wstring &wstr );
 
-std::string utf32_to_utf8( const std::u32string &str );
-std::u32string utf8_to_utf32( const std::string &str );
+std::string utf32_to_utf8( std::u32string_view str );
+std::u32string utf8_to_utf32( std::string_view str );
 
 // Split the given string into displayed characters.  Each element of the returned vector
 // contains one 'regular' codepoint and all subsequent combining characters.
 std::vector<std::string> utf8_display_split( const std::string & );
+void utf8_display_split_into( const std::string &, std::vector<std::string_view> & );
 
 /**
  * UTF8-Wrapper over std::string.
@@ -89,8 +90,8 @@ class utf8_wrapper
 {
     public:
         utf8_wrapper() : _length( 0 ), _display_width( 0 ) { }
-        utf8_wrapper( const std::string &d );
-        utf8_wrapper( const char *d );
+        explicit utf8_wrapper( const std::string &d );
+        explicit utf8_wrapper( const char *d );
 
         void insert( size_t start, const utf8_wrapper &other );
         utf8_wrapper substr( size_t start, size_t length ) const;
@@ -174,6 +175,76 @@ class utf8_wrapper
         // Same as @ref substr, but with a byte index as start
         utf8_wrapper substr_byte( size_t bytestart, size_t length, bool use_display_width ) const;
         void init_utf8_wrapper();
+};
+
+/* A range that iterates through Unicode code points in a UTF-8 encoded string
+ * without incurring dynamic memory allocation.
+ *
+ * Example:
+ *   for( char32_t c : utf8_view( "..." ) ) {
+ *       do_something_with( c );
+ *   }
+ */
+class utf8_view
+{
+    private:
+        const char *buffer;
+        std::size_t length;
+
+        class iterator
+        {
+            public:
+                using iterator_category = std::input_iterator_tag;
+                using difference_type = std::ptrdiff_t;
+                using value_type = char32_t;
+                using pointer = value_type*;
+                using reference = value_type&;
+            private:
+                const char *ptr;
+                const char *next_ptr;
+                int remaining;
+                int next_remaining;
+                char32_t unicode;
+
+                void decode() {
+                    if( remaining > 0 ) {
+                        unicode = UTF8_getch( &next_ptr, &next_remaining );
+                    } else {
+                        next_ptr = nullptr;
+                        next_remaining = 0;
+                        unicode = 0;
+                    }
+                }
+            public:
+                explicit iterator( const char *ptr, int remaining ) : ptr( ptr ), remaining( remaining ) {
+                    next_ptr = ptr;
+                    next_remaining = remaining;
+                    decode();
+                }
+                bool operator != ( const iterator &rhs ) const noexcept {
+                    return this->ptr != rhs.ptr;
+                }
+                const iterator &operator++() noexcept {
+                    ptr = next_ptr;
+                    remaining = next_remaining;
+                    decode();
+                    return *this;
+                }
+                char32_t operator*() const noexcept {
+                    return unicode;
+                }
+        };
+
+    public:
+        explicit utf8_view( const std::string &str ) : buffer( str.c_str() ), length( str.length() ) {}
+
+        iterator begin() const noexcept {
+            return iterator( buffer, length );
+        }
+
+        iterator end() const noexcept {
+            return iterator( buffer + length, 0 );
+        }
 };
 
 #endif // CATA_SRC_CATACHARSET_H

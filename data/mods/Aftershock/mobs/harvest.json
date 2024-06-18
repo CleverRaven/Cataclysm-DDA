@@ -1,6 +1,6 @@
 [
   {
-    "id": "CBM_DOG",
+    "id": "dissect_CBM_DOG",
     "type": "harvest",
     "entries": [
       {
@@ -14,7 +14,13 @@
         "type": "bionic_group",
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
-      },
+      }
+    ]
+  },
+  {
+    "id": "CBM_DOG",
+    "type": "harvest",
+    "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },

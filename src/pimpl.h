@@ -5,6 +5,9 @@
 #include <memory>
 #include <type_traits>
 
+class JsonOut;
+class JsonValue;
+
 template<typename T>
 class pimpl;
 template<typename ...T>
@@ -16,7 +19,7 @@ class is_pimpl_helper<pimpl<T>> : public std::true_type
 {
 };
 template<typename T>
-class is_pimpl : public is_pimpl_helper<typename std::decay<T>::type>
+class is_pimpl : public is_pimpl_helper<std::decay_t<T>>
 {
 };
 /**
@@ -40,12 +43,12 @@ class pimpl : private std::unique_ptr<T>
         // argument is a `pimpl` itself (the other copy constructors should be used instead).
         explicit pimpl() : std::unique_ptr<T>( new T() ) { }
         template < typename P, typename ...Args,
-                   typename = typename std::enable_if < !is_pimpl<P>::value >::type >
+                   typename = std::enable_if_t < !is_pimpl<P>::value > >
         explicit pimpl( P && head, Args &&
                         ... args ) : std::unique_ptr<T>( new T( std::forward<P>( head ), std::forward<Args>( args )... ) ) { }
 
-        explicit pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
-        explicit pimpl( pimpl<T> &&rhs ) noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
+        pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
+        pimpl( pimpl<T> &&rhs ) noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
 
         pimpl<T> &operator=( const pimpl<T> &rhs ) {
             operator*() = *rhs;
@@ -64,13 +67,11 @@ class pimpl : private std::unique_ptr<T>
         using std::unique_ptr<T>::operator*;
 
         /// Forwards the stream to `T::deserialize`.
-        template<typename JsonStream>
-        void deserialize( JsonStream &stream ) {
+        void deserialize( const JsonValue &stream ) {
             operator*().deserialize( stream );
         }
         /// Forwards the stream to `T::serialize`.
-        template<typename JsonStream>
-        void serialize( JsonStream &stream ) const {
+        void serialize( JsonOut &stream ) const {
             operator*().serialize( stream );
         }
 };

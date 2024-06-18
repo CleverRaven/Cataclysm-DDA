@@ -3,7 +3,7 @@
     "type": "recipe_category",
     "id": "CC_*",
     "//": "This is just a dummy category. No recipes should be added in here.",
-    "recipe_subcategories": [ "CSC_*_FAVORITE", "CSC_*_RECENT", "CSC_*_HIDDEN" ]
+    "recipe_subcategories": [ "CSC_*_FAVORITE", "CSC_*_RECENT", "CSC_*_HIDDEN", "CSC_*_NESTED" ]
   },
   {
     "type": "recipe_category",
@@ -13,6 +13,7 @@
       "CSC_WEAPON_BASHING",
       "CSC_WEAPON_CUTTING",
       "CSC_WEAPON_PIERCING",
+      "CSC_WEAPON_UNARMED",
       "CSC_WEAPON_RANGED",
       "CSC_WEAPON_EXPLOSIVE",
       "CSC_WEAPON_MODS",
@@ -61,7 +62,6 @@
     "id": "CC_ELECTRONIC",
     "recipe_subcategories": [
       "CSC_ALL",
-      "CSC_ELECTRONIC_CBMS",
       "CSC_ELECTRONIC_TOOLS",
       "CSC_ELECTRONIC_PARTS",
       "CSC_ELECTRONIC_LIGHTING",
@@ -87,6 +87,11 @@
   },
   {
     "type": "recipe_category",
+    "id": "CC_APPLIANCE",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_APPLIANCE_LIGHTING", "CSC_APPLIANCE_UTILITY" ]
+  },
+  {
+    "type": "recipe_category",
     "id": "CC_OTHER",
     "recipe_subcategories": [
       "CSC_ALL",
@@ -103,12 +108,44 @@
   {
     "type": "recipe_category",
     "id": "CC_ANIMALS",
-    "recipe_subcategories": [ "CSC_ALL", "CSC_ANIMALS_CANINE ARMOR", "CSC_ANIMALS_EQUINE ARMOR", "CSC_ANIMALS_EQUINE STORAGE" ]
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ANIMALS_BOVINE ARMOR",
+      "CSC_ANIMALS_CANINE ARMOR",
+      "CSC_ANIMALS_EQUINE ARMOR",
+      "CSC_ANIMALS_EQUINE STORAGE"
+    ]
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_MUSIC",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_MUSIC_STRING", "CSC_MUSIC_WIND", "CSC_MUSIC_PERCUSSION" ]
   },
   {
     "type": "recipe_category",
     "id": "CC_BUILDING",
     "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
     "is_hidden": true
+  },
+  {
+    "type": "recipe_category",
+    "id": "CC_PRACTICE",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_PRACTICE_SCIENCE",
+      "CSC_PRACTICE_ELECTRONICS",
+      "CSC_PRACTICE_FABRICATION",
+      "CSC_PRACTICE_FOOD",
+      "CSC_PRACTICE_SURVIVAL",
+      "CSC_PRACTICE_TAILORING",
+      "CSC_PRACTICE_ATHLETICS",
+      "CSC_PRACTICE_COMPUTERS",
+      "CSC_PRACTICE_DEVICES",
+      "CSC_PRACTICE_HEALTH",
+      "CSC_PRACTICE_MECHANICS",
+      "CSC_PRACTICE_SOCIAL",
+      "CSC_PRACTICE_MELEE",
+      "CSC_PRACTICE_RANGED"
+    ]
   }
 ]

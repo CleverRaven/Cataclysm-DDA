@@ -1,0 +1,12 @@
+[
+  {
+    "type": "npc",
+    "id": "bunker_merchant",
+    "name_suffix": "Merchant",
+    "class": "NC_BUNKER_MERCHANT",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_BUNKER_MERCHANT",
+    "faction": "wasteland_scavengers"
+  }
+]

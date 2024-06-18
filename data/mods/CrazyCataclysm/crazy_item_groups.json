@@ -2,7 +2,8 @@
   {
     "id": "grenades",
     "type": "item_group",
-    "items": [ [ "granade", 1 ] ]
+    "copy-from": "grenades",
+    "extend": { "items": [ [ "granade", 1 ] ] }
   },
   {
     "id": "skeltal_drops",
@@ -13,12 +14,14 @@
   {
     "type": "item_group",
     "id": "bionics",
-    "items": [ [ "bio_chest_gun", 5 ] ]
+    "copy-from": "bionics",
+    "extend": { "items": [ [ "bio_chest_gun", 5 ] ] }
   },
   {
     "type": "item_group",
     "id": "bionics_mil",
-    "items": [ [ "bio_chest_gun", 1 ] ]
+    "copy-from": "bionics_mil",
+    "extend": { "items": [ [ "bio_chest_gun", 1 ] ] }
   },
   {
     "type": "item_group",
@@ -28,6 +31,113 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common",
-    "items": [ [ "yeet_cannon", 12 ] ]
+    "copy-from": "guns_pistol_common",
+    "extend": { "items": [ [ "yeet_cannon", 12 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "powerthirst_flavors",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "powerthirst1", "prob": 10, "container-item": "rocket_can_drink", "charges": 2 },
+      { "item": "powerthirst2", "prob": 10, "container-item": "rocket_can_drink", "charges": 2 },
+      { "item": "powerthirst3", "prob": 10, "container-item": "rocket_can_drink", "charges": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fridgesnacks",
+    "copy-from": "fridgesnacks",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "powerthirst_flavors", "prob": 10 } ] }
+  },
+  {
+    "id": "virology_lab_fridge",
+    "type": "item_group",
+    "copy-from": "virology_lab_fridge",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "id": "drugs_misc",
+    "type": "item_group",
+    "copy-from": "drugs_misc",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "id": "harddrugs",
+    "type": "item_group",
+    "copy-from": "harddrugs",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "party_rocker_death_drop",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "speedo", "prob": 22 },
+          { "item": "shorts_denim", "prob": 16 },
+          { "item": "hot_pants", "prob": 20 },
+          { "item": "bikini_bottom_short", "prob": 20 },
+          { "item": "bikini_bottom", "prob": 12 },
+          { "item": "briefs", "prob": 5 },
+          { "item": "trunks", "prob": 5 }
+        ]
+      },
+      { "distribution": [ { "group": "harddrugs", "prob": 33 } ] },
+      {
+        "distribution": [
+          { "item": "flag_shirt", "prob": 6 },
+          { "item": "bikini_top", "prob": 19 },
+          { "item": "bra", "prob": 8 },
+          { "item": "binder_top", "prob": 5 },
+          { "item": "bikini_top_short", "prob": 16 },
+          { "item": "hoodie", "prob": 5 },
+          { "item": "halter_top", "prob": 20 },
+          { "item": "tshirt_cropped", "prob": 21 }
+        ]
+      },
+      { "distribution": [ { "item": "sunglasses", "prob": 80 }, { "item": "fancy_sunglasses", "prob": 20 } ] },
+      { "distribution": [ { "group": "alcohol", "prob": 50 } ] },
+      { "distribution": [ { "item": "mp3", "charges": [ 0, 100 ] } ] },
+      { "distribution": [ { "item": "lowtops", "prob": 80 }, { "item": "bastsandals", "prob": 20 } ] },
+      {
+        "distribution": [
+          { "group": "jewelry_accessories", "prob": 90 },
+          { "group": "rings_and_things", "prob": 90 },
+          { "group": "rings_and_things", "prob": 90 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "party_rocker_death_drop_pipe",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "crackpipe", "prob": 5, "damage": [ 1, 3 ] },
+          { "item": "pipe_glass", "prob": 60, "damage": [ 1, 3 ] },
+          { "item": "pipe_tobacco", "prob": 35, "damage": [ 2, 4 ] }
+        ]
+      },
+      { "group": "party_rocker_death_drop", "prob": 100, "damage": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "party_rocker_death_drop_bottle",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "bottle_metal", "prob": 40, "damage": [ 1, 3 ] },
+          { "item": "bottle_glass", "prob": 40, "damage": [ 3, 4 ] }
+        ]
+      },
+      { "group": "party_rocker_death_drop", "prob": 100, "damage": [ 1, 3 ] }
+    ]
   }
 ]

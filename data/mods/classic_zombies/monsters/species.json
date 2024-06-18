@@ -1,0 +1,10 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "ZOMBIE",
+    "description": "a zombie",
+    "fear_triggers": [ "FIRE" ],
+    "footsteps": "shuffling.",
+    "bleeds": "fd_blood"
+  }
+]

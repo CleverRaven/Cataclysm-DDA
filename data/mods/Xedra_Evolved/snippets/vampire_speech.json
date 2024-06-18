@@ -1,0 +1,67 @@
+[
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_renfield",
+      "mon_renfield_9mm",
+      "mon_renfield_shotgun",
+      "mon_renfield_flamethrower",
+      "mon_renfield_bionic_monster",
+      "mon_renfield_abomination"
+    ],
+    "sound": "\"The masters have come, and they have promised to make me immortal!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_renfield",
+      "mon_renfield_9mm",
+      "mon_renfield_shotgun",
+      "mon_renfield_flamethrower",
+      "mon_renfield_bionic_monster",
+      "mon_renfield_abomination"
+    ],
+    "sound": "\"I am here to do the masters' bidding!\"",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_renfield",
+      "mon_renfield_9mm",
+      "mon_renfield_shotgun",
+      "mon_renfield_flamethrower",
+      "mon_renfield_bionic_monster",
+      "mon_renfield_abomination"
+    ],
+    "sound": "\"Who's there?  Is that blood for the masters?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_renfield",
+      "mon_renfield_9mm",
+      "mon_renfield_shotgun",
+      "mon_renfield_flamethrower",
+      "mon_renfield_bionic_monster",
+      "mon_renfield_abomination"
+    ],
+    "sound": "\"Can you help me?  The masters are so very hungry.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_renfield",
+      "mon_renfield_9mm",
+      "mon_renfield_shotgun",
+      "mon_renfield_flamethrower",
+      "mon_renfield_bionic_monster",
+      "mon_renfield_abomination"
+    ],
+    "sound": "\"Why won't you just surrender to the masters' needs!\"",
+    "volume": 32
+  }
+]

@@ -1,11 +1,17 @@
-#include <unordered_set>
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <iosfwd>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
+#include "cata_catch.h"
 #include "field_type.h"
-#include "flag.h"
-#include "generic_factory.h"
 #include "string_id_utils.h"
 #include "type_id.h"
+
+class json_flag;
 
 TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 {
@@ -16,11 +22,16 @@ TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 
 TEST_CASE( "static_string_ids_equality_test", "[string_id]" )
 {
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_smoke == string_id<field_type>( "fd_smoke" ) );
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_toxic_gas == string_id<field_type>( "fd_toxic_gas" ) );
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_tear_gas == string_id<field_type>( "fd_tear_gas" ) );
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_nuke_gas == string_id<field_type>( "fd_nuke_gas" ) );
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( fd_nuke_gas != string_id<field_type>( "fd_nuke_gas1" ) );
 }
 
@@ -31,8 +42,9 @@ TEST_CASE( "string_ids_intern_test", "[string_id]" )
     struct test_obj {};
     std::vector<string_id<test_obj>> ids;
     // lots of ids to make sure that "interning" map gets expanded
+    ids.reserve( num_ids );
     for( int i = 0; i < num_ids; ++i ) {
-        ids.push_back( string_id<test_obj>( "test_id" + std::to_string( i ) ) );
+        ids.emplace_back( "test_id" + std::to_string( i ) );
     }
 
     // check that interning works
@@ -61,13 +73,19 @@ TEST_CASE( "string_ids_collection_equality", "[string_id]" )
     struct test_obj {};
     using id = string_id<test_obj>;
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( std::set<id> {id( "test1" ), id( "test3" ), id( "test2" )} ==
+           // NOLINTNEXTLINE(cata-static-string_id-constants)
            std::set<id> {id( "test2" ), id( "test1" ), id( "test3" )} );
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     CHECK( std::set<id> {id( "test1" ), id( "test3" ), id( "test2" )} !=
+           // NOLINTNEXTLINE(cata-static-string_id-constants)
            std::set<id> {id( "test2" ), id( "test1" ), id( "test4" )} );
 
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     std::vector<id> vec1 { id( "test4" ), id( "test2" ), id( "test3" ), id( "test1" ) };
+    // NOLINTNEXTLINE(cata-static-string_id-constants)
     std::vector<id> vec2 { id( "test2" ), id( "test4" ), id( "test1" ), id( "test3" ) };
 
     CHECK( vec1 != vec2 );
@@ -100,7 +118,7 @@ TEST_CASE( "string_id_sorting_test", "[string_id]" )
     SECTION( "vector of pairs sorting" ) {
         std::vector<std::pair<id, int>> vec;
         for( int i = 9; i >= 0; i-- ) {
-            vec.push_back( {id( "id" + std::to_string( i ) ), i} );
+            vec.emplace_back( id( "id" + std::to_string( i ) ), i );
         }
 
         int i = 0;
@@ -113,8 +131,9 @@ TEST_CASE( "string_id_sorting_test", "[string_id]" )
 
     SECTION( "vector ids sorting" ) {
         std::vector<id> vec;
+        vec.reserve( 10 );
         for( int i = 0; i < 10; ++i ) {
-            vec.push_back( id( "id" + std::to_string( i ) ) );
+            vec.emplace_back( "id" + std::to_string( i ) );
         }
 
         int i = 0;
@@ -144,6 +163,7 @@ TEST_CASE( "string_id_creation_benchmark", "[.][string_id][benchmark]" )
 {
     static constexpr int num_test_strings = 30;
     std::vector<std::string> test_strings;
+    test_strings.reserve( num_test_strings );
     for( int i = 0; i < num_test_strings; ++i ) {
         test_strings.push_back( "some_test_string_" + std::to_string( i ) );
     }

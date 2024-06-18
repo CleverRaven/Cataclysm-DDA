@@ -1,0 +1,52 @@
+[
+  {
+    "result": "broken_exodii_quad_jotunn",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 9 ], [ "computer", 9 ] ],
+    "difficulty": 9,
+    "time": "10 h",
+    "using": [ [ "soldering_standard", 60 ], [ "welding_standard", 30 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [
+      [ [ "sensor_module", 1 ] ],
+      [ [ "spidery_legs_big", 2 ] ],
+      [ [ "exodii_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "exodii_sensor", 2 ] ],
+      [ [ "exodii_computer", 1 ] ],
+      [ [ "exodii_module", 2 ] ],
+      [ [ "exodii_motor", 8 ] ],
+      [ [ "gun_module", 3 ] ],
+      [ [ "flamethrower", 1 ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "modular_m4_carbine", 1 ] ],
+      [ [ "pamd68", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "amplifier", 5 ] ],
+      [ [ "e_scrap", 50 ] ],
+      [ [ "clockworks", 4 ] ],
+      [ [ "steel_chunk", 10 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "cyborg_matrix", 1 ] ],
+      [ [ "storage_battery", 2 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "mil_plate", 2 ] ],
+      [ [ "hard_steel_armor", 10 ] ],
+      [ [ "sheet_metal_small", 40 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "betavoltaic", 20 ] ]
+    ]
+  }
+]

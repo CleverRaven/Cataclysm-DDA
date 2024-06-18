@@ -1,0 +1,34 @@
+[
+  {
+    "type": "test_data",
+    "//": "expected value 22",
+    "expected_dps": {
+      "blade": 7.0,
+      "butterfly_swords": 22.0,
+      "mc_cavalry_sabre": 24.233,
+      "mc_cutlass": 22.0,
+      "cutlass_inferior": 17.5,
+      "cutlass_fake": 8.763,
+      "dao": 23.47,
+      "khopesh": 24.26,
+      "mc_kukri": 18.194,
+      "machete": 16.9,
+      "makeshift_machete": 7.49,
+      "survivor_machete": 17.41,
+      "mc_scimitar": 22.167,
+      "scimitar_inferior": 16.15,
+      "scimitar_fake": 7.526,
+      "sword_bayonet": 22.097,
+      "sword_cane": 20.34,
+      "sword_crude": 9.5,
+      "sword_xiphos": 22.0,
+      "cavalry_sabre_fake": 8.98,
+      "fencing_epee": 5.93,
+      "fencing_sabre": 4.63,
+      "fencing_foil": 2.0,
+      "mc_wakizashi": 23.592,
+      "wakizashi_inferior": 15.0,
+      "wakizashi_fake": 7.0
+    }
+  }
+]

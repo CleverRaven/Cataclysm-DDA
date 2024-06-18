@@ -1,0 +1,40 @@
+[
+  {
+    "id": "afs_kitchenette",
+    "type": "item_group",
+    "//": "A rather complete one tile kitchen. Should spawn cooking implements and kitchen objects.",
+    "subtype": "collection",
+    "items": [
+      [ "hotplate", 70 ],
+      { "group": "SUS_appliances_cupboard", "prob": 30 },
+      { "group": "SUS_knife_drawer", "prob": 20 },
+      { "group": "SUS_utensils", "prob": 20 },
+      { "group": "SUS_dishes", "prob": 20 },
+      { "group": "SUS_cookware", "prob": 20 },
+      { "group": "SUS_kitchen_sink", "prob": 30 },
+      { "group": "SUS_coffee_cupboard", "prob": 2 }
+    ]
+  },
+  {
+    "id": "afs_old_food_storage",
+    "type": "item_group",
+    "//": "A cabinet, rack or equivalent storing food from before the discontinuity.  Should only contain nonperishable food and spawn in ruins.",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_cheap_food", "prob": 10, "count": [ 1, 5 ] },
+      { "group": "afs_spices", "prob": 20, "count": [ 3, 5 ] },
+      { "group": "afs_dry_goods", "prob": 10, "count": [ 1, 2 ] },
+      { "group": "afs_stored_meals", "prob": 10, "count": [ 1, 7 ] },
+      { "group": "afs_stored_meats", "prob": 5, "count": [ 1, 2 ] },
+      { "group": "afs_stored_veggies", "prob": 10, "count": [ 1, 2 ] },
+      { "group": "afs_ruined_food", "prob": 50, "count": [ 1, 7 ] }
+    ]
+  },
+  {
+    "id": "afs_old_beverage_storage",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A fridge or equivalent storing drinks from before the discontinuity. Should only contain nonperishable food and spawn in ruins.",
+    "items": [ { "group": "afs_cheap_drinks", "prob": 10, "count": [ 1, 5 ] } ]
+  }
+]

@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_ADVANCED_INV_PAGINATION_H
 #define CATA_SRC_ADVANCED_INV_PAGINATION_H
 
-#include "advanced_inv_pane.h"
-
 class advanced_inventory_pane;
 class item_category;
 
@@ -27,7 +25,7 @@ class advanced_inventory_pagination
         void reset_page();
 
         /// Returns true if printing an item with the category requires a category header.
-        bool new_category( const item_category *cat );
+        bool new_category( const item_category *cat ) const;
 
         /// Step the pagination state forward for the item with this index.
         /// Returns true if printing the item required starting a new page.

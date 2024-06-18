@@ -1,0 +1,12 @@
+[
+  {
+    "type": "construction_group",
+    "id": "place_clay_car_battery",
+    "name": "Place Clay Car Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_clay_battery_array",
+    "name": "Place Clay Battery Array"
+  }
+]

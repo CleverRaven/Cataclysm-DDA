@@ -1,0 +1,42 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_nanofab",
+    "name": "nanofabricator control panel",
+    "symbol": "&",
+    "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
+    "allowed_template_ids": [
+      "standard_template_construct",
+      "standard_template_construct_combat_exoskeleton",
+      "debug_template",
+      "afs_10mm_smart_template"
+    ],
+    "color": "red",
+    "looks_like": "f_console",
+    "move_cost": 0,
+    "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "WALL", "NOITEM", "PERMEABLE" ],
+    "examine_action": "nanofab",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  }
+]

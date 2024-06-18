@@ -9,12 +9,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "unexplored",
+    "name": "Unexplored",
+    "sym": "#",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "omt_obsolete",
+    "//": "this omt is used for replacing obsoleted overmap terrain",
+    "name": "nether-chewed field",
+    "sym": "%",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -24,14 +42,25 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
-    "name": "park",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 2,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "id": "solid_earth",
+    "name": "solid earth",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "travel_cost_type": "impassable",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "deep_rock",
+    "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
+    "name": "solid rock",
+    "looks_like": "empty_rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "travel_cost_type": "impassable",
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -52,7 +81,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "boat_rental",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
     "name": "boat rental",
     "sym": "#",
     "color": "white",
@@ -84,6 +113,24 @@
     "name": "lighthouse",
     "sym": "&",
     "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_small_ground",
+    "name": "small lighthouse",
+    "sym": "0",
+    "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4", "lighthouse_small_roof" ],
+    "name": "small lighthouse",
+    "sym": "0",
+    "color": "yellow",
     "see_cost": 5
   },
   {
@@ -100,6 +147,7 @@
     "name": "island",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1
   },
   {
@@ -108,6 +156,7 @@
     "name": "island",
     "sym": "F",
     "color": "cyan",
+    "looks_like": "forest_water",
     "see_cost": 1
   },
   {
@@ -116,19 +165,29 @@
     "name": "island",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1
   },
   {
     "type": "overmap_terrain",
     "id": "cabin_isherwood",
-    "name": "forest",
+    "name": "cabin",
     "sym": "C",
     "color": "i_green",
     "see_cost": 5
   },
   {
     "type": "overmap_terrain",
-    "id": "riverside_dwelling",
+    "id": [
+      "riverside_dwelling",
+      "riverside_dwelling1",
+      "riverside_dwelling2",
+      "riverside_dwelling3",
+      "riverside_dwelling_roof",
+      "riverside_dwelling1_roof",
+      "riverside_dwelling2_roof",
+      "riverside_dwelling3_roof"
+    ],
     "name": "riverside dwelling",
     "sym": "+",
     "color": "i_yellow",
@@ -140,18 +199,26 @@
   {
     "type": "overmap_terrain",
     "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lake_cabin_water" ],
+    "name": "lake",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
     "see_cost": 5
   },
   {
@@ -166,14 +233,37 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_strange_roof",
-    "name": "forest",
-    "sym": ".",
-    "color": "blue",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
     "see_cost": 5
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin" ],
+    "id": [
+      "cabin",
+      "cabin_1",
+      "cabin_2",
+      "cabin_3",
+      "cabin_4",
+      "cabin_5",
+      "cabin_6",
+      "cabin_7",
+      "cabin_lapin",
+      "bandit_cabin",
+      "cabin_prepper"
+    ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_liam" ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -193,13 +283,91 @@
       "cabin_roof_5",
       "cabin_roof_6",
       "cabin_roof_7",
-      "cabin_roof_lapin"
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
     ],
     "name": "cabin roof",
     "sym": "C",
     "color": "i_green",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
+    "name": "lakeside cabin",
+    "copy-from": "cabin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin_lakeside_roof",
+      "cabin_lakeside1_roof",
+      "cabin_lakeside2_roof",
+      "cabin_lakeside3_roof",
+      "cabin_lakeside4_roof",
+      "cabin_lakeside5_roof"
+    ],
+    "name": "lakeside cabin roof",
+    "copy-from": "cabin_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_ground1", "lodge_ground2" ],
+    "name": "hunting lodge",
+    "sym": "L",
+    "copy-from": "generic_forest",
+    "color": "light_green",
+    "see_cost": 4,
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_ground_glooscap1", "lodge_ground_glooscap2" ],
+    "name": "hunting lodge",
+    "sym": "L",
+    "copy-from": "generic_forest",
+    "color": "light_green",
+    "see_cost": 4,
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
+    "name": "second floor hunting lodge",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_roof1", "lodge_roof2" ],
+    "name": "hunting lodge roof",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lodge_basement_residential1",
+      "lodge_basement_residential2",
+      "lodge_basement_residential3",
+      "lodge_basement_residential4"
+    ],
+    "name": "hunting lodge basement",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_basement_laboratory_entrance" ],
+    "copy-from": "lodge_basement_residential1",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -219,7 +387,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_aban1",
+    "id": [ "cabin_aban1", "cabin_aban1_roof" ],
     "name": "ruined cabin",
     "sym": "F",
     "color": "green",
@@ -228,7 +396,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "barn_aban1",
+    "id": [ "barn_aban1", "barn_aban1_roof" ],
     "name": "barn",
     "sym": "F",
     "color": "green",
@@ -237,7 +405,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "car_corner_aban1",
+    "id": [ "car_corner_aban1", "car_corner_aban1_roof" ],
     "name": "car corner",
     "sym": "F",
     "color": "green",
@@ -249,7 +417,23 @@
     "name": "shipwreck",
     "sym": "w",
     "color": "red",
-    "see_cost": 4
+    "see_cost": 4,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "crater",
+    "name": "crater",
+    "sym": "o",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "crater_core_large", "crater_core_small" ],
+    "sym": "O",
+    "copy-from": "crater"
   },
   {
     "type": "overmap_terrain",
@@ -269,21 +453,77 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_cabin", "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "id": [
+      "wasp_tower",
+      "wasp_tower_1",
+      "wasp_tower_roof_1",
+      "wasp_tower_odd_1",
+      "wasp_tower_odd_2",
+      "wasp_tower_even_1",
+      "wasp_tower_even_2",
+      "wasp_tower_top"
+    ],
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2,
+    "mondensity": 2,
+    "spawns": { "group": "GROUP_WASP_GUARD", "population": [ 3, 8 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform", "wind_turbine_roof" ],
+    "name": "wind turbine",
+    "sym": "o",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wind_turbine_nacelle" ],
+    "name": "wind turbine",
+    "sym": "Y",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "bandit_camp_1",
+      "bandit_camp_2",
+      "bandit_camp_3",
+      "bandit_camp_4",
+      "bandit_camp_1_roof",
+      "bandit_camp_2_roof",
+      "bandit_camp_3_roof",
+      "bandit_camp_4_roof"
+    ],
+    "name": "wooden fort",
+    "sym": "+",
+    "color": "brown",
     "see_cost": 5,
     "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "name": "looted building",
+    "id": [
+      "bandit_farm_3",
+      "bandit_farm_3_roof",
+      "bandit_farm_2",
+      "bandit_farm_2_roof",
+      "bandit_farm_1",
+      "bandit_farm_6",
+      "bandit_farm_5",
+      "bandit_farm_4",
+      "bandit_farm_9",
+      "bandit_farm_8",
+      "bandit_farm_7"
+    ],
+    "name": "farm",
     "sym": "#",
-    "color": "light_gray",
-    "see_cost": 2
+    "color": "brown",
+    "see_cost": 5,
+    "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -291,7 +531,52 @@
     "name": "ramp testing area",
     "sym": "%",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house",
+    "name": "looted house",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house_roof",
+    "name": "looted house roof",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house_basement",
+    "name": "looted house basement",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital_roof",
+    "name": "looted hospital roof",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -311,6 +596,15 @@
     "color": "light_green",
     "see_cost": 5,
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campsite_cabin_incomplete_roof",
+    "name": "incomplete cabin roof",
+    "sym": "+",
+    "color": "light_green",
+    "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
@@ -343,51 +637,49 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pond_forest",
-    "name": "basin",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "name": "bog",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "hunter_shack", "hunter_shack_1" ],
     "name": "swamp shack",
-    "sym": "F",
-    "color": "cyan",
+    "sym": "+",
+    "color": "i_cyan",
     "see_cost": 5,
     "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
+    "id": [ "survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
-    "sym": "F",
-    "color": "cyan",
+    "sym": "+",
+    "color": "i_cyan",
     "see_cost": 5
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "campground_1a",
-      "campground_1b",
-      "campground_2a",
-      "campground_2b",
-      "campground_1a_npc",
-      "campground_1b_npc",
-      "campground_2a_npc",
-      "campground_2b_npc"
-    ],
+    "id": [ "drug_lab", "bandit_drug_lab" ],
+    "name": "drug lab",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "name": "drug lab roof",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ],
     "name": "campground",
     "sym": "+",
     "color": "i_green",
@@ -397,12 +689,42 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "campground_roof", "campground_roof_npc" ],
+    "id": "campground_roof",
     "name": "campground roof",
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
+    "name": "church retreat",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "godco_1_1",
+      "godco_2_1",
+      "godco_3_1",
+      "godco_4_1",
+      "godco_5_1",
+      "godco_6_1",
+      "godco_7_1",
+      "godco_8_1",
+      "godco_9_1",
+      "godco_1_2",
+      "godco_2_2",
+      "godco_1_3"
+    ],
+    "name": "church retreat roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -415,53 +737,39 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
     "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_giant_sinkhole",
+    "sym": "O",
+    "color": "brown",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_1",
-    "name": "giant sinkhole",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "sym": "O",
-    "color": "brown"
+    "copy-from": "generic_giant_sinkhole",
+    "name": "giant sinkhole"
   },
   {
     "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_2",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "giant sinkhole base",
-    "sym": "O",
-    "color": "brown"
+    "copy-from": "generic_giant_sinkhole",
+    "name": "giant sinkhole base"
   },
   {
     "type": "overmap_terrain",
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "parking_2x1_0",
-      "parking_2x1_1",
-      "parking_2x2_0_0",
-      "parking_2x2_0_1",
-      "parking_2x2_1_0",
-      "parking_2x2_1_1",
-      "parking_3x1_0",
-      "parking_3x1_1",
-      "parking_3x1_2"
-    ],
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 2
+    "sym": "g",
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -518,43 +826,40 @@
     "type": "overmap_terrain",
     "id": [
       "airliner_1a",
-      "airliner_2a",
       "airliner_3a",
-      "airliner_1b",
       "airliner_3b",
-      "airliner_1c",
-      "airliner_2c",
-      "airliner_3c",
       "airliner_1d",
-      "airliner_2d",
       "airliner_3d",
       "airliner_1e",
-      "airliner_2e",
       "airliner_3e",
       "airliner_1f",
-      "airliner_2f",
       "airliner_3f",
       "airliner_1g",
-      "airliner_2g",
       "airliner_3g",
       "airliner_1h",
-      "airliner_2h",
       "airliner_3h",
       "airliner_1i",
-      "airliner_2i",
       "airliner_3i",
       "airliner_1j",
-      "airliner_2j",
       "airliner_3j"
     ],
     "name": "field",
     "sym": ".",
     "color": "brown",
-    "see_cost": 5
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1" ],
+    "id": [
+      "airliner_2a",
+      "airliner_2a_1",
+      "airliner_2b",
+      "airliner_2b_1",
+      "airliner_2b_-1",
+      "airliner_2c",
+      "airliner_2c_1",
+      "airliner_2c_-1"
+    ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -562,7 +867,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2a_1", "airliner_2c_1" ],
+    "id": [ "airliner_1b", "airliner_3c" ],
+    "name": "wreckage",
+    "sym": "A",
+    "color": "light_gray",
+    "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "airliner_1c",
+      "airliner_2d",
+      "airliner_2e",
+      "airliner_2f",
+      "airliner_2g",
+      "airliner_2h",
+      "airliner_2i",
+      "airliner_2j"
+    ],
+    "name": "crash trail",
+    "sym": ",",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "wasp_tower_roof" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
@@ -570,60 +900,28 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "airliner_2c_-1",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "see_cost": 5
+    "id": "lab_subway_vent_shaft-1",
+    "name": "ventilation shaft",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_surface",
-    "copy-from": "forest"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_subway_vent_shaft_roof",
-    "copy-from": "open_air"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "lab_subway_vent_shaft-1", "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
+    "id": [ "lab_subway_vent_shaft-2", "lab_subway_vent_shaft-3", "lab_subway_vent_shaft-4" ],
     "name": "ventilation shaft",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "cground_1",
-      "cground_1_1",
-      "cground_1_2",
-      "cground_2",
-      "cground_2_1",
-      "cground_2_2",
-      "cground_3",
-      "cground_3_1",
-      "cground_4",
-      "cground_4_1",
-      "cground_5",
-      "cground_5_1",
-      "cground_6",
-      "cground_6_1",
-      "cground_7",
-      "cground_7_1",
-      "cground_8",
-      "cground_8_1",
-      "cground_9",
-      "cground_9_1"
-    ],
-    "name": "campground",
-    "sym": "┼",
-    "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "abstract": "generic_bastion_fort",
+    "name": "bastion fort",
+    "sym": "F",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
@@ -639,7 +937,15 @@
       "fort_1c",
       "fort_2c",
       "fort_3c",
-      "fort_4c",
+      "fort_4c"
+    ],
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "fort_1a_1",
       "fort_2a_1",
       "fort_3a_1",
@@ -653,9 +959,112 @@
       "fort_3c_1",
       "fort_4c_1"
     ],
-    "name": "bastion fort",
-    "sym": "F",
-    "color": "red",
+    "copy-from": "generic_bastion_fort",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nest_dermatik", "nest_dermatik_roof" ],
+    "name": "mound of dirt",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "rock_border",
+    "name": "rock border",
+    "sym": "#",
+    "color": "white",
+    "flags": [ "NO_ROTATE" ],
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
+    "see_cost": 3,
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "spider_pit_under",
+    "name": "cavern",
+    "looks_like": "cave_underground",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
+    "name": "small cabin",
+    "sym": "C",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu_roof" ],
+    "name": "scrap yard roof",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
+    "name": "lumbermill",
+    "sym": "L",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "hive_edge_00",
+      "hive_edge_10",
+      "hive_edge_20",
+      "hive_edge_01",
+      "hive",
+      "hive_edge_21",
+      "hive_edge_02",
+      "hive_edge_12",
+      "hive_edge_22",
+      "hive_edge_00_roof",
+      "hive_edge_10_roof",
+      "hive_edge_20_roof",
+      "hive_edge_01_roof",
+      "hive_roof",
+      "hive_edge_21_roof",
+      "hive_edge_02_roof",
+      "hive_edge_12_roof",
+      "hive_edge_22_roof"
+    ],
+    "name": "bee hive",
+    "sym": "8",
+    "color": "yellow",
+    "see_cost": 3,
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field_graboid",
+    "looks_like": "field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "field",
+    "travel_cost_type": "field",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

@@ -180,7 +180,7 @@ void RenderClear( const SDL_Renderer_Ptr &renderer )
         dbg( D_ERROR ) << "Tried to use a null renderer";
         return;
     }
-    printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderCopy failed" );
+    printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderClear failed" );
 }
 
 SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int height,

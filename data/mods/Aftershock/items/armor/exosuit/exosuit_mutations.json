@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mutation",
+    "id": "exo_climb_mutation",
+    "name": { "str": "Exosuit Climb Assist" },
+    "points": 0,
+    "description": "Your exosuit is equipped with a variety of climbing assists.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Equipment" ],
+    "flags": "WALL_CLING"
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shills_branch_manager",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Shady Hills Corporation: Branch Manager",
+          "eocs": [ "EOC_SHILLS_BRANCH" ],
+          "chat_topics": [ "COMP_SHILLS_BRANCH" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "EOC_SHILLS_BRANCH",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SHILLS_BRANCH",
+    "dynamic_line": "Shady Hills Corporation.\n You are logged in as: Branch Manager.\n\nWARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "responses": [
+      { "text": "Access Messages", "topic": "COMP_SHILLS_BRANCH_EMAILS" },
+      { "text": "Access Main Drive", "topic": "COMP_SHILLS_BRANCH_ERROR" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SHILLS_BRANCH_EMAILS",
+    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n ERROR REFRESHING MESSAGES.  NOT ALL MESSAGES MAY BE DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "responses": [
+      { "text": "[!]RE: Important Status Update", "topic": "COMP_SHILLS_BRANCH_EMAILS_STATUS" },
+      { "text": "RETURN TO MAIN PAGE", "topic": "COMP_SHILLS_BRANCH" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SHILLS_BRANCH_EMAILS_STATUS",
+    "dynamic_line": "FROM: Kristi Gordee, SVP Operations\n  TO: [Branch Managers], [Community Managers]\n  RE: Important Status Update\n\n Everyone,\n You are to follow your appropriate lockdown protocols at your discretion.  With the recent events as they are, we must do our utmost to ensure that our goals remain priority.\n\n Branch Managers - your deliveries will have an altered schedule.  I will send a separate email with details.  Ensure the hidden safe rooms are properly secured.\n Community Managers - Lockdown the community appropriately.  Tell the residents that it is for their protection, but do not let them leave.  We need them for the Big Pappy project to be successful.  I am going to send you some contacts who can discreetly install a heavy security gate.\n\n You will continue to receive your bonus pay as agreed upon.  Do not lose sight of our important endgame.",
+    "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_SHILLS_BRANCH_EMAILS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_SHILLS_BRANCH_ERROR",
+    "dynamic_line": "ERROR ACCESSING SERVER",
+    "responses": [ { "text": "RETURN TO PREVIOUS PAGE", "topic": "COMP_SHILLS_BRANCH" } ]
+  }
+]

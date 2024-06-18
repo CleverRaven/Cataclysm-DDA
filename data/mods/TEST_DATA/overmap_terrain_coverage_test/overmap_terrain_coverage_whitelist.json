@@ -1,0 +1,19 @@
+[
+  {
+    "type": "test_data",
+    "overmap_terrain_coverage_whitelist": [
+      "ants_lab",
+      "ants_lab_stairs",
+      "ice_lab",
+      "ice_lab_core",
+      "ice_lab_finale",
+      "ocean_shore",
+      "ravine",
+      "ravine_edge",
+      "ravine_floor",
+      "ravine_floor_edge",
+      "rock_border",
+      "s_restaurant_deserted_test"
+    ]
+  }
+]

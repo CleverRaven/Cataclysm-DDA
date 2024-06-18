@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 
-static void write_array( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
+static void write_array( TextJsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     jsout.start_array( force_wrap );
     jsin.start_array();
@@ -15,7 +15,7 @@ static void write_array( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wra
     jsout.end_array();
 }
 
-static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
+static void write_object( TextJsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     jsout.start_object( force_wrap );
     jsin.start_object();
@@ -23,12 +23,12 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
         std::string name = jsin.get_member_name();
         jsout.member( name );
         bool override_wrap = false;
-        if( name == "rows" || name == "blueprint" ) {
+        if( name == "rows" || name == "blueprint" || name == "picture" ) {
             // Introspect into the row, if it has more than one element, force it to wrap.
             int in_start_pos = jsin.tell();
             bool ate_separator = jsin.get_ate_separator();
             {
-                JsonArray arr = jsin.get_array();
+                TextJsonArray arr = jsin.get_array();
                 if( arr.size() > 1 ) {
                     override_wrap = true;
                 }
@@ -41,8 +41,8 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
     jsout.end_object();
 }
 
-static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
-                               const std::function<void( JsonIn &, JsonOut &, int, bool )> &write_func,
+static void format_collection( TextJsonIn &jsin, JsonOut &jsout, int depth,
+                               const std::function<void( TextJsonIn &, JsonOut &, int, bool )> &write_func,
                                bool force_wrap )
 {
     if( depth > 1 && !force_wrap ) {
@@ -70,7 +70,7 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
     write_func( jsin, jsout, depth, true );
 }
 
-void formatter::format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
+void formatter::format( TextJsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
     depth++;
     if( jsin.test_array() ) {
@@ -85,6 +85,15 @@ void formatter::format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap
         std::string str = jsin.substr( start_pos, end_pos - start_pos );
         str = str.substr( str.find( '"' ) );
         str = str.substr( 0, str.rfind( '"' ) + 1 );
+        // Replace non-breaking space with escape sequence to avoid confusion.
+        // Since JSON cannot have an nbsp inside an escape sequence this will
+        // produce syntactically valid output as long as the input is
+        // syntactically valid, which `get_string` should have already checked.
+        static const std::string nbsp = "\u00A0";
+        for( size_t pos = str.find( nbsp ); pos != std::string::npos; pos = str.find( nbsp, pos ) ) {
+            str.replace( pos, nbsp.size(), R"(\u00A0)" );
+        }
+        // Write the string
         jsout.write_separator();
         *jsout.get_stream() << str;
         jsout.set_need_separator();
@@ -126,14 +135,6 @@ void formatter::format( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap
         jsin.skip_null();
         jsout.write_null();
     } else {
-        std::cerr << "Encountered unrecognized json element \"";
-        const int start_pos = jsin.tell();
-        jsin.skip_value();
-        const int end_pos = jsin.tell();
-        for( int i = start_pos; i < end_pos; ++i ) {
-            jsin.seek( i );
-            std::cerr << jsin.peek();
-        }
-        std::cerr << "\"" << std::endl;
+        jsin.skip_value(); // this will throw exception with the invalid element
     }
 }

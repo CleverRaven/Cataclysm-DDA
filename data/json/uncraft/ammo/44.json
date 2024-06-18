@@ -13,8 +13,7 @@
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 7 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "44magnum",
@@ -30,7 +29,6 @@
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 7 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

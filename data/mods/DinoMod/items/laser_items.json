@@ -1,0 +1,37 @@
+[
+  {
+    "id": "laser_rifle_dino2",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "looks_like": "ar15",
+    "name": { "str": "2-DINO-A7 laser rifle" },
+    "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Fitted with a large internal plutonium cell for CyberDinos.",
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "UNRECOVERABLE", "TRADER_AVOID", "WATERPROOF_GUN", "NO_SALVAGE" ],
+    "skill": "rifle",
+    "weight": "540 g",
+    "to_hit": 1,
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 6 },
+    "range": 30,
+    "clip_size": 1,
+    "dispersion": 1200,
+    "durability": 6,
+    "ammo_effects": [ "LASER" ],
+    "volume": "2500 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "light_minus_battery_cell" ]
+      }
+    ],
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 0,
+    "energy_drain": "1 kJ",
+    "melee_damage": { "bash": 12 }
+  }
+]

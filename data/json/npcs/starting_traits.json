@@ -2,6 +2,7 @@
   {
     "//": "Mainlined from a mod originally written by Spencer Michaels",
     "//2": "This group picks out several negative and positive traits",
+    "//3": "This implicitly extends if attempting to add to it for mod purposes",
     "type": "trait_group",
     "id": "NPC_starting_traits",
     "subtype": "collection",
@@ -44,7 +45,6 @@
       { "trait": "POISRESIST", "prob": 10 },
       { "trait": "QUICK", "prob": 10 },
       { "trait": "ROBUST", "prob": 10 },
-      { "trait": "SELFAWARE", "prob": 10 },
       { "trait": "SPIRITUAL", "prob": 10 },
       { "trait": "STYLISH", "prob": 10 },
       { "trait": "TERRIFYING", "prob": 10 },
@@ -66,7 +66,9 @@
       { "trait": "SCHIZOPHRENIC", "prob": 1 },
       { "trait": "SQUEAMISH", "prob": 20 },
       { "trait": "ANTIWHEAT", "prob": 5 },
-      { "trait": "WOOLALLERGY", "prob": 5 }
+      { "trait": "WOOLALLERGY", "prob": 5 },
+      { "trait": "SEASONAL_ALLERGIES", "prob": 8 },
+      { "trait": "SEASONAL_AFFECTIVE", "prob": 5 }
     ]
   },
   {
@@ -171,7 +173,7 @@
     "type": "trait_group",
     "id": "trait_group_PARKOUR",
     "subtype": "distribution",
-    "traits": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ]
+    "traits": [ { "trait": "GOODCARDIO" }, { "trait": "BADKNEES" } ]
   },
   {
     "type": "trait_group",
@@ -199,7 +201,6 @@
       { "trait": "MARTIAL_ARTS" },
       { "trait": "MARTIAL_ARTS2" },
       { "trait": "MARTIAL_ARTS3" },
-      { "trait": "MARTIAL_ARTS4" },
       { "trait": "MARTIAL_ARTS5" }
     ]
   },

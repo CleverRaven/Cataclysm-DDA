@@ -1,0 +1,13 @@
+[
+  {
+    "type": "snippet",
+    "category": "alien_organ",
+    "text": [
+      { "id": "organ_1", "text": "A strange lumpy pink organ, it pulsates in your hand." },
+      { "id": "organ_2", "text": "A trio of bean-shaped organs connected by webbing." },
+      { "id": "organ_3", "text": "A spiral covered in spines, it unfolds in your hand." },
+      { "id": "organ_4", "text": "A hollow organ filled with awful-smelling mucus." },
+      { "id": "organ_5", "text": "A worm-like object." }
+    ]
+  }
+]

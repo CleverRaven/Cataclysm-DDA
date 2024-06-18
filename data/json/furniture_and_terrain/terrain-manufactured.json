@@ -3,14 +3,13 @@
     "type": "terrain",
     "id": "t_recycler",
     "name": "metal compactor",
-    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
+    "description": "A hydraulic machine for squeezing scrap into more compact chunks.  Useless now that there's no power.",
     "looks_like": "f_machinery_heavy",
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
     "max_volume": "2000 L",
     "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
-    "examine_action": "recycle_compactor",
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -52,12 +51,9 @@
     "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
     "//": "clone of t_gas_pump, but other color, must be clone every time",
     "looks_like": "t_gas_pump",
+    "copy-from": "t_gas_pump",
     "symbol": "&",
-    "color": "yellow_red",
-    "move_cost": 0,
-    "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "LIQUIDCONT" ],
-    "examine_action": "gaspump"
+    "color": "yellow_red"
   },
   {
     "type": "terrain",
@@ -82,7 +78,8 @@
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -90,7 +87,7 @@
     "type": "terrain",
     "id": "t_diesel_pump",
     "name": "diesel pump",
-    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
+    "description": "A diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCALYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
     "symbol": "&",
     "color": "green",
     "looks_like": "t_gas_pump",
@@ -111,7 +108,7 @@
     "type": "terrain",
     "id": "t_diesel_pump_a",
     "name": "diesel pump",
-    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
+    "description": "A diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCALYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
     "//": "clone of t_diesel_pump, but other color, must be clone every time",
     "symbol": "&",
     "color": "yellow_red",
@@ -152,7 +149,106 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_jp8_pump",
+    "name": "JP8 pump",
+    "looks_like": "t_gas_pump",
+    "description": "A pump that dispenses JP8.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "symbol": "&",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_jp8_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_jp8_pump_smashed",
+    "name": "smashed JP8 pump",
+    "description": "You're not getting any JP8 out of this pump any time soon.  Some barbarian decided to take their frustration out on it.",
+    "symbol": "&",
+    "color": "light_green",
+    "looks_like": "t_diesel_pump_smashed",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 2, 6 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_avgas_pump",
+    "name": "avgas pump",
+    "looks_like": "t_gas_pump",
+    "description": "A pump that dispenses avgas.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "symbol": "&",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_avgas_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_avgas_pump_smashed",
+    "name": "smashed avgas pump",
+    "description": "You're not getting any avgas out of this pump any time soon.  Some barbarian decided to take their frustration out on it.",
+    "symbol": "&",
+    "color": "light_green",
+    "looks_like": "t_gas_pump_smashed",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 2, 6 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "hose", "count": 1 }
       ]
     }
   },
@@ -160,7 +256,7 @@
     "type": "terrain",
     "id": "t_atm",
     "name": "ATM",
-    "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure.  You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  These things have seen better days.  There's been a run on the bank, and this machine has the dents and cracks to prove it.",
+    "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure.  You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  This thing has seen better days; there's been a run on the bank, and this machine has the dents and cracks to prove it.",
     "symbol": "&",
     "color": "magenta",
     "move_cost": 0,
@@ -170,18 +266,24 @@
     "bash": {
       "str_min": 40,
       "str_max": 210,
-      "explosive": 5,
-      "sound": "Critical failure imminent, self destruct activated.  Have a nice day!",
+      "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "money_strap_twenty", "count": [ 1, 59 ] },
+        { "item": "money_strap_fifty", "count": [ 1, 39 ] },
+        { "item": "money_twenty", "count": [ 1, 99 ] },
+        { "item": "money_fifty", "count": [ 1, 99 ] }
+      ]
     }
   },
   {
     "type": "terrain",
     "id": "t_ticket_vendor",
     "name": "ticket vendor",
-    "description": "This machine has a little screen, and slots intended to take your money and provide you with a ticket.",
+    "description": "A machine with a little screen and slots, intended to take your money and provide you with a ticket.",
     "symbol": "&",
     "looks_like": "t_atm",
     "color": "blue",
@@ -201,7 +303,7 @@
     "id": "t_ticket_machine",
     "name": "ticket machine",
     "looks_like": "t_ticket_vendor",
-    "description": "This machine will provide you access to whatever is beyond it - for the price of a ticket, of course.",
+    "description": "A machine that will provide you access to whatever lies beyond it - for the price of a ticket, of course.",
     "symbol": "&",
     "color": "blue",
     "move_cost": 0,
@@ -219,12 +321,14 @@
     "type": "terrain",
     "id": "t_metal_ventilation_shutter",
     "name": "ventilation shutters",
-    "description": "A large wall mounted panel, covered fragile metal sheets that regulate airflow.",
+    "description": "A large wall-mounted panel, covered with fragile metal sheets that regulate airflow.",
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "t_chainfence_v",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": {
       "str_min": 6,
@@ -240,7 +344,7 @@
     "type": "terrain",
     "id": "t_missile",
     "name": "missile",
-    "description": "This is a section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that goes to the moon.",
+    "description": "A section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that goes to the moon.",
     "symbol": "#",
     "color": "light_blue",
     "move_cost": 0,
@@ -252,14 +356,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_missile_exploded",
-      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plutonium", "charges": [ 0, 3 ] } ]
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plutonium", "count": [ 0, 3 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_missile_exploded",
     "name": "blown-out missile",
-    "description": "This is a section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that's going anywhere.",
+    "description": "A section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that's going anywhere.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
@@ -281,7 +385,7 @@
     "type": "terrain",
     "id": "t_radio_tower",
     "name": "radio tower",
-    "description": "This is the structure of a radio transmission tower.",
+    "description": "The structure of a radio transmission tower.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 0,
@@ -303,7 +407,7 @@
     "type": "terrain",
     "id": "t_radio_controls",
     "name": "radio controls",
-    "description": "This console appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
+    "description": "A console that appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
     "symbol": "6",
     "color": "green",
     "looks_like": "f_console_broken",
@@ -330,7 +434,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -347,9 +451,32 @@
   },
   {
     "type": "terrain",
+    "id": "t_truss_pillar",
+    "name": "truss pillar",
+    "description": "A hollow metal pillar composed of interconnected beams that distribute loads efficiently while maintaining stability and strength.",
+    "symbol": "H",
+    "color": "light_gray",
+    "looks_like": "t_radio_tower",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_sewage_pipe",
     "name": "high gauge pipe",
-    "description": "This is a section of high gauge pipe.",
+    "description": "A section of high gauge pipe.",
     "symbol": "1",
     "color": "light_gray",
     "move_cost": 0,
@@ -368,7 +495,7 @@
     "type": "terrain",
     "id": "t_sewage_pump",
     "name": "high gauge pump",
-    "description": "This unpowered pump previously would have moved fluids around in a hurry.",
+    "description": "An unpowered pump that previously would have moved fluids around in a hurry.",
     "symbol": "&",
     "color": "light_gray",
     "looks_like": "f_machinery_heavy",
@@ -381,6 +508,79 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_sewage",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drill_machinery",
+    "name": "drilling machinery",
+    "description": "All the machinery required to operate and control de drill string and the drill bit down below.  It is now inactive.",
+    "symbol": "&",
+    "color": "black",
+    "looks_like": "f_machinery_heavy",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "WALL" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "steel_plate", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_drill_string",
+    "name": "drill string",
+    "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
+    "symbol": "O",
+    "color": "black",
+    "looks_like": "t_little_column",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "THIN_OBSTACLE", "PERMEABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air",
+      "items": [
+        { "item": "steel_plate", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_underwater_drill_string",
+    "name": "drill string",
+    "description": "An extremely resistant length of mechanical tubing used to reach deep under water and drill into pockets of oil.",
+    "symbol": "O",
+    "color": "blue",
+    "looks_like": "t_little_column",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "NOITEM", "THIN_OBSTACLE", "PERMEABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_saltwater_cube",
       "items": [
         { "item": "steel_lump", "prob": 50 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
@@ -398,6 +598,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 6,
@@ -416,7 +618,7 @@
     "type": "terrain",
     "id": "t_cvdmachine",
     "name": "CVD control panel",
-    "description": "This is a VERY expensive-looking apparatus that's labeled 'Chemical Vapor Deposition Machine'.  With the input of certain exceptionally rare chemicals and elements, one could conceivably coat one's weapon with diamond.  While the process is extremely complicated, a previous user has helpfully sketched: Hydrogen + charcoal = smiley face.",
+    "description": "A VERY expensive-looking apparatus that's labeled 'Chemical Vapor Deposition Machine'.  With the input of certain exceptionally rare chemicals and elements, one could conceivably coat one's weapon with diamond.  While the process is extremely complicated, a previous user has helpfully sketched: Hydrogen + charcoal = smiley face.",
     "symbol": "&",
     "color": "cyan",
     "looks_like": "f_console",
@@ -429,7 +631,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -449,7 +651,7 @@
     "id": "t_nanofab_body",
     "name": "nanofabricator",
     "symbol": "%",
-    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3d printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
+    "description": "A great column of advanced machinery.  Within this self-contained, miniaturized factory, several 3D printers work in tandem with a robotic assembler to manufacture nearly any inorganic object.",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
@@ -466,7 +668,7 @@
         { "item": "RAM", "count": [ 14, 20 ] },
         { "item": "nanomaterial", "count": 1, "prob": 10 },
         { "item": "bearing", "charges": [ 20, 60 ] },
-        { "item": "motor", "count": 4 },
+        { "item": "motor_small", "count": 4 },
         { "item": "power_supply", "count": [ 4, 16 ] },
         { "item": "amplifier", "count": [ 4, 16 ] },
         { "item": "cable", "charges": [ 250, 500 ] },
@@ -481,11 +683,13 @@
     "name": "nanofabricator control panel",
     "symbol": "&",
     "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
-    "allowed_template_ids": [ "standard_template_construct", "debug_template" ],
+    "allowed_template_ids": [ "standard_template_construct", "standard_template_construct_combat_exoskeleton", "debug_template" ],
     "color": "red",
     "looks_like": "f_console",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "NOITEM", "PERMEABLE" ],
     "examine_action": "nanofab",
     "bash": {
@@ -493,7 +697,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -519,7 +723,9 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
       "str_max": 80,
@@ -529,7 +735,8 @@
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
   },
   {
     "type": "terrain",
@@ -541,14 +748,15 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
-    "examine_action": "slot_machine",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "slot_machine_examine" ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_console_broken",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -559,7 +767,8 @@
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "coin_quarter", "count": [ 1, 1500 ] }
       ]
     }
   },
@@ -568,7 +777,7 @@
     "id": "t_water_pump",
     "name": "water pump",
     "looks_like": "f_machinery_heavy",
-    "description": "Deep well collecting ground water.  Installed water pump allows to draw water from it.",
+    "description": "A deep well, collecting groundwater.  An installed pump allows you to draw water from it.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 6,
@@ -592,6 +801,58 @@
   },
   {
     "type": "terrain",
+    "id": "t_wooden_well",
+    "name": "wooden well",
+    "looks_like": "t_covered_well",
+    "description": "A deep well, collecting groundwater.  A wooden frame with a rope and bucket allows you to draw water from it, with some elbow grease.",
+    "symbol": "#",
+    "color": "c_brown",
+    "move_cost": 6,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": {
+      "ter_set": "t_covered_well",
+      "items": [ { "item": "rope_30", "count": 1 }, { "item": "bucket_wood", "count": 1 }, { "item": "stick", "count": 4 } ]
+    },
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_covered_well",
+      "items": [ { "item": "string_6", "count": [ 0, 18 ] }, { "item": "splinter", "count": [ 0, 24 ] } ]
+    },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_salt_water_pump",
+    "name": "salt water pump",
+    "looks_like": "t_water_pump",
+    "description": "A water pump connected to a pipe supplying it with salt water.  Not good to drink, but it has other uses.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost": 6,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SALT_WATER" ],
+    "deconstruct": { "ter_set": "t_covered_well", "items": [ { "item": "well_pump", "count": 1 }, { "item": "pipe", "count": [ 1, 6 ] } ] },
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe_fittings", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
     "id": "t_water_dispenser",
     "name": "water dispenser",
     "looks_like": "f_sink",
@@ -600,7 +861,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 40,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -614,18 +875,20 @@
         { "item": "pipe", "count": [ 0, 2 ] }
       ]
     },
-    "examine_action": "clean_water_source"
+    "examine_action": "finite_water_source"
   },
   {
     "type": "terrain",
     "id": "t_sai_box",
     "name": "telecom cabinet",
-    "description": "A cabinet full of telecoms equipment.  With the lines down, you might be able to take it apart for its useful electronics.",
+    "description": "A cabinet full of telecom equipment.  With the lines down, you might be able to take it apart for its useful electronics.",
     "symbol": "#",
     "color": "light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": { "str_min": 8, "str_max": 80, "sound": "whack!", "sound_fail": "clang!", "ter_set": "t_sai_box_damaged" },
     "deconstruct": {
@@ -647,12 +910,14 @@
     "type": "terrain",
     "id": "t_sai_box_damaged",
     "name": "damaged telecom cabinet",
-    "description": "A damaged telecoms cabinet.  Might still be able to salvage some useful electronics scrap from it.",
+    "description": "A damaged telecom cabinet.  You might still be able to salvage some useful electronic scrap from it.",
     "symbol": "#",
     "color": "light_gray",
     "looks_like": "f_wreckage",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": {
       "str_min": 6,
@@ -692,6 +957,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -729,6 +996,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -766,6 +1035,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -805,6 +1076,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -847,6 +1120,8 @@
     "color": "i_light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -881,6 +1156,8 @@
     "color": "light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -924,6 +1201,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -956,12 +1235,14 @@
     "type": "terrain",
     "id": "t_potential_trans",
     "name": "potential transformer",
-    "description": "A specialized type of electrical transformer, ",
+    "description": "A specialized type of electrical transformer.",
     "symbol": "8",
     "color": "i_light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -998,7 +1279,8 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "INDOORS" ],
     "coverage": 30,
     "deconstruct": {
       "ter_set": "t_rock_floor",
@@ -1067,25 +1349,34 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "wire", "count": [ 1, 2 ] },
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "steel_lump", "count": [ 1, 5 ] },
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] }
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] }
       ]
     },
-    "deconstruct": {
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "wire", "count": [ 2, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "pipe_fittings", "count": [ 1, 2 ] },
-        { "item": "steel_lump", "count": [ 1, 8 ] },
-        { "item": "sheet_metal", "count": [ 1, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 10 ] }
-      ]
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "55gal_drum" }, { "item": "water_faucet" } ] },
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "WALL" ]
+  },
+  {
+    "id": "t_rockyobstacle",
+    "type": "terrain",
+    "name": "rocky obstacle",
+    "description": "Some larger rocks arranged and crudely rammed into the ground to slow down who or whatever is trying to cross.",
+    "symbol": "^",
+    "color": "light_gray",
+    "looks_like": "t_railroad_rubble",
+    "move_cost": 4,
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "ter_set": "t_dirt",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock_large", "count": [ 0, 20 ] }, { "item": "sharp_rock", "count": [ 0, 16 ] } ]
     },
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
   },
   {
     "type": "terrain",
@@ -1096,7 +1387,8 @@
     "color": "green",
     "looks_like": "t_pit",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,
@@ -1111,7 +1403,7 @@
     "type": "terrain",
     "id": "t_covered_well",
     "name": "covered well",
-    "description": "Deep well collecting ground water.  Requires a method to draw water from.",
+    "description": "A deep well, collecting groundwater.  You won't be able to get any water unless you add some mechanism for drawing it up to the surface.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 2,
@@ -1133,15 +1425,75 @@
   },
   {
     "type": "terrain",
+    "id": "t_covered_salt_water_well",
+    "name": "covered salt water well",
+    "description": "A deep well, collecting salt water from a surrounding swamp.  You won't be able to get any water unless you add some mechanism for drawing it up to the surface.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "looks_like": "t_covered_well",
+    "move_cost": 2,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "FLAT", "MINEABLE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit",
+      "items": [
+        { "item": "rock", "count": [ 8, 18 ] },
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_straw",
+    "name": "pit filled with straw",
+    "symbol": "#",
+    "description": "A shallow pit filled with some straw.  Very crude.  Itchy and uncomfortable, but better than the bare ground.",
+    "color": "yellow",
+    "move_cost": 2,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 100,
+    "deconstruct": { "items": [ { "item": "straw_pile", "count": [ 55, 60 ] } ], "ter_set": "t_pit_shallow" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "crunch!",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "straw_pile", "count": [ 30, 40 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
-    "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "description": "An improvised shelter providing a little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": "#",
     "color": "brown_green",
     "looks_like": "t_leanto",
     "move_cost": 2,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "floor_bedding_warmth": 1000,
+    "comfort": 3,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1152,10 +1504,46 @@
     }
   },
   {
+    "type": "terrain",
+    "id": "t_improvised_shelter_filled",
+    "name": "improvised shelter",
+    "description": "An improvised shelter which has been made a bit more comfortable by filling it with dry plant matter, which should provide some more insulation.  Trying to contain a fire here would be a bad idea.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_leanto",
+    "floor_bedding_warmth": 1200,
+    "comfort": 4,
+    "move_cost": 2,
+    "coverage": 30,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "HIDE_PLACE",
+      "EASY_DECONSTRUCT"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_pit_shallow",
+      "items": [
+        { "item": "stick", "count": [ 3, 6 ] },
+        { "item": "pine_bough", "count": [ 6, 18 ] },
+        { "item": "withered", "count": [ 40, 60 ] }
+      ]
+    }
+  },
+  {
     "id": "t_leanto",
     "type": "terrain",
     "name": "pine lean-to",
-    "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "description": "A small shelter, roofed with pine branches, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": ";",
     "color": "brown",
     "move_cost": 2,
@@ -1171,13 +1559,14 @@
         { "item": "pine_bough", "count": [ 0, 2 ] }
       ]
     },
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
   },
   {
     "id": "t_tarptent",
     "type": "terrain",
     "name": "tarp lean-to",
-    "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "description": "A small shelter, covered by a waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": ";",
     "color": "light_blue",
     "looks_like": "t_leanto",
@@ -1198,6 +1587,65 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven_base",
+    "name": "brick oven base",
+    "symbol": "=",
+    "description": "A flat assembly of carefully stacked bricks that is not quite an oven.",
+    "color": "yellow",
+    "move_cost": 4,
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 30 } ] },
+    "bash": {
+      "str_min": 16,
+      "str_max": 25,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 15, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven_struct",
+    "looks_like": "f_fireplace",
+    "name": "exposed brick oven",
+    "symbol": "#",
+    "description": "A large brick oven that could make several pizzas at once.  This one seems to be missing its door, and cannot be used in such a state.",
+    "color": "yellow",
+    "move_cost": 0,
+    "flags": [ "REDUCE_SCENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PERMEABLE" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 50,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 45, 75 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_oven",
+    "looks_like": "f_fireplace",
+    "name": "brick oven",
+    "symbol": "#",
+    "description": "A large brick oven that could make several pizzas at once.",
+    "color": "red",
+    "move_cost": 0,
+    "flags": [ "REDUCE_SCENT", "NOITEM", "PERMEABLE", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "fire_brick", "count": 90 } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 50,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "fire_brick", "count": [ 45, 75 ] } ]
+    }
   }
 ]

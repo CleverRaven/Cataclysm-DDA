@@ -1,0 +1,59 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "psionic_anchoring_crown",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_ARMOR",
+    "skill_used": "fabrication",
+    "skills_required": [ "metaphysics", 5 ],
+    "difficulty": 5,
+    "time": "250 m",
+    "book_learn": [ [ "schematics_anchoring_crown", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false },
+      { "proficiency": "prof_psionic_warping", "required": false }
+    ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "matrix_crystal_telepath_dust_refined", 6 ] ],
+      [ [ "matrix_crystal_teleport_dust_refined", 2 ] ],
+      [ [ "matrix_crystal_teleportation", 1 ] ],
+      [ [ "steel_chunk", 2 ], [ "steel_lump", 1 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "psionic_telepathic_dampener",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_ARMOR",
+    "skill_used": "fabrication",
+    "skills_required": [ "metaphysics", 6 ],
+    "difficulty": 5,
+    "time": "360 m",
+    "book_learn": [ [ "schematics_telepathic_dampener", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_containment", "required": false },
+      { "proficiency": "prof_psionic_warping", "required": false }
+    ],
+    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 }, { "id": "MATRIX_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "psionic_serum_base", 2 ] ],
+      [ [ "matrix_crystal_telepath_dust_refined", 6 ] ],
+      [ [ "matrix_crystal_telepathy", 1 ] ],
+      [ [ "steel_chunk", 3 ], [ "steel_lump", 2 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  }
+]

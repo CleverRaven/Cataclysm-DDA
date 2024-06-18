@@ -1,0 +1,119 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_natural_armor",
+    "weakpoints": [
+      {
+        "id": "gap",
+        "name": "a small gap in the thick hide",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.25 }
+      },
+      {
+        "id": "joint",
+        "name": "a soft fold in the thick hide",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "coverage_mult": { "point": 0.75 },
+        "armor_mult": { "all": 0.5 }
+      },
+      {
+        "id": "hard_hide",
+        "name": "a particularly thick patch of hide",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_bone_armor",
+    "weakpoints": [
+      {
+        "id": "gap",
+        "name": "a small gap in the bony plates",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.25 }
+      },
+      {
+        "id": "joint",
+        "name": "a joint in the bony plates",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.25 },
+        "armor_mult": { "all": 0.5 }
+      },
+      {
+        "id": "hard_point",
+        "name": "a particularly thick patch of bone",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_metal_shell_armor",
+    "//": "Similar to wps_bone_armor for rust plated and rust shelled zombies.",
+    "weakpoints": [
+      {
+        "id": "gap",
+        "name": "a small fissure between the metal plates",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "armor_mult": { "all": 0.35 }
+      },
+      {
+        "id": "joint",
+        "name": "an exposed joint unprotected by the metal plates",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.25 },
+        "armor_mult": { "all": 0.15 }
+      },
+      {
+        "id": "hard_point",
+        "name": "a strong, rigid chunk of metal",
+        "armor_mult": { "all": 1.4 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_eyes_big",
+    "//": "Let's assume that larger-than-tiny eyes are mildly more resistant to damage.",
+    "weakpoints": [
+      {
+        "id": "eye",
+        "name": "the eye",
+        "armor_mult": { "physical": 0.2 },
+        "coverage": 2,
+        "crit_mult": { "all": 1.25 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "broad": 0.5 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 40, "message": "The %s is blinded!", "damage_required": [ 1, 40 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 20,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 41, 100 ]
+          }
+        ]
+      }
+    ]
+  }
+]

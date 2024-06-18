@@ -1,12 +1,24 @@
-#include "catch/catch.hpp"
-#include "mutation.h"
+#include <list>
+#include <memory>
 
+#include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
+#include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
+#include "type_id.h"
+
+static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_darkness( "darkness" );
+
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 
 // Tests of Character vision and sight
 //
@@ -36,7 +48,7 @@
 //
 // TODO: Test 'pos' (position) parameter to fine_detail_vision_mod
 //
-TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision]" )
+TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision]" )
 {
     Character &dummy = get_player_character();
     map &here = get_map();
@@ -44,15 +56,16 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     clear_avatar();
     clear_map();
     g->reset_light_level();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     SECTION( "full daylight" ) {
         // Set clock to noon
-        calendar::turn = calendar::turn_zero + 12_hours;
+        calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
         // Build map cache including lightmap
         here.build_map_cache( 0, false );
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-        // ambient_light_at is 100.0 in full sun (this fails if lightmap cache is not built)
-        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ) );
+        // ambient_light_at is ~100.0 at this time of day (this fails if lightmap cache is not built)
+        REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( 100.0f ).margin( 1 ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter
         CHECK( dummy.fine_detail_vision_mod() == Approx( 1.0f ) );
@@ -72,13 +85,18 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     // 6.0 is LIGHT_AMBIENT_DIM
 
     SECTION( "midnight with a new moon" ) {
+        // yes, surprisingly, we need to test for this
         calendar::turn = calendar::turn_zero;
-        here.build_map_cache( 0, false );
+        tripoint const z_shift = GENERATE( tripoint_above, tripoint_zero );
+        dummy.setpos( dummy.pos() + z_shift ); // This implicitly rebuilds the light map.
+        CAPTURE( z_shift );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
-        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
+        REQUIRE( here.ambient_light_at( dummy.pos_bub() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
 
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
         CHECK( dummy.fine_detail_vision_mod() == Approx( 7.3f ) );
+
+        dummy.setpos( dummy.pos() - z_shift );
     }
 
     SECTION( "blindfolded" ) {
@@ -90,6 +108,47 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     }
 }
 
+TEST_CASE( "npc_light_and_fine_detail_vision_mod", "[character][npc][sight][light][vision]" )
+{
+    Character &u = get_player_character();
+    standard_npc n( "Mr. Testerman" );
+    n.set_body();
+
+    clear_avatar();
+    clear_map();
+    tripoint const u_shift = GENERATE( tripoint_zero, tripoint_above );
+    CAPTURE( u_shift );
+    u.setpos( u.pos() + u_shift );
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+
+    time_point time_dst;
+    float expected_vision{};
+    if( GENERATE( true, false ) ) {
+        time_dst = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+        CAPTURE( "daylight" );
+        expected_vision = 1.0;
+    } else {
+        time_dst = calendar::turn - time_past_midnight( calendar::turn );
+        CAPTURE( "darkness" );
+        expected_vision = 7.3;
+    }
+
+    set_time( time_dst );
+    REQUIRE( u.fine_detail_vision_mod() == expected_vision );
+    SECTION( "NPC on same z-level" ) {
+        n.setpos( u.pos() + tripoint_east );
+        CHECK( n.fine_detail_vision_mod() == u.fine_detail_vision_mod() );
+    }
+    SECTION( "NPC on a different z-level" ) {
+        n.setpos( u.pos() + tripoint_above );
+        // light map is not calculated outside the player character's z-level
+        // even if fov_3d_z_range > 0, and building light map on multiple levels
+        // could be expensive, so make NPCs able to see things in this case to
+        // not interfere with NPC activity.
+        CHECK( n.fine_detail_vision_mod() == Approx( 1.0 ) );
+    }
+}
+
 // Sight limits
 //
 // Character::unimpaired_range() returns the maximum sight range, factoring in the effects of
@@ -98,7 +157,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
 //
 // Character::sight_impaired() returns true if sight is thus restricted.
 //
-TEST_CASE( "character sight limits", "[character][sight][vision]" )
+TEST_CASE( "character_sight_limits", "[character][sight][vision]" )
 {
     Character &dummy = get_player_character();
     map &here = get_map();
@@ -106,6 +165,7 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     clear_avatar();
     clear_map();
     g->reset_light_level();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     GIVEN( "it is midnight with a new moon" ) {
         calendar::turn = calendar::turn_zero;
@@ -130,8 +190,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     WHEN( "boomered" ) {
-        dummy.add_effect( efftype_id( "boomered" ), 1_minutes );
-        REQUIRE( dummy.has_effect( efftype_id( "boomered" ) ) );
+        dummy.add_effect( effect_boomered, 1_minutes );
+        REQUIRE( dummy.has_effect( effect_boomered ) );
 
         THEN( "impaired sight, with 1 tile of range" ) {
             dummy.recalc_sight_limits();
@@ -141,17 +201,17 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     WHEN( "nearsighted" ) {
-        dummy.toggle_trait( trait_id( "MYOPIC" ) );
-        REQUIRE( dummy.has_trait( trait_id( "MYOPIC" ) ) );
+        dummy.toggle_trait( trait_MYOPIC );
+        REQUIRE( dummy.has_trait( trait_MYOPIC ) );
 
         WHEN( "without glasses" ) {
-            dummy.worn.clear();
+            dummy.clear_worn();
             REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
-            THEN( "impaired sight, with 4 tiles of range" ) {
+            THEN( "impaired sight, with 12 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 4 );
+                CHECK( dummy.unimpaired_range() == 12 );
             }
         }
 
@@ -168,8 +228,8 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
     }
 
     GIVEN( "darkness effect" ) {
-        dummy.add_effect( efftype_id( "darkness" ), 1_minutes );
-        REQUIRE( dummy.has_effect( efftype_id( "darkness" ) ) );
+        dummy.add_effect( effect_darkness, 1_minutes );
+        REQUIRE( dummy.has_effect( effect_darkness ) );
 
         THEN( "impaired sight, with 10 tiles of range" ) {
             dummy.recalc_sight_limits();
@@ -183,17 +243,17 @@ TEST_CASE( "character sight limits", "[character][sight][vision]" )
 // equivalent to being nearsighted, which can be corrected with glasses. However, they have a
 // nighttime vision range that exceeds that of normal characters.
 //
-// Contrary to its name, the range returned by unimpaired_range() represents maximum visibility WITH
-// IMPAIRMENTS (that is, affected by the same things that cause sight_impaired() to return true).
+// unimpaired_range() returns the range the character can see clearly once all impairments
+// have taken their effect.
 //
-// The sight_max computed by recalc_sight_limits does not include is the Beer-Lambert light
+// The sight_max computed by recalc_sight_limits does not include the Beer-Lambert light
 // attenuation of a given light level; this is handled by sight_range(), which returns a value from
 // [1 .. sight_max].
 //
 // FIXME: Rename unimpaired_range() to impaired_range()
 // (it specifically includes all the things that impair visibility)
 //
-TEST_CASE( "ursine vision", "[character][ursine][vision]" )
+TEST_CASE( "ursine_vision", "[character][ursine][vision]" )
 {
     Character &dummy = get_player_character();
     map &here = get_map();
@@ -201,70 +261,71 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
     clear_avatar();
     clear_map();
     g->reset_light_level();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
 
     float light_here = 0.0f;
 
     GIVEN( "character with ursine eyes and no eyeglasses" ) {
-        dummy.toggle_trait( trait_id( "URSINE_EYE" ) );
-        REQUIRE( dummy.has_trait( trait_id( "URSINE_EYE" ) ) );
+        dummy.toggle_trait( trait_URSINE_EYE );
+        REQUIRE( dummy.has_trait( trait_URSINE_EYE ) );
 
-        dummy.worn.clear();
+        dummy.clear_worn();
         REQUIRE_FALSE( dummy.worn_with_flag( flag_FIX_NEARSIGHT ) );
 
         WHEN( "under a new moon" ) {
             calendar::turn = calendar::turn_zero;
             here.build_map_cache( 0, false );
-            light_here = here.ambient_light_at( dummy.pos() );
+            light_here = here.ambient_light_at( dummy.pos_bub() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_MINIMAL ) );
 
-            THEN( "unimpaired sight, with 4 tiles of range" ) {
+            THEN( "unimpaired sight, with 7 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 4 );
+                CHECK( dummy.sight_range( light_here ) == 7 );
             }
         }
 
         WHEN( "under a half moon" ) {
             calendar::turn = calendar::turn_zero + 7_days;
             here.build_map_cache( 0, false );
-            light_here = here.ambient_light_at( dummy.pos() );
+            light_here = here.ambient_light_at( dummy.pos_bub() );
             REQUIRE( light_here == Approx( LIGHT_AMBIENT_DIM ).margin( 1.0f ) );
 
-            THEN( "unimpaired sight, with 10 tiles of range" ) {
+            THEN( "unimpaired sight, with 8 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 10 );
+                CHECK( dummy.sight_range( light_here ) == 8 );
             }
         }
 
         WHEN( "under a full moon" ) {
             calendar::turn = calendar::turn_zero + 14_days;
             here.build_map_cache( 0, false );
-            light_here = here.ambient_light_at( dummy.pos() );
-            REQUIRE( light_here == Approx( LIGHT_AMBIENT_LIT ) );
+            light_here = here.ambient_light_at( dummy.pos_bub() );
+            REQUIRE( light_here == Approx( 7 ) );
 
             THEN( "unimpaired sight, with 27 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 27 );
+                CHECK( dummy.sight_range( light_here ) == 18 );
             }
         }
 
         WHEN( "under the noonday sun" ) {
-            calendar::turn = calendar::turn_zero + 12_hours;
+            calendar::turn = calendar::turn_zero + 9_hours + 30_minutes;
             here.build_map_cache( 0, false );
-            light_here = here.ambient_light_at( dummy.pos() );
+            light_here = here.ambient_light_at( dummy.pos_bub() );
             REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-            REQUIRE( light_here == Approx( 100.0f ) );
+            REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );
 
-            THEN( "impaired sight, with 4 tiles of range" ) {
+            THEN( "impaired sight, with 12 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK( dummy.sight_impaired() );
-                CHECK( dummy.unimpaired_range() == 4 );
-                CHECK( dummy.sight_range( light_here ) == 4 );
+                CHECK( dummy.unimpaired_range() == 12 );
+                CHECK( dummy.sight_range( light_here ) == 12 );
             }
 
             // Glasses can correct Ursine Vision in bright light

@@ -3,6 +3,7 @@
     "type": "terrain",
     "id": "t_pavement_hw_air",
     "name": "bridge pavement",
+    "connect_groups": "PAVEMENT",
     "connects_to": "PAVEMENT",
     "description": "A bridge section made out of concrete and metal.",
     "looks_like": "t_pavement",
@@ -15,7 +16,7 @@
       "str_max": 300,
       "sound": "concrete cracking and metal screeching!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
     }
   },
@@ -23,6 +24,7 @@
     "type": "terrain",
     "id": "t_pavement_y_hw_air",
     "name": "bridge yellow pavement",
+    "connect_groups": "PAVEMENT",
     "connects_to": "PAVEMENT",
     "description": "A bridge section made out of concrete and metal.  It's painted yellow.",
     "looks_like": "t_pavement_y",
@@ -35,7 +37,7 @@
       "str_max": 300,
       "sound": "concrete cracking and metal screeching!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
     }
   },
@@ -54,7 +56,7 @@
       "str_max": 300,
       "sound": "concrete cracking and metal screeching!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "items": [ { "item": "rock", "count": [ 4, 20 ] }, { "item": "rebar", "count": [ 10, 20 ] } ]
     }
   }

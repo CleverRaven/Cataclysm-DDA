@@ -1,0 +1,397 @@
+[
+  {
+    "type": "palette",
+    "id": "mine_palette",
+    "terrain": { "#": "t_rock", " ": "t_rock_floor", "$": "t_rock_floor" },
+    "furniture": { "$": "f_boulder_large" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_cw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "     #",
+        "#### #",
+        "#  # #",
+        "#    #",
+        "######"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_ccw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "#     ",
+        "# ####",
+        "# #  #",
+        "#    #",
+        "######"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_boulder_cw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "$$$$$$",
+        "     $",
+        "$$$$ $",
+        "$  $ $",
+        "$    $",
+        "$$$$$$"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_boulder_ccw",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "$$$$$$",
+        "$     ",
+        "$ $$$$",
+        "$ $  $",
+        "$    $",
+        "$$$$$$"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_tunnel_entrance",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "     ## ",
+        "      ##",
+        "        ",
+        "        ",
+        "#       ",
+        "##  &***",
+        "###     ",
+        "###     "
+      ],
+      "terrain": { " ": "t_rock_floor", "#": "t_rock", "*": "t_railroad_track_small", "&": "t_buffer_stop" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_tunnel_bounds_h",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "###№      №###",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_tunnel_bounds_h1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "###№          ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_tunnel_bounds_v",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "#             ",
+        "#             ",
+        "#             ",
+        "№             ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "№             ",
+        "#             ",
+        "#             ",
+        "#             "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_tunnel_bounds_v1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "#             ",
+        "#             ",
+        "#             ",
+        "№             ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_tunnel_bounds_v2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "№             ",
+        "#             ",
+        "#             ",
+        "#             "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_pillar", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_sinkhole",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_rock_floor", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_sinkhole", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_toxic_gas",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 2, "age": 20 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_wreckage",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_furniture": [ { "furn": "f_wreckage", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_minerals_equipment",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_items": [
+        {
+          "item": {
+            "entries": [
+              { "item": "coal_lump", "prob": 20, "count": [ 2, 20 ] },
+              { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
+              { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
+              { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
+              { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
+              { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
+              { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
+              { "item": "material_sand", "prob": 50, "charges": [ 10, 500 ] },
+              { "item": "material_soil", "prob": 50, "charges": [ 10, 500 ] },
+              { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
+              { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
+              { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
+              { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] }
+            ]
+          },
+          "repeat": [ 1, 3 ],
+          "chance": 50,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "item": { "subtype": "collection", "entries": [ { "group": "mine_equipment" }, { "item": "corpse", "damage": 4 } ] },
+          "chance": 10,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_lava",
+    "object": {
+      "palettes": [ "mine_palette" ],
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "*   ",
+        "**  ",
+        " ** ",
+        "  **"
+      ],
+      "terrain": { "*": "t_lava" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "//": "slopes down to be used where appropriate",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "transition_down",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "<<",
+        "<<"
+      ],
+      "terrain": { "<": "t_slope_down" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "//": "slopes up to be used where appropriate",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "transition_up",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        ">>",
+        ">>"
+      ],
+      "terrain": { ">": "t_slope_up" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_the_thing_victims",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_items": [ { "item": "the_thing_victim", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "id": "the_thing_victim",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "mine_equipment", "prob": 60 }, { "item": "corpse", "damage": 4 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_finale_archaeology",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "!!!###",
+        "#C  D#",
+        "##! c#",
+        "##GG##",
+        "@####@",
+        "@@@@@@"
+      ],
+      "terrain": {
+        " ": "t_rock_floor",
+        "#": "t_rock",
+        "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        "c": "t_rock_floor",
+        "C": "t_rock_floor",
+        "D": "t_rock_floor",
+        "G": "t_rock_floor"
+      },
+      "furniture": {
+        "c": "f_crate_c",
+        "C": "f_crate_c",
+        "D": "f_crate_c",
+        "G": [ "f_grave_stone_old", "f_grave_head", "f_grave_monument" ],
+        " ": [ "f_null", "f_rubble_rock" ]
+      },
+      "item": {
+        "!": { "item": "material_soil", "chance": 40, "amount": [ 5, 10 ] },
+        "D": { "item": "dynamite", "chance": 90, "repeat": 2 }
+      },
+      "items": {
+        "C": { "item": "museum_misc", "chance": 90, "repeat": [ 1, 2 ] },
+        "c": { "item": "museum_primitive", "chance": 90, "repeat": [ 1, 2 ] }
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

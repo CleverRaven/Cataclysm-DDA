@@ -1,51 +1,66 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <bitset>
 #include <cstdlib>
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
+#include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "display.h"
 #include "faction_camp.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
-#include "item.h"
-#include "json.h"
+#include "input_context.h"
+#include "json_error.h"
 #include "line.h"
+#include "localized_comparator.h"
+#include "mission_companion.h"
+#include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "talker.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+
+static const faction_id faction_no_faction( "no_faction" );
+static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
 namespace npc_factions
 {
-std::vector<faction_template> all_templates;
+static std::vector<faction_template> all_templates;
 } // namespace npc_factions
 
 faction_template::faction_template()
 {
     likes_u = 0;
     respects_u = 0;
+    trusts_u = 0;
     known_by_u = true;
-    food_supply = 0;
+    food_supply.calories = 0;
     wealth = 0;
     size = 0;
     power = 0;
@@ -93,21 +108,36 @@ void faction_template::load_relations( const JsonObject &jsobj )
         relations[fac.name()] = fac_relation;
     }
 }
+faction_price_rule faction_price_rules_reader::get_next( JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
+    optional( jo, false, "markup", ret.markup, 1.0 );
+    optional( jo, false, "premium", ret.premium, 1.0 );
+    optional( jo, false, "fixed_adj", ret.fixed_adj, std::nullopt );
+    optional( jo, false, "price", ret.price, std::nullopt );
+    return ret;
+}
 
 faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
     , respects_u( jsobj.get_int( "respects_u" ) )
+    , trusts_u( jsobj.get_int( "trusts_u", 0 ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
-    , food_supply( jsobj.get_int( "food_supply" ) )
+    , food_supply()
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "consumes_food", consumes_food, false );
+    optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
+    jsobj.read( "fac_food_supply", food_supply, true );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
+        price_rules.emplace_back( currency, 1, 0 );
     } else {
         currency = itype_id::NULL_ID();
     }
@@ -294,7 +324,7 @@ std::string fac_wealth_text( int val, int size )
 std::string faction::food_supply_text()
 {
     //Convert to how many days you can support the population
-    int val = food_supply / ( size * 288 );
+    int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
         return pgettext( "Faction food", "Overflowing" );
     }
@@ -312,7 +342,7 @@ std::string faction::food_supply_text()
 
 nc_color faction::food_supply_color()
 {
-    int val = food_supply / ( size * 288 );
+    int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
         return c_green;
     } else if( val >= 14 ) {
@@ -324,6 +354,67 @@ nc_color faction::food_supply_color()
     } else {
         return c_red;
     }
+}
+
+std::pair<nc_color, std::string> faction::vitamin_stores( vitamin_type vit_type )
+{
+    bool is_toxin = vit_type == vitamin_type::TOXIN;
+    const double days_of_food = food_supply.kcal() / 3000.0;
+    std::map<vitamin_id, int> stored_vits = food_supply.vitamins();
+    // First, pare down our search to only the relevant type
+    for( auto it = stored_vits.cbegin(); it != stored_vits.cend(); ) {
+        if( it->first->type() != vit_type ) {
+            it = stored_vits.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    if( stored_vits.empty() ) {
+        return std::pair<nc_color, std::string>( !is_toxin ? c_red : c_green, _( "None present (NONE)" ) );
+    }
+    std::vector<std::pair<vitamin_id, double>> vitamins;
+    // Iterate the map's content into a sortable container...
+    for( auto &vit : stored_vits ) {
+        int units_per_day = vit.first.obj().units_absorption_per_day();
+        double relative_intake = static_cast<double>( vit.second ) / static_cast<double>
+                                 ( units_per_day ) / days_of_food;
+        // We use the inverse value for toxins, since they are bad.
+        if( is_toxin ) {
+            relative_intake = 1 / relative_intake;
+        }
+        vitamins.emplace_back( vit.first, relative_intake );
+    }
+    // Sort to find the worst-case scenario, lowest relative_intake is first
+    std::sort( vitamins.begin(), vitamins.end(), []( const auto & x, const auto & y ) {
+        return x.second > y.second;
+    } );
+    const double worst_intake = vitamins.at( 0 ).second;
+    std::string vit_name = vitamins.at( 0 ).first.obj().name();
+    std::string msg = is_toxin ? _( "(TRACE)" ) : _( "(PLENTY)" );
+    if( worst_intake <= 0.3 ) {
+        msg = is_toxin ? _( "(POISON)" ) : _( "(LACK)" );
+        return std::pair<nc_color, std::string>( c_red, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    if( worst_intake <= 1.0 ) {
+        msg = is_toxin ? _( "(DANGER)" ) : _( "(MEAGER)" );
+        return std::pair<nc_color, std::string>( c_yellow, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    return std::pair<nc_color, std::string>( c_green, string_format( _( "%1$s %2$s" ), vit_name,
+            msg ) );
+}
+
+faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
+{
+    auto const el = std::find_if(
+    price_rules.crbegin(), price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
+        return fc.matches( it, guy );
+    } );
+    if( el != price_rules.crend() ) {
+        return &*el;
+    }
+    return nullptr;
 }
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
@@ -377,7 +468,7 @@ void faction_manager::clear()
 
 void faction_manager::remove_faction( const faction_id &id )
 {
-    if( id.str().empty() || id == faction_id( "no_faction" ) ) {
+    if( id.str().empty() || id == faction_no_faction ) {
         return;
     }
     for( auto it = factions.cbegin(), next_it = it; it != factions.cend(); it = next_it ) {
@@ -394,8 +485,8 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const auto &fac_temp : npc_factions::all_templates ) {
-        factions[fac_temp.id] = fac_temp;
+    for( const faction_template &fac_temp : npc_factions::all_templates ) {
+        factions[fac_temp.id] = faction( fac_temp );
     }
 }
 
@@ -417,7 +508,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
     if( id.is_null() ) {
-        return get( faction_id( "no_faction" ) );
+        return get( faction_no_faction );
     }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
@@ -425,6 +516,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
                         elem.second.currency = fac_temp.currency;
+                        elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
@@ -446,7 +538,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
     for( const faction_template &elem : npc_factions::all_templates ) {
         // id isn't already in factions map, so load in the template.
         if( elem.id == id ) {
-            factions[elem.id] = elem;
+            factions[elem.id] = faction( elem );
             if( !factions.empty() ) {
                 factions[elem.id].validated = true;
             }
@@ -458,6 +550,12 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
         debugmsg( "Requested non-existing faction '%s'", id.str() );
     }
     return nullptr;
+}
+
+template<>
+bool string_id<faction>::is_valid() const
+{
+    return g->faction_manager_ptr->get( *this, false ) != nullptr;
 }
 
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -474,15 +572,17 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     }
     mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), camp_pos.to_string() );
     faction *yours = player_character.get_faction();
-    std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
-                                           yours->food_supply_text(), yours->food_supply );
+    std::string food_text = string_format( _( "Food Supply: %s %d kilocalories" ),
+                                           yours->food_supply_text(), yours->food_supply.kcal() );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
+    std::pair<nc_color, std::string> vitamins = yours->vitamin_stores( vitamin_type::VITAMIN );
+    mvwprintz( fac_w, point( width, ++y ), vitamins.first, _( "Worst vitamin:" ) + vitamins.second );
+    std::pair<nc_color, std::string> toxins = yours->vitamin_stores( vitamin_type::TOXIN );
+    mvwprintz( fac_w, point( width, ++y ), toxins.first, _( "Worst toxin:" ) + toxins.second );
     std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade: " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
-    std::string requirements = om_upgrade_description( bldg, true );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, requirements );
 }
 
 void faction::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -492,6 +592,25 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
                fac_ranking_text( likes_u ) );
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray,
                     "%s", desc );
+}
+
+std::string npc::get_current_status() const
+{
+    if( current_target() != nullptr ) {
+        return _( "In Combat!" );
+    } else if( in_sleep_state() ) {
+        return _( "Sleeping" );
+    } else if( is_following() ) {
+        return _( "Following" );
+    } else if( is_leader() ) {
+        return _( "Leading" );
+    } else if( is_patrolling() ) {
+        return _( "Patrolling" );
+    } else if( is_guarding() ) {
+        return _( "Guarding" );
+    } else {
+        return get_current_activity();
+    }
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -507,10 +626,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
-        cata::optional<tripoint_abs_omt> dest = get_mission_destination();
+        std::optional<tripoint_abs_omt> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
-            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
+            std::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
                 dest_string = _( "traveling to: " ) + dest_camp->camp_name();
@@ -520,15 +639,24 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             mission_string = _( "Current Mission: " ) + dest_string;
         } else {
             npc_companion_mission c_mission = get_companion_mission();
-            mission_string = _( "Current Mission: " ) +
-                             get_mission_action_string( c_mission.mission_id );
+            mission_string = _( "Current Mission: " ) + action_of( c_mission.miss_id.id );
         }
+        fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
+
+        // Determine remaining time in mission, and display it
+        std::string mission_eta;
+        if( companion_mission_time_ret < calendar::turn ) {
+            mission_eta = _( "JOB COMPLETED" );
+        } else {
+            mission_eta = _( "ETA: " ) + to_string( companion_mission_time_ret - calendar::turn );
+        }
+        fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_eta );
     }
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
+
     tripoint_abs_omt guy_abspos = global_omt_location();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
             temp_camp = *bcp;
         }
@@ -549,41 +677,69 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string can_see;
     nc_color see_color;
 
-    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-    bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
-    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool u_has_radio = player_character.cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
         ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
-            // TODO: better range calculation than just elevation.
-            int max_range = 200;
-            max_range *= ( 1 + ( player_character.pos().z * 0.1 ) );
-            max_range *= ( 1 + ( pos().z * 0.1 ) );
-            if( is_stationed ) {
-                // if camp that NPC is at, has a radio tower
-                if( temp_camp->has_provides( "radio_tower" ) ) {
-                    max_range *= 5;
-                }
-            }
-            // if camp that player is at, has a radio tower
-            cata::optional<basecamp *> player_camp =
-                overmap_buffer.find_camp( player_character.global_omt_location().xy() );
-            if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        player_character.global_omt_location().xy() ) ) {
-                if( ( *player_camp )->has_provides( "radio_tower" ) ) {
-                    max_range *= 5;
-                }
-            }
-            if( ( ( player_character.pos().z >= 0 && pos().z >= 0 ) ||
-                  ( player_character.pos().z == pos().z ) ) &&
-                square_dist( player_character.global_sm_location(), global_sm_location() ) <= max_range ) {
-                retval = 2;
-                can_see = _( "Within radio range" );
-                see_color = c_light_green;
-            } else {
+            if( !( player_character.pos().z >= 0 && pos().z >= 0 ) &&
+                !( player_character.pos().z == pos().z ) ) {
+                //Early exit
                 can_see = _( "Not within radio range" );
                 see_color = c_light_red;
+            } else {
+                // TODO: better range calculation than just elevation.
+                const int base_range = 200;
+                float send_elev_boost = ( 1 + ( player_character.pos().z * 0.1 ) );
+                float recv_elev_boost = ( 1 + ( pos().z * 0.1 ) );
+                if( ( square_dist( player_character.global_sm_location(),
+                                   global_sm_location() ) <= base_range * send_elev_boost * recv_elev_boost ) ) {
+                    //Direct radio contact, both of their elevation are in effect
+                    retval = 2;
+                    can_see = _( "Within radio range" );
+                    see_color = c_light_green;
+                } else {
+                    //contact via camp radio tower
+                    int recv_range = base_range * recv_elev_boost;
+                    int send_range = base_range * send_elev_boost;
+                    const int radio_tower_boost = 5;
+                    // find camps that are near player or npc
+                    const std::vector<camp_reference> &camps_near_player = overmap_buffer.get_camps_near(
+                                player_character.global_sm_location(), send_range * radio_tower_boost );
+                    const std::vector<camp_reference> &camps_near_npc = overmap_buffer.get_camps_near(
+                                global_sm_location(), recv_range * radio_tower_boost );
+                    bool camp_to_npc = false;
+                    bool camp_to_camp = false;
+                    for( const camp_reference &i : camps_near_player ) {
+                        if( !i.camp->has_provides( "radio" ) ) {
+                            continue;
+                        }
+                        if( camp_to_camp ||
+                            square_dist( i.abs_sm_pos, global_sm_location() ) <= recv_range * radio_tower_boost ) {
+                            //one radio tower relay
+                            camp_to_npc = true;
+                            break;
+                        }
+                        for( const camp_reference &j : camps_near_npc ) {
+                            //two radio tower relays
+                            if( ( j.camp )->has_provides( "radio" ) &&
+                                ( square_dist( i.abs_sm_pos, j.abs_sm_pos ) <= base_range * radio_tower_boost *
+                                  radio_tower_boost ) ) {
+                                camp_to_camp = true;
+                                break;
+                            }
+                        }
+                    }
+                    if( camp_to_npc || camp_to_camp ) {
+                        retval = 2;
+                        can_see = _( "Within radio range" );
+                        see_color = c_light_green;
+                    } else {
+                        can_see = _( "Not within radio range" );
+                        see_color = c_light_red;
+                    }
+                }
             }
         } else if( guy_has_radio && !u_has_radio ) {
             can_see = _( "You do not have a radio" );
@@ -607,22 +763,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     mvwprintz( fac_w, point( width, ++y ), see_color, "%s", can_see );
     nc_color status_col = col;
-    std::string current_status = _( "Status: " );
     if( current_target() != nullptr ) {
-        current_status += _( "In Combat!" );
         status_col = c_light_red;
-    } else if( in_sleep_state() ) {
-        current_status += _( "Sleeping" );
-    } else if( is_following() ) {
-        current_status += _( "Following" );
-    } else if( is_leader() ) {
-        current_status += _( "Leading" );
-    } else if( is_patrolling() ) {
-        current_status += _( "Patrolling" );
-    } else if( is_guarding() ) {
-        current_status += _( "Guarding" );
     }
-    mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
+    mvwprintz( fac_w, point( width, ++y ), status_col, _( "Status: " ) + get_current_status() );
     if( is_stationed && has_job() ) {
         mvwprintz( fac_w, point( width, ++y ), col, _( "Working at camp" ) );
     } else if( is_stationed ) {
@@ -631,18 +775,18 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     const std::pair <std::string, nc_color> condition = hp_description();
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
-    const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
-    const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
-    const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
+    const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
+    const std::pair <std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
-    mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
-               _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
+    mvwprintz( fac_w, point( width, ++y ), sleepiness_pair.second,
+               _( "Sleepiness: " ) + ( sleepiness_pair.first.empty() ? nominal : sleepiness_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + weapon.tname() );
+                                _( "Wielding: " ) + weapname_simple() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -656,18 +800,19 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
             std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
-                                                   get_skill_level( skillslist[i]->ident() ) );
+                                                   static_cast<int>( get_skill_level( skillslist[i]->ident() ) ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }
     }
     std::string best_three_noncombat = _( "Best other skills: " );
     std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
-                                  best_skill().obj().name(), best_skill_level() );
+                                  best_combat_skill( combat_skills::NO_GENERAL ).first.obj().name(),
+                                  best_combat_skill( combat_skills::NO_GENERAL ).second );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[2] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[2] );
     return retval;
 }
 
@@ -694,6 +839,8 @@ void faction_manager::display() const
         TAB_MYFACTION = 0,
         TAB_FOLLOWERS,
         TAB_OTHERFACTIONS,
+        TAB_LORE,
+        TAB_CREATURES,
         NUM_TABS,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
@@ -702,10 +849,10 @@ void faction_manager::display() const
     g->validate_npc_followers();
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
-    ctxt.register_cardinal();
-    ctxt.register_updown();
+    input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
@@ -721,6 +868,10 @@ void faction_manager::display() const
     basecamp *camp = nullptr;
     std::vector<basecamp *> camps;
     size_t active_vec_size = 0;
+    std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
+    std::pair<snippet_id, std::string> *snippet = nullptr;
+    std::vector<mtype_id> creatures; // Creatures we've recorded
+    mtype_id cur_creature = mtype_id::NULL_ID();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
@@ -733,6 +884,8 @@ void faction_manager::display() const
             { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
             { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
             { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
+            { tab_mode::TAB_LORE, _( "LORE" ) },
+            { tab_mode::TAB_CREATURES, _( "CREATURES" ) },
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
@@ -751,7 +904,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         camps[i]->camp_name() );
@@ -772,7 +925,7 @@ void faction_manager::display() const
                 if( !followers.empty() ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         followers[i]->disp_name() );
@@ -798,7 +951,7 @@ void faction_manager::display() const
                 if( active_vec_size > 0 ) {
                     draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
                                     point( 0, 3 ) );
-                    for( size_t i = top_of_page; i < active_vec_size; i++ ) {
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
                                         _( valfac[i]->name ) );
@@ -814,6 +967,53 @@ void faction_manager::display() const
                 }
             }
             break;
+            case tab_mode::TAB_LORE: {
+                const std::string no_lore = _( "You haven't learned anything about the world." );
+                if( active_vec_size > 0 ) {
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    point( 0, 3 ) );
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
+                        const int y = i - top_of_page + 3;
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
+                                        _( lore[i].second ) );
+                    }
+                    if( snippet != nullptr ) {
+                        int y = 2;
+                        fold_and_print( w_missions, point( 31, ++y ), getmaxx( w_missions ) - 31 - 2, c_light_gray,
+                                        SNIPPET.get_snippet_by_id( snippet->first ).value().translated() );
+                    } else {
+                        mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
+                    }
+                    break;
+                } else {
+                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_lore );
+                }
+            }
+            break;
+            case tab_mode::TAB_CREATURES: {
+                const std::string no_creatures =
+                    _( "You haven't recorded sightings of any creatures.  Taking photos can be a good way to keep track of them." );
+                const int w = getmaxx( w_missions ) - 31 - 2;
+                if( active_vec_size > 0 ) {
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    point( 0, 3 ) );
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
+                        const int y = i - top_of_page + 3;
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
+                                        string_format( "%s  %s", colorize( creatures[i]->sym,
+                                                       selection == i ? hilite( creatures[i]->color ) : creatures[i]->color ),
+                                                       creatures[i]->nname() ) );
+                    }
+                    if( !cur_creature.is_null() ) {
+                        cur_creature->faction_display( w_missions, point( 31, 3 ), w );
+                    } else {
+                        fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
+                    }
+                    break;
+                } else {
+                    fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
+                }
+            }
             default:
                 break;
         }
@@ -824,7 +1024,7 @@ void faction_manager::display() const
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
-        for( const auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -834,29 +1034,59 @@ void faction_manager::display() const
         }
         valfac.clear();
         for( const auto &elem : g->faction_manager_ptr->all() ) {
-            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
+            if( elem.second.known_by_u && elem.second.id != faction_your_followers ) {
                 valfac.push_back( &elem.second );
             }
         }
         guy = nullptr;
         cur_fac = nullptr;
+        snippet = nullptr;
+        cur_creature = mtype_id::NULL_ID();
         interactable = false;
         radio_interactable = false;
         camp = nullptr;
         // create a list of faction camps
         camps.clear();
         for( tripoint_abs_omt elem : player_character.camps ) {
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
+            std::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;
             }
             basecamp *temp_camp = *p;
+            if( temp_camp->get_owner() != player_character.get_faction()->id ) {
+                // Don't display NPC camps as ours
+                continue;
+            }
             camps.push_back( temp_camp );
         }
+        lore.clear();
+        for( const auto &elem : player_character.get_snippets() ) {
+            std::optional<translation> name = SNIPPET.get_name_by_id( elem );
+            if( name.has_value() ) {
+                if( !name->empty() ) {
+                    lore.emplace_back( elem, name->translated() );
+                } else {
+                    lore.emplace_back( elem, elem.str() );
+                }
+            }
+        }
+        auto compare_second =
+            []( const std::pair<snippet_id, std::string> &a,
+        const std::pair<snippet_id, std::string> &b ) {
+            return localized_compare( a.second, b.second );
+        };
+        std::sort( lore.begin(), lore.end(), compare_second );
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
+        creatures.clear();
+        creatures.reserve( player_character.get_known_monsters().size() );
+        creatures.insert( creatures.end(), player_character.get_known_monsters().begin(),
+                          player_character.get_known_monsters().end() );
+        std::sort( creatures.begin(), creatures.end(), []( const mtype_id & a, const mtype_id & b ) {
+            return localized_compare( a->nname(), b->nname() );
+        } );
         active_vec_size = camps.size();
         if( tab == tab_mode::TAB_FOLLOWERS ) {
             if( selection < followers.size() ) {
@@ -873,40 +1103,34 @@ void faction_manager::display() const
                 cur_fac = valfac[selection];
             }
             active_vec_size = valfac.size();
+        } else if( tab == tab_mode::TAB_LORE ) {
+            if( selection < lore.size() ) {
+                snippet = &lore[selection];
+            }
+            active_vec_size = lore.size();
+        } else if( tab == tab_mode::TAB_CREATURES ) {
+            if( selection < creatures.size() ) {
+                cur_creature = creatures[selection];
+            }
+            active_vec_size = creatures.size();
         }
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "NEXT_TAB" || action == "RIGHT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
-            if( tab >= tab_mode::NUM_TABS ) {
-                tab = tab_mode::FIRST_TAB;
-            }
+        if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use inc_clamp_wrap
+            static_assert( static_cast<int>( tab_mode::FIRST_TAB ) == 0 );
+            tab = inc_clamp_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::NUM_TABS );
             selection = 0;
-        } else if( action == "PREV_TAB" || action == "LEFT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
-            if( tab < tab_mode::FIRST_TAB ) {
-                tab = tab_mode::LAST_TAB;
-            }
-            selection = 0;
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= active_vec_size ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = active_vec_size == 0 ? 0 : active_vec_size - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 10, active_vec_size, true ) ) {
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {
-                    guy->reset_companion_mission();
-                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+
+                    talk_function::basecamp_mission( *guy );
+
                 } else if( interactable || radio_interactable ) {
-                    player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
+                    player_character.talk_to( get_talker_for( *guy ), radio_interactable );
                 }
             } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                 camp->query_new_name();

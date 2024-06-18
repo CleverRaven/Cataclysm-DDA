@@ -1,0 +1,33 @@
+[
+  {
+    "id": "mutagen_mastodon",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Mastodon Mutagen" },
+    "excess": "mutagen_mastodon",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_migo",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Mi-go Mutagen" },
+    "excess": "mutagen_migo",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "vitamin_afs_maintained_powers",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Aftershock Maintained Powers Counter" },
+    "min": 0,
+    "max": 100,
+    "rate": "0 h"
+  }
+]

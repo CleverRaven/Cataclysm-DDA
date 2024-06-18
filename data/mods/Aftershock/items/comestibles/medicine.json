@@ -1,0 +1,100 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_synth_blood",
+    "name": { "str_sp": "synthetic blood" },
+    "weight": "262 g",
+    "color": "white",
+    "container": "bag_iv",
+    "comestible_type": "MED",
+    "symbol": "~",
+    "quench": 5,
+    "price_postapoc": "250 USD",
+    "price": "250 USD",
+    "description": "A chalk white blood analogue for emergency medical use.  Far more efficient at oxygenation than natural blood, it can also be used as a general performance enhancer.  Once injected, it will be metabolized or otherwise expunged from the the body in around 8 hours.",
+    "material": [ "blood" ],
+    "volume": "250 ml",
+    "charges": 1,
+    "phase": "liquid",
+    "healthy": -1,
+    "fun": -10,
+    "flags": [ "NO_INGEST", "NPC_SAFE", "EDIBLE_FROZEN" ],
+    "//": "Should add a Mercurial version with stronger performance enhancing effects later on.  As a quest/alliance reward?",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the %s.",
+      "tools_needed": { "syringe": -1 },
+      "effects": [ { "id": "synth_blood_perf", "duration": 28800 } ],
+      "vitamins": [ [ "blood", 2500, 2500 ], [ "redcells", 2500, 2500 ] ]
+    }
+  },
+  {
+    "id": "afs_painkiller",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "serendipnol" },
+    "description": "A very strong, synthetic narcotic built from alien biochemistry and used to treat intense pain while in the field.  You'll need to inject it, and it's very addictive, so be careful.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "122 cent",
+    "price_postapoc": "1 USD",
+    "symbol": "!",
+    "color": "yellow",
+    "container": "test_tube",
+    "fun": 6,
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "addiction_potential": 10,
+    "addiction_type": "opiate",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You shoot up.",
+      "tools_needed": { "syringe": -1 },
+      "effects": [ { "id": "pkill3", "duration": "40 minutes" }, { "id": "pkill2", "duration": "2 hours" } ]
+    }
+  },
+  {
+    "id": "afs_medigel",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "copy-from": "disinfectant",
+    "name": { "str": "MediGel" },
+    "description": "Mercurial brand medical gel; a thick, translucent substance that can be applied to wounds to seal them and promote rapid healing.  Perhaps the most useful medical invention ever devised, it's a staple of any first aid kit.",
+    "price": "200 USD",
+    "price_postapoc": "200 USD",
+    "volume": "10ml",
+    "container": "test_tube",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "WATER_DISSOLVE" ],
+    "use_action": {
+      "type": "heal",
+      "disinfectant_power": 4,
+      "bite": 0.95,
+      "move_cost": 3000,
+      "infect": 0.1,
+      "effects": [ { "id": "afs_medigel_eff_trigger", "duration": "2 seconds" } ]
+    }
+  },
+  {
+    "id": "afs_stimpack",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "combat stim" },
+    "description": "A small, disposable injector filled with a cocktail of stimulants and painkillers.  Will kick you from death's door into awareness, but it's not a long-term solution.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "price": "122 cent",
+    "price_postapoc": "1 USD",
+    "symbol": "!",
+    "color": "yellow",
+    "fun": 6,
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "addiction_potential": 25,
+    "addiction_type": "amphetamine",
+    "stim": 40,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You shove the stimpack against your chest.",
+      "moves": 15,
+      "effects": [ { "id": "pkill3", "duration": "40 minutes" }, { "id": "afs_combat_stims", "duration": "40 minutes" } ]
+    }
+  }
+]

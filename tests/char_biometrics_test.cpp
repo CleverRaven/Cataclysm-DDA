@@ -1,177 +1,233 @@
-#include "catch/catch.hpp"
-
-#include <string>
+#include <iosfwd>
+#include <functional>
 #include <regex>
+#include <string>
+#include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "creature.h"
+#include "display.h"
 #include "game_constants.h"
+#include "monster.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 
-// Return the `kcal_ratio` needed to reach the given `bmi`
-//   BMI = 13 + (12 * kcal_ratio)
-//   kcal_ratio = (BMI - 13) / 12
+static const mtype_id mon_cow( "mon_cow" );
+static const mtype_id mon_dog_gpyrenees( "mon_dog_gpyrenees" );
+static const mtype_id mon_dog_gshepherd( "mon_dog_gshepherd" );
+static const mtype_id mon_horse( "mon_horse" );
+static const mtype_id mon_pig( "mon_pig" );
+
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_SMALL( "SMALL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+
+// BMI is split into muscle, fat and other. Other is always 10 and muscle is 1:1 strength stat.
+// It is normal to have 5 BMIs of fat (this is bordering Normal and Overweight - BMI 23 for an 8 str character)
+// Normal BMI is now irrelevant for almost everything, as "fat bmis" are what determine your obesity.
+// Your natural strength trends down to 2 as you starve (below 2 fat BMIs - emaciated/skeletal) meaning you die at BMI 12.
 static float bmi_to_kcal_ratio( float bmi )
 {
-    return ( bmi - 13 ) / 12;
+    return bmi / 5.0;
 }
 
 // Set enough stored calories to reach target BMI
-static void set_player_bmi( player &dummy, float bmi )
+static void set_player_bmi( Character &dummy, float bmi )
 {
     dummy.set_stored_kcal( dummy.get_healthy_kcal() * bmi_to_kcal_ratio( bmi ) );
-    REQUIRE( dummy.get_bmi() == Approx( bmi ).margin( 0.001f ) );
+    REQUIRE( dummy.get_bmi_fat() == Approx( bmi ).margin( 0.01f ) );
 }
 
+// Return the player's `get_bmi_fat` at `kcal_percent` (actually a ratio of stored_kcal to healthy_kcal)
+//static float bmi_at_kcal_ratio( Character &dummy, float kcal_percent )
+//{
+//    dummy.set_stored_kcal( dummy.get_healthy_kcal() * kcal_percent );
+//    REQUIRE( dummy.get_kcal_percent() == Approx( kcal_percent ).margin( 0.01f ) );
+//
+//    return dummy.get_bmi_fat();
+//}
+
 // Return the player's `get_bmi` at `kcal_percent` (actually a ratio of stored_kcal to healthy_kcal)
-static float bmi_at_kcal_ratio( player &dummy, float kcal_percent )
+static float true_bmi_at_kcal_ratio( Character &dummy, float kcal_percent )
 {
     dummy.set_stored_kcal( dummy.get_healthy_kcal() * kcal_percent );
-    REQUIRE( dummy.get_kcal_percent() == Approx( kcal_percent ).margin( 0.001f ) );
+    REQUIRE( dummy.get_kcal_percent() == Approx( kcal_percent ).margin( 0.01f ) );
 
     return dummy.get_bmi();
 }
 
 // Return the player's `get_max_healthy` value at the given body mass index
-static int max_healthy_at_bmi( player &dummy, float bmi )
+static int max_healthy_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
     return dummy.get_max_healthy();
 }
 
 // Return the player's `kcal_speed_penalty` value at the given body mass index
-static int kcal_speed_penalty_at_bmi( player &dummy, float bmi )
+static int kcal_speed_penalty_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
     return dummy.kcal_speed_penalty();
 }
 
-// Return the player's `get_weight_string` at the given body mass index
-static std::string weight_string_at_bmi( player &dummy, float bmi )
+// Return the player's `weight_string` at the given body mass index
+static std::string weight_string_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
-    return remove_color_tags( dummy.get_weight_string() );
+    return remove_color_tags( display::weight_string( dummy ) );
 }
 
 // Return `bodyweight` in kilograms for a player at the given body mass index.
-static float bodyweight_kg_at_bmi( player &dummy, float bmi )
+static float bodyweight_kg_at_bmi( Character &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
     return to_kilogram( dummy.bodyweight() );
 }
 
-// Clear player traits and give them a single trait by name
-static void set_single_trait( player &dummy, const std::string &trait_name )
-{
-    dummy.clear_mutations();
-    dummy.toggle_trait( trait_id( trait_name ) );
-    REQUIRE( dummy.has_trait( trait_id( trait_name ) ) );
-}
-
 // Return player `metabolic_rate_base` with a given mutation
-static float metabolic_rate_with_mutation( player &dummy, const std::string &trait_name )
+static float metabolic_rate_with_mutation( Character &dummy, const std::string &trait_name )
 {
     set_single_trait( dummy, trait_name );
     return dummy.metabolic_rate_base();
 }
 
 // Return player `get_bmr` (basal metabolic rate) at the given activity level.
-static int bmr_at_act_level( player &dummy, float activity_level )
+static int bmr_at_act_level( Character &dummy, float activity_level )
 {
     dummy.reset_activity_level();
-    dummy.increase_activity_level( activity_level );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.update_body( calendar::turn, calendar::turn + 10_minutes );
+    dummy.set_activity_level( activity_level );
 
     return dummy.get_bmr();
 }
 
-// Return player `height()` with a given base height and size trait (SMALL, MEDIUM, LARGE, HUGE).
-static int height_with_base_and_size( player &dummy, int base_height,
-                                      const std::string &size_trait )
-{
-    clear_character( dummy );
-    dummy.mod_base_height( base_height - dummy.base_height() );
+using avatar_ptr = std::shared_ptr<avatar>;
 
-    // MEDIUM is not an actual trait; just ignore it
-    if( size_trait == "SMALL" || size_trait == "LARGE" || size_trait == "HUGE" ) {
-        dummy.toggle_trait( trait_id( size_trait ) );
+// Create a map of dummies of all available size categories
+static std::map<creature_size, avatar_ptr> create_dummies_of_all_sizes( int init_height )
+{
+    const std::map<creature_size, std::string> size_mutations{
+        { creature_size::tiny, "SMALL2" },
+        { creature_size::small, "SMALL" },
+        { creature_size::medium, "" },
+        { creature_size::large, "LARGE" },
+        { creature_size::huge, "HUGE" },
+    };
+
+    std::map<creature_size, avatar_ptr> dummies;
+    for( const auto &pair : size_mutations ) {
+        const creature_size &size = pair.first;
+        const std::string &trait_name = pair.second;
+
+        avatar_ptr dummy = std::make_shared<avatar>();
+        clear_character( *dummy );
+
+        if( !trait_name.empty() ) {
+            set_single_trait( *dummy, trait_name );
+        }
+        REQUIRE( dummy->get_size() == size );
+
+        dummy->mod_base_height( init_height - dummy->base_height() );
+        REQUIRE( dummy->base_height() == init_height );
+
+        dummies[size] = dummy;
     }
-
-    return dummy.height();
+    return dummies;
 }
 
-TEST_CASE( "body mass index determines weight description", "[biometrics][bmi][weight]" )
+static void for_each_size_category( const std::function< void( creature_size ) > &functor )
+{
+    for( int i = static_cast< int >( creature_size::tiny );
+         i < static_cast< int >( creature_size::num_sizes ); ++i ) {
+        creature_size size = static_cast< creature_size >( i );
+        functor( size );
+    }
+}
+
+//we are testing the character's "fat bmis" which are 3.5-5 for normal weight and 5-10 for overweight, 10+ obese
+//this model does mean we are potentially "skinnyfat" if low str but higher fat bmis
+TEST_CASE( "body_mass_index_determines_weight_description", "[biometrics][bmi][weight]" )
 {
     avatar dummy;
 
-    CHECK( weight_string_at_bmi( dummy, 13.0f ) == "Skeletal" );
-    CHECK( weight_string_at_bmi( dummy, 13.9f ) == "Skeletal" );
-    // 14
-    CHECK( weight_string_at_bmi( dummy, 14.1f ) == "Emaciated" );
-    CHECK( weight_string_at_bmi( dummy, 15.9f ) == "Emaciated" );
-    // 16
-    CHECK( weight_string_at_bmi( dummy, 16.1f ) == "Underweight" );
-    CHECK( weight_string_at_bmi( dummy, 18.4f ) == "Underweight" );
-    // 18.5
-    CHECK( weight_string_at_bmi( dummy, 18.6f ) == "Normal" );
-    CHECK( weight_string_at_bmi( dummy, 24.9f ) == "Normal" );
-    // 25
-    CHECK( weight_string_at_bmi( dummy, 25.1f ) == "Overweight" );
-    CHECK( weight_string_at_bmi( dummy, 29.9f ) == "Overweight" );
-    // 30
-    CHECK( weight_string_at_bmi( dummy, 30.1f ) == "Obese" );
-    CHECK( weight_string_at_bmi( dummy, 34.9f ) == "Obese" );
-    // 35
-    CHECK( weight_string_at_bmi( dummy, 35.1f ) == "Very Obese" );
-    CHECK( weight_string_at_bmi( dummy, 39.9f ) == "Very Obese" );
-    // 40
-    CHECK( weight_string_at_bmi( dummy, 40.1f ) == "Morbidly Obese" );
-    CHECK( weight_string_at_bmi( dummy, 41.0f ) == "Morbidly Obese" );
+    CHECK( weight_string_at_bmi( dummy, 0.1f ) == "Skeletal" );
+    CHECK( weight_string_at_bmi( dummy, 0.9f ) == "Skeletal" );
+    // for 8 str character true bmi is 13-14
+    CHECK( weight_string_at_bmi( dummy, 1.1f ) == "Emaciated" );
+    CHECK( weight_string_at_bmi( dummy, 1.9f ) == "Emaciated" );
+    // for 8 str character true bmi is 15-16
+    CHECK( weight_string_at_bmi( dummy, 2.1f ) == "Underweight" );
+    CHECK( weight_string_at_bmi( dummy, 2.9f ) == "Underweight" );
+    // for 8 str character true bmi is 17-21
+    CHECK( weight_string_at_bmi( dummy, 3.1f ) == "Normal" );
+    CHECK( weight_string_at_bmi( dummy, 4.9f ) == "Normal" );
+    // for 8 str character true bmi is 22-25
+    CHECK( weight_string_at_bmi( dummy, 5.1f ) == "Overweight" );
+    CHECK( weight_string_at_bmi( dummy, 9.9f ) == "Overweight" );
+    // for 8 str character true bmi is 26-30
+    CHECK( weight_string_at_bmi( dummy, 10.1f ) == "Obese" );
+    CHECK( weight_string_at_bmi( dummy, 14.9f ) == "Obese" );
+    // for 8 str character true bmi is 31-35
+    CHECK( weight_string_at_bmi( dummy, 15.1f ) == "Very Obese" );
+    CHECK( weight_string_at_bmi( dummy, 19.9f ) == "Very Obese" );
+    // for 8 str character true bmi is 36-40
+    CHECK( weight_string_at_bmi( dummy, 20.1f ) == "Morbidly Obese" );
+    CHECK( weight_string_at_bmi( dummy, 21.0f ) == "Morbidly Obese" );
+    // for 8 str character true bmi is 41+
 }
 
-TEST_CASE( "stored kcal ratio determines body mass index", "[biometrics][kcal][bmi]" )
+//for an 8 strength character. strength scales linearly to 0 str below fat bmi of 2.0
+TEST_CASE( "stored_kcal_ratio_influences_body_mass_index", "[biometrics][kcal][bmi]" )
 {
     avatar dummy;
 
-    // Skeletal (<14)
-    CHECK( bmi_at_kcal_ratio( dummy, 0.01f ) == Approx( 13.12f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.05f ) == Approx( 13.6f ).margin( 0.01f ) );
-    // Emaciated (14)
-    CHECK( bmi_at_kcal_ratio( dummy, 0.1f ) == Approx( 14.2f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.2f ) == Approx( 15.4f ).margin( 0.01f ) );
-    // Underweight (16)
-    CHECK( bmi_at_kcal_ratio( dummy, 0.3f ) == Approx( 16.6f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.4f ) == Approx( 17.8f ).margin( 0.01f ) );
-    // Normal (18.5)
-    CHECK( bmi_at_kcal_ratio( dummy, 0.5f ) == Approx( 19.0f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.6f ) == Approx( 20.2f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.7f ) == Approx( 21.4f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.8f ) == Approx( 22.6f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 0.9f ) == Approx( 23.8f ).margin( 0.01f ) );
-    // Overweight (25)
-    CHECK( bmi_at_kcal_ratio( dummy, 1.0f ) == Approx( 25.0f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.1f ) == Approx( 26.2f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.2f ) == Approx( 27.4f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.3f ) == Approx( 28.6f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.4f ) == Approx( 29.8f ).margin( 0.01f ) );
-    // Obese (30)
-    CHECK( bmi_at_kcal_ratio( dummy, 1.5f ) == Approx( 31.0f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.6f ) == Approx( 32.2f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.7f ) == Approx( 33.4f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 1.8f ) == Approx( 34.6f ).margin( 0.01f ) );
-    // Very obese (35)
-    CHECK( bmi_at_kcal_ratio( dummy, 1.9f ) == Approx( 35.8f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 2.0f ) == Approx( 37.0f ).margin( 0.01f ) );
-    // Morbidly obese (40)
-    CHECK( bmi_at_kcal_ratio( dummy, 2.25f ) == Approx( 40.0f ).margin( 0.01f ) );
-    CHECK( bmi_at_kcal_ratio( dummy, 2.5f ) == Approx( 43.0f ).margin( 0.01f ) );
+    // Skeletal (fat BMI 0-1)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.0f ) == Approx( 12.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.05f ) == Approx( 13.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.1f ) == Approx( 14.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.15f ) == Approx( 14.75f ).margin( 0.01f ) );
+    // Emaciated (fat BMI 1.01-2)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.2f ) == Approx( 16.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.25f ) == Approx( 17.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.3f ) == Approx( 17.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.35f ) == Approx( 18.75f ).margin( 0.01f ) );
+    // Underweight (fat BMI 2.01-3.0)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.4f ) == Approx( 20.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.5f ) == Approx( 21.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.6f ) == Approx( 23.0f ).margin( 0.01f ) );
+    // Normal (fat bmi 3.01-5)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.7f ) == Approx( 23.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.8f ) == Approx( 24.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 0.9f ) == Approx( 24.5f ).margin( 0.01f ) );
+    // Overweight (fat bmi 5.01-10)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.0f ) == Approx( 25.0f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.25f ) == Approx( 26.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.5f ) == Approx( 27.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 1.75f ) == Approx( 28.75f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.0f ) == Approx( 30.0f ).margin( 0.01f ) );
+    // Obese (fat bmi 10.01-15)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.25f ) == Approx( 31.25f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.5f ) == Approx( 32.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 2.75f ) == Approx( 33.75f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 3.0f ) == Approx( 35.0f ).margin( 0.01f ) );
+    // Very obese (fat bmi 15.01-20)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 3.5f ) == Approx( 37.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 4.0f ) == Approx( 40.0f ).margin( 0.01f ) );
+    // Morbidly obese (fat bmi 20.01+)
+    CHECK( true_bmi_at_kcal_ratio( dummy, 4.5f ) == Approx( 42.5f ).margin( 0.01f ) );
+    CHECK( true_bmi_at_kcal_ratio( dummy, 5.0f ) == Approx( 45.0f ).margin( 0.01f ) );
 }
 
-TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][max]" )
+TEST_CASE( "body_mass_index_determines_maximum_healthiness", "[biometrics][bmi][max]" )
 {
     // "BMIs under 20 and over 25 have been associated with higher all-causes mortality,
     // with the risk increasing with distance from the 20–25 range."
@@ -180,319 +236,194 @@ TEST_CASE( "body mass index determines maximum healthiness", "[biometrics][bmi][
 
     avatar dummy;
 
-    // Skeletal (<14)
-    CHECK( max_healthy_at_bmi( dummy, 8.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 9.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 10.0f ) == -183 );
-    CHECK( max_healthy_at_bmi( dummy, 11.0f ) == -115 );
-    CHECK( max_healthy_at_bmi( dummy, 12.0f ) == -53 );
-    CHECK( max_healthy_at_bmi( dummy, 13.0f ) == 2 );
-    // Emaciated (14)
-    CHECK( max_healthy_at_bmi( dummy, 14.0f ) == 51 );
-    CHECK( max_healthy_at_bmi( dummy, 15.0f ) == 95 );
-    // Underweight (16)
-    CHECK( max_healthy_at_bmi( dummy, 16.0f ) == 133 );
-    CHECK( max_healthy_at_bmi( dummy, 17.0f ) == 164 );
-    CHECK( max_healthy_at_bmi( dummy, 18.0f ) == 189 );
-    // Normal (18.5)
-    CHECK( max_healthy_at_bmi( dummy, 19.0f ) == 200 );
-    CHECK( max_healthy_at_bmi( dummy, 20.0f ) == 200 );
-    CHECK( max_healthy_at_bmi( dummy, 21.0f ) == 200 );
-    CHECK( max_healthy_at_bmi( dummy, 22.0f ) == 200 );
-    CHECK( max_healthy_at_bmi( dummy, 23.0f ) == 200 );
-    CHECK( max_healthy_at_bmi( dummy, 24.0f ) == 200 );
-    CHECK( max_healthy_at_bmi( dummy, 25.0f ) == 200 );
-    // Overweight (25)
-    CHECK( max_healthy_at_bmi( dummy, 26.0f ) == 178 );
-    CHECK( max_healthy_at_bmi( dummy, 27.0f ) == 149 );
-    CHECK( max_healthy_at_bmi( dummy, 28.0f ) == 115 );
-    CHECK( max_healthy_at_bmi( dummy, 29.0f ) == 74 );
-    // Obese (30)
-    CHECK( max_healthy_at_bmi( dummy, 30.0f ) == 28 );
-    CHECK( max_healthy_at_bmi( dummy, 31.0f ) == -25 );
-    CHECK( max_healthy_at_bmi( dummy, 32.0f ) == -83 );
-    CHECK( max_healthy_at_bmi( dummy, 33.0f ) == -148 );
-    CHECK( max_healthy_at_bmi( dummy, 34.0f ) == -200 );
-    // Very obese (35)
-    CHECK( max_healthy_at_bmi( dummy, 35.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 36.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 37.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 38.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 39.0f ) == -200 );
-    // Morbidly obese (40)
-    CHECK( max_healthy_at_bmi( dummy, 40.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 41.0f ) == -200 );
-    CHECK( max_healthy_at_bmi( dummy, 42.0f ) == -200 );
+    // Skeletal (0-1/5)
+    CHECK( max_healthy_at_bmi( dummy, 0.1f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 0.4f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 0.8f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 1.0f ) == -200 );
+    // Emaciated (1.01-2/5)
+    CHECK( max_healthy_at_bmi( dummy, 1.3f ) == -140 );
+    CHECK( max_healthy_at_bmi( dummy, 1.6f ) == -80 );
+    CHECK( max_healthy_at_bmi( dummy, 1.9f ) == -20 );
+    // Underweight (2.1-3.5/5)
+    CHECK( max_healthy_at_bmi( dummy, 2.1f ) == 20 );
+    CHECK( max_healthy_at_bmi( dummy, 2.3f ) == 60 );
+    CHECK( max_healthy_at_bmi( dummy, 2.5f ) == 100 );
+    CHECK( max_healthy_at_bmi( dummy, 2.8f ) == 160 );
+    CHECK( max_healthy_at_bmi( dummy, 3.0f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 3.5f ) == 200 );
+    // Normal (3.6-5/5)
+    CHECK( max_healthy_at_bmi( dummy, 3.6f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 3.8f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 4.0f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 4.2f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 4.5f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 4.8f ) == 200 );
+    CHECK( max_healthy_at_bmi( dummy, 5.0f ) == 200 );
+    // Overweight (5.1-10/5)
+    CHECK( max_healthy_at_bmi( dummy, 6.0f ) == 175 );
+    CHECK( max_healthy_at_bmi( dummy, 7.0f ) == 150 );
+    CHECK( max_healthy_at_bmi( dummy, 8.0f ) == 125 );
+    CHECK( max_healthy_at_bmi( dummy, 9.0f ) == 100 );
+    // Obese (10.1-15/5)
+    CHECK( max_healthy_at_bmi( dummy, 10.0f ) == 75 );
+    CHECK( max_healthy_at_bmi( dummy, 11.0f ) == 50 );
+    CHECK( max_healthy_at_bmi( dummy, 12.0f ) == 25 );
+    CHECK( max_healthy_at_bmi( dummy, 13.0f ) == 0 );
+    CHECK( max_healthy_at_bmi( dummy, 14.0f ) == -25 );
+    // Very obese (15.1-20/5)
+    CHECK( max_healthy_at_bmi( dummy, 15.0f ) == -50 );
+    CHECK( max_healthy_at_bmi( dummy, 16.0f ) == -75 );
+    CHECK( max_healthy_at_bmi( dummy, 17.0f ) == -100 );
+    CHECK( max_healthy_at_bmi( dummy, 18.0f ) == -125 );
+    CHECK( max_healthy_at_bmi( dummy, 19.0f ) == -150 );
+    // Morbidly obese (>20/5)
+    CHECK( max_healthy_at_bmi( dummy, 20.0f ) == -175 );
+    CHECK( max_healthy_at_bmi( dummy, 21.0f ) == -200 );
+    CHECK( max_healthy_at_bmi( dummy, 22.0f ) == -200 );
 }
 
-TEST_CASE( "character height and body size mutations", "[biometrics][height][mutation]" )
+TEST_CASE( "character_height_should_increase_with_their_body_size",
+           "[biometrics][height][mutation]" )
 {
-    // If character is 175cm starting height, they are 15cm shorter than the upper threshold for
-    // MEDIUM size (which is 190cm). If they mutate to LARGE size, their height will be at the same
-    // relationship to the upper threshold, 240cm - 15cm = 225cm.
-    //
-    // In general, mutating to another size simply adjusts the return value of `Character::height()`
-    // in relationship to the original starting height.
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( Character::default_height() );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_height() );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
 
-    avatar dummy;
-    clear_character( dummy );
-
-    GIVEN( "character height started at 175cm" ) {
-        int init_height = 175;
-        dummy.mod_base_height( init_height - dummy.base_height() );
-        REQUIRE( dummy.base_height() == init_height );
-
-        WHEN( "they are normal-sized (MEDIUM)" ) {
-            REQUIRE( dummy.get_size() == creature_size::medium );
-
-            THEN( "height is initial height" ) {
-                CHECK( dummy.height() == init_height );
+    auto test_absolute_heights = []( DummyMap & dummies ) {
+        for_each_size_category( [ &dummies ]( creature_size size ) {
+            CHECK( dummies[size]->height() >= Character::min_height( size ) );
+            CHECK( dummies[size]->height() <= Character::max_height( size ) );
+            if( size != creature_size::huge ) {
+                creature_size next_size = static_cast< creature_size >( static_cast< int >( size ) + 1 );
+                CHECK( dummies[size]->height() < dummies[next_size]->height() );
             }
-        }
+        } );
+    };
 
-        WHEN( "they become SMALL" ) {
-            set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == creature_size::small );
-
-            THEN( "they are 50cm shorter" ) {
-                CHECK( dummy.height() == init_height - 50 );
-            }
-        }
-
-        WHEN( "they become LARGE" ) {
-            set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == creature_size::large );
-
-            THEN( "they are 50cm taller" ) {
-                CHECK( dummy.height() == init_height + 50 );
-            }
-        }
-
-        WHEN( "they become HUGE" ) {
-            set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == creature_size::huge );
-
-            THEN( "they are 100cm taler" ) {
-                CHECK( dummy.height() == init_height + 100 );
-            }
-        }
+    GIVEN( "default height character" ) {
+        test_absolute_heights( dummies_default_height );
     }
-
-    // More generally
-
-    GIVEN( "character height strarted at 160cm" ) {
-        CHECK( height_with_base_and_size( dummy, 160, "MEDIUM" ) == 160 );
-        // Always 30 cm shorter than max for each size class
-        CHECK( height_with_base_and_size( dummy, 160, "SMALL" ) == 110 );
-        CHECK( height_with_base_and_size( dummy, 160, "LARGE" ) == 210 );
-        CHECK( height_with_base_and_size( dummy, 160, "HUGE" ) == 260 );
+    GIVEN( "min height character" ) {
+        test_absolute_heights( dummies_min_height );
     }
-
-    SECTION( "character height started at 190cm" ) {
-        CHECK( height_with_base_and_size( dummy, 190, "MEDIUM" ) == 190 );
-        // Always at maximum height for each size class
-        CHECK( height_with_base_and_size( dummy, 190, "SMALL" ) == 140 );
-        CHECK( height_with_base_and_size( dummy, 190, "LARGE" ) == 240 );
-        CHECK( height_with_base_and_size( dummy, 190, "HUGE" ) == 290 );
+    GIVEN( "max height character" ) {
+        test_absolute_heights( dummies_max_height );
     }
 }
 
-TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
+TEST_CASE( "default_character_175_cm_bodyweights_at_various_BMIs", "[biometrics][bodyweight]" )
 {
     avatar dummy;
     clear_character( dummy );
 
     // Body weight is calculated as ( BMI * (height/100)^2 ). At any given height, body weight
-    // varies based on body mass index (which in turn depends on the amount of stored calories).
-
-    // Check bodyweights at each size for two different heights:
-    // 175cm (original default) and 190cm (maximum for MEDIUM sized human)
+    // varies based on body mass index (which in turn depends on the amount of stored calories and strength).
 
     GIVEN( "character height started at 175cm" ) {
         dummy.mod_base_height( 175 - dummy.base_height() );
         REQUIRE( dummy.base_height() == 175 );
 
         WHEN( "character is normal-sized (medium)" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SMALL2 ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_SMALL ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_LARGE ) );
+            REQUIRE_FALSE( dummy.has_trait( trait_HUGE ) );
             REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 49.0 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0 ) == Approx( 76.6 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 107.2 ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is small" ) {
-            set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == creature_size::small );
-
-            THEN( "bodyweight varies from ~25-55kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 25.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 39.1f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 54.7f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is large" ) {
-            set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == creature_size::large );
-
-            THEN( "bodyweight varies from ~81-177kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 81.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 126.6f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 177.2f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is huge" ) {
-            set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == creature_size::huge );
-
-            THEN( "bodyweight varies from ~121-265kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 121.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 189.1f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 264.7f ).margin( 0.1f ) );
+                // default strength of 8, at 1.0 fat bmis it is reduced to 4 producing a "true" bmi of 17.
+                CHECK( bodyweight_kg_at_bmi( dummy, 1.0 ) == Approx( 49.0 ).margin( 0.1f ) );
+                // default strength of 8, +5 fat bmis = 25 true bmi, +15 = 35 true bmi
+                CHECK( bodyweight_kg_at_bmi( dummy, 5.0 ) == Approx( 76.6 ).margin( 0.1f ) );
+                CHECK( bodyweight_kg_at_bmi( dummy, 15.0 ) == Approx( 107.2 ).margin( 0.1f ) );
             }
         }
     }
-
-    GIVEN( "character height started at 190cm" ) {
-        dummy.mod_base_height( 190 - dummy.base_height() );
-        REQUIRE( dummy.base_height() == 190 );
-
-        WHEN( "character is normal-sized (medium)" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
-            REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-            REQUIRE( dummy.get_size() == creature_size::medium );
-
-            THEN( "bodyweight varies from ~57-126kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 57.8 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0 ) == Approx( 90.3 ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0 ) == Approx( 126.3 ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is small" ) {
-            set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == creature_size::small );
-
-            THEN( "bodyweight varies from ~31-68kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 31.4f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 49.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 68.6f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is large" ) {
-            set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == creature_size::large );
-
-            THEN( "bodyweight varies from ~92-201kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 92.16f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 144.0f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 201.6f ).margin( 0.1f ) );
-            }
-        }
-
-        WHEN( "character is huge" ) {
-            set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == creature_size::huge );
-
-            THEN( "bodyweight varies from ~134-294kg" ) {
-                CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 134.6f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 25.0f ) == Approx( 210.2f ).margin( 0.1f ) );
-                CHECK( bodyweight_kg_at_bmi( dummy, 35.0f ) == Approx( 294.3f ).margin( 0.1f ) );
-            }
-        }
-    }
-
 }
 
-TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity]" )
+TEST_CASE( "character_weight_should_increase_with_their_body_size_and_BMI",
+           "[biometrics][bodyweight][mutation]" )
 {
-    // Activity level is a floating-point number, but only set to discrete values:
-    //
-    // NO_EXERCISE = 1.2f;
-    // LIGHT_EXERCISE = 2.0f;
-    // MODERATE_EXERCISE = 4.5f;
-    // ACTIVE_EXERCISE = 8.0f;
-    // EXTRA_EXERCISE = 10.0f;
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( Character::default_height() );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_height() );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
 
-    // Functions tested:
-    // activity_level_str (return string constant for each range)
-    // reset_activity_level (to NO_EXERCISE)
-    // increase_activity_level (only if greater than current)
-    // decrease_activity_level (only if less than current)
+    auto test_weights = []( DummyMap & dummies ) {
+        for_each_size_category( [&dummies]( creature_size size ) {
+            if( size != creature_size::huge ) {
+                creature_size next_size = static_cast< creature_size >( static_cast< int >( size ) + 1 );
+                CHECK( dummies[size]->bodyweight() < dummies[next_size]->bodyweight() );
+            }
+            avatar_ptr &dummy = dummies[size];
+            CHECK( bodyweight_kg_at_bmi( *dummy, 3.0f ) < bodyweight_kg_at_bmi( *dummy, 5.0f ) );
+            CHECK( bodyweight_kg_at_bmi( *dummy, 5.0f ) < bodyweight_kg_at_bmi( *dummy, 15.0f ) );
+        } );
+    };
 
-    avatar dummy;
+    GIVEN( "default height character" ) {
+        test_weights( dummies_default_height );
+    }
+    GIVEN( "min height character" ) {
+        test_weights( dummies_min_height );
+    }
+    GIVEN( "max height character" ) {
+        test_weights( dummies_max_height );
+    }
+}
 
-    SECTION( "reset activity level to NO_EXERCISE" ) {
-        // Start at no exercise
-        dummy.reset_activity_level();
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-        // Increase and confirm
-        dummy.increase_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Reset back and ensure it worked
-        dummy.reset_activity_level();
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
+TEST_CASE( "riding_various_creatures_at_various_sizes", "[avatar][bodyweight]" )
+{
+    monster cow( mon_cow );
+    monster horse( mon_horse );
+    monster pig( mon_pig );
+    monster large_dog( mon_dog_gpyrenees );
+    monster average_dog( mon_dog_gshepherd );
+
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( Character::default_height() );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_height() );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
+
+    auto can_mount = []( const avatar_ptr & dummy, const monster & steed ) {
+        dummy->set_stored_kcal( dummy->get_healthy_kcal() );
+        return dummy->bodyweight() <= steed.get_weight() * steed.get_mountable_weight_ratio();
+    };
+
+    SECTION( "default height character can ride all large steeds but not the small ones" ) {
+        avatar_ptr dummy = dummies_default_height[creature_size::medium];
+        CHECK( can_mount( dummy, cow ) );
+        CHECK( can_mount( dummy, horse ) );
+        CHECK( !can_mount( dummy, pig ) );
+        CHECK( !can_mount( dummy, large_dog ) );
+        CHECK( !can_mount( dummy, average_dog ) );
     }
 
-    SECTION( "increase_activity_level" ) {
-        // Start at the lowest level
-        dummy.reset_activity_level();
-        REQUIRE( dummy.activity_level_str() == "NO_EXERCISE" );
-
-        // Increase level a couple times
-        dummy.increase_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "LIGHT_EXERCISE" );
-        dummy.increase_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Cannot 'increase' to lower level
-        dummy.increase_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        dummy.increase_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Increase to highest level
-        dummy.increase_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "ACTIVE_EXERCISE" );
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-        // Cannot increase beyond the highest
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-
+    SECTION( "characters of any starting height can ride a horse" ) {
+        CHECK( can_mount( dummies_min_height[creature_size::medium], horse ) );
+        CHECK( can_mount( dummies_default_height[creature_size::medium], horse ) );
+        CHECK( can_mount( dummies_max_height[creature_size::medium], horse ) );
     }
 
-    SECTION( "decrease_activity_level" ) {
-        // Start at the highest level
-        dummy.reset_activity_level();
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        REQUIRE( dummy.activity_level_str() == "EXTRA_EXERCISE" );
+    SECTION( "huge characters can't ride a horse" ) {
+        CHECK( !can_mount( dummies_min_height[creature_size::huge], horse ) );
+        CHECK( !can_mount( dummies_default_height[creature_size::huge], horse ) );
+        CHECK( !can_mount( dummies_max_height[creature_size::huge], horse ) );
+    }
 
-        // Decrease level a couple times
-        dummy.decrease_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "ACTIVE_EXERCISE" );
-        dummy.decrease_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Cannot 'decrease' to higher level
-        dummy.decrease_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        dummy.decrease_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Decrease to lowest level
-        dummy.decrease_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "LIGHT_EXERCISE" );
-        dummy.decrease_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-        // Cannot decrease below lowest
-        dummy.decrease_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
+    SECTION( "only short tiny characters can ride large dogs" ) {
+        CHECK( can_mount( dummies_min_height[creature_size::tiny], large_dog ) );
+        CHECK( !can_mount( dummies_default_height[creature_size::tiny], large_dog ) );
+        CHECK( !can_mount( dummies_max_height[creature_size::tiny], large_dog ) );
+    }
+
+    SECTION( "nobody can ride smaller dogs" ) {
+        CHECK( !can_mount( dummies_min_height[creature_size::tiny], average_dog ) );
+        CHECK( !can_mount( dummies_default_height[creature_size::tiny], average_dog ) );
+        CHECK( !can_mount( dummies_max_height[creature_size::tiny], average_dog ) );
     }
 }
 
@@ -510,15 +441,13 @@ static void test_activity_duration( avatar &dummy, const float at_level,
     // Pass time at this level, updating body each turn
     for( int turn = 0; turn < to_turns<int>( how_long ); ++turn ) {
         // Make sure activity level persists (otherwise may be reset after 5 minutes)
-        dummy.increase_activity_level( at_level );
+        dummy.set_activity_level( at_level );
         calendar::turn += 1_turns;
         dummy.update_body();
     }
-    // Stop exercising
-    dummy.decrease_activity_level( NO_EXERCISE );
 }
 
-TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][activity][diary]" )
+TEST_CASE( "activity_levels_and_calories_in_daily_diary", "[avatar][biometrics][activity][diary]" )
 {
     // Typical spring start, day 61
     calendar::turn = calendar::turn_zero + 60_days;
@@ -529,33 +458,33 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
     SECTION( "shows all zero at start of day 61" ) {
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) ==
                "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
-               "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
-               "<color_c_light_gray> 61 0 0 0 0 0 0 0 0</color><color_c_light_gray> 0</color>\n" );
+               "<color_c_yellow> Day Sleep None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+               "<color_c_light_gray> 61 0 0 0 0 0 0 0 0 0</color><color_c_light_gray> 0</color>\n" );
     }
 
     SECTION( "shows time at each activity level for the current day" ) {
         dummy.reset_activity_level();
-        test_activity_duration( dummy, NO_EXERCISE, 1_hours );
+        test_activity_duration( dummy, NO_EXERCISE, 59_minutes );
         test_activity_duration( dummy, LIGHT_EXERCISE, 45_minutes );
         test_activity_duration( dummy, MODERATE_EXERCISE, 30_minutes );
         test_activity_duration( dummy, BRISK_EXERCISE, 20_minutes );
         test_activity_duration( dummy, ACTIVE_EXERCISE, 15_minutes );
         test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
+        test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
-        // Spent calories are randomized; get expected spent/net from expected gain
-        int expect_gained_kcal = 1286; // FIXME: Could this be random too?
-        int expect_net_kcal = dummy.get_stored_kcal() - 55000;
-        int expect_spent_kcal = expect_gained_kcal - expect_net_kcal;
+        int expect_gained_kcal = 1283;
+        int expect_net_kcal = 527;
+        int expect_spent_kcal = 756;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
-                   "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
-                   "<color_c_light_gray> 61 60 45 30 20 15 10 %d %d</color><color_c_light_blue> %d</color>\n",
+                   "<color_c_yellow> Day Sleep None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+                   "<color_c_light_gray> 61 0 60 45 30 20 20 5 %d %d</color><color_c_light_blue> %d</color>\n",
                    expect_gained_kcal, expect_spent_kcal, expect_net_kcal ) );
     }
 }
 
-TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
+TEST_CASE( "mutations_may_affect_character_metabolic_rate", "[biometrics][metabolism]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -570,7 +499,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
     // game balance JSON, the below tests are likely to fail and need adjustment.
     REQUIRE( normal_metabolic_rate == 1.0f );
 
-    // Mutations with a "metabolism_modifier" in mutations.json add/subtract to the base rate.
+    // Mutations with "METABOLISM" enchantment in mutations.json add/subtract to the base rate.
     // For example the rapid / fast / very fast / extreme metabolisms:
     //
     //     MET_RAT (+0.333), HUNGER (+0.5), HUNGER2 (+1.0), HUNGER3 (+2.0)
@@ -578,6 +507,8 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
     // And the light eater / heat dependent / cold blooded spectrum:
     //
     //     LIGHTEATER (-0.333), COLDBLOOD (-0.333), COLDBLOOD2/3/4 (-0.5)
+    //
+    //     TEST_ZERO_METABOLIC is added to prevent #72242 in the future
     //
     // If metabolism modifiers are changed, the below check(s) need to be adjusted as well.
 
@@ -590,9 +521,10 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD2" ) == Approx( 0.5f ) );
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD3" ) == Approx( 0.5f ) );
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD4" ) == Approx( 0.5f ) );
+    CHECK( metabolic_rate_with_mutation( dummy, "TEST_ZERO_METABOLIC" ) == 0.0f );
 }
 
-TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics][bmr]" )
+TEST_CASE( "basal_metabolic_rate_with_various_size_and_metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
     dummy.set_body();
@@ -601,8 +533,8 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
     // scaled by metabolic base rate. Assume default metabolic rate.
     REQUIRE( dummy.metabolic_rate_base() == 1.0f );
 
-    // To keep things simple, use normal BMI for al tests
-    set_player_bmi( dummy, 25.0f );
+    // To keep things simple, use normal BMI for all tests
+    set_player_bmi( dummy, 5.0f );
     REQUIRE( dummy.get_bmi() == Approx( 25.0f ).margin( 0.001f ) );
 
     // Tests cover:
@@ -639,79 +571,89 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         }
     }
 
-    SECTION( "small body size" ) {
-        set_single_trait( dummy, "SMALL" );
-        REQUIRE( dummy.get_size() == creature_size::small );
-
-        CHECK( 1051 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 4204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 10510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+    // Character's BMR should increase with body size for the same activity level
+    std::map<creature_size, avatar_ptr> dummies = create_dummies_of_all_sizes( 175 );
+    const std::vector<float> excercise_levels{ NO_EXERCISE, MODERATE_EXERCISE, EXTRA_EXERCISE };
+    for( float level : excercise_levels ) {
+        CHECK( bmr_at_act_level( *dummies[creature_size::tiny], level ) <
+               bmr_at_act_level( *dummies[creature_size::small], level ) );
+        CHECK( bmr_at_act_level( *dummies[creature_size::small], level ) <
+               bmr_at_act_level( *dummies[creature_size::medium], level ) );
+        CHECK( bmr_at_act_level( *dummies[creature_size::medium], level ) <
+               bmr_at_act_level( *dummies[creature_size::large], level ) );
+        CHECK( bmr_at_act_level( *dummies[creature_size::large ], level ) <
+               bmr_at_act_level( *dummies[creature_size::huge], level ) );
     }
 
-    SECTION( "large body size" ) {
-        set_single_trait( dummy, "LARGE" );
-        REQUIRE( dummy.get_size() == creature_size::large );
-
-        CHECK( 2551 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 10204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 25510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+    // Character's BMR should increase with activity level for the same body size
+    const std::vector<creature_size> sizes{ creature_size::tiny, creature_size::small, creature_size::medium, creature_size::large, creature_size::huge };
+    for( creature_size size : sizes ) {
+        CHECK( bmr_at_act_level( *dummies[size], NO_EXERCISE ) <
+               bmr_at_act_level( *dummies[size], LIGHT_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], LIGHT_EXERCISE ) <
+               bmr_at_act_level( *dummies[size], MODERATE_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], MODERATE_EXERCISE ) <
+               bmr_at_act_level( *dummies[size], BRISK_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], BRISK_EXERCISE ) <
+               bmr_at_act_level( *dummies[size], ACTIVE_EXERCISE ) );
+        CHECK( bmr_at_act_level( *dummies[size], ACTIVE_EXERCISE ) <
+               bmr_at_act_level( *dummies[size], EXTRA_EXERCISE ) );
     }
 }
 
-TEST_CASE( "body mass effect on speed", "[bmi][speed]" )
+TEST_CASE( "body_mass_effect_on_speed", "[bmi][speed]" )
 {
     avatar dummy;
 
     // Practically dead
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.1f ) == -90 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.0f ) == -87 );
-    // Skeletal (<14)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 8.0f ) == -67 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 9.0f ) == -64 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 10.0f ) == -61 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 11.0f ) == -59 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 12.0f ) == -56 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 13.0f ) == -53 );
-    // Emaciated (14)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 14.0f ) == -50 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 14.5f ) == -44 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 15.0f ) == -38 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 15.5f ) == -31 );
-    // Underweight (16)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 16.0f ) == -25 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 16.5f ) == -20 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 17.0f ) == -15 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 17.5f ) == -10 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 18.0f ) == -5 );
-    // Normal (18.5)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 18.5f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.1f ) == -86 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.2f ) == -82 );
+    // Skeletal (<1)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.4f ) == -74 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.5f ) == -70 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.6f ) == -66 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.7f ) == -62 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 0.9f ) == -54 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.0f ) == -50 );
+    // Emaciated (1-2)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.3f ) == -43 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.6f ) == -35 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 1.8f ) == -30 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.0f ) == -25 );
+    // Underweight (2-3.0)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.2f ) == -20 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.5f ) == -13 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 2.8f ) == -5 );
+    // Normal (3.0-5)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.1f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.4f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.5f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.7f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 3.9f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 4.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 4.2f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 4.4f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 4.6f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 4.8f ) == 0 );
+    // Overweight (5-10)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 5.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 6.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 7.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 9.0f ) == 0 );
+    // Obese (10-15)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 10.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 11.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 12.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 13.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 14.0f ) == 0 );
+    // Very obese (15-20)
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 15.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 16.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 17.0f ) == 0 );
+    CHECK( kcal_speed_penalty_at_bmi( dummy, 18.0f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 19.0f ) == 0 );
+    // Morbidly obese (20+)
     CHECK( kcal_speed_penalty_at_bmi( dummy, 20.0f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 21.0f ) == 0 );
     CHECK( kcal_speed_penalty_at_bmi( dummy, 22.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 23.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 24.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 25.0f ) == 0 );
-    // Overweight (25)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 26.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 27.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 28.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 29.0f ) == 0 );
-    // Obese (30)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 30.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 31.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 32.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 33.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 34.0f ) == 0 );
-    // Very obese (35)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 35.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 36.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 37.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 38.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 39.0f ) == 0 );
-    // Morbidly obese (40)
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 40.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 41.0f ) == 0 );
-    CHECK( kcal_speed_penalty_at_bmi( dummy, 42.0f ) == 0 );
 }
-

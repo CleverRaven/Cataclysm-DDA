@@ -1,0 +1,57 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "rubik_store_base",
+    "//": "Rubik's store in the exodii main base",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "T__c_",
+        "1__cc",
+        "L____",
+        "1111T",
+        "     "
+      ],
+      "place_npcs": [ { "class": "exodii_merchant", "x": 2, "y": 1 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "exodii", "x": [ 0, 0 ], "y": [ 1, 1 ] },
+        { "type": "LOOT_BIONICS", "faction": "exodii", "x": [ 0, 0 ], "y": [ 3, 3 ] },
+        { "type": "LOOT_ARMOR", "faction": "exodii", "x": [ 1, 1 ], "y": [ 3, 3 ] },
+        { "type": "LOOT_AMMO", "faction": "exodii", "x": [ 2, 2 ], "y": [ 3, 3 ] },
+        { "type": "LOOT_GUNS", "faction": "exodii", "x": [ 3, 3 ], "y": [ 3, 3 ] }
+      ],
+      "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
+      "monster": { "T": { "monster": "mon_exodii_turret" } },
+      "mapping": {
+        "1": { "terrain": "t_metal_floor", "furniture": "f_locker" },
+        "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
+        "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "luliya_base",
+    "//": "Luliya's area in the exodii main base",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "T_1__",
+        "1___c",
+        "L____",
+        "_____",
+        "_____"
+      ],
+      "place_npcs": [ { "class": "exodii_materials", "x": 2, "y": 1 } ],
+      "terrain": { "_": "t_metal_floor", "|": "t_junk_wall", "T": "t_metal_floor" },
+      "item": { "T": { "item": "broken_exodii_quad" } },
+      "mapping": {
+        "1": { "terrain": "t_metal_floor", "furniture": "f_locker" },
+        "c": { "terrain": "t_metal_floor", "furniture": "f_metal_table" },
+        "L": { "terrain": "t_metal_floor", "furniture": "f_exodii_lamp" }
+      }
+    }
+  }
+]

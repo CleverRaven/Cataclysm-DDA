@@ -3,40 +3,58 @@
     "id": "iv_mutagen_migo",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "mi-go serum",
-    "description": "A super-concentrated mutagen strongly resembling a lava lamp.  You need a syringe to inject it… if you really want to?",
-    "price": 1000000,
+    "name": { "str_sp": "mi-go mutagenic primer" },
+    "description": "A super-concentrated mutagen strongly resembling a lava lamp.",
+    "price": "10 kUSD",
     "color": "red",
     "healthy": -4,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "MIGO" }
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the mi-go mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_migo", 450, 550 ] ]
+    }
   },
   {
     "id": "mutagen_migo",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "mi-go mutagen",
-    "description": "An extremely rare mutagen cocktail, it smells of sulphur and glows orange.",
-    "price": 500000,
-    "use_action": { "type": "mutagen", "mutation_category": "MIGO" }
+    "name": { "str_sp": "mi-go mutagen" },
+    "description": "An extremely rare mutagen cocktail, it smells of sulfur and glows orange.",
+    "price": "5 kUSD",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the mi-go mutagen.",
+      "vitamins": [ [ "mutagen_migo", 175 ], [ "mutagen", 125 ] ]
+    }
   },
   {
     "id": "iv_mutagen_mastodon",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "mastodon serum" },
-    "description": "A super-concentrated mutagen not for those frightened of this thing they have become.  You need a syringe to inject it… if you really want to?",
-    "price": 1000000,
+    "name": { "str_sp": "mastodon mutagenic primer" },
+    "description": "A processed mutagenic primer not for those frightened of this thing they have become.",
+    "price": "10 kUSD",
     "color": "red",
     "healthy": -4,
-    "use_action": { "type": "mutagen_iv", "mutation_category": "MASTODON" }
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the mastodon mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_mastodon", 450, 550 ] ]
+    }
   },
   {
     "id": "mutagen_mastodon",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str": "mastodon mutagen" },
+    "name": { "str_sp": "mastodon mutagen" },
     "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
-    "price": 500000,
-    "use_action": { "type": "mutagen", "mutation_category": "MASTODON" }
+    "price": "5 kUSD",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the mastodon mutagen.",
+      "vitamins": [ [ "mutagen_mastodon", 175 ], [ "mutagen", 125 ] ]
+    }
   }
 ]

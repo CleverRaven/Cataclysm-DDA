@@ -20,7 +20,7 @@
     "id": "afs_energy_storage_3",
     "copy-from": "afs_scrap_3",
     "name": { "str": "ultracapacitor array" },
-    "description": "Ultracapacitors assembled into a finely tunned energy storage array.",
+    "description": "Ultracapacitors assembled into a finely tuned energy storage array.",
     "looks_like": "scrap"
   },
   {

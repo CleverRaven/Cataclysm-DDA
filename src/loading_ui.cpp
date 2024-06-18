@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "input.h"
 #include "color.h"
 #include "output.h"
 #include "translations.h"
@@ -11,11 +12,7 @@
 #include "ui_manager.h"
 
 #if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif // TILES
 
 loading_ui::loading_ui( bool display )
@@ -55,8 +52,8 @@ void loading_ui::init()
             menu->reposition( ui );
         } );
         menu->reposition( *ui );
-        ui->on_redraw( [this]( const ui_adaptor & ) {
-            menu->show();
+        ui->on_redraw( [this]( ui_adaptor & ui ) {
+            menu->show( ui );
         } );
     }
 }
@@ -86,8 +83,6 @@ void loading_ui::show()
     if( menu != nullptr ) {
         ui_manager::redraw();
         refresh_display();
-#if defined(TILES)
-        SDL_PumpEvents();
-#endif // TILES
+        inp_mngr.pump_events();
     }
 }

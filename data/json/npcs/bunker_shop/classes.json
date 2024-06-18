@@ -1,0 +1,29 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_BUNKER_MERCHANT",
+    "name": "Merchant",
+    "common": false,
+    "job_description": "I sell things to make a living.",
+    "bonus_str": { "rng": [ -1, 2 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ -1, 4 ] },
+    "bonus_per": { "rng": [ -1, 2 ] },
+    "shopkeeper_item_group": [ { "group": "NC_BUNKER_MERCHANT_misc", "rigid": true }, { "group": "NC_BUNKER_MERCHANT_sell", "rigid": true } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_RURAL" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 } ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 6 ] } }
+    ]
+  }
+]

@@ -1,10 +1,13 @@
 #include "crash.h"
 
+// IWYU pragma: no_include <sys/signal.h>
+
 #if defined(BACKTRACE)
 
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <exception>
 #include <initializer_list>
 #include <iostream>
@@ -12,12 +15,12 @@
 #include <string>
 #include <typeinfo>
 
+#if !(defined(WIN32) || defined(TILES) || defined(CYGWIN))
+#include <curses.h>
+#endif
+
 #if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif
 
 #if defined(_WIN32)
@@ -62,6 +65,13 @@ extern "C" {
 #endif
         const std::string crash_log_file = PATH_INFO::crash();
         std::ostringstream log_text;
+#if defined(__ANDROID__)
+        // At this point, Android JVM is already doomed
+        // No further UI interaction (including the SDL message box)
+        // Show a dialogue at next launch
+        log_text << "VERSION: " << getVersionString()
+                 << '\n' << type << ' ' << msg;
+#else
         log_text << "The program has crashed."
                  << "\nSee the log file for a stack trace."
                  << "\nCRASH LOG FILE: " << crash_log_file
@@ -71,17 +81,32 @@ extern "C" {
 #if defined(TILES)
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error",
                                       log_text.str().c_str(), nullptr ) != 0 ) {
-            log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
+            log_text << "\nError creating SDL message box: " << SDL_GetError();
         }
+#endif
 #endif
         log_text << "\nSTACK TRACE:\n";
         debug_write_backtrace( log_text );
         std::cerr << log_text.str();
         FILE *file = fopen( crash_log_file.c_str(), "w" );
         if( file ) {
-            fwrite( log_text.str().data(), 1, log_text.str().size(), file );
+            size_t written = fwrite( log_text.str().data(), 1, log_text.str().size(), file );
+            if( written < log_text.str().size() ) {
+                std::cerr << "Error: writing to log file failed: " << strerror( errno ) << "\n";
+            }
+            if( fclose( file ) ) {
+                std::cerr << "Error: closing log file failed: " << strerror( errno ) << "\n";
+            }
+        }
+#if defined(__ANDROID__)
+        // Create a placeholder dummy file "config/crash.log.prompt"
+        // to let the app show a dialog box at next start
+        file = fopen( ( crash_log_file + ".prompt" ).c_str(), "w" );
+        if( file ) {
+            fwrite( "0", 1, 1, file );
             fclose( file );
         }
+#endif
     }
 
     static void signal_handler( int sig )
@@ -90,7 +115,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        signal( sig, SIG_DFL );
+        static_cast<void>( signal( sig, SIG_DFL ) );
 #pragma GCC diagnostic pop
         const char *msg;
         switch( sig ) {
@@ -106,17 +131,27 @@ extern "C" {
             case SIGFPE:
                 msg = "SIGFPE: Arithmetical error";
                 break;
+#if defined(SIGBUS)
+            case SIGBUS:
+                msg = "SIGBUS: Bus error";
+                break;
+#endif
             default:
                 return;
         }
-        log_crash( "Signal", msg );
+#if !(defined(WIN32) || defined(TILES)) && !defined(CYGWIN)
+        endwin();
+#endif
+        if( !isDebuggerActive() ) {
+            log_crash( "Signal", msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        std::signal( SIGABRT, SIG_DFL );
+        static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
-        abort();
+        abort(); // NOLINT(cata-assert)
     }
 } // extern "C"
 
@@ -133,38 +168,52 @@ extern "C" {
             type = msg = "Unexpected termination";
         }
     } catch( const std::exception &e ) {
-        type = typeid( e ).name();
-        msg = e.what();
-        // call here to avoid `msg = e.what()` going out of scope
-        log_crash( type, msg );
+        if( !isDebuggerActive() ) {
+            type = typeid( e ).name();
+            msg = e.what();
+            // call here to avoid `msg = e.what()` going out of scope
+            log_crash( type, msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        std::signal( SIGABRT, SIG_DFL );
+        static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
-        abort();
+        abort(); // NOLINT(cata-assert)
     } catch( ... ) {
         type = "Unknown exception";
         msg = "Not derived from std::exception";
     }
-    log_crash( type, msg );
+    if( !isDebuggerActive() ) {
+        log_crash( type, msg );
+    }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-    std::signal( SIGABRT, SIG_DFL );
+    static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
-    abort();
+    abort(); // NOLINT(cata-assert)
 }
 
 void init_crash_handlers()
 {
+#if defined(__ANDROID__)
+    // Clean dummy file crash.log.prompt
+    remove( ( PATH_INFO::crash() + ".prompt" ).c_str() );
+#endif
     for( int sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
+#if defined(SIGBUS)
+             , SIGBUS
+#endif
          } ) {
 
-        std::signal( sig, signal_handler );
+        void ( *previous_handler )( int sig ) = std::signal( sig, signal_handler );
+        if( previous_handler == SIG_ERR ) {
+            std::cerr << "Failed to set signal handler for signal " << sig << "\n";
+        }
     }
     std::set_terminate( crash_terminate_handler );
 }

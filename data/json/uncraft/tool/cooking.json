@@ -1,0 +1,10 @@
+[
+  {
+    "result": "waffleiron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  }
+]

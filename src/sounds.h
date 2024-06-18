@@ -2,10 +2,12 @@
 #ifndef CATA_SRC_SOUNDS_H
 #define CATA_SRC_SOUNDS_H
 
-#include <string>
+#include <optional>
+#include <string> // IWYU pragma: keep
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
@@ -13,9 +15,7 @@ class Creature;
 class JsonObject;
 class item;
 class monster;
-class player;
 class translation;
-struct tripoint;
 template <typename E> struct enum_traits;
 
 namespace sounds
@@ -23,6 +23,7 @@ namespace sounds
 enum class sound_t : int {
     background = 0,
     weather,
+    sensory, // Sonar etc. Ensures this sound will usually get a visual marker so the player can see it.
     music,
     movement,
     speech,
@@ -33,7 +34,7 @@ enum class sound_t : int {
     combat, // any violent sounding activity
     alert, // louder than speech to get attention
     order,  // loudest to get attention
-    _LAST // must always be last
+    LAST // must always be last
 };
 
 // Methods for recording sound events.
@@ -52,14 +53,25 @@ enum class sound_t : int {
  * @param variant Variant of sound effect given in id
  * @returns true if the player could hear the sound.
  */
+// TODO: Get rid of untyped overload.
 void sound( const tripoint &p, int vol, sound_t category, const std::string &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const std::string &description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
+// TODO: Get rid of untyped overload.
 void sound( const tripoint &p, int vol, sound_t category, const translation &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const translation &description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
+// TODO: Get rid of untyped overload
 void ambient_sound( const tripoint &p, int vol, sound_t category, const std::string &description );
+void ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */
 void add_footstep( const tripoint &p, int volume, int distance, monster *source,
                    const std::string &footstep );
@@ -72,7 +84,7 @@ void reset_markers();
 // process_sounds() applies the sounds since the last turn to monster AI,
 void process_sounds();
 // process_sound_markers applies sound events to the player and records them for display.
-void process_sound_markers( player *p );
+void process_sound_markers( Character *you );
 
 // Return list of points that have sound events the player can hear.
 std::vector<tripoint> get_footstep_markers();
@@ -86,7 +98,7 @@ extern bool sound_enabled;
 
 template<>
 struct enum_traits<sounds::sound_t> {
-    static constexpr sounds::sound_t last = sounds::sound_t::_LAST;
+    static constexpr sounds::sound_t last = sounds::sound_t::LAST;
 };
 
 namespace sfx
@@ -102,6 +114,7 @@ enum class channel : int {
     outdoors_snow_env,
     outdoors_flurry_env,
     outdoors_thunderstorm_env,
+    outdoors_rainstorm_env,
     outdoors_rain_env,
     outdoors_drizzle_env,
     outdoor_blizzard,
@@ -119,6 +132,10 @@ enum class channel : int {
     exterior_engine_sound,
     interior_engine_sound,
     radio,
+    outdoors_portal_storm_env,
+    outdoors_clear_env,
+    outdoors_cloudy_env,
+    outdoors_sunny_env,
     MAX_CHANNEL                 //the last reserved channel
 };
 
@@ -127,7 +144,7 @@ enum class group : int {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    fatigue         //SFX related to fatigue
+    sleepiness         //SFX related to sleepiness
 };
 
 void load_sound_effects( const JsonObject &jsobj );
@@ -135,18 +152,33 @@ void load_sound_effect_preload( const JsonObject &jsobj );
 void load_playlist( const JsonObject &jsobj );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume,
                          units::angle angle, double pitch_min = -1.0, double pitch_max = -1.0 );
+void play_variant_sound( const std::string &id, const std::string &variant,
+                         const std::string &season, const std::optional<bool> &is_indoors,
+                         const std::optional<bool> &is_night, int volume, units::angle angle,
+                         double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
+void play_variant_sound( const std::string &id, const std::string &variant,
+                         const std::string &season, const std::optional<bool> &is_indoors,
+                         const std::optional<bool> &is_night, int volume );
 void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
+void play_ambient_variant_sound( const std::string &id, const std::string &variant,
+                                 const std::string &season, const std::optional<bool> &is_indoors,
+                                 const std::optional<bool> &is_night, int volume,
+                                 channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
+void play_activity_sound( const std::string &id, const std::string &variant,
+                          const std::string &season, int volume );
 void end_activity_sounds();
-void generate_gun_sound( const player &source_arg, const item &firing );
+void generate_gun_sound( const Character &source_arg, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
+// TODO: Get rid of untyped overload
 int get_heard_volume( const tripoint &source );
+int get_heard_volume( const tripoint_bub_ms &source );
 units::angle get_heard_angle( const tripoint &source );
 void do_footstep();
 void do_danger_music();
@@ -157,11 +189,14 @@ void fade_audio_group( group group, int duration );
 void fade_audio_channel( channel channel, int duration );
 bool is_channel_playing( channel channel );
 bool has_variant_sound( const std::string &id, const std::string &variant );
+bool has_variant_sound( const std::string &id, const std::string &variant,
+                        const std::string &season, const std::optional<bool> &is_indoors,
+                        const std::optional<bool> &is_night );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const Character &target, bool death );
-void do_fatigue();
+void do_sleepiness();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx

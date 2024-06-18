@@ -1,0 +1,68 @@
+[
+  {
+    "id": "prac_cutting_beg",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "cutting (beginner)",
+    "description": "Practice the use of the sword and similar weapons against a training dummy.  You will need something to mark the striking points while you train.",
+    "skill_used": "cutting",
+    "skills_required": [ [ "melee", 1 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "cutting", 1 ] ],
+    "book_learn": [ [ "mag_cutting", 0 ], [ "manual_cutting", 0 ] ],
+    "//": "Only training weapons or wooden versions of swords, a real katana would be too much to handle correctly at these levels.",
+    "tools": [
+      [ "bokken", "bokken_fake", "bokken_inferior", "sword_wood" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ],
+    "//1": "Some components to mark the striking points for the session.",
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ], [ "charcoal", 5 ] ] ]
+  },
+  {
+    "id": "prac_bashing_beg",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "bashing (beginner)",
+    "description": "Practice the use of batons and similar weapons against a training dummy.  You will need something to mark the striking points while you train.",
+    "skill_used": "bashing",
+    "skills_required": [ [ "melee", 1 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "bashing", 1 ] ],
+    "book_learn": [ [ "mag_bashing", 0 ], [ "manual_bashing", 0 ] ],
+    "//": "Only training weapons or light and easy to use weapons, a war hammer is a good weapon but you should not start your training with one.",
+    "tools": [
+      [ "cudgel", "q_staff", "bat", "baton-extended", "PR24-extended" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ],
+    "//1": "Some components to mark the striking points for the session.",
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ], [ "charcoal", 5 ] ] ]
+  },
+  {
+    "id": "prac_stabbing_beg",
+    "type": "practice",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MELEE",
+    "name": "stabbing (beginner)",
+    "description": "Practice the use of spears and similar stabbing weapons against a training dummy.  You will need something to mark the striking points while you train.",
+    "skill_used": "stabbing",
+    "skills_required": [ [ "melee", 1 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "stabbing", 1 ] ],
+    "book_learn": [ [ "mag_stabbing", 0 ], [ "manual_stabbing", 0 ] ],
+    "//": "Only training weapons or light and easy to use weapons.",
+    "tools": [
+      [ "spear_wood", "spear_knife_superior", "spear_stone", "spear_spike", "fencing_foil", "fencing_epee", "fencing_sabre" ],
+      [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ]
+    ],
+    "//1": "Some components to mark the striking points for the session.",
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ], [ "charcoal", 5 ] ] ]
+  }
+]

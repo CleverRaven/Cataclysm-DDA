@@ -4,14 +4,14 @@
 
 #include <map>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class read_only_visitable;
 class JsonObject;
+class read_only_visitable;
 
 enum class butcher_type : int;
 enum class creature_size : int;
@@ -26,16 +26,17 @@ class butchery_requirements
     public:
         bool was_loaded = false;
         string_id<butchery_requirements> id;
+        std::vector<std::pair<string_id<butchery_requirements>, mod_id>> src;
 
-        // tries to find the requirement with the highest speed bonus. if it fails it returns cata::nullopt
+        // tries to find the requirement with the highest speed bonus. if it fails it returns std::nullopt
         std::pair<float, requirement_id> get_fastest_requirements(
             const read_only_visitable &crafting_inv, creature_size size, butcher_type butcher ) const;
 
         static void load_butchery_req( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         static const std::vector<butchery_requirements> &get_all();
         static void check_consistency();
-        static void reset_all();
+        static void reset();
         bool is_valid() const;
     private:
         // int is speed bonus

@@ -1,0 +1,240 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_concrete_wall_door_lab_res_8_NW",
+    "name": "door",
+    "color": "light_gray",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "concrete_wall_o_lab_res_8_NW",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "concrete_wall_o_lab_res_8_NW",
+    "method": "json",
+    "object": { "place_terrain": [ { "ter": "t_thconc_r", "x": 11, "y": 15 }, { "ter": "t_thconc_r", "x": 11, "y": 16 } ] }
+  },
+  {
+    "type": "trap",
+    "id": "tr_concrete_wall_door_lab_res_8_NE",
+    "name": "door",
+    "color": "light_gray",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "concrete_wall_o_lab_res_8_NE",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "concrete_wall_o_lab_res_8_NE",
+    "method": "json",
+    "object": { "place_terrain": [ { "ter": "t_thconc_r", "x": 12, "y": 15 }, { "ter": "t_thconc_r", "x": 12, "y": 16 } ] }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_res_8_NW",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_res_8_NW",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_res_8_NW",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 9, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 9, "y": 11 },
+        { "ter": "t_thconc_floor_olight", "x": 9, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_res_8_NE",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_res_8_NE",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_res_8_NE",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 14, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 14, "y": 11 },
+        { "ter": "t_thconc_floor_olight", "x": 14, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_res_8_SW",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_res_8_SW",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_res_8_SW",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 9, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 9, "y": 11 },
+        { "ter": "t_thconc_floor_olight", "x": 20, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_res_8_SE",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_res_8_SE",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_res_8_SE",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 14, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 14, "y": 11 },
+        { "ter": "t_thconc_floor_olight", "x": 3, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0N_A",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0N_A",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0N_A",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 15 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 3 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0N_B",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0N_B",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0N_B",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 15 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0S_A",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0S_A",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0S_A",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 8 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 20 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0S_B",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0S_B",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0S_B",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 20 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 8 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 20 }
+      ]
+    }
+  }
+]

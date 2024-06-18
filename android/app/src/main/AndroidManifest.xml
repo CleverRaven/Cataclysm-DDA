@@ -3,7 +3,6 @@
      com.gamemaker.game
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cleverraven.cataclysmdda"
     android:versionCode="1"
     android:versionName="1.0"
     android:installLocation="auto">
@@ -44,6 +43,7 @@
                   android:keepScreenOn="true"
                   android:screenOrientation="userLandscape"
                   android:configChanges="keyboardHidden|keyboard|orientation|screenSize|navigation"
+                  android:exported="true"
                   >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

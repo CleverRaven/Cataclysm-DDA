@@ -1,0 +1,90 @@
+[
+  {
+    "type": "item_group",
+    "id": "museum_primitive",
+    "copy-from": "museum_primitive",
+    "extend": {
+      "items": [
+        { "item": "left_peg_leg_old", "prob": 10, "damage": [ 2, 4 ] },
+        { "item": "right_peg_leg_old", "prob": 10, "damage": [ 2, 4 ] },
+        { "item": "left_arm_prosthetic_wood_old", "prob": 10, "damage": [ 2, 4 ] },
+        { "item": "right_arm_prosthetic_wood_old", "prob": 10, "damage": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "museum_misc",
+    "copy-from": "museum_misc",
+    "extend": {
+      "items": [
+        { "item": "left_peg_leg_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "right_peg_leg_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "right_leg_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "left_leg_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "left_arm_prosthetic_wood_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "right_arm_prosthetic_wood_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "left_arm_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] },
+        { "item": "right_arm_prosthetic_steel_old", "prob": 15, "damage": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "map_extra_science_corpse",
+    "copy-from": "map_extra_science_corpse",
+    "subtype": "collection",
+    "extend": { "items": [ { "item": "left_leg_prosthetic", "prob": 2 }, { "item": "right_leg_prosthetic", "prob": 2 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_bed",
+    "copy-from": "hospital_bed",
+    "extend": { "items": [ [ "left_leg_prosthetic", 40 ], [ "right_leg_prosthetic", 40 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_medical_items",
+    "copy-from": "hospital_medical_items",
+    "extend": {
+      "items": [
+        { "item": "left_leg_prosthetic", "prob": 5 },
+        { "item": "right_leg_prosthetic", "prob": 5 },
+        { "item": "right_arm_prosthetic", "prob": 5 },
+        { "item": "right_arm_prosthetic", "prob": 5 },
+        { "item": "right_arm_neuroprosthetic", "prob": 2 },
+        { "item": "right_arm_neuroprosthetic", "prob": 2 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_lab",
+    "copy-from": "hospital_lab",
+    "extend": {
+      "items": [
+        { "item": "left_leg_prosthetic", "prob": 5 },
+        { "item": "right_leg_prosthetic", "prob": 5 },
+        { "item": "left_arm_prosthetic", "prob": 5 },
+        { "item": "right_arm_prosthetic", "prob": 5 },
+        { "item": "left_arm_neuroprosthetic", "prob": 2 },
+        { "item": "right_arm_neuroprosthetic", "prob": 2 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "mil_base_bed_hospital",
+    "copy-from": "mil_base_bed_hospital",
+    "extend": {
+      "items": [
+        { "item": "left_leg_prosthetic", "prob": 2 },
+        { "item": "right_leg_prosthetic", "prob": 2 },
+        { "item": "left_arm_prosthetic", "prob": 2 },
+        { "item": "right_arm_prosthetic", "prob": 2 },
+        { "item": "left_arm_neuroprosthetic", "prob": 1 },
+        { "item": "right_arm_neuroprosthetic", "prob": 1 }
+      ]
+    }
+  }
+]

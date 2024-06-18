@@ -1,0 +1,733 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_w_1",
+    "//": "Working Console, closed gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,||",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,5,||"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "computers": {
+        "5": {
+          "name": "West Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_w_2",
+    "//": "Broken Console, closed gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,||",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,,,..",
+        ",,,,%,||"
+      ],
+      "palettes": [ "arcology_exterior" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_w_3",
+    "//": "Broken Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,||",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,%,||"
+      ],
+      "palettes": [ "arcology_exterior" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_w_4",
+    "//": "Working Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,||",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,,,OO",
+        ",,,,5,||"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "computers": {
+        "5": {
+          "name": "West Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_w_5",
+    "//": "Broken Console, broke gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,||",
+        ",,,,,,.C",
+        ",,,,,,CW",
+        ",,,,,,W.",
+        ",,,,,,CP",
+        ",,,,,,W.",
+        ",,,,,,..",
+        ",,,,%,||"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_w_6",
+    "//": "Working Console, broken gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,||",
+        ",,,,,,.C",
+        ",,,,,,CW",
+        ",,,,,,W.",
+        ",,,,,,CP",
+        ",,,,,,W.",
+        ",,,,,,..",
+        ",,,,5,||"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "terrain": { "P": "t_broken_metal_floor", "C": "t_broken_metal_floor", "W": "t_broken_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" },
+      "computers": {
+        "5": {
+          "name": "West Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_s_1",
+    "//": "Working Console, closed gate",
+    "//2": "Go back and make interior consoles have their own 1x1 nested chunk for broken and working consoles.",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________",
+        "________",
+        "6_______",
+        "|......|",
+        "|......|",
+        ",,,,,,,5",
+        ",,,,,,,,",
+        ",,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "South Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_s_2",
+    "//": "Broken Console, closed gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________",
+        "________",
+        "6_______",
+        "|......|",
+        "|......|",
+        ",,,,,,,%",
+        ",,,,,,,,",
+        ",,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_s_3",
+    "//": "Broken Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________",
+        "________",
+        "6_______",
+        "|OOOOOO|",
+        "|OOOOOO|",
+        ",,,,,,,%",
+        ",,,,,,,,",
+        ",,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_s_4",
+    "//": "Working Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________",
+        "________",
+        "6_______",
+        "|OOOOOO|",
+        "|OOOOOO|",
+        ",,,,,,,5",
+        ",,,,,,,,",
+        ",,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "South Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_s_5",
+    "//": "Broken Console, broke gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________",
+        "________",
+        "6_______",
+        "|.CWCOO|",
+        "|COWPW.|",
+        ",,,,,,,%",
+        ",,,,,,,,",
+        ",,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" },
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_s_6",
+    "//": "Working Console, broken gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "________",
+        "________",
+        "6_______",
+        "|.CWCOO|",
+        "|COWPW.|",
+        ",,,,,,,5",
+        ",,,,,,,,",
+        ",,,,,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "computers": {
+        "5": {
+          "name": "South Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      },
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_broken_metal_floor", "C": "t_broken_metal_floor", "W": "t_broken_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_e_1",
+    "//": "Working Console, closed gate",
+    "//2": "Go back and make interior consoles have their own 1x1 nested chunk for broken and working consoles.",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__||,5,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "_6||,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "East Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_e_2",
+    "//": "Broken Console, closed gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__||,%,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "__..,,,,",
+        "_6||,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_e_3",
+    "//": "Broken Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__||,%,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "_6||,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_e_4",
+    "//": "Working Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__||,5,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "__OO,,,,",
+        "_6||,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "East Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_e_5",
+    "//": "Broken Console, broke gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__||,%,,",
+        "__..,,,,",
+        "__.W,,,,",
+        "__CW,,,,",
+        "__W.,,,,",
+        "__OP,,,,",
+        "__C.,,,,",
+        "_6||,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_e_6",
+    "//": "Working Console, broken gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "__||,5,,",
+        "__..,,,,",
+        "__.W,,,,",
+        "__CW,,,,",
+        "__W.,,,,",
+        "__OP,,,,",
+        "__C.,,,,",
+        "_6||,,,,"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_broken_metal_floor", "C": "t_broken_metal_floor", "W": "t_broken_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" },
+      "computers": {
+        "5": {
+          "name": "East Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_n_1",
+    "//": "Working Console, closed gate",
+    "//2": "Go back and make interior consoles have their own 1x1 nested chunk for broken and working consoles.",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,,,",
+        "5,,,,,,,",
+        ",,,,,,,,",
+        "|......|",
+        "|......|",
+        "_______6",
+        "________",
+        "________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "North Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_n_2",
+    "//": "Broken Console, closed gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,,,",
+        "%,,,,,,,",
+        ",,,,,,,,",
+        "|......|",
+        "|......|",
+        "_______6",
+        "________",
+        "________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_n_3",
+    "//": "Broken Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,,,",
+        "%,,,,,,,",
+        ",,,,,,,,",
+        "|OOOOOO|",
+        "|OOOOOO|",
+        "_______6",
+        "________",
+        "________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_n_4",
+    "//": "Working Console, open gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,,,",
+        "5,,,,,,,",
+        ",,,,,,,,",
+        "|OOOOOO|",
+        "|OOOOOO|",
+        "_______6",
+        "________",
+        "________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "computers": {
+        "5": {
+          "name": "North Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_n_5",
+    "//": "Broken Console, broke gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,,,",
+        "%,,,,,,,",
+        ",,,,,,,,",
+        "|.CWCOO|",
+        "|COWPW.|",
+        "_______6",
+        "________",
+        "________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_8x8_gate_n_6",
+    "//": "Working Console, broken gate",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ",,,,,,,,",
+        "5,,,,,,,",
+        ",,,,,,,,",
+        "|.CWCOO|",
+        "|COWPW.|",
+        "_______6",
+        "________",
+        "________"
+      ],
+      "palettes": [ "arcology_exterior" ],
+      "nested": { "6": { "chunks": [ [ "arcology_1x1_gate", 50 ], [ "arcology_1x1_gate_broken", 50 ] ] } },
+      "terrain": { "P": "t_broken_metal_floor", "C": "t_broken_metal_floor", "W": "t_broken_metal_floor" },
+      "items": {
+        "W": [ { "item": "collapsed_building_rubble", "chance": 80, "repeat": [ 1, 3 ] } ],
+        "C": [ { "item": "wreckage", "chance": 100, "repeat": [ 1, 2 ] } ]
+      },
+      "furniture": { "P": "f_ash" },
+      "computers": {
+        "5": {
+          "name": "North Entrance Gate Controls",
+          "security": 1,
+          "options": [
+            { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 },
+            { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_1x1_gate",
+    "//": "Working Console",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "5" ],
+      "palettes": [ "arcology_exterior" ],
+      "computers": {
+        "5": {
+          "name": "Interior Gate Controls",
+          "security": 1,
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 1 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "arcology_1x1_gate_broken",
+    "//": "Broken Console",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "%" ], "palettes": [ "arcology_exterior" ] }
+  }
+]

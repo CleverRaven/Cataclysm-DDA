@@ -1,0 +1,306 @@
+[
+  {
+    "result": "acidchitin_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "armor_acidchitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 4 ] ],
+    "time": "8 h 30 m",
+    "using": [ [ "cordage", 7 ] ],
+    "components": [ [ [ "acidchitin_piece", 84 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
+  },
+  {
+    "result": "chitin_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "armor_chitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "time": "8 h 30 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "using": [ [ "cordage", 7 ] ],
+    "components": [ [ [ "chitin_piece", 84 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
+  },
+  {
+    "result": "chainmail_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "lc_chainmail_vest",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "time": "6 h 30 m",
+    "reversible": true,
+    "using": [ [ "chainmail_standard", 7 ], [ "clasps", 4 ] ],
+    "components": [
+      [ [ "lc_link_sheet", 35 ] ],
+      [ [ "lc_chain_link", 917 ] ],
+      [ [ "lc_wire", 7 ] ],
+      [ [ "fur", 42 ], [ "tanned_pelt", 7 ], [ "leather", 42 ], [ "tanned_hide", 7 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_chain_armour" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "skill_penalty": 0.2 }
+    ]
+  },
+  {
+    "result": "kevlar_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "12 h 30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 190 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "cotton_patchwork", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "leather_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "4 h 30 m",
+    "byproducts": [ [ "leather", 21 ] ],
+    "using": [ [ "sewing_standard", 30 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "cotton_patchwork", 18 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" }
+    ]
+  },
+  {
+    "result": "leather_armor_elephant",
+    "type": "recipe",
+    "copy-from": "armor_blarmor",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "activity_level": "LIGHT_EXERCISE",
+    "skills_required": [ "tailor", 6 ],
+    "time": "10 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
+    "components": [
+      [ [ "water", 30 ], [ "water_clean", 30 ] ],
+      [
+        [ "wax", 6 ],
+        [ "tallow", 24 ],
+        [ "mutant_tallow", 24 ],
+        [ "human_tallow", 24 ],
+        [ "demihuman_tallow", 24 ],
+        [ "tallow_tainted", 24 ],
+        [ "vinegar", 30 ],
+        [ "pine_bough", 60 ]
+      ],
+      [ [ "salt", 150 ] ],
+      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ],
+      [ [ "cotton_patchwork", 18 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" }
+    ]
+  },
+  {
+    "result": "leatherbone_armor_elephant",
+    "type": "recipe",
+    "copy-from": "leather_armor_elephant",
+    "activity_level": "LIGHT_EXERCISE",
+    "difficulty": 4,
+    "time": "6 h 30 m",
+    "using": [ [ "sewing_standard", 75 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ], [ [ "armor_blarmor", 3 ] ] ],
+    "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
+  },
+  {
+    "result": "leatherbone_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "from_leatherarmor",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "6 h 30 m",
+    "autolearn": true,
+    "byproducts": [ [ "cotton_patchwork", 6 ] ],
+    "using": [ [ "sewing_standard", 35 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_elephant", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "leatherbone_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 6 ],
+    "time": "12 h 30 m",
+    "reversible": true,
+    "book_learn": [
+      [ "textbook_tailor", 4 ],
+      [ "tailor_portfolio", 5 ],
+      [ "textbook_survival", 3 ],
+      [ "trappers_companion", 3 ],
+      [ "survival_book", 3 ],
+      [ "textbook_armwest", 6 ],
+      [ "textbook_armschina", 6 ]
+    ],
+    "using": [ [ "sewing_standard", 225 ], [ "clasps", 4 ] ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 30 ], [ "water_clean", 30 ] ],
+      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
+      [ [ "salt", 150 ] ],
+      [ [ "bone_sturdy", 39, "LIST" ] ],
+      [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "rubber_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "clasps", 4 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "duct_tape", 175 ] ], [ [ "coat_rain", 7 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "rubber_armor_elephant",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "clasps", 4 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "cotton_patchwork", 70 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "sweater_armor_elephant",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "50 h",
+    "autolearn": true,
+    "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
+    "using": [ [ "tailoring_wool_knitting", 5000 ] ]
+  },
+  {
+    "result": "iron_armor_elephant",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "armor_plarmor",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skills_required": [ "tailor", 3 ],
+    "time": "24 h",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "using": [ [ "sewing_standard", 260 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_elephant", 1 ] ] ]
+  },
+  {
+    "result": "bronze_armor_elephant",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "cuirass_bronze",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skills_required": [ "fabrication", 5 ],
+    "time": "24 h",
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 120 ], [ "bronzesmithing_tools", 10 ] ],
+    "components": [ [ [ "scrap_bronze", 60 ] ], [ [ "leather_armor_elephant", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
+    "result": "steel_armor_elephant",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_ELEPHANT ARMOR",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "tailor", 4 ],
+    "time": "96 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1.1, "skill_penalty": 0.15 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  }
+]

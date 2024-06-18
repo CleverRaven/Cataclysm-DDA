@@ -1,0 +1,12 @@
+[
+  {
+    "name": "GROUP_EGG_AUK",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_auk_chick" } ]
+  },
+  {
+    "name": "GROUP_EGG_TITANIS_WALLERI",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_titanis_walleri_chick" } ]
+  }
+]

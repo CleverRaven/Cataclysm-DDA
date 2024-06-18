@@ -147,7 +147,7 @@
   {
     "type": "snippet",
     "category": "health_horrible",
-    "text": "Awareness seems to only come with a battle… and your body seem to be on its side."
+    "text": "Awareness seems to only come with a battle… and your body seems to be on its side."
   },
   {
     "type": "snippet",
@@ -182,11 +182,11 @@
   {
     "type": "snippet",
     "category": "empty_low_cal",
-    "text": "You've lost quite a bit of weight recently.  You might want to eat richer food."
+    "text": "You've lost quite a bit of weight recently.  You might want to eat more food."
   },
   {
     "type": "snippet",
     "category": "low_cal",
-    "text": "You feel that you need to eat more calorie-dense food."
+    "text": "You feel that you need to consume more calories."
   }
 ]

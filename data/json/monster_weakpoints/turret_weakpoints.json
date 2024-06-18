@@ -1,0 +1,122 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_turret",
+    "//": "Low coverage values reflect the player being jumpy and trying to avoid standing still.",
+    "weakpoints": [
+      {
+        "id": "main_motor",
+        "name": "the main motor",
+        "coverage": 15,
+        "difficulty": { "melee": 4, "ranged": 6 },
+        "coverage_mult": { "bash": 0.5 },
+        "armor_mult": { "stab": 0.5, "cut": 1.1 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "chance": 35,
+            "duration": [ 2, 3 ],
+            "message": "The %s's motor starts to jam up!",
+            "damage_required": [ 5, 20 ]
+          },
+          {
+            "effect": "stunned",
+            "chance": 55,
+            "permanent": true,
+            "message": "The %s's motor grinds to a halt!",
+            "damage_required": [ 21, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "camera",
+        "name": "the camera",
+        "coverage": 5,
+        "difficulty": { "broad": 6, "point": 7 },
+        "effects": [
+          { "effect": "blind", "chance": 40, "message": "The %s's camera is lightly scratched!", "damage_required": [ 1, 5 ] },
+          {
+            "effect": "blind",
+            "duration": [ 3, 4 ],
+            "chance": 70,
+            "message": "The %s's camera is cracked!",
+            "damage_required": [ 6, 25 ]
+          },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 90,
+            "message": "The %s's camera lens shatters into pieces!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "turret_gun",
+        "name": "the weapon",
+        "coverage": 20,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "armor_mult": { "bash": 0.5, "stab": 0.5, "cut": 0.75 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "chance": 50,
+            "message": "The %s struggles to clear its jammed weapon!",
+            "damage_required": [ 15, 30 ]
+          },
+          {
+            "effect": "stunned",
+            "chance": 55,
+            "permanent": true,
+            "message": "A round gets stuck in the %s's misshapen barrel, disabling the weapon!",
+            "damage_required": [ 31, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "turret_shaft",
+        "name": "the shaft",
+        "coverage": 30,
+        "difficulty": { "melee": 1, "ranged": 6 },
+        "armor_mult": { "bash": 0.75, "stab": 1.5 }
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_searchlight",
+    "//": "Coverage is higher because searchlights are not very threatening.",
+    "weakpoints": [
+      {
+        "id": "camera",
+        "name": "the camera",
+        "coverage": 10,
+        "difficulty": { "broad": 6, "point": 7 },
+        "effects": [
+          { "effect": "blind", "chance": 40, "message": "The %s's camera is lightly scratched!", "damage_required": [ 1, 5 ] },
+          {
+            "effect": "blind",
+            "duration": [ 3, 4 ],
+            "chance": 70,
+            "message": "The %s's camera is cracked!",
+            "damage_required": [ 6, 25 ]
+          },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 90,
+            "message": "The %s's camera lens shatters into pieces!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "id": "spotlight",
+        "name": "the spotlight",
+        "coverage": 25,
+        "difficulty": { "broad": 3, "point": 4 },
+        "armor_mult": { "all": 0.5 }
+      }
+    ]
+  }
+]

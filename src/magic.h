@@ -2,35 +2,37 @@
 #ifndef CATA_SRC_MAGIC_H
 #define CATA_SRC_MAGIC_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <memory>
+#include <new>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "damage.h"
+#include "dialogue_helpers.h"
 #include "enum_bitset.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "point.h"
 #include "sounds.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
+
+struct dealt_projectile_attack;
 struct requirement_data;
 
 namespace spell_effect
@@ -46,6 +48,8 @@ template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
+    PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
@@ -54,11 +58,13 @@ enum class spell_flag : int {
     POLYMORPH_GROUP, // polymorph spell chooses a monster from a group
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
+    NO_EXPLOSION_SFX, // spell has no visual explosion
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
     NO_HANDS, // hands do not affect spell energy cost
     UNSAFE_TELEPORT, // teleport spell risks killing the caster or others
+    TARGET_TELEPORT, // aoe is teleport variance from target
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
@@ -68,11 +74,17 @@ enum class spell_flag : int {
     RANDOM_CRITTER, // same as RANDOM_TARGET but ignores ground
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
+    EXTRA_EFFECTS_FIRST, // the extra effects are cast before the main spell.
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
-    WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
+    MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
+    SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
+    NO_CORPSE_QUIET, // allow summoned monsters to vanish/leave without leaving a corpse
+    NON_MAGICAL, // ignores spell resistance
+    PSIONIC, // psychic powers instead of traditional magic
+    RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
     LAST
 };
 
@@ -81,7 +93,6 @@ enum class magic_energy_type : int {
     mana,
     stamina,
     bionic,
-    fatigue,
     none,
     last
 };
@@ -130,10 +141,10 @@ struct enum_traits<spell_flag> {
 struct fake_spell {
     spell_id id;
 
-    static const cata::optional<int> max_level_default;
+    static const std::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
-    cata::optional<int> max_level;
+    std::optional<int> max_level;
 
     static const int level_default;
     // level for things that need it
@@ -147,13 +158,13 @@ struct fake_spell {
     // a chance to trigger the enchantment spells
     int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
-    translation trigger_message;
+    translation trigger_message; // NOLINT(cata-serialize)
     // a message when the enchantment is triggered and is on npc
-    translation npc_trigger_message;
+    translation npc_trigger_message; // NOLINT(cata-serialize)
 
     fake_spell() = default;
-    fake_spell( const spell_id &sp_id, bool hit_self = false,
-                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+    explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
+                         const std::optional<int> &max_level = std::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
     bool operator==( const fake_spell &rhs ) const {
@@ -167,16 +178,19 @@ struct fake_spell {
     }
 
     // gets the spell with an additional override for minimum level (default 0)
-    spell get_spell( int min_level_override = 0 ) const;
+    spell get_spell( const Creature &caster, int min_level_override = 0 ) const;
+    spell get_spell() const;
 
+    bool is_valid() const;
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 class spell_events : public event_subscriber
 {
     public:
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
 };
 
@@ -189,6 +203,9 @@ class spell_type
         bool was_loaded = false;
 
         spell_id id;
+        // NOLINTNEXTLINE(cata-serialize)
+        std::vector<std::pair<spell_id, mod_id>> src;
+        mod_id src_mod;
         // spell name
         translation name;
         // spell description
@@ -201,15 +218,18 @@ class spell_type
 
         requirement_id spell_components;
 
-        sounds::sound_t sound_type = sounds::sound_t::_LAST;
+        sounds::sound_t sound_type = sounds::sound_t::LAST;
         bool sound_ambient = false;
         std::string sound_id;
         std::string sound_variant;
         // spell effect string. used to look up spell function
         std::string effect_name;
+        bool teachable;
+        // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
         std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
-                                          const tripoint &source, const tripoint &target )> spell_area_function;
+                                          const tripoint &source, const tripoint &target )>
+        spell_area_function; // NOLINT(cata-serialize)
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
@@ -218,92 +238,100 @@ class spell_type
         std::vector<fake_spell> additional_spells;
 
         // if the spell has a field name defined, this is where it is
-        cata::optional<field_type_id> field = cata::nullopt;
+        std::optional<field_type_id> field = std::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
-        int field_chance = 0;
+        dbl_or_var field_chance;
         // field intensity at spell level 0
-        int min_field_intensity = 0;
+        dbl_or_var min_field_intensity;
         // increment of field intensity per level
-        float field_intensity_increment = 0.0f;
+        dbl_or_var field_intensity_increment;
         // maximum field intensity allowed
-        int max_field_intensity = 0;
+        dbl_or_var max_field_intensity;
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
-        float field_intensity_variance = 0.0f;
+        dbl_or_var field_intensity_variance;
+
+        // accuracy is a bonus against dodge, block, and spellcraft
+        // which allows the target to mitigate up to 33% damage for each type of resistance
+        // this could theoretically add up to 100%
+
+        dbl_or_var min_accuracy;
+        dbl_or_var accuracy_increment;
+        dbl_or_var max_accuracy;
 
         // minimum damage this spell can cause
-        int min_damage = 0;
+        dbl_or_var min_damage;
         // amount of damage increase per spell level
-        float damage_increment = 0.0f;
+        dbl_or_var damage_increment;
         // maximum damage this spell can cause
-        int max_damage = 0;
+        dbl_or_var max_damage;
 
         // minimum range of a spell
-        int min_range = 0;
+        dbl_or_var min_range;
         // amount of range increase per spell level
-        float range_increment = 0.0f;
+        dbl_or_var range_increment;
         // max range this spell can achieve
-        int max_range = 0;
+        dbl_or_var max_range;
 
         // minimum area of effect of a spell (radius)
         // 0 means the spell only affects the target
-        int min_aoe = 0;
+        dbl_or_var min_aoe;
         // amount of area of effect increase per spell level (radius)
-        float aoe_increment = 0.0f;
+        dbl_or_var aoe_increment;
         // max area of effect of a spell (radius)
-        int max_aoe = 0;
+        dbl_or_var max_aoe;
 
         // damage over time deals damage per turn
 
         // minimum damage over time
-        int min_dot = 0;
+        dbl_or_var min_dot;
         // increment per spell level
-        float dot_increment = 0.0f;
+        dbl_or_var dot_increment;
         // max damage over time
-        int max_dot = 0;
+        dbl_or_var max_dot;
 
         // amount of time effect lasts
 
         // minimum time for effect in moves
-        int min_duration = 0;
+        dbl_or_var min_duration;
         // increment per spell level in moves
         // DoT is per turn, but increments can be smaller
-        int duration_increment = 0;
+        dbl_or_var duration_increment;
         // max time for effect in moves
-        int max_duration = 0;
+        dbl_or_var max_duration;
 
         // amount of damage that is piercing damage
         // not added to damage stat
 
         // minimum pierce damage
-        int min_pierce = 0;
+        dbl_or_var min_pierce;
         // increment of pierce damage per spell level
-        float pierce_increment = 0.0f;
+        dbl_or_var pierce_increment;
         // max pierce damage
-        int max_pierce = 0;
+        dbl_or_var max_pierce;
 
         // base energy cost of spell
-        int base_energy_cost = 0;
+        dbl_or_var base_energy_cost;
         // increment of energy cost per spell level
-        float energy_increment = 0.0f;
+        dbl_or_var energy_increment;
         // max or min energy cost, based on sign of energy_increment
-        int final_energy_cost = 0.0f;
+        dbl_or_var final_energy_cost;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;
 
         // the difficulty of casting a spell
-        int difficulty = 0;
+        dbl_or_var difficulty;
 
         // max level this spell can achieve
-        int max_level = 0;
+        dbl_or_var max_level;
 
         // base amount of time to cast the spell in moves
-        int base_casting_time = 0;
+        dbl_or_var base_casting_time;
         // increment of casting time per level
-        float casting_time_increment = 0.0f;
+        dbl_or_var casting_time_increment;
         // max or min casting time
-        int final_casting_time = 0;
+        dbl_or_var final_casting_time;
 
         // Does leveling this spell lead to learning another spell?
         std::map<std::string, int> learn_spells;
@@ -311,20 +339,27 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::NONE;
+        damage_type_id dmg_type = damage_type_id::NULL_ID();
 
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
 
         std::set<mtype_id> targeted_monster_ids;
 
-        // lits of bodyparts this spell applies its effect to
+        std::set<species_id> targeted_species_ids;
+
+        std::set<species_id> ignored_species_ids;
+
+        // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
-        enum_bitset<spell_flag> spell_tags;
+        std::set<std::string> flags; // string flags
+
+        // bitfield of -certain- string flags which are heavily checked
+        enum_bitset<spell_flag> spell_tags; // NOLINT(cata-serialize)
 
         static void load_spell( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view src );
         void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
@@ -345,12 +380,15 @@ class spell_type
         static const std::string sound_id_default;
         static const std::string sound_variant_default;
         static const std::string effect_str_default;
-        static const cata::optional<field_type_id> field_default;
+        static const std::optional<field_type_id> field_default;
         static const int field_chance_default;
         static const int min_field_intensity_default;
         static const int max_field_intensity_default;
         static const float field_intensity_increment_default;
         static const float field_intensity_variance_default;
+        static const int min_accuracy_default;
+        static const float accuracy_increment_default;
+        static const int max_accuracy_default;
         static const int min_damage_default;
         static const float damage_increment_default;
         static const int max_damage_default;
@@ -373,7 +411,7 @@ class spell_type
         static const float energy_increment_default;
         static const trait_id spell_class_default;
         static const magic_energy_type energy_source_default;
-        static const damage_type dmg_type_default;
+        static const damage_type_id dmg_type_default;
         static const int difficulty_default;
         static const int max_level_default;
         static const int base_casting_time_default;
@@ -390,26 +428,41 @@ class spell
         // once you accumulate enough exp you level the spell
         int experience = 0;
         // returns damage type for the spell
-        damage_type dmg_type() const;
+        const damage_type_id &dmg_type() const;
+
+        // Temporary adjustments caused by EoC's
+        int temp_level_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_cast_time_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_spell_cost_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_aoe_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_range_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_duration_multiplyer = 1; // NOLINT(cata-serialize)
+        int temp_difficulty_adjustment = 0; // NOLINT(cata-serialize)
+        float temp_somatic_difficulty_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_sound_multiplyer = 1; // NOLINT(cata-serialize)
+        float temp_concentration_difficulty_multiplyer = 1; // NOLINT(cata-serialize)
+
 
         // alternative cast message
         translation alt_message;
 
         // minimum damage including levels
-        int min_leveled_damage() const;
-        int min_leveled_dot() const;
+        int min_leveled_damage( const Creature &caster ) const;
+        int min_leveled_dot( const Creature &caster ) const;
         // minimum aoe including levels
-        int min_leveled_aoe() const;
+        int min_leveled_aoe( const Creature &caster ) const;
         // minimum duration including levels (moves)
-        int min_leveled_duration() const;
+        int min_leveled_duration( const Creature &caster ) const;
+        int min_leveled_accuracy( const Creature &caster ) const;
 
     public:
         spell() = default;
-        spell( spell_id sp, int xp = 0 );
+        explicit spell( spell_id sp, int xp = 0, int level_adjustment = 0 );
 
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
 
+        static int exp_for_level( int level );
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent
@@ -417,43 +470,62 @@ class spell
         // how much xp you have total
         int xp() const;
         // gain some exp
-        void gain_exp( int nxp );
+        void gain_exp( const Character &guy, int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
         int casting_exp( const Character &guy ) const;
         // modifier for gaining exp
         float exp_modifier( const Character &guy ) const;
         // level up!
-        void gain_level();
+        void gain_level( const Character &guy );
         // gains a number of levels, or until max. 0 or less just returns early.
-        void gain_levels( int gains );
-        void set_level( int nlevel );
+        void gain_levels( const Character &guy, int gains );
+        void set_level( const Character &guy, int nlevel );
         // is the spell at max level?
-        bool is_max_level() const;
+        bool is_max_level( const Creature &caster ) const;
         // what is the max level of the spell
-        int get_max_level() const;
+        int get_max_level( const Creature &caster ) const;
+        int get_temp_level_adjustment() const;
+        void set_temp_level_adjustment( int adjustment );
+        void set_temp_adjustment( const std::string &target_property, float adjustment );
+        void clear_temp_adjustments();
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
-        int field_intensity() const;
+        int field_intensity( const Creature &caster ) const;
         // how much damage does the spell do
-        int damage() const;
-        int damage_dot() const;
-        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
-        dealt_damage_instance get_dealt_damage_instance() const;
-        damage_instance get_damage_instance() const;
+        int damage( const Creature &caster ) const;
+        int accuracy( Creature &caster ) const;
+        int damage_dot( const Creature &caster ) const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps,
+                                                const Creature &caster ) const;
+        dealt_damage_instance get_dealt_damage_instance( Creature &caster ) const;
+        dealt_projectile_attack get_projectile_attack( const tripoint &target,
+                Creature &hit_critter, Creature &caster ) const;
+        damage_instance get_damage_instance( Creature &caster ) const;
+        // calculate damage per second against a target
+        float dps( const Character &caster, const Creature &target ) const;
+        // select a target for the spell
+        std::optional<tripoint> select_target( Creature *source );
         // how big is the spell's radius
-        int aoe() const;
+        int aoe( const Creature &caster ) const;
         std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
                                         const tripoint &source, const tripoint &target ) const;
-        std::set<tripoint> effect_area( const tripoint &source, const tripoint &target ) const;
+        std::set<tripoint> effect_area( const tripoint &source, const tripoint &target,
+                                        const Creature &caster ) const;
         // distance spell can be cast
-        int range() const;
+        int range( const Creature &caster ) const;
+        /**
+         *  all of the tripoints the spell can be cast at.
+         *  if the spell can't be cast through walls, does not return anything behind walls
+         *  if the spell can't target the ground, can't target unseen locations, etc.
+         */
+        std::vector<tripoint> targetable_locations( const Character &source ) const;
         // how much energy does the spell cost
         int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
-        int duration() const;
-        time_duration duration_turns() const;
+        int duration( const Creature &caster ) const;
+        time_duration duration_turns( const Creature &caster ) const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
         float spell_fail( const Character &guy ) const;
@@ -464,7 +536,7 @@ class spell
         const requirement_data &components() const;
         bool has_components() const;
         // can the Character cast this spell?
-        bool can_cast( Character &guy ) const;
+        bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // is this spell valid
@@ -473,10 +545,16 @@ class spell
         bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
+        bool has_flag( const std::string &flag ) const;
+        bool no_hands() const;
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
-        bool in_aoe( const tripoint &source, const tripoint &target ) const;
+        bool in_aoe( const tripoint &source, const tripoint &target, const Creature &caster ) const;
+
+        bool casting_time_encumbered( const Character &guy ) const;
+        bool energy_cost_encumbered( const Character &guy ) const;
+        std::string enumerate_spell_data( const Character &guy ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -507,10 +585,14 @@ class spell
         // returns the name string of all list of all targeted monster id
         //if targeted_monster_ids is empty, it returns an empty string
         std::string list_targeted_monster_names() const;
+        //if targeted_species_ids is empty, it returns an empty string
+        std::string list_targeted_species_names() const;
+        //if ignored_species_ids is empty, it returns an empty string
+        std::string list_ignored_species_names() const;
 
-        std::string damage_string() const;
-        std::string aoe_string() const;
-        std::string duration_string() const;
+        std::string damage_string( const Character &caster ) const;
+        std::string aoe_string( const Creature &caster ) const;
+        std::string duration_string( const Creature &caster ) const;
 
         // magic energy source enum
         magic_energy_type energy_source() const;
@@ -519,24 +601,32 @@ class spell
         std::string damage_type_string() const;
         // your level in this spell
         int get_level() const;
+        // your level in this spell adjusted by context
+        int get_effective_level() const;
         // difficulty of the level
-        int get_difficulty() const;
+        int get_difficulty( const Creature &caster ) const;
+        mod_id get_src() const;
 
         // tries to create a field at the location specified
-        void create_field( const tripoint &at ) const;
+        void create_field( const tripoint &at, Creature &caster ) const;
 
+        int sound_volume( const Creature &caster ) const;
         // makes a spell sound at the location
-        void make_sound( const tripoint &target ) const;
+        void make_sound( const tripoint &target, Creature &caster ) const;
         void make_sound( const tripoint &target, int loudness ) const;
         // heals the critter at the location, returns amount healed (Character heals each body part)
-        int heal( const tripoint &target ) const;
+        int heal( const tripoint &target, Creature &caster ) const;
 
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        void cast_extra_spell_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
         void use_components( Character &guy ) const;
+        // checks if the spell's component is in the @guy's hand
+        bool check_if_component_in_hand( Character &guy ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
@@ -544,9 +634,11 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
+        bool target_by_species_id( const tripoint &p ) const;
+        bool ignore_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        cata::optional<tripoint> random_valid_target( const Creature &caster,
+        std::optional<tripoint> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
 };
 
@@ -557,13 +649,16 @@ class known_magic
         std::map<spell_id, spell> spellbook;
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
+        // list of favorite spells
+        std::unordered_set<spell_id> favorites;
         // the base mana a Character would start with
-        int mana_base = 0;
+        int mana_base = 0; // NOLINT(cata-serialize)
         // current mana
         int mana = 0;
+
     public:
         // ignores all distractions when casting a spell when true
-        bool casting_ignore = false;
+        bool casting_ignore = false; // NOLINT(cata-serialize)
 
         known_magic();
 
@@ -572,6 +667,8 @@ class known_magic
         void learn_spell( const spell_type *sp, Character &guy, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
+        void set_spell_level( const spell_id &, int, const Character * );
+        void set_spell_exp( const spell_id &, int, const Character * );
         // time in moves for the Character to memorize the spell
         int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
         int time_to_learn_spell( const Character &guy, const std::string &str ) const;
@@ -589,26 +686,42 @@ class known_magic
         int select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
+        // directly get the character known spells
+        std::map<spell_id, spell> &get_spellbook() {
+            return spellbook;
+        }
         // how much mana is available to use to cast spells
         int available_mana() const;
-        // max mana vailable
+        // max mana available
         int max_mana( const Character &guy ) const;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );
         void update_mana( const Character &guy, float turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const Character &guy, spell &sp ) const;
+        bool has_enough_energy( const Character &guy, const spell &sp ) const;
+        // Clears old data written by EoC triggered by the events player_opens_spellbook or npc_opens_spellbook
+        void clear_opens_spellbook_data();
+        // uses data received from EoC
+        void evaluate_opens_spellbook_data();
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
 
+        // data written by EoC
+        double caster_level_adjustment; // NOLINT(cata-serialize)
+        std::map<spell_id, double> caster_level_adjustment_by_spell; // NOLINT(cata-serialize)
+        std::map<trait_id, double> caster_level_adjustment_by_school; // NOLINT(cata-serialize)
+
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         // returns false if invlet is already used
         bool set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets );
         void rem_invlet( const spell_id &sp );
+
+        void toggle_favorite( const spell_id &sp );
+        bool is_favorite( const spell_id &sp );
     private:
         // gets length of longest spell name
         int get_spellname_max_width();
@@ -627,14 +740,14 @@ struct override_parameters {
     int range;
     bool ignore_walls;
 
-    override_parameters( const spell &sp ) {
-        aoe_radius = sp.aoe();
-        range = sp.range();
+    explicit override_parameters( const spell &sp, const Creature &caster ) {
+        aoe_radius = sp.aoe( caster );
+        range = sp.range( caster );
         ignore_walls = sp.has_flag( spell_flag::IGNORE_WALLS );
     }
 };
 
-void teleport_random( const spell &sp, Creature &caster, const tripoint & );
+void short_range_teleport( const spell &sp, Creature &caster, const tripoint &target );
 void pain_split( const spell &, Creature &, const tripoint & );
 void attack( const spell &sp, Creature &caster,
              const tripoint &epicenter );
@@ -655,13 +768,16 @@ void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void spawn_summoned_vehicle( const spell &sp, Creature &caster, const tripoint &target );
+void recharge_vehicle( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 // adds a timed event to the caster only
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
-void explosion( const spell &sp, Creature &, const tripoint &target );
+// intended to be a spell version of Character::longpull
+void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
+void explosion( const spell &sp, Creature &caster, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map( const spell &sp, Creature &caster, const tripoint & );
@@ -671,26 +787,42 @@ void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
 void dash( const spell &sp, Creature &caster, const tripoint &target );
 void banishment( const spell &sp, Creature &caster, const tripoint &target );
+// revives a monster into some kind of zombie if the monster has the revives flag
+void revive( const spell &sp, Creature &caster, const tripoint &target );
+// revives a dormant monster if it has the revives and the dormant flag
+void revive_dormant( const spell &sp, Creature &caster, const tripoint &target );
+void add_trap( const spell &sp, Creature &caster, const tripoint &target );
+void upgrade( const spell &sp, Creature &caster, const tripoint &target );
+// causes guilt to the target as if it killed the caster
+void guilt( const spell &sp, Creature &caster, const tripoint &target );
+void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
+void emit( const spell &sp, Creature &caster, const tripoint &target );
+void fungalize( const spell &sp, Creature &caster, const tripoint &target );
+void remove_field( const spell &sp, Creature &caster, const tripoint &center );
+void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
+void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
-static const std::map<spell_shape, std::function<std::set<tripoint>
+inline const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
     { spell_shape::blast, spell_effect_blast },
     { spell_shape::line, spell_effect_line },
     { spell_shape::cone, spell_effect_cone }
 };
 
-static const
+inline const
 std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
 effect_map{
     { "pain_split", spell_effect::pain_split },
     { "attack", spell_effect::attack },
+    { "add_trap", spell_effect::add_trap},
     { "targeted_polymorph", spell_effect::targeted_polymorph },
-    { "teleport_random", spell_effect::teleport_random },
+    { "short_range_teleport", spell_effect::short_range_teleport },
     { "spawn_item", spell_effect::spawn_ethereal_item },
     { "recover_energy", spell_effect::recover_energy },
     { "summon", spell_effect::spawn_summoned_monster },
     { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
+    { "recharge_vehicle", spell_effect::recharge_vehicle },
     { "translocate", spell_effect::translocate },
     { "area_pull", spell_effect::area_pull },
     { "area_push", spell_effect::area_push },
@@ -699,6 +831,7 @@ effect_map{
     { "ter_transform", spell_effect::transform_blast },
     { "noise", spell_effect::noise },
     { "vomit", spell_effect::vomit },
+    { "pull_target", spell_effect::pull_to_caster },
     { "explosion", spell_effect::explosion },
     { "flashbang", spell_effect::flashbang },
     { "mod_moves", spell_effect::mod_moves },
@@ -709,6 +842,16 @@ effect_map{
     { "bash", spell_effect::bash },
     { "dash", spell_effect::dash },
     { "banishment", spell_effect::banishment },
+    { "revive", spell_effect::revive },
+    { "revive_dormant", spell_effect::revive_dormant },
+    { "upgrade", spell_effect::upgrade },
+    { "guilt", spell_effect::guilt },
+    { "remove_effect", spell_effect::remove_effect },
+    { "emit", spell_effect::emit },
+    { "fungalize", spell_effect::fungalize },
+    { "remove_field", spell_effect::remove_field },
+    { "effect_on_condition", spell_effect::effect_on_condition },
+    { "slime_split", spell_effect::slime_split_on_death },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect
@@ -746,7 +889,7 @@ struct area_expander {
     std::map<tripoint, int> area_search;
 
     struct area_node_comparator {
-        area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
+        explicit area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
         }
 
         bool operator()( int a, int b ) const {

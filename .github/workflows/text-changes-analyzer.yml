@@ -1,0 +1,86 @@
+name: Text Changes Analyzer
+
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/text-changes-analyzer.yml'
+      - 'tools/pot_diff.py'
+      - 'lang/extract_json_strings.py'
+      - 'lang/string_extractor/**'
+      - 'src/*.h'
+      - 'src/*.cpp'
+      - '**.json'
+
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-text-changes:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install python3-pip gettext
+          sudo pip3 install polib pyspellchecker regex
+      - name: "Checkout test merge commit"
+        uses: actions/checkout@v4
+      - name: "Compute base commit and test merge commit"
+        id: get-commit-hash
+        run: |
+          echo "test_merge_commit=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "head_commit=$(git log -1 --format='%B' | grep -o -E -e 'Merge\s([0-9a-f]{40})\sinto' | grep -o -E -e '[0-9a-f]{40}')" >> $GITHUB_OUTPUT
+          echo "base_commit=$(git log -1 --format='%B' | grep -o -E -e 'into\s([0-9a-f]{40})$' | grep -o -E -e '[0-9a-f]{40}')" >> $GITHUB_OUTPUT
+      - name: "Generate translation template on test merge commit"
+        run: |
+          rm -f lang/po/cataclysm-dda.pot
+          ./lang/update_pot.sh
+          cp lang/po/cataclysm-dda.pot ~/merge.pot
+      - name: "Checkout base commit"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-commit-hash.outputs.base_commit }}
+      - name: "Generate translation template on base commit"
+        run: |
+          rm -f lang/po/cataclysm-dda.pot
+          ./lang/update_pot.sh
+          cp lang/po/cataclysm-dda.pot ~/base.pot
+      - name: "Checkout test merge commit"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-commit-hash.outputs.test_merge_commit }}
+      - name: "List text changes"
+        run: |
+          python3 ./tools/pot_diff.py ~/base.pot ~/merge.pot
+      - name: "Write text changes"
+        run: |
+          python3 ./tools/pot_diff.py ~/base.pot ~/merge.pot -j ~/pot_diff.json
+      - name: "Run spell checker unit tests"
+        run: |
+          python3 ./tools/spell_check_unit_test.py
+      - name: "Spell check on text changes"
+        run: |
+          python3 ./tools/spell_check_pr.py -i ~/pot_diff.json > spell_check_output
+      - name: "Get length of spell check output"
+        id: get_length
+        run: |
+          wc -c spell_check_output | grep -o '[0-9]*' > spell_check_retcode
+          echo "length=$(cat spell_check_retcode)" >> $GITHUB_OUTPUT
+      - run: echo ${{ github.event.number }} > pull_request_id
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pull_request_id
+          path: pull_request_id
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spell_check_retcode
+          path: spell_check_retcode
+      - uses: actions/upload-artifact@v4
+        if: steps.get_length.outputs.length >= 1
+        with:
+          name: spell_check_output
+          path: spell_check_output

@@ -1,0 +1,36 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_fob_soldier",
+    "//": "Generic guard for the old guard.",
+    "name_suffix": "Soldier",
+    "class": "NC_SOLDIER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_OLD_GUARD_FOB_SOLDIER",
+    "faction": "old_guard"
+  },
+  {
+    "type": "npc",
+    "id": "old_guard_assassin",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "Soldier",
+    "class": "NC_SOLDIER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "old_guard"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_FOB_SOLDIER",
+    "dynamic_line": [
+      "I'm afraid I can't talk now.",
+      "Stay safe out there.",
+      "Welcome to camp Arabella",
+      "I'm supposed to direct all questions to my leadership.",
+      "If you're looking to trade you'll need to talk to the quartermaster."
+    ],
+    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
+  }
+]

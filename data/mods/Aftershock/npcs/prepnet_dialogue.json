@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_1",
     "dynamic_line": {
-      "u_has_var": "u_met_prepnet_gardener",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_prepnet_gardener",
       "value": "yes",
       "yes": [ "Hey there.", "Hello.", "How are you?", "Welcome!", "How's the weather?" ],
       "no": "Howdy!  You seem new, what brings you here?"
@@ -17,28 +15,28 @@
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "u_add_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_prepnet_gardener", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_prepnet_gardener", "value": "yes" } },
         "topic": "TALK_PrepNet_gardener_firstmeet"
       },
       {
         "text": "What is this place?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_prepnet_gardener", "value": "yes" },
         "topic": "TALK_PrepNet_gardener_place"
       },
       {
         "text": "What's your story?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_prepnet_gardener", "value": "yes" },
         "topic": "TALK_PrepNet_gardener_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_prepnet_gardener", "value": "yes" },
         "topic": "TALK_PrepNet_gardener_ask_mood"
       },
       {
         "text": "Can I do anything for you?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_prepnet_gardener", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "How do I join the phyle?", "topic": "TALK_PrepNet_gardener_ask_membership" },
@@ -69,7 +67,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_food",
-    "dynamic_line": "This food has to go back to our core communities.  But maybe we can trade some food for services",
+    "dynamic_line": "This food has to go back to our core communities.  But maybe we can trade some food for services.",
     "responses": [
       { "text": "I can pay.", "topic": "TALK_PrepNet_gardener_ask_food_bribe" },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
@@ -79,7 +77,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_food_bribe",
-    "dynamic_line": "You have to earn the right to trade with us.  Plus we created our own currency before the Cataclysm",
+    "dynamic_line": "You have to earn the right to trade with us.  Plus we created our own currency before the Cataclysm.",
     "responses": [
       { "text": "It was worth a try.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "What kind of currency?", "topic": "TALK_PrepNet_gardener_currency" }
@@ -94,7 +92,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_goods",
-    "dynamic_line": "Here?  Fruits and berries.  Maybe the occasional piece of farm equipment, but you need crypto coins",
+    "dynamic_line": "Here?  Fruits and berries.  Maybe the occasional piece of farm equipment, but you'll need crypto coins.",
     "responses": [
       { "text": "Ok.", "topic": "TALK_PrepNet_gardener_1" },
       {
@@ -145,10 +143,10 @@
       "advice": "There's a lot of places to look.  The entire outdoors is full of wild animals.",
       "inquire": "How is the search going?  Have you found'em?",
       "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 6 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 6 } ] }
   },
   {
     "id": "MISSION_PrepNet_gardener_FOOD_2",
@@ -170,10 +168,10 @@
       "advice": "Flour is not that hard to find.  I'd look for them in residential areas and professional kitchens or bakeries.",
       "inquire": "Have you found the flour?",
       "success": "Thank you for your help.  Here's your reward.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 5 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 5 } ] }
   },
   {
     "id": "MISSION_PrepNet_gardener_FOOD_3",
@@ -195,10 +193,10 @@
       "advice": "Gallon jugs are not that rare to find.  They are commonly found in kitchens.",
       "inquire": "Do you have those jugs now?",
       "success": "I am grateful for the help you've done.  I have one more task to do.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 3 } ] }
   },
   {
     "id": "MISSION_PrepNet_gardener_QUEST_4",
@@ -219,9 +217,9 @@
       "advice": "Zombie scientists, technicians, shocker zombies.  These are not undertaken lightly.",
       "inquire": "Do you have those CBMs now?",
       "success": "I am grateful for the help you've done.  I think we might be able to introduce you to others soon.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 12 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 12 } ] }
   }
 ]

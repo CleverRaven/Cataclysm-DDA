@@ -1,0 +1,140 @@
+[
+  {
+    "id": "underhill_essence",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Relative Physics" },
+    "excess": "relative_physics",
+    "min": 0,
+    "max": 500,
+    "rate": "5 m",
+    "disease_excess": [ [ 50, 100 ], [ 101, 250 ], [ 251, 500 ] ]
+  },
+  {
+    "id": "human_blood_vitamin",
+    "type": "vitamin",
+    "//": "Only Vampires have the ability to process this vitamin so if other characters gain any amount of this it will stick around forever and potentially give them the excess disease.",
+    "vit_type": "counter",
+    "name": { "str": "Stolen Blood" },
+    "excess": "blood_quenched",
+    "deficiency": "withering",
+    "min": -12000,
+    "max": 5600,
+    "rate": "0 m",
+    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11998 ], [ -11999, -12000 ] ],
+    "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
+  },
+  {
+    "id": "cheval",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Cheval" },
+    "excess": "cheval_overdose",
+    "deficiency": "cheval_withdrawal",
+    "min": 0,
+    "max": 2000,
+    "rate": "1 m",
+    "disease": [ [ 1, 400 ] ],
+    "disease_excess": [ [ 401, 1000 ], [ 1001, 1300 ], [ 1301, 1600 ], [ 1601, 2000 ] ]
+  },
+  {
+    "id": "creative_spark_research",
+    "type": "vitamin",
+    "//": "Processed sparks, it respond for inventor's researches of different items, recipes and spells.",
+    "vit_type": "counter",
+    "name": { "str": "Processed Creativity" },
+    "min": 0,
+    "max": 1000,
+    "rate": "0 m"
+  },
+  {
+    "id": "creative_spark",
+    "type": "vitamin",
+    "//": "This vitamin powers any Spark type abilities for the Inventor/Mad Genius spellcasting class.",
+    "vit_type": "counter",
+    "name": { "str": "Creative Spark" },
+    "min": 0,
+    "max": 6,
+    "rate": "0 m",
+    "excess": "creativity",
+    "disease_excess": [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ] ]
+  },
+  {
+    "id": "dreamer_vit",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Metaphysical Connection" },
+    "//": "Respond for dreamer's ability to pull stuff from other dimensions",
+    "min": 0,
+    "max": 1000,
+    "rate": "0 m",
+    "excess": "dreamer_eff",
+    "disease_excess": [ [ 1, 200 ], [ 201, 400 ], [ 401, 600 ], [ 601, 800 ], [ 801, 1000 ] ]
+  },
+  {
+    "id": "mutagen_earthkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Ierde Mutagen" },
+    "excess": "mutagen_earthkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_plantkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Arvore Mutagen" },
+    "excess": "mutagen_plantkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_waterkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Undine Mutagen" },
+    "excess": "mutagen_waterkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_flamekin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Salamander Mutagen" },
+    "excess": "mutagen_flamekin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_dollkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Homullus Mutagen" },
+    "excess": "mutagen_dollkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_airkin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Sylph Mutagen" },
+    "excess": "mutagen_airkin",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  }
+]

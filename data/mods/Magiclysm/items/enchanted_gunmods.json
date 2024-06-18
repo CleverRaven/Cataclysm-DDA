@@ -7,9 +7,8 @@
     "description": "Rather than using purely wipe media, an additional localized silence spell in this tube quiets gunshots going through to hearing-safe levels.",
     "weight": "804 g",
     "volume": "375 ml",
-    "price": 77000,
+    "price": "770 USD",
     "to_hit": 2,
-    "bashing": 3,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "white",
@@ -20,7 +19,8 @@
     "consume_chance": 220,
     "consume_divisor": 242,
     "loudness_modifier": -33,
-    "flags": [ "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "mana_laser_rail",
@@ -30,7 +30,7 @@
     "weight": "108 g",
     "volume": "250 ml",
     "integral_volume": "0 L",
-    "price": 36000,
+    "price": "360 USD",
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -38,9 +38,11 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "install_time": "1 m",
     "sight_dispersion": 27,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
-    "use_action": { "menu_text": "Rotate", "type": "transform", "target": "mana_laser_under", "msg": "You rotate the laser sight." }
+    "use_action": { "menu_text": "Rotate", "type": "transform", "target": "mana_laser_under", "msg": "You rotate the laser sight." },
+    "flags": [ "LASER_SIGHT" ]
   },
   {
     "id": "mana_laser_under",
@@ -50,7 +52,7 @@
     "weight": "108 g",
     "volume": "250 ml",
     "integral_volume": "0 L",
-    "price": 36000,
+    "price": "360 USD",
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -58,10 +60,11 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher" ],
     "install_time": "30 m",
     "sight_dispersion": 27,
-    "aim_speed": 9,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "use_action": { "menu_text": "Rotate", "type": "transform", "target": "mana_laser_rail", "msg": "You rotate the laser sight." },
-    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
     "id": "mana_dot_sight",
@@ -71,7 +74,7 @@
     "weight": "270 g",
     "volume": "250 ml",
     "integral_volume": "0 L",
-    "price": 68000,
+    "price": "680 USD",
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -79,7 +82,8 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
     "install_time": "30 m",
     "sight_dispersion": 21,
-    "aim_speed": 7,
+    "field_of_view": 540,
+    "aim_speed_modifier": 12,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 2 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   }

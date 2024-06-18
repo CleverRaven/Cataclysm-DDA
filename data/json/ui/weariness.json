@@ -1,0 +1,80 @@
+[
+  {
+    "id": "weariness_num",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
+    "id": "weariness_graph",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "graph",
+    "fill": "pool",
+    "width": 5,
+    "symbols": "-wW",
+    "colors": [ "c_white", "c_yellow", "c_red" ]
+  },
+  {
+    "id": "weary_malus_desc",
+    "type": "widget",
+    "label": "Weary Malus",
+    "style": "text",
+    "var": "weary_malus_text",
+    "//": "Uses display::weary_malus_text_color"
+  },
+  {
+    "id": "weary_malus_desc_no_label",
+    "type": "widget",
+    "copy-from": "weary_malus_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "weariness_desc",
+    "type": "widget",
+    "label": "Weariness",
+    "style": "text",
+    "var": "weariness_text",
+    "//": "Uses display::weariness_text_color"
+  },
+  {
+    "id": "weariness_desc_no_label",
+    "type": "widget",
+    "copy-from": "weariness_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "weariness_transition_graph",
+    "type": "widget",
+    "label": "Transition",
+    "style": "graph",
+    "symbols": ".\\|",
+    "width": 5,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level"
+  },
+  {
+    "id": "weary_active_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "weariness_desc", "activity_desc" ]
+  },
+  {
+    "id": "weary_transition_malus_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "weariness_transition_graph", "weary_malus_desc" ]
+  },
+  {
+    "id": "all_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "arrange": "rows",
+    "widgets": [ "weary_active_layout", "weary_transition_malus_layout" ]
+  }
+]

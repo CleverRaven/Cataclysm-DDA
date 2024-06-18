@@ -4,5 +4,11 @@
     "id": "test_9mm",
     "name": "test 9x19mm",
     "default": "test_9mm_ammo"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "test_100mm",
+    "name": "test_100mm",
+    "default": "test_100mm_ammo"
   }
 ]

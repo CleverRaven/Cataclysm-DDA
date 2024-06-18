@@ -1,0 +1,42 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_00_bed_1",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 15, "y": 13 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 1, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_00_bed_2",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 10, "y": 8 }, { "chunks": [ "fbmc_bed_vertical" ], "x": 8, "y": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_00_bed_3",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 8, "y": 15 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 6, "y": 13 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_00_bed_4",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 1, "y": 12 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 2, "y": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_00_bed_5",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_bed_vertical" ], "x": 1, "y": 17 }, { "chunks": [ "fbmc_bed_horizontal" ], "x": 1, "y": 15 } ]
+    }
+  }
+]

@@ -1,11 +1,10 @@
-﻿#include "catch/catch.hpp"
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <array>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
+#include "cata_catch.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "map.h"
@@ -16,7 +15,9 @@
 #include "point.h"
 #include "type_id.h"
 
-TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
+static const string_id<map_extra> map_extra_mx_minefield( "mx_minefield" );
+
+TEST_CASE( "mx_minefield_real_spawn", "[map_extra][overmap][!mayfail]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
@@ -34,7 +35,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
     // For every single bridge we found, run mapgen (which will select and apply a map extra).
     for( const tripoint_abs_omt &p : bridges ) {
         tinymap tm;
-        tm.load( project_to<coords::sm>( p ), false );
+        tm.load( p, false );
     }
 
     // Get all of the map extras that have been generated.
@@ -42,17 +43,17 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
         overmap_buffer.get_all_extras( origin.z() );
 
     // Count the number of mx_minefield map extras that have been generated.
-    const string_id<map_extra> mx_minefield( "mx_minefield" );
     int successes = std::count_if( extras.begin(),
-    extras.end(), [&mx_minefield]( const std::pair<point_abs_omt, string_id<map_extra>> &e ) {
-        return e.second == mx_minefield;
+    extras.end(), []( const std::pair<point_abs_omt, string_id<map_extra>> &e ) {
+        return e.second == map_extra_mx_minefield;
     } );
 
     // If at least one was generated, that's good enough.
     CHECK( successes > 0 );
+    overmap_buffer.clear();
 }
 
-TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
+TEST_CASE( "mx_minefield_theoretical_spawn", "[map_extra][overmap]" )
 {
     overmap &om = overmap_buffer.get( point_abs_om() );
 
@@ -72,12 +73,14 @@ TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
                     road );
 
         tinymap tm;
-        tm.load( project_combine( om.pos(), project_to<coords::sm>( center ) ), false );
+        tm.load( project_combine( om.pos(), center ), false );
 
-        const string_id<map_extra> mx_minefield( "mx_minefield" );
-        const map_extra_pointer mx_func = MapExtras::get_function( mx_minefield.str() );
+        const map_extra_pointer mx_func = MapExtras::get_function( map_extra_mx_minefield );
 
-        return mx_func( tm, tm.get_abs_sub() );
+        // TODO: fix point types
+        map *mp = tm.cast_to_map();
+        const tripoint pos = tm.get_abs_sub().raw();
+        return mx_func( *mp, pos );
     };
 
     // Pick a point in the middle of the overmap so we don't go out of bounds when setting up

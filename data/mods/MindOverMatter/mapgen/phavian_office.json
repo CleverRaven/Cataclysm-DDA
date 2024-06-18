@@ -1,0 +1,263 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_cubical_phavian" ],
+    "weight": 50000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "s||wwww||  ss  ||wwww||s",
+        "s|.....^|$$ss$$|III..o|s",
+        "s|.HttH.|||++|||..H..o|s",
+        "s|.HttH.w.....^|.xdd.o|s",
+        "s|.HttH.w......+..h..o|s",
+        "s|.HttH.w..cccc|Y....^|s",
+        "s|^.....+..c.h.|||||+||s",
+        "s||||||||..c...|S.T|II|s",
+        "s|I.Y...+....II|...||||s",
+        "s|I..H..|..||||||+||l.|s",
+        "s|Ixddd^|..aVVe...+.l>|s",
+        "s||||||||.........|||||s",
+        "s|Ih................hI|s",
+        "s|ddx-....IIII^...-ddx|s",
+        "s|----..--------I.----|s",
+        "s|Ih...Y-ddxddx-....hI|s",
+        "s|ddx-..-Ih..h....-ddx|s",
+        "s|----..--------..----|s",
+        "s|Ih......h..hI-....hI|s",
+        "s|ddx-^I-xddxdd-.Y-ddx|s",
+        "s||||||||||||||||||||||s",
+        "ssssssssssssss$$s$$ss4ss",
+        "ssssssssssssssssssssssss"
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "$": "t_region_shrub_decorative",
+        "|": "t_wall_w",
+        "w": "t_window",
+        "s": "t_concrete",
+        "+": "t_door_c",
+        "D": "t_door_locked",
+        "4": "t_gutter_downspout",
+        ">": "t_ladder_down"
+      },
+      "furniture": {
+        "-": "f_room_divider",
+        "d": "f_desk",
+        "x": "f_console_broken",
+        "I": "f_filing_cabinet",
+        "a": "f_trashcan",
+        "c": "f_counter",
+        "Y": "f_rack_coat",
+        "S": "f_sink",
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "R": "f_utility_shelf",
+        "e": "f_fridge",
+        "H": "f_armchair",
+        "l": "f_locker",
+        "o": "f_bookcase",
+        "t": "f_table"
+      },
+      "vendingmachines": { "V": { "lootable": true } },
+      "toilets": { "T": {  } },
+      "items": {
+        "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
+        "l": { "item": "SUS_janitors_closet", "chance": 100 },
+        "d": { "item": "SUS_office_desk", "chance": 20 },
+        "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+        "R": [
+          { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "cleaning", "chance": 70, "repeat": [ 2, 4 ] }
+        ],
+        "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
+        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
+        "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
+      },
+      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } },
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 10 ], "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "office_cubical_phavian_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " --------      -------- ",
+        " -......-      -......- ",
+        " -......--------......- ",
+        " -..U.................- ",
+        " -........oooo........- ",
+        " -........oooo....M...- ",
+        " -..Z.....oooo........- ",
+        " -........oooo........- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " --------------------5- ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 50 ],
+            [ "roof_2x2_utilities_d", 30 ],
+            [ "roof_2x2_utilities", 40 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 10, 19 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_cubical_phavian_basement" ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "s||||sssssssssssssssssss",
+        "s|>>|||||||||||||||||||s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|è,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,||||||⁷-⁷|⁷⁷-⁷⁷||||s",
+        "s|,,,,è,,,,,,,,,,,,¥,<|s",
+        "s|,,,,,,,,,,,,,è,,,=,,|s",
+        "s|,,|⁷-⁷||||||⁷-⁷||||||s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|è9|........|........|s",
+        "s|,9|........|........|s",
+        "s|+||........|........|s",
+        "s|,,|........|........|s",
+        "s|S,|........|........|s",
+        "s|JT|||||||||||||||||||s",
+        "s||||sssssssssssssssssss"
+      ],
+      "terrain": {
+        "<": "t_ladder_up",
+        ">": "t_stairs_down",
+        ",": "t_strconc_floor",
+        ".": "t_linoleum_white",
+        "ꞝ": "t_carpet_concrete_green",
+        "è": "t_strconc_floor_olight",
+        "¥": "t_card_science",
+        "=": "t_door_metal_locked",
+        "|": "t_concrete_wall",
+        "-": "t_reinforced_door_glass_lab_c",
+        "⁷": "t_reinforced_glass",
+        "+": "t_door_c",
+        "s": "t_soil"
+      },
+      "vendingmachines": { "V": { "lootable": true } },
+      "toilets": { "T": {  } },
+      "furniture": { "9": "f_metal_bench", "S": "f_sink", "J": "f_counter" },
+      "place_nested": [
+        { "chunks": [ "office_phavian_lab_DN8x8" ], "x": 14, "y": 14 },
+        { "chunks": [ "office_phavian_lab_DN8x8" ], "x": 5, "y": 14 },
+        { "chunks": [ "office_phavian_lab_DS8x8" ], "x": 5, "y": 2 },
+        { "chunks": [ "office_phavian_security_DS8x8" ], "x": 14, "y": 2 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 2, 3 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ], "chance": 60 },
+        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 2, 18 ], "y": [ 11, 12 ], "repeat": [ 2, 5 ], "chance": 60 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_cubical_phavian_subbasement" ],
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "s||||sssssssssssssssssss",
+        "s|<<|||||||||||||||||||s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|è,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,|........|........|s",
+        "s|,,||||||⁷-⁷||||||⁷-⁷|s",
+        "s|,,,,,,,,,,,,,,è,,,,,|s",
+        "s|,,è,,,,,,,,,,,,,,,,,|s",
+        "||-|||⁷-⁷||||||⁷-⁷||||||",
+        "|RꞝꞝF|........|........|",
+        "|RꞝꞝS|........|........|",
+        "|RꞝꞝJ|........|........|",
+        "|Rꞝꞝꞝ|........|........|",
+        "||--⁷|........|........|",
+        "|....|........|........|",
+        "|.hh.|........|........|",
+        "|.ff.|........|........|",
+        "|.hh.|||||||||||||||||||",
+        "||||||ssssssssssssssssss"
+      ],
+      "terrain": {
+        "<": "t_stairs_up",
+        ",": "t_strconc_floor",
+        ".": "t_linoleum_white",
+        "f": "t_carpet_concrete_green",
+        "h": "t_carpet_concrete_green",
+        "R": "t_carpet_concrete_green",
+        "ꞝ": "t_carpet_concrete_green",
+        "è": "t_strconc_floor_olight",
+        "¥": "t_card_science",
+        "=": "t_door_metal_locked",
+        "|": "t_concrete_wall",
+        "-": "t_reinforced_door_glass_lab_c",
+        "⁷": "t_reinforced_glass",
+        "s": "t_rock"
+      },
+      "furniture": { "f": "f_table", "h": "f_chair", "R": "f_bookcase", "F": "f_fridge", "S": "f_sink" },
+      "items": {
+        "F": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
+        "J": { "item": "dishes_dining", "chance": 30 },
+        "R": { "item": "lab_bookshelves", "chance": 60, "repeat": [ 1, 3 ] }
+      },
+      "place_nested": [
+        { "chunks": [ "office_phavian_lab_DS8x8" ], "x": 5, "y": 2 },
+        { "chunks": [ "office_phavian_lab_DS8x8" ], "x": 14, "y": 2 },
+        { "chunks": [ "office_phavian_lab_DN8x8" ], "x": 6, "y": 14 },
+        { "chunks": [ "office_phavian_lab_DN8x8" ], "x": 15, "y": 14 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 2, 18 ], "y": [ 11, 12 ], "repeat": [ 2, 5 ], "chance": 60 },
+        { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 4 ], "y": [ 14, 22 ], "repeat": [ 2, 5 ], "chance": 60 }
+      ]
+    }
+  }
+]

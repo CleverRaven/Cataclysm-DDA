@@ -1,0 +1,60 @@
+[
+  {
+    "id": "player_weariness_mood_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "3_weari_mood_block",
+    "arrange": "minimum_columns",
+    "width": 58,
+    "widgets": [ "spacebar_separator_2", "player_weariness_mood_block_tmp" ]
+  },
+  {
+    "id": "player_weariness_mood_block_tmp",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mood/Focus/Weariness",
+    "arrange": "minimum_columns",
+    "width": 56,
+    "widgets": [ "spacebar_mood_focus_activity_layout", "spacebar_all_weariness_layout" ]
+  },
+  {
+    "id": "spacebar_all_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "label_align": "right",
+    "arrange": "rows",
+    "width": 28,
+    "widgets": [ "weariness_desc", "spacebar_weariness_transition_graph", "weary_malus_desc" ]
+  },
+  {
+    "id": "spacebar_weariness_transition_graph",
+    "type": "widget",
+    "label": "Transition",
+    "style": "graph",
+    "symbols": ".oO",
+    "width": 5,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level"
+  },
+  {
+    "id": "spacebar_mood_focus_activity_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mood/Focus/Activity",
+    "arrange": "rows",
+    "width": 28,
+    "widgets": [ "mood_desc_label", "spacebar_focus_graph", "activity_desc" ]
+  },
+  {
+    "id": "spacebar_focus_graph",
+    "type": "widget",
+    "label": "Focus",
+    "style": "graph",
+    "var": "focus",
+    "symbols": ".oO",
+    "fill": "bucket",
+    "width": 5,
+    "colors": [ "c_red", "c_yellow", "c_green" ]
+  }
+]

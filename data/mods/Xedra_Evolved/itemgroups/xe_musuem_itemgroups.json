@@ -1,0 +1,53 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alt_shirts",
+    "items": [ [ "alt_tshirt", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "display_case_items",
+    "//": "Group for museum of Curiosities display case items.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "museum_primitive", "prob": 100 },
+      { "group": "museum_misc", "prob": 50 },
+      { "group": "xe_dreamer_spells_low", "prob": 12 },
+      { "group": "xe_classless_spells_low", "prob": 25 },
+      { "group": "xe_dreamsmith_spells_low", "prob": 12 },
+      { "group": "xe_eater_spells_low", "prob": 12 },
+      { "group": "xe_inventor_spells_low", "prob": 12 },
+      { "group": "xe_dreamer_spells_mid", "prob": 6 },
+      { "group": "xe_classless_spells_mid", "prob": 12 },
+      { "group": "xe_dreamsmith_spells_mid", "prob": 6 },
+      { "group": "xe_eater_spells_mid", "prob": 6 },
+      { "group": "xe_inventor_spells_mid", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "otherworld_gear",
+    "//": "Group for museum of Curiosities mannequin items.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "museum_primitive", "prob": 20 },
+      { "group": "museum_misc", "prob": 15 },
+      { "group": "fae_furs", "prob": 12 },
+      { "group": "bannerman_armor", "prob": 6 },
+      { "group": "dreamer_artifact", "prob": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "museum_plaques_visitors",
+    "items": [ [ "museum_plaques_visitors", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "museum_plaques_items",
+    "items": [ [ "museum_plaques_items", 80 ] ]
+  }
+]

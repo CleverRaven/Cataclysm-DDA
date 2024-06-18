@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_DIALOGUE_H
 #define CATA_SRC_DIALOGUE_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
@@ -11,24 +11,27 @@
 #include <utility>
 #include <vector>
 
+#include "cata_lazy.h"
 #include "dialogue_win.h"
-#include "json.h"
+#include "global_vars.h"
 #include "npc.h"
-#include "string_id.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
-struct input_event;
+class JsonArray;
+class JsonObject;
 class martialart;
 class mission;
-class talker;
 struct dialogue;
+struct input_event;
 
 enum talk_trial_type : unsigned char {
     TALK_TRIAL_NONE, // No challenge here!
     TALK_TRIAL_LIE, // Straight up lying
     TALK_TRIAL_PERSUADE, // Convince them
     TALK_TRIAL_INTIMIDATE, // Physical intimidation
+    TALK_TRIAL_SKILL_CHECK, // Check a skill's current level against the difficulty
     TALK_TRIAL_CONDITION, // Some other condition
     NUM_TALK_TRIALS
 };
@@ -40,8 +43,8 @@ enum dialogue_consequence : unsigned char {
     action
 };
 
-using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
-using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
+using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 
@@ -54,15 +57,18 @@ using trial_mod = std::pair<std::string, int>;
 struct talk_trial {
     talk_trial_type type = TALK_TRIAL_NONE;
     int difficulty = 0;
-    std::function<bool( const dialogue & )> condition;
+    std::function<bool( dialogue & )> condition;
 
-    int calc_chance( const dialogue &d ) const;
+    // If this talk_trial is skill check, this is the string ID of the skill that we check the level of.
+    std::string skill_required;
+
+    int calc_chance( dialogue &d ) const;
     /**
      * Returns a user-friendly representation of @ref type
      */
     std::string name() const;
     std::vector<trial_mod> modifiers;
-    operator bool() const {
+    explicit operator bool() const {
         return type != TALK_TRIAL_NONE;
     }
     /**
@@ -71,71 +77,20 @@ struct talk_trial {
     bool roll( dialogue &d ) const;
 
     talk_trial() = default;
-    talk_trial( const JsonObject & );
+    explicit talk_trial( const JsonObject & );
 };
 
 struct talk_topic {
-    explicit talk_topic( const std::string &i ) : id( i ) { }
+    explicit talk_topic( std::string i, itype_id const &it = itype_id::NULL_ID(),
+                         std::string r = {} )
+        : id( std::move( i ) ), item_type( it ), reason( std::move( r ) ) {
+    }
 
     std::string id;
     /** If we're talking about an item, this should be its type. */
     itype_id item_type = itype_id::NULL_ID();
     /** Reason for denying a request. */
     std::string reason;
-};
-
-struct talk_effect_fun_t {
-    private:
-        std::function<void( const dialogue &d )> function;
-        std::vector<std::pair<int, itype_id>> likely_rewards;
-
-    public:
-        talk_effect_fun_t() = default;
-        talk_effect_fun_t( const talkfunction_ptr & );
-        talk_effect_fun_t( const std::function<void( npc & )> & );
-        talk_effect_fun_t( const std::function<void( const dialogue &d )> & );
-        void set_companion_mission( const std::string &role_id );
-        void set_add_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_u_buy_item( const itype_id &item_name, int cost, int count,
-                             const std::string &container_name );
-        void set_u_spend_cash( int amount );
-        void set_u_sell_item( const itype_id &item_name, int cost, int count );
-        void set_consume_item( const JsonObject &jo, const std::string &member, int count,
-                               bool is_npc = false );
-        void set_remove_item_with( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_npc_change_faction( const std::string &faction_name );
-        void set_npc_change_class( const std::string &class_name );
-        void set_change_faction_rep( int rep_change );
-        void set_add_debt( const std::vector<trial_mod> &debt_modifiers );
-        void set_toggle_npc_rule( const std::string &rule );
-        void set_set_npc_rule( const std::string &rule );
-        void set_clear_npc_rule( const std::string &rule );
-        void set_npc_engagement_rule( const std::string &setting );
-        void set_npc_aim_rule( const std::string &setting );
-        void set_npc_cbm_reserve_rule( const std::string &setting );
-        void set_npc_cbm_recharge_rule( const std::string &setting );
-        void set_mapgen_update( const JsonObject &jo, const std::string &member );
-        void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
-        void set_npc_gets_item( bool to_use );
-        void set_add_mission( const std::string &mission_id );
-        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
-        void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
-                                const translation &name );
-        void set_u_learn_recipe( const std::string &learned_recipe_id );
-        void set_npc_first_topic( const std::string &chat_topic );
-
-        void operator()( const dialogue &d ) const {
-            if( !function ) {
-                return;
-            }
-            return function( d );
-        }
 };
 
 /**
@@ -158,8 +113,10 @@ struct talk_effect_t {
           */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        talk_topic apply( dialogue &d ) const;
-        dialogue_consequence get_consequence( const dialogue &d ) const;
+        talk_topic apply( dialogue &d )
+        const;
+        static void update_missions( dialogue &d );
+        dialogue_consequence get_consequence( dialogue const &d ) const;
 
         /**
           * Sets an effect and consequence based on function pointer.
@@ -172,12 +129,12 @@ struct talk_effect_t {
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
-        void load_effect( const JsonObject &jo );
+        void load_effect( const JsonObject &jo, const std::string &member_name );
         void parse_sub_effect( const JsonObject &jo );
         void parse_string_effect( const std::string &effect_id, const JsonObject &jo );
 
         talk_effect_t() = default;
-        talk_effect_t( const JsonObject & );
+        explicit talk_effect_t( const JsonObject &, const std::string & );
 
         /**
          * Functions that are called when the response is chosen.
@@ -201,7 +158,7 @@ struct talk_response {
      */
     translation truetext;
     translation falsetext;
-    std::function<bool( const dialogue & )> truefalse_condition;
+    std::function<bool( dialogue & )> truefalse_condition;
 
     talk_trial trial;
     /**
@@ -216,22 +173,15 @@ struct talk_response {
     talk_effect_t success;
     talk_effect_t failure;
 
-    talk_data create_option_line( const dialogue &d, const input_event &hotkey );
-    std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
+    talk_data create_option_line( dialogue &d, const input_event &hotkey,
+                                  bool is_computer = false );
+    std::set<dialogue_consequence> get_consequences( dialogue &d ) const;
 
     talk_response();
-    talk_response( const JsonObject & );
+    explicit talk_response( const JsonObject & );
 };
 
 struct dialogue {
-        /**
-         * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
-         */
-        std::unique_ptr<talker> alpha;
-        /**
-         * The talker responded to alpha, usually a talker_npc.
-         */
-        std::unique_ptr<talker> beta;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -241,17 +191,24 @@ struct dialogue {
         /** Missions that have been assigned by this npc to the player they currently speak to. */
         std::vector<mission *> missions_assigned;
 
-        talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
-
+        talk_topic opt( dialogue_window &d_win, const talk_topic &topic );
         dialogue() = default;
-        talker *actor( const bool is_beta ) const {
-            return ( is_beta ? beta : alpha ).get();
-        }
+        dialogue( const dialogue &d );
+        dialogue( dialogue && ) = default;
+        dialogue &operator=( const dialogue & );
+        dialogue &operator=( dialogue && ) = default;
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in,
+                  const std::unordered_map<std::string, std::function<bool( dialogue & )>> &cond,
+                  const std::unordered_map<std::string, std::string> &ctx );
+        talker *actor( bool is_beta ) const;
 
         mutable itype_id cur_item;
         mutable std::string reason;
 
-        std::string dynamic_line( const talk_topic &topic ) const;
+        std::string dynamic_line( const talk_topic &topic );
         void apply_speaker_effects( const talk_topic &the_topic );
 
         /** This dialogue is happening over a radio */
@@ -264,8 +221,40 @@ struct dialogue {
 
         void add_topic( const std::string &topic );
         void add_topic( const talk_topic &topic );
+        bool has_beta;
+        bool has_alpha;
 
+        // Methods for setting/getting misc key/value pairs.
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+
+        void set_conditional( const std::string &key, const std::function<bool( dialogue & )> &value );
+        bool evaluate_conditional( const std::string &key, dialogue &d );
+
+        const std::unordered_map<std::string, std::string> &get_context() const;
+        const std::unordered_map<std::string, std::function<bool( dialogue & )>> &get_conditionals() const;
+        void amend_callstack( const std::string &value );
+        std::string get_callstack() const;
     private:
+        /**
+         * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
+         */
+        std::unique_ptr<talker> alpha;
+        /**
+         * The talker responded to alpha, usually a talker_npc.
+         */
+        std::unique_ptr<talker> beta;
+
+        // dialogue specific variables that can be passed down to additional EOCs but are one way
+        lazy<std::unordered_map<std::string, std::string>> context;
+        // Weirdly unnecessarily in context.
+        std::string callstack;
+
+        // conditionals that were set at the upper level
+        lazy<std::unordered_map<std::string, std::function<bool( dialogue & )>>> conditionals;
+
         /**
          * Add a simple response that switches the topic to the new one. If first == true, force
          * this topic to the front of the responses.
@@ -331,6 +320,8 @@ struct dialogue {
          */
         talk_response &add_response( const std::string &text, const std::string &r,
                                      const itype_id &item_type, bool first = false );
+
+        int get_best_quit_response();
 };
 
 /**
@@ -342,16 +333,16 @@ struct dialogue {
  */
 struct dynamic_line_t {
     private:
-        std::function<std::string( const dialogue & )> function;
+        std::function<std::string( dialogue & )> function;
 
     public:
         dynamic_line_t() = default;
-        dynamic_line_t( const translation &line );
-        dynamic_line_t( const JsonObject &jo );
-        dynamic_line_t( const JsonArray &ja );
-        static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
+        explicit dynamic_line_t( const translation &line );
+        explicit dynamic_line_t( const JsonObject &jo );
+        explicit dynamic_line_t( const JsonArray &ja );
+        static dynamic_line_t from_member( const JsonObject &jo, std::string_view member_name );
 
-        std::string operator()( const dialogue &d ) const {
+        std::string operator()( dialogue &d ) const {
             if( !function ) {
                 return std::string{};
             }
@@ -367,16 +358,27 @@ class json_talk_response
 {
     private:
         talk_response actual_response;
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
+        bool has_condition_ = false;
         bool is_switch = false;
         bool is_default = false;
 
+        // this text appears if the conditions fail explaining why
+        translation failure_explanation;
+        // the topic to move to on failure
+        std::string failure_topic;
+
         void load_condition( const JsonObject &jo );
-        bool test_condition( const dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
 
     public:
         json_talk_response() = default;
-        json_talk_response( const JsonObject &jo );
+        explicit json_talk_response( const JsonObject &jo );
+
+        const talk_response &get_actual_response() const;
+        bool has_condition() const {
+            return has_condition_;
+        }
 
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
@@ -392,7 +394,7 @@ class json_talk_repeat_response
 {
     public:
         json_talk_repeat_response() = default;
-        json_talk_repeat_response( const JsonObject &jo );
+        explicit json_talk_repeat_response( const JsonObject &jo );
         bool is_npc = false;
         bool include_containers = false;
         std::vector<itype_id> for_item;
@@ -403,11 +405,11 @@ class json_talk_repeat_response
 class json_dynamic_line_effect
 {
     private:
-        std::function<bool( const dialogue & )> condition;
+        std::function<bool( dialogue & )> condition;
         talk_effect_t effect;
     public:
         json_dynamic_line_effect( const JsonObject &jo, const std::string &id );
-        bool test_condition( const dialogue &d ) const;
+        bool test_condition( dialogue &d ) const;
         void apply( dialogue &d ) const;
 };
 
@@ -433,7 +435,7 @@ class json_talk_topic
          */
         void load( const JsonObject &jo );
 
-        std::string get_dynamic_line( const dialogue &d ) const;
+        std::string get_dynamic_line( dialogue &d ) const;
         std::vector<json_dynamic_line_effect> get_speaker_effects() const;
 
         void check_consistency() const;
@@ -445,6 +447,8 @@ class json_talk_topic
          * responses will be added (behind those added here).
          */
         bool gen_responses( dialogue &d ) const;
+
+        cata::flat_set<std::string> get_directly_reachable_topics( bool only_unconditional ) const;
 };
 
 void unload_talk_topics();

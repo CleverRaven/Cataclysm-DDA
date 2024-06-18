@@ -13,7 +13,6 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 28 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

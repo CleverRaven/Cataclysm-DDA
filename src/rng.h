@@ -3,20 +3,21 @@
 #define CATA_SRC_RNG_H
 
 #include <array>
+#include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <iterator>
+#include <optional>
 #include <random>
 #include <type_traits>
 
-#include "optional.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class map;
 class time_duration;
+struct tripoint;
 template<typename Tripoint>
 class tripoint_range;
-struct tripoint;
 
 // All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
@@ -25,6 +26,7 @@ struct tripoint;
 void rng_set_engine_seed( unsigned int seed );
 
 using cata_default_random_engine = std::minstd_rand0;
+cata_default_random_engine::result_type rng_get_first_seed();
 cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
@@ -54,6 +56,15 @@ inline int roll_remainder( float value )
 
 int djb2_hash( const unsigned char *input );
 
+// Generates a deterministic sequence of uniform ints.
+// Note that this doesn't use or modify the global rng state but uses the seed given as parameter.
+// @param count length of sequence to generate
+// @param lo minimum value in sequence
+// @param hi maximum value in sequence
+// @param seed seed to use
+// @returns deterministic vector of uniform ints
+std::vector<int> rng_sequence( size_t count, int lo, int hi, int seed = 42 );
+
 double rng_normal( double lo, double hi );
 
 inline double rng_normal( double hi )
@@ -61,7 +72,11 @@ inline double rng_normal( double hi )
     return rng_normal( 0.0, hi );
 }
 
+float normal_roll_chance( float center, float stddev, float difficulty );
+
 double normal_roll( double mean, double stddev );
+
+double chi_squared_roll( double trial_num );
 
 double rng_exponential( double min, double mean );
 
@@ -71,6 +86,9 @@ inline double rng_exponential( double mean )
 }
 
 double exponential_roll( double lambda );
+
+// Return a random string of [A-Za-z] characters of the given length
+std::string random_string( size_t length );
 
 /**
  * Returns a random entry in the container.
@@ -101,10 +119,10 @@ inline V random_entry( const C &container, D default_value )
  */
 template<typename C>
 inline auto random_entry_opt( C &container ) ->
-cata::optional<decltype( std::ref( *container.begin() ) )>
+std::optional<decltype( std::ref( *container.begin() ) )>
 {
     if( container.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
@@ -120,7 +138,7 @@ inline V random_entry( const C &container )
     if( container.empty() ) {
         return V();
     }
-    auto iter = container.begin();
+    typename C::const_iterator iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
@@ -134,7 +152,7 @@ class is_std_array_helper<std::array<T, N>> : public std::true_type
 {
 };
 template<typename T>
-class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+class is_std_array : public is_std_array_helper<std::decay_t<T>>
 {
 };
 
@@ -144,8 +162,8 @@ class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline typename std::enable_if < !is_std_array<C>::value,
-       const V & >::type random_entry_ref( const C &container )
+inline std::enable_if_t < !is_std_array<C>::value,
+       const V & > random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();
@@ -170,18 +188,26 @@ inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
-    const V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
+    V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
     container.erase( iter );
     return result;
 }
 
 /// Returns a range enclosing all valid points of the map.
+// TODO: Remove untyped overload
 tripoint_range<tripoint> points_in_range( const map &m );
+tripoint_range<tripoint_bub_ms> points_in_range_bub( const map &m );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
-cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                       const std::function<bool( const tripoint & )> &predicate );
+// TODO: Remove untyped overload
+std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
+                                      const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_ms> &range,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
 /// Same as other random_point with a range enclosing all valid points of the map.
-cata::optional<tripoint> random_point( const map &m,
-                                       const std::function<bool( const tripoint & )> &predicate );
+// TODO: Remove untyped overload
+std::optional<tripoint> random_point( const map &m,
+                                      const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint_bub_ms> random_point( const map &m,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate );
 
 #endif // CATA_SRC_RNG_H

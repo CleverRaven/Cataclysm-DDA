@@ -1,0 +1,43 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "bracken_eye",
+    "name": { "str": "brackenwight eye" },
+    "description": "A fist-sized lump of plant matter taken from a brackenwight.  It still glows a very faint green.",
+    "weight": "133 g",
+    "volume": "250 ml",
+    "symbol": "*",
+    "color": "green",
+    "flags": [ "TRADER_AVOID", "LIGHT_3" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mossling_fur",
+    "copy-from": "grass",
+    "name": { "str": "tuft of mossling fur", "str_pl": "tufts of mossling fur" },
+    "description": "A tangled tuft of mossling fur, more like grass or lichen than the fur of an animal.  A cow might be able to eat it, but you couldn't.",
+    "calories": 70,
+    "weight": "100 g",
+    "volume": "250 ml",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dryad_bark",
+    "copy-from": "alder_bark",
+    "name": { "str": "dryad bark", "str_pl": "chunks of dryad bark" },
+    "description": "A strip of bark taken from a fallen dryad.  It's still slightly supple, as though it were attached to a living tree."
+  },
+  {
+    "type": "GENERIC",
+    "id": "gnome_eye",
+    "copy-from": "garnet",
+    "name": { "str": "gnome eye" },
+    "description": "A glittering gemstone that once formed one of the eyes of a gnome.  You feel like you're being watched when you look at it.",
+    "category": "spare_parts",
+    "symbol": "*",
+    "color": "red",
+    "weight": "2 g",
+    "volume": "60 ml"
+  }
+]

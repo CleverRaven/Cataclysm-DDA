@@ -155,7 +155,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 number_of_elements( 0 )
             {}
 
-            group( const group_size_type group_size, node_pointer_type const previous = nullptr ):
+            explicit group( const group_size_type group_size, node_pointer_type const previous = nullptr ):
                 nodes( LIST_ALLOCATE_INITIALIZATION( node_allocator_type, group_size, previous ) ),
                 free_list_head( nullptr ),
                 beyond_end( nodes + group_size ),
@@ -385,7 +385,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         group_pointer_type current_new_group = block_pointer;
 
                         for( group_pointer_type current_group = old_block; current_group != beyond_end; ++current_group ) {
-                            *( current_new_group++ ) = *( current_group );
+                            *( current_new_group++ ) = *current_group;
 
                             current_group->nodes = nullptr;
                             current_group->beyond_end = nullptr;
@@ -495,10 +495,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 // In working implementation this cannot throw
                 group_pointer_type get_nearest_freelist_group( const node_pointer_type location_node ) noexcept {
                     const group_pointer_type beyond_end_group = last_endpoint_group + 1;
-                    group_pointer_type left = last_searched_group - 1, right = last_searched_group + 1,
-                                       freelist_group = nullptr;
-                    bool right_not_beyond_back = ( right < beyond_end_group );
-                    bool left_not_beyond_front = ( left >= block_pointer );
+                    group_pointer_type left = last_searched_group - 1;
+                    group_pointer_type right = last_searched_group + 1;
+                    group_pointer_type freelist_group = nullptr;
+                    bool right_not_beyond_back = right < beyond_end_group;
+                    bool left_not_beyond_front = left >= block_pointer;
 
                     // ie. location is within last_search_group
                     if( location_node >= last_searched_group->nodes &&
@@ -510,8 +511,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     } else { // search for the node group which location_node is located within, using last_searched_group as a starting point and searching left and right. Try and find the closest node group with reusable erased-element locations along the way:
                         group_pointer_type closest_freelist_left = ( last_searched_group->free_list_head == nullptr ) ?
                                 nullptr :
-                                last_searched_group, closest_freelist_right = ( last_searched_group->free_list_head == nullptr ) ?
-                                        nullptr : last_searched_group;
+                                last_searched_group;
+                        group_pointer_type closest_freelist_right = ( last_searched_group->free_list_head == nullptr ) ?
+                                nullptr : last_searched_group;
 
                         while( true ) {
                             if( right_not_beyond_back ) {
@@ -540,8 +542,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                     }
 
                                     // Otherwise find closest group with freelist - check an equal distance on the right to the distance we've checked on the left:
-                                    const group_pointer_type end_group = ( ( ( right + left_distance ) > beyond_end_group ) ?
-                                                                           beyond_end_group : ( right + left_distance - 1 ) );
+                                    const group_pointer_type end_group = ( ( right + left_distance ) > beyond_end_group ) ?
+                                                                         beyond_end_group : ( right + left_distance - 1 );
 
                                     while( ++right != end_group ) {
                                         if( right->free_list_head != nullptr ) {
@@ -593,8 +595,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                     }
 
                                     // Otherwise find closest group with freelist:
-                                    const group_pointer_type end_group = ( ( ( left - right_distance ) < block_pointer ) ? block_pointer
-                                                                           - 1 : ( left - right_distance ) + 1 );
+                                    const group_pointer_type end_group = ( ( left - right_distance ) < block_pointer ) ? block_pointer
+                                                                         - 1 : ( left - right_distance ) + 1;
 
                                     while( --left != end_group ) {
                                         if( left->free_list_head != nullptr ) {
@@ -648,15 +650,18 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 void swap( group_vector &source ) LIST_NOEXCEPT_SWAP( group_allocator_type ) {
                     if LIST_CONSTEXPR(
                         std::is_trivial<group_pointer_type>::value ) { // if all pointer types are trivial we can just copy using memcpy - faster - avoids constructors/destructors etc
+                        // NOLINTNEXTLINE(modernize-avoid-c-arrays)
                         char temp[sizeof( group_vector )];
                         std::memcpy( static_cast<void *>( &temp ), static_cast<void *>( this ), sizeof( group_vector ) );
                         std::memcpy( static_cast<void *>( this ), static_cast<void *>( &source ), sizeof( group_vector ) );
                         std::memcpy( static_cast<void *>( &source ), static_cast<void *>( &temp ), sizeof( group_vector ) );
                     } else {
-                        const group_pointer_type swap_last_endpoint_group = last_endpoint_group,
-                                                 swap_block_pointer = block_pointer, swap_last_searched_group = last_searched_group;
-                        const size_type swap_size = size, swap_element_capacity = element_allocator_pair.capacity,
-                                        swap_capacity = group_allocator_pair.capacity;
+                        const group_pointer_type swap_last_endpoint_group = last_endpoint_group;
+                        const group_pointer_type swap_block_pointer = block_pointer;
+                        const group_pointer_type swap_last_searched_group = last_searched_group;
+                        const size_type swap_size = size;
+                        const size_type swap_element_capacity = element_allocator_pair.capacity;
+                        const size_type swap_capacity = group_allocator_pair.capacity;
 
                         last_endpoint_group = source.last_endpoint_group;
                         block_pointer = source.block_pointer;
@@ -709,7 +714,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                         for( group_pointer_type current_group = source.block_pointer; current_group != beyond_end_source;
                              ++current_group ) {
-                            *( current_new_group++ ) = *( current_group );
+                            *( current_new_group++ ) = *current_group;
 
                             current_group->nodes = nullptr;
                             current_group->beyond_end = nullptr;
@@ -756,21 +761,21 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 friend class list;
 
                 inline LIST_FORCE_INLINE bool operator==( const list_iterator rh ) const noexcept {
-                    return ( node_pointer == rh.node_pointer );
+                    return node_pointer == rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE bool operator==( const list_iterator < !is_const > rh ) const
                 noexcept {
-                    return ( node_pointer == rh.node_pointer );
+                    return node_pointer == rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE bool operator!=( const list_iterator rh ) const noexcept {
-                    return ( node_pointer != rh.node_pointer );
+                    return node_pointer != rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE bool operator!=( const list_iterator < !is_const > rh ) const
                 noexcept {
-                    return ( node_pointer != rh.node_pointer );
+                    return node_pointer != rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE reference operator*() const {
@@ -829,17 +834,20 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 list_iterator( const list_iterator &source ) noexcept: node_pointer( source.node_pointer ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 list_iterator( const list_iterator < !is_const > &source ) noexcept: node_pointer(
                         source.node_pointer ) {}
 
                 list_iterator( const list_iterator &&source ) noexcept: node_pointer( std::move(
                                 source.node_pointer ) ) {}
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 list_iterator( const list_iterator < !is_const > &&
                                source ) noexcept: node_pointer( std::move( source.node_pointer ) ) {}
 
             private:
 
+                // NOLINTNEXTLINE(google-explicit-constructor)
                 list_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
         };
 
@@ -860,21 +868,21 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 friend class list;
 
                 inline LIST_FORCE_INLINE bool operator==( const list_reverse_iterator rh ) const noexcept {
-                    return ( node_pointer == rh.node_pointer );
+                    return node_pointer == rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE bool operator==( const list_reverse_iterator < !is_const > rh ) const
                 noexcept {
-                    return ( node_pointer == rh.node_pointer );
+                    return node_pointer == rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator rh ) const noexcept {
-                    return ( node_pointer != rh.node_pointer );
+                    return node_pointer != rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE bool operator!=( const list_reverse_iterator < !is_const > rh ) const
                 noexcept {
-                    return ( node_pointer != rh.node_pointer );
+                    return node_pointer != rh.node_pointer;
                 }
 
                 inline LIST_FORCE_INLINE reference operator*() const {
@@ -945,7 +953,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
             private:
 
-                list_reverse_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
+                explicit list_reverse_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
         };
 
     private:
@@ -1475,13 +1483,13 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         template<typename... arguments>
         inline LIST_FORCE_INLINE reference emplace_back( arguments &&... parameters ) {
-            return ( emplace( end_iterator, std::forward<arguments>( parameters )... ) ).node_pointer->element;
+            return emplace( end_iterator, std::forward<arguments>( parameters )... ).node_pointer->element;
         }
 
         template<typename... arguments>
         inline LIST_FORCE_INLINE reference emplace_front( arguments &&... parameters ) {
-            return ( emplace( begin_iterator,
-                              std::forward<arguments>( parameters )... ) ).node_pointer->element;
+            return emplace( begin_iterator,
+                            std::forward<arguments>( parameters )... ).node_pointer->element;
         }
 
     private:
@@ -1699,7 +1707,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             cata_assert( it.node_pointer != nullptr );
             cata_assert( it.node_pointer != end_iterator.node_pointer );
 
-            if LIST_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
+            if LIST_CONSTEXPR( !std::is_trivially_destructible<element_type>::value ) {
                 LIST_DESTROY( element_allocator_type, ( *this ),
                               &( it.node_pointer->element ) ); // Destruct element
             }
@@ -1714,8 +1722,8 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 // Search left and right:
                 const group_pointer_type beyond_end_group = groups.last_endpoint_group + 1;
                 group_pointer_type left = node_group - 1;
-                bool right_not_beyond_back = ( ++node_group < beyond_end_group );
-                bool left_not_beyond_front = ( left >= groups.block_pointer );
+                bool right_not_beyond_back = ++node_group < beyond_end_group;
+                bool left_not_beyond_front = left >= groups.block_pointer;
 
                 while( true ) {
                     if( right_not_beyond_back ) {
@@ -1763,7 +1771,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                                                    node_group->nodes );
                 node_allocator_pair.number_of_erased_nodes -= group_size;
 
-                if LIST_CONSTEXPR( !( std::is_trivially_destructible<node_pointer_type>::value ) ) {
+                if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
                     destroy_all_node_pointers( node_group, node_group->beyond_end );
                 }
 
@@ -1778,7 +1786,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                 return return_iterator;
             } else { // clear back group, leave trailing
-                if LIST_CONSTEXPR( !( std::is_trivially_destructible<node_pointer_type>::value ) ) {
+                if LIST_CONSTEXPR( !std::is_trivially_destructible<node_pointer_type>::value ) {
                     destroy_all_node_pointers( node_group, last_endpoint );
                 }
 
@@ -2071,7 +2079,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             const difference_type last_endpoint_group_number = groups.last_endpoint_group -
                     groups.block_pointer;
 
-            size_type number_of_full_groups = ( reserve_amount / LIST_BLOCK_MAX );
+            size_type number_of_full_groups = reserve_amount / LIST_BLOCK_MAX;
             reserve_amount -= ( number_of_full_groups++ * LIST_BLOCK_MAX ); // ++ to aid while loop below
 
             // Previously uninitialized list or reset in above if statement; most common scenario
@@ -2198,11 +2206,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 return;
             }
 
-            node_pointer_type current1 = begin_iterator.node_pointer->next,
-                              current2 = source.begin_iterator.node_pointer->next;
+            node_pointer_type current1 = begin_iterator.node_pointer->next;
+            node_pointer_type current2 = source.begin_iterator.node_pointer->next;
             node_pointer_type previous = source.begin_iterator.node_pointer;
-            const node_pointer_type source_end = source.end_iterator.node_pointer,
-                                    this_end = end_iterator.node_pointer;
+            const node_pointer_type source_end = source.end_iterator.node_pointer;
+            const node_pointer_type this_end = end_iterator.node_pointer;
 
             begin_iterator.node_pointer->next = source.begin_iterator.node_pointer;
             source.begin_iterator.node_pointer->previous = begin_iterator.node_pointer;

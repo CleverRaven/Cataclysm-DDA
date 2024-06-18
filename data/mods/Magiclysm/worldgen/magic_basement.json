@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "magic_basement" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [
@@ -34,14 +33,15 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "place_traps": [ { "trap": "tr_magic_door", "x": 21, "y": 4 } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 13, 20 ], "y": [ 3, 5 ] } ],
       "place_item": [ { "item": "television", "x": 21, "y": 10 }, { "item": "wizard_photo", "x": 16, "y": 6 } ],
       "place_loot": [
         { "item": "corpse", "x": 2, "y": 6, "chance": 100 },
         { "item": "translocate_spellbook", "x": 2, "y": 6, "chance": 100 },
         { "item": "robe", "x": 2, "y": 6, "chance": 100 },
-        { "item": "candle", "x": 3, "y": 5, "chance": 100 },
-        { "item": "candle", "x": 3, "y": 6, "chance": 100 },
-        { "item": "candle", "x": 3, "y": 7, "chance": 100 }
+        { "item": "candle", "x": 3, "y": 5, "chance": 100, "ammo": 100 },
+        { "item": "candle", "x": 3, "y": 6, "chance": 100, "ammo": 100 },
+        { "item": "candle", "x": 3, "y": 7, "chance": 100, "ammo": 100 }
       ],
       "terrain": {
         "~": "t_thconc_floor",
@@ -62,7 +62,11 @@
       },
       "furniture": { "&": "f_magiclysm_translocator_gate", "!": "f_rack_coat", "?": "f_bookcase", "=": "f_bookcase" },
       "items": {
-        "?": [ { "item": "magic_shop_books", "chance": 40 }, { "item": "magic_shop_potions", "chance": 60 } ],
+        "?": [
+          { "item": "magic_shop_books", "chance": 40 },
+          { "item": "spellbook_mana_upgrades", "chance": 2 },
+          { "item": "magic_shop_potions", "chance": 60 }
+        ],
         "=": [ { "item": "novels", "chance": 30 }, { "item": "homebooks", "chance": 10 } ],
         "~": [ { "item": "magic_shop_potions", "chance": 15, "repeat": [ 1, 2 ] } ],
         "I": [
@@ -112,6 +116,6 @@
   {
     "type": "snippet",
     "category": "magic_door_graffiti",
-    "text": [ "A circle of esoteric symbols etched into the metal wall, they draw your eye with their otherwordly shapes." ]
+    "text": [ "A circle of esoteric symbols etched into the metal wall, they draw your eye with their otherworldly shapes." ]
   }
 ]

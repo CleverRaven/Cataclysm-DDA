@@ -1,0 +1,22 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "deserter_city_gate",
+      "deserter_city_park",
+      "deserter_city_office_1f",
+      "deserter_city_office_2f",
+      "deserter_city_office_3f",
+      "deserter_city_office_roof",
+      "deserter_city_office_1fb",
+      "deserter_city_office_2fb",
+      "deserter_city_office_3fb",
+      "deserter_city_office_roofb"
+    ],
+    "name": "deserter outpost",
+    "sym": "D",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  }
+]

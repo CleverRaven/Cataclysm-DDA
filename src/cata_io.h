@@ -66,9 +66,8 @@
  * and @ref JsonSerializer, which would grant them functions to serialize/deserialize. The Json
  * classes will automatically use those if available, but they prefer the `io` function.
  *
- * Classes that only use the (templated) `io` function (and which do not inherit from
- * JsonDeserializer and JsonSerializer), must announce that. This allows the Archive classes to
- * avoid calling Json functions, which would not work.
+ * Classes that only use the (templated) `io` function must announce that.
+ * This allows the Archive classes to avoid calling Json functions, which would not work.
  *
  * If a class only uses the `io` function defined like this:
  *
@@ -127,12 +126,21 @@ struct enable_if_type {
 
 /**
  * Implementation for classes that don't have an archive_type_tag defined. They use the
- * normal JsonSerializer / JsonDeserializer interface, which is handled directly by the Json
+ * normal json read/write interface, which is handled directly by the Json
  * classes. Therefore the functions here simply forward to those.
  */
 template<class T, class E = void>
 struct has_archive_tag : std::false_type {
-    static void write( JsonOut &stream, const T &value ) {
+    template < typename S, typename TT = T,
+               std::enable_if_t < std::is_enum_v<TT> &&std::is_same_v<S, TT> > * = nullptr >
+    static void write( JsonOut &stream, const S &value ) {
+        // TODO: When writing strings as enums is the default, this overload of
+        // write can be removed
+        stream.write_as_string( value );
+    }
+    template < typename S, typename TT = T,
+               std::enable_if_t < !std::is_enum_v<TT> &&std::is_same_v<S, TT> > * = nullptr >
+    static void write( JsonOut &stream, const S &value ) {
         stream.write( value );
     }
     static bool read( const JsonObject &obj, const std::string &key, T &value ) {
@@ -156,7 +164,7 @@ struct has_archive_tag<T, typename enable_if_type<typename T::archive_type_tag>:
         typename T::archive_type_tag::OutputArchive archive( stream );
         const_cast<T &>( value ).io( archive );
     }
-    static bool read( const JsonObject &obj, const std::string &key, T &value ) {
+    static bool read( const JsonObject &obj, const std::string_view key, T &value ) {
         if( !obj.has_member( key ) ) {
             return false;
         }
@@ -186,13 +194,13 @@ class JsonObjectInputArchive : public JsonObject
     public:
         using is_input = std::true_type;
 
-        JsonObjectInputArchive( const JsonObject &jo )
+        explicit JsonObjectInputArchive( const JsonObject &jo )
             : JsonObject( jo ) {
         }
         /** Create archive from next object in the given Json array. */
-        JsonObjectInputArchive( JsonArray & );
+        explicit JsonObjectInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
-        JsonObjectInputArchive( const JsonObject &, const std::string &key );
+        JsonObjectInputArchive( const JsonObject &, std::string_view key );
 
         /**
          * @name Deserialization
@@ -292,6 +300,26 @@ class JsonObjectInputArchive : public JsonObject
             load( ident );
             return true;
         }
+        /**
+         * The 'I-give-up' template for gun variant data
+         */
+        template<typename T, typename LoadFunc, typename SaveFunc>
+        bool io( const std::string &name, T &pointer,
+                 const LoadFunc &load,
+                 const SaveFunc &save, bool required = false ) {
+            // Only used by the matching function in the output archive classes.
+            ( void ) save;
+            std::string ident;
+            if( !io( name, ident ) ) {
+                if( required ) {
+                    JsonObject::throw_error( std::string( "required member is missing: " ) + name );
+                }
+                pointer = nullptr;
+                return false;
+            }
+            load( ident );
+            return true;
+        }
         template<typename T>
         bool io( const std::string &name, T *&pointer,
                  const std::function<void( const std::string & )> &load,
@@ -314,13 +342,13 @@ class JsonArrayInputArchive : public JsonArray
     public:
         using is_input = std::true_type;
 
-        JsonArrayInputArchive( const JsonArray &jo )
+        explicit JsonArrayInputArchive( const JsonArray &jo )
             : JsonArray( jo ) {
         }
-        /** Create archive from next object in the given Json array. */
-        JsonArrayInputArchive( JsonArray & );
+        /** Create archive from next object in the giexplicit ven Json array. */
+        explicit JsonArrayInputArchive( JsonArray & );
         /** Create archive from named member object in the given Json object. */
-        JsonArrayInputArchive( const JsonObject &, const std::string &key );
+        JsonArrayInputArchive( const JsonObject &, std::string_view key );
 
         template<typename T>
         bool io( T &value ) {
@@ -330,13 +358,14 @@ class JsonArrayInputArchive : public JsonArray
 
 inline JsonArrayInputArchive::JsonArrayInputArchive( JsonArray &arr )
     : JsonArray( arr.next_array() ) { }
-inline JsonArrayInputArchive::JsonArrayInputArchive( const JsonObject &obj, const std::string &key )
+inline JsonArrayInputArchive::JsonArrayInputArchive( const JsonObject &obj,
+        const std::string_view key )
     : JsonArray( obj.get_array( key ) ) { }
 
 inline JsonObjectInputArchive::JsonObjectInputArchive( JsonArray &arr )
     : JsonObject( arr.next_object() ) { }
 inline JsonObjectInputArchive::JsonObjectInputArchive( const JsonObject &obj,
-        const std::string &key )
+        const std::string_view key )
     : JsonObject( obj.get_object( key ) ) { }
 
 /**
@@ -354,7 +383,7 @@ class JsonObjectOutputArchive
 
         JsonOut &stream;
 
-        JsonObjectOutputArchive( JsonOut &stream )
+        explicit JsonObjectOutputArchive( JsonOut &stream )
             : stream( stream ) {
             stream.start_object();
         }
@@ -375,7 +404,7 @@ class JsonObjectOutputArchive
          */
         /*@{*/
         template<typename T>
-        bool io( const std::string &name, const T &value ) {
+        bool io( const std::string_view name, const T &value ) {
             stream.member( name );
             io::detail::has_archive_tag<T>::write( stream, value );
             return false;
@@ -421,6 +450,21 @@ class JsonObjectOutputArchive
             }
             return io( name, save( *pointer ) );
         }
+        /**
+         * The I-give-up load function for gun variants
+         */
+        template<typename T, typename LoadFunc, typename SaveFunc>
+        bool io( const std::string &name, const T &pointer,
+                 const LoadFunc &,
+                 const SaveFunc &save, bool required = false ) {
+            if( pointer == nullptr ) {
+                if( required ) {
+                    throw JsonError( "a required member is null: " + name );
+                }
+                return false;
+            }
+            return io( name, save( pointer ) );
+        }
         template<typename T>
         bool io( const std::string &name, const T *pointer,
                  const std::function<void( const std::string & )> &load,
@@ -433,7 +477,7 @@ class JsonObjectOutputArchive
          * and always return false.
          */
         template<typename T>
-        bool read( const std::string &, T & ) {
+        bool read( const std::string_view, T & ) {
             return false;
         }
 };
@@ -451,7 +495,7 @@ class JsonArrayOutputArchive
 
         JsonOut &stream;
 
-        JsonArrayOutputArchive( JsonOut &stream )
+        explicit JsonArrayOutputArchive( JsonOut &stream )
             : stream( stream ) {
             stream.start_array();
         }

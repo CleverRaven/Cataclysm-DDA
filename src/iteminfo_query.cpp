@@ -1,6 +1,5 @@
 #include "iteminfo_query.h"
 
-#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -38,9 +37,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK,
     iteminfo_parts::DESCRIPTION_MELEEDMG,
     iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT,
-    iteminfo_parts::DESCRIPTION_MELEEDMG_BASH,
-    iteminfo_parts::DESCRIPTION_MELEEDMG_CUT,
-    iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE,
+    iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES,
     iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES,
     iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS,
     iteminfo_parts::DESCRIPTION_REPAIREDWITH,
@@ -65,14 +62,18 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS,
+    iteminfo_parts::DESCRIPTION_MILLEABLE,
     iteminfo_parts::DESCRIPTION_BREWABLE_DURATION,
     iteminfo_parts::DESCRIPTION_BREWABLE_PRODUCTS,
+    iteminfo_parts::DESCRIPTION_COMPOSTABLE_DURATION,
+    iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS,
     iteminfo_parts::DESCRIPTION_FAULTS,
     iteminfo_parts::DESCRIPTION_HOLSTERS,
     iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION,
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,
     iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
+    iteminfo_parts::DESCRIPTION_VEHICLE_PARTS,
     iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) );
 

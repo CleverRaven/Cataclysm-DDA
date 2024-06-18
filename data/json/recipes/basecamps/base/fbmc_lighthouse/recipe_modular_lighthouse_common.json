@@ -1,0 +1,45 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_lighthouse_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_lighthouse_0",
+    "blueprint_provides": [
+      { "id": "tool_storage" },
+      { "id": "sorting" },
+      { "id": "kitchen" },
+      { "id": "kitchen_recipes_1" },
+      { "id": "kitchen_recipes_2" },
+      { "id": "kitchen_recipes_3" },
+      { "id": "saltworks_recipes_1" },
+      { "id": "fishing_recipes" },
+      { "id": "fbmc_lighthouse_0" }
+    ],
+    "blueprint_resources": [ "fake_woodstove", "water_purifier", "oven" ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lighthouse_root_cellar",
+    "description": "Digging a root cellar will allow us to preserve fish and other foods.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lighthouse_root_cellar",
+    "blueprint_name": "root cellar",
+    "blueprint_provides": [ { "id": "fbmc_lighthouse_root_cellar" }, { "id": "pantry" } ],
+    "blueprint_requires": [ { "id": "fbmc_lighthouse_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_lighthouse_root_cellar" } ]
+  }
+]

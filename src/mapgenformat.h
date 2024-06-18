@@ -3,11 +3,10 @@
 #define CATA_SRC_MAPGENFORMAT_H
 
 #include <cstddef>
-#include <string>
-#include <utility>
+#include <iosfwd>
+#include <type_traits>
 #include <vector>
 
-#include "int_id.h"
 #include "type_id.h"
 
 class map;
@@ -64,6 +63,7 @@ class format_effect
  */
 /**@{*/
 template<size_t N, typename ...Args>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!
@@ -74,6 +74,7 @@ inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... id
 }
 
 template<size_t N, typename ...Args>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!

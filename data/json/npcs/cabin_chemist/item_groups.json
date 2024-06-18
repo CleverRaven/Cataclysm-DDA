@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_group",
+    "id": "cabin_chemist_sell",
+    "items": [ { "group": "chem_lab", "prob": 100 }, { "group": "harddrugs", "prob": 70 }, { "group": "full_1st_aid", "prob": 80 } ]
+  }
+]

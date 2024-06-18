@@ -1,0 +1,594 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_1",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_1",
+    "blueprint_name": "place 1 ½ aisles of storage in section A",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_1" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_1" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_1" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_2",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_2",
+    "blueprint_name": "place 1 ½ aisles of storage in section B",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_2" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_2" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_2" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_3",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_3",
+    "blueprint_name": "place 1 ½ aisles of storage in section C",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_3" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_3" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_3" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_4",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_4",
+    "blueprint_name": "place 1 ½ aisles of storage in section D",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_3" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_4" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_4" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_5",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_5",
+    "blueprint_name": "place 1 ½ aisles of storage in section E",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_4" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_5" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_5" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_6",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_6",
+    "blueprint_name": "place 1 ½ aisles of storage in section F",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_5" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_6" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_6" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_7",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_7",
+    "blueprint_name": "place 1 ½ aisles of storage in section G",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_6" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_7" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_7" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_8",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_8",
+    "blueprint_name": "place 1 ½ aisles of storage in section H",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_6" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_8" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_8" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_9",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_9",
+    "blueprint_name": "place 1 ½ aisles of storage in section I",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_7" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_9" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_9" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_10",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_10",
+    "blueprint_name": "place 1 ½ aisles of storage in section J",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_8" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_10" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_10" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_11",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_11",
+    "blueprint_name": "place 1 ½ aisles of storage in section K",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_9" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_11" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_11" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_12",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_12",
+    "blueprint_name": "place 1 ½ aisles of storage in section L",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_9" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_12" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_12" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_13",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_13",
+    "blueprint_name": "place 1 ½ aisles of storage in section M",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_10" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_13" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_13" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_14",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_14",
+    "blueprint_name": "place 1 ½ aisles of storage in section N",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_11" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_14" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_14" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_15",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_15",
+    "blueprint_name": "place 1 ½ aisles of storage in section O",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_12" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_15" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_15" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbms_2_storage_16",
+    "description": "Place 12 pieces of storage furniture providing 1 ½ aisle of storage.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_2_storage_16",
+    "blueprint_name": "place 1 ½ aisles of storage in section P",
+    "blueprint_parameter_names": {
+      "fbms_2_storage_palette": {
+        "fbms_2_bookcase_palette": "Bookcases (2000 L storage, contents visible from a distance, blocks LoS)",
+        "fbms_2_dresser_palette": "Dressers (2000 L storage, contents not visible from a distance, doesn't block LoS)",
+        "fbms_2_locker_palette": "Lockers (2000 L storage, contents not visible from a distance, blocks LoS). Consider if bookcases or dressers might be better.",
+        "fbms_2_rack_palette": "Display racks (1750 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_rack_wood_palette": "Wooden racks (1500 L storage, contents visible from a distance, doesn't block LoS)",
+        "fbms_2_warehouse_shelf_palette": "Warehouse shelves (3500 L storage, contents visible from a distance, blocks LoS). The king of storage space, with a royal resource price tag."
+      }
+    },
+    "blueprint_requires": [ { "id": "fbms_2_12" } ],
+    "blueprint_provides": [ { "id": "fbms_2_storage_16" } ],
+    "blueprint_excludes": [ { "id": "fbms_2_storage_16" } ],
+    "flags": [
+      "MAP_MIRROR_HORIZONTAL_IF_N",
+      "MAP_ROTATE_90_IF_NE",
+      "MAP_MIRROR_HORIZONTAL_IF_E",
+      "MAP_ROTATE_90_IF_E",
+      "MAP_ROTATE_180_IF_SE",
+      "MAP_MIRROR_HORIZONTAL_IF_S",
+      "MAP_ROTATE_180_IF_S",
+      "MAP_ROTATE_270_IF_SW",
+      "MAP_MIRROR_HORIZONTAL_IF_W",
+      "MAP_ROTATE_270_IF_W"
+    ]
+  }
+]

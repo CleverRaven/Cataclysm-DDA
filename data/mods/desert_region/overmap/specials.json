@@ -1,0 +1,26 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "ws_giant_sinkhole",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "ws_giant_sinkhole_1_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "ws_giant_sinkhole_2_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 15, -1 ],
+    "occurrences": [ 0, 10 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Canyon Tourist Center",
+    "overmaps": [
+      { "point": [ 0, 1, 0 ], "overmap": "s_lot_north", "locations": [ "canyon" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north", "locations": [ "land" ] }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "city_distance": [ 5, 75 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
+  }
+]

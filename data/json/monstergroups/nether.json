@@ -2,46 +2,43 @@
   {
     "type": "monstergroup",
     "name": "GROUP_BREATHER",
-    "default": "mon_breather",
-    "monsters": [ { "monster": "mon_breather", "freq": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] } ]
+    "monsters": [
+      { "monster": "mon_breather", "weight": 990 },
+      { "monster": "mon_breather", "weight": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BREATHER_HUB",
-    "default": "mon_breather_hub"
+    "monsters": [ { "monster": "mon_breather_hub" } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_CHURCH_BLANK",
-    "default": "mon_blank",
-    "monsters": [ { "monster": "mon_blank", "freq": 50, "cost_multiplier": 0 } ]
+    "monsters": [ { "monster": "mon_blank", "cost_multiplier": 0 } ]
   },
   {
     "name": "GROUP_DARK_WYRM",
     "type": "monstergroup",
-    "default": "mon_dark_wyrm",
-    "monsters": [ { "monster": "mon_dark_wyrm", "freq": 40, "cost_multiplier": 1 } ]
+    "monsters": [ { "monster": "mon_dark_wyrm" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DOG_THING",
-    "default": "mon_dog_thing"
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "default": "mon_blank",
     "monsters": [
-      { "monster": "mon_flying_polyp", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_hunting_horror", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 0, "starts": 840 },
-      { "monster": "mon_yugg", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_gelatin", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_flaming_eye", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_kreck", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_gracke", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_blank", "freq": 100, "cost_multiplier": 0 }
+      { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 100, "starts": "180 hours" },
+      { "monster": "mon_yugg", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire_coiling", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
@@ -49,14 +46,19 @@
     "name": "GROUP_NETHER",
     "default": "mon_blank",
     "monsters": [
-      { "monster": "mon_flying_polyp", "freq": 25, "cost_multiplier": 0 },
-      { "monster": "mon_hunting_horror", "freq": 240, "cost_multiplier": 0 },
-      { "monster": "mon_yugg", "freq": 70, "cost_multiplier": 0 },
-      { "monster": "mon_gelatin", "freq": 120, "cost_multiplier": 0 },
-      { "monster": "mon_flaming_eye", "freq": 120, "cost_multiplier": 0 },
-      { "monster": "mon_kreck", "freq": 210, "cost_multiplier": 0 },
-      { "monster": "mon_gozu", "freq": 25, "cost_multiplier": 0 },
-      { "monster": "mon_shoggoth", "freq": 5, "cost_multiplier": 0 }
+      { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 240, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 50, "cost_multiplier": 0, "starts": "30 days" },
+      { "monster": "mon_yugg", "weight": 70, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 120, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire", "weight": 7, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire_coiling", "weight": 7, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 210, "cost_multiplier": 0 },
+      { "monster": "mon_gozu", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 5, "cost_multiplier": 0 }
     ]
   },
   {
@@ -64,11 +66,23 @@
     "name": "GROUP_NETHER_CAPTURED",
     "default": "mon_gracke",
     "monsters": [
-      { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 840 },
-      { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0 }
+      { "monster": "mon_gelatin", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_mi_go", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_mi_go_scout", "weight": 250, "cost_multiplier": 0, "starts": "15 days" },
+      { "monster": "mon_kreck", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 250, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_UNVIABLE",
+    "default": "mon_nether_unviable_bug",
+    "monsters": [
+      { "monster": "mon_nether_unviable_bug", "weight": 4, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_nether_unviable_chunk", "weight": 3, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_nether_unviable_root", "weight": 3, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_nether_unviable_butterfly", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_nether_unviable_stomper", "weight": 1, "cost_multiplier": 1 }
     ]
   },
   {
@@ -76,25 +90,80 @@
     "name": "GROUP_NETHER_PORTAL",
     "default": "mon_gracke",
     "monsters": [
-      { "monster": "mon_gelatin", "freq": 200, "cost_multiplier": 0 },
-      { "monster": "mon_flaming_eye", "freq": 200, "cost_multiplier": 0 },
-      { "monster": "mon_kreck", "freq": 200, "cost_multiplier": 0 },
-      { "monster": "mon_gracke", "freq": 200, "cost_multiplier": 0 },
-      { "monster": "mon_blank", "freq": 200, "cost_multiplier": 0 }
+      { "monster": "mon_gelatin", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_flaming_eye", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 100, "cost_multiplier": 0, "starts": "30 days" },
+      { "monster": "mon_blank", "weight": 200, "cost_multiplier": 0 },
+      { "group": "GROUP_NETHER_UNVIABLE", "weight": 500, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SPIRAL",
-    "default": "mon_human_snail",
     "monsters": [
-      { "monster": "mon_twisted_body", "freq": 180, "cost_multiplier": 0 },
-      { "monster": "mon_vortex", "freq": 80, "cost_multiplier": 0 }
+      { "monster": "mon_human_snail", "weight": 740, "cost_multiplier": 0 },
+      { "monster": "mon_twisted_body", "weight": 180, "cost_multiplier": 0 },
+      { "monster": "mon_vortex", "weight": 80, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TINDALOS",
-    "default": "mon_hound_tindalos"
+    "monsters": [ { "monster": "mon_hound_tindalos" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_CORPSE",
+    "default": "mon_gracke",
+    "monsters": [
+      { "monster": "mon_gelatin", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 75, "cost_multiplier": 0, "starts": "15 days" },
+      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire_coiling", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 50, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_CORPSE_PORTAL",
+    "default": "mon_gracke",
+    "monsters": [
+      { "monster": "mon_gelatin", "weight": 70, "cost_multiplier": 0 },
+      { "monster": "mon_kreck", "weight": 180, "cost_multiplier": 0 },
+      { "monster": "mon_gracke", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 30, "cost_multiplier": 0, "starts": "15 days" },
+      { "monster": "mon_blank", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_star_vampire_coiling", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_shoggoth", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_yugg", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_CORPSE_TENTACLES",
+    "monsters": [
+      { "monster": "mon_hanging_roper", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_nether_spearfisher", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_carrion_grub", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_nether_leech", "weight": 100, "cost_multiplier": 3, "pack_size": [ 3, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_CORPSE_BOWELS",
+    "monsters": [
+      { "monster": "mon_nether_spearfisher", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_nether_fish", "weight": 300, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_nether_leech", "weight": 100, "cost_multiplier": 3, "pack_size": [ 3, 5 ] }
+    ]
   }
 ]

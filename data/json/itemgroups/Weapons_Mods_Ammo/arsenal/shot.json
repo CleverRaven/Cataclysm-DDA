@@ -1,0 +1,58 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_shot_gun&mags&cans",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_shot_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_50_shot_160", "count": [ 1, 4 ] },
+          { "item": "ammo_can_50_beanbag_160", "count": [ 1, 4 ] },
+          { "item": "ammo_can_30_shot_120", "count": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_shot_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_shot_gun&mags" },
+      { "group": "ammo_can_shot_any_full", "prob": 30 },
+      { "group": "ammo_can_shot_any_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_shot_gun&mags",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_shot", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_shot", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_shot", "count": [ 1, 2 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_shot",
+    "items": [
+      { "item": "mossberg_930", "variant": "m1014", "prob": 100 },
+      { "item": "mossberg_590", "prob": 70 },
+      { "item": "mossberg_500", "prob": 50 },
+      { "group": "nested_m26_mass_no_ammo", "prob": 30 }
+    ]
+  },
+  {
+    "id": "nested_m26_mass_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m26_mass_standalone" }, { "group": "m26_mass_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "m26_mass_mags",
+    "type": "item_group",
+    "items": [ { "item": "m26_mass_mag_3", "prob": 500 }, { "item": "m26_mass_mag_5", "prob": 50 } ]
+  }
+]

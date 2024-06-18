@@ -1,7 +1,10 @@
 #include "stats_tracker.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <map>
+#include <optional>
+#include <string>
 #include <utility>
 
 #include "calendar.h"
@@ -9,7 +12,6 @@
 #include "debug.h"
 #include "event_statistics.h"
 #include "json.h"
-#include "optional.h"
 
 static bool event_data_matches( const cata::event::data_type &data,
                                 const cata::event::data_type &criteria )
@@ -67,9 +69,8 @@ void event_summary::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-void event_summary::deserialize( JsonIn &jsin )
+void event_summary::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.read( "count", count, true );
     jo.read( "first", first, true );
     jo.read( "last", last, true );
@@ -162,22 +163,22 @@ struct compare_times {
     }
 };
 
-cata::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
+std::optional<event_multiset::summaries_type::value_type> event_multiset::first() const
 {
     auto minimum = std::min_element( summaries_.begin(), summaries_.end(),
                                      compare_times<&event_summary::first>() );
     if( minimum == summaries_.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return *minimum;
 }
 
-cata::optional<event_multiset::summaries_type::value_type> event_multiset::last() const
+std::optional<event_multiset::summaries_type::value_type> event_multiset::last() const
 {
     auto minimum = std::max_element( summaries_.begin(), summaries_.end(),
                                      compare_times<&event_summary::last>() );
     if( minimum == summaries_.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return *minimum;
 }
@@ -218,6 +219,11 @@ void base_watcher::on_unsubscribe( stats_tracker *s )
 
 stats_tracker_state::~stats_tracker_state() = default;
 
+const cata_variant &stats_tracker_multiset_state::get_value() const
+{
+    cata_fatal( "Trying to get a variant value from a multiset state" );
+}
+
 stats_tracker::~stats_tracker()
 {
     unwatch_all();
@@ -256,7 +262,8 @@ void stats_tracker::add_watcher( const string_id<event_transformation> &id,
     }
 }
 
-void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher )
+const cata_variant &stats_tracker::add_watcher(
+    const string_id<event_statistic> &id, stat_watcher *watcher )
 {
     stat_watchers[id].insert( watcher );
     watcher->on_subscribe( this );
@@ -264,6 +271,7 @@ void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watc
     if( !state ) {
         state = id->watch( *this );
     }
+    return state->get_value();
 }
 
 void stats_tracker::unwatch( base_watcher *watcher )

@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -10,17 +9,16 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
-class avatar;
 class item;
+class item_location;
 
 class character_martial_arts
 {
     private:
         std::vector<matype_id> ma_styles;
         matype_id style_selected = matype_id( "style_none" );
-        bool keep_hands_free = false;
     public:
         character_martial_arts();
         character_martial_arts( const std::vector<matype_id> &styles,
@@ -28,19 +26,22 @@ class character_martial_arts
             : ma_styles( styles ), style_selected( style_selected ), keep_hands_free( keep_hands_free ) {}
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 
         void reset_style();
+        void clear_style( const matype_id &id );
         // checks that style selected is one that is known, otherwise resets it
         void selected_style_check();
+        bool keep_hands_free = false;
         /** Creates the UI and handles player input for picking martial arts styles */
-        bool pick_style( const avatar &you );
+        bool pick_style( const Character &you );
 
         bool knows_selected_style() const;
         bool selected_strictly_melee() const;
-        bool selected_allow_melee() const;
+        bool selected_allow_all_weapons() const;
         bool selected_has_weapon( const itype_id &weap ) const;
         bool selected_force_unarmed() const;
+        bool selected_prevent_weapon_blocking() const;
         bool selected_is_none() const;
 
         /** Returns true if the player has access to the entered martial art */
@@ -54,6 +55,8 @@ class character_martial_arts
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 
+        /** Removes all martial arts events */
+        void clear_all_effects( Character &owner );
         /** Fires all non-triggered martial arts events */
         void ma_static_effects( Character &owner );
         /** Fires all move-triggered martial arts events */
@@ -77,30 +80,39 @@ class character_martial_arts
         /** Fires all kill-triggered martial arts events */
         void ma_onkill_effects( Character &owner );
 
+        // Selects a valid attack vector
+        std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>> choose_attack_vector(
+                    const Character &user, const matec_id &tech ) const;
+        // Calculate and return the damage of the given contact area for a given vector
+        damage_instance calculate_vector_damage( const Character &user, const attack_vector_id &vec,
+                const sub_bodypart_str_id &contact_area ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */
         bool can_arm_block( const Character &owner ) const;
-        /** Returns true if either can_leg_block() or can_arm_block() returns true */
-        bool can_limb_block( const Character &owner ) const;
+        /** Returns true if you can block with nonstandard limbs */
+        bool can_nonstandard_block( const Character &owner ) const;
         /** Returns true if the current style forces unarmed attack techniques */
         bool is_force_unarmed() const;
+        /** Returns true if the current style allows blocking with weapons */
+        bool can_weapon_block() const;
 
-        std::vector<matec_id> get_all_techniques( const item &weap ) const;
-        std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
-        /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec( const item &weap ) const;
-        /** Returns the technique used for miss recovery */
-        ma_technique get_miss_recovery_tec( const item &weap ) const;
-        /** Returns true if the player has a grab breaking technique available */
-        bool has_grab_break_tec() const;
+        std::vector<matec_id> get_all_techniques( const item_location &weap, const Character &u ) const;
+        std::vector<matype_id> get_unknown_styles( const character_martial_arts &from,
+                bool teachable_only ) const;
+        std::vector<matype_id> get_known_styles( bool teachable_only ) const;
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
         bool has_technique( const Character &guy, const matec_id &id, const item &weap ) const;
-        /** Returns the grab breaking technique if available */
-        ma_technique get_grab_break_tec( const item &weap ) const;
+        /** Returns the first valid grab break technique */
+        ma_technique get_grab_break( const Character &owner ) const;
+        /** Returns the first valid miss recovery technique */
+        ma_technique get_miss_recovery( const Character &owner ) const;
 
         std::string enumerate_known_styles( const itype_id &weap ) const;
         std::string selected_style_name( const Character &owner ) const;
+        const matype_id &selected_style() const {
+            return style_selected;
+        }
 };
 
 #endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H

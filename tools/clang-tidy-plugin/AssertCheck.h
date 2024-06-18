@@ -4,7 +4,8 @@
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <llvm/ADT/StringRef.h>
 
-#include "ClangTidy.h"
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 
 namespace clang
 {
@@ -21,7 +22,7 @@ class AssertCheck : public ClangTidyCheck
     public:
         AssertCheck( StringRef Name, ClangTidyContext *Context )
             : ClangTidyCheck( Name, Context ) {}
-        void registerPPCallbacks( CompilerInstance &Compiler ) override;
+        void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
 };

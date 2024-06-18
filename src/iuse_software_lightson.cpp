@@ -1,6 +1,7 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -8,8 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "optional.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -25,7 +25,7 @@ void lightson_game::new_level()
     const int lvl_width = rng( 4, 6 );
     const int lvl_height = half_perimeter - lvl_width;
     level_size = point( lvl_width, lvl_height );
-    level.resize( lvl_height * lvl_width );
+    level.resize( static_cast<size_t>( lvl_height ) * static_cast<size_t>( lvl_width ) );
 
     const int steps_rng = half_perimeter / 2.0 + rng_float( 0.0, 2.0 );
     generate_change_coords( steps_rng );
@@ -151,9 +151,9 @@ int lightson_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
-        shortcuts.push_back( _( "<r>eset" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<spacebar or 5> toggle lights" ) );
+        shortcuts.emplace_back( _( "<r>eset" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
@@ -191,7 +191,7 @@ int lightson_game::start_game()
         }
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
             position.x = clamp( position.x + vec->x, 0, level_size.x - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {

@@ -1,0 +1,8 @@
+[
+  {
+    "type": "proficiency_category",
+    "id": "prof_test_category",
+    "name": "Test Proficiencies",
+    "description": "Proficiencies used for testing.  Should not show up in the game."
+  }
+]

@@ -21,7 +21,7 @@ activity actor to the `deserialize_functions` map towards the bottom of
 `activity_actor.cpp`. Define `canceled` function if activity modifies
 some complex state that should be restored upon cancellation / interruption.
 
-4. If this activity is resumable, `override` 
+4. If this activity is resumable, `override`
 `activity_actor::can_resume_with_internal`
 
 5. Construct your activity actor and then pass it to the constructor for
@@ -35,14 +35,15 @@ query to stop the activity, and strings that describe it, for example:
 `"verb": "mining"` or
 `"verb": { "ctxt": "instrument", "str": "playing" }`.
 
-* suspendable (true): If true, the activity can be continued without
-starting from scratch again. This is only possible if `can_resume_with()`
-returns true.
+* activity_level: Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`.
 
-* rooted (false): If true, then during the activity, recoil is reduced,
-and plant mutants sink their roots into the ground. Should be true if the
-activity lasts longer than a few minutes, and can always be accomplished
-without moving your feet.
+* interruptable (true): Can this be interrupted.  If false, then popups related
+to e.g. pain or seeing monsters will be suppressed.
+
+* interruptable_with_kb (true): Can this be interrupted by a key press.
+
+* can_resume (true): If true, the activity can be resumed after an interruption,
+letting you continue from where you left off rather than from scratch.
 
 * based_on: Can be 'time', 'speed', or 'neither'.
 
@@ -55,20 +56,23 @@ without moving your feet.
     * neither: `moves_left` will not be decremented. Thus you must
     define a do_turn function; otherwise the activity will never end!
 
-* interruptable (true): Can this be interrupted.  If false, then popups related
-to e.g. pain or seeing monsters will be suppressed.
-
-* no_resume (false): Rather than resuming, you must always restart the
-activity from scratch.
-
-* multi_activity(false): This activity will repeat until it cannot do
-any more work, used for NPC and avatar zone activities.
+* rooted (false): If true, then during the activity, recoil is reduced,
+and plant mutants sink their roots into the ground. Should be true if the
+activity lasts longer than a few minutes, and can always be accomplished
+without moving your feet.
 
 * refuel_fires( false ): If true, the character will automatically refuel
 fires during the long activity.
 
 * auto_needs( false ) : If true, the character will automatically eat and
 drink from specific auto_consume zones during long activities.
+
+* multi_activity(false): This activity will repeat until it cannot do
+any more work, used for NPC and avatar zone activities.
+
+* completion_eoc: an EOC that is run when this activity completes
+
+* do_turn_eoc: an EOC that is run when this activity performs a turn
 
 ## Termination
 
@@ -92,7 +96,7 @@ There are several ways an activity can be ended:
     Canceling an activity prevents the `activity_actor::finish`
     function from running, and the activity does therefore not yield a
     result. Instead, `activity_actor::canceled` is called. If activity is
-    suspendable, a copy of it is written to `Character::backlog`.
+    resumable, a copy of it is written to `Character::backlog`.
 
 ## Notes
 
@@ -114,6 +118,8 @@ across save/load cycles.
 Be careful when storing coordinates as the activity may be carried out
 by NPCS. If its, the coordinates must be absolute not local as local
 coordinates are based on the avatars position.
+
+If in the `activity_actor::finish`, `player_activity::set_to_null()` is not called, the `activity_actor::finish` will be called again, or if you add more moves to `activity_actor::moves_left`, the `activity_actor::do_turn` function will also be called.
 
 ### `activity_actor::start`
 

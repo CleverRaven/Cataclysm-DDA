@@ -1,0 +1,7 @@
+{
+  "type": "ter_furn_transform",
+  "id": "afs_unlock_metal_doors",
+  "terrain": [
+    { "result": "t_door_metal_c", "valid_terrain": [ "t_door_metal_locked" ], "message": "The doors unlock." }
+  ]
+}

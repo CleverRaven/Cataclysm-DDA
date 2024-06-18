@@ -1,0 +1,39 @@
+[
+  {
+    "id": "custom_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": { "str": "custom", "ctxt": "UI sidebar" },
+    "width": 36,
+    "separator": ": ",
+    "padding": 2,
+    "widgets": [
+      "hitpoints_all_narrow_graphs_layout",
+      "hitpoints_all_narrow_nums_layout",
+      "stats_narrow_layout",
+      "movement_layout",
+      "stamina_activity_weary_layout",
+      "needs_desc_layout_label",
+      "needs_desc_sa_layout_label",
+      "safe_sound_layout",
+      "power_desc",
+      "rad_badge_desc",
+      "compass_all_layout",
+      "compass_all_layout_alt",
+      "weapon_style_layout",
+      "place_date_time_layout",
+      "overmap_full_width",
+      "overmap_location_desc",
+      "light_moon_wind_temp_layout",
+      "vehicle_acf_label_layout",
+      "vital_numbers_layout",
+      "bodypart_armor_outer_layout",
+      "bodypart_status_layout",
+      "bodypart_status_sym_layout",
+      "bodygraph_hp_layout",
+      "custom_mana_layout",
+      "custom_mana_numbers_widget",
+      "custom_mana_graph_widget"
+    ]
+  }
+]

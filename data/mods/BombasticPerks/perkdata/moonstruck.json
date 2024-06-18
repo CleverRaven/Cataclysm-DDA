@@ -1,0 +1,109 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_perk_moonstruck_full",
+    "name": [ "Moonstruck: Full Moon" ],
+    "desc": [ "Under the clear light of the full moon, you have unlocked your greatest potential." ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "1 days",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": 3 },
+          { "value": "PERCEPTION", "add": 3 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_moonstruck_waxing",
+    "name": [ "Moonstruck: Waxing Moon" ],
+    "desc": [ "The silver light of the waxing moon enhances your prowess." ],
+    "apply_message": "",
+    "rating": "good",
+    "max_duration": "1 days",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "INTELLIGENCE", "add": 1 },
+          { "value": "PERCEPTION", "add": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_moonstruck_new",
+    "name": [ "Moonstruck: New Moon" ],
+    "desc": [ "In the dark of the moon, you feel your vital essence weaken." ],
+    "apply_message": "",
+    "rating": "bad",
+    "max_duration": "1 days",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": -2 },
+          { "value": "DEXTERITY", "add": -2 },
+          { "value": "INTELLIGENCE", "add": -2 },
+          { "value": "PERCEPTION", "add": -2 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_MOONSTRUCK",
+    "recurrence": [ "1 hours", "1 hours" ],
+    "condition": { "u_has_trait": "perk_moonstruck" },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_moonstruck" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_PERK_MOONSTRUCK_2",
+          "condition": { "math": [ "moon_phase() == 4" ] },
+          "effect": [
+            { "u_lose_effect": "effect_perk_moonstruck_full" },
+            { "u_lose_effect": "effect_perk_moonstruck_waxing" },
+            { "u_lose_effect": "effect_perk_moonstruck_new" },
+            { "u_add_effect": "effect_perk_moonstruck_full", "duration": "2 hours" }
+          ],
+          "false_effect": {
+            "run_eocs": {
+              "id": "EOC_PERK_MOONSTRUCK_3",
+              "condition": { "and": [ { "math": [ "moon_phase() <= 3" ] }, { "math": [ "moon_phase() >= 1" ] } ] },
+              "effect": [
+                { "u_lose_effect": "effect_perk_moonstruck_full" },
+                { "u_lose_effect": "effect_perk_moonstruck_waxing" },
+                { "u_lose_effect": "effect_perk_moonstruck_new" },
+                { "u_add_effect": "effect_perk_moonstruck_waxing", "duration": "2 hours" }
+              ],
+              "false_effect": {
+                "run_eocs": {
+                  "id": "EOC_PERK_MOONSTRUCK_4",
+                  "condition": { "math": [ "moon_phase() == 0" ] },
+                  "effect": [
+                    { "u_lose_effect": "effect_perk_moonstruck_full" },
+                    { "u_lose_effect": "effect_perk_moonstruck_waxing" },
+                    { "u_lose_effect": "effect_perk_moonstruck_new" },
+                    { "u_add_effect": "effect_perk_moonstruck_new", "duration": "2 hours" }
+                  ],
+                  "false_effect": [
+                    { "u_lose_effect": "effect_perk_moonstruck_full" },
+                    { "u_lose_effect": "effect_perk_moonstruck_waxing" },
+                    { "u_lose_effect": "effect_perk_moonstruck_new" }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]

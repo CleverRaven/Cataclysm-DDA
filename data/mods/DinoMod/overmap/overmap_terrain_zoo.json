@@ -1,0 +1,56 @@
+[
+  {
+    "type": "city_building",
+    "id": "dinozoo",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dinozoo_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "dinozoo_1_0_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "dinozoo_2_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "dinozoo_0_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "zoo_0_1_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "dinozoo_1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "zoo_1_1_roof_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "dinozoo_2_1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "zoo_2_1_roof_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "dinozoo_0_2_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "zoo_0_2_roof_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "dinozoo_1_2_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "zoo_1_2_roof_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "dinozoo_2_2_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "zoo_2_2_roof_north" }
+    ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dinozoo_0_0", "dinozoo_1_0" ],
+    "copy-from": "generic_city_building",
+    "name": "DinoZoo parking",
+    "sym": "P",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dinozoo_2_0",
+    "copy-from": "generic_city_building",
+    "name": "zoo pavilion",
+    "sym": "P",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dinozoo_0_1", "dinozoo_1_1", "dinozoo_2_1", "dinozoo_0_2", "dinozoo_1_2", "dinozoo_2_2" ],
+    "copy-from": "generic_city_building",
+    "name": "DinoZoo",
+    "sym": "Z",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "zoo_0_1_roof", "zoo_1_1_roof", "zoo_2_1_roof", "zoo_0_2_roof", "zoo_1_2_roof", "zoo_2_2_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "DinoZoo roof",
+    "sym": "Z",
+    "color": "i_green"
+  }
+]

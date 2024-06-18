@@ -1,9 +1,10 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "stats_tracker.h"
 
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -18,16 +19,59 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "event_subscriber.h"
+#include "game.h"
 #include "game_constants.h"
 #include "json.h"
-#include "optional.h"
+#include "json_loader.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 
-static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_run( "run" );
+static const event_statistic_id event_statistic_avatar_damage_taken( "avatar_damage_taken" );
+static const event_statistic_id event_statistic_avatar_id( "avatar_id" );
+static const event_statistic_id
+event_statistic_avatar_last_item_wielded( "avatar_last_item_wielded" );
+static const event_statistic_id event_statistic_first_omt( "first_omt" );
+static const event_statistic_id
+event_statistic_last_oter_type_avatar_entered( "last_oter_type_avatar_entered" );
+static const event_statistic_id
+event_statistic_num_avatar_enters_lab_finale( "num_avatar_enters_lab_finale" );
+static const event_statistic_id
+event_statistic_num_avatar_monster_kills( "num_avatar_monster_kills" );
+static const event_statistic_id
+event_statistic_num_avatar_zombie_kills( "num_avatar_zombie_kills" );
+static const event_statistic_id event_statistic_num_moves( "num_moves" );
+static const event_statistic_id event_statistic_num_moves_crouched( "num_moves_crouched" );
+static const event_statistic_id event_statistic_num_moves_mounted( "num_moves_mounted" );
+static const event_statistic_id event_statistic_num_moves_ran( "num_moves_ran" );
+static const event_statistic_id event_statistic_num_moves_swam( "num_moves_swam" );
+static const event_statistic_id
+event_statistic_num_moves_swam_underwater( "num_moves_swam_underwater" );
+static const event_statistic_id event_statistic_num_moves_walked( "num_moves_walked" );
+
+static const itype_id itype_crowbar( "crowbar" );
+static const itype_id itype_pipe( "pipe" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const mtype_id mon_dog( "mon_dog" );
+static const mtype_id mon_horse( "mon_horse" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
+
+static const oter_type_str_id oter_type_field( "field" );
+
+static const score_id score_score_damage_taken( "score_damage_taken" );
+static const score_id score_score_distance_crouched( "score_distance_crouched" );
+static const score_id score_score_distance_mounted( "score_distance_mounted" );
+static const score_id score_score_distance_ran( "score_distance_ran" );
+static const score_id score_score_distance_swam( "score_distance_swam" );
+static const score_id score_score_distance_swam_underwater( "score_distance_swam_underwater" );
+static const score_id score_score_distance_walked( "score_distance_walked" );
+static const score_id score_score_kills( "score_kills" );
+static const score_id score_score_moves( "score_moves" );
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {
@@ -36,10 +80,10 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
     b.subscribe( &s );
 
     const character_id u_id = get_player_character().getID();
-    const mtype_id mon1( "mon_zombie" );
-    const mtype_id mon2( "mon_zombie_brute" );
-    const cata::event kill1 = cata::event::make<event_type::character_kills_monster>( u_id, mon1 );
-    const cata::event kill2 = cata::event::make<event_type::character_kills_monster>( u_id, mon2 );
+    const cata::event kill1 =
+        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
+    const cata::event kill2 = cata::event::make<event_type::character_kills_monster>( u_id,
+                              mon_zombie_brute, 0 );
     const cata::event::data_type char_is_player{ { "killer", cata_variant( u_id ) } };
 
     CHECK( s.get_events( kill1.type() ).count( kill1.data() ) == 0 );
@@ -91,23 +135,22 @@ TEST_CASE( "stats_tracker_minimum_events", "[stats]" )
     b.subscribe( &s );
 
     const mtype_id no_monster;
-    const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
 
     CHECK( s.get_events( am ).minimum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 0 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 0 );
     CHECK( s.get_events( am ).minimum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, -1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, -1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, -3 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, -3 );
     CHECK( s.get_events( am ).minimum( "z" ) == -3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, -1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, -1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 1 );
     CHECK( s.get_events( am ).minimum( "z" ) == -3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, -5 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, -5 );
     CHECK( s.get_events( am ).minimum( "z" ) == -5 );
 }
 
@@ -118,23 +161,22 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     b.subscribe( &s );
 
     const mtype_id no_monster;
-    const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
 
     CHECK( s.get_events( am ).maximum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 0 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 0 );
     CHECK( s.get_events( am ).maximum( "z" ) == 0 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 1 );
-    b.send<am>( no_monster, t_null, move_mode_walk, false, 3 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, false, 3 );
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 1 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 1 );
     CHECK( s.get_events( am ).maximum( "z" ) == 3 );
-    b.send<am>( no_monster, t_null, move_mode_walk, true, 5 );
+    b.send<am>( no_monster, ter_str_id::NULL_ID(), move_mode_walk, true, 5 );
     CHECK( s.get_events( am ).maximum( "z" ) == 5 );
 }
 
@@ -162,9 +204,9 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
 
 static void send_game_start( event_bus &b, const character_id &u_id )
 {
-    b.send<event_type::game_start>(
-        u_id, "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION",
-        "VERION_STRING" );
+    b.send<event_type::game_start>( "VERION_STRING" );
+    b.send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false, u_id,
+            "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION" );
 }
 
 TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
@@ -175,187 +217,181 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
 
     SECTION( "movement" ) {
         const mtype_id no_monster;
-        const mtype_id horse( "mon_horse" );
-        const ter_id t_null( "t_null" );
         const ter_id t_water_dp( "t_water_dp" );
 
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk,  false, 0 );
-        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse, t_null,
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( mon_horse,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk,
                                  false, 0 );
-        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster,
+                                ter_str_id::NULL_ID(),
                                 move_mode_run, false, 0 );
-        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster,
+                                   ter_str_id::NULL_ID(),
                                    move_mode_crouch, false, 0 );
         const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
                                  move_mode_walk, false, 0 );
         const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
                                             t_water_dp, move_mode_walk, true, 0 );
 
-        const string_id<score> score_moves( "score_moves" );
-        const string_id<score> score_walked( "score_distance_walked" );
-        const string_id<score> score_mounted( "score_distance_mounted" );
-        const string_id<score> score_ran( "score_distance_ran" );
-        const string_id<score> score_crouched( "score_distance_crouched" );
-        const string_id<score> score_swam( "score_distance_swam" );
-        const string_id<score> score_swam_underwater( "score_distance_swam_underwater" );
-
-        CHECK( score_moves->value( s ).get<int>() == 0 );
-        CHECK( score_walked->value( s ).get<int>() == 0 );
-        CHECK( score_mounted->value( s ).get<int>() == 0 );
-        CHECK( score_ran->value( s ).get<int>() == 0 );
-        CHECK( score_crouched->value( s ).get<int>() == 0 );
-        CHECK( score_swam->value( s ).get<int>() == 0 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+        CHECK( score_score_moves->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 0 );
 
         b.send( walk );
 
-        CHECK( score_moves->value( s ).get<int>() == 1 );
-        CHECK( score_walked->value( s ).get<int>() == 1 );
-        CHECK( score_mounted->value( s ).get<int>() == 0 );
-        CHECK( score_ran->value( s ).get<int>() == 0 );
-        CHECK( score_crouched->value( s ).get<int>() == 0 );
-        CHECK( score_swam->value( s ).get<int>() == 0 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+        CHECK( score_score_moves->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 0 );
 
         b.send( ride );
 
-        CHECK( score_moves->value( s ).get<int>() == 2 );
-        CHECK( score_walked->value( s ).get<int>() == 1 );
-        CHECK( score_mounted->value( s ).get<int>() == 1 );
-        CHECK( score_ran->value( s ).get<int>() == 0 );
-        CHECK( score_crouched->value( s ).get<int>() == 0 );
-        CHECK( score_swam->value( s ).get<int>() == 0 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+        CHECK( score_score_moves->value( s ).get<int>() == 2 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 0 );
 
         b.send( run );
 
-        CHECK( score_moves->value( s ).get<int>() == 3 );
-        CHECK( score_walked->value( s ).get<int>() == 1 );
-        CHECK( score_mounted->value( s ).get<int>() == 1 );
-        CHECK( score_ran->value( s ).get<int>() == 1 );
-        CHECK( score_crouched->value( s ).get<int>() == 0 );
-        CHECK( score_swam->value( s ).get<int>() == 0 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+        CHECK( score_score_moves->value( s ).get<int>() == 3 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 0 );
 
         b.send( crouch );
 
-        CHECK( score_moves->value( s ).get<int>() == 4 );
-        CHECK( score_walked->value( s ).get<int>() == 1 );
-        CHECK( score_mounted->value( s ).get<int>() == 1 );
-        CHECK( score_ran->value( s ).get<int>() == 1 );
-        CHECK( score_crouched->value( s ).get<int>() == 1 );
-        CHECK( score_swam->value( s ).get<int>() == 0 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+        CHECK( score_score_moves->value( s ).get<int>() == 4 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 0 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 0 );
 
         b.send( swim );
 
-        CHECK( score_moves->value( s ).get<int>() == 5 );
-        CHECK( score_walked->value( s ).get<int>() == 1 );
-        CHECK( score_mounted->value( s ).get<int>() == 1 );
-        CHECK( score_ran->value( s ).get<int>() == 1 );
-        CHECK( score_crouched->value( s ).get<int>() == 1 );
-        CHECK( score_swam->value( s ).get<int>() == 1 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 0 );
+        CHECK( score_score_moves->value( s ).get<int>() == 5 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 0 );
 
         b.send( swim_underwater );
 
-        CHECK( score_moves->value( s ).get<int>() == 6 );
-        CHECK( score_walked->value( s ).get<int>() == 1 );
-        CHECK( score_mounted->value( s ).get<int>() == 1 );
-        CHECK( score_ran->value( s ).get<int>() == 1 );
-        CHECK( score_crouched->value( s ).get<int>() == 1 );
-        CHECK( score_swam->value( s ).get<int>() == 2 );
-        CHECK( score_swam_underwater->value( s ).get<int>() == 1 );
+        CHECK( score_score_moves->value( s ).get<int>() == 6 );
+        CHECK( score_score_distance_walked->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_mounted->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_ran->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_crouched->value( s ).get<int>() == 1 );
+        CHECK( score_score_distance_swam->value( s ).get<int>() == 2 );
+        CHECK( score_score_distance_swam_underwater->value( s ).get<int>() == 1 );
     }
 
     const character_id u_id = get_player_character().getID();
     SECTION( "kills" ) {
         character_id other_id = u_id;
         ++other_id;
-        const mtype_id mon_zombie( "mon_zombie" );
-        const mtype_id mon_dog( "mon_dog" );
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
         const cata::event avatar_dog_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog, 0 );
         const cata::event other_kill =
-            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
-        const string_id<event_statistic> avatar_id( "avatar_id" );
-        const string_id<event_statistic> num_avatar_monster_kills( "num_avatar_monster_kills" );
-        const string_id<event_statistic> num_avatar_zombie_kills( "num_avatar_zombie_kills" );
-        const string_id<score> score_kills( "score_kills" );
+            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie, 0 );
 
         send_game_start( b, u_id );
-        CHECK( avatar_id->value( s ) == cata_variant( u_id ) );
-        CHECK( score_kills->value( s ).get<int>() == 0 );
-        CHECK( score_kills->description( s ) == "0 monsters killed" );
+        CHECK( event_statistic_avatar_id->value( s ) == cata_variant( u_id ) );
+        CHECK( score_score_kills->value( s ).get<int>() == 0 );
+        CHECK( score_score_kills->description( s ) == "0 monsters killed" );
         b.send( avatar_zombie_kill );
-        CHECK( num_avatar_monster_kills->value( s ).get<int>() == 1 );
-        CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
-        CHECK( score_kills->value( s ).get<int>() == 1 );
-        CHECK( score_kills->description( s ) == "1 monster killed" );
+        CHECK( event_statistic_num_avatar_monster_kills->value( s ).get<int>() == 1 );
+        CHECK( event_statistic_num_avatar_zombie_kills->value( s ).get<int>() == 1 );
+        CHECK( score_score_kills->value( s ).get<int>() == 1 );
+        CHECK( score_score_kills->description( s ) == "1 monster killed" );
         b.send( avatar_dog_kill );
-        CHECK( num_avatar_monster_kills->value( s ).get<int>() == 2 );
-        CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
-        CHECK( score_kills->value( s ).get<int>() == 2 );
+        CHECK( event_statistic_num_avatar_monster_kills->value( s ).get<int>() == 2 );
+        CHECK( event_statistic_num_avatar_zombie_kills->value( s ).get<int>() == 1 );
+        CHECK( score_score_kills->value( s ).get<int>() == 2 );
         b.send( other_kill );
-        CHECK( num_avatar_zombie_kills->value( s ).get<int>() == 1 );
-        CHECK( score_kills->value( s ).get<int>() == 2 );
+        CHECK( event_statistic_num_avatar_zombie_kills->value( s ).get<int>() == 1 );
+        CHECK( score_score_kills->value( s ).get<int>() == 2 );
     }
 
     SECTION( "damage" ) {
         const cata::event avatar_2_damage =
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
-        const string_id<score> damage_taken( "score_damage_taken" );
 
         send_game_start( b, u_id );
-        CHECK( damage_taken->value( s ).get<int>() == 0 );
+        CHECK( score_score_damage_taken->value( s ).get<int>() == 0 );
         b.send( avatar_2_damage );
-        CHECK( damage_taken->value( s ).get<int>() == 2 );
+        CHECK( score_score_damage_taken->value( s ).get<int>() == 2 );
     }
 
     SECTION( "first_last_events" ) {
         const oter_id field( "field" );
-        const itype_id crowbar( "crowbar" );
-        const itype_id pipe( "pipe" );
-        const string_id<event_statistic> first_omt( "first_omt" );
-        const string_id<event_statistic> last_wielded( "avatar_last_item_wielded" );
-
         send_game_start( b, u_id );
-        CHECK( first_omt->value( s ) == cata_variant() );
-        CHECK( last_wielded->value( s ) == cata_variant() );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant() );
+        CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant() );
         b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
-        b.send<event_type::character_wields_item>( u_id, crowbar );
-        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
-        CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
+        b.send<event_type::character_wields_item>( u_id, itype_crowbar );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_crowbar ) );
 
         calendar::turn += 1_minutes;
         b.send<event_type::avatar_enters_omt>( tripoint_below, field );
-        b.send<event_type::character_wields_item>( u_id, pipe );
-        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
-        CHECK( last_wielded->value( s ) == cata_variant( pipe ) );
+        b.send<event_type::character_wields_item>( u_id, itype_pipe );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_pipe ) );
 
         calendar::turn += 1_minutes;
         b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
-        b.send<event_type::character_wields_item>( u_id, crowbar );
-        CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
-        CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
+        b.send<event_type::character_wields_item>( u_id, itype_crowbar );
+        CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
+        CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_crowbar ) );
+    }
+
+    SECTION( "equals_any" ) {
+        const oter_id lab_finale( "lab_finale" );
+        const oter_id central_lab_finale( "central_lab_finale" );
+        send_game_start( b, u_id );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 0 ) );
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, lab_finale );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 1 ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_below, central_lab_finale );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 2 ) );
     }
 
     SECTION( "invalid_values_filtered_out" ) {
         const oter_id field( "field" );
-        const oter_type_str_id field_type( "field" );
         const cata_variant invalid_oter_id =
             cata_variant::from_string( cata_variant_type::oter_id, "XXXXXX" );
-        const string_id<event_statistic> last_entered( "last_oter_type_avatar_entered" );
 
         send_game_start( b, u_id );
-        CHECK( last_entered->value( s ) == cata_variant() );
+        CHECK( event_statistic_last_oter_type_avatar_entered->value( s ) == cata_variant() );
 
         b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
-        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+        CHECK( event_statistic_last_oter_type_avatar_entered->value( s ) == cata_variant(
+                   oter_type_field ) );
 
         const cata::event invalid_event(
             event_type::avatar_enters_omt, calendar::turn,
@@ -364,7 +400,8 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
             { "oter_id", invalid_oter_id }
         } );
         b.send( invalid_event );
-        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+        CHECK( event_statistic_last_oter_type_avatar_entered->value( s ) == cata_variant(
+                   oter_type_field ) );
     }
 }
 
@@ -383,31 +420,25 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
     SECTION( "movement" ) {
         const mtype_id no_monster;
-        const mtype_id horse( "mon_horse" );
-        const ter_id t_null( "t_null" );
         const ter_id t_water_dp( "t_water_dp" );
 
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk, false, 0 );
-        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse, t_null,
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( mon_horse,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk,
                                  false, 0 );
-        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster,
+                                ter_str_id::NULL_ID(),
                                 move_mode_run, false, 0 );
-        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event crouch = cata::event::make<event_type::avatar_moves>( no_monster,
+                                   ter_str_id::NULL_ID(),
                                    move_mode_crouch, false, 0 );
         const cata::event swim = cata::event::make<event_type::avatar_moves>( no_monster, t_water_dp,
                                  move_mode_walk, false, 0 );
         const cata::event swim_underwater = cata::event::make<event_type::avatar_moves>( no_monster,
                                             t_water_dp, move_mode_walk, true, 0 );
-
-        const string_id<event_statistic> stat_moves( "num_moves" );
-        const string_id<event_statistic> stat_walked( "num_moves_walked" );
-        const string_id<event_statistic> stat_mounted( "num_moves_mounted" );
-        const string_id<event_statistic> stat_ran( "num_moves_ran" );
-        const string_id<event_statistic> stat_crouched( "num_moves_crouched" );
-        const string_id<event_statistic> stat_swam( "num_moves_swam" );
-        const string_id<event_statistic> stat_swam_underwater( "num_moves_swam_underwater" );
 
         watch_stat moves_watcher;
         watch_stat walked_watcher;
@@ -417,13 +448,13 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         watch_stat swam_watcher;
         watch_stat swam_underwater_watcher;
 
-        s.add_watcher( stat_moves, &moves_watcher );
-        s.add_watcher( stat_walked, &walked_watcher );
-        s.add_watcher( stat_mounted, &mounted_watcher );
-        s.add_watcher( stat_ran, &ran_watcher );
-        s.add_watcher( stat_crouched, &crouched_watcher );
-        s.add_watcher( stat_swam, &swam_watcher );
-        s.add_watcher( stat_swam_underwater, &swam_underwater_watcher );
+        s.add_watcher( event_statistic_num_moves, &moves_watcher );
+        s.add_watcher( event_statistic_num_moves_walked, &walked_watcher );
+        s.add_watcher( event_statistic_num_moves_mounted, &mounted_watcher );
+        s.add_watcher( event_statistic_num_moves_ran, &ran_watcher );
+        s.add_watcher( event_statistic_num_moves_crouched, &crouched_watcher );
+        s.add_watcher( event_statistic_num_moves_swam, &swam_watcher );
+        s.add_watcher( event_statistic_num_moves_swam_underwater, &swam_underwater_watcher );
 
         CHECK( moves_watcher.value == cata_variant() );
         CHECK( walked_watcher.value == cata_variant() );
@@ -498,21 +529,17 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     SECTION( "kills" ) {
         character_id other_id = u_id;
         ++other_id;
-        const mtype_id mon_zombie( "mon_zombie" );
-        const mtype_id mon_dog( "mon_dog" );
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
         const cata::event avatar_dog_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_dog, 0 );
         const cata::event other_kill =
-            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie );
-        const string_id<event_statistic> num_avatar_monster_kills( "num_avatar_monster_kills" );
-        const string_id<event_statistic> num_avatar_zombie_kills( "num_avatar_zombie_kills" );
+            cata::event::make<event_type::character_kills_monster>( other_id, mon_zombie, 0 );
 
         watch_stat kills_watcher;
         watch_stat zombie_kills_watcher;
-        s.add_watcher( num_avatar_monster_kills, &kills_watcher );
-        s.add_watcher( num_avatar_zombie_kills, &zombie_kills_watcher );
+        s.add_watcher( event_statistic_num_avatar_monster_kills, &kills_watcher );
+        s.add_watcher( event_statistic_num_avatar_zombie_kills, &zombie_kills_watcher );
 
         send_game_start( b, u_id );
         CHECK( kills_watcher.value == cata_variant( 0 ) );
@@ -530,9 +557,8 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     SECTION( "damage" ) {
         const cata::event avatar_2_damage =
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
-        const string_id<event_statistic> damage_taken( "avatar_damage_taken" );
         watch_stat damage_watcher;
-        s.add_watcher( damage_taken, &damage_watcher );
+        s.add_watcher( event_statistic_avatar_damage_taken, &damage_watcher );
 
         CHECK( damage_watcher.value == cata_variant() );
         send_game_start( b, u_id );
@@ -544,6 +570,9 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
 TEST_CASE( "achievements_tracker", "[stats]" )
 {
+
+    g->start_calendar();
+
     override_option opt( "24_HOUR", "military" );
 
     std::map<achievement_id, const achievement *> achievements_completed;
@@ -625,9 +654,8 @@ TEST_CASE( "achievements_tracker", "[stats]" )
     }
 
     SECTION( "hidden_kills" ) {
-        const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
 
         achievement_id a_kill_10( "achievement_kill_10_monsters" );
         achievement_id a_kill_100( "achievement_kill_100_monsters" );
@@ -654,9 +682,8 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         CAPTURE( time_since_game_start );
         calendar::turn = calendar::start_of_game + time_since_game_start;
 
-        const mtype_id mon_zombie( "mon_zombie" );
         const cata::event avatar_zombie_kill =
-            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+            cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
 
         achievement_id c_pacifist( "conduct_zero_kills" );
         achievement_id c_merciful( "conduct_zero_character_kills" );
@@ -676,7 +703,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         } else {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0001.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
@@ -690,40 +717,44 @@ TEST_CASE( "achievements_tracker", "[stats]" )
                "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_completed.empty() );
-        CHECK( achievements_failed.empty() );
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( achievements_failed.empty() );
+        } else {
+            CHECK( achievements_failed.count( a_kill_in_first_minute ) );
+        }
         b.send( avatar_zombie_kill );
 
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_yellow>Kill no monsters</color>\n"
                    "  <color_c_green>Kill no characters</color>\n" );
         } else {
             CHECK( a.ui_text_for( &*c_pacifist ) ==
                    "<color_c_red>Pacifist</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>Kill no monsters</color>\n"
                    "  <color_c_green>Kill no characters</color>\n" );
         }
@@ -742,33 +773,34 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_in_first_minute ) ) ==
                    "<color_c_light_green>Rude awakening</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0000.30</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0800.30</color>\n"
                    "  <color_c_green>1/1 monster killed</color>\n" );
         } else {
             CHECK( a.ui_text_for( achievements_completed.at( a_kill_zombie ) ) ==
                    "<color_c_light_green>One down, billions to go…</color>\n"
-                   "  <color_c_light_green>Completed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_light_green>Completed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_green>1/1 zombie killed</color>\n" );
             CHECK( !achievements_completed.count( a_kill_in_first_minute ) );
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 61 0810.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
     }
 
     SECTION( "movement" ) {
         const mtype_id no_monster;
-        const ter_id t_null( "t_null" );
         const ter_id t_water_dp( "t_water_dp" );
         const ter_id t_shrub_raspberry( "t_shrub_raspberry" );
-        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster,
+                                 ter_str_id::NULL_ID(),
                                  move_mode_walk, false, 0 );
-        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event run = cata::event::make<event_type::avatar_moves>( no_monster,
+                                ter_str_id::NULL_ID(),
                                 move_mode_run, false, 0 );
         const cata::event sharp_move = cata::event::make<event_type::avatar_moves>( no_monster,
                                        t_shrub_raspberry, move_mode_walk, false, 0 );
@@ -778,9 +810,11 @@ TEST_CASE( "achievements_tracker", "[stats]" )
                                             t_water_dp, move_mode_walk, true, 0 );
         const cata::event swim_underwater_deep = cata::event::make<event_type::avatar_moves>( no_monster,
                 t_water_dp, move_mode_walk, true, -5 );
-        const cata::event walk_max_z = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk_max_z = cata::event::make<event_type::avatar_moves>( no_monster,
+                                       ter_str_id::NULL_ID(),
                                        move_mode_walk, false, OVERMAP_HEIGHT );
-        const cata::event walk_min_z = cata::event::make<event_type::avatar_moves>( no_monster, t_null,
+        const cata::event walk_min_z = cata::event::make<event_type::avatar_moves>( no_monster,
+                                       ter_str_id::NULL_ID(),
                                        move_mode_walk, false, -OVERMAP_DEPTH );
 
         SECTION( "achievement_marathon" ) {
@@ -883,7 +917,8 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
     CHECK( get_stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
 
-struct test_subscriber : public event_subscriber {
+struct stats_test_subscriber : public event_subscriber {
+    using event_subscriber::notify;
     void notify( const cata::event &e ) override {
         if( e.type() == event_type::player_gets_achievement ||
             e.type() == event_type::player_fails_conduct ) {
@@ -898,15 +933,21 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
     get_stats().clear();
     get_achievements().clear();
-    test_subscriber sub;
+    stats_test_subscriber sub;
     get_event_bus().subscribe( &sub );
 
     const character_id u_id = get_player_character().getID();
     send_game_start( get_event_bus(), u_id );
 
-    const mtype_id mon_zombie( "mon_zombie" );
+    std::vector<std::string> args{ std::to_string( u_id.get_value() ), mon_zombie.c_str(), "0" };
+
+    bool dynamic_event = GENERATE( false, true );
+    CAPTURE( dynamic_event );
+
     const cata::event avatar_zombie_kill =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
+        dynamic_event
+        ? cata::event::make_dyn( event_type::character_kills_monster, args )
+        : cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );
@@ -957,10 +998,9 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
             "score_distance_walked"
         ]
     })";
-    std::istringstream is( json_string );
-    JsonIn jsin( is );
+    JsonValue jsin = json_loader::from_string( json_string );
     stats_tracker s;
-    s.deserialize( jsin );
+    s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );
     CHECK( s.get_events( event_type::character_kills_monster ).count() == 0 );
 }

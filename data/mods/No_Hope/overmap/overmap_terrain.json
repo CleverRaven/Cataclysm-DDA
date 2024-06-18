@@ -1,0 +1,17 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "basement_bionic" ],
+    "copy-from": "generic_city_house_basement",
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_under_full",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  }
+]

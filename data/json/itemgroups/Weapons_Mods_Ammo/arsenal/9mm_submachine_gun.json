@@ -1,0 +1,86 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_sub_gun&mags&cans",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm_sub_gun&ammo" },
+      {
+        "distribution": [ { "item": "ammo_can_30_9mm_fmj_1000", "count": [ 1, 4 ] }, { "item": "ammo_can_30_9mm_jhp_1000", "count": [ 1, 4 ] } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_sub_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm_sub_gun&mags" },
+      { "group": "ammo_can_9mm_any_full", "prob": 30 },
+      { "group": "ammo_can_9mm_any_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_sub_gun&mags",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_9mm_sub", "count": [ 1, 2 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_sub",
+    "items": [
+      { "group": "nested_bt_apc9k_no_ammo", "prob": 70 },
+      { "group": "nested_hk_mp5_no_ammo", "prob": 40 },
+      { "group": "nested_hk_mp5k_no_ammo", "prob": 10 }
+    ]
+  },
+  {
+    "id": "nested_bt_apc9k_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "bt_apc9k" }, { "group": "bt_apc9k_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "bt_apc9k_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "btmp9mag_9x19mm_15", "prob": 50 },
+      { "item": "btmp9mag_9x19mm_10rd", "prob": 100 },
+      { "item": "btmp9mag_9x19mm_20", "prob": 200 },
+      { "item": "btmp9mag_9x19mm_25", "prob": 300 },
+      { "item": "btmp9mag_9x19mm_30", "prob": 400 },
+      { "item": "btmp9mag_9x19mm_50rd", "prob": 10 }
+    ]
+  },
+  {
+    "id": "nested_hk_mp5_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "hk_mp5" }, { "group": "hk_mp5_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_hk_mp5k_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "hk_mp5k" }, { "group": "hk_mp5_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "hk_mp5_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "mp5mag_10rd", "prob": 100 },
+      { "item": "mp5mag_15rd", "prob": 200 },
+      { "item": "mp5mag_20rd", "prob": 300 },
+      { "item": "mp5mag", "prob": 500 },
+      { "item": "mp5mag_38rd", "prob": 50 },
+      { "item": "mp5mag_40rd", "prob": 25 },
+      { "item": "mp5bigmag", "prob": 13 },
+      { "item": "mp5mag_100rd", "prob": 7 }
+    ]
+  }
+]
