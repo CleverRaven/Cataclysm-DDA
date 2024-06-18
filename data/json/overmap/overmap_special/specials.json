@@ -3766,7 +3766,12 @@
   {
     "type": "overmap_special",
     "id": "gun_show",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gunshow_0_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "gunshow_1_roof_north" }
+    ],
     "locations": [ "field" ],
     "connections": [ { "point": [ 0, 5, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
     "city_distance": [ 3, -1 ],
