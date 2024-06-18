@@ -25,7 +25,7 @@
       },
       {
         "id": "epilogue_faction_your_followers_OG",
-        "text": "    The soldiers of the Old Guard will not forget you.  In bringing together the survivors of the Cataclysm, you have sown the seeds for a new birth of Freedom.  For this, your legend will forever be entwined with the national mythos, your likeness etched in marble at the heart of New Washington…"
+        "text": "    The soldiers of the Old Guard will not forget you.  In bringing together the survivors of the Cataclysm, you have sown the seeds for a new birth of Freedom.  For this, your legend will survive as long as the Old Guard does…"
       },
       {
         "id": "epilogue_faction_old_guard_0",
@@ -37,7 +37,7 @@
       },
       {
         "id": "epilogue_faction_old_guard_thrive",
-        "text": "    The steadfastness of individual survivors after the Cataclysm impressed the tattered remains of the once glorious union.  Spurred on by numerous strategic successes, a number of operations to re-secure facilities succeeded thanks to the support of various surviving communities.  While some remained cautious of submitting themselves to the Old Guard's authority, nostalgia for the old world and the promise of security from the new rallied many more to their flag.  In the coming decades, the Old Guard were able to reconnect much of New England and beyond, their dreams for the future buoyed by the memory of the past."
+        "text": "    The steadfastness of individual survivors after the Cataclysm impressed the tattered remains of the once glorious union.  Spurred on by numerous strategic successes, a number of operations to re-secure facilities succeeded thanks to the support of various surviving communities.  While some remained cautious of submitting themselves to the Old Guard's authority, nostalgia for the old world and the promise of security from the new rallied many more to their flag.."
       },
       {
         "id": "epilogue_faction_free_merchants_0",
@@ -113,11 +113,11 @@
       },
       {
         "id": "epilogue_faction_robofac_thrive",
-        "text": "    Melchior's enlightened leadership, backed-up with the muscle of numerous mercenary survivors, allowed Hub-01 to flourish on its' own for a time.  However, while the staff of Hub-01 preferred to ignore the people of the region, the looming shortages of advanced resources and personnel forced them to begin opening up to their neighbors for help.  Fortunately, the knowledge and resources they were able to source from the Exodii, and the influx of fresh recruits from organizations like the Great Library, ensured that the Hub would continue to thrive for the foreseeable future.  While the researchers of the Hub would restrain themselves (or be restrained by Melchior) from engaging in the worst excesses of XEDRA, they continued to explore new ways to survive, and perhaps one day even overcome, the horrors besieging the Earth.  Bionics and mutagens, reality anchors and molecular printing, the future was truly in their hands."
+        "text": "    Melchior's enlightened leadership, backed-up with the muscle of numerous mercenary survivors, allowed Hub-01 to flourish on its' own for a time.  However, while the staff of Hub-01 preferred to ignore the people of the region, the looming shortages of advanced resources and personnel forced them to expand their search for resources.  By prying the secrets of CBMs from the Exodii, Hub01 was able to recruit and retain an enhanced mercenary force which proved capable of protecting them for years after the Cataclysm."
       },
       {
         "id": "epilogue_faction_robofac_thrive_OG",
-        "text": "    While still technically being employees (or property, in Melchior's case) of the federal government, the staff of Hub-01 were initially very reluctant to have anything to do with the Old Guard.  However, the connections and resources of the Old Guard gave them significant leverage in negotiations between the two factions.  After much debate, Hub-01 would eventually vote to rejoin the government in exchange for its' support of the Hub's research, as well as for the legal recognition of Melchior as a fully sentient citizen."
+        "text": "    While still technically being employees (or property, in Melchior's case) of the federal government, the staff of Hub-01 were initially very reluctant to have anything to do with the Old Guard.  However, the connections and resources of the Old Guard gave them significant leverage in negotiations between the two factions.  After much debate, Hub-01 would eventually vote to rejoin the government in exchange for its' support of the Hub's research."
       },
       {
         "id": "epilogue_faction_isherwoods_0",
