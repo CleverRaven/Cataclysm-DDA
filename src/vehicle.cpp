@@ -2995,6 +2995,8 @@ int vehicle::next_part_to_lock( int p, bool outside ) const
 
 int vehicle::next_part_to_unlock( int p, bool outside ) const
 {
+    cata_assert( p >= 0 );
+    cata_assert( p < part_count() );
     if( !part_has_lock( p ) ) {
         return -1;
     }
