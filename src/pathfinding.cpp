@@ -351,7 +351,7 @@ int map::extra_cost( const tripoint &cur, const tripoint &p, const pathfinding_s
 
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                   const pathfinding_settings &settings,
-                                  const std::unordered_set<tripoint> &pre_closed ) const
+                                  const std::function<bool( const tripoint & )> &avoid ) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
@@ -365,16 +365,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     if( !inbounds( t ) ) {
         tripoint clipped = t;
         clip_to_bounds( clipped );
-        return route( f, clipped, settings, pre_closed );
+        return route( f, clipped, settings, avoid );
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
     if( f.z == t.z ) {
         auto line_path = straight_route( f, t );
         if( !line_path.empty() ) {
-            if( std::none_of( line_path.begin(), line_path.end(), [&pre_closed]( const tripoint & p ) {
-            return pre_closed.count( p );
-            } ) ) {
+            if( std::none_of( line_path.begin(), line_path.end(), avoid ) ) {
                 return line_path;
             }
         }
@@ -394,17 +392,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     clip_to_bounds( max.x, max.y, max.z );
 
     pf.reset( min.z, max.z );
-    // Make NPCs not want to path through player
-    // But don't make player pathing stop working
-    for( const tripoint &p : pre_closed ) {
-        if( p.x >= min.x && p.x < max.x && p.y >= min.y && p.y < max.y ) {
-            pf.close_point( p );
-        }
-    }
 
-    // Start and end must not be closed
-    pf.unclose_point( f );
-    pf.unclose_point( t );
     pf.add_point( 0, 0, f, f );
 
     bool done = false;
@@ -444,6 +432,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // TODO: Remove this and instead have sentinels at the edges
             if( p.x < min.x || p.x >= max.x || p.y < min.y || p.y >= max.y ) {
+                continue;
+            }
+
+            if( p != t && avoid( p ) ) {
+                layer.closed[index] = true;
                 continue;
             }
 
@@ -613,9 +606,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
 std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
         const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed ) const
+        const std::function<bool( const tripoint & )> &avoid ) const
 {
-    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, pre_closed );
+    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, avoid );
     std::vector<tripoint_bub_ms> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const tripoint & p ) {

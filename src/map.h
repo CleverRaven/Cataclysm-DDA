@@ -36,6 +36,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
@@ -731,10 +732,14 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
+            return false;
+        } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
+            return false;
+        } ) const;
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
