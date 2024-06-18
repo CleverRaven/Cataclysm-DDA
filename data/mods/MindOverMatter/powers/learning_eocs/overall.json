@@ -28,7 +28,7 @@
           {
             "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION_2",
             "condition": { "math": [ "u_val('focus')", ">=", "30" ] },
-            "effect": [ { "math": [ "u_val('focus')", "--" ] } ]
+            "effect": [ { "math": [ "u_val('focus')", "-=", "rand(1)" ] } ]
           }
         ]
       },
@@ -40,7 +40,7 @@
     "id": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS",
     "condition": { "u_has_effect": "effect_psi_studying_power" },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] },
       { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(u_latest_studied_power_difficulty)" ] }
     ]
   },
