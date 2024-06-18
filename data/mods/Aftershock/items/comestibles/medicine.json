@@ -61,7 +61,8 @@
     "description": "Mercurial brand medical gel; a thick, translucent substance that can be applied to wounds to seal them and promote rapid healing.  Perhaps the most useful medical invention ever devised, it's a staple of any first aid kit.",
     "price": "200 USD",
     "price_postapoc": "200 USD",
-    "volume": "10ml",
+    "volume": "500ml",
+    "charges": 2,
     "container": "bag_iv",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "WATER_DISSOLVE" ],
     "use_action": {
