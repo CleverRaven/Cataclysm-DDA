@@ -195,15 +195,15 @@
     "id": "survivor_knife",
     "type": "item_group",
     "items": [
-      [ "knife_butcher", 15 ],
-      [ "knife_chef", 15 ],
-      [ "knife_carving", 15 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 15 },
+      { "item": "knife_large", "variant": "knife_chef", "prob": 15 },
+      { "item": "knife_large", "variant": "knife_carving", "prob": 15 },
       [ "knife_folding", 10 ],
       [ "makeshift_knife", 1 ],
-      [ "knife_steak", 35 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 35 },
       { "group": "knife_rambo_cont", "prob": 15 },
       [ "knife_hunting", 10 ],
-      [ "knife_meat_cleaver", 10 ]
+      { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 }
     ]
   },
   {

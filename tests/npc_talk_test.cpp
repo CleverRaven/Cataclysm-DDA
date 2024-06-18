@@ -46,7 +46,7 @@ static const item_category_id item_category_manual( "manual" );
 static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
-static const itype_id itype_knife_butcher( "knife_butcher" );
+static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_manual_speech( "manual_speech" );
 
 static const morale_type morale_haircut( "morale_haircut" );
@@ -784,7 +784,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     CHECK( d.responses[7].text == "This is a basic test response." );
 
     d.add_topic( "TALK_TEST_ITEM_WIELDED" );
-    item_location loc = player_character.i_add( item( itype_knife_butcher ) );
+    item_location loc = player_character.i_add( item( itype_knife_huge ) );
     CHECK( player_character.wield( *loc ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );

@@ -592,5 +592,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "afs_glass_device" }, { "item": "afs_glass_AR_device" } ]
+  },
+  {
+    "id": "afs_police_evidence_locker",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Refers directly to the existing evidence group but we can add whatever we want to layer on top of that.",
+    "entries": [ { "group": "cop_evidence" } ]
   }
 ]
