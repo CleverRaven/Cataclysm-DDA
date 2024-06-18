@@ -407,38 +407,91 @@
   },
   {
     "type": "profession_item_substitutions",
-    "trait": "WOOLALLERGY",
+    "item": "blazer",
     "sub": [
-      { "item": "blazer", "new": [ "jacket_leather_red" ] },
-      { "item": "hat_hunting", "new": [ "hat_cotton" ] },
-      { "item": "hat_newsboy", "new": [ "hat_cotton" ] },
-      { "item": "peacoat", "new": [ "jacket_flannel" ] },
-      { "item": "sweater", "new": [ "sweatshirt" ] },
-      { "item": "boots_winter", "new": [ "boots_fur" ] },
-      { "item": "cloak_wool", "new": [ "cloak_leather" ] },
-      { "item": "gloves_wool", "new": [ "gloves_leather" ] },
-      { "item": "socks_wool", "new": [ "socks" ] },
-      { "item": "kilt", "new": [ "kilt_leather" ] },
-      { "item": "mask_ski", "new": [ "balclava" ] }
+      { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather_red" ] },
+      { "present": [ "VEGAN" ], "new": [ "jacket_light" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "hat_hunting",
+    "sub": [
+      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "hat_newsboy",
+    "sub": [
+      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "peacoat",
+    "sub": [
+      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "jacket_flannel" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "sweater",
+    "sub": [
+      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "sweatshirt" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "boots_winter",
+    "sub": [
+      { "present": [ "WOOLALLERGY" ], "new": [ "boots_fur" ] },
+      { "present": [ "VEGAN" ], "new": [ "boots_faux_fur" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "cloak_wool",
+    "sub": [
+      { "present": [ "WOOLALLERGY" ], "new": [ "cloak_leather" ] },
+      { "present": [ "VEGAN" ], "new": [ "cloak" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "gloves_wool",
+    "sub": [
+      { "present": [ "WOOLALLERGY" ], "new": [ "gloves_leather" ] },
+      { "present": [ "VEGAN" ], "new": [ "gloves_light" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "socks_wool",
+    "sub": [
+      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "socks" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "mask_ski",
+    "sub": [
+      { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "balclava" ] }
+    ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "kilt",
+    "sub": [
+      { "present": [ "WOOLALLERGY" ], "new": [ "kilt_leather" ] },
+      { "present": [ "VEGAN" ], "new": [ "kilt_utility" ] }
     ]
   },
   {
     "type": "profession_item_substitutions",
     "trait": "VEGAN",
     "sub": [
-      { "item": "blazer", "new": [ "jacket_light" ] },
-      { "item": "hat_hunting", "new": [ "hat_cotton" ] },
-      { "item": "hat_newsboy", "new": [ "hat_cotton" ] },
-      { "item": "peacoat", "new": [ "jacket_flannel" ] },
-      { "item": "sweater", "new": [ "sweatshirt" ] },
-      { "item": "boots_winter", "new": [ "boots_faux_fur" ] },
-      { "item": "cloak_wool", "new": [ "cloak" ] },
-      { "item": "gloves_wool", "new": [ "gloves_light" ] },
-      { "item": "gloves_leather", "new": [ "gloves_light" ] },
-      { "item": "socks_wool", "new": [ "socks" ] },
-      { "item": "kilt", "new": [ "kilt_utility" ] },
-      { "item": "dress_shoes", "new": [ "espadrilles" ] },
-      { "item": "mask_ski", "new": [ "balclava" ] }
+      { "item": "dress_shoes", "new": [ "espadrilles" ] }
     ]
   },
   {
