@@ -846,7 +846,7 @@
           { "item": "socks" },
           { "item": "dress_shoes" },
           { "group": "charged_smart_phone" },
-          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "knife_huge", "variant": "knife_butcher", "container-item": "sheath" },
           { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
           { "item": "apron_cotton", "variant": "generic_apron_cotton" },
@@ -871,7 +871,7 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "group": "charged_smart_phone" },
-          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "knife_huge", "variant": "knife_butcher", "container-item": "sheath" },
           { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
           { "item": "apron_plastic" },
@@ -1906,7 +1906,9 @@
     "skills": [ { "level": 3, "name": "tailor" }, { "level": 3, "name": "cooking" }, { "level": 3, "name": "driving" } ],
     "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knife_skills", "prof_knives_familiar" ],
     "items": {
-      "both": { "entries": [ { "item": "pocketwatch" }, { "item": "knife_steak" }, { "group": "charged_smart_phone" } ] },
+      "both": {
+        "entries": [ { "item": "pocketwatch" }, { "item": "knife_small", "variant": "knife_steak" }, { "group": "charged_smart_phone" } ]
+      },
       "male": {
         "entries": [
           { "item": "briefs" },
@@ -3450,7 +3452,7 @@
         "entries": [
           { "item": "sneakers" },
           { "item": "socks" },
-          { "item": "knife_steak" },
+          { "item": "knife_small", "variant": "knife_steak" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "pants", "variant": "pants_black" }

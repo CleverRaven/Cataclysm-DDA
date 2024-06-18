@@ -70,7 +70,7 @@
   {
     "type": "GENERIC",
     "id": "knife_butcher_plus_one",
-    "copy-from": "knife_butcher",
+    "copy-from": "knife_huge",
     "name": { "str": "butcher knife +1", "str_pl": "butcher knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "extend": { "qualities": [ [ "BUTCHER", 28 ] ] }
@@ -78,7 +78,7 @@
   {
     "type": "GENERIC",
     "id": "knife_butcher_plus_two",
-    "copy-from": "knife_butcher",
+    "copy-from": "knife_huge",
     "name": { "str": "butcher knife +2", "str_pl": "butcher knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "extend": { "qualities": [ [ "BUTCHER", 30 ] ] }
@@ -86,7 +86,7 @@
   {
     "type": "GENERIC",
     "id": "knife_meat_cleaver_plus_one",
-    "copy-from": "knife_meat_cleaver",
+    "copy-from": "knife_cleaver",
     "name": { "str": "meat cleaver +1", "str_pl": "meat cleavers +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "extend": { "qualities": [ [ "BUTCHER", 28 ] ] }
@@ -94,7 +94,7 @@
   {
     "type": "GENERIC",
     "id": "knife_meat_cleaver_plus_two",
-    "copy-from": "knife_meat_cleaver",
+    "copy-from": "knife_cleaver",
     "name": { "str": "meat cleaver +2", "str_pl": "meat cleavers +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "extend": { "qualities": [ [ "BUTCHER", 30 ] ] }
@@ -102,7 +102,7 @@
   {
     "type": "GENERIC",
     "id": "knife_carving_plus_one",
-    "copy-from": "knife_carving",
+    "copy-from": "knife_large",
     "name": { "str": "carving knife +1", "str_pl": "carving knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "extend": { "qualities": [ [ "BUTCHER", 24 ] ] }
@@ -110,7 +110,7 @@
   {
     "type": "GENERIC",
     "id": "knife_carving_plus_two",
-    "copy-from": "knife_carving",
+    "copy-from": "knife_large",
     "name": { "str": "carving knife +2", "str_pl": "carving knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "extend": { "qualities": [ [ "BUTCHER", 26 ] ] }
