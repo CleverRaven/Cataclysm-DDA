@@ -126,14 +126,14 @@
   {
     "id": "srm_1216_mag_16",
     "type": "MAGAZINE",
-    "name": { "str": "revolver magazine-fed shotgun 16-round magazine" },
-    "description": "A 16-round rotary magazine for revolver magazine-fed shotgun.",
+    "name": { "str": "16-round rotary shotgun magazine" },
+    "description": "A 16-round magazine for a rotary magazine-fed shotgun.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "srm_1216_mag_16",
         "name": { "str": "SRM Arms Model 1216 16-round magazine" },
-        "description": "A 16-round box magazine for SRM Arms Model 1216 shotgun."
+        "description": "A 16-round rotary magazine for that strangest of beasts, the SRM Arms Model 1216 shotgun."
       }
     ],
     "weight": "453 g",

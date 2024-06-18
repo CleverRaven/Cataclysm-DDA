@@ -642,14 +642,14 @@
     "id": "dp_12",
     "copy-from": "shotgun_pump",
     "type": "GUN",
-    "name": { "str": "two-barrel pump shotgun" },
-    "description": "Hefty shotgun, that has two barrels, and each barrel has it's own magazine, which makes it actually a two shotguns in a single frame.  Each barrel has it's own trigger, but because there is a single pump for both barrels, you can't really utilize it well, not saying the precision of the weapon do not make it fit for anything but shooting zombies at point blank.",
+    "name": { "str": "double-barrelled pump shotgun" },
+    "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn’t to say that the weapon isn’t fit for the service of shooting zombies at point blank ranges.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "dp_12",
         "name": { "str": "DP-12" },
-        "description": "Bullpup 12-gauge pump action double-barreled shotgun.  Each barrel has it's own magazine, which makes it actually a two shotguns in a single frame.  Each barrel has it's own trigger, but because there is a single pump for both barrels, you can't really utilize it well, not saying the precision of the weapon do not make it fit for anything but shooting zombies at point blank."
+        "description": "A bullpup, 12-gauge, pump-action, double-barrelled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn’t to say that the weapon isn’t fit for the service of shooting zombies at point blank ranges."
       }
     ],
     "weight": "4989 g",
@@ -896,14 +896,14 @@
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "revolver magazine-fed shotgun" },
-    "description": "Lengthy shotgun, that accept rotating 16-round tube magazine.",
+    "name": { "str": "rotary-magazine shotgun" },
+    "description": "A lengthy shotgun that accepts revolving 16-round magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "srm_1216",
         "name": { "str": "SRM Arms Model 1216" },
-        "description": "Delayed blowback semi-automatic shotgun, that accept 16-round detachable revolver magazine."
+        "description": "A delayed blowback semi-automatic shotgun feeding from detachable 16-round rotary magazines."
       }
     ],
     "weight": "3062 g",
@@ -927,7 +927,7 @@
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel", 2 ]
+      [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ],
     "melee_damage": { "bash": 9 }
