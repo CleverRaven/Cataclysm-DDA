@@ -20,6 +20,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS",
+    "condition": { "u_has_effect": "effect_psi_studying_power" },
+    "effect": [
+      { "queue_eocs": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION", "time_in_future": [ "1 minutes", "1 minutes" ] },
+      { "queue_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION",
     "condition": { "u_has_effect": "effect_psi_studying_power" },
     "effect": [
@@ -37,7 +46,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS",
+    "id": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT",
     "condition": { "u_has_effect": "effect_psi_studying_power" },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] },
