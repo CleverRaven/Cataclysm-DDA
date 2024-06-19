@@ -134,7 +134,6 @@
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
       { "group": "nested_mauser_c96", "prob": 39 },
-      { "group": "nested_mr73", "prob": 8 },
       { "group": "nested_chiappa_rhino", "prob": 5 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },

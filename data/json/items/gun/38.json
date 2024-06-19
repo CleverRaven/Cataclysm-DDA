@@ -65,49 +65,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "mr73",
-    "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
-    "type": "GUN",
-    "name": { "str_sp": "Manurhin MR 73" },
-    "description": "A finely made .357 Magnum revolver with a 4 inch barrel.  It has adjustable sights, big plastic grips and a very smooth trigger.",
-    "weight": "970 g",
-    "volume": "600 ml",
-    "longest_side": "273 mm",
-    "barrel_length": "133 mm",
-    "price": "3 kUSD 600 USD",
-    "price_postapoc": "20 USD",
-    "built_in_mods": [ "match_trigger" ],
-    "default_mods": [ "pistol_grip" ],
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "357mag", "38" ],
-    "dispersion": 280,
-    "durability": 10,
-    "blackpowder_tolerance": 56,
-    "clip_size": 6,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "ammo_restriction": { "357mag": 6, "38": 6 },
-        "allowed_speedloaders": [ "38_speedloader6" ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
     "id": "rifle_38",
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",

@@ -1526,5 +1526,10 @@
     "id": "factory_handguard",
     "type": "MIGRATION",
     "replace": "grip"
+  },
+  {
+    "id": "mr73",
+    "type": "MIGRATION",
+    "replace": "sw_619"
   }
 ]
