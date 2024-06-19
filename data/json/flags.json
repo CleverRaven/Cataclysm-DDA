@@ -2498,8 +2498,8 @@
     "info": "This will eventually <bad>go bad</bad> if left in the open air too long."
   },
   {
-    "id": "BILE_PROOF",
+    "id": "IRRITANT_IMMUNE",
     "type": "json_flag",
-    "info": "The character's skin is <good>completely protected</good> from <info>boomer bile</info>."
+    "info": "This gear <good>completely protects</good> you from <info>skin irritants</info>."
   }
 ]
