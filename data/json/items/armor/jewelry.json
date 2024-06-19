@@ -4821,5 +4821,21 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "necklace_teeth",
+    "type": "ARMOR",
+    "name": { "str": "teeth necklace" },
+    "description": "Teeth necklace.",
+    "symbol": "u",
+    "color": "white",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "weight": "42 g",
+    "volume": "30 ml",
+    "material": "bone",
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
+    "variant_type": "generic",
+    "variants": [ { "id": "monster teeth necklace", "description": "Monster teeth necklace" } ]
   }
 ]
