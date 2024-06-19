@@ -299,6 +299,14 @@
     ]
   },
   {
+    "id": "afs_a7_mon",
+    "type": "GUN",
+    "copy-from": "afs_a7",
+    "name": { "str": "mounted a7 laser rifle" },
+    "energy_drain": "0 kJ",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+  },
+  {
     "id": "makeshift_scrambler",
     "type": "GUN",
     "copy-from": "hm12",
