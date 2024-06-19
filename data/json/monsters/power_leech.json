@@ -21,15 +21,6 @@
     "vision_night": 12,
     "luminance": 200,
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 5,
-        "gun_type": "emp_frond",
-        "fake_skills": [ [ "gun", 3 ], [ "pistol", 3 ] ],
-        "ranges": [ [ 0, 12, "DEFAULT" ] ],
-        "targeting_sound": "a faint buzz",
-        "description": "Lightning arcs from the leech blossom!"
-      },
       [ "LEECH_SPAWNER", 75 ],
       [ "MON_LEECH_EVOLUTION", 40 ],
       [ "PARROT", 40 ]
@@ -64,15 +55,6 @@
     "vision_night": 8,
     "luminance": 200,
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 15,
-        "gun_type": "emp_frond",
-        "fake_skills": [ [ "gun", 2 ], [ "pistol", 2 ] ],
-        "ranges": [ [ 0, 12, "DEFAULT" ] ],
-        "targeting_sound": "a faint buzz",
-        "description": "Lightning arcs from the leech stalk!"
-      },
       [ "MON_LEECH_EVOLUTION", 30 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
@@ -131,14 +113,6 @@
     "morale": 100,
     "luminance": 60,
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 15,
-        "gun_type": "emp_frond",
-        "ranges": [ [ 0, 1, "DEFAULT" ] ],
-        "targeting_sound": "a faint buzz",
-        "description": "Lightning arcs from the pod cluster!"
-      },
       [ "LEECH_SPAWNER", 120 ]
     ],
     "weakpoint_sets": [ "wps_power_leech" ],
@@ -174,15 +148,6 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "upgrades": { "half_life": 9999, "into": "mon_leech_stalk" },
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 15,
-        "gun_type": "emp_frond",
-        "fake_skills": [ [ "gun", 1 ], [ "pistol", 1 ] ],
-        "ranges": [ [ 0, 2, "DEFAULT" ] ],
-        "targeting_sound": "a faint buzz",
-        "description": "Sparks fly from the root runner!"
-      },
       [ "EVOLVE_KILL_STRIKE", 3 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
@@ -218,15 +183,6 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 3 } ],
     "upgrades": { "half_life": 999, "into": "mon_leech_pod_cluster" },
     "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 15,
-        "gun_type": "emp_frond",
-        "fake_skills": [ [ "gun", 1 ], [ "pistol", 1 ] ],
-        "ranges": [ [ 0, 2, "DEFAULT" ] ],
-        "targeting_sound": "a faint buzz",
-        "description": "Lightning arcs from the root pod!"
-      },
       [ "EVOLVE_KILL_STRIKE", 6 ]
     ],
     "weakpoint_sets": [ "wps_power_leech" ],
