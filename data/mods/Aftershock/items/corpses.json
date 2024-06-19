@@ -92,6 +92,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_afs_commercial_laser_turret",
+    "looks_like": "bot_rifleturret",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken interior laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_hazmatbot",
     "name": "broken Likvidator",
     "description": "A broken Likvidator, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",

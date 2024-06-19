@@ -538,5 +538,15 @@
     "sym": "H",
     "color": "cyan",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Exosuit Garage",
+    "id": [ "afs_exosuit_garage_a1", "afs_exosuit_garage_a1_roof", "afs_exosuit_garage_2_a1", "afs_exosuit_garage_2_a1_roof" ],
+    "sym": "e",
+    "color": "yellow",
+    "see_cost": 3,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
