@@ -589,7 +589,7 @@
       [ "hand_r", 1 ],
       [ "mouth", 1 ]
     ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "IRRITATION_IMMUNE" ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "IRRITANT_IMMUNE" ],
     "protec": [
       [ "torso", { "cut": 4, "bullet": 4, "stab": 4 } ],
       [ "head", { "cut": 4, "bullet": 4, "stab": 4 } ],
