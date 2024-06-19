@@ -791,7 +791,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
                 you->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, 5 ) );
                 you->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, 5 ) );
             } else {
-                you->add_msg_if_player(m_bad, _( "The acidic goo eats away at your feet." ) );
+                you->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
                 you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 5 ) );
                 you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, 5 ) );
             }
