@@ -68,8 +68,9 @@
     "id": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT",
     "condition": { "u_has_effect": "effect_psi_studying_power" },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] },
-      { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(u_latest_studied_power_difficulty)" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(u_latest_studied_power_difficulty)" ] },
+      { "queue_eocs": "EOC_PSI_STUDYING_POWER_NETHER_ATTUNEMENT", "time_in_future": [ "3 minutes", "3 minutes" ] }
     ]
   },
   {
