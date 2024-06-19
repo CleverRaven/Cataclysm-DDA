@@ -1,5 +1,5 @@
 [
-	{
+  {
     "id": "mon_dream_shadow",
     "type": "MONSTER",
     "name": { "str": "shadow" },
@@ -24,6 +24,14 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
+    "special_attacks": {
+      "id": "mon_spell_shadow_damage_reduction",
+      "type": "spell",
+      "spell_data": { "id": "spell_shadow_damage_reduction" },
+      "cooldown": 120,
+      "condition": { "not": { "u_has_effect": "effect_monster_shadow_damage_reduction" } },
+      "monster_message": "%1$s's appears to become two dimensional."
+    },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
@@ -39,7 +47,7 @@
       "ACIDPROOF",
       "HIT_AND_RUN",
       "NO_BREATHE",
-      "NIGHT_INVISIBILITY"
+      "NIGHT_INVISIBILITY",
       "NOGIB"
     ]
   },
@@ -71,7 +79,17 @@
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
-    "special_attacks": [ { "type": "bite", "cooldown": 15, "infection_chance": 0 } ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 15, "infection_chance": 0 },
+      {
+        "id": "mon_spell_shadow_damage_reduction",
+        "type": "spell",
+        "spell_data": { "id": "spell_shadow_damage_reduction" },
+        "cooldown": 120,
+        "condition": { "not": { "u_has_effect": "effect_monster_shadow_damage_reduction" } },
+        "monster_message": "%1$s's appears to become two dimensional."
+      }
+    ],
     "flags": [
       "SEES",
       "HEARS",
@@ -86,7 +104,7 @@
       "ACIDPROOF",
       "HIT_AND_RUN",
       "NO_BREATHE",
-      "NIGHT_INVISIBILITY"
+      "NIGHT_INVISIBILITY",
       "NOGIB"
     ],
     "armor": { "cold": 12, "electric": 12 }
@@ -117,13 +135,23 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
-    "special_attacks": [ {
+    "special_attacks": [
+      {
         "type": "spell",
         "spell_data": { "id": "dream_shadowman_teleport", "hit_self": true },
         "cooldown": 15,
         "monster_message": "The quickling shadow flits across the space almost faster than the eye can see, striking without warning!"
       },
-       [ "scratch", 15 ] ],
+      {
+        "id": "mon_spell_shadow_damage_reduction",
+        "type": "spell",
+        "spell_data": { "id": "spell_shadow_damage_reduction" },
+        "cooldown": 120,
+        "condition": { "not": { "u_has_effect": "effect_monster_shadow_damage_reduction" } },
+        "monster_message": "%1$s's appears to become two dimensional."
+      },
+      [ "scratch", 15 ]
+    ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_shadowman" } },
     "regenerates_in_dark": true,
     "flags": [
@@ -140,7 +168,7 @@
       "ACIDPROOF",
       "HIT_AND_RUN",
       "NO_BREATHE",
-      "NIGHT_INVISIBILITY"
+      "NIGHT_INVISIBILITY",
       "NOGIB"
     ],
     "armor": { "bash": 12, "cut": 8, "bullet": 36, "electric": 3 }

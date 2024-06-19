@@ -196,6 +196,34 @@
     "max_range": 6
   },
   {
+    "type": "SPELL",
+    "id": "spell_shadow_damage_reduction",
+    "name": { "str": "Shadow DR Monster enemy check" },
+    "description": "Preps for using Shadow Damage Reduction when a hostile target is detected.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "attack",
+    "extra_effects": [ { "id": "spell_shadow_damage_reduction_self", "hit_self": true } ],
+    "shape": "blast",
+    "min_range": 60,
+    "max_range": 60
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_shadow_damage_reduction_self",
+    "name": { "str": "Shadow DR Monster Effect" },
+    "description": "Grants the effect for a shadow to gain damage resistance to bash and bullets..",
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_shadow_damage_reduction",
+    "shape": "blast",
+    "min_duration": 9000,
+    "max_duration": 27000
+  },
+  {
     "id": "mon_firebird_explosion",
     "type": "SPELL",
     "name": { "str": "Firebird Explosion" },
