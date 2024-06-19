@@ -531,7 +531,7 @@
     "id": "kilt",
     "type": "ARMOR",
     "name": { "str": "kilt" },
-    "description": "No true Scotsman would leave home without his kilt.  Kilts lack pockets and thus a belt and sporran are necessary accessories",
+    "description": "No true Scotsman would leave home without his kilt.  Kilts lack pockets and thus a belt and sporran are necessary accessories.",
     "weight": "500 g",
     "volume": "1500 ml",
     "price": "65 USD",
