@@ -2,7 +2,6 @@
   {
     "id": "photokinesis_practice",
     "type": "nested_category",
-    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_METAPHYSICS",
@@ -38,7 +37,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 0,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -50,14 +49,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_LOCAL",
         "condition": { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_local", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_local')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -72,7 +70,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -84,14 +82,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_CREATE_LIGHT",
         "condition": { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_create_light", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_create_light')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -106,7 +103,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -118,14 +115,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_SNUFF_LIGHT",
         "condition": { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_snuff_light", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_snuff_light')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -191,7 +187,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -203,14 +199,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DODGE",
         "condition": { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_dodge", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_dodge')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -276,7 +271,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -288,14 +283,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_BEAM",
         "condition": { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_beam", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_beam')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -361,7 +355,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -373,14 +367,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_CAMOUFLAGE",
         "condition": { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_camouflage", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -446,7 +439,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -458,14 +451,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_RAD_IMMUNITY",
         "condition": { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_rad_immunity", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_rad_immunity')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -531,7 +523,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -544,14 +536,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_ARMS",
         "condition": { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_arms", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_arms')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -617,7 +608,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -630,14 +621,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_HIDE_UGLY",
         "condition": { "math": [ "u_spell_level('photokinetic_hide_ugly')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_hide_ugly", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_hide_ugly')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -703,7 +693,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -716,14 +706,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_IMAGE",
         "condition": { "math": [ "u_spell_level('photokinetic_light_image')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_image", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_image')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -789,7 +778,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -801,14 +790,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_RADIO",
         "condition": { "math": [ "u_spell_level('photokinetic_radio')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_radio", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -874,7 +862,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -887,14 +875,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_INVISIBILITY",
         "condition": { "math": [ "u_spell_level('photokinetic_invisibility')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_invisibility", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_invisibility')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -960,7 +947,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -973,14 +960,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_FLASH",
         "condition": { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_flash", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_flash')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1046,7 +1032,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 6,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -1059,14 +1045,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_BLINDING_GLARE",
         "condition": { "math": [ "u_spell_level('photokinetic_blinding_glare')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_blinding_glare", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_blinding_glare')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -1132,7 +1117,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 7,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -1145,14 +1130,13 @@
         "id": "EOC_PRACTICE_PHOTOKIN_LIGHT_DISINTEGRATE",
         "condition": { "math": [ "u_spell_level('photokinetic_light_disintegrate')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "photokinetic_light_disintegrate", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_photokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('photokinetic_light_disintegrate')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
