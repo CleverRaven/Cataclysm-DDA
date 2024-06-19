@@ -353,7 +353,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
     } else {
-        if ( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
+        if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
             c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
             c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
         }
