@@ -140,14 +140,14 @@
         "cooldown": 10
       }
     ],
-    "upgrades": { "half_life": 32, "into": "mon_skeleton_executioneer" },
+    "upgrades": { "half_life": 32, "into": "mon_skeleton_executioner" },
     "armor": { "bash": 5, "cut": 30, "stab": 25, "acid": 3, "bullet": 20, "electric": 3 },
     "extend": { "flags": [ "SMELLS" ] }
   },
   {
-    "id": "mon_skeleton_executioneer",
+    "id": "mon_skeleton_executioner",
     "type": "MONSTER",
-    "name": { "str": "skeletal executioneer" },
+    "name": { "str": "skeletal executioner" },
     "description": "Hands and forearms of this tall, bone-clad zombie has turned into sword-like ossified blades. Its jaw is partially fused with bone mask covering its face, leaving sinister looking gaps. Its moves are stiff but precise.",
     "copy-from": "mon_skeleton",
     "hp": 150,
