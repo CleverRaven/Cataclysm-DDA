@@ -13,6 +13,10 @@
 #include "units.h"
 #include "vehicle.h"
 
+static furn_id f_null;
+
+static const furn_str_id furn_f_console( "f_console" );
+
 static const trap_str_id tr_ledge( "tr_ledge" );
 
 void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
@@ -376,5 +380,113 @@ void submap::update_lum_rem( const point &p, const item &i )
 
     if( count <= 256 ) {
         m->lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+    }
+}
+
+void submap::merge_submaps( submap *copy_from, bool copy_from_is_overlay )
+{
+    this->field_count = 0;
+
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            if( copy_from->m->ter[x][y] != t_null && ( copy_from_is_overlay ||
+                    this->m->ter[x][y] == t_null ) ) {
+                this->m->ter[x][y] = copy_from->m->ter[x][y];
+                this->set_map_damage( { x, y }, copy_from->get_map_damage( { x, y } ) );
+            }
+
+            if( copy_from->m->frn[x][y] != f_null && ( copy_from_is_overlay ||
+                    this->m->frn[x][y] == f_null ) ) {
+                this->m->frn[x][y] = copy_from->m->frn[x][y];
+            }
+
+            this->m->lum[x][y] += copy_from->m->lum[x][y];
+
+            for( const item &itm : copy_from->m->itm[x][y] ) {
+                this->m->itm[x][y].emplace( itm );
+            }
+
+            for( std::map<field_type_id, field_entry>::iterator it = copy_from->m->fld[x][y].begin();
+                 it != copy_from->m->fld[x][y].end(); it++ ) {
+                if( !this->m->fld[x][y].find_field( it->first, false ) ) {
+                    this->m->fld[x][y].add_field( it->first, it->second.get_field_intensity(),
+                                                  it->second.get_field_age() );
+                } else if( copy_from_is_overlay ) { // Modify the field to match
+                    field_entry *fld = this->m->fld[x][y].find_field( it->first, false );
+                    fld->set_field_intensity( it->second.get_field_intensity() );
+                    fld->set_field_age( it->second.get_field_age() );
+                }
+            }
+
+            for( std::map<field_type_id, field_entry>::iterator it = this->m->fld[x][y].begin();
+                 it != this->m->fld[x][y].end(); it++ ) {
+                this->field_count++;
+            }
+
+            if( copy_from->m->trp[x][y] != tr_null && ( copy_from_is_overlay ||
+                    this->m->trp[x][y] == tr_null ) ) {
+                this->m->trp[x][y] = copy_from->m->trp[x][y];
+            }
+
+            if( copy_from->m->rad[x][y] > 0 && ( copy_from_is_overlay || this->m->rad[x][y] == 0 ) ) {
+                this->m->rad[x][y] = copy_from->m->rad[x][y];
+            }
+        }
+    }
+
+    for( const submap::cosmetic_t &cos : copy_from->cosmetics ) {
+        bool found = false;
+
+        for( submap::cosmetic_t &cosmetic : this->cosmetics ) {
+            if( cosmetic.pos == cos.pos && cosmetic.type == cos.type ) {
+                if( copy_from_is_overlay ) {
+                    cosmetic.str = cos.str;
+                }
+                found = true;
+                break;
+            }
+        }
+
+        if( !found ) {
+            this->insert_cosmetic( cos.pos, cos.type, cos.str );
+        }
+    }
+
+    // TODO: Copy the active item cache
+    if( !copy_from->active_items.empty() ) {
+        debugmsg( "Active items found on copied submap which is not supported." );
+    }
+
+    if( copy_from->last_touched > this->last_touched ) {
+        this->last_touched = copy_from->last_touched;
+    }
+
+    for( const spawn_point &spawn : copy_from->spawns ) {
+        this->spawns.emplace_back( spawn );
+    }
+
+    for( const auto &vehicle : copy_from->vehicles ) {
+        this->vehicles.emplace_back( vehicle.get() );
+    }
+    // Can't let that submap delete the vehicles when it's destroyed
+    copy_from->vehicles.clear();
+
+    if( !copy_from->partial_constructions.empty() ) {
+        debugmsg( "Partial constructions found on copied submap when none are expected." );
+    }
+
+    if( copy_from->camp ) {
+        debugmsg( "Camp found on copied submap when none is expected." );
+    }
+
+    for( const std::pair<const point, computer>  &comp : copy_from->computers ) {
+        if( this->m->frn[comp.first.x][comp.first.y] == furn_f_console &&
+            !this->get_computer( comp.first ) ) {
+            this->set_computer( comp.first, comp.second );
+        }
+    }
+
+    if( copy_from->temperature_mod != 0 && this->temperature_mod == 0 ) {
+        this->temperature_mod = copy_from->temperature_mod;
     }
 }
