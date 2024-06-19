@@ -199,7 +199,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
             n = rng( 0, 3 );
         } else {
-            n = rng(0, 1);
+            n = rng( 0, 1 );
         }
 
         bodypart_id bits[] = { bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ) };
