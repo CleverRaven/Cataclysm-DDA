@@ -69,7 +69,7 @@
         "laser_lock": false,
         "targeting_cost": 150,
         "targeting_timeout_extend": -10,
-        "targeting_sound": "\"Tresspassers Detected.\"",
+        "targeting_sound": "\"Trespasser Detected.\"",
         "targeting_volume": 50
       }
     ],
