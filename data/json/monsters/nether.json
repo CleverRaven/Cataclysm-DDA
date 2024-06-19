@@ -1428,7 +1428,7 @@
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "eoc": "EOC_YUGG_DEATH" },
-    "special_attacks": [ [ "GENE_STING", 20 ] ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_gene_sting", "min_level": 5 }, "cooldown": 160 } ],
     "flags": [
       "SEES",
       "HEARS",

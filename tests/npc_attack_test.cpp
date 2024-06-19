@@ -15,7 +15,7 @@ static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
 static const itype_id itype_combat_exoskeleton_medium_on( "combat_exoskeleton_medium_on" );
-static const itype_id itype_knife_chef( "knife_chef" );
+static const itype_id itype_knife_large( "knife_large" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_wearable_light( "wearable_light" );
 
@@ -76,10 +76,10 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
     GIVEN( "There is a zombie 1 tile away" ) {
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
 
-        WHEN( "NPC only has a chef knife" ) {
-            item weapon( "knife_chef" );
+        WHEN( "NPC only has a large knife" ) {
+            item weapon( "knife_large" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
             THEN( "NPC attempts to melee the enemy target" ) {
                 main_npc.evaluate_best_attack( zombie );
@@ -207,10 +207,10 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
     GIVEN( "There is a zombie 5 tiles away" ) {
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 5 );
 
-        WHEN( "NPC only has a chef knife" ) {
-            item weapon( "knife_chef" );
+        WHEN( "NPC only has a large knife" ) {
+            item weapon( "knife_large" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
             THEN( "NPC attempts to melee the enemy target" ) {
                 main_npc.evaluate_best_attack( zombie );
@@ -241,10 +241,10 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
         monster *zombie_far = npc_attack_setup::spawn_zombie_at_range( 8 );
 
-        WHEN( "NPC only has a chef knife" ) {
-            item weapon( "knife_chef" );
+        WHEN( "NPC only has a large knife" ) {
+            item weapon( "knife_large" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
             WHEN( "NPC is targetting closest zombie" ) {
                 main_npc.evaluate_best_attack( zombie );

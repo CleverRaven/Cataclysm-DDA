@@ -231,5 +231,52 @@
       }
     ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "chiappa_rhino",
+    "copy-from": "pistol_revolver",
+    "type": "GUN",
+    "name": { "str_sp": ".357 revolver" },
+    "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
+    "symbol": "(",
+    "color": "light_gray",
+    "looks_like": "sw_619",
+    "price": "1 kUSD 800 USD",
+    "price_postapoc": "80 USD",
+    "material": [ "steel", "wood" ],
+    "weight": "936 g",
+    "volume": "700 ml",
+    "longest_side": "267 mm",
+    "barrel_length": "152 mm",
+    "dispersion": 300,
+    "durability": 10,
+    "blackpowder_tolerance": 56,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo": [ "357mag", "38" ],
+    "clip_size": 6,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 6, "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "chiappa_rhino",
+        "name": { "str": "Chiappa Rhino" },
+        "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder to alleviate muzzle flip."
+      }
+    ]
   }
 ]

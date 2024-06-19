@@ -443,7 +443,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                                 rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
                             }
                         }
-                        if( is_oter_id_obsolete( tmp_ter ) ) {
+                        bool is_obsolete = is_oter_id_obsolete( tmp_ter );
+                        if( is_obsolete ) {
                             for( int p = i; p < i + count; p++ ) {
                                 oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
                             }
@@ -453,7 +454,7 @@ void overmap::unserialize( const JsonObject &jsobj )
                             debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
                             tmp_otid = oter_omt_obsolete;
                         }
-                        if( oter_id_should_have_camp( oter_str_id( tmp_ter )->get_type_id() ) ) {
+                        if( !is_obsolete && oter_id_should_have_camp( oter_str_id( tmp_ter )->get_type_id() ) ) {
                             for( int p = i; p < i + count; p++ ) {
                                 camps_to_place.emplace_back( project_combine( pos(), tripoint_om_omt( p, j, z - OVERMAP_DEPTH ) ) );
                             }

@@ -112,7 +112,7 @@
         { "item": "child_book", "x": 3, "y": 2, "chance": 100 },
         { "item": "sponge_cake", "x": 11, "y": 17, "chance": 100 },
         { "item": "candle", "x": 11, "y": 17, "chance": 100 },
-        { "item": "knife_chef", "x": 11, "y": 17, "chance": 100 },
+        { "item": "knife_large", "variant": "knife_chef", "x": 11, "y": 17, "chance": 100 },
         { "item": "ceramic_plate", "x": 11, "y": 17, "chance": 100 },
         { "item": "balloon", "x": [ 7, 18 ], "y": [ 15, 19 ], "chance": 75, "repeat": [ 3, 6 ] },
         { "item": "paper", "x": [ 9, 10 ], "y": [ 16, 18 ], "chance": 66, "repeat": [ 2, 5 ] },

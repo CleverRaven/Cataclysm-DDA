@@ -637,6 +637,37 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_plastic_tiny",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "tiny plastic bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "35 ml",
+    "longest_side": "4 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "30 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "bottle_plastic_pill_prescription",
     "type": "GENERIC",
     "category": "container",

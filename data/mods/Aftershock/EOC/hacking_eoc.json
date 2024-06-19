@@ -28,14 +28,20 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_afs_hack_unlock",
-    "condition": { "and": [ { "expects_vars": [ "furn_pos", "difficulty" ] }, { "u_has_effect": "afs_hack_done" } ] },
+    "condition": { "and": [ { "expects_vars": [ "furn_pos", "difficulty", "t_radius" ] }, { "u_has_effect": "afs_hack_done" } ] },
     "effect": [
       {
         "run_eocs": [
           {
             "id": "_EOC_afs_hack_unlock",
             "condition": { "roll_contested": { "math": [ "afs_hack_skill(1)" ] }, "die_size": 4, "difficulty": { "context_val": "difficulty" } },
-            "effect": [ { "u_transform_radius": 0, "ter_furn_transform": "afs_multi_unlock", "target_var": { "context_val": "furn_pos" } } ],
+            "effect": [
+              {
+                "u_transform_radius": { "context_val": "t_radius" },
+                "ter_furn_transform": "afs_multi_unlock",
+                "target_var": { "context_val": "furn_pos" }
+              }
+            ],
             "false_effect": { "u_message": "You fail to override the device." }
           }
         ]
@@ -45,7 +51,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_start_lock_hack",
-    "condition": { "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty" ] }, { "test_eoc": "EOC_CONDITION_can_hack" } ] },
+    "condition": {
+      "and": [ { "expects_vars": [ "furn_pos", "t_delay", "difficulty", "t_radius" ] }, { "test_eoc": "EOC_CONDITION_can_hack" } ]
+    },
     "effect": [
       { "math": [ "_t_delay", "=", "afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
       { "u_message": "You connect to the lock controller." },
@@ -53,7 +61,11 @@
       {
         "queue_eoc_with": "EOC_afs_hack_unlock",
         "time_in_future": { "context_val": "t_delay" },
-        "variables": { "furn_pos": { "context_val": "furn_pos" }, "difficulty": { "context_val": "difficulty" } }
+        "variables": {
+          "furn_pos": { "context_val": "furn_pos" },
+          "difficulty": { "context_val": "difficulty" },
+          "t_radius": { "context_val": "t_radius" }
+        }
       }
     ],
     "false_effect": { "u_message": "You need either an electrohack or working computer to attempt a hack.", "popup": true }

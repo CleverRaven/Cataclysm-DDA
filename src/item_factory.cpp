@@ -4471,10 +4471,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     check_and_create_magazine_pockets( def );
     add_special_pockets( def );
 
-    if( !def.src.empty() && def.src.back().first != def.id ) {
-        def.src.clear();
-    }
-    def.src.emplace_back( def.id, mod_id( src ) );
+    mod_tracker::assign_src( def, src );
 
     if( def.magazines.empty() ) {
         migrate_mag_from_pockets( def );
