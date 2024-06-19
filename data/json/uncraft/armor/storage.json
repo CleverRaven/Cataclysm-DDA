@@ -56,5 +56,15 @@
     "time": "35 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_lycra_patchwork", 9 ] ], [ [ "button_plastic", 1 ] ], [ [ "plastic_sheet_small", 38 ] ] ]
+  },
+  {
+    "result": "gas_mask_pouch",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "2 m 30 s",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "strap_cotton", 1 ] ], [ [ "snapfastener_steel", 2 ] ], [ [ "sheet_nylon", 3 ] ], [ [ "nylon", 11 ] ] ]
   }
 ]

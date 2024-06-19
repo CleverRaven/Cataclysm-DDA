@@ -1,5 +1,22 @@
 [
   {
+    "result": "pants_tactical",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "zipper_short_plastic", 1 ] ],
+      [ [ "snapfastener_steel", 6 ] ],
+      [ [ "button_steel", 1 ] ],
+      [ [ "sheet_nylon", 10 ] ],
+      [ [ "nylon", 15 ] ],
+      [ [ "cotton_patchwork", 6 ] ]
+    ]
+  },
+  {
     "result": "pants_leather",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
