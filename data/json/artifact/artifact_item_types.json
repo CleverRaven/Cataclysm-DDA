@@ -449,7 +449,7 @@
     "copy-from": "art_urchin",
     "name": { "str": "wobbly ring" },
     "description": "A chunky ring that folds onto itself continuously, preventing its use as an esoteric piece of jewelry.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
-    "volume": "250 ml",
+    "volume": "5 ml",
     "weight": "8 kg",
     "longest_side": "1 cm"
   }
