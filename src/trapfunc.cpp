@@ -266,8 +266,8 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
                         5 ) ) );
     } else {
         if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
-            c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, rng( 6, 10 ) ) );                                     
-            c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 6, 10 ) ) );                                    
+            c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, rng( 6, 10 ) ) );
+            c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 6, 10 ) ) );
         }
         dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
                                             damage_instance( damage_cut, rng( 6, 10 ) ) );
