@@ -2751,7 +2751,17 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "IRRITANT_IMMUNE",
+      "RAINPROOF",
+      "GAS_PROOF",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "OUTER",
+      "SOFT"
+    ],
     "armor": [
       {
         "encumbrance": 37,
