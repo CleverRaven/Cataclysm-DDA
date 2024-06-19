@@ -119,7 +119,7 @@
         "ä": "f_rack",
         "é": "f_sealed_intermodal_crate",
         "ë": "f_safe_l",
-		"ê": "f_rack",
+        "ê": "f_rack",
         "í": "f_locker"
       },
       "items": {
@@ -168,14 +168,14 @@
         "                        "
       ],
       "//": "Open and looted. Spawn no loot or turret",
-	  "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "1": "t_afs_security_door_frame", "2": "t_region_groundcover_urban", "3": "t_door_o" },
       "furniture": {
         "á": "f_exo_gantry",
         "â": "f_rack",
         "ä": "f_rack",
         "é": "f_intermodal_crate_open",
-		"ê": "f_rack",
+        "ê": "f_rack",
         "ë": "f_safe_o",
         "í": "f_locker"
       }
