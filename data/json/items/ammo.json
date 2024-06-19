@@ -539,7 +539,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "recovery_chance": 80,
+    "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "melee_damage": { "cut": 9 }
   },
@@ -561,7 +561,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "recovery_chance": 80,
+    "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
