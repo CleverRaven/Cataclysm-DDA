@@ -54,6 +54,8 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_quadruped_full("quadruped_full");
+static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_slow_descent( "slow_descent" );
@@ -156,6 +158,10 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
             z->mod_moves( -z->get_speed() * 0.8 );
         }
         if( dmg > 0 ) {
+            if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
+                c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, dmg ) );
+                c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, dmg ) );
+            }
             c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, dmg ) );
             c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, dmg ) );
             c->check_dead_state();
@@ -189,11 +195,26 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
     here.remove_trap( p );
     if( c != nullptr ) {
         // What got hit?
-        const bodypart_id hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "leg_r" );
+        int n = 0;
+        if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
+            n = rng(0, 3);
+        } else {
+            n = rng(0, 1);
+        }
+
+        bodypart_id bits[] = { bodypart_id("leg_l"), bodypart_id("leg_r"), bodypart_id("arm_l"), bodypart_id("arm_r") };
+
+        const bodypart_id hit = bits[n];
 
         // Messages
-        c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your foot!" ),
-                                  _( "A bear trap closes on <npcname>'s foot!" ) );
+        if( n == 0 || n == 1 ) {
+            c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your foot!" ),
+                _( "A bear trap closes on <npcname>'s foot!" ) );
+        } else {
+            c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your arm!" ),
+                _( "A bear trap closes on <npcname>'s arm!" ) );
+        }
+
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
         }
@@ -244,6 +265,10 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 3,
                         5 ) ) );
     } else {
+        if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
+            c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, rng( 6, 10 ) ) );                                     
+            c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 6, 10 ) ) );                                    
+        }
         dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
                                             damage_instance( damage_cut, rng( 6, 10 ) ) );
         dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
@@ -285,6 +310,10 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9,
                         15 ) ) );
     } else {
+        if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
+            c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
+            c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
+        }
         dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
                                             damage_instance( damage_cut, rng( 9,
                                                     30 ) ) );
@@ -324,6 +353,10 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
     } else {
+        if ( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
+            c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
+            c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
+        }
         c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
     }
@@ -746,10 +779,22 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         you->add_env_effect( effect_slimed, bodypart_id( "foot_l" ), 6, 2_minutes );
         you->add_env_effect( effect_slimed, bodypart_id( "foot_r" ), 6, 2_minutes );
+        if( you->has_effect( effect_quadruped_full ) ||  you->has_effect( effect_quadruped_half ) ) {
+            you->add_env_effect( effect_slimed, bodypart_id( "hand_l" ), 6, 2_minutes );
+            you->add_env_effect( effect_slimed, bodypart_id( "hand_r" ), 6, 2_minutes );
+        }
         if( one_in( 3 ) ) {
-            you->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
-            you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 5 ) );
-            you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, 5 ) );
+            if( you->has_effect( effect_quadruped_full ) ||  you->has_effect( effect_quadruped_half ) ) {
+                you->add_msg_if_player( m_bad, _( "The acidic goo eats away at your hands and feet." ) );
+                you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 5 ) );
+                you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, 5 ) );
+                you->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_cut, 5 ) );
+                you->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_cut, 5 ) );
+            } else {
+                you->add_msg_if_player(m_bad, _( "The acidic goo eats away at your feet." ) );
+                you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 5 ) );
+                you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, 5 ) );
+            }
             you->check_dead_state();
         }
         return true;
@@ -1066,6 +1111,12 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
+        if( you->has_effect( effect_quadruped_full ) ||  you->has_effect( effect_quadruped_half ) ) {
+            you->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_heat, 20 ) );
+            you->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_heat, 20 ) );
+            you->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_heat, 20 ) );
+            you->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_heat, 20 ) );
+        }
         you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_heat, 20 ) );
         you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_heat, 20 ) );
         you->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_heat, 20 ) );
