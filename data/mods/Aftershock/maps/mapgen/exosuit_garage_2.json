@@ -117,7 +117,7 @@
       "//": "Loot still inside, turret friend is there too.",
       "furniture": { "á": "f_exo_gantry", "â": "f_rack", "ä": "f_rack", "ê": "f_rack", "í": "f_locker" },
       "items": {
-        "á": { "item": "afs_exosuits_civ", "chance": 25 },
+        "á": { "item": "afs_exosuits_civ", "chance": 40 },
         "â": { "item": "afs_exo_civ_modules", "chance": 60, "repeat": [ 1, 3 ] },
         "ä": { "item": "afs_robotics_scrapgroup", "chance": 60, "repeat": [ 1, 4 ] },
         "ê": { "item": "afs_tools_robot_maintenance", "chance": 50, "repeat": [ 1, 3 ] },
