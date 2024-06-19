@@ -38,7 +38,7 @@
     "id": "mon_afs_commercial_laser_turret",
     "type": "MONSTER",
     "name": { "str": "SOL XII laser turret" },
-    "description": "The Sol Systems turret model 12 was once a popular choice for home and business security.  It's integrated laser rifle boasts a cost-effective deterrent to any would-be tresspasser.",
+    "description": "The Sol Systems turret model 12 was once a popular choice for home and business security.  It's integrated laser rifle boasts a cost-effective deterrent to any would-be trespasser.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_rifle",
