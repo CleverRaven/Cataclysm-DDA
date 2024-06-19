@@ -168,7 +168,7 @@
         "                        "
       ],
       "//": "Open and looted. Spawn no loot or turret",
-	  "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "terrain": { "1": "t_afs_security_door_frame", "2": "t_region_groundcover_urban", "3": "t_door_o" },
       "furniture": {
         "á": "f_exo_gantry",
