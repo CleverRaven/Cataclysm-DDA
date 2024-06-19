@@ -41,6 +41,7 @@
     "description": "The Sol Systems turret model 12 was once a popular choice for home and business security.  It's integrated laser rifle boasts a cost-effective deterrent to any would-be tresspassers.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
+    "looks_like": "mon_turret_rifle",
     "diff": 20,
     "volume": "30000 ml",
     "weight": "40750 g",

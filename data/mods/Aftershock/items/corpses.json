@@ -93,6 +93,7 @@
   {
     "type": "GENERIC",
     "id": "broken_afs_commercial_laser_turret",
+    "looks_like": "bot_rifleturret",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken interior laser turret" },

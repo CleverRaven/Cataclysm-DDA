@@ -526,6 +526,7 @@
   },
   {
     "id": "bot_laserturret_interior",
+    "looks_like": "bot_rifleturret",
     "type": "TOOL",
     "name": { "str": "inactive interior laser turret" },
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
