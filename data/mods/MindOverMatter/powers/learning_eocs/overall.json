@@ -46,7 +46,7 @@
         "run_eocs": [
           {
             "id": "EOC_PSI_STUDYING_POWER_FOCUS_REDUCTION_2",
-            "condition": { "math": [ "u_val('focus')", ">=", "30" ] },
+            "condition": { "math": [ "u_val('focus')", ">=", "25" ] },
             "effect": [ { "math": [ "u_val('focus')", "-=", "rand(1)" ] } ]
           }
         ]
