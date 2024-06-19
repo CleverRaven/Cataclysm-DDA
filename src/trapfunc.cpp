@@ -197,7 +197,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         // What got hit?
         int n = 0;
         if( c->has_effect( effect_quadruped_full ) ||  c->has_effect( effect_quadruped_half ) ) {
-            n = rng(0, 3);
+            n = rng( 0, 3 );
         } else {
             n = rng(0, 1);
         }
