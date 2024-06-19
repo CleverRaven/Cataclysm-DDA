@@ -202,7 +202,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
             n = rng(0, 1);
         }
 
-        bodypart_id bits[] = { bodypart_id("leg_l"), bodypart_id("leg_r"), bodypart_id("arm_l"), bodypart_id("arm_r") };
+        bodypart_id bits[] = { bodypart_id( "leg_l" ), bodypart_id( "leg_r" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ) };
 
         const bodypart_id hit = bits[n];
 
