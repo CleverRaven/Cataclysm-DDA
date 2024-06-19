@@ -212,7 +212,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
                                       _( "A bear trap closes on <npcname>'s foot!" ) );
         } else {
             c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your arm!" ),
-                _( "A bear trap closes on <npcname>'s arm!" ) );
+                                      _( "A bear trap closes on <npcname>'s arm!" ) );
         }
 
         if( c->has_effect( effect_ridden ) ) {
