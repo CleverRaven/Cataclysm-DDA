@@ -1277,7 +1277,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "dance_shoes",
