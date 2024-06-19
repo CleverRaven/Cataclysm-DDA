@@ -209,7 +209,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         // Messages
         if( n == 0 || n == 1 ) {
             c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your foot!" ),
-                _( "A bear trap closes on <npcname>'s foot!" ) );
+                                      _( "A bear trap closes on <npcname>'s foot!" ) );
         } else {
             c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your arm!" ),
                 _( "A bear trap closes on <npcname>'s arm!" ) );
