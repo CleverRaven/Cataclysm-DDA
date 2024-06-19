@@ -33,7 +33,7 @@
     "type": "jmath_function",
     "id": "psionics_contemplation_kcal_cost",
     "num_args": 1,
-    "return": "( (2.5 * _0) * rng( 0.3, 1.7) )"
+    "return": "( (1.5 * _0) * rng( 0.3, 1.7) )"
   },
   {
     "type": "jmath_function",
