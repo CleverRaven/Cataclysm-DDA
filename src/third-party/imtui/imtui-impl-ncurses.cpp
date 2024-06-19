@@ -43,7 +43,6 @@
 struct ImTui_ImplNCurses_Data
 {
     std::vector<WINDOW*> imtui_wins;
-    ImTui_ImplNCurses_Data() { memset((void*)this, 0, sizeof(*this)); }
 };
 
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
@@ -315,7 +314,6 @@ void create_destroy_curses_windows(std::vector<WINDOW*> &windows)
             windows.push_back(newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x)));
         } else {
             WINDOW* win = windows[cursesWinIdx];
-            
             if(getbegx( win ) != short(imwin->Pos.x) || getbegy( win ) != short(imwin->Pos.y) || getmaxx(win) != short(imwin->Size.x) || getmaxy(win) != imwin->Size.y) {
                 delwin(win);
                 windows[cursesWinIdx] = newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x));
@@ -327,7 +325,7 @@ void create_destroy_curses_windows(std::vector<WINDOW*> &windows)
         size_t lastIndex = cursesWinIdx;
         for(; cursesWinIdx < windows.size(); cursesWinIdx++) {
             if(windows[cursesWinIdx] != nullptr) {
-                delwin(windows[cursesWinIdx]);
+                delwin( windows[cursesWinIdx] );
             }
         }
         windows.erase(windows.begin() + lastIndex, windows.end());
