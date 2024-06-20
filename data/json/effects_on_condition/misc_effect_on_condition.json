@@ -170,30 +170,15 @@
     "required_event": "character_gains_effect",
     "condition": {
       "and": [
-        {
-          "compare_string": [
-            "boomered",
-            { "context_val": "effect" }
-          ]
-        },
-        {
-          "compare_string": [
-            "eyes",
-            { "context_val": "bodypart" }
-          ]
-        },
+        { "compare_string": [ "boomered", { "context_val": "effect" } ] },
+        { "compare_string": [ "eyes", { "context_val": "bodypart" } ] },
         { "not": { "u_has_effect": "conjunctivitis" } },
         { "not": { "u_has_trait": "COMPOUND_EYES" } },
         { "not": { "u_has_trait": "SEESLEEP" } },
         { "not": { "u_has_bionics": "armor_bio_eyes" } },
         {
           "or": [
-            {
-              "x_in_y_chance": {
-                "x": 1,
-                "y": 12
-              }
-            },
+            { "x_in_y_chance": { "x": 1, "y": 12 } },
             {
               "and": [
                 {
@@ -204,24 +189,14 @@
                     { "u_has_flag": "EYE_MEMBRANE" }
                   ]
                 },
-                {
-                  "x_in_y_chance": {
-                    "x": 1,
-                    "y": 12
-                  }
-                }
+                { "x_in_y_chance": { "x": 1, "y": 12 } }
               ]
             }
           ]
         }
       ]
     },
-    "effect": [
-      {
-        "u_add_effect": "conjunctivitis",
-        "duration": { "math": [ "rand(259200) + 172800" ] },
-        "target_part": "eyes"
-      }
+    "effect": [ { "u_add_effect": "conjunctivitis", "duration": { "math": [ "rand(259200) + 172800" ] }, "target_part": "eyes" } ]
     ]
   }
 ]
