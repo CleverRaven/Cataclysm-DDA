@@ -627,7 +627,6 @@
     "volume": "250 ml",
     "longest_side": "20 cm",
     "price": "2 USD",
-    "to_hit": 2,
     "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",

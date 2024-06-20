@@ -2126,8 +2126,7 @@
     "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "weight": "68 g",
-    "volume": "250 ml",
-    "to_hit": 2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
