@@ -197,6 +197,5 @@
       ]
     },
     "effect": [ { "u_add_effect": "conjunctivitis", "duration": { "math": [ "rand(259200) + 172800" ] }, "target_part": "eyes" } ]
-    ]
   }
 ]
