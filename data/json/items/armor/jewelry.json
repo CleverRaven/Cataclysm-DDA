@@ -4826,7 +4826,7 @@
     "id": "necklace_teeth",
     "type": "ARMOR",
     "name": { "str": "teeth necklace" },
-    "description": "Teeth necklace.",
+    "description": "A simple teeth necklace.",
     "symbol": "u",
     "color": "white",
     "price": "10 USD",
@@ -4835,7 +4835,13 @@
     "volume": "30 ml",
     "material": "bone",
     "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
-    "variant_type": "generic",
-    "variants": [ { "id": "monster teeth necklace", "description": "Monster teeth necklace" } ]
+    "variants": [
+      {
+        "id": "necklace_teeth_monster",
+        "name": { "str": "monster teeth necklace" },
+        "description": "The teeth hanging from this one look alien, with an hypnotizing, iridescent shine.",
+        "append": true
+      }
+    ]
   }
 ]
