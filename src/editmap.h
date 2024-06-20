@@ -18,6 +18,7 @@
 class Creature;
 class field;
 class map;
+class smallmap;
 class tinymap;
 class ui_adaptor;
 class uilist;
@@ -60,7 +61,7 @@ class editmap
         void edit_itm();
         void edit_critter( Creature &critter );
         void edit_mapgen();
-        void cleartmpmap( tinymap &tmpmap ) const;
+        void cleartmpmap( smallmap &tmpmap ) const;
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
         bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );

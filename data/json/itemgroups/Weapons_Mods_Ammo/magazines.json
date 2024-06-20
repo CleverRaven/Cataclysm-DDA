@@ -483,7 +483,11 @@
       { "item": "saiga10mag", "prob": 50 },
       { "item": "saiga30mag", "prob": 10 },
       { "item": "saiga410mag_10rd", "prob": 30 },
-      { "item": "saiga410mag_30rd", "prob": 10 }
+      { "item": "saiga410mag_30rd", "prob": 10 },
+      { "item": "mossberg_590m_mag_5", "prob": 3, "charges": 0 },
+      { "item": "mossberg_590m_mag_10", "prob": 2, "charges": 0 },
+      { "item": "mossberg_590m_mag_15", "prob": 1, "charges": 0 },
+      { "item": "mossberg_590m_mag_20", "prob": 1, "charges": 0 }
     ]
   },
   {

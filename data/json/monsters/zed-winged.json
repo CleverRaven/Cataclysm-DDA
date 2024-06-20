@@ -168,10 +168,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 8 } ],
     "luminance": 8,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_electromagnetics" ],
-    "special_attacks": [
-      [ "SHOCKSTORM", 25 ],
-      { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ],
+    "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": false,
     "extend": { "flags": [ "ELECTRIC" ] }

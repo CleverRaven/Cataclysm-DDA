@@ -124,6 +124,8 @@ Corpses can decay into bones etc (defined as a harvest group)
 Support WASM build via emscripten
 Allow ammo effects to cast spells
 Automatic turrets will not fire guns if they are going to overheat
+Deconstructing now prompts with potential items, can be toggled off in settings
+NPC @ menu: Show morale, medical; Change name, gender, armor sprite
 
 
 ## Content:
@@ -267,6 +269,11 @@ fish emulsion
 Static NPC factions have their own camps and food stores
 Regen serum
 Vitamin Cost per mutation
+Small lighthouse
+Red Phosphorus Using Matchbox Strikers and Potassium Chloride Using Match-heads
+Add brick construction to camp expansions
+Clean water in open containers reverts to water after a while
+Update the basic gas mask, related filter, filter ammunition, and gas mask bag to modern CDDA standards, add possible inserts and outserts, disassembly recipe, and item group goodness.
 
 
 ## Interface:
@@ -333,6 +340,8 @@ Provide a visual UI for changing vehicle part shapes
 Display RAS weapon reload time in aim ui
 Warn on setting an auto feature when auto features are off
 support selecting all npcs
+Change: Container for X -> Pour X into
+Show actual real-world distance to mission objective
 
 
 ## Mods:
@@ -502,6 +511,9 @@ Psionic powers say "Power level" instead of "Spell level" in the UI
 [MoM] Torrential channeling research no longer has required proficiencies
 Aftershock: Add urban farms as town buildings
 Summon Mojocycle gets better at lvl 10
+[Aftershock] Add the Esper scenario
+[Aftershock] Esper additions
+[Aftershock] Adds one the Solar Array Overmap special to Aftershock.
 
 
 ## Balance:
@@ -577,6 +589,7 @@ Food continues to rot at temp above 63C
 Adjust Alpha to make breach harder while supporting future mutations
 Lower the warmth values of some undergarments and thin clothes.
 Switched Reload Speeds for Plasma Rifle and PPA
+Bring volume calculations for player body more in line with realistic examples
 
 
 ## Bugfixes:
@@ -755,6 +768,12 @@ Monster difficulty (and exp for killing them) cannot be lower than 1
 Fix connections like roads sometimes failing to gen on cityless overmaps
 Correctly display pain penalties.
 Removes Railgun Fouling
+Save achievement files with valid and unique names
+Monsters with PATH_AVOID_DANGER flag will more reliably avoid fire and other dangerous fields
+Fix extension cords falling off when items are turned on
+Properly warn if food will cause you to overeat
+Not to shatter already shattered armor.
+Make farm plots re-tillable in farming extension version 2
 
 
 ## Performance:

@@ -1291,8 +1291,11 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         }
         int before = to_turns<int>( d.actor( beta )->proficiency_practiced_time( prof ) );
         int learned = to_write - before;
-        if( !direct && learned < 0 ) {
-            debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+        // Due to rounding errors, -1 can occur in normal situations. When that happens, ignore it
+        if( !direct && learned < 1 ) {
+            if( learned < -1 ) {
+                debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+            }
             return 0;
         }
         if( !direct ) {

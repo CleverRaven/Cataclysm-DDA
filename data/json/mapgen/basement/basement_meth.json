@@ -95,7 +95,7 @@
         { "x": 18, "y": 19, "item": "chemistry_set" },
         { "x": 11, "y": 10, "item": "towel" },
         { "x": 16, "y": 5, "item": "bleach" },
-        { "x": 16, "y": 5, "item": "knife_steak" }
+        { "x": 16, "y": 5, "item": "knife_small", "variant": "knife_steak" }
       ],
       "place_monster": [
         { "monster": "mon_zombie_hazmat", "x": [ 19, 21 ], "y": [ 15, 20 ], "chance": 50 },

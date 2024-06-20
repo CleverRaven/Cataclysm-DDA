@@ -1105,7 +1105,8 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_steak",
+    "result": "knife_small",
+    "variant": "knife_steak",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -1123,7 +1124,8 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "knife_butcher",
+    "result": "knife_huge",
+    "variant": "knife_butcher",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -1161,7 +1163,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_paring",
+    "result": "knife_small",
+    "variant": "knife_paring",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1277,7 +1280,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_chef",
+    "result": "knife_large",
+    "variant": "knife_chef",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1297,7 +1301,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_carving",
+    "result": "knife_large",
+    "variant": "knife_carving",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1317,7 +1322,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_bread",
+    "result": "knife_large",
+    "variant": "knife_bread",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1337,7 +1343,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_vegetable_cleaver",
+    "result": "knife_cleaver",
+    "variant": "knife_vegetable_cleaver",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1357,7 +1364,8 @@
   },
   {
     "type": "recipe",
-    "result": "knife_meat_cleaver",
+    "result": "knife_cleaver",
+    "variant": "knife_meat_cleaver",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

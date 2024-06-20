@@ -851,7 +851,7 @@
       { "prob": 45, "group": "cheese_bag_plastic" },
       { "item": "mozzarella_cheese", "prob": 30 },
       { "item": "ceramic_plate", "prob": 30 },
-      { "item": "knife_steak", "prob": 45 },
+      { "item": "knife_small", "variant": "knife_steak", "prob": 45 },
       { "item": "tongs", "prob": 60 }
     ]
   },
