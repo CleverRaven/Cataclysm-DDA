@@ -292,19 +292,6 @@
     "entries": [ { "item": "model_10_revolver", "charges": [ 0, 6 ] }, { "group": "on_hand_38" } ]
   },
   {
-    "id": "nested_mr73",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "mr73", "charges": [ 0, 6 ] },
-      { "group": "on_hand_357_38mixed" },
-      { "item": "38_speedloader6" },
-      { "item": "38_speedloader6", "prob": 50 }
-    ]
-  },
-  {
     "id": "nested_chiappa_rhino",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

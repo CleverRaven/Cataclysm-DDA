@@ -658,13 +658,13 @@
     "valid_targets": [ "hostile", "ally" ],
     "effect": "attack",
     "shape": "blast",
-    "targeted_monster_ids": [ "mon_breather", "mon_breather_hub" ],
+    "targeted_monster_ids": [ "mon_breather", "mon_breather_hub", "mon_amalgamation_breather", "mon_amalgamation_breather_hub" ],
     "damage_type": "pure",
     "min_damage": 1000,
     "max_damage": 1000,
-    "min_aoe": 48,
-    "max_aoe": 48,
-    "aoe_increment": 48,
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "aoe_increment": 5,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   },
   {
