@@ -76,13 +76,7 @@
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
-    "effect": [
-      {
-        "u_add_effect": "formication",
-        "duration": 300,
-        "target_part": "head"
-      }
-    ]
+    "effect": [ { "u_add_effect": "formication", "duration": 300, "target_part": "head" } ]
   },
   {
     "type": "effect_on_condition",
