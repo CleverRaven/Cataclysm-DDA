@@ -1979,7 +1979,6 @@
           { "item": "water_clean" },
           { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
-          { "item": "aspirin" },
           { "item": "stethoscope" },
           { "item": "pants", "variant": "pants_blue" },
           { "group": "charged_smart_phone" },
@@ -2022,12 +2021,9 @@
           "water_clean",
           { "item": "bandages", "count": 5 },
           { "item": "adhesive_bandages", "count": 10 },
-          { "item": "disinfectant", "count": 10 },
-          "aspirin",
+          "disinfectant",
           "thermometer",
           "pepto",
-          "syringe",
-          "morphine",
           "stethoscope",
           "scalpel"
         ],
@@ -2047,14 +2043,11 @@
     "points": 5,
     "skills": [ { "level": 6, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
     "proficiencies": [
-      "prof_wound_care",
-      "prof_wound_care_expert",
       "prof_intro_biology",
       "prof_intro_chemistry",
       "prof_organic_chemistry",
       "prof_biochemistry",
-      "prof_physiology",
-      "prof_burn_care"
+      "prof_physiology"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -2072,11 +2065,15 @@
           "water_clean",
           { "item": "bandages", "count": 5 },
           { "item": "adhesive_bandages", "count": 10 },
-          { "item": "disinfectant", "count": 10 },
-          "aspirin",
+          "disinfectant",
           "pepto",
-          "syringe",
-          "morphine"
+          "flu_shot",
+          { "item": "tramadol", "count": 30, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
+          { "item": "ibuprofen", "count": 30, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
+          { "item": "aspirin", "count": 30, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
+          { "item": "antibiotics", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
+          { "item": "antifungal", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
+          { "item": "antiparasitic", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" }
         ],
         "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
       },
