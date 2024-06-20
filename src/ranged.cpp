@@ -1018,7 +1018,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
             if( shot.missed_by <= .1 ) {
                 headshot = true;
             }
-            if( proj.count > 1 && rl_dist( pos(), shot.end_point ) == 1 ) {
+            if( proj.count > 1 && shot.proj.count == 1 ) {
                 // Point-blank shots don't act like shot, everything hits the same target.
                 multishot = false;
                 break;
