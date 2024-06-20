@@ -3569,6 +3569,7 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "count", slot.count, strict, 0 );
     assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
+    assign( jo, "mag_jam_odds", slot.mag_jam_odds, strict, 0, 1000 );
     assign( jo, "linkage", slot.linkage, strict );
 }
 

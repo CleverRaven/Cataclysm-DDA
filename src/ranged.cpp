@@ -703,6 +703,13 @@ bool Character::handle_gun_damage( item &it )
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
+    }
+        // Here we check for a chance for the weapon to suffer a failure to feed
+        // usually caused by the magazine size or condition
+    else if ( x_in_y( it.magazine_current()->type->magazine->mag_jam_odds, 1000 )) {
+        add_msg_player_or_npc(_("Your %s didn't load into the chamber!"),
+            _("<npcname>'s %s didn't load into the chamber!"),
+            it.tname());
         return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.

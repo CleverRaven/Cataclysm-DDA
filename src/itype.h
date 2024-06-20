@@ -945,6 +945,9 @@ struct islot_magazine {
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 
+    /** Permille for the gun to jam, usually due the size of the magazine*/
+    int mag_jam_odds = 0;
+
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     std::optional<itype_id> linkage;
 
