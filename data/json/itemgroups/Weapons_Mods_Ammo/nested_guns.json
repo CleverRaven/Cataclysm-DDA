@@ -292,13 +292,13 @@
     "entries": [ { "item": "model_10_revolver", "charges": [ 0, 6 ] }, { "group": "on_hand_38" } ]
   },
   {
-    "id": "nested_mr73",
+    "id": "nested_chiappa_rhino",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "mr73", "charges": [ 0, 6 ] },
+      { "item": "chiappa_rhino", "charges": [ 0, 6 ] },
       { "group": "on_hand_357_38mixed" },
       { "item": "38_speedloader6" },
       { "item": "38_speedloader6", "prob": 50 }
@@ -1505,14 +1505,6 @@
     ]
   },
   {
-    "id": "nested_colt_lightning",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "colt_lightning", "charges": [ 0, 14 ] }, { "group": "on_hand_45colt" } ]
-  },
-  {
     "id": "nested_fn_fal",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1523,19 +1515,6 @@
       { "item": "falmag" },
       { "item": "falmag", "prob": 50 },
       { "group": "on_hand_308" }
-    ]
-  },
-  {
-    "id": "nested_fs2000",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "fs2000", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
-      { "group": "on_hand_223" }
     ]
   },
   {
@@ -2195,6 +2174,36 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "mossberg_590", "charges": [ 0, 9 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_mossberg_590m",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mossberg_590", "charges": [ 0, 5 ] },
+      { "item": "mossberg_590m_mag_10" },
+      { "item": "mossberg_590m_mag_10", "prob": 50 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "mossberg_590m_mag_5" }, { "item": "mossberg_590m_mag_5", "prob": 50 } ], "prob": 3 },
+          {
+            "collection": [ { "item": "mossberg_590m_mag_10" }, { "item": "mossberg_590m_mag_10", "prob": 50 } ],
+            "prob": 2
+          },
+          {
+            "collection": [ { "item": "mossberg_590m_mag_15" }, { "item": "mossberg_590m_mag_15", "prob": 50 } ],
+            "prob": 1
+          },
+          {
+            "collection": [ { "item": "mossberg_590m_mag_20" }, { "item": "mossberg_590m_mag_20", "prob": 50 } ],
+            "prob": 1
+          }
+        ]
+      },
+      { "group": "on_hand_shot" }
+    ]
   },
   {
     "id": "nested_remington_870_breacher",

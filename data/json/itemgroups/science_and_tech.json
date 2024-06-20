@@ -577,7 +577,7 @@
       [ "string_6", 2 ],
       [ "hacksaw", 17 ],
       [ "xacto", 10 ],
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "machete", 5 ],
       [ "gloves_rubber", 20 ],
       [ "apron_plastic", 20 ],

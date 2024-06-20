@@ -3766,7 +3766,12 @@
   {
     "type": "overmap_special",
     "id": "gun_show",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gunshow_0_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "gunshow_1_roof_north" }
+    ],
     "locations": [ "field" ],
     "connections": [ { "point": [ 0, 5, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
     "city_distance": [ 3, -1 ],
@@ -4173,6 +4178,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "ws_regional_dump_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "ws_regional_dump_2_0_north" },
       { "point": [ 3, 0, 0 ], "overmap": "ws_regional_dump_3_0_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "ws_regional_dump_3_0_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "ws_regional_dump_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "ws_regional_dump_1_1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "ws_regional_dump_2_1_north" },
@@ -4202,6 +4208,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "ws_biker_dump_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "ws_biker_dump_2_0_north" },
       { "point": [ 3, 0, 0 ], "overmap": "ws_biker_dump_3_0_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "ws_biker_dump_3_0_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "ws_biker_dump_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "ws_biker_dump_1_1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "ws_biker_dump_2_1_north" },
@@ -6663,6 +6670,7 @@
       { "point": [ 5, 7, 1 ], "overmap": "speedway_5_7_1_north" },
       { "point": [ 6, 7, 1 ], "overmap": "speedway_6_7_1_north" },
       { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" },
+      { "point": [ 6, 7, 3 ], "overmap": "speedway_6_7_3_north" },
       { "point": [ 5, 10, 0 ], "locations": [ "land", "road" ] }
     ],
     "occurrences": [ 50, 100 ],

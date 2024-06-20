@@ -84,7 +84,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ "knife_bread" ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ "knife_large" ] ],
     "components": [ [ [ "flour", 20 ], [ "bread_flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   },
   {

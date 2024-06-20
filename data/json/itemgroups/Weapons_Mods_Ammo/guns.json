@@ -134,7 +134,7 @@
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
       { "group": "nested_mauser_c96", "prob": 39 },
-      { "group": "nested_mr73", "prob": 8 },
+      { "group": "nested_chiappa_rhino", "prob": 5 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
       { "group": "nested_tokarev", "prob": 100 },
@@ -341,7 +341,6 @@
       { "group": "guns_rifle_rare_3006", "prob": 35 },
       { "group": "guns_rifle_rare_44", "prob": 10 },
       { "group": "guns_rifle_rare_45", "prob": 21 },
-      { "group": "guns_rifle_rare_45colt", "prob": 7 },
       { "group": "guns_rifle_rare_762R", "prob": 27 },
       { "group": "guns_rifle_rare_300blk", "prob": 10 },
       { "group": "guns_rifle_rare_other", "prob": 94 }
@@ -360,7 +359,6 @@
       { "group": "guns_rifle_rare_display_3006", "prob": 20 },
       { "group": "guns_rifle_rare_display_44", "prob": 10 },
       { "group": "guns_rifle_rare_display_45", "prob": 10 },
-      { "group": "guns_rifle_rare_display_45colt", "prob": 5 },
       { "group": "guns_rifle_rare_display_762R", "prob": 17 },
       { "group": "guns_rifle_rare_display_300blk", "prob": 15 },
       { "group": "guns_rifle_rare_display_other", "prob": 106 }
@@ -465,7 +463,6 @@
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
-      { "item": "fs2000", "prob": 6 },
       { "item": "acr_300blk", "prob": 15 },
       { "item": "hk417_13", "prob": 40 },
       { "item": "m2carbine", "prob": 5 },
@@ -546,6 +543,7 @@
       { "item": "benelli_sa", "variant": "sbe", "prob": 37 },
       { "item": "benelli_tsa", "variant": "m2_tac", "contents-item": [ "rail_mount" ], "prob": 12 },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 6 },
+      { "item": "mossberg_590m", "prob": 1 },
       { "item": "remington_870", "variant": "ithaca37", "prob": 6 },
       { "item": "remington_870", "variant": "remington_1100", "prob": 17 },
       { "item": "mossberg_930", "prob": 15 },
@@ -564,7 +562,8 @@
       { "group": "nested_ksg", "prob": 50 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
-      { "group": "nested_slp", "prob": 10 }
+      { "group": "nested_slp", "prob": 10 },
+      { "group": "nested_mossberg_590m", "prob": 2 }
     ]
   },
   {
@@ -577,7 +576,8 @@
       { "item": "ksg", "prob": 50, "charges": [ 0, 7 ] },
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
+      { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
     ]
   },
   {
@@ -589,7 +589,8 @@
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
+      { "item": "mossberg_590m", "prob": 2 }
     ]
   },
   {

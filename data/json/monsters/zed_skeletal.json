@@ -63,7 +63,7 @@
     "speed": 60,
     "material": [ "bone" ],
     "color": "blue_white",
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "melee_damage": [ { "damage_type": "electric", "amount": 12 }, { "damage_type": "cut", "amount": 3 } ],
     "luminance": 8,
     "bleed_rate": 0,
     "harvest": "mr_bones",
@@ -74,6 +74,7 @@
       [ "PARROT", 8 ],
       [ "SHOCKSTORM", 25 ]
     ],
+    "special_when_hit": [ "ZAPBACK", 100 ],
     "fungalize_into": "mon_skeleton_fungus",
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 30 },
     "extend": {

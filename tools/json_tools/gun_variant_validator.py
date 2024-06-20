@@ -130,7 +130,6 @@ NAME_CHECK_BLACKLIST = {
     "p226_357sig",
     "glock_31",
     "p320_357sig",
-    "fs2000",
     "scar_l",
     "brogyaga",
     "raging_bull",

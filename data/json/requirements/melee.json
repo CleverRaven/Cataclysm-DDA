@@ -16,10 +16,8 @@
         [ "bone_knife", -1 ],
         [ "knuckle_katar", -1 ],
         [ "sharp_toothbrush", -1 ],
-        [ "knife_steak", -1 ],
-        [ "knife_paring", -1 ],
-        [ "knife_carving", -1 ],
-        [ "knife_bread", -1 ],
+        [ "knife_small", -1 ],
+        [ "knife_large", -1 ],
         [ "screwdriver", -1 ],
         [ "scissors_child", -1 ],
         [ "scissors_medical", -1 ],
@@ -99,10 +97,9 @@
         [ "tanto_inferior", -1 ],
         [ "kirpan_cheap", -1 ],
         [ "enfield_bayonet", -1 ],
-        [ "knife_butcher", -1 ],
-        [ "knife_chef", -1 ],
-        [ "knife_vegetable_cleaver", -1 ],
-        [ "knife_meat_cleaver", -1 ]
+        [ "knife_huge", -1 ],
+        [ "knife_large", -1 ],
+        [ "knife_cleaver", -1 ]
       ]
     ]
   },
