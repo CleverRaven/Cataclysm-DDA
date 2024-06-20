@@ -2042,13 +2042,7 @@
     "description": "You were a pharmacist working in a community pharmacy.  No simple pill-pusher, you have a plethora of knowledge of drug preparation, biochemistry, and biology.  With your trusty mortar and pestle, you hope to grind the undead to a pulp.",
     "points": 5,
     "skills": [ { "level": 6, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
-    "proficiencies": [
-      "prof_intro_biology",
-      "prof_intro_chemistry",
-      "prof_organic_chemistry",
-      "prof_biochemistry",
-      "prof_physiology"
-    ],
+    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_organic_chemistry", "prof_biochemistry", "prof_physiology" ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -2068,12 +2062,42 @@
           "disinfectant",
           "pepto",
           "flu_shot",
-          { "item": "tramadol", "count": 30, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
-          { "item": "ibuprofen", "count": 30, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
-          { "item": "aspirin", "count": 30, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
-          { "item": "antibiotics", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
-          { "item": "antifungal", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" },
-          { "item": "antiparasitic", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_pill_prescription" }
+          {
+            "item": "tramadol",
+            "count": 30,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "ibuprofen",
+            "count": 30,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "aspirin",
+            "count": 30,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "antibiotics",
+            "count": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "antifungal",
+            "count": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "antiparasitic",
+            "count": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          }
         ],
         "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
       },
