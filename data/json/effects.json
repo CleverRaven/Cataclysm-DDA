@@ -1962,10 +1962,10 @@
     "type": "effect_type",
     "id": "smoke_eyes",
     "name": [
-      "Little Eye Irritation (Smoke)",
-      "Minor Eye Irritation (Smoke)",
-      "Huge Eye Irritation (Smoke)",
-      "Bad Eye Irritation (Smoke)"
+      "Little Eye Irritation",
+      "Minor Eye Irritation",
+      "Huge Eye Irritation",
+      "Bad Eye Irritation"
     ],
     "desc": [
       "Your eyes are mildly irritated.",
@@ -1982,7 +1982,7 @@
         "bad"
       ]
     ],
-    "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
+    "miss_messages": [ [ "Your eyes sting and tear from the irritation.", 1 ] ],
     "max_duration": "3 m",
     "max_intensity": 4,
     "int_decay_tick": 40,
