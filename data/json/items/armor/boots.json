@@ -1271,7 +1271,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "dance_shoes",
@@ -2191,7 +2191,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
-    "weight": "840 g",
+    "weight": "454 g",
     "volume": "1500 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",

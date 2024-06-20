@@ -164,7 +164,7 @@
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
   },
   {
     "id": "ench_quadruped_movement_half",

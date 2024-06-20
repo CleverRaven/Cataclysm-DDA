@@ -105,6 +105,40 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "s_gun_upper_roof",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 ----   ",
+        "                 -..-   ",
+        "                 ----   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "s_gun_looted" ],
     "//": "Looted version of s_gun. Uses same roof as s_gun.",
     "weight": 300,
@@ -268,6 +302,40 @@
           "y": 12
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_gun_upper_roof_1",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ----                ",
+        "    -..-                ",
+        "    ----                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   },
   {

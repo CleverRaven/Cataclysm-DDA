@@ -2611,6 +2611,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
                 if( !tmp->is_linear() ) {
+                    // if rota is for a omt with connections, it can be outside the bounds of
+                    // om_direction::type. We can't do anything about that now, so just stay inbounds
+                    rota %= om_direction::size;
                     sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
                 } else {
                     sym = tmp->symbol;

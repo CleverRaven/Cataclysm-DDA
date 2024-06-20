@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "sw_619", "mr73", "sw629", "bfr", "sw_500", "raging_bull" ],
+    "id": [ "sw_619", "sw629", "bfr", "sw_500", "raging_bull", "chiappa_rhino" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -347,7 +347,6 @@
       "bren2_762",
       "805_bren",
       "bren2_556",
-      "fs2000",
       "robofac_gun",
       "psl",
       "xedra_gun",
@@ -415,6 +414,7 @@
       "aa_12",
       "benelli_tsa",
       "bigun",
+      "mossberg_590m",
       "USAS_12"
     ],
     "type": "MIGRATION",

@@ -84,9 +84,9 @@ void faction_template::load( const JsonObject &jsobj )
 void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
-        for( const auto &epi : fac.epilogue_data ) {
-            if( !std::get<2>( epi ).is_valid() ) {
-                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+        for( const faction_epilogue_data &epi : fac.epilogue_data ) {
+            if( !epi.epilogue.is_valid() ) {
+                debugmsg( "There's no snippet with id %s", epi.epilogue.str() );
             }
         }
     }
@@ -144,11 +144,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
-    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
-        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
-                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
-    }
+    optional( jsobj, false, "epilogues", epilogue_data );
 }
 
 std::string faction::describe() const
@@ -157,12 +153,56 @@ std::string faction::describe() const
     return ret;
 }
 
+void faction_power_spec::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "faction", faction );
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+
+    if( !power_min.has_value() && !power_max.has_value() ) {
+        jo.throw_error( "Must have either a power_min or a power_max" );
+    }
+}
+
+void faction_epilogue_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+    optional( jo, false, "dynamic", dynamic_conditions );
+    mandatory( jo, false, "id", epilogue );
+}
+
+
+bool faction::check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const
+{
+    if( faction_power_specs.empty() ) {
+        return true;
+    }
+    for( const faction_power_spec &spec : faction_power_specs ) {
+        if( spec.power_min.has_value() ) {
+            if( spec.faction->power < spec.power_min.value() ) {
+                return false;
+            }
+        }
+        if( spec.power_max.has_value() ) {
+            if( spec.faction->power >= spec.power_max.value() ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
-        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+    for( const faction_epilogue_data &epi : epilogue_data ) {
+        if( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() ||
+                power < epi.power_max ) ) {
+            if( check_relations( epi.dynamic_conditions ) ) {
+                ret.emplace_back( epi.epilogue->translated() );
+            }
         }
     }
     return ret;

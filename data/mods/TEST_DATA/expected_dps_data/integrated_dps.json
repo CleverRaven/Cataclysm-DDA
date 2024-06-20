@@ -1,0 +1,13 @@
+[
+  {
+    "type": "test_data",
+    "//": "Integrated weapons, bionics, etc",
+    "expected_dps": {
+      "integrated_fangs": 8.38,
+      "integrated_chitin3_claws": 8.42,
+      "bio_scalpel": 10.09,
+      "integrated_giant_pincer": 11.31,
+      "integrated_vampire_fangs": 13.61
+    }
+  }
+]

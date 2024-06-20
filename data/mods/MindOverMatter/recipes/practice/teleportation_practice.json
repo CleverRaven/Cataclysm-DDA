@@ -2,7 +2,6 @@
   {
     "id": "teleportation_practice",
     "type": "nested_category",
-    "//": "XP for level 12 is 49417, for level 10 is 35279, for level 7 is 20514",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_METAPHYSICS",
@@ -34,7 +33,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 0,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -46,14 +45,13 @@
         "id": "EOC_PRACTICE_TELEPORT_BLINK",
         "condition": { "math": [ "u_spell_level('teleport_blink')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_blink", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_blink')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(1)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -68,7 +66,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -80,14 +78,13 @@
         "id": "EOC_PRACTICE_TELEPORT_SLOW",
         "condition": { "math": [ "u_spell_level('teleport_slow')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_slow", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_slow')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 0,2 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -102,7 +99,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -114,14 +111,13 @@
         "id": "EOC_PRACTICE_TELEPORT_PHASE",
         "condition": { "math": [ "u_spell_level('teleport_phase')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_phase", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_phase')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(2)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -187,7 +183,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -199,14 +195,13 @@
         "id": "EOC_PRACTICE_TELEPORT_STRIDE",
         "condition": { "math": [ "u_spell_level('teleport_stride')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_stride", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_stride')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(3)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -272,7 +267,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -284,14 +279,13 @@
         "id": "EOC_PRACTICE_TELEPORT_SWAP",
         "condition": { "math": [ "u_spell_level('teleport_transpose')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_transpose", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_transpose')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -357,7 +351,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -370,14 +364,13 @@
         "id": "EOC_PRACTICE_TELEPORT_DISPLACEMENT",
         "condition": { "math": [ "u_spell_level('teleport_displacement')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_displacement", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_displacement')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(4)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -443,7 +436,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -456,14 +449,13 @@
         "id": "EOC_PRACTICE_TELEPORT_COLLAPSE",
         "condition": { "math": [ "u_spell_level('teleport_collapse')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_collapse", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_collapse')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(5)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -529,7 +521,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -542,14 +534,13 @@
         "id": "EOC_PRACTICE_TELEPORT_FARSTEP",
         "condition": { "math": [ "u_spell_level('teleport_farstep')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_farstep", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_farstep')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -615,7 +606,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 6,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -628,14 +619,13 @@
         "id": "EOC_PRACTICE_TELEPORT_BANISH",
         "condition": { "math": [ "u_spell_level('teleport_banish')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_banish", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_banish')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(7)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -701,7 +691,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 7,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -714,14 +704,13 @@
         "id": "EOC_PRACTICE_TELEPORT_GATEWAY",
         "condition": { "math": [ "u_spell_level('teleport_gateway')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_gateway", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_gateway')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },
@@ -788,7 +777,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 8,
-    "time": "30 m",
+    "time": "30 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
     "tools": [
@@ -801,14 +790,13 @@
         "id": "EOC_PRACTICE_TELEPORT_BREACH",
         "condition": { "math": [ "u_spell_level('teleport_summon')", ">=", "1" ] },
         "effect": [
+          { "set_string_var": "teleport_summon", "target_var": { "u_val": "latest_studied_power_name" } },
           {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
           },
-          { "math": [ "u_spell_exp('teleport_summon')", "+=", "(contemplation_factor(1))" ] },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
-          { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(9)" ] },
-          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+          { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
           { "u_message": "You attempt to unlock new capabilities within your mind." },

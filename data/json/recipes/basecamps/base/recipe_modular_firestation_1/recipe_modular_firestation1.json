@@ -235,7 +235,7 @@
       { "id": "hunting" }
     ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_butchery" } ],
-    "components": [ [ [ "knife_butcher", 1 ], [ "knife_steak", 1 ], [ "knife_chef", 1 ], [ "knife_carving", 1 ] ] ]
+    "components": [ [ [ "knife_huge", 1 ], [ "knife_small", 1 ], [ "knife_large", 2 ] ] ]
   },
   {
     "type": "recipe",

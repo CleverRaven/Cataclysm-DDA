@@ -1200,12 +1200,12 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Liquid made up of propylene glycol, vegetable glycerin, flavorings, and nicotine.  Intended for use in an advanced electronic cigarette.",
-    "container": "bottle_plastic_small",
+    "container": "bottle_plastic_tiny",
     "phase": "liquid",
-    "volume": "250 ml",
-    "weight": "2 g",
+    "volume": "30 ml",
+    "weight": "1 g",
     "ammo_type": "components",
-    "count": 50
+    "count": 30
   },
   {
     "id": "fish_bait",

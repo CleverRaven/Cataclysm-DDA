@@ -841,7 +841,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
         tools.insert( tools.end(), 4, item( "polycarbonate_sheet" ) );
-        tools.insert( tools.end(), 1, item( "knife_paring" ) );
+        tools.insert( tools.end(), 1, item( "knife_small" ) );
         tools.emplace_back( "motor_micro" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
@@ -2153,7 +2153,7 @@ TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
     tools.insert( tools.end(), 10, tool_with_ammo( "popcan_stove", 500 ) );
     tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
     tools.emplace_back( "pot_canning" );
-    tools.emplace_back( "knife_butcher" );
+    tools.emplace_back( "knife_huge" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 

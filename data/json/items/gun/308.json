@@ -41,8 +41,8 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "variant_type": "gun",
-    "name": { "str": "German battle rifle" },
-    "description": "A semi-automatic, domestically produce clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired.",
+    "name": { "str": "G3 battle rifle" },
+    "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  Known as the PTR 91, it is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired.",
     "variants": [
       {
         "id": "g3_ptr",
@@ -360,8 +360,16 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "HK417 A2 rifle" },
+    "name": { "str": "HK417 rifle" },
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas-operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "hk417_13",
+        "name": { "str": "HK417 A2 rifle" },
+        "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas-operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36."
+      }
+    ],
     "weight": "4220 g",
     "volume": "4000 ml",
     "longest_side": "914 mm",
@@ -386,8 +394,16 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M110A1 rifle" },
-    "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
+    "variant_type": "gun",
+    "name": { "str": "HK417 marksman's rifle" },
+    "description": "A gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition, and featuring an aluminum upper receiver for reduced weight.",
+    "variants": [
+      {
+        "id": "m110a1",
+        "name": { "str": "M110A1 rifle" },
+        "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition."
+      }
+    ],
     "weight": "3800 g",
     "volume": "4000 ml",
     "longest_side": "1028 mm",
@@ -411,7 +427,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "7.62x51mm AK rifle" },
+    "name": { "str": "PAP AK-style rifle" },
     "description": "A civilian AK pattern rifle, chambered in 7.62x51mm NATO.",
     "variant_type": "gun",
     "variants": [
