@@ -145,9 +145,9 @@
     "extend": { "flags": [ "SMELLS" ] }
   },
   {
-    "id": "mon_skeleton_executioneer",
+    "id": "mon_skeleton_executioner",
     "type": "MONSTER",
-    "name": { "str": "skeletal executioneer" },
+    "name": { "str": "skeletal executioner" },
     "description": "Hands and forearms of this tall, bone-clad zombie has turned into sword-like ossified blades. Its jaw is partially fused with bone mask covering its face, leaving sinister looking gaps. Its moves are stiff but precise.",
     "copy-from": "mon_skeleton",
     "hp": 150,
