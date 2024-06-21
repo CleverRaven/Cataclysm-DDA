@@ -255,7 +255,6 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
             dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 6, 10 ) ) );
             total_cut_dmg += dd.type_damage( damage_cut );
         }
-
         if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
             if( one_in( chance_in ) ) {
@@ -292,12 +291,10 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
                         15 ) ) );
     } else {
         int total_cut_dmg = 0;
-
         for( const bodypart_id& bp : c->get_ground_contact_bodyparts() ) {
             dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9, 30 ) ) );
             total_cut_dmg += dd.type_damage( damage_cut );
         }
-
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr && !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
@@ -305,7 +302,6 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
                 you->add_effect( effect_tetanus, 1_turns, true );
             }
         }
-
     }
     c->check_dead_state();
     return true;
@@ -757,7 +753,6 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
             for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
                 you->deal_damage( nullptr, bp, damage_instance( damage_cut, 5 ) );
             }
-
             if( you->has_effect( effect_quadruped_full ) ||  you->has_effect( effect_quadruped_half ) ) {
                 you->add_msg_if_player( m_bad, _( "The acidic goo eats away at your hands and feet." ) );
             } else {
