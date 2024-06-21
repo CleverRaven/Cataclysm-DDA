@@ -1082,7 +1082,7 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         for( const bodypart_id &bp : you->get_ground_contact_bodyparts( true ) ) {
             you->deal_damage( nullptr, bp, damage_instance( damage_heat, 20 ) );
         }
-        for( const bodypart_id& bp : you->get_ground_contact_bodyparts() ) {
+        for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
             you->deal_damage( nullptr, bp, damage_instance( damage_heat, 20 ) );
         }
     } else if( z != nullptr ) {
