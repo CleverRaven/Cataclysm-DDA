@@ -425,6 +425,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "copper",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "charges": "15",
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "//": "There is a loss of approximately 24.6 grams, for the math check <PR number>",
+    "components": [ [ [ "copper_wire", 21 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_chunk",
     "id_suffix": "from_plastic_bags",
