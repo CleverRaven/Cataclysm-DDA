@@ -2848,8 +2848,7 @@ std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs 
     } else {
         if( arms_legs == true ) {
             bodyparts = { bodypart_id( "leg_l" ), bodypart_id( "leg_r" ) };
-        }
-        else {
+        } else {
             bodyparts = { bodypart_id( "foot_l" ), bodypart_id( "foot_r" ) };
         }
         return bodyparts;
