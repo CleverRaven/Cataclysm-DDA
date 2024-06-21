@@ -82,12 +82,7 @@
     "type": "effect_on_condition",
     "id": "eoc_conjunctivitis_sting",
     "recurrence": [ "10 minutes", "45 minutes" ],
-    "condition": {
-      "and": [
-        { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
-        { "not": { "u_has_effect": "sleep" } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_effect": "conjunctivitis", "bodypart": "eyes" }, { "not": { "u_has_effect": "sleep" } } ] },
     "effect": [
       {
         "u_add_effect": "smoke_eyes",
