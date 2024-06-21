@@ -85,7 +85,6 @@
     "condition": {
       "and": [
         { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
-        { "not": { "u_has_effect": "took_antihistamine" } },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },

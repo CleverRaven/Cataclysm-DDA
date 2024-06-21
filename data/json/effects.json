@@ -2106,7 +2106,6 @@
     "desc": [ "Your eyes are inflamed." ],
     "apply_message": "The chemical irritant damaged your eyes!",
     "rating": "bad",
-    "resist_effects": [ "took_antihistamine" ],
     "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
     "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],
     "int_dur_factor": "50 m",
