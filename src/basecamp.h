@@ -336,7 +336,7 @@ class basecamp
         std::string gathering_description();
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
-        std::string farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
+        std::string farm_description( const point &dir, size_t &plots_count,
                                       farm_ops operation );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
@@ -392,7 +392,7 @@ class basecamp
         void start_salt_water_pipe( const mission_id &miss_id );
         void continue_salt_water_pipe( const mission_id &miss_id );
         void start_combat_mission( const mission_id &miss_id, float exertion_level );
-        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id &miss_id,
+        void start_farm_op( const point &dir, const mission_id &miss_id,
                             float exertion_level );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
@@ -442,7 +442,9 @@ class basecamp
         * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
-        bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
+        bool farm_return( const mission_id &miss_id, const point &dir );
+        std::pair<size_t, std::string> farm_action( const point &dir, farm_ops op,
+                const npc_ptr &comp = nullptr );
         void fortifications_return( const mission_id &miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
                                            const comp_list &npc_list );

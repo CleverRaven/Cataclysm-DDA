@@ -2995,6 +2995,8 @@ int vehicle::next_part_to_lock( int p, bool outside ) const
 
 int vehicle::next_part_to_unlock( int p, bool outside ) const
 {
+    cata_assert( p >= 0 );
+    cata_assert( p < part_count() );
     if( !part_has_lock( p ) ) {
         return -1;
     }
@@ -7523,6 +7525,10 @@ int vehicle::damage_direct( map &here, vehicle_part &vp, int dmg, const damage_t
         invalidate_mass();
         coeff_air_changed = true;
 
+        // update the fake part
+        if( vp.has_fake ) {
+            parts[vp.fake_part_at].base = vp.base;
+        }
         // refresh cache in case the broken part has changed the status
         // do not remove fakes parts in case external vehicle part references get invalidated
         refresh( false );

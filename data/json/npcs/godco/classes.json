@@ -1213,7 +1213,7 @@
     "type": "item_group",
     "id": "GODCO_katherine_wield",
     "subtype": "collection",
-    "entries": [ { "item": "knife_steak" } ]
+    "entries": [ { "item": "knife_small", "variant": "knife_steak" } ]
   },
   {
     "type": "item_group",

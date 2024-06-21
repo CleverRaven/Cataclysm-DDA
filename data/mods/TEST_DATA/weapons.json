@@ -48,6 +48,6 @@
     "reload": 60,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   }
 ]

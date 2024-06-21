@@ -69,7 +69,14 @@
       },
       {
         "distribution": [
-          { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ], "damage-min": 1, "damage-max": 4 },
+          {
+            "distribution": [
+              { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "gasmask_bag_full", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "gasmask_bag_used", "prob": 50, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          },
           { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ] },
           { "item": "grenade", "prob": 5 },
           { "group": "wallets_military", "prob": 5 },

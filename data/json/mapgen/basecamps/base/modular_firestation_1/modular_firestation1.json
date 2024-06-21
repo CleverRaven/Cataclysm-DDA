@@ -175,7 +175,7 @@
         { "point": "furniture", "id": "f_butcher_rack", "x": 1, "y": 5 },
         { "point": "furniture", "id": "f_table", "x": 1, "y": 4 }
       ],
-      "place_loot": [ { "item": "knife_butcher", "x": 1, "y": 4, "chance": 100 } ]
+      "place_loot": [ { "item": "knife_huge", "variant": "knife_butcher", "x": 1, "y": 4, "chance": 100 } ]
     }
   },
   {

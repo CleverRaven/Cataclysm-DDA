@@ -26,5 +26,17 @@
       { "id": "mice", "text": "mice" },
       { "id": "puppies", "text": "puppies" }
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<animal_print>",
+    "//": "This category was originally made for tights, and should be appropriate prints you would find on such garments.",
+    "text": [
+      { "id": "cowprint", "text": "cow print" },
+      { "id": "leopardprint", "text": "leopard print" },
+      { "id": "snakeprint", "text": "snake print" },
+      { "id": "tigerprint", "text": "tiger print" },
+      { "id": "zebraprint", "text": "zebra print" }
+    ]
   }
 ]

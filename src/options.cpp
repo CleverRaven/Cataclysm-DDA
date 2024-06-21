@@ -1907,8 +1907,13 @@ void options_manager::add_options_interface()
              true
            );
 
-        add( "QUERY_DISASSEMBLE", page_id, to_translation( "Query on disassembly while butchering" ),
-             to_translation( "If true, will query before disassembling items while butchering." ),
+        add( "QUERY_DISASSEMBLE", page_id, to_translation( "Query on item disassembly" ),
+             to_translation( "If true, will query before disassembling items." ),
+             true
+           );
+
+        add( "QUERY_DECONSTRUCT", page_id, to_translation( "Query on terrain/furniture deconstruction" ),
+             to_translation( "If true, will query before deconstructing terrain/furniture." ),
              true
            );
 

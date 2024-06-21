@@ -340,8 +340,7 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
     std::vector<tripoint_bub_ms> route = here.route(
             tripoint_bub_ms( test_origin - point( 2, 0 ) ),
             tripoint_bub_ms( test_origin + point( 2, 0 ) ),
-            you.get_pathfinding_settings(),
-            {} );
+            you.get_pathfinding_settings() );
     REQUIRE( !route.empty() );
     CAPTURE( route );
     REQUIRE( route.size() == 7 );

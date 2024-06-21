@@ -224,9 +224,9 @@
     "time": "30 s",
     "autolearn": true,
     "components": [
-      [ [ "knife_butcher", 1 ] ],
-      [ [ "knife_carving", 1 ] ],
-      [ [ "knife_meat_cleaver", 1 ] ],
+      [ [ "knife_huge", 1 ] ],
+      [ [ "knife_large", 1 ] ],
+      [ [ "knife_cleaver", 1 ] ],
       [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "cordage_short", 2, "LIST" ] ]
     ]
@@ -302,9 +302,8 @@
         [ "platinum_hairpin", 1 ],
         [ "gold_hairpin", 1 ],
         [ "silver_hairpin", 1 ],
-        [ "knife_steak", 1 ],
+        [ "knife_small", 1 ],
         [ "knife_butter", 1 ],
-        [ "knife_paring", 1 ],
         [ "fork", 1 ],
         [ "lc_wire", 1 ],
         [ "hc_wire", 1 ],

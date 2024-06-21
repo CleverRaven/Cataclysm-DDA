@@ -265,6 +265,27 @@
     ]
   },
   {
+    "result": "smokebomb",
+    "id_suffix": "with_white_phosphorous",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "chemistry",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "time": "7 m 30 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "small_gas_canister_case", 1 ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "white_phosphorous", 20 ] ],
+      [ [ "superglue", 1 ] ]
+    ]
+  },
+  {
     "result": "military_explosive_small_grenade",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

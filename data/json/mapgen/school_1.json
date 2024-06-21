@@ -396,6 +396,40 @@
     }
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "school_5_6" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ---         ",
+        "            -.-         ",
+        "            ---         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
     "type": "palette",
     "id": "school_palette",
     "terrain": {

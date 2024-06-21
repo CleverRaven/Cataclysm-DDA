@@ -283,6 +283,15 @@ Storing blood for later is far outside the reach of the survivor even if they kn
 
 Coercing followers into being your personal blood bags is not going to happen. Otherwise, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. But there is a better solution.
 
+#### Add 3D printers and have them print guns and armor and car parts: Yes but no.
+
+This breaks down into two possibilities, which tl;dr, neither really works.
+
+The first option is you find design files for 3D prints. Without the internet, finding design files for 3D prints would be exceedingly difficult. The absence of a reliable method to search files on deserted computers, coupled with the fact that many useful designs are considered contraband, makes this option highly improbable. The idea of discovering files on discarded USB sticks has already been stretched to its limits and cannot be reasonably expanded to include a new method of crafting items. Even if one were to find a location with 3D printers, such as a house or workplace, most of the design files would are going to be for unhelpful items like figurines, toys, and replacement parts for random appliances, rather than items you want to produce as a survivor. 
+
+The second option is creating new designs from scratch or existing designs. This involves finding a functional 3D printer, securing the necessary software (including drivers and design software), sourcing filament, and then creating original designs. This process could take anywhere from days to weeks for simple items, and potentially years for complex items like functional firearms. In most cases, there are easier-to-find alternatives for anything you could create with a 3D printer. Again, if your goal is 3D printing bottle openers and anime figurines, this would be a way to do that, but for useful survival-y things, it's not a viable option.
+
+Finally, even if one were to overcome these issues and make 3D printed items, the quality of these items is generally going to be inferior to those crafted from metal, wood, or fabric. The resources and effort required to produce items with a 3D printer outweigh the benefits, making it impractical for a post-apocalyptic world. 
 
 ### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.

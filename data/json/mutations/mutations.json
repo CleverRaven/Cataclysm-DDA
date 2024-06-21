@@ -4425,8 +4425,7 @@
       "ench_quadruped_movement_full",
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ],
-        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
       },
       { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
     ]

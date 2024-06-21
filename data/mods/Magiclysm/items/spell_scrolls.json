@@ -376,7 +376,7 @@
     "id": "spell_scroll_druid_healing_herb",
     "//": "Druid spell",
     "name": { "str": "Scroll of Floral Healing", "str_pl": "Scrolls of Floral Healing" },
-    "description": "Using magic energy from herbs to allows you to heal yourself.",
+    "description": "Uses magic energy from herbs to heal your wounds.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
   },
   {
@@ -385,7 +385,7 @@
     "id": "spell_scroll_druid_bandage",
     "//": "Druid spell",
     "name": { "str": "Scroll of Vegetative Poultice", "str_pl": "Scrolls of Vegetative Poultice" },
-    "description": "Turn a bunch of leaves and bark into an effective bandage.",
+    "description": "Turns a bunch of leaves and bark into an effective bandage.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_bandage_heal" ] }
   },
   {

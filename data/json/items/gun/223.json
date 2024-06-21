@@ -89,40 +89,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "fs2000",
-    "copy-from": "rifle_semi",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "FS2000" },
-    "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
-    "weight": "3319 g",
-    "volume": "7986 ml",
-    "longest_side": "740 mm",
-    "barrel_length": "442 mm",
-    "price": "1 kUSD 250 USD",
-    "price_postapoc": "20 USD",
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "dispersion": 150,
-    "durability": 9,
-    "min_cycle_recoil": 1350,
-    "default_mods": [ "factory_handguard" ],
-    "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
-    "valid_mod_locations": [
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ],
-    "melee_damage": { "bash": 12 }
-  },
-  {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
     "id": "modular_m27_assault_rifle",
     "looks_like": "modular_ar15",
@@ -606,7 +572,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm AK rifle" },
+    "name": { "str": "ZPAP AK-style rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
     "variant_type": "gun",
     "variants": [
@@ -651,14 +617,14 @@
     "copy-from": "pistol_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm Mini Draco rifle" },
-    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock",
+    "name": { "str": "ZPAP AK-style pistol" },
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "zpap85",
         "name": { "str": "ZPAP 85 rifle" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock"
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock."
       }
     ],
     "weight": "2563 g",

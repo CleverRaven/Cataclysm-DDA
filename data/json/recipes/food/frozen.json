@@ -169,6 +169,7 @@
       [
         [ "sweet_juice", 1, "LIST" ],
         [ "soda_pop", 1, "LIST" ],
+        [ "soda_pop_diet", 1, "LIST" ],
         [ "can_coconut", 1 ],
         [ "chai_tea", 1 ],
         [ "chamomile_tea", 1 ],
@@ -197,10 +198,7 @@
         [ "tea_bark", 1 ],
         [ "tea_fruit", 1 ],
         [ "tea_green", 1 ],
-        [ "tea_willowbark", 1 ],
-        [ "zerocola", 1 ],
-        [ "zeroorange", 1 ],
-        [ "zerotropical", 1 ]
+        [ "tea_willowbark", 1 ]
       ]
     ]
   },
@@ -221,6 +219,7 @@
       [ [ "water_clean", 2 ] ],
       [
         [ "sweet_juice", 1, "LIST" ],
+        [ "soda_pop_diet", 1, "LIST" ],
         [ "can_coconut", 1 ],
         [ "chai_tea", 1 ],
         [ "chamomile_tea", 1 ],
@@ -250,10 +249,7 @@
         [ "tea_bark", 1 ],
         [ "tea_fruit", 1 ],
         [ "tea_green", 1 ],
-        [ "tea_willowbark", 1 ],
-        [ "zerocola", 1 ],
-        [ "zeroorange", 1 ],
-        [ "zerotropical", 1 ]
+        [ "tea_willowbark", 1 ]
       ],
       [
         [ "brandy", 1 ],

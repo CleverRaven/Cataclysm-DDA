@@ -2096,5 +2096,15 @@
     "price_postapoc": "4 USD",
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_poultry"
+  },
+  {
+    "id": "mutflesh",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of mutagenic flesh", "str_pl": "chunks of mutagenic flesh" },
+    "description": "A chunk of raw meat with a weirdly off-green coloration.  You could eat it as-is, but are you sure you want to?",
+    "flags": [ "RAW", "TRADER_AVOID" ],
+    "smoking_result": " ",
+    "vitamins": [ [ "mutagenic_slurry", 12 ] ]
   }
 ]

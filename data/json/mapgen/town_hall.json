@@ -297,5 +297,39 @@
       "palettes": [ "roof_palette" ],
       "terrain": { "#": "t_brick_wall", "_": "t_thconc_floor", "+": "t_door_locked" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "town_hall_1_1_upper_roof" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     -----              ",
+        "     -...-              ",
+        "     -...-              ",
+        "     -...-              ",
+        "     -----              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

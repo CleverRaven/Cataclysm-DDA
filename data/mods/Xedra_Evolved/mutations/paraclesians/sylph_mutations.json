@@ -100,6 +100,21 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_LOUDER_SHOUTING",
+    "name": { "str": "Voice of Thunder" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph can make their voice boom like a peal of thunder, shouting so loudly that they can be heard from hundreds of yards away.",
+    "prereqs": [ "CLAP_OF_THUNDER" ],
+    "prereqs2": [ "BREATHE_WO_AIR" ],
+    "category": [ "SYLPH" ],
+    "active": true,
+    "activated_is_setup": false,
+    "enchantments": [ "ench_sylph_louder_shouting" ]
+  },
+  {
+    "type": "mutation",
     "id": "CLAP_OF_THUNDER",
     "name": { "str": "Clap of Thunder" },
     "points": 1,
@@ -277,7 +292,7 @@
     "type": "mutation",
     "id": "SYLPH_SPEED_INCREASE2",
     "name": { "str": "Outrunning the Gale" },
-    "points": 4,
+    "points": 8,
     "visibility": 0,
     "ugliness": 0,
     "description": "When outdoors, the Sylph moves 10% faster and has +10% increased speed.",
@@ -324,6 +339,18 @@
     "description": "The Sylph learns how to use the wind to push their opponents.",
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "pushing_wind", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_HINDERING_WINDS",
+    "name": { "str": "Hindering Winds" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph learns how to use surround a single target with buffeting winds, slowing their movements and knocking them off-balance.",
+    "prereqs": [ "PUSHING_WIND" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_hindering_wind_spell", 1 ] ]
   },
   {
     "type": "mutation",
