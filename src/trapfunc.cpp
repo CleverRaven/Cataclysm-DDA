@@ -251,8 +251,9 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     } else {
         int total_cut_dmg = 0;
 
-        for( const bodypart_id& bp : c->get_ground_contact_bodyparts() ) {
-            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 6, 10 ) ) );
+        for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
+            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 6,
+                                       10 ) ) );
             total_cut_dmg += dd.type_damage( damage_cut );
         }
         if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
