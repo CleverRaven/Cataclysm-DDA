@@ -8045,7 +8045,7 @@
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
     "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET", "ROOTS3", "IRRITANT_IMMUNE" ]
+    "flags": [ "TOUGH_FEET", "ROOTS3" ]
   },
   {
     "type": "mutation",
@@ -8954,7 +8954,6 @@
     "vitamin_cost": 60,
     "description": "Your flesh is highly poisonous, and creatures that bite you will receive a nasty surprise.",
     "category": [ "FISH", "GASTROPOD" ],
-    "flags": [ "IRRITANT_IMMUNE" ],
     "threshreq": [ "THRESH_FISH", "THRESH_GASTROPOD" ],
     "purifiable": false
   },
