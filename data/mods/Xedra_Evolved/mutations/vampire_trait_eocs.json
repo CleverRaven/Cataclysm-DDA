@@ -6,7 +6,13 @@
     "required_event": "character_eats_item",
     "condition": {
       "and": [
-        { "compare_string": [ "blood", { "context_val": "itype" } ] },
+        {
+          "or": [
+            { "compare_string": [ "blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
+          ]
+        },
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
