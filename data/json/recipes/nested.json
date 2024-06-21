@@ -7185,17 +7185,6 @@
     "nested_category_data": [ "nested_bullet_necklaces" ]
   },
   {
-    "id": "nested_teeth_necklaces",
-    "type": "nested_category",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "name": "teeth necklaces",
-    "description": "Recipes pertaining to the production of necklaces made with teeth.",
-    "skill_used": "fabrication",
-    "nested_category_data": [ "necklace_teeth" ]
-  },
-  {
     "id": "nested_combat_exoskeleton_armor_reinforcement",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
