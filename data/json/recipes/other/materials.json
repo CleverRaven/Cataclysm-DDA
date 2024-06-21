@@ -434,7 +434,7 @@
     "reversible": true,
     "autolearn": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "charges": "15",
+    "charges": 15,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "There is a loss of approximately 24.6 grams, for the math check <PR number>",
     "components": [ [ [ "copper_wire", 21 ] ] ]
