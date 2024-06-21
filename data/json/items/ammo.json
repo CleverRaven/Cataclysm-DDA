@@ -582,6 +582,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
+    "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -603,6 +604,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
+    "recovery_chance": 50,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -624,6 +626,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
+    "recovery_chance": 10,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -645,6 +648,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
+    "recovery_chance": 95,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -1482,6 +1486,7 @@
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
+    "recovery_chance": 80,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
@@ -1504,6 +1509,7 @@
     "dispersion": 10,
     "loudness": 0,
     "count": 7,
+    "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
