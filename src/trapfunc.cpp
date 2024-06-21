@@ -754,7 +754,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
             you->add_env_effect( effect_slimed, bp, 6, 2_minutes );
         }
         if( one_in( 3 ) ) {
-            for( const bodypart_id& bp : you->get_ground_contact_bodyparts() ) {
+            for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
                 you->deal_damage( nullptr, bp, damage_instance( damage_cut, 5 ) );
             }
 
