@@ -750,7 +750,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        for( const bodypart_id& bp : you->get_ground_contact_bodyparts() ) {
+        for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
             you->add_env_effect( effect_slimed, bp, 6, 2_minutes );
         }
         if( one_in( 3 ) ) {
