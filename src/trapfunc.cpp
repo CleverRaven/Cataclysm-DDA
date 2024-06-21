@@ -292,8 +292,9 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
                         15 ) ) );
     } else {
         int total_cut_dmg = 0;
-        for( const bodypart_id& bp : c->get_ground_contact_bodyparts() ) {
-            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9, 30 ) ) );
+        for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
+            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9,
+                                       30 ) ) );
             total_cut_dmg += dd.type_damage( damage_cut );
         }
         Character *you = dynamic_cast<Character *>( c );
