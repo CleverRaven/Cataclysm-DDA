@@ -288,7 +288,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         float density = 0.0f;
         for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
             for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-                density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
+                density += overmap_buffer.ter( { p.x() + i, p.y() + j, gridz } )->get_mondensity();
             }
         }
         density = density / 100;
@@ -5327,20 +5327,6 @@ void mapgen_function_json::generate( mapgendata &md )
         if( !success ) {
             debugmsg( "predecessor mapgen with key %s failed", function_key );
         }
-
-        // Now we have to do some rotation shenanigans. We need to ensure that
-        // our predecessor is not rotated out of alignment as part of rotating this location,
-        // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
-        // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
-        // we basically have to initially reverse the rotation that we WILL do in the future so that
-        // when we apply that rotation, our predecessor is back in its original state while this
-        // location is rotated as desired.
-
-        m->rotate( ( -rotation.get() + 4 ) % 4 );
-
-        if( ter.is_rotatable() || ter.is_linear() ) {
-            m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
-        }
     };
 
     if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
@@ -5355,6 +5341,22 @@ void mapgen_function_json::generate( mapgendata &md )
             mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );
             do_predecessor_mapgen( predecessor_md );
         }
+    }
+
+    // Now we have to do some rotation shenanigans. We need to ensure that
+    // our predecessor is not rotated out of alignment as part of rotating this location,
+    // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
+    // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
+    // we basically have to initially reverse the rotation that we WILL do in the future so that
+    // when we apply that rotation, our predecessor is back in its original state while this
+    // location is rotated as desired.
+    // Note that we need to perform rotations even if there is no predecessor, as other Z levels
+    // have to be kept aligned regardless.
+
+    m->rotate( ( -rotation.get() + 4 ) % 4 );
+
+    if( ter.is_rotatable() || ter.is_linear() ) {
+        m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
     }
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );

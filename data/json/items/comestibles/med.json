@@ -1956,7 +1956,6 @@
       {
         "id": "xanax",
         "name": { "str_sp": "Xanax" },
-        "append": true,
         "description": "An anti-anxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual."
       }
     ],
