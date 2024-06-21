@@ -2838,7 +2838,7 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
 std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const
 {
     std::vector<bodypart_id> bodyparts;
-    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ){
+    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
         if( arms_legs == true ) {
             bodyparts = { bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ) };
         } else {
