@@ -111,6 +111,8 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
+static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
@@ -2831,6 +2833,27 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
         ret = lower_limbs;
     }
     return ret;
+}
+
+std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const 
+{
+    std::vector<bodypart_id> bodyparts;
+    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ){
+        if( arms_legs == true ) {
+            bodyparts = { bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ) };
+        } else {
+            bodyparts = { bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ) };
+        }
+        return bodyparts;
+    } else {
+        if( arms_legs == true ) {
+            bodyparts = { bodypart_id( "leg_l" ), bodypart_id( "leg_r" ) };
+        }
+        else {
+            bodyparts = { bodypart_id( "foot_l" ), bodypart_id( "foot_r" ) };
+        }
+        return bodyparts;
+    }
 }
 
 int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const
