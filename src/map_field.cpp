@@ -1472,7 +1472,7 @@ void map::player_in_field( Character &you )
             // you're certainly not standing in it.
             if( !you.in_vehicle && !you.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                for( const bodypart_id& bp : you.get_ground_contact_bodyparts() ) {
+                for( const bodypart_id &bp : you.get_ground_contact_bodyparts() ) {
                     total_damage += burn_body_part( you, cur, bp, 2 );
                 }
                 const bool on_ground = you.is_on_ground();
