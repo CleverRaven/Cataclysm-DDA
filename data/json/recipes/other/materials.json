@@ -431,12 +431,11 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "1 h",
-    "reversible": true,
     "autolearn": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "charges": 19,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "//": "There is a loss of approximately 4687 milligrams, for the math check #74702",
+    "//": "There is a loss of approximately 24.6 grams, for the math check <PR number>",
     "components": [ [ [ "copper_wire", 21 ] ] ]
   },
   {
