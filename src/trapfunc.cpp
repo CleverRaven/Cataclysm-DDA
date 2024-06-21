@@ -158,7 +158,7 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
             z->mod_moves( -z->get_speed() * 0.8 );
         }
         if( dmg > 0 ) {
-            for( const bodypart_id& bp : c->get_ground_contact_bodyparts() ) {
+            for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
                 c->deal_damage( nullptr, bp, damage_instance( damage_cut, dmg ) );
             }
             c->check_dead_state();
