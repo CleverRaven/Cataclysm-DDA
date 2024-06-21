@@ -1,6 +1,6 @@
 #[=======================================================================[
 
-windows-tiles-sounds-x64-msvc
+windows-graphics-with-sound-alternate
 -----------------------------
 
 Pre-load script for Microsoft Visual Studio builds.

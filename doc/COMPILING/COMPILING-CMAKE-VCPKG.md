@@ -36,7 +36,7 @@ If vcpkg is checked out in a location different from `C:\vcpkg`, eg. `C:\dev\vcp
 The Standard toolbar shows the presets in the _Configuration_ drop-down box.<br/>
 From the main menu, select _Project -> Configure Cache_
 
-If you do not have `msgfmt` available, or do not want to include translations with the build, you need to additionally set `DLOCALIZE=OFF`. To do this, go to _Project -> CMake Settings_, scroll to the bottom where `"windows-tiles-sounds-x64-msvc"` is defined, and under `"cacheVariables"` change the value from `"LOCALIZE": "True"` to `"LOCALIZE": "OFF"`.
+If you do not have `msgfmt` available, or do not want to include translations with the build, you need to additionally set `DLOCALIZE=OFF`. To do this, go to _Project -> CMake Settings_, scroll to the bottom where `"windows-graphics-with-sound-alternate"` is defined, and under `"cacheVariables"` change the value from `"LOCALIZE": "True"` to `"LOCALIZE": "OFF"`.
  * Note: doing this will change the `CMakePresets.json` file which is tracked by source control. Do not commit this change.
 
 ## Terminal

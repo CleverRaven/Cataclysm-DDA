@@ -7,7 +7,7 @@
   },
   "configurePresets": [
     {
-      "name": "windows-tiles-sounds-x64",
+      "name": "windows-graphics-with-sound",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSYS2 (MinGW)",
       "description": "Target Windows (64-bit) with the MingGW Win64 development environment.",
@@ -19,12 +19,12 @@
       }
     },
     {
-      "name": "windows-tiles-sounds-x64-msvc",
+      "name": "windows-graphics-with-sound-alternate",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment.",
       "generator": "Visual Studio 16 2019",
-      "inherits": "windows-tiles-sounds-x64",
+      "inherits": "windows-graphics-with-sound",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
       },
@@ -35,24 +35,24 @@
       }
     },
     {
-      "name": "windows-tiles-sounds-x64-llvm",
+      "name": "windows-graphics-with-sound-llvm",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 LLVM",
       "description": "Target Windows (64-bit) with the LLVM development environment.",
-      "inherits": "windows-tiles-sounds-x64",
+      "inherits": "windows-graphics-with-sound",
       "environment": {
         "VCPKG_ROOT": "C:/vcpkg"
       },
       "cacheVariables": {
         "LLVM_ROOT": "C:/Program Files/LLVM",
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-graphics-with-sound-alternate.cmake",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/LLVM.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
         "VCPKG_APPLOCAL_DEPS": "False"
       }
     },
     {
-      "name": "linux-tiles-sounds-x64",
+      "name": "linux-graphics-with-sound",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Linux Tiles Sounds x64",
       "description": "Target Linux (64-bit) with the GCC development environment.",
@@ -64,8 +64,8 @@
       }
     },
     {
-      "name": "linux-tiles-sounds-x64-vcpkg",
-      "inherits": ["linux-tiles-sounds-x64"],
+      "name": "linux-graphics-with-sound-vcpkg",
+      "inherits": ["linux-graphics-with-sound"],
       "displayName": "Linux Tiles Sounds x64 VCPKG",
       "description": "Target Linux (64-bit) with the GCC development environment and VCPKG.",
       "generator": "Ninja Multi-Config",
@@ -81,34 +81,34 @@
   ],
   "buildPresets": [
     {
-      "name": "windows-tiles-sounds-x64",
-      "configurePreset": "windows-tiles-sounds-x64"
+      "name": "windows-graphics-with-sound",
+      "configurePreset": "windows-graphics-with-sound"
     },
     {
-      "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
+      "name": "linux-graphics-with-sound",
+      "configurePreset": "linux-graphics-with-sound"
     },
     {
-      "name": "linux-tiles-sounds-x64-vcpkg",
-      "configurePreset": "linux-tiles-sounds-x64-vcpkg"
+      "name": "linux-graphics-with-sound-vcpkg",
+      "configurePreset": "linux-graphics-with-sound-vcpkg"
     },
     {
-      "name": "windows-tiles-sounds-x64-msvc",
-      "configurePreset": "windows-tiles-sounds-x64-msvc"
+      "name": "windows-graphics-with-sound-alternate",
+      "configurePreset": "windows-graphics-with-sound-alternate"
     },
     {
-      "name": "windows-tiles-sounds-x64-llvm",
-      "configurePreset": "windows-tiles-sounds-x64-llvm"
+      "name": "windows-graphics-with-sound-llvm",
+      "configurePreset": "windows-graphics-with-sound-llvm"
     }
   ],
   "testPresets": [
     {
-      "name": "windows-tiles-sounds-x64-msvc",
-      "configurePreset": "windows-tiles-sounds-x64-msvc"
+      "name": "windows-graphics-with-sound-alternate",
+      "configurePreset": "windows-graphics-with-sound-alternate"
     },
     {
-      "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
+      "name": "linux-graphics-with-sound",
+      "configurePreset": "linux-graphics-with-sound"
     }
   ]
 }
