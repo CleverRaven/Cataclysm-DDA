@@ -233,7 +233,7 @@
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_hood_fsurvivor",

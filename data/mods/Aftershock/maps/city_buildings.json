@@ -173,6 +173,24 @@
     "locations": [ "land" ]
   },
   {
+    "id": "afs_exosuit_garage_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_exosuit_garage_a1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_exosuit_garage_a1_roof_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "id": "afs_exosuit_garage_2",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_exosuit_garage_2_a1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_exosuit_garage_2_a1_roof_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_habitat_block_1",
     "type": "city_building",
     "overmaps": [

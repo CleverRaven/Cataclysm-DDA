@@ -6305,14 +6305,6 @@
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
-    "result": "sneakers",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "3 m",
-    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "cotton_patchwork", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ]
-  },
-  {
     "result": "hat_boonie",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -6521,14 +6513,6 @@
     "time": "25 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_nylon", 15 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
-  },
-  {
-    "result": "blazer",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "felt_patch", 150 ] ], [ [ "button_plastic", 2 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "office_holepunch",
