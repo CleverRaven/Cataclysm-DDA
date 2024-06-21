@@ -4839,7 +4839,7 @@
       {
         "id": "necklace_teeth_monster",
         "name": { "str": "monster teeth necklace" },
-        "description": "The teeth hanging from this one look alien, with an hypnotizing, iridescent shine.",
+        "description": "The teeth hanging from this one look alien, with a hypnotizing, iridescent shine.",
         "append": true
       }
     ]
