@@ -63,10 +63,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_357mag",
-    "items": [
-      { "group": "nested_sw_619", "prob": 3 },
-      { "group": "nested_colt_python", "prob": 3 }
-    ]
+    "items": [ { "group": "nested_sw_619", "prob": 3 }, { "group": "nested_colt_python", "prob": 3 } ]
   },
   {
     "type": "item_group",
