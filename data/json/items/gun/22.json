@@ -432,6 +432,7 @@
   {
     "id": "ruger_charger_auto",
     "copy-from": "ruger_charger",
+    "looks_like": "ruger_charger",
     "type": "GUN",
     "name": "full-auto varmint pistol",
     "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
