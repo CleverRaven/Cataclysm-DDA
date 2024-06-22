@@ -25,7 +25,7 @@
     "description": "Bits and pieces of plastic entangled in sticky candy goop.  They spot some bright colors and might have been part of a candy wrapper at some point.  Maybe you could suck the sugar from them, if you're really desperate.",
     "material": [ "junk" ],
     "calories": 10,
-    "vitamins": [  ]
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -41,7 +41,7 @@
     "material": [ "junk" ],
     "calories": 10,
     "fun": -12,
-    "vitamins": [  ]
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "rock_candy_chunk",
@@ -66,6 +66,7 @@
     "color": "white",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "material": [ "junk" ]
+    "material": [ "junk" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   }
 ]
