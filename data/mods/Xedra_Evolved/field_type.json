@@ -39,7 +39,6 @@
   {
     "id": "fd_dream_wound_shadow",
     "type": "field_type",
-    "legacy_enum_id": 20,
     "intensity_levels": [
       {
         "name": "oily sheen",
