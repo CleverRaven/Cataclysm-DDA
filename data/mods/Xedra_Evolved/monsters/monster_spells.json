@@ -132,7 +132,7 @@
     "type": "SPELL",
     "name": { "str": "Shadowman Death" },
     "valid_targets": [ "ally", "hostile" ],
-    "description": "Removes the darkness effect.",
+    "description": "Eliminates any dream shadows in the area.",
     "teachable": false,
     "effect": "banishment",
     "shape": "blast",
@@ -144,7 +144,7 @@
     "min_aoe": 60,
     "max_aoe": 60,
     "extra_effects": [ { "id": "CLOSE_DREAMWOUND_SHADOW", "hit_self": true } ],
-    "flags": [ "SILENT" ]
+    "flags": [ "SILENT", "IGNORE_WALLS" ]
   },
   {
     "type": "SPELL",
