@@ -253,7 +253,7 @@
     "type": "COMESTIBLE",
     "name": "large alien stomach",
     "description": "A balloon-like organ of a large alien you can only guess is a stomach.  It is surprisingly durable.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 }
   },
   {
     "id": "alien_lung",
