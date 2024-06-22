@@ -1474,7 +1474,7 @@ void map::player_in_field( Character &you )
                 int total_damage = 0;
                 const bool on_ground = you.is_on_ground();
                 if( !on_ground ) {
-                    for( const bodypart_id& bp : you.get_ground_contact_bodyparts() ) {
+                    for( const bodypart_id &bp : you.get_ground_contact_bodyparts() ) {
                         total_damage += burn_body_part( you, cur, bp, 2 );
                     }
                 } else {
