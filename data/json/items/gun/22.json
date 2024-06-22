@@ -157,6 +157,7 @@
   {
     "id": "ruger_1022_auto",
     "copy-from": "ruger_1022",
+    "looks_like": "ruger_1022",
     "type": "GUN",
     "name": "full-auto varmint rifle",
     "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
