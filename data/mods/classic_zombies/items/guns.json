@@ -92,8 +92,15 @@
   {
     "type": "GUN",
     "id": "rossi_gallery",
-    "name": { "str": "Winchester 1890" },
+    "name": { "str": "pump action varmint rifle" },
     "copy-from": "rossi_gallery",
-    "description": "The Winchester 1890 is a pump action rifle, chambered in .22 LR.  Holds 15 rounds of ammo, so go get plinking!"
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rossi_gallery",
+        "name": { "str": "Winchester 1890" },
+        "description": "The Winchester 1890 is a pump action rifle, chambered in .22 LR.  Holds 15 rounds of ammo, so go get plinking!"
+      }
+    ]
   }
 ]
