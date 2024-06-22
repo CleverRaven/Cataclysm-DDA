@@ -88,5 +88,12 @@
     "name": { "str": "C6" },
     "copy-from": "m60",
     "description": "The Colt Canada C6 is a general-purpose machine gun developed to replace the .30-caliber C5 GPMG.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes."
+  },
+  {
+    "type": "GUN",
+    "id": "rossi_gallery",
+    "name": { "str": "Winchester 1890" },
+    "copy-from": "rossi_gallery",
+    "description": "The Winchester 1890 is a pump action rifle, chambered in .22 LR.  Holds 15 rounds of ammo, so get get plinking!"
   }
 ]
