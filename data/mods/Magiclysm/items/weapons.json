@@ -21,7 +21,6 @@
     "copy-from": "spear_forked",
     "description": "A wooden melee weapon with a hand-forged steel forked spearhead attached to the end.  It can be used for stabbing opponents either in close-range or as a thrown weapon, and in the right hands can also readily disarm opponents.",
     "weight": "1650 g",
-    "to_hit": 2,
     "techniques": [ "WBLOCK_2", "DEF_DISARM", "IMPALE" ],
     "volume": "3 L",
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],

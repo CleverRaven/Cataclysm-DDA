@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "longest_side": "20 cm",
     "price": "1 cent",
-    "to_hit": 2,
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
@@ -139,7 +138,6 @@
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, to smash things to bits!",
     "weight": "1337 g",
     "longest_side": "70 cm",
-    "to_hit": 2,
     "color": "brown",
     "symbol": "/",
     "looks_like": "warhammer",
@@ -322,7 +320,6 @@
     "weight": "2175 g",
     "volume": "2500 ml",
     "longest_side": "183 cm",
-    "to_hit": 2,
     "melee_damage": { "bash": 16, "stab": 36 }
   },
   {
@@ -676,7 +673,6 @@
     "weight": "900 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
-    "to_hit": 2,
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
     },

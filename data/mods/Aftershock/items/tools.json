@@ -346,7 +346,6 @@
     "type": "TOOL",
     "name": { "str": "murdersaw (on)", "str_pl": "murdersaws (on)" },
     "description": "This fearsome weapon is currently whirring loudly and shaking with the force of its own power.  Use it to turn it off.",
-    "to_hit": 2,
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
     "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
