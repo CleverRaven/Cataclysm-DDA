@@ -755,8 +755,10 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
             for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
                 you->deal_damage( nullptr, bp, damage_instance( damage_cut, 5 ) );
             }
-            you->add_msg_player_or_npc( m_bad, _( "The acidic goo eats away at your " ) + you->get_ground_contact_bodyparts_string() + "!",
-                _( "The acidic goo eats away at <npcname>'s " ) + you->get_ground_contact_bodyparts_string() + "!" );
+            you->add_msg_player_or_npc( m_bad,
+                                        _( "The acidic goo eats away at your " ) + you->get_ground_contact_bodyparts_string() + "!",
+                                        _( "The acidic goo eats away at <npcname>'s " ) + you->get_ground_contact_bodyparts_string() +
+                                        "!" );
             you->check_dead_state();
         }
         return true;
