@@ -25,14 +25,16 @@
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "death_drops": "mon_dream_shadow_death_drops",
     "harvest": "exempt",
-    "special_attacks": {
-      "id": "mon_spell_shadow_damage_reduction",
-      "type": "spell",
-      "spell_data": { "id": "spell_shadow_damage_reduction" },
-      "cooldown": 120,
-      "condition": { "not": { "u_has_effect": "effect_monster_shadow_damage_reduction" } },
-      "monster_message": "%1$s's appears to become two dimensional."
-    },
+    "special_attacks": [
+      {
+        "id": "mon_spell_shadow_damage_reduction",
+        "type": "spell",
+        "spell_data": { "id": "spell_shadow_damage_reduction" },
+        "cooldown": 120,
+        "condition": { "not": { "u_has_effect": "effect_monster_shadow_damage_reduction" } },
+        "monster_message": "%1$s's appears to become two dimensional."
+      }
+    ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
@@ -140,6 +142,7 @@
     "harvest": "exempt",
     "special_attacks": [
       {
+        "id": "mon_spell_shadowman_teleport",
         "type": "spell",
         "spell_data": { "id": "dream_shadowman_teleport", "hit_self": true },
         "cooldown": 15,
