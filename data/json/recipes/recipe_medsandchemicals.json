@@ -1517,7 +1517,7 @@
     "time": "1 s",
     "reversible": true,
     "autolearn": true,
-    "tools": [],
+    "tools": [  ],
     "components": [ [ [ "red_phosphorous_small", 100 ] ] ]
   },
   {
