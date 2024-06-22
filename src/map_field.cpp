@@ -1479,7 +1479,7 @@ void map::player_in_field( Character &you )
                     }
                 } else {
                     // Apply the effect to the remaining body parts
-                    for( const bodypart_id& bp : you.get_ground_contact_bodyparts( true ) ) {
+                    for( const bodypart_id &bp : you.get_ground_contact_bodyparts( true ) ) {
                         total_damage += burn_body_part( you, cur, bp, 2 );
                     }
                     total_damage += burn_body_part( you, cur, bodypart_id( "torso" ), 2 );
