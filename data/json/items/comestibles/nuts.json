@@ -36,7 +36,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -474,7 +474,7 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -507,7 +507,7 @@
     "quench": -2,
     "calories": 190,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {

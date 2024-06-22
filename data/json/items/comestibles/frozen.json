@@ -35,7 +35,8 @@
     "price": "2 USD 75 cent",
     "price_postapoc": "1 USD",
     "material": [ "milk", "junk" ],
-    "primary_material": "milk"
+    "primary_material": "milk",
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -59,7 +60,8 @@
     "price": "4 USD",
     "price_postapoc": "1 USD 50 cent",
     "material": [ "milk", "junk" ],
-    "primary_material": "milk"
+    "primary_material": "milk",
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -79,7 +81,7 @@
     "calories": 220,
     "material": [ "water", "fruit" ],
     "primary_material": "water",
-    "vitamins": [ [ "vitC", 6 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -294,7 +296,8 @@
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "primary_material": "ice_cream",
-    "material": [ "milk", "junk" ]
+    "material": [ "milk", "junk" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -329,7 +332,7 @@
     "price_postapoc": "3 USD",
     "calories": 330,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "junk_allergen", 1 ] ],
     "material": [ "milk", "junk" ]
   },
   {
@@ -343,7 +346,7 @@
     "price": "3 USD",
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -357,7 +360,7 @@
     "price": "3 USD",
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "calcium", 8 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "egg_allergen", 1 ] ],
     "material": [ "milk", "egg" ]
   },
   {
@@ -387,7 +390,7 @@
     "price": "1 USD 75 cent",
     "price_postapoc": "1 USD",
     "weight": "106 g",
-    "vitamins": [  ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
     "material": [ "water", "fruit" ]
   },
   {

@@ -16,7 +16,7 @@
     "material": [ "fruit" ],
     "volume": "1 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -439,7 +439,8 @@
     "weight": "50 g",
     "volume": "250 ml",
     "to_hit": -4,
-    "fun": -25
+    "fun": -25,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -702,7 +703,7 @@
         "open_container": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoil_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0 }
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -760,7 +761,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0
       }
     ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -2309,7 +2310,7 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0
       }
     ]
   },
@@ -2340,9 +2341,9 @@
     "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
     "description": "A memory card, can be used to store data.  This one has a label on which is written 'XEDRA' followed by a long string of numbers.",
     "memory_card": {
-      "data_chance": 1.0,
+      "data_chance": 1,
       "on_read_convert_to": "memory_card",
-      "recipes_chance": 1.0,
+      "recipes_chance": 1,
       "recipes_amount": 3,
       "recipes_categories": [ "CC_CHEM" ],
       "recipes_level_min": 6,
@@ -2968,7 +2969,8 @@
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
     "volume": "250 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",
