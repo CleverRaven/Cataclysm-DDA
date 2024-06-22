@@ -51,9 +51,8 @@
     "type": "SPECIES",
     "id": "VAMPIRE",
     "description": "a variety of creatures that subsist off the blood of living humans",
-    "flags": [ "NO_NECRO", "VAMP_VIRUS" ],
-    "fear_triggers": [ "FIRE" ],
-    "flags": [ "DRACULIN_IMMUNE" ]
+    "flags": [ "NO_NECRO", "VAMP_VIRUS", "DRACULIN_IMMUNE" ],
+    "fear_triggers": [ "FIRE" ]
   },
 
   {
