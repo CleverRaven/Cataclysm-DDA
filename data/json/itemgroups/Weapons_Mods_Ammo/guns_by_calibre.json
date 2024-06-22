@@ -462,7 +462,11 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_worn_22",
-    "items": [ { "item": "marlin_9a", "prob": 8, "charges": [ 0, 19 ] }, { "item": "ruger_1022", "prob": 28, "charges": [ 0, 10 ] } ]
+    "items": [
+      { "item": "marlin_9a", "prob": 8, "charges": [ 0, 19 ] },
+      { "item": "ruger_1022", "prob": 28, "charges": [ 0, 10 ] },
+      { "item": "rossi_gallery", "prob": 12, "charges": [ 0, 19 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -537,7 +541,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_22",
-    "items": [ { "item": "ruger_1022", "prob": 160 } ]
+    "items": [ { "item": "ruger_1022", "prob": 160 }, { "item": "rossi_gallery", "prob": 18 } ]
   },
   {
     "type": "item_group",
