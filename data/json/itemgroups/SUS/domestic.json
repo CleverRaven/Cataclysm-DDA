@@ -8,8 +8,8 @@
     "entries": [
       { "item": "knife_butter", "count": [ 1, 6 ] },
       { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
-      { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
-      { "item": "knife_paring", "prob": 75 },
+      { "item": "knife_small", "variant": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
+      { "item": "knife_small", "variant": "knife_paring", "prob": 75 },
       { "item": "fork", "count": [ 1, 6 ] },
       { "item": "fork", "count": [ 1, 6 ], "prob": 75 },
       { "item": "spoon", "count": [ 1, 6 ] },
@@ -76,17 +76,28 @@
     "//2": "This group is for a drawer full of knives and related implements.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ] },
-      { "item": "knife_paring" },
-      { "item": "knife_paring", "prob": 75 },
-      { "item": "knife_bread", "prob": 95 },
-      { "item": "knife_bread", "prob": 45 },
       {
-        "distribution": [ { "item": "knife_butcher", "prob": 10 }, { "item": "knife_meat_cleaver", "prob": 10 } ],
+        "distribution": [
+          { "item": "knife_large", "variant": "knife_chef", "prob": 10 },
+          { "item": "knife_cleaver", "variant": "knife_vegetable_cleaver", "prob": 3 }
+        ]
+      },
+      { "item": "knife_small", "variant": "knife_paring" },
+      { "item": "knife_small", "variant": "knife_paring", "prob": 75 },
+      { "item": "knife_large", "variant": "knife_bread", "prob": 95 },
+      { "item": "knife_large", "variant": "knife_bread", "prob": 45 },
+      {
+        "distribution": [
+          { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
+          { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 }
+        ],
         "prob": 65
       },
-      { "item": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
-      { "collection": [ { "item": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ], "prob": 85 },
+      { "item": "knife_small", "variant": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
+      {
+        "collection": [ { "item": "knife_large", "variant": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ],
+        "prob": 85
+      },
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },

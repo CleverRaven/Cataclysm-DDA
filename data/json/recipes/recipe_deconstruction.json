@@ -3078,7 +3078,7 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_bread",
+    "result": "knife_large",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
@@ -3086,26 +3086,10 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_butcher",
+    "result": "knife_huge",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "spike", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "knife_carving",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "spike", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_chef",
-    "time": "5 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3118,7 +3102,7 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_meat_cleaver",
+    "result": "knife_cleaver",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "blade", 1 ], [ "scrap", 10 ] ] ]
@@ -3126,27 +3110,10 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_paring",
+    "result": "knife_small",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
-  },
-  {
-    "result": "knife_steak",
-    "type": "uncraft",
-    "time": "3 m",
-    "//": "Another odd one",
-    "activity_level": "MODERATE_EXERCISE",
-    "components": [ [ [ "spike", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_vegetable_cleaver",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "laptop",
@@ -6338,14 +6305,6 @@
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
-    "result": "sneakers",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "3 m",
-    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "cotton_patchwork", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ]
-  },
-  {
     "result": "hat_boonie",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -6554,14 +6513,6 @@
     "time": "25 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_nylon", 15 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
-  },
-  {
-    "result": "blazer",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "felt_patch", 150 ] ], [ [ "button_plastic", 2 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "office_holepunch",

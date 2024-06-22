@@ -106,6 +106,21 @@
     "replace": "gambeson"
   },
   {
+    "id": "ksg_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
     "id": "gambeson_loose_vest",
     "type": "MIGRATION",
     "replace": "gambeson_nylon_vest"
@@ -1440,6 +1455,54 @@
     "replace": "glass_fridge"
   },
   {
+    "id": "knife_steak",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_steak"
+  },
+  {
+    "id": "knife_paring",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_paring"
+  },
+  {
+    "id": "knife_chef",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_chef"
+  },
+  {
+    "id": "knife_carving",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_carving"
+  },
+  {
+    "id": "knife_bread",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_bread"
+  },
+  {
+    "id": "knife_butcher",
+    "type": "MIGRATION",
+    "replace": "knife_huge",
+    "variant": "knife_butcher"
+  },
+  {
+    "id": "knife_meat_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_meat_cleaver"
+  },
+  {
+    "id": "knife_vegetable_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_vegetable_cleaver"
+  },
+  {
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"
@@ -1466,6 +1529,21 @@
   },
   {
     "id": "cop_38",
+    "type": "MIGRATION",
+    "replace": "sw_619"
+  },
+  {
+    "id": "fs2000",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "factory_handguard",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "mr73",
     "type": "MIGRATION",
     "replace": "sw_619"
   }

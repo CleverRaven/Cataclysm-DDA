@@ -416,6 +416,7 @@
       { "point": [ 0, 1, 1 ], "overmap": "sewage_treatment_0_1_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "sewage_treatment_1_1_0_north" },
       { "point": [ 1, 1, 1 ], "overmap": "sewage_treatment_1_1_roof_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "sewage_treatment_1_0_upper_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "sewage_treatment_0_0_-1_north" },
       { "point": [ 1, 0, -1 ], "overmap": "sewage_treatment_1_0_-1_north" },
       { "point": [ 2, 0, -1 ], "overmap": "sewage_treatment_2_0_-1_north" },
@@ -922,6 +923,9 @@
       { "point": [ 0, 2, 0 ], "overmap": "fema_3_1_north" },
       { "point": [ 1, 2, 0 ], "overmap": "fema_3_2_north" },
       { "point": [ 2, 2, 0 ], "overmap": "fema_3_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fema_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "fema_entrance_roof_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "fema_1_3_roof_north" },
       { "point": [ 1, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
@@ -1958,7 +1962,10 @@
   {
     "type": "overmap_special",
     "id": "Toxic Waste Dump",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "toxic_dump_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "toxic_dump_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "toxic_dump_roof_north" }
+    ],
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 8, -1 ],
@@ -3006,6 +3013,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "state_park_0_0_north" },
       { "point": [ 1, 0, 0 ], "overmap": "state_park_1_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "state_park_1_0_1_north" },
       { "point": [ 0, 1, 0 ], "overmap": "state_park_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "state_park_1_1_north" },
       { "point": [ 1, -1, 0 ], "locations": [ "land", "road" ] }
@@ -3761,7 +3769,12 @@
   {
     "type": "overmap_special",
     "id": "gun_show",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" }, { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gunshow_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "gunshow_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gunshow_0_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "gunshow_1_roof_north" }
+    ],
     "locations": [ "field" ],
     "connections": [ { "point": [ 0, 5, 0 ], "terrain": "road", "connection": "local_road", "existing": true } ],
     "city_distance": [ 3, -1 ],
@@ -4168,6 +4181,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "ws_regional_dump_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "ws_regional_dump_2_0_north" },
       { "point": [ 3, 0, 0 ], "overmap": "ws_regional_dump_3_0_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "ws_regional_dump_3_0_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "ws_regional_dump_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "ws_regional_dump_1_1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "ws_regional_dump_2_1_north" },
@@ -4197,6 +4211,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "ws_biker_dump_1_0_north" },
       { "point": [ 2, 0, 0 ], "overmap": "ws_biker_dump_2_0_north" },
       { "point": [ 3, 0, 0 ], "overmap": "ws_biker_dump_3_0_north" },
+      { "point": [ 3, 0, 1 ], "overmap": "ws_biker_dump_3_0_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "ws_biker_dump_0_1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "ws_biker_dump_1_1_north" },
       { "point": [ 2, 1, 0 ], "overmap": "ws_biker_dump_2_1_north" },
@@ -6252,24 +6267,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "bunker shop",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "bunker_shop_g_south" },
-      {
-        "point": [ 0, 0, -1 ],
-        "overmap": "bunker_shop_b_south",
-        "camp": "wasteland_scavengers",
-        "camp_name": "Merchant"
-      }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 0, 0 ] } ],
-    "locations": [ "field", "forest_without_trail" ],
-    "occurrences": [ 10, 100 ],
-    "priority": -1,
-    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "nursing_home_sh",
     "locations": [ "land" ],
     "overmaps": [
@@ -6676,6 +6673,7 @@
       { "point": [ 5, 7, 1 ], "overmap": "speedway_5_7_1_north" },
       { "point": [ 6, 7, 1 ], "overmap": "speedway_6_7_1_north" },
       { "point": [ 6, 7, 2 ], "overmap": "speedway_6_7_2_north" },
+      { "point": [ 6, 7, 3 ], "overmap": "speedway_6_7_3_north" },
       { "point": [ 5, 10, 0 ], "locations": [ "land", "road" ] }
     ],
     "occurrences": [ 50, 100 ],

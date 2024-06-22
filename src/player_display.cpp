@@ -1628,7 +1628,7 @@ void Character::disp_info( bool customize_character )
     const unsigned int proficiency_win_size_y_max = 1 + display_proficiencies().size();
 
     std::vector<trait_and_var> traitslist = get_mutations_variants( false );
-    std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
+    std::sort( traitslist.begin(), traitslist.end(), trait_var_display_sort );
     const unsigned int trait_win_size_y_max = 1 + traitslist.size();
 
     std::vector<bionic_grouping> bionicslist;

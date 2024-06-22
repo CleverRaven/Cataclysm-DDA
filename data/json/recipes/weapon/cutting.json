@@ -250,11 +250,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "components": [
-      [ [ "duct_tape", 100 ] ],
-      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
-      [ [ "stick_long", 1 ] ]
-    ]
+    "components": [ [ [ "duct_tape", 100 ] ], [ [ "blade", 1 ], [ "knife_cleaver", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -271,7 +267,7 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.5 } ],
     "components": [
       [ [ "duct_tape", 100 ] ],
-      [ [ "blade", 1 ], [ "knife_meat_cleaver", 1 ], [ "knife_vegetable_cleaver", 1 ] ],
+      [ [ "blade", 1 ], [ "knife_cleaver", 1 ] ],
       [ [ "stick_long", 1 ] ],
       [ [ "cordage", 2, "LIST" ] ]
     ]

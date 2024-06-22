@@ -183,5 +183,21 @@
     "difficulty": 2,
     "time": "5 m",
     "components": [ [ [ "sheet_lycra_patchwork", 9 ] ] ]
+  },
+  {
+    "result": "jacket_light",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "4 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "zipper_long_plastic", 1 ] ], [ [ "sheet_cotton", 5 ] ], [ [ "cotton_patchwork", 5 ] ] ]
+  },
+  {
+    "result": "blazer",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "4 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "felt_patch", 38 ] ], [ [ "sheet_felt", 20 ] ], [ [ "button_plastic", 5 ] ] ]
   }
 ]
