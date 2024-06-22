@@ -2837,19 +2837,47 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
 
 std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const
 {
-    std::vector<bodypart_id> bodyparts;
+    std::vector<bodypart_id> arms = get_all_body_parts_of_type(body_part_type::type::arm);
+    std::vector<bodypart_id> legs = get_all_body_parts_of_type(body_part_type::type::leg);
+    std::vector<bodypart_id> hands = get_all_body_parts_of_type(body_part_type::type::hand);
+    std::vector<bodypart_id> feet = get_all_body_parts_of_type(body_part_type::type::foot);
+
     if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
         if( arms_legs == true ) {
-            bodyparts = { bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" ) };
+            std::vector<bodypart_id> bodyparts( arms.size() + legs.size() );
+            std::merge( arms.begin(), arms.end(), legs.begin(), legs.end(), bodyparts.begin() );
+            return bodyparts;
         } else {
-            bodyparts = { bodypart_id( "hand_l" ), bodypart_id( "hand_r" ), bodypart_id( "foot_l" ), bodypart_id( "foot_r" ) };
+            std::vector<bodypart_id> bodyparts( hands.size() + feet.size() );
+            std::merge( hands.begin(), hands.end(), feet.begin(), feet.end(), bodyparts.begin() );
+            return bodyparts;
+        }
+    } else {
+        std::vector<bodypart_id> bodyparts;
+        if( arms_legs == true ) {
+            bodyparts = get_all_body_parts_of_type( body_part_type::type::leg );
+        } else {
+            bodyparts = get_all_body_parts_of_type( body_part_type::type::foot );
+        }
+        return bodyparts;
+    }
+}
+
+std::string Creature::get_ground_contact_bodyparts_string( bool arms_legs ) const
+{
+    std::string bodyparts;
+    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
+        if( arms_legs == true ) {
+            bodyparts = "arms and legs";
+        } else {
+            bodyparts = "hands and feet";
         }
         return bodyparts;
     } else {
         if( arms_legs == true ) {
-            bodyparts = { bodypart_id( "leg_l" ), bodypart_id( "leg_r" ) };
+            bodyparts = "legs";
         } else {
-            bodyparts = { bodypart_id( "foot_l" ), bodypart_id( "foot_r" ) };
+            bodyparts = "feet";
         }
         return bodyparts;
     }

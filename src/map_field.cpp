@@ -1472,17 +1472,15 @@ void map::player_in_field( Character &you )
             // you're certainly not standing in it.
             if( !you.in_vehicle && !you.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                for( const bodypart_id &bp : you.get_ground_contact_bodyparts() ) {
-                    total_damage += burn_body_part( you, cur, bp, 2 );
-                }
                 const bool on_ground = you.is_on_ground();
-                if( on_ground ) {
+                if( !on_ground ) {
+                    for( const bodypart_id& bp : you.get_ground_contact_bodyparts() ) {
+                        total_damage += burn_body_part( you, cur, bp, 2 );
+                    }
+                } else {
                     // Apply the effect to the remaining body parts
-                    total_damage += burn_body_part( you, cur, bodypart_id( "leg_l" ), 2 );
-                    total_damage += burn_body_part( you, cur, bodypart_id( "leg_r" ), 2 );
-                    if( !you.has_effect( effect_quadruped_full ) && !you.has_effect( effect_quadruped_half ) ) {
-                        total_damage += burn_body_part( you, cur, bodypart_id( "hand_l" ), 2 );
-                        total_damage += burn_body_part( you, cur, bodypart_id( "hand_r" ), 2 );
+                    for( const bodypart_id& bp : you.get_ground_contact_bodyparts( true ) ) {
+                        total_damage += burn_body_part( you, cur, bp, 2 );
                     }
                     total_damage += burn_body_part( you, cur, bodypart_id( "torso" ), 2 );
                     // Less arms = less ability to keep upright
@@ -1497,13 +1495,8 @@ void map::player_in_field( Character &you )
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
                                                _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
-                    if( you.has_effect( effect_quadruped_full ) || you.has_effect( effect_quadruped_half ) ) {
-                        you.add_msg_player_or_npc( m_bad, _( "The acid burns your hands and feet!" ),
-                                                   _( "The acid burns <npcname>'s hands and feet!" ) );
-                    } else {
-                        you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                                   _( "The acid burns <npcname>'s legs and feet!" ) );
-                    }
+                    you.add_msg_player_or_npc( m_bad, _( "The acid burns your " ) + you.get_ground_contact_bodyparts_string() + "!",
+                        _( "The acid burns <npcname>'s " ) + you.get_ground_contact_bodyparts_string() + "!" );
                 } else if( on_ground ) {
                     you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
                 } else if( !you.is_immune_field( fd_acid ) ) {
