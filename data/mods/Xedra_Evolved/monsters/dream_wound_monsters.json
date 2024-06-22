@@ -23,6 +23,7 @@
     "vision_day": 50,
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
+    "death_drops": "mon_dream_shadow_death_drops",
     "harvest": "exempt",
     "special_attacks": {
       "id": "mon_spell_shadow_damage_reduction",
@@ -77,6 +78,7 @@
     "vision_day": 50,
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
+    "death_drops": "mon_dream_shadowbeast_death_drops",
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
@@ -134,6 +136,7 @@
     "luminance": 6,
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
+    "death_drops": "mon_dream_shadowman_death_drops",
     "harvest": "exempt",
     "special_attacks": [
       {
