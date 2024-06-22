@@ -202,7 +202,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "large human stomach" },
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "human_fat",
@@ -841,7 +841,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "large stomach" },
     "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
   },
   {
     "id": "jerky",
@@ -883,7 +883,7 @@
     "price_postapoc": "2 USD 50 cent",
     "quench": -5,
     "fun": 4,
-    "proportional": { "price": 2, "volume": 0.345, "weight": 0.345 },
+    "proportional": { "price": 2.0, "volume": 0.345, "weight": 0.345 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -900,7 +900,7 @@
     "price_postapoc": "2 USD 50 cent",
     "quench": -5,
     "fun": 4,
-    "proportional": { "price": 2, "volume": 0.345, "weight": 0.345 },
+    "proportional": { "price": 2.0, "volume": 0.345, "weight": 0.345 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -1599,7 +1599,7 @@
     "copy-from": "small_stomach_boiled",
     "name": { "str": "large boiled stomach" },
     "description": "A boiled stomach from an animal, nothing else.  It looks all but appetizing.",
-    "proportional": { "price": 2, "calories": 2, "volume": 2, "weight": 2 },
+    "proportional": { "price": 2.0, "calories": 2.0, "volume": 2.0, "weight": 2.0 },
     "fun": -5
   },
   {
@@ -1865,7 +1865,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "large demihuman stomach" },
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 },
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
     "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
