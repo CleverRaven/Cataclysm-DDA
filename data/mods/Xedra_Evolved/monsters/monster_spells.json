@@ -134,7 +134,6 @@
     "valid_targets": [ "ally", "hostile" ],
     "description": "Removes the darkness effect.",
     "teachable": false,
-    "valid_targets": [ "hostile", "ally" ],
     "effect": "banishment",
     "shape": "blast",
     "targeted_monster_ids": [ "mon_dream_shadowbeast", "mon_dream_shadow", "mon_dream_shadowman" ],
