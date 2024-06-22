@@ -1495,8 +1495,9 @@ void map::player_in_field( Character &you )
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
                                                _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
-                    you.add_msg_player_or_npc( m_bad, _( "The acid burns your " ) + you.get_ground_contact_bodyparts_string() + "!",
-                        _( "The acid burns <npcname>'s " ) + you.get_ground_contact_bodyparts_string() + "!" );
+                    you.add_msg_player_or_npc( m_bad,
+                                               _( "The acid burns your " ) + you.get_ground_contact_bodyparts_string() + "!",
+                                               _( "The acid burns <npcname>'s " ) + you.get_ground_contact_bodyparts_string() + "!" );
                 } else if( on_ground ) {
                     you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
                 } else if( !you.is_immune_field( fd_acid ) ) {
