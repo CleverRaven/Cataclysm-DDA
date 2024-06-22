@@ -2091,6 +2091,27 @@
     "entries": [ { "item": "shotgun_s", "charges": [ 0, 1 ] }, { "group": "on_hand_shot" } ]
   },
   {
+    "id": "nested_dp_12",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "dp_12", "charges": [ 0, 14 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_srm_1216",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "srm_1216", "charges": [ 0, 16 ] },
+      { "item": "srm_1216_mag_16" },
+      { "item": "srm_1216_mag_16", "prob": 50 },
+      { "group": "on_hand_shot" }
+    ]
+  },
+  {
     "id": "nested_ksg",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
