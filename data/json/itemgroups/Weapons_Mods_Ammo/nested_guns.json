@@ -943,19 +943,6 @@
     ]
   },
   {
-    "id": "nested_af2011a1_38super",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "af2011a1_38super" },
-      { "item": "af2011a1mag" },
-      { "item": "af2011a1mag", "prob": 50 },
-      { "group": "on_hand_38super" }
-    ]
-  },
-  {
     "id": "nested_m1911-460",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
