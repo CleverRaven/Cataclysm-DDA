@@ -48,15 +48,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FORGE_TELEPORT_START",
-    "condition": { "and": [ "u_can_see", { "not": { "u_has_trait": "MUTE" } } ] },
-    "false_effect": { "u_message": "You need to be able to see and speak to recite the incantation." },
+    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
     "effect": [ { "u_assign_activity": "ACT_magic_forge_warp", "duration": 300 } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FORGE_RETURN_TELEPORT_START",
-    "condition": { "and": [ "u_can_see", { "not": { "u_has_trait": "MUTE" } } ] },
-    "false_effect": { "u_message": "You need to be able to see and speak to recite the incantation." },
+    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
     "effect": [ { "u_assign_activity": "ACT_magic_forge_return_warp", "duration": 300 } ]
   },
   {
