@@ -144,7 +144,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     // Put us back at 0. We shouldn't have to do this but other tests are
     // making assumptions about what z-level they're on.
-    g->vertical_shift( 0 );
+    dummy.setpos( test_origin );
 }
 
 static const efftype_id effect_winded( "winded" );
