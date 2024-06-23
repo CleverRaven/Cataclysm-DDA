@@ -1,6 +1,25 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_DRINKING_DIRECTLY",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
+          ]
+        },
+        { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_EYEGLEAM_activated",
     "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [

@@ -951,15 +951,13 @@
     "type": "COMESTIBLE",
     "id": "pickle",
     "name": { "str": "pickle" },
-    "copy-from": "cucumber",
+    "copy-from": "gherkin",
     "color": "green",
     "spoils_in": "30 days",
     "quench": 5,
-    "description": "A pickled cucumber.  Rather sour, but tastes good and lasts for a long time.",
-    "price": "2 USD 50 cent",
-    "price_postapoc": "50 cent",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
+    "description": "A small pickled cucumber.  Rather sour, but tastes good and lasts for a long time.",
+    "price": "13 cent",
+    "price_postapoc": "20 cent",
     "fun": 5
   },
   {
@@ -1172,7 +1170,7 @@
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -1628,5 +1626,24 @@
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 6,
     "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "kombu",
+    "name": { "str_sp": "kombu" },
+    "weight": "10 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 17,
+    "description": "An essential component of Japanese cuisine, this dried sheet of seaweed has hardened to the point of inedibility.  Boiled in water, it should make an excellent broth.",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "25 ml",
+    "flags": [ "INEDIBLE" ],
+    "smoking_result": "kombu",
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ] ]
   }
 ]

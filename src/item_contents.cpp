@@ -722,7 +722,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
 
-            if( !current_pocket_iter->is_type( pocket.saved_type() ) ) {
+            if( !current_pocket_iter->is_type( convert ? pocket.get_pocket_data()->type :
+                                               pocket.saved_type() ) ) {
                 mismatched_pockets.push_back( pocket );
                 continue;
             }
@@ -750,8 +751,9 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item_pocket &pocket : mismatched_pockets ) {
+        const pocket_type mismatched_type = convert ? pocket.get_pocket_data()->type : pocket.saved_type();
         for( const item *it : pocket.all_items_top() ) {
-            const ret_val<item *> inserted = insert_item( *it, pocket.saved_type(), ignore_contents );
+            const ret_val<item *> inserted = insert_item( *it, mismatched_type, ignore_contents );
             if( !inserted.success() ) {
                 uninserted_items.push_back( *it );
                 debugmsg( "error: item %s cannot fit into any pocket while loading: %s",
@@ -1374,7 +1376,7 @@ const item &item_contents::first_ammo() const
 bool item_contents::will_spill() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             return true;
         }
     }
@@ -1384,8 +1386,7 @@ bool item_contents::will_spill() const
 bool item_contents::will_spill_if_unsealed() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER )
-            && pocket.will_spill_if_unsealed() ) {
+        if( pocket.is_standard_type() && pocket.will_spill_if_unsealed() ) {
             return true;
         }
     }
@@ -1395,7 +1396,7 @@ bool item_contents::will_spill_if_unsealed() const
 bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
             if( !pocket.empty() ) {
                 return false;
@@ -1408,7 +1409,7 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( pocket.is_standard_type() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
         }
     }
@@ -1711,6 +1712,32 @@ std::list<const item *> item_contents::all_items_top( const
         }
     }
     return all_items_internal;
+}
+
+content_newness item_contents::get_content_newness( const std::set<itype_id> &read_items ) const
+{
+    content_newness ret = content_newness::SEEN;
+    for( const item_pocket *pocket : get_all_standard_pockets() ) {
+        // taking transparent from item_contents::all_known_contents()
+        if( !pocket->transparent() ) {
+            ret = content_newness::MIGHT_BE_HIDDEN;
+            continue;
+        }
+        for( const item *itm : pocket->all_items_top() ) {
+            if( !read_items.count( itm->typeId() ) ) {
+                return content_newness::NEW;
+            }
+            switch( itm->get_contents().get_content_newness( read_items ) ) {
+                case content_newness::NEW:
+                    return content_newness::NEW;
+                case content_newness::MIGHT_BE_HIDDEN:
+                    ret = content_newness::MIGHT_BE_HIDDEN;
+                case content_newness::SEEN:
+                    break;
+            }
+        }
+    }
+    return ret;
 }
 
 std::list<const item *> item_contents::all_items_top( pocket_type pk_type ) const
@@ -2469,11 +2496,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 }
 
 void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                             temperature_flag flag, float spoil_multiplier_parent )
+                             temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+                            watertight_container );
         }
     }
 }
@@ -2534,6 +2562,19 @@ bool item_contents::all_pockets_rigid() const
             continue;
         }
         if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool item_contents::container_type_pockets_empty() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.empty() ) {
             return false;
         }
     }

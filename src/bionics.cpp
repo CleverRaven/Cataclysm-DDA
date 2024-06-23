@@ -67,7 +67,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
@@ -97,6 +96,11 @@
 #include "weather_gen.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_JET( "JET" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
@@ -149,7 +153,6 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const material_id fuel_type_metabolism( "metabolism" );
 static const material_id fuel_type_sun_light( "sunlight" );
 static const material_id fuel_type_wind( "wind" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_hc_steel( "hc_steel" );
@@ -159,6 +162,10 @@ static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_muscle( "muscle" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
@@ -299,7 +306,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string &src )
+void bionic_data::load( const JsonObject &jsobj, const std::string_view src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -925,8 +932,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
             if( has_trait( trait_PYROMANIA ) ) {
-                add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
+                add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+                rem_morale( morale_pyromania_nofire );
                 add_msg_if_player( m_good, _( "You happily light a fire." ) );
             }
             mod_moves( -100 );
@@ -1016,7 +1023,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             proj.impact.add_damage( STATIC( damage_type_id( "bash" ) ), pr.first.weight() / 250_gram );
             // make the projectile stop one tile short to prevent hitting the player
             proj.range = rl_dist( pr.second, pos() ) - 1;
-            proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
+            proj.proj_effects = {{ ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET }};
 
             dealt_projectile_attack dealt = projectile_attack(
                                                 proj, pr.second, pos(), dispersion_sources{ 0 }, this );
@@ -1028,7 +1035,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !is_avatar() ) {
             return false;
         }
-        std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
+        std::optional<tripoint_bub_ms> target = lockpick_activity_actor::select_location(
+                player_character );
         if( target.has_value() ) {
             add_msg_activate();
             assign_activity( lockpick_activity_actor::use_bionic( here.getabs( *target ) ) );
@@ -1729,7 +1737,7 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         // Aftershock
-        add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+        add_morale( morale_feeling_good, 20, 20, 30_minutes, 20_minutes, true );
     }
 }
 

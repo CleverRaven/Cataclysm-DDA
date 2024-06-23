@@ -599,6 +599,20 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tent_3x3_roof",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "###",
+        "###",
+        "###"
+      ],
+      "terrain": { "#": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tent_3x3_S",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -658,6 +672,22 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_5x5_roof",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "#####",
+        "#####",
+        "#####",
+        "#####",
+        "#####"
+      ],
+      "terrain": { "#": "t_canvas_roof" }
     }
   },
   {

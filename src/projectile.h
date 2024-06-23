@@ -30,7 +30,7 @@ struct projectile {
         damage_instance shot_impact;
         float critical_multiplier = 0.0f;
 
-        std::set<std::string> proj_effects;
+        std::set<ammo_effect_str_id> proj_effects;
 
         /**
          * Returns an item that should be dropped or an item for which is_null() is true
@@ -75,8 +75,8 @@ struct dealt_projectile_attack {
 };
 
 void apply_ammo_effects( const Creature *source, const tripoint &p,
-                         const std::set<std::string> &effects );
-int max_aoe_size( const std::set<std::string> &tags );
+                         const std::set<ammo_effect_str_id> &effects );
+int max_aoe_size( const std::set<ammo_effect_str_id> &tags );
 
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
                                    const std::string &projectile_name );

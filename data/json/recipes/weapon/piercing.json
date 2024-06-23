@@ -545,23 +545,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "spear_survivor",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ "melee", 5 ],
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "copper_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -862,14 +845,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
@@ -923,14 +899,7 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
@@ -949,14 +918,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "spear_shaft", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
@@ -975,9 +937,8 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -1012,9 +973,8 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -1069,9 +1029,8 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],

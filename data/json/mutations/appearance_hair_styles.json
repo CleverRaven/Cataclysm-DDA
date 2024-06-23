@@ -1118,6 +1118,756 @@
   },
   {
     "type": "mutation",
+    "id": "hair_punk_long",
+    "name": { "str": "Hair: long punk" },
+    "points": 0,
+    "description": "You are rockin' with these long locks.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, long punk" },
+        "description": "You are rockin' with these long black locks.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, long punk" },
+        "description": "You are rockin' with these long blond locks.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, long punk" },
+        "description": "You are rockin' with these long blue locks.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, long punk" },
+        "description": "You are rockin' with these long brown locks.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, long punk" },
+        "description": "You are rockin' with these long gray locks.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, long punk" },
+        "description": "You are rockin' with these long green locks.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, long punk" },
+        "description": "You are rockin' with these long pink locks.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, long punk" },
+        "description": "You are rockin' with these long purple locks.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, long punk" },
+        "description": "You are rockin' with these long red locks.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, long punk" },
+        "description": "You are rockin' with these long white locks.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_curls",
+    "name": { "str": "Hair: curls" },
+    "points": 0,
+    "description": "Your face is framed by cute curls.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, curls" },
+        "description": "Your face is framed by cute curls.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, curls" },
+        "description": "Your face is framed by cute blond curls.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, curls" },
+        "description": "Your face is framed by cute blue curls.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, curls" },
+        "description": "Your face is framed by cute brown curls.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, curls" },
+        "description": "Your face is framed by cute gray curls.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, curls" },
+        "description": "Your face is framed by cute green curls.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, curls" },
+        "description": "Your face is framed by cute pink curls.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, curls" },
+        "description": "Your face is framed by cute purple curls.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, curls" },
+        "description": "Your face is framed by cute red curls.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, curls" },
+        "description": "Your face is framed by cute white curls.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_modern",
+    "name": { "str": "Hair: modern" },
+    "points": 0,
+    "description": "Your modern and plain cut common among college students.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, modern" },
+        "description": "Your modern and plain cut common among college students, black.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, modern" },
+        "description": "Your modern and plain cut common among college students, blond.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, modern" },
+        "description": "Your modern and plain cut common among college students, blue.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, modern" },
+        "description": "Your modern and plain cut common among college students, brown.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, modern" },
+        "description": "Your modern and plain cut common among college students, gray.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, modern" },
+        "description": "Your modern and plain cut common among college students, green.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, modern" },
+        "description": "Your modern and plain cut common among college students, pink.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, modern" },
+        "description": "Your modern and plain cut common among college students, purple.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, modern" },
+        "description": "Your modern and plain cut common among college students, red.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, modern" },
+        "description": "Your modern and plain cut common among college students, white.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_bun",
+    "name": { "str": "Hair: bun" },
+    "points": 0,
+    "description": "Your long hair is bound into a bun.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, bun" },
+        "description": "Your long black hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, bun" },
+        "description": "Your long blond hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, bun" },
+        "description": "Your long blue hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, bun" },
+        "description": "Your long brown hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, bun" },
+        "description": "Your long gray hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, bun" },
+        "description": "Your long green hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, bun" },
+        "description": "Your long pink hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, bun" },
+        "description": "Your long purple hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, bun" },
+        "description": "Your long red hair is bound into a bun.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, bun" },
+        "description": "Your long white hair is bound into a bun.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_braid",
+    "name": { "str": "Hair: princess braid" },
+    "points": 0,
+    "description": "Your long hair is bound in a braid.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, princess braid" },
+        "description": "Your long black hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, princess braid" },
+        "description": "Your long blond hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, princess braid" },
+        "description": "Your long blue hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, princess braid" },
+        "description": "Your long brown hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, princess braid" },
+        "description": "Your long gray hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, princess braid" },
+        "description": "Your long green hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, princess braid" },
+        "description": "Your long pink hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, princess braid" },
+        "description": "Your long purple hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, princess braid" },
+        "description": "Your long red hair is bound in a braid.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, princess braid" },
+        "description": "Your long white hair is bound in a braid.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_puff",
+    "name": { "str": "Hair: puffs" },
+    "points": 0,
+    "description": "Hair tied into two puffs.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, puffs" },
+        "description": "Black hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, puffs" },
+        "description": "Blond hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, puffs" },
+        "description": "Blue hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, puffs" },
+        "description": "Brown hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, puffs" },
+        "description": "Gray hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, puffs" },
+        "description": "Green hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, puffs" },
+        "description": "Pink hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, puffs" },
+        "description": "Purple hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, puffs" },
+        "description": "Red hair tied into two puffs.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, puffs" },
+        "description": "White hair tied into two puffs.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_beaded",
+    "name": { "str": "Hair: beaded hair" },
+    "points": 0,
+    "description": "Hair threaded with beads.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, beaded" },
+        "description": "Black hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, beaded" },
+        "description": "Blond hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, beaded" },
+        "description": "Blue hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, beaded" },
+        "description": "Brown hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, beaded" },
+        "description": "Gray hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, beaded" },
+        "description": "Green hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, beaded" },
+        "description": "Pink hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, beaded" },
+        "description": "Purple hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, beaded" },
+        "description": "Red hair threaded with beads.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, beaded" },
+        "description": "White hair threaded with beads.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_twintails",
+    "name": { "str": "Hair: twin tails" },
+    "points": 0,
+    "description": "Two very long braids.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, twin tails" },
+        "description": "Two very long black braids.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, twin tails" },
+        "description": "Two very long blond braids.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, twin tails" },
+        "description": "Two very long blue braids.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, twin tails" },
+        "description": "Two very long brown braids.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, twin tails" },
+        "description": "Two very long gray braids.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, twin tails" },
+        "description": "Two very long green braids.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, twin tails" },
+        "description": "Two very long pink braids.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, twin tails" },
+        "description": "Two very long purple braids.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, twin tails" },
+        "description": "Two very long red braids.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, twin tails" },
+        "description": "Two very long white braids.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_super_princess",
+    "name": { "str": "Hair: super princess" },
+    "points": 0,
+    "description": "Hair for the better princess.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, super princess" },
+        "description": "Black hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, super princess" },
+        "description": "Blond hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, super princess" },
+        "description": "Blue hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, super princess" },
+        "description": "Brown hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, super princess" },
+        "description": "Gray hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, super princess" },
+        "description": "Green hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, super princess" },
+        "description": "Pink hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, super princess" },
+        "description": "Purple hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, super princess" },
+        "description": "Red hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, super princess" },
+        "description": "White hair for the better princess.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_detective",
+    "name": { "str": "Hair: detective" },
+    "points": 0,
+    "description": "Hair for lawyers and crime solvers.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, detective" },
+        "description": "Black hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, detective" },
+        "description": "Blond hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, detective" },
+        "description": "Blue hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, detective" },
+        "description": "Brown hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, detective" },
+        "description": "Gray hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, detective" },
+        "description": "Green hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, detective" },
+        "description": "Pink hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, detective" },
+        "description": "Purple hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, detective" },
+        "description": "Red hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, detective" },
+        "description": "White hair for lawyers and crime solvers.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
     "id": "natural_hair_color_black",
     "name": { "str": "Natural hair color: black" },
     "points": 0,

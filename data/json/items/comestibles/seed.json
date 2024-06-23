@@ -183,7 +183,7 @@
     "name": { "str_sp": "lettuce seeds" },
     "description": "Some lettuce seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "lettuce", "fruit": "lettuce", "byproducts": [ "withered" ], "grow": "85 days" }
+    "seed_data": { "plant_name": "lettuce", "fruit": "lettuce_head", "byproducts": [ "withered" ], "grow": "85 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -194,7 +194,7 @@
     "color": "light_gray",
     "description": "Some white cabbage seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cabbage", "fruit": "cabbage", "byproducts": [ "withered" ], "grow": "85 days" }
+    "seed_data": { "plant_name": "cabbage", "fruit": "cabbage_head", "byproducts": [ "withered" ], "grow": "85 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -419,11 +419,21 @@
     "type": "COMESTIBLE",
     "id": "seed_cucumber",
     "copy-from": "seed",
-    "price": "50 cent",
-    "name": { "str_sp": "cucumber seeds" },
-    "description": "Some cucumber seeds.",
+    "price": 50,
+    "name": { "str_sp": "salad cucumber seeds" },
+    "description": "Some salad cucumber seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": "60 days" }
+    "seed_data": { "plant_name": "salad cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": "60 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_gherkin",
+    "copy-from": "seed",
+    "price": 50,
+    "name": { "str_sp": "gherkin cucumber seeds" },
+    "description": "Some gherkin cucumber seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "gherkin cucumber", "fruit": "gherkin", "byproducts": [ "withered" ], "grow": "60 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -1000,7 +1010,7 @@
     "container": "null",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A bunch of dry unpopped corn.  It's intended for planting, but could be put to other uses.",
-    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_cob", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",

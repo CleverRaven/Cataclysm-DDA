@@ -1391,7 +1391,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options, personal );
     // only non personal zones can be vehicle zones
     if( !personal ) {
-        optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
+        optional_vpart_position const vp = here.veh_at( here.bub_from_abs( start ) );
         if( vp && vp->vehicle().get_owner() == fac && vp.cargo() ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
             if( start == end &&
@@ -1515,13 +1515,17 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     }
 
     for( zone_data &zone : zones ) {
-        if( !zone.get_is_personal() ) {
+        if( !zone.get_is_personal() && target_map.inbounds_z( zone.get_center_point().z() ) ) {
             _rotate_zone( target_map, zone, turns );
         }
     }
 
-    for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
-        _rotate_zone( target_map, *zone, turns );
+    for( int z_level = target_map.supports_zlevels() ? -OVERMAP_DEPTH : target_map.get_abs_sub().z();
+         z_level <= ( target_map.supports_zlevels() ? OVERMAP_HEIGHT : target_map.get_abs_sub().z() );
+         z_level++ ) {
+        for( zone_data *zone : target_map.get_vehicle_zones( z_level ) ) {
+            _rotate_zone( target_map, *zone, turns );
+        }
     }
 }
 

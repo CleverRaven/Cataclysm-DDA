@@ -216,7 +216,12 @@
     "type": "item_group",
     "copy-from": "trash",
     "extend": {
-      "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ], [ "spell_scroll_stormshaper_cloak_of_frog", 5 ] ]
+      "items": [
+        [ "summon_scroll_smudged", 5 ],
+        [ "spell_scroll_tornskin", 5 ],
+        [ "spell_scroll_stormshaper_cloak_of_frog", 5 ],
+        [ "spell_scroll_animist_magic_fissile", 5 ]
+      ]
     }
   },
   {
@@ -643,7 +648,8 @@
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
-      { "item": "bag_holding_2", "prob": 1 },
+      { "item": "bag_holding_2", "prob": 2 },
+      { "item": "bag_holding_3", "prob": 1 },
       { "item": "cauldron_orichalcum", "prob": 100 },
       { "item": "bleed_staff_minor", "prob": 8, "charges": [ 1, 5 ] },
       { "item": "grim_reaper_scythe", "prob": 2, "charges": [ 1, 3 ] }

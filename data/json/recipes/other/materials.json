@@ -610,7 +610,7 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
-    "components": [ [ [ "felt_patch", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 7 ] ] ]
   },
   {
     "type": "recipe",

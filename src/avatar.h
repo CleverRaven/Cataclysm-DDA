@@ -17,7 +17,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -159,10 +159,6 @@ class avatar : public Character
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
-        /** Provides the window and detailed morale data */
-        void disp_morale();
-        /** Opens the medical window */
-        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -283,7 +279,9 @@ class avatar : public Character
         std::string preferred_aiming_mode;
 
         // checks if the point is blocked based on characters current aiming state
+        // TODO Remove untyped overload
         bool cant_see( const tripoint &p );
+        bool cant_see( const tripoint_bub_ms &p );
 
         // rebuilds the full aim cache for the character if it is dirty
         void rebuild_aim_cache();
@@ -317,7 +315,9 @@ class avatar : public Character
                 advanced_inv_area &square );
 
         using Character::invoke_item;
+        // TODO: Get rid of untyped overload
         bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
         bool invoke_item( item *, const std::string &, const tripoint &pt,
                           int pre_obtain_moves = -1 ) override;
@@ -358,6 +358,7 @@ class avatar : public Character
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
+        int get_daily_calories( unsigned days_ago, std::string const &type ) const;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3

@@ -310,7 +310,7 @@
     "name": "feathered arm",
     "copy-from": "arm_feathers_l",
     "side": "right",
-    "heading": "feathered right Arm",
+    "heading": "feathered right arm",
     "main_part": "arm_feathers_r",
     "opposite_part": "arm_feathers_l",
     "windage_effect": "winded_arm_r",
@@ -358,6 +358,7 @@
       [ "crawl", 0.2 ]
     ],
     "smash_message": "You buffet the %s with your wing.",
+    "techniques": [ "tech_wing_slap" ],
     "side": "left",
     "base_hp": 45,
     "sub_parts": [

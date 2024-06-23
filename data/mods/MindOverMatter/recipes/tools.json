@@ -69,9 +69,7 @@
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_glass", 1 ],
-        [ "bottle_plastic", 1 ],
-        [ "bottle_bathroom", 1 ],
-        [ "bottle_plastic_small", 1 ]
+        [ "plastic_bottles_any", 1, "LIST" ]
       ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "matrix_crystal_pyrokin_dust_refined", 2 ] ],

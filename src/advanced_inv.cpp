@@ -987,7 +987,7 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
         item_list.push_back( entry.second );
     }
     for( const move_all_entry &entry : unsorted_fav_list ) {
-        item_list.push_back( entry.second );
+        fav_list.push_back( entry.second );
     }
     return true;
 }
@@ -1182,7 +1182,7 @@ bool advanced_inventory::move_all_items()
 
         do_return_entry();
 
-        const pickup_activity_actor act( target_items, quantities, player_character.pos(), false );
+        const pickup_activity_actor act( target_items, quantities, player_character.pos_bub(), false );
         player_character.assign_activity( act );
     } else {
         // Vehicle and map destinations are handled the same.
@@ -1472,9 +1472,9 @@ void advanced_inventory::start_activity(
             player_character.assign_activity(
                 wield_activity_actor( target_items.front(), quantities.front() ) );
         } else if( destarea == AIM_INVENTORY ) {
-            const std::optional<tripoint> starting_pos = from_vehicle
+            const std::optional<tripoint_bub_ms> starting_pos = from_vehicle
                     ? std::nullopt
-                    : std::optional<tripoint>( player_character.pos() );
+                    : std::optional<tripoint_bub_ms>( player_character.pos_bub() );
             const pickup_activity_actor act( target_items, quantities, starting_pos, false );
             player_character.assign_activity( act );
         } else {
@@ -1792,7 +1792,7 @@ void advanced_inventory::display()
         player_character.inv->restack( player_character );
 
         recalc = true;
-        g->wait_popup.reset();
+        g->wait_popup_reset();
     }
 
     if( !ui ) {

@@ -64,8 +64,8 @@
     "id": "REFUGEE_Mangalpreet_wield",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_steak", "container-item": "sheath", "prob": 4 },
-      { "item": "knife_butcher", "container-item": "sheath", "prob": 2 },
+      { "item": "knife_small", "variant": "knife_steak", "container-item": "sheath", "prob": 4 },
+      { "item": "knife_huge", "variant": "knife_butcher", "container-item": "sheath", "prob": 2 },
       { "item": "kukri", "container-item": "sheath", "prob": 1 }
     ]
   },

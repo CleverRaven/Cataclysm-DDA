@@ -354,7 +354,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        arm_shooter( shooter, "ppsh", { "holo_sight" } );
+        arm_shooter( shooter, "fn_p90", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
@@ -459,7 +459,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
-        shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item(), item_location() );
+        shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;

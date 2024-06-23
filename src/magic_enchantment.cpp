@@ -168,6 +168,7 @@ namespace io
             case enchant_vals::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
             case enchant_vals::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE: return "EQUIPMENT_DAMAGE_CHANCE";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
@@ -677,6 +678,59 @@ void enchant_cache::force_add( const enchant_cache &rhs )
 void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 {
     dialogue d( get_talker_for( guy ), nullptr );
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_add ) {
+        values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_add ) {
+        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
+
+    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
+
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
+    }
+
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
+         rhs.intermittent_activation ) {
+        for( const fake_spell &fake : act_pair.second ) {
+            intermittent_activation[act_pair.first].emplace_back( fake );
+        }
+    }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
+}
+
+void enchant_cache::force_add( const enchantment &rhs, const monster &mon )
+{
+    dialogue d( get_talker_for( mon ), nullptr );
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second.evaluate( d );

@@ -108,6 +108,27 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_WIND_TRANSLOCATE_CHECK",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "or": [ { "math": [ "u_val('pos_z')", ">=", "3" ] }, { "math": [ "weather('windpower')", ">=", "20" ] } ] }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
+    "false_effect": [
+      { "u_message": "You must be outdoors and in a strong wind or high above the earth to translocate.", "type": "mixed" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_WIND_ATTUNEMENT_CHECK",
+    "condition": { "and": [ "u_is_outside", { "math": [ "u_val('pos_z')", ">=", "3" ] } ] },
+    "effect": [ { "u_cast_spell": { "id": "sylph_wind_translocation_attune_real" }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be outdoors and high above the earth to cast this spell.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_GOBLIN_FRUIT",
     "condition": {
       "or": [

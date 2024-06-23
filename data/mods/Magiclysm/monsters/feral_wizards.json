@@ -45,7 +45,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_feral_lab_magician",
@@ -124,7 +124,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
   },
   {
     "id": "mon_feral_radiation_mage",
@@ -213,7 +213,7 @@
       "NO_BREATHE",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "EATS"
     ]
   },
@@ -288,7 +288,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
@@ -374,7 +374,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
@@ -453,7 +453,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the stoneskin spell.",
     "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
   },
@@ -561,7 +561,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the stoneskin spell.",
     "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
   }

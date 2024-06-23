@@ -19,7 +19,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 4,
-    "effects": [ "RECOVER_5" ],
+    "recovery_chance": 80,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -42,7 +42,7 @@
     "dispersion": 90,
     "loudness": 0,
     "count": 4,
-    "effects": [ "RECOVER_3" ],
+    "recovery_chance": 66,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -65,7 +65,7 @@
     "dispersion": 120,
     "loudness": 0,
     "count": 4,
-    "effects": [ "RECOVER_15" ],
+    "recovery_chance": 93,
     "melee_damage": { "bash": 1 }
   },
   {

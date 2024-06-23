@@ -8,12 +8,21 @@
 #include "item_pocket.h"
 #include "safe_reference.h"
 
-float item_reference::spoil_multiplier()
+float item_reference::spoil_multiplier() const
 {
     return std::accumulate(
                pocket_chain.begin(), pocket_chain.end(), 1.0F,
     []( float a, item_pocket const * pk ) {
         return a * pk->spoil_multiplier();
+    } );
+}
+
+bool item_reference::has_watertight_container() const
+{
+    return std::any_of(
+               pocket_chain.begin(), pocket_chain.end(),
+    []( item_pocket const * pk ) {
+        return pk->can_contain_liquid( false );
     } );
 }
 

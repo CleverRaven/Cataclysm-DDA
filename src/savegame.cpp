@@ -368,12 +368,19 @@ void overmap::load_monster_groups( const JsonArray &jsin )
     for( JsonArray mongroup_with_tripoints : jsin ) {
         mongroup new_group;
         new_group.deserialize( mongroup_with_tripoints.next_object() );
+        bool reset_target = false;
+        if( new_group.target ==  point_abs_sm() ) { // Remove after 0.I
+            reset_target = true;
+        }
 
         JsonArray tripoints_json = mongroup_with_tripoints.next_array();
         tripoint_om_sm temp;
         for( JsonValue tripoint_json : tripoints_json ) {
             temp.deserialize( tripoint_json );
             new_group.abs_pos = project_combine( pos(), temp );
+            if( reset_target ) { // Remove after 0.I
+                new_group.set_target( new_group.abs_pos.xy() );
+            }
             add_mon_group( new_group );
         }
 
@@ -417,6 +424,7 @@ void overmap::unserialize( const JsonObject &jsobj )
     // Extract layers first so predecessor deduplication can happen.
     if( jsobj.has_member( "layers" ) ) {
         std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
+        std::vector<tripoint_abs_omt> camps_to_place;
         JsonArray layers_json = jsobj.get_array( "layers" );
 
         for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -435,7 +443,8 @@ void overmap::unserialize( const JsonObject &jsobj )
                                 rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
                             }
                         }
-                        if( is_oter_id_obsolete( tmp_ter ) ) {
+                        bool is_obsolete = is_oter_id_obsolete( tmp_ter );
+                        if( is_obsolete ) {
                             for( int p = i; p < i + count; p++ ) {
                                 oter_id_migrations.emplace( tripoint_om_omt( p, j, z - OVERMAP_DEPTH ), tmp_ter );
                             }
@@ -445,6 +454,11 @@ void overmap::unserialize( const JsonObject &jsobj )
                             debugmsg( "Loaded invalid oter_id '%s'", tmp_ter.c_str() );
                             tmp_otid = oter_omt_obsolete;
                         }
+                        if( !is_obsolete && oter_id_should_have_camp( oter_str_id( tmp_ter )->get_type_id() ) ) {
+                            for( int p = i; p < i + count; p++ ) {
+                                camps_to_place.emplace_back( project_combine( pos(), tripoint_om_omt( p, j, z - OVERMAP_DEPTH ) ) );
+                            }
+                        }
                     }
                     count--;
                     layer[z].terrain[i][j] = tmp_otid;
@@ -452,6 +466,7 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         }
         migrate_oter_ids( oter_id_migrations );
+        migrate_camps( camps_to_place );
     }
     for( JsonMember om_member : jsobj ) {
         const std::string name = om_member.name();

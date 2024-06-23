@@ -338,5 +338,40 @@
       "palettes": [ "roof_palette" ],
       "terrain": { "|": "t_wall_metal" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hdwr_large_1_1_2" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ---                    ",
+        " -.-                    ",
+        " ---                    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

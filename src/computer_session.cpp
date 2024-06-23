@@ -138,6 +138,8 @@ static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
 static const ter_str_id ter_t_water_pool( "t_water_pool" );
 
+static const trap_str_id tr_portal( "tr_portal" );
+
 static catacurses::window init_window()
 {
     const int width = FULL_SCREEN_WIDTH;

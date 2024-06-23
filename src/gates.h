@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 
 class Character;
 class Creature;

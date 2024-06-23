@@ -83,7 +83,7 @@
       "WARM",
       "STUMBLES",
       "HUMAN",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ],
     "armor": { "bash": 10, "cut": 6, "bullet": 5 }
@@ -127,7 +127,7 @@
       "HAS_MIND",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN"
     ],
@@ -194,7 +194,7 @@
       "HAS_MIND",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN"
     ],
@@ -293,7 +293,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "FILTHY"
     ],
     "armor": { "bash": 12, "cut": 28, "bullet": 8 }

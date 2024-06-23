@@ -353,7 +353,7 @@
     ]
   },
   {
-    "id": "TALK_EXODII_MERCHANT_TalkJobs",
+    "id": "TALK_EXODII_MERCHANT_TalkJob",
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Business before pleasure.  What do you need?",

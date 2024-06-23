@@ -227,6 +227,7 @@
       { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
       { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
       { "item": "red_phosphorous", "prob": 10, "charges": [ 100, 1200 ] },
+      { "item": "white_phosphorous", "prob": 10, "charges": [ 100, 1200 ] },
       { "item": "acetic_anhydride", "prob": 8 },
       { "item": "iodine_crystal", "prob": 12 }
     ]
@@ -265,7 +266,7 @@
       [ "recipe_animal", 4 ],
       [ "recipe_maiar", 4 ],
       [ "recipe_labchem", 6 ],
-      { "group": "mutagen_kits", "prob": 1 },
+      { "group": "mutagen_or_serum_kit", "prob": 1 },
       [ "syringe", 8 ],
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "ammonia_liquid", "prob": 50, "charges": [ 6, -1 ] },
@@ -277,6 +278,12 @@
       [ "slime_scrap", 8 ],
       { "item": "chem_nitric_acid", "prob": 5, "charges": [ 1, -1 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mutagen_or_serum_kit",
+    "//": "odds of serum kit is so low for there is only one at this moment, would be very reperative.  TODO increase odds to get serum once there would be more of them.",
+    "items": [ { "group": "mutagen_kits", "prob": 100 }, { "group": "serum_kits", "prob": 15 } ]
   },
   {
     "type": "item_group",
@@ -439,6 +446,24 @@
   },
   {
     "type": "item_group",
+    "id": "serum_kits",
+    "items": [ { "group": "regen_serum_kit", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "regen_serum_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "syringe", "prob": 100, "count": 1 },
+      { "item": "serum_regen", "prob": 100, "count": 1 },
+      { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
+      { "item": "lab_file_mutagen_guide", "prob": 100 },
+      { "item": "lab_file_mutation_testing", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "teleport",
     "items": [
       [ "screwdriver", 40 ],
@@ -553,7 +578,7 @@
       [ "string_6", 2 ],
       [ "hacksaw", 17 ],
       [ "xacto", 10 ],
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "machete", 5 ],
       [ "gloves_rubber", 20 ],
       [ "apron_plastic", 20 ],

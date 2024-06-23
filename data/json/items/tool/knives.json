@@ -1,5 +1,134 @@
 [
   {
+    "abstract": "base_kitchen_knife",
+    "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
+    "description": "generic item template",
+    "category": "weapons",
+    "type": "GENERIC",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
+    "id": "knife_small",
+    "name": { "str": "small kitchen knife", "str_pl": "small kitchen knives" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_steak",
+        "name": { "str": "steak knife", "str_pl": "steak knives" },
+        "description": "A sharp knife designed for cutting meat.  It makes a poor melee weapon, but is decent at butchering corpses.",
+        "ascii_picture": "knife_steak"
+      },
+      {
+        "id": "knife_paring",
+        "name": { "str": "paring knife", "str_pl": "paring knives" },
+        "description": "A short-bladed knife with a sharp blade, made for fine controlled cuts to vegetables without using a cutting board.",
+        "ascii_picture": "knife_paring"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "112 g",
+    "volume": "100 ml",
+    "longest_side": "25 cm",
+    "price": "2 USD 50 cent",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 2, "stab": 7 }
+  },
+  {
+    "id": "knife_large",
+    "name": { "str": "large kitchen knife", "str_pl": "large kitchen knives" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_chef",
+        "name": { "str": "chef knife", "str_pl": "chef knives" },
+        "description": "A long-bladed kitchen knife.  The blade is wider than the handle, giving room for the wielder's knuckles, and it has a characteristic curve for a fast rocking action for chopping vegetables.  It makes an acceptable melee weapon, but the wide blade is unwieldy for butchering.",
+        "ascii_picture": "knife_chef"
+      },
+      {
+        "id": "knife_carving",
+        "name": { "str": "carving knife", "str_pl": "carving knives" },
+        "description": "A long-bladed kitchen knife with a thin, slightly curved blade for deftly slicing meat either in flat sheets or around the bone.  It makes a decent melee weapon, and is excellent for butchery.",
+        "ascii_picture": "knife_carving"
+      },
+      {
+        "id": "knife_bread",
+        "name": { "str": "bread knife", "str_pl": "bread knives" },
+        "description": "This knife has quite a long blade with a scalloped edge for cutting bread.  It's not that sharp, but its length and heft mean it could do a bit of damage and cause some nasty tearing.",
+        "ascii_picture": "knife_bread"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "140 g",
+    "volume": "200 ml",
+    "longest_side": "30 cm",
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 1, "stab": 18 }
+  },
+  {
+    "id": "knife_huge",
+    "name": { "str": "huge kitchen knife", "str_pl": "huge kitchen knives" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_butcher",
+        "name": { "str": "butcher knife", "str_pl": "butcher knives" },
+        "description": "A sharp, heavy knife.  It makes a good melee weapon, and is an ideal item for butchering corpses.",
+        "ascii_picture": "knife_butcher"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "380 g",
+    "volume": "300 ml",
+    "longest_side": "35 cm",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "bash": 2, "stab": 14 }
+  },
+  {
+    "id": "knife_cleaver",
+    "name": { "str": "cleaver" },
+    "type": "TOOL",
+    "variants": [
+      {
+        "id": "knife_meat_cleaver",
+        "name": { "str": "meat cleaver" },
+        "description": "A menacing-looking knife with a broad, square-shaped blade.  Its heft and sharpness would make it a very effective melee weapon and an excellent butchering tool.",
+        "ascii_picture": "knife_meat_cleaver"
+      },
+      {
+        "id": "knife_vegetable_cleaver",
+        "name": { "str": "vegetable cleaver" },
+        "description": "A menacing-looking knife with a broad, square shaped blade, curved for fast vegetable chopping.  Its heft and sharpness make it a decent weapon as well, although not as good as a meat cleaver.",
+        "ascii_picture": "knife_vegetable_cleaver"
+      }
+    ],
+    "copy-from": "base_kitchen_knife",
+    "weight": "450 g",
+    "volume": "1 L",
+    "longest_side": "30 cm",
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "bash": 6, "cut": 16 }
+  },
+  {
     "id": "copper_knife",
     "type": "TOOL",
     "name": { "str": "copper knife", "str_pl": "copper knives" },
