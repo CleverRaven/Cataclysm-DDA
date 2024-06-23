@@ -319,58 +319,61 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             }
         }
 
-        // At some point, we should add region information so we can grab the appropriate extras
-        map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-        map_extras ex = this_ex.filtered_by( dat );
-        if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
-            DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
-                                             " (extra type \"" << terrain_type->get_extras() <<
-                                             "\") zlevel = " << p.z() <<
-                                             " is out of range of all assigned map extras.  Skipping map extra generation.";
-        } else if( ex.chance > 0 && one_in( ex.chance ) ) {
-            map_extra_id *extra = ex.values.pick();
-            if( extra == nullptr ) {
-                debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
-                          terrain_type->get_type_id().str() );
-            } else {
-                MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+        if( !save_results || any_missing ) {
+
+            // At some point, we should add region information so we can grab the appropriate extras
+            map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+            map_extras ex = this_ex.filtered_by( dat );
+            if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+                DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                                 " (extra type \"" << terrain_type->get_extras() <<
+                                                 "\") zlevel = " << p.z() <<
+                                                 " is out of range of all assigned map extras.  Skipping map extra generation.";
+            } else if( ex.chance > 0 && one_in( ex.chance ) ) {
+                map_extra_id *extra = ex.values.pick();
+                if( extra == nullptr ) {
+                    debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                              terrain_type->get_type_id().str() );
+                } else {
+                    MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+                }
             }
-        }
 
-        const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
+            const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
 
-        float spawn_density = 1.0f;
-        if( MonsterGroupManager::is_animal( spawns.group ) ) {
-            spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
-        } else {
-            spawn_density = get_option< float >( "SPAWN_DENSITY" );
-        }
+            float spawn_density = 1.0f;
+            if( MonsterGroupManager::is_animal( spawns.group ) ) {
+                spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+            } else {
+                spawn_density = get_option< float >( "SPAWN_DENSITY" );
+            }
 
-        // Apply a multiplier to the number of monsters for really high densities.
-        float odds_after_density = spawns.chance * spawn_density;
-        const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
-        float density_multiplier = 1.0f;
-        if( odds_after_density > max_odds ) {
-            density_multiplier = 1.0f * odds_after_density / max_odds;
-            odds_after_density = max_odds;
-        }
-        const int spawn_count = roll_remainder( density_multiplier );
+            // Apply a multiplier to the number of monsters for really high densities.
+            float odds_after_density = spawns.chance * spawn_density;
+            const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
+            float density_multiplier = 1.0f;
+            if( odds_after_density > max_odds ) {
+                density_multiplier = 1.0f * odds_after_density / max_odds;
+                odds_after_density = max_odds;
+            }
+            const int spawn_count = roll_remainder( density_multiplier );
 
-        if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
-            int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
-            for( ; pop > 0; pop-- ) {
-                std::vector<MonsterGroupResult> spawn_details =
-                    MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-                for( const MonsterGroupResult &mgr : spawn_details ) {
-                    if( !mgr.name ) {
-                        continue;
-                    }
-                    if( const std::optional<tripoint> pt =
-                    random_point( *this, [this]( const tripoint & n ) {
-                    return passable( n );
-                    } ) ) {
-                        const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
-                        add_spawn( mgr, pnt );
+            if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+                int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
+                for( ; pop > 0; pop-- ) {
+                    std::vector<MonsterGroupResult> spawn_details =
+                        MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+                    for( const MonsterGroupResult &mgr : spawn_details ) {
+                        if( !mgr.name ) {
+                            continue;
+                        }
+                        if( const std::optional<tripoint> pt =
+                        random_point( *this, [this]( const tripoint & n ) {
+                        return passable( n );
+                        } ) ) {
+                            const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
+                            add_spawn( mgr, pnt );
+                        }
                     }
                 }
             }

@@ -115,7 +115,7 @@
       "farm_isherwood_9_north": { "overmap": "farm_isherwood_9_north" },
       "farm_isherwood_8_north": { "overmap": "farm_isherwood_8_north" },
       "farm_isherwood_7_north": { "overmap": "farm_isherwood_7_north" },
-      "cabin_isherwood_north": { "overmap": "cabin_isherwood_north", "camp": "isherwood_family", "camp_name": "Cabin" },
+      "cabin_isherwood_north": { "overmap": "cabin_isherwood_north" },
       "cabin_lake_roof_north": { "overmap": "cabin_lake_roof_north" },
       "horse_farm_isherwood_1_north": { "overmap": "horse_farm_isherwood_1_north" },
       "horse_farm_isherwood_2_north": { "overmap": "horse_farm_isherwood_2_north" },
