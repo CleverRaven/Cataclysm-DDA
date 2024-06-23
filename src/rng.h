@@ -198,7 +198,7 @@ inline V random_entry_removed( C &container )
 tripoint_range<tripoint> points_in_range( const map &m );
 tripoint_range<tripoint_bub_ms> points_in_range_bub( const map &m );
 // Restricts the points to the specified Z level.
-tripoint_range<tripoint_bub_ms> points_in_level_range( const map &m, const int z );
+tripoint_range<tripoint_bub_ms> points_in_level_range( const map &m, int z );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
 // TODO: Remove untyped overload
 std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
@@ -211,7 +211,7 @@ std::optional<tripoint> random_point( const map &m,
                                       const std::function<bool( const tripoint & )> &predicate );
 std::optional<tripoint_bub_ms> random_point( const map &m,
         const std::function<bool( const tripoint_bub_ms & )> &predicate );
-std::optional<tripoint_bub_ms> random_point_on_level( const map &m, const int z,
+std::optional<tripoint_bub_ms> random_point_on_level( const map &m, int z,
         const std::function<bool( const tripoint_bub_ms & )> &predicate );
 
 #endif // CATA_SRC_RNG_H
