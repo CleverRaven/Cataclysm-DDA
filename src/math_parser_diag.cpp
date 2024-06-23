@@ -1232,6 +1232,28 @@ std::function<double( dialogue & )> time_until_eoc_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> effect_duration_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value bp_val( std::string{} );
+    if( kwargs.count( "bodypart" ) != 0 ) {
+        bp_val = *kwargs.at( "bodypart" );
+    }
+
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return[effect_id = params[0], bp_val, unit_val, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string const bp_str = bp_val.str( d );
+        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
+        effect target = d.actor( beta )->get_effect( efftype_id( effect_id.str( d ) ), bp );
+        return target.is_null() ? -1 : _time_in_unit( to_seconds<double>( target.get_duration() ),
+                unit_val.str( d ) );
+    };
+}
+
 std::function<double( dialogue & )> proficiency_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -1563,6 +1585,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "damage_level", { "un", 0, damage_level_eval } },
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
+    { "effect_duration", { "un", 1, effect_duration_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "faction_like", { "g", 1, faction_like_eval } },

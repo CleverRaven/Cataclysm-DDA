@@ -1,6 +1,42 @@
 [
   {
     "type": "mapgen",
+    "nested_mapgen_id": "fema_trc_01_roof",
+    "//": "top right corner.",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "    RRRRRRRRRRRRRRRRRR  ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "R": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "FEMA_trc",
     "//": "top right corner.",
     "weight": 250,
@@ -35,7 +71,8 @@
       ],
       "rotation": 1,
       "palettes": [ "FEMA_camp" ],
-      "items": { "x": { "item": "dresser", "chance": 30 }, "X": { "item": "dresser", "chance": 50 } }
+      "items": { "x": { "item": "dresser", "chance": 30 }, "X": { "item": "dresser", "chance": 50 } },
+      "place_nested": [ { "chunks": [ "fema_trc_01_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]
