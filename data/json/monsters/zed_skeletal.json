@@ -148,7 +148,7 @@
     "id": "mon_skeleton_executioner",
     "type": "MONSTER",
     "name": { "str": "skeletal executioner" },
-    "description": "The hands and forearms of this tall, bone-clad zombie have transformed into sword-like ossified blades. Its jaw is partially fused with the bone mask covering its face, leaving sinister-looking gaps. Its movements are stiff but precise.",
+    "description": "The hands and forearms of this tall, bone-clad zombie have transformed into sword-like ossified blades.  Its jaw is partially fused with the bone mask covering its face, leaving sinister-looking gaps.  Its movements are stiff but precise.",
     "copy-from": "mon_skeleton",
     "hp": 150,
     "volume": "108500 ml",
