@@ -166,7 +166,7 @@
       "£": "f_canvas_wall",
       "€": "f_canvas_door",
       "_": "f_groundsheet",
-	  "*": "f_magiclysm_translocator_gate"
+      "*": "f_magiclysm_translocator_gate"
     },
     "items": {
       "!": { "item": "magic_smith", "chance": 40, "repeat": [ 1, 2 ] },
@@ -235,7 +235,8 @@
     "name": "forge of wonders",
     "sym": "$",
     "color": "red",
-    "see_cost": 5
+    "see_cost": 5,
+    "entry_eoc": "EOC_FIND_FORGE_GATE"
   },
   {
     "type": "mapgen",
