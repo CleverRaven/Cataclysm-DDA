@@ -397,8 +397,8 @@
   },
   {
     "id": "forge_warp_scroll",
-    "name": { "str": "Forge of Wonders warp scroll", "str_pl": "Forge of Wonders warp scrolls" },
-    "description": "This scroll is imbued with a magical spell that,  when activated,  will transport you to the Forge of Wonders.  Good for one round-trip.",
+    "name": { "str": "Forge of Wonders warp scroll" },
+    "description": "This scroll is imbued with a magical spell that, when activated, will transport you to the Forge of Wonders.  Good for one round-trip.",
     "use_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [ { "id": "EOC_FORGE_WARP_SCROLL_USE", "effect": [ { "run_eocs": "EOC_FORGE_TELEPORT_START" } ] } ]
@@ -415,8 +415,8 @@
   },
   {
     "id": "forge_return_warp_scroll",
-    "name": { "str": "return warp scroll", "str_pl": "return warp scrolls" },
-    "description": "This scroll is imbued with a magical spell that,  when activated,  will return you to where you were before you warped to the Forge.",
+    "name": { "str": "return warp scroll" },
+    "description": "This scroll is imbued with a magical spell that, when activated, will return you to where you were before you warped to the Forge.",
     "use_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [ { "id": "EOC_FORGE_RETURN_WARP_SCROLL_USE", "effect": [ { "run_eocs": "EOC_FORGE_RETURN_TELEPORT_START" } ] } ]

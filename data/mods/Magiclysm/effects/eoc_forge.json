@@ -69,7 +69,7 @@
       { "u_location_variable": { "u_val": "forge_return_point" }, "min_radius": 0, "max_radius": 0 },
       { "u_teleport": { "global_val": "loc_forge_of_wonders" } },
       {
-        "u_message": "As you recite the incantation the runes on the scroll begin to shift. And in the blink of an eye you are suddenly somewhere else.",
+        "u_message": "As you recite the incantation the runes on the scroll begin to shift.  And in the blink of an eye you are suddenly somewhere else.",
         "type": "good"
       }
     ]
@@ -81,7 +81,7 @@
       { "u_teleport": { "u_val": "forge_return_point" } },
       { "u_consume_item": "forge_return_warp_scroll" },
       {
-        "u_message": "As you recite the incantation the scroll burns away in your hands. And in the blink of an eye you are suddenly somewhere else.",
+        "u_message": "As you recite the incantation the scroll burns away in your hands.  And in the blink of an eye you are suddenly somewhere else.",
         "type": "good"
       }
     ]
