@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "sw_619", "sw629", "bfr", "sw_500", "raging_bull", "chiappa_rhino" ],
+    "id": [ "sw_619", "sw629", "bfr", "sw_500", "raging_bull", "chiappa_rhino", "colt_python" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },

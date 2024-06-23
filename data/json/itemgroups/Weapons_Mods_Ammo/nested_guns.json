@@ -284,6 +284,14 @@
     "entries": [ { "item": "sw_619", "charges": [ 0, 7 ] }, { "group": "on_hand_38" } ]
   },
   {
+    "id": "nested_colt_python",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "colt_python", "charges": [ 0, 6 ] }, { "group": "on_hand_357" } ]
+  },
+  {
     "id": "nested_model_10_revolver",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
