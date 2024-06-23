@@ -53,7 +53,7 @@
     "dispersion": 35,
     "loudness": 0,
     "critical_multiplier": 15,
-    "recovery_chance": 30,
+    "recovery_chance": 97,
     "melee_damage": { "stab": 10 }
   },
   {
@@ -74,7 +74,7 @@
     "dispersion": 35,
     "loudness": 0,
     "critical_multiplier": 15,
-    "recovery_chance": 25,
+    "recovery_chance": 96,
     "melee_damage": { "stab": 8 }
   },
   {
@@ -95,7 +95,7 @@
     "dispersion": 50,
     "loudness": 0,
     "critical_multiplier": 8,
-    "recovery_chance": 6,
+    "recovery_chance": 83,
     "melee_damage": { "stab": 5 }
   }
 ]
