@@ -2,6 +2,27 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "desolate_shingle_roof_chunk",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "." ], "terrain": { ".": [ [ "t_shingle_flat_roof", 90 ], [ "t_open_air", 10 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_roof",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "....",
+        "....",
+        "....",
+        "...."
+      ],
+      "nested": { ".": { "chunks": [ "desolate_shingle_roof_chunk" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "ruins_4x4_front",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -14,7 +35,8 @@
       ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "C": { "item": "stash_wood", "chance": 60, "repeat": [ 1, 4 ] } },
-      "place_monster": [ { "monster": "mon_dog_zombie_rot", "chance": 60, "x": 1, "y": 1 } ]
+      "place_monster": [ { "monster": "mon_dog_zombie_rot", "chance": 60, "x": 1, "y": 1 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -30,7 +52,8 @@
         "__h_",
         "____"
       ],
-      "palettes": [ "desolatebarn_palette" ]
+      "palettes": [ "desolatebarn_palette" ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -47,7 +70,8 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "items": { "C": { "item": "hardware", "chance": 60 } }
+      "items": { "C": { "item": "hardware", "chance": 60 } },
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -64,8 +88,10 @@
         "__R_"
       ],
       "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "^": "t_dirtfloor" },
       "items": { "^": { "item": "hardware", "chance": 10 }, "R": { "item": "hardware", "chance": 25 } },
       "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -83,6 +109,7 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -100,7 +127,9 @@
         "_mg^"
       ],
       "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "^": "t_dirtfloor" },
       "items": { "^": { "item": "hardware", "chance": 10 } },
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
   },
@@ -127,6 +156,7 @@
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
       "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -153,6 +183,7 @@
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
       "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -179,6 +210,7 @@
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
       "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -205,6 +237,7 @@
         { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
       ],
       "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -234,6 +267,7 @@
         { "chance": 40, "item": "mags_rifle_common", "x": 3, "y": 3, "repeat": [ 1, 2 ] }
       ],
       "place_npcs": [ { "class": "bandit", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -259,6 +293,7 @@
         { "chance": 30, "item": "stash_wood", "x": 3, "y": [ 0, 3 ], "repeat": [ 2, 5 ] }
       ],
       "place_npcs": [ { "class": "derelict_dweller", "x": 2, "y": 0 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -286,7 +321,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_FRIENDLY", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -313,7 +349,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_HOSTILE", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -340,7 +377,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_NIHILIST", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -367,7 +405,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "RURAL_HOLDOUT_TRADER", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -394,7 +433,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "derelict_dweller", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "derelict_dweller", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -421,7 +461,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "rural_holdout_solo", "x": 2, "y": 1 }, { "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
+      "place_npcs": [ { "class": "rural_holdout_solo", "x": 2, "y": 1 }, { "class": "rural_holdout_solo", "x": 1, "y": 2 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -451,7 +492,8 @@
         { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
         { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
       ],
-      "place_npcs": [ { "class": "bandit", "x": 2, "y": 1 }, { "class": "bandit", "x": 0, "y": 2 }, { "class": "thug", "x": 3, "y": 4 } ]
+      "place_npcs": [ { "class": "bandit", "x": 2, "y": 1 }, { "class": "bandit", "x": 0, "y": 2 }, { "class": "thug", "x": 3, "y": 4 } ],
+      "place_nested": [ { "chunks": [ "ruins_4x4_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -527,7 +569,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "ruins_8x8_yard",
-    "//": "yard with shed",
+    "//": "yard with ruined shed",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -544,6 +586,26 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "desolatebarn_palette" ],
       "items": { "r": { "item": "hardware", "chance": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "small_camp_8x8_tent_roof",
+    "//": "a tent and firepit",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  RRR   ",
+        "  RRR   ",
+        "  RRR   ",
+        "        ",
+        "        ",
+        "        ",
+        "        ",
+        "        "
+      ],
+      "terrain": { "R": "t_canvas_roof" }
     }
   },
   {
@@ -572,7 +634,8 @@
         { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
         { "item": "camping", "x": 1, "y": 5, "chance": 30, "repeat": [ 1, 3 ] },
         { "item": "stash_wood", "x": 3, "y": 6, "chance": 100, "repeat": [ 6, 10 ] }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "small_camp_8x8_tent_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -623,7 +686,8 @@
         "#+#"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -639,7 +703,8 @@
         "###"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -655,7 +720,8 @@
         "###"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -671,7 +737,8 @@
         "###"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -705,7 +772,8 @@
         "##+##"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -723,13 +791,15 @@
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "leather_tent_5x5_S",
+    "//": "Canvas roof since we don't have a skin/leather one",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -746,7 +816,8 @@
         "X": "f_skin_center_groundsheet",
         "x": "f_large_skin_groundsheet",
         "+": "f_large_skin_door"
-      }
+      },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -764,7 +835,8 @@
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -782,13 +854,15 @@
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_S",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -810,6 +884,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_E",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -831,6 +906,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_N",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -852,6 +928,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_W",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -873,6 +950,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_S",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -896,6 +974,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_E",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -919,6 +998,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_N",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -942,6 +1022,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_W",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
