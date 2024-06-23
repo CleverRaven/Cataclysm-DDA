@@ -1498,7 +1498,8 @@ void map::player_in_field( Character &you )
                     std::vector<bodypart_id> bps = you.get_ground_contact_bodyparts();
                     you.add_msg_player_or_npc( m_bad,
                                                string_format( _( "The acid burns your %s!" ), you.string_for_ground_contact_bodyparts( bps ) ),
-                                               string_format( _( "The acid burns <npcname>'s %s!" ), you.string_for_ground_contact_bodyparts( bps ) ) );
+                                               string_format( _( "The acid burns <npcname>'s %s!" ),
+                                                       you.string_for_ground_contact_bodyparts( bps ) ) );
                 } else if( on_ground ) {
                     you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
                 } else if( !you.is_immune_field( fd_acid ) ) {
