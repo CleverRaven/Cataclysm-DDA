@@ -795,5 +795,51 @@
     "max_damage": 6,
     "min_range": 1,
     "max_range": 1
+  },
+  {
+    "id": "forge_teleport",
+    "type": "SPELL",
+    "name": "Forge Teleport",
+    "description": "Travel to the forge marking your return point in the process.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FORGE_TELEPORT",
+    "shape": "blast",
+    "base_casting_time": 30000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_TELEPORT",
+    "effect": [
+      { "run_eocs": "EOC_VALIDATE_FORGE" },
+      { "u_location_variable": { "u_val": "forge_return_point" }, "min_radius": 0, "max_radius": 0 },
+      { "u_teleport": { "global_val": "loc_forge_of_wonders" } },
+      {
+        "u_message": "In the blink of an eye you are suddenly somewhere else. The runes on the scroll begin to shift.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "id": "forge_return_teleport",
+    "type": "SPELL",
+    "name": "Forge Return Teleport",
+    "description": "Travel back to your last forge return point.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FORGE_RETURN_TELEPORT",
+    "shape": "blast",
+    "base_casting_time": 30000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_RETURN_TELEPORT",
+    "effect": [
+      { "u_teleport": { "u_val": "forge_return_point" } },
+      {
+        "u_message": "As you recite the incantation the scroll burns away in your hands. And in the blink of an eye you are suddenly somewhere else.",
+        "type": "good"
+      }
+    ]
   }
 ]
