@@ -357,7 +357,7 @@
     "cost": 0,
     "player_display": false,
     "valid": false,
-    "integrated_armor": [ "integrated_claws" ],
+    "integrated_armor": [ "integrated_claws_rat" ],
     "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 } ] } ]
   },
   {
