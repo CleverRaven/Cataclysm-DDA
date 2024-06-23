@@ -117,7 +117,7 @@
     "id": "mon_skeleton_slasher",
     "type": "MONSTER",
     "name": { "str": "skeletal slasher" },
-    "description": "The fingers of this bone-clad zombie have turned into ossified blades the size of large knives. Most of the soft tissue on its head is gone, exposing a significantly thickened skull.",
+    "description": "The fingers of this bone-clad zombie have turned into ossified blades the size of large knives.  Most of the soft tissue on its head is gone, exposing a significantly thickened skull.",
     "copy-from": "mon_skeleton",
     "hp": 100,
     "speed": 70,
