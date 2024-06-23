@@ -309,11 +309,10 @@ def simplify_object(jo):
         return False
 
     req_keys = {"weight", "volume", "ammo", "id"}
-    extra_keys = {"longest_side", "pocket_data", "ranged_damage", "modes",
-                  "recoil", "dispersion", "name"}
+    all_keys = req_keys | set(INHERITED_KEYS)
+
     # Drop all the other keys
-    removed = list(filter(lambda key: key not in req_keys | extra_keys,
-                          jo.keys()))
+    removed = list(filter(lambda key: key not in all_keys, jo.keys()))
     # Need to iterate over removed because we can't delete from dict in for
     for key in removed:
         del jo[key]
