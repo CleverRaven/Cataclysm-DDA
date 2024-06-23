@@ -337,7 +337,7 @@
     "type": "COMESTIBLE",
     "id": "mre_potato",
     "copy-from": "mre_side",
-    "name": { "str": "potatoes, Au Gratin" },
+    "name": { "str_sp": "potatoes, Au Gratin" },
     "description": "Golden-fried potatoes.",
     "material": [ "veggy" ]
   },
@@ -345,15 +345,15 @@
     "type": "COMESTIBLE",
     "id": "mre_fried_rice",
     "copy-from": "mre_side",
-    "name": { "str_sp": "fried rice(small portion)" },
+    "name": { "str": "fried rice (small portion)", "str_pl": "fried rice (small portions)" },
     "description": "Fried rice, a simple dish made by stir-frying rice with other ingredients.",
-    "material": [ "wheat" ]
+    "material": [ "veggy" ]
   },
   {
     "type": "COMESTIBLE",
     "id": "mre_zapplesauce",
     "copy-from": "mre_side",
-    "name": { "str": "zapplesauce" },
+    "name": { "str_sp": "zapplesauce" },
     "description": "Golden, jelly-like food with the flavor of apples.",
     "material": [ "fruit" ],
     "fun": 5
@@ -362,7 +362,7 @@
     "type": "COMESTIBLE",
     "id": "mre_blackbeans",
     "copy-from": "mre_side",
-    "name": { "str": "black beans in sauce" },
+    "name": { "str_sp": "black beans in sauce" },
     "description": "A savory and flavorful combination of black beans and sauce.",
     "material": [ "bean" ],
     "calories": 130
@@ -388,7 +388,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mre_carrot_cake",
-    "name": { "str_sp": "carrot pound cake" },
+    "name": { "str": "carrot pound cake" },
     "copy-from": "mre_dessert",
     "description": "Delicious cake with carrots blended seamlessly."
   },
@@ -396,7 +396,7 @@
     "type": "COMESTIBLE",
     "id": "mre_poppyseed_cake",
     "copy-from": "mre_carrot_cake",
-    "name": { "str_sp": "lemon poppy seed pound cake" },
+    "name": { "str": "lemon poppy seed pound cake" },
     "calories": 290,
     "description": "Cake filled with the goodness of lemon and poppy seeds."
   },
@@ -413,7 +413,7 @@
     "type": "COMESTIBLE",
     "id": "mre_chocolate_cake",
     "copy-from": "mre_dessert",
-    "name": { "str_sp": "chocolate chip toaster pastry" },
+    "name": { "str": "chocolate chip toaster pastry", "str_pl": "chocolate chip toaster pastries" },
     "calories": 210,
     "description": "Pastry with chocolate chips."
   },
@@ -421,7 +421,7 @@
     "type": "COMESTIBLE",
     "id": "mre_strawberry_cake",
     "copy-from": "mre_dessert",
-    "name": { "str_sp": "strawberry toaster pastry" },
+    "name": { "str": "strawberry toaster pastry", "str_pl": "strawberry toaster pastries" },
     "calories": 210,
     "description": "Strawberry-flavor pastry."
   }
