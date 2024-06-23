@@ -817,7 +817,7 @@ class Creature : public viewer
         /* Returns the which limbs are being used for movement of a given type*/
         std::vector<bodypart_id> get_ground_contact_bodyparts( bool arms_legs = false ) const;
 
-        std::string get_ground_contact_bodyparts_string( bool arms_legs = false ) const;
+        std::string string_for_ground_contact_bodyparts( bool arms_legs = false ) const;
 
         /* Returns the number of bodyparts of a given type*/
         int get_num_body_parts_of_type( body_part_type::type part_type ) const;

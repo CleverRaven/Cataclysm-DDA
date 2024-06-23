@@ -2863,7 +2863,7 @@ std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs 
     }
 }
 
-std::string Creature::get_ground_contact_bodyparts_string( bool arms_legs ) const
+std::string Creature::string_for_ground_contact_bodyparts( bool arms_legs ) const
 {
     std::string bodyparts;
     if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
