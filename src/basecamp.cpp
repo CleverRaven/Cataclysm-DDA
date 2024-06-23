@@ -19,6 +19,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
@@ -28,6 +29,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
@@ -839,6 +841,76 @@ void basecamp::set_owner( faction_id new_owner )
 faction_id basecamp::get_owner()
 {
     return owner;
+}
+
+void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
+{
+    get_event_bus().send<event_type::camp_taken_over>( get_owner(), new_owner, name, violent_takeover );
+
+    // If anyone was somehow assigned here, they aren't any longer.
+    assigned_npcs.clear();
+    camp_workers.clear();
+
+    add_msg_debug( debugmode::DF_CAMPS, "Camp %s owned by %s is being taken over by %s!",
+                   name, fac()->name, new_owner->name );
+
+    if( !violent_takeover ) {
+        set_owner( new_owner );
+        return;
+    }
+
+    // Since it was violent, the old owner is going to be upset.
+    // Currently only handles player faction, and very bluntly.
+    if( new_owner == get_player_character().get_faction()->id ) {
+        fac()->likes_u -= 100;
+        fac()->trusts_u -= 100;
+    }
+
+    int num_of_owned_camps = 0;
+    // Go over all camps in existence and count the ones belonging to current owner
+    // TODO: Remove this when camps stop being stored on the player
+    for( tripoint_abs_omt camp_loc : get_player_character().camps ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+        if( !bcp ) {
+            continue;
+        }
+        basecamp *checked_camp = *bcp;
+        // Note: Will count current basecamp object as well
+        if( checked_camp->get_owner() == get_owner() ) {
+            add_msg_debug( debugmode::DF_CAMPS,
+                           "Camp %s at %s is owned by %s, adding it to plunder calculations.",
+                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+            num_of_owned_camps++;
+        }
+    }
+
+    if( num_of_owned_camps < 1 ) {
+        debugmsg( "Tried to take over a camp owned by %s, but they somehow own no camps!  Is the owner's faction id no longer valid?",
+                  get_owner().c_str() );
+        // Also abort the rest
+        set_owner( new_owner );
+        return;
+    }
+
+    // The faction taking over also seizes resources proportional to the number of camps the previous owner had
+    // e.g. a single-camp faction has its entire stockpile plundered, a 10-camp faction has 10% transferred
+    nutrients captured_with_camp = fac()->food_supply / num_of_owned_camps;
+    nutrients taken_from_camp = -captured_with_camp;
+    camp_food_supply( taken_from_camp );
+    add_msg_debug( debugmode::DF_CAMPS,
+                   "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
+                   fac()->name, captured_with_camp.kcal(), fac()->food_supply.kcal(),
+                   1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
+    set_owner( new_owner );
+    int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
+    camp_food_supply( captured_with_camp );
+    add_msg_debug( debugmode::DF_CAMPS,
+                   "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
+                   fac()->name, new_owner->food_supply.kcal(), name );
+    if( new_owner == get_player_character().get_faction()->id ) {
+        popup( _( "Through your looting of %s you found %d days worth of food and other resources." ),
+               name, camp_food_supply_days( MODERATE_EXERCISE ) - previous_days_of_food );
+    }
 }
 
 void basecamp::form_crafting_inventory()

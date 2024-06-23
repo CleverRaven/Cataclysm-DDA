@@ -43,7 +43,16 @@
     "color": "brown",
     "warmth": 1,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "ALLOWS_TALONS" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "NORMAL",
+      "WATERPROOF",
+      "IRRITANT_IMMUNE",
+      "PADDED",
+      "ALLOWS_TALONS"
+    ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
@@ -68,7 +77,16 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "ALLOWS_TALONS" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "NORMAL",
+      "WATERPROOF",
+      "IRRITANT_IMMUNE",
+      "PADDED",
+      "ALLOWS_TALONS"
+    ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
@@ -93,7 +111,16 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "ALLOWS_TALONS" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "NORMAL",
+      "WATERPROOF",
+      "IRRITANT_IMMUNE",
+      "PADDED",
+      "ALLOWS_TALONS"
+    ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
@@ -344,7 +371,7 @@
     "color": "dark_gray",
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF", "IRRITANT_IMMUNE" ],
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 8 } ],
@@ -381,7 +408,7 @@
     "color": "dark_gray",
     "warmth": 18,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF", "IRRITANT_IMMUNE" ],
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
@@ -513,6 +540,7 @@
       "UNBREAKABLE",
       "SKINTIGHT",
       "WATER_FRIENDLY",
+      "IRRITANT_IMMUNE",
       "SOFT",
       "TOUGH_FEET",
       "NO_SALVAGE"
@@ -549,7 +577,16 @@
     "color": "light_red",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED", "NO_SALVAGE" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "NORMAL",
+      "WATER_FRIENDLY",
+      "PADDED",
+      "IRRITANT_IMMUNE",
+      "NO_SALVAGE"
+    ],
     "armor": [
       {
         "material": [
@@ -670,6 +707,7 @@
       "UNBREAKABLE",
       "NORMAL",
       "WATER_FRIENDLY",
+      "IRRITANT_IMMUNE",
       "NO_SALVAGE",
       "PADDED",
       "ALLOWS_TALONS"
@@ -824,7 +862,16 @@
     "color": "brown",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER", "PADDED", "ALLOWS_TALONS" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "BLOCK_WHILE_WORN",
+      "UNBREAKABLE",
+      "OUTER",
+      "PADDED",
+      "IRRITANT_IMMUNE",
+      "ALLOWS_TALONS"
+    ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4 } ],
@@ -983,7 +1030,16 @@
     "color": "brown",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER", "PADDED", "ALLOWS_TALONS" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "BLOCK_WHILE_WORN",
+      "UNBREAKABLE",
+      "OUTER",
+      "PADDED",
+      "IRRITANT_IMMUNE",
+      "ALLOWS_TALONS"
+    ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 4.5 } ],
@@ -1348,7 +1404,16 @@
     "color": "light_red",
     "warmth": 3,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "TOUGH_FEET", "ALLOWS_TALONS" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "IRRITANT_IMMUNE",
+      "TOUGH_FEET",
+      "ALLOWS_TALONS"
+    ],
     "armor": [
       {
         "material": [
@@ -1409,6 +1474,7 @@
       "UNBREAKABLE",
       "SKINTIGHT",
       "WATER_FRIENDLY",
+      "IRRITANT_IMMUNE",
       "PADDED",
       "TOUGH_FEET",
       "NO_SALVAGE"

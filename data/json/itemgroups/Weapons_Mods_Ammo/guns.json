@@ -129,7 +129,6 @@
     "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian's, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "nested_af2011a1_38super", "prob": 1 },
       { "group": "nested_bfr", "prob": 100 },
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
@@ -148,7 +147,6 @@
     "id": "guns_pistol_obscure_display",
     "//": "Very obscure pistols which are illegal to sell.",
     "items": [
-      { "item": "af2011a1_38super", "prob": 25 },
       { "item": "draco", "prob": 30 },
       { "item": "ar_pistol", "prob": 35 },
       { "group": "guns_pistol_collectible", "prob": 1 },
@@ -560,6 +558,8 @@
     "subtype": "distribution",
     "entries": [
       { "group": "nested_ksg", "prob": 50 },
+      { "group": "nested_dp_12", "prob": 3 },
+      { "group": "nested_srm_1216", "prob": 2 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
       { "group": "nested_slp", "prob": 10 },
@@ -574,6 +574,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "ksg", "prob": 50, "charges": [ 0, 7 ] },
+      { "item": "srm_1216", "prob": 1, "charges": [ 0, 16 ] },
+      { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] },
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
@@ -588,6 +590,8 @@
     "entries": [
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
+      { "item": "srm_1216", "prob": 3 },
+      { "item": "dp_12", "prob": 4 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
       { "item": "mossberg_590m", "prob": 2 }

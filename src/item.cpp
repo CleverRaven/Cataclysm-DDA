@@ -3079,13 +3079,13 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        if( ammo.recovery_chance <= 5 ) {
+        if( ammo.recovery_chance <= 75 ) {
             fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 10 ) {
+        } else if( ammo.recovery_chance <= 80 ) {
             fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 20 ) {
+        } else if( ammo.recovery_chance <= 90 ) {
             fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 30 ) {
+        } else if( ammo.recovery_chance <= 95 ) {
             fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
         } else {
             fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
