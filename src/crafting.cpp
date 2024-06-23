@@ -1523,7 +1523,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
     if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
         // TODO: reconsider recipe memorization
         if( knows_recipe( &making ) ) {
-            if( is_avatar() ){
+            if( is_avatar() ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
                 add_msg( _( "%1s crafts %2s from memory." ), get_name(), making.result_name() );
