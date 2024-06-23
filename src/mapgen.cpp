@@ -288,7 +288,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         float density = 0.0f;
         for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
             for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-                density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
+                density += overmap_buffer.ter( { p.x() + i, p.y() + j, gridz } )->get_mondensity();
             }
         }
         density = density / 100;
@@ -319,58 +319,61 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             }
         }
 
-        // At some point, we should add region information so we can grab the appropriate extras
-        map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-        map_extras ex = this_ex.filtered_by( dat );
-        if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
-            DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
-                                             " (extra type \"" << terrain_type->get_extras() <<
-                                             "\") zlevel = " << p.z() <<
-                                             " is out of range of all assigned map extras.  Skipping map extra generation.";
-        } else if( ex.chance > 0 && one_in( ex.chance ) ) {
-            map_extra_id *extra = ex.values.pick();
-            if( extra == nullptr ) {
-                debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
-                          terrain_type->get_type_id().str() );
-            } else {
-                MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+        if( !save_results || any_missing ) {
+
+            // At some point, we should add region information so we can grab the appropriate extras
+            map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+            map_extras ex = this_ex.filtered_by( dat );
+            if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+                DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                                 " (extra type \"" << terrain_type->get_extras() <<
+                                                 "\") zlevel = " << p.z() <<
+                                                 " is out of range of all assigned map extras.  Skipping map extra generation.";
+            } else if( ex.chance > 0 && one_in( ex.chance ) ) {
+                map_extra_id *extra = ex.values.pick();
+                if( extra == nullptr ) {
+                    debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                              terrain_type->get_type_id().str() );
+                } else {
+                    MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+                }
             }
-        }
 
-        const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
+            const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
 
-        float spawn_density = 1.0f;
-        if( MonsterGroupManager::is_animal( spawns.group ) ) {
-            spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
-        } else {
-            spawn_density = get_option< float >( "SPAWN_DENSITY" );
-        }
+            float spawn_density = 1.0f;
+            if( MonsterGroupManager::is_animal( spawns.group ) ) {
+                spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+            } else {
+                spawn_density = get_option< float >( "SPAWN_DENSITY" );
+            }
 
-        // Apply a multiplier to the number of monsters for really high densities.
-        float odds_after_density = spawns.chance * spawn_density;
-        const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
-        float density_multiplier = 1.0f;
-        if( odds_after_density > max_odds ) {
-            density_multiplier = 1.0f * odds_after_density / max_odds;
-            odds_after_density = max_odds;
-        }
-        const int spawn_count = roll_remainder( density_multiplier );
+            // Apply a multiplier to the number of monsters for really high densities.
+            float odds_after_density = spawns.chance * spawn_density;
+            const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
+            float density_multiplier = 1.0f;
+            if( odds_after_density > max_odds ) {
+                density_multiplier = 1.0f * odds_after_density / max_odds;
+                odds_after_density = max_odds;
+            }
+            const int spawn_count = roll_remainder( density_multiplier );
 
-        if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
-            int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
-            for( ; pop > 0; pop-- ) {
-                std::vector<MonsterGroupResult> spawn_details =
-                    MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-                for( const MonsterGroupResult &mgr : spawn_details ) {
-                    if( !mgr.name ) {
-                        continue;
-                    }
-                    if( const std::optional<tripoint> pt =
-                    random_point( *this, [this]( const tripoint & n ) {
-                    return passable( n );
-                    } ) ) {
-                        const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
-                        add_spawn( mgr, pnt );
+            if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+                int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
+                for( ; pop > 0; pop-- ) {
+                    std::vector<MonsterGroupResult> spawn_details =
+                        MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+                    for( const MonsterGroupResult &mgr : spawn_details ) {
+                        if( !mgr.name ) {
+                            continue;
+                        }
+                        if( const std::optional<tripoint> pt =
+                        random_point( *this, [this]( const tripoint & n ) {
+                        return passable( n );
+                        } ) ) {
+                            const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
+                            add_spawn( mgr, pnt );
+                        }
                     }
                 }
             }
@@ -5327,20 +5330,6 @@ void mapgen_function_json::generate( mapgendata &md )
         if( !success ) {
             debugmsg( "predecessor mapgen with key %s failed", function_key );
         }
-
-        // Now we have to do some rotation shenanigans. We need to ensure that
-        // our predecessor is not rotated out of alignment as part of rotating this location,
-        // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
-        // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
-        // we basically have to initially reverse the rotation that we WILL do in the future so that
-        // when we apply that rotation, our predecessor is back in its original state while this
-        // location is rotated as desired.
-
-        m->rotate( ( -rotation.get() + 4 ) % 4 );
-
-        if( ter.is_rotatable() || ter.is_linear() ) {
-            m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
-        }
     };
 
     if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
@@ -5355,6 +5344,22 @@ void mapgen_function_json::generate( mapgendata &md )
             mapgendata predecessor_md( md, fallback_predecessor_mapgen_ );
             do_predecessor_mapgen( predecessor_md );
         }
+    }
+
+    // Now we have to do some rotation shenanigans. We need to ensure that
+    // our predecessor is not rotated out of alignment as part of rotating this location,
+    // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
+    // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
+    // we basically have to initially reverse the rotation that we WILL do in the future so that
+    // when we apply that rotation, our predecessor is back in its original state while this
+    // location is rotated as desired.
+    // Note that we need to perform rotations even if there is no predecessor, as other Z levels
+    // have to be kept aligned regardless.
+
+    m->rotate( ( -rotation.get() + 4 ) % 4 );
+
+    if( ter.is_rotatable() || ter.is_linear() ) {
+        m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
     }
 
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );

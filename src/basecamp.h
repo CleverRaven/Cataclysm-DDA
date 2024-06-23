@@ -275,6 +275,10 @@ class basecamp
         int camp_morale( int change = 0 ) const;
 
         bool allowed_access_by( Character &guy, bool water_request = false ) const;
+        /* Transfers ownership of a camp and send an event signalling it. If violent_takeover, also applies relation
+        * maluses and transfers a proportional amount of the previous owner's food/resources to the new owner.
+        */
+        void handle_takeover_by( faction_id new_owner, bool violent_takeover );
         // recipes, gathering, and craft support functions
         // from a direction
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;
