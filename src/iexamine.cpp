@@ -1984,6 +1984,28 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         if( !temp_camp->allowed_access_by( you ) ) {
+            if( !you.is_avatar() ) {
+                return; // One day, NPCs may be able to use bulletin boards
+            }
+            // Checks the reality bubble for NPCs
+            std::vector<shared_ptr_fast<npc>> nearby_npcs = overmap_buffer.get_npcs_near_player( HALF_MAPSIZE );
+            bool unoccupied_camp = true;
+            for( npc_ptr &some_guy : nearby_npcs ) {
+                if( !some_guy ) {
+                    continue;
+                } else if( some_guy->get_faction()->id == temp_camp->get_owner() ) {
+                    unoccupied_camp = false;
+                }
+            }
+            if( unoccupied_camp &&
+                query_yn( _( "There's nobody here to protect %s.  Do you want to claim ownership?" ),
+                          temp_camp->camp_name() ) ) {
+                bool plunder = query_yn(
+                                   _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
+                                   temp_camp->get_owner()->name );
+                temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
+                return;
+            }
             you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
             return;
         }
