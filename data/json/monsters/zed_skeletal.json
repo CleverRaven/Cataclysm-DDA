@@ -173,7 +173,7 @@
     "id": "mon_skeleton_reaper",
     "type": "MONSTER",
     "name": { "str": "skeletal reaper" },
-    "description": "This large, bone-armored zombie has scythe-like blades in place of its hands, resembling a praying mantis. Its face is covered by a thick, ossified mask, with its only remaining facial features being eyes that ooze black goo. Its movements are filled with unnatural rage.",
+    "description": "This large, bone-armored zombie has scythe-like blades in place of its hands, resembling a praying mantis.  Its face is covered by a thick, ossified mask, with its only remaining facial features being eyes that ooze black goo.  Its movements are filled with unnatural rage.",
     "copy-from": "mon_skeleton",
     "hp": 250,
     "volume": "120 L",
