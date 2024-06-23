@@ -1600,6 +1600,8 @@ struct mutable_overmap_terrain {
     cata::flat_set<string_id<overmap_location>> locations;
     join_map joins;
     std::map<cube_direction, mutable_special_connection> connections;
+    std::optional<faction_id> camp_owner;
+    translation camp_name;
 
     void finalize( const std::string &context,
                    const std::unordered_map<std::string, mutable_overmap_join *> &special_joins,
@@ -1633,6 +1635,17 @@ struct mutable_overmap_terrain {
             p.second.check( string_format( "connection %s in %s", io::enum_to_string( p.first ),
                                            context ) );
         }
+        if( camp_owner.has_value() ) {
+            if( !camp_owner.value().is_valid() ) {
+                debugmsg( "In %s, camp at %s has invalid owner %s", context, terrain.str(),
+                          camp_owner.value().c_str() );
+            }
+            if( camp_name.empty() ) {
+                debugmsg( "In %s, camp was defined but missing a camp_name.", context );
+            }
+        } else if( !camp_name.empty() ) {
+            debugmsg( "In %s, camp_name defined but no owner.  Invalid name is discarded.", context );
+        }
     }
 
     void deserialize( const JsonObject &jo ) {
@@ -1646,6 +1659,8 @@ struct mutable_overmap_terrain {
             }
         }
         jo.read( "connections", connections );
+        jo.read( "camp", camp_owner );
+        jo.read( "camp_name", camp_name );
     }
 };
 
@@ -2558,6 +2573,20 @@ struct mutable_overmap_special_data : overmap_special_data {
         om_direction::type rot, const std::vector<om_pos_dir> &suppressed_joins ) {
             const oter_id tid = ter.terrain->get_rotated( rot );
             om.ter_set( pos, tid );
+            if( ter.camp_owner.has_value() ) {
+                tripoint_abs_omt camp_loc =  {project_combine( om.pos(), pos.xy() ), pos.z()};
+                get_map().add_camp( camp_loc, "faction_camp", false );
+                std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+                if( !bcp ) {
+                    debugmsg( "Camp placement during special generation failed at %s", camp_loc.to_string() );
+                } else {
+                    basecamp *temp_camp = *bcp;
+                    temp_camp->set_owner( ter.camp_owner.value() );
+                    temp_camp->set_name( ter.camp_name.translated() );
+                    // FIXME? Camp types are raw strings! Not ideal.
+                    temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
+                }
+            }
             unresolved.add_joins_for( ter, pos, rot, suppressed_joins );
             result.push_back( pos );
 

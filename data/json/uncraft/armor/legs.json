@@ -14,5 +14,13 @@
     "time": "5 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "thread", 15 ] ], [ [ "button_plastic", 3 ] ] ]
+  },
+  {
+    "result": "tights",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 20 ] ], [ [ "thread", 14 ] ] ]
   }
 ]

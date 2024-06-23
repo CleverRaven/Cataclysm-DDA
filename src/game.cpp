@@ -60,6 +60,7 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "char_validity_check.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
@@ -304,6 +305,7 @@ static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const material_id material_glass( "glass" );
 
+static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
 static const mod_id MOD_INFORMATION_dda( "dda" );
 
 static const mongroup_id GROUP_BLACK_ROAD( "GROUP_BLACK_ROAD" );
@@ -879,6 +881,8 @@ bool game::start_game()
 
     // Make sure the items are added after the calendar is started
     u.add_profession_items();
+    // Move items from the raw inventory to item_location s. See header TODO.
+    u.migrate_items_to_storage( true );
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
@@ -3271,7 +3275,7 @@ void game::load_world_modfiles( loading_ui &ui )
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
-bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
+void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui )
 {
     ui.new_context( msg );
     std::vector<mod_id> missing;
@@ -3298,11 +3302,28 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
         ui.proceed();
     }
 
-    for( const auto &e : missing ) {
-        debugmsg( "unknown content %s", e.c_str() );
+    std::unordered_set<mod_id> removed_mods {
+        MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
+    };
+    std::unordered_set<mod_id> mods_to_remove;
+    for( const mod_id &e : missing ) {
+        if( removed_mods.find( e ) == removed_mods.end() ) {
+            if( query_yn( _( "Mod %s not found in mods folder, remove it from this world's modlist?" ),
+                          e.c_str() ) ) {
+                mods_to_remove.insert( e );
+            }
+        } else if( query_yn( _( "Mod %s has been removed, remove it from this world's modlist?" ),
+                             e.c_str() ) ) {
+            mods_to_remove.insert( e );
+        }
     }
-
-    return missing.empty();
+    if( !mods_to_remove.empty() ) {
+        auto &mods = world_generator->active_world->active_mod_order;
+        mods.erase( std::remove_if( mods.begin(), mods.end(), [&mods_to_remove]( const auto e ) {
+            return mods_to_remove.find( e ) != mods_to_remove.end();
+        } ), mods.end() );
+        world_generator->get_mod_manager().save_mods_list( world_generator->active_world );
+    }
 }
 
 void game::reset_npc_dispositions()
@@ -3404,14 +3425,22 @@ bool game::save_achievements()
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( achievement_file_path ),
         [&]( const char c ) {
-            return !std::isgraph( c, locale );
+            return !std::isgraph( c, locale ) || !is_char_allowed( c );
         }, '_' );
     } else {
-        achievement_file_path << u.name;
+        std::replace_copy_if( std::begin( u.name ), std::end( u.name ),
+                              std::ostream_iterator<char>( achievement_file_path ),
+        [&]( const char c ) {
+            return !is_char_allowed( c );
+        }, '_' );
     }
 
     // Add a ~ if the player name was actually truncated.
     achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+
+    // Add world timestamp to distinguish characters from different worlds with the same name
+    achievement_file_path << world_generator->active_world->timestamp << "-";
+
     const int character_id = get_player_character().getID().get_value();
     const std::string json_path_string = achievement_file_path.str() + std::to_string(
             character_id ) + ".json";
@@ -3570,10 +3599,14 @@ void game::write_memorial_file( std::string sLastWords )
         std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
                               std::ostream_iterator<char>( memorial_file_path ),
         [&]( const char c ) {
-            return !std::isgraph( c, locale );
+            return !std::isgraph( c, locale ) || !is_char_allowed( c );
         }, '_' );
     } else {
-        memorial_file_path << u.name;
+        std::replace_copy_if( std::begin( u.name ), std::end( u.name ),
+                              std::ostream_iterator<char>( memorial_file_path ),
+        [&]( const char c ) {
+            return !is_char_allowed( c );
+        }, '_' );
     }
 
     // Add a ~ if the player name was actually truncated.
@@ -4495,9 +4528,8 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-                static const std::unordered_set<tripoint> path_avoid = {};
 
-                if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
+                if( !get_map().route( u.pos(), critter->pos(), pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -7616,17 +7648,14 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         }
     };
     route_t shortest_route;
-    std::unordered_set<tripoint> path_avoid;
-    for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
-        if( is_dangerous_tile( p.raw() ) ) {
-            path_avoid.insert( p.raw() );
-        }
-    }
     for( const tripoint_bub_ms &p : here.points_in_radius( target, threshold, 0 ) ) {
-        if( path_avoid.count( p.raw() ) > 0 ) {
-            continue; // dont route to dangerous tiles
+        if( is_dangerous_tile( p.raw() ) ) {
+            continue;
         }
-        const route_t route = here.route( who.pos_bub(), p, who.get_pathfinding_settings(), path_avoid );
+        const route_t route = here.route( who.pos_bub(), p,
+        who.get_pathfinding_settings(), [this]( const tripoint & p ) {
+            return is_dangerous_tile( p );
+        } );
         if( route.empty() ) {
             continue; // no route
         }
@@ -13892,7 +13921,7 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 
         if( !cur_ter->get_entry_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
-            effect_on_condition_id eoc = cur_ter->get_exit_EOC();
+            effect_on_condition_id eoc = cur_ter->get_entry_EOC();
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {

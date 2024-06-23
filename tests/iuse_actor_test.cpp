@@ -136,7 +136,7 @@ static void cut_up_yields( const std::string &target )
     CAPTURE( target );
     salvage_actor test_actor;
     item cut_up_target{ target };
-    item tool{ "knife_butcher" };
+    item tool{ "knife_huge" };
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;

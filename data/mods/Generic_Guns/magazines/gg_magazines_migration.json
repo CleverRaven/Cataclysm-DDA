@@ -6,7 +6,6 @@
   },
   {
     "id": [
-      "af2011a1mag",
       "ppkmag",
       "sigp230mag",
       "p226mag_12rd_357sig",
@@ -188,7 +187,6 @@
       "40_speedloader6",
       "44_speedloader6",
       "454_speedloader5",
-      "454_speedloader6",
       "460_speedloader6",
       "500_speedloader5",
       "8x40_speedloader5",
@@ -200,11 +198,6 @@
   },
   {
     "id": [
-      "a180mag",
-      "a180mag1",
-      "a180mag2",
-      "a180mag3",
-      "a180mag4",
       "mosquitomag",
       "ruger1022bigmag",
       "ruger1022mag",
@@ -387,6 +380,7 @@
       "saiga410mag_30rd",
       "saiga10mag",
       "saiga30mag",
+      "srm_1216_mag_16",
       "afs_raketa30mag",
       "afs_shot_speedloader8",
       "USAS10mag",
@@ -401,6 +395,10 @@
       "aa12_box_mag",
       "aa12_drum_mag",
       "aa12_vehicle_drum",
+      "mossberg_590m_mag_5",
+      "mossberg_590m_mag_10",
+      "mossberg_590m_mag_15",
+      "mossberg_590m_mag_20",
       "m26_mass_mag_3",
       "m26_mass_mag_5"
     ],

@@ -177,6 +177,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "tutorial_roof",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "tutorial_underground",
     "name": "tutorial room",
     "sym": "O",

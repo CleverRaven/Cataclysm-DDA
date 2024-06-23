@@ -69,7 +69,7 @@
     "loudness": 0,
     "show_stats": true,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_20" ],
+    "recovery_chance": 95,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -129,7 +129,7 @@
     "dispersion": 60,
     "loudness": 0,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 97,
     "melee_damage": { "bash": 1 }
   }
 ]

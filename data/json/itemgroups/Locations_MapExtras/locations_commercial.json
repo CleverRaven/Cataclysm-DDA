@@ -320,7 +320,10 @@
       [ "cigar_cutter", 3 ],
       [ "cigar_punch", 3 ],
       [ "collarpin", 3 ],
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      {
+        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "prob": 10
+      },
       [ "goggles_welding", 70 ],
       [ "glasses_monocle", 2 ],
       [ "fancy_sunglasses", 15 ],
@@ -359,7 +362,7 @@
       [ "hammer_sledge_engineer", 1 ],
       [ "hammer_sledge_heavy", 1 ],
       [ "ax", 8 ],
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "knife_KABAR", 14 ],
       { "group": "infantry_knives", "prob": 1 },
       [ "kukri", 2 ],
@@ -546,6 +549,7 @@
       [ "alarmclock", 5 ],
       [ "bagh_nakha", 2 ],
       [ "leathersandals", 10 ],
+      [ "espadrilles", 5 ],
       [ "maid_dress", 3 ],
       [ "maid_dress_short", 3 ],
       [ "maid_hat", 3 ],
@@ -1297,7 +1301,7 @@
       [ "spoon", 25 ],
       [ "fork", 25 ],
       [ "knife_butter", 20 ],
-      [ "knife_steak", 15 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       [ "spork", 5 ],
       [ "foon", 5 ]
     ]

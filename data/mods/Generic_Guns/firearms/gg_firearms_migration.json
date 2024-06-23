@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "sw_619", "mr73", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "sw_619", "sw629", "bfr", "sw_500", "raging_bull", "chiappa_rhino" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -104,7 +104,6 @@
       "walther_ccp",
       "makarov",
       "STI_DS_10",
-      "af2011a1_38super",
       "m1911a1_38super",
       "glock_22",
       "civilian_cop_glock22",
@@ -152,13 +151,12 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
   {
     "id": [
-      "ppsh",
       "hk_mp5",
       "hk_mp5sd",
       "uzi",
@@ -181,7 +179,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022", "ruger_1022_auto", "ruger_charger_auto" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -191,7 +189,6 @@
       "kp32",
       "ruger_lcr_22",
       "sig_mosquito",
-      "sw_22",
       "walther_p22",
       "sig_p230",
       "walther_ppk",
@@ -203,7 +200,7 @@
     "replace": "pistol_tiny_target"
   },
   {
-    "id": [ "rifle_22", "j22" ],
+    "id": [ "rifle_22" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_zip"
   },
@@ -349,7 +346,6 @@
       "bren2_762",
       "805_bren",
       "bren2_556",
-      "fs2000",
       "robofac_gun",
       "psl",
       "xedra_gun",
@@ -411,13 +407,15 @@
       "rm120c",
       "rm228",
       "rm20",
-      "bigun",
       "saiga_12",
       "afs_raketa_shotgun",
       "tavor_12",
+      "dp_12",
+      "srm_1216",
       "aa_12",
       "benelli_tsa",
       "bigun",
+      "mossberg_590m",
       "USAS_12"
     ],
     "type": "MIGRATION",
@@ -428,7 +426,6 @@
       "shotgun_410",
       "benelli_sa",
       "ksg",
-      "ksg-25",
       "mossberg_500",
       "mossberg_590",
       "mossberg_930",

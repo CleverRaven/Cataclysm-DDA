@@ -1152,7 +1152,7 @@ static void on_customize_character( Character &you )
     }
 }
 
-static void change_armor_sprite( avatar &you )
+static void change_armor_sprite( Character &you )
 {
     item_location target_loc;
     target_loc = game_menus::inv::change_sprite( you );
@@ -1168,17 +1168,14 @@ static void change_armor_sprite( avatar &you )
         menu.query();
         if( menu.ret == 0 ) {
             item_location sprite_loc;
-            avatar *you = get_player_character().as_avatar();
             auto armor_filter = [&]( const item & i ) {
                 return i.is_armor();
             };
-            if( you != nullptr ) {
-                sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
-                             *you,
-                             _( "Select appearance of this armor:" ),
-                             -1,
-                             _( "You have nothing to wear." ) );
-            }
+            sprite_loc = game_menus::inv::titled_filter_menu( armor_filter,
+                         you,
+                         _( "Select appearance of this armor:" ),
+                         -1,
+                         _( "You have nothing to wear." ) );
             if( sprite_loc && sprite_loc.get_item() ) {
                 const item *sprite_item = sprite_loc.get_item();
                 const std::string variant = sprite_item->has_itype_variant() ? sprite_item->itype_variant().id : "";
@@ -1375,9 +1372,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                         }
                         break;
                     case 1:
-                        if( you.is_avatar() ) {
-                            you.as_avatar()->disp_morale();
-                        }
+                        you.disp_morale();
                         break;
                     case 2:
                         ctxt.display_menu();
@@ -1431,9 +1426,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         show_proficiencies_window( you );
 
     } else if( action == "morale" ) {
-        if( you.is_avatar() ) {
-            you.as_avatar()->disp_morale( );
-        }
+        you.disp_morale( );
     } else if( action == "VIEW_BODYSTAT" ) {
         display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
@@ -1447,9 +1440,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        if( you.is_avatar() ) {
-            you.as_avatar()->disp_medical();
-        }
+        you.disp_medical();
     } else if( action == "SELECT_STATS_TAB" ) {
         invalidate_tab( curtab );
         curtab = player_display_tab::stats;
@@ -1500,9 +1491,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         info_line = 0;
         ui_info.invalidate_ui();
     } else if( action == "CHANGE_ARMOR_SPRITE" ) {
-        if( you.as_avatar() ) {
-            change_armor_sprite( *you.as_avatar() );
-        }
+        change_armor_sprite( you );
     }
     return done;
 }
@@ -1639,7 +1628,7 @@ void Character::disp_info( bool customize_character )
     const unsigned int proficiency_win_size_y_max = 1 + display_proficiencies().size();
 
     std::vector<trait_and_var> traitslist = get_mutations_variants( false );
-    std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
+    std::sort( traitslist.begin(), traitslist.end(), trait_var_display_sort );
     const unsigned int trait_win_size_y_max = 1 + traitslist.size();
 
     std::vector<bionic_grouping> bionicslist;

@@ -259,6 +259,8 @@ struct heater {
     bool consume_flag;
     int available_heater;
     int heating_effect;
+    tripoint_abs_ms vpt;
+    bool pseudo_flag;
 };
 heater find_heater( Character *, item * );
 heating_requirements heating_requirements_for_weight( const units::mass &,

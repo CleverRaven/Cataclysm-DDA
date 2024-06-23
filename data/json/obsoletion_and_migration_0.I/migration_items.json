@@ -106,6 +106,21 @@
     "replace": "gambeson"
   },
   {
+    "id": "ksg_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
     "id": "gambeson_loose_vest",
     "type": "MIGRATION",
     "replace": "gambeson_nylon_vest"
@@ -1405,6 +1420,26 @@
     "replace": "ruger_lcr_22"
   },
   {
+    "id": "vz58_p",
+    "type": "MIGRATION",
+    "replace": "ak47"
+  },
+  {
+    "id": "vz58ts",
+    "type": "MIGRATION",
+    "replace": "aksemi"
+  },
+  {
+    "id": "vz58mag10",
+    "type": "MIGRATION",
+    "replace": "akmag10"
+  },
+  {
+    "id": "vz58mag30",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
     "id": "stowed_fridge",
     "type": "MIGRATION",
     "replace": "apartment_fridge"
@@ -1420,8 +1455,96 @@
     "replace": "glass_fridge"
   },
   {
+    "id": "knife_steak",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_steak"
+  },
+  {
+    "id": "knife_paring",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_paring"
+  },
+  {
+    "id": "knife_chef",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_chef"
+  },
+  {
+    "id": "knife_carving",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_carving"
+  },
+  {
+    "id": "knife_bread",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_bread"
+  },
+  {
+    "id": "knife_butcher",
+    "type": "MIGRATION",
+    "replace": "knife_huge",
+    "variant": "knife_butcher"
+  },
+  {
+    "id": "knife_meat_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_meat_cleaver"
+  },
+  {
+    "id": "knife_vegetable_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_vegetable_cleaver"
+  },
+  {
     "id": "spear_survivor",
     "type": "MIGRATION",
     "replace": "naginata"
+  },
+  {
+    "id": "j22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "j22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "sw_22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "sw22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "cop_38",
+    "type": "MIGRATION",
+    "replace": "sw_619"
+  },
+  {
+    "id": "fs2000",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "factory_handguard",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "mr73",
+    "type": "MIGRATION",
+    "replace": "sw_619"
   }
 ]

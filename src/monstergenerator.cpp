@@ -628,7 +628,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "JACKSON", mattack::jackson );
     add_hardcoded_attack( "DANCE", mattack::dance );
     add_hardcoded_attack( "DOGTHING", mattack::dogthing );
-    add_hardcoded_attack( "GENE_STING", mattack::gene_sting );
     add_hardcoded_attack( "PARA_STING", mattack::para_sting );
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
@@ -1284,6 +1283,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
+        optional( jop, was_loaded, "avoid_dangerous_fields", path_settings.avoid_dangerous_fields, false );
     }
 }
 

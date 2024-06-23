@@ -2366,10 +2366,23 @@ void map_extra::load( const JsonObject &jo, const std::string_view )
         mandatory( jg, was_loaded, "generator_id", generator_id );
     }
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
-    color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
+    color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : was_loaded ?
+            color : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
     optional( jo, was_loaded, "flags", flags_ );
+    if( was_loaded && jo.has_member( "extend" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            flags_.insert( flag );
+        }
+    }
+    if( was_loaded && jo.has_member( "delete" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            flags_.erase( flag );
+        }
+    }
 }
 
 void map_extra::check() const

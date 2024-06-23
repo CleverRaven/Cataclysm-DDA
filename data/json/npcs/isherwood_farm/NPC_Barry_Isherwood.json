@@ -258,7 +258,12 @@
         { "u_add_var": "u_saved_barry_isherwood", "value": "in-progress" },
         { "npc_first_topic": "TALK_ISHERWOOD_BARRY_Escaping" }
       ],
-      "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
+      "assign_mission_target": {
+        "om_terrain": "dairy_farm_isherwood_W",
+        "om_special": "Isherwood Farm Mutable",
+        "reveal_radius": 3,
+        "search_range": 240
+      }
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },

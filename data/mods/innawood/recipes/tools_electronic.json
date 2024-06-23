@@ -93,8 +93,8 @@
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
-        [ "knife_butcher", 2 ],
-        [ "knife_steak", 6 ],
+        [ "knife_huge", 2 ],
+        [ "knife_small", 6 ],
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
@@ -125,8 +125,8 @@
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
-        [ "knife_butcher", 2 ],
-        [ "knife_steak", 6 ],
+        [ "knife_huge", 2 ],
+        [ "knife_small", 6 ],
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],

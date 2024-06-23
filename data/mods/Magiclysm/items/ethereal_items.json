@@ -446,7 +446,7 @@
     "description": "A magically conjured arrow made of twisted wood.",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "count": 1,
-    "effects": [ "RECOVER_8" ]
+    "recovery_chance": 87
   },
   {
     "id": "arrow_druid",
@@ -457,7 +457,8 @@
     "description": "A arrow that looks more like it was grown than carved.  Despite that, it flies straight and true.  It explodes into a mass of entangling vegetation when it hits its target.",
     "damage": { "damage_type": "stab", "armor_penetration": 2 },
     "count": 1,
-    "effects": [ "RECOVER_6", "TANGLE" ]
+    "recovery_chance": 83,
+    "effects": [ "TANGLE" ]
   },
   {
     "type": "TOOL",

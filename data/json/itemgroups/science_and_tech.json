@@ -227,6 +227,7 @@
       { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
       { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
       { "item": "red_phosphorous", "prob": 10, "charges": [ 100, 1200 ] },
+      { "item": "white_phosphorous", "prob": 10, "charges": [ 100, 1200 ] },
       { "item": "acetic_anhydride", "prob": 8 },
       { "item": "iodine_crystal", "prob": 12 }
     ]
@@ -577,7 +578,7 @@
       [ "string_6", 2 ],
       [ "hacksaw", 17 ],
       [ "xacto", 10 ],
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "machete", 5 ],
       [ "gloves_rubber", 20 ],
       [ "apron_plastic", 20 ],

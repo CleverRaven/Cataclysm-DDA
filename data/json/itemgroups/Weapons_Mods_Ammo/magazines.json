@@ -159,7 +159,6 @@
       [ "kpf9mag_8rd", 2 ],
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
-      [ "sw22mag", 10 ],
       [ "p220_10_mag", 1 ],
       [ "p226mag_12rd_357sig", 25 ],
       [ "p320mag_13rd_357sig", 10 ],
@@ -208,7 +207,6 @@
       [ "22_speedloader8", 15 ],
       [ "44_speedloader6", 15 ],
       [ "454_speedloader5", 5 ],
-      [ "454_speedloader6", 5 ],
       [ "500_speedloader5", 5 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
@@ -232,7 +230,6 @@
       [ "m9mag_35rd", 2 ],
       [ "sig40mag", 40 ],
       [ "sigp230mag", 40 ],
-      [ "j22mag", 1 ],
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
       { "item": "fnp90mag", "prob": 2, "charges": [ 0, 50 ] },
@@ -258,8 +255,7 @@
       { "item": "38_speedloader", "prob": 40, "charges": 0 },
       { "item": "40_speedloader6", "prob": 30, "charges": 0 },
       { "item": "44_speedloader6", "prob": 30, "charges": 0 },
-      { "item": "454_speedloader5", "prob": 20, "charges": 0 },
-      { "item": "454_speedloader6", "prob": 20, "charges": 0 }
+      { "item": "454_speedloader5", "prob": 20, "charges": 0 }
     ]
   },
   {
@@ -306,11 +302,6 @@
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
-      [ "a180mag", 1 ],
-      [ "a180mag1", 1 ],
-      [ "a180mag2", 1 ],
-      [ "a180mag3", 1 ],
-      [ "a180mag4", 1 ],
       [ "calicomag", 19 ],
       [ "calicomag_100rd", 15 ],
       [ "fnp90mag", 150 ],
@@ -422,8 +413,6 @@
       [ "akmag20", 40 ],
       [ "akmag40", 40 ],
       [ "akdrum75", 30 ],
-      [ "vz58mag30", 30 ],
-      [ "vz58mag10", 30 ],
       [ "clip303_5rd", 15 ],
       [ "clip_77mm_arisaka", 10 ],
       [ "enfield_303mag", 4 ],
@@ -491,10 +480,15 @@
     "id": "mags_shotgun_rare",
     "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
     "items": [
+      { "item": "srm_1216_mag_16", "prob": 2 },
       { "item": "saiga10mag", "prob": 50 },
       { "item": "saiga30mag", "prob": 10 },
       { "item": "saiga410mag_10rd", "prob": 30 },
-      { "item": "saiga410mag_30rd", "prob": 10 }
+      { "item": "saiga410mag_30rd", "prob": 10 },
+      { "item": "mossberg_590m_mag_5", "prob": 3, "charges": 0 },
+      { "item": "mossberg_590m_mag_10", "prob": 2, "charges": 0 },
+      { "item": "mossberg_590m_mag_15", "prob": 1, "charges": 0 },
+      { "item": "mossberg_590m_mag_20", "prob": 1, "charges": 0 }
     ]
   },
   {
@@ -569,9 +563,6 @@
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
-      [ "af2011a1mag", 1 ],
-      [ "vz58mag30", 8 ],
-      [ "vz58mag10", 8 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],
@@ -579,8 +570,6 @@
       [ "mp40mag_32rd", 5 ],
       [ "p08mag_32rd", 1 ],
       [ "p08mag_8rd", 10 ],
-      [ "ppshmag", 10 ],
-      [ "ppshdrum", 10 ],
       [ "rpk74mag", 10 ],
       [ "tokarevmag", 10 ],
       [ "greasegun30mag", 5 ]

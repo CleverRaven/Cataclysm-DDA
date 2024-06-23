@@ -109,6 +109,12 @@
 #include "sdltiles.h"
 #endif
 
+static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
+static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
+static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
+static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
+static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
+
 static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
@@ -4544,9 +4550,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
 
     const auto &ammo_effects = proj.proj_effects;
-    const bool incendiary = ammo_effects.count( "INCENDIARY" );
-    const bool ignite = ammo_effects.count( "IGNITE" );
-    const bool laser = ammo_effects.count( "LASER" );
+    const bool incendiary = ammo_effects.count( ammo_effect_INCENDIARY );
+    const bool ignite = ammo_effects.count( ammo_effect_IGNITE );
+    const bool laser = ammo_effects.count( ammo_effect_LASER );
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         dam = vp->vehicle().damage( *this, vp->part_index(), dam, main_damage_type, hit_items );
@@ -4616,7 +4622,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     dam = std::max( 0.0f, dam );
 
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( ammo_effects.count( ae.id.str() ) > 0 ) {
+        if( ammo_effects.count( ae.id ) > 0 ) {
             if( x_in_y( ae.trail_chance, 100 ) ) {
                 add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
             }
@@ -4656,11 +4662,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
     std::string damage_message;
-    if( ammo_effects.count( "LASER" ) ) {
+    if( ammo_effects.count( ammo_effect_LASER ) ) {
         damage_message = _( "laser beam" );
-    } else if( ammo_effects.count( "LIGHTNING" ) ) {
+    } else if( ammo_effects.count( ammo_effect_LIGHTNING ) ) {
         damage_message = _( "bolt of electricity" );
-    } else if( ammo_effects.count( "PLASMA" ) ) {
+    } else if( ammo_effects.count( ammo_effect_PLASMA ) ) {
         damage_message = _( "bolt of plasma" );
     } else {
         damage_message = _( "flying projectile" );
@@ -5561,10 +5567,11 @@ void map::update_lum( item_location &loc, bool add )
 }
 
 static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
-                               item *parent, const tripoint &location, const float insulation,
-                               const temperature_flag flag, const float spoil_multiplier )
+                               item *parent, const tripoint &location, float insulation,
+                               temperature_flag flag, float spoil_multiplier, bool watertight_container )
 {
-    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier, false ) ) {
+    if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier,
+                           watertight_container, false ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -5760,7 +5767,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
 
         process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
                            map_location, 1, flag,
-                           spoil_multiplier * active_item_ref.spoil_multiplier() );
+                           spoil_multiplier * active_item_ref.spoil_multiplier(),
+                           active_item_ref.has_watertight_container() );
     }
 }
 
@@ -5841,7 +5849,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         }
         if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
                                 item_loc, it_insulation, flag,
-                                active_item_ref.spoil_multiplier() ) ) {
+                                active_item_ref.spoil_multiplier(), active_item_ref.has_watertight_container() ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -8202,11 +8210,6 @@ void map::saven( const tripoint &grid )
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
-    if( submap_to_save->get_ter( point_zero ) == ter_str_id::NULL_ID() ) {
-        // This is a serious error and should be signaled as soon as possible
-        debugmsg( "map::saven grid %s uninitialized!", grid.to_string() );
-        return;
-    }
 
     const tripoint_abs_sm abs = abs_sub.xy() + grid;
 
@@ -8221,20 +8224,29 @@ void map::saven( const tripoint &grid )
     MAPBUFFER.add_submap( abs, submap_to_save );
 }
 
+ter_str_id uniform_terrain( const oter_id &oter )
+{
+    if( oter == oter_open_air ) {
+        return ter_t_open_air;
+    } else if( oter == oter_empty_rock || oter == oter_deep_rock ) {
+        return ter_t_rock;
+    } else if( oter == oter_solid_earth ) {
+        return ter_t_soil;
+    } else {
+        return t_null.id();
+    }
+}
+
 // Optimized mapgen function that only works properly for very simple overmap types
 // Does not create or require a temporary map and does its own saving
-bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter )
+bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter )
 {
-    std::unique_ptr<submap> sm = std::make_unique<submap>();
-    if( oter == oter_open_air ) {
-        sm->set_all_ter( ter_t_open_air, true );
-    } else if( oter == oter_empty_rock || oter == oter_deep_rock ) {
-        sm->set_all_ter( ter_t_rock, true );
-    } else if( oter == oter_solid_earth ) {
-        sm->set_all_ter( ter_t_soil, true );
-    } else {
+    if( MAPBUFFER.lookup_submap( p ) ) {
         return false;
     }
+
+    std::unique_ptr<submap> sm = std::make_unique<submap>();
+    sm->set_all_ter( ter, true );
     sm->last_touched = calendar::turn;
     return MAPBUFFER.add_submap( p, sm );
 }
@@ -8244,126 +8256,125 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
     dbg( D_INFO ) << "generate_uniform p: " << p
                   << "  terrain_type: " << terrain_type.id().str();
 
+    const ter_str_id ter = uniform_terrain( terrain_type );
+
+    if( ter == t_null.id() ) {
+        return false;
+    }
+
     bool ret = true;
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
-            ret &= generate_uniform( p + point( xd, yd ), terrain_type );
+            ret &= generate_uniform( p + point( xd, yd ), ter );
         }
     }
     return ret;
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles )
+void map::loadn( const point &grid, bool update_vehicles )
 {
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x()
                   << "], worldy[" << abs_sub.y() << "], grid " << grid << ")";
 
-    const tripoint_abs_sm grid_abs_sub = abs_sub.xy() + grid;
-    const size_t gridn = get_nonant( grid );
-
-    dbg( D_INFO ) << "map::loadn grid_abs_sub: " << grid_abs_sub << "  gridn: " << gridn;
-
-    const int old_abs_z = abs_sub.z(); // Ugly, but necessary at the moment
-    abs_sub.z() = grid.z;
+    const tripoint_abs_sm grid_abs_sub = abs_sub + grid;
+    const tripoint_abs_omt grid_abs_omt = project_to<coords::omt>( grid_abs_sub );
+    // Get the base submap "grid" is an offset from.
+    const tripoint_abs_sm grid_sm_base = project_to<coords::sm>( grid_abs_omt );
+    bool map_incomplete = false;
 
     bool const main_inbounds =
         this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
 
-    submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
-    if( tmpsub == nullptr ) {
-        // It doesn't exist; we must generate it!
-        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data.  Regenerating.";
-
-        // Each overmap square is two nonants; to prevent overlap, generate only at
-        //  squares divisible by 2.
-        const tripoint_abs_omt grid_abs_omt = project_to<coords::omt>( grid_abs_sub );
-        const tripoint_abs_sm grid_abs_sub_rounded = project_to<coords::sm>( grid_abs_omt );
-
-        const oter_id terrain_type = overmap_buffer.ter( grid_abs_omt );
-
-        // Short-circuit if the map tile is uniform
-        // TODO: Replace with json mapgen functions.
-        if( !generate_uniform_omt( grid_abs_sub_rounded, terrain_type ) ) {
-            tinymap tmp_map;
-            tmp_map.main_cleanup_override( false );
-            tmp_map.generate( grid_abs_omt, calendar::turn );
-            _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
-        }
-
-        // This is the same call to MAPBUFFER as above!
-        tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
-        if( tmpsub == nullptr ) {
-            dbg( D_ERROR ) << "failed to generate a submap at " << grid_abs_sub;
-            debugmsg( "failed to generate a submap at %s", grid_abs_sub.to_string() );
-            return;
-        }
-    }
-
-    // New submap changes the content of the map and all caches must be recalculated
-    set_transparency_cache_dirty( grid.z );
-    set_seen_cache_dirty( grid.z );
-    set_outside_cache_dirty( grid.z );
-    set_floor_cache_dirty( grid.z );
-    set_pathfinding_cache_dirty( grid.z );
-    setsubmap( gridn, tmpsub );
-    if( !tmpsub->active_items.empty() ) {
-        submaps_with_active_items_dirty.emplace( grid_abs_sub );
-    }
-    if( tmpsub->field_count > 0 ) {
-        get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
-    }
-
-    // Destroy bugged no-part vehicles
-    auto &veh_vec = tmpsub->vehicles;
-    for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
-        vehicle *veh = iter->get();
-        if( veh->part_count() > 0 ) {
-            // Always fix submap coordinates for easier Z-level-related operations
-            veh->sm_pos = grid;
-            iter++;
-            if( main_inbounds ) {
-                _main_requires_cleanup = true;
-            }
-        } else {
-            if( veh->tracking_on ) {
-                overmap_buffer.remove_vehicle( veh );
-            }
-            dirty_vehicle_list.erase( veh );
-            iter = veh_vec.erase( iter );
-        }
-    }
-
-    // Update vehicle data
-    if( update_vehicles ) {
-        level_cache &map_cache = get_cache( grid.z );
-        for( const auto &veh : tmpsub->vehicles ) {
-            // Only add if not tracking already.
-            if( map_cache.vehicle_list.find( veh.get() ) == map_cache.vehicle_list.end() ) {
-                map_cache.vehicle_list.insert( veh.get() );
-                if( !veh->loot_zones.empty() ) {
-                    map_cache.zone_vehicles.insert( veh.get() );
+    // It might be possible to just check the (0, 0) submap as we should never have
+    // a case where only one submap is missing from an OMT level.
+    for( int gridx = 0; gridx <= 1; gridx++ ) {
+        for( int gridy = 0; gridy <= 1; gridy++ ) {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                const tripoint grid_pos( gridx, gridy, gridz );
+                if( MAPBUFFER.lookup_submap( grid_sm_base.xy() + grid_pos ) == nullptr ) {
+                    map_incomplete = true;
+                    break;
                 }
             }
         }
     }
 
-    abs_sub.z() = old_abs_z;
-}
+    if( map_incomplete ) {
+        smallmap tmp_map;
+        tmp_map.main_cleanup_override( false );
+        tmp_map.generate( grid_abs_omt, calendar::turn, true );
+        _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
 
-void map::loadn( const point &grid, bool update_vehicles )
-{
-    if( zlevels ) {
         for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            loadn( tripoint( grid, gridz ), update_vehicles );
+            const tripoint_abs_sm pos = {grid_sm_base.xy(), gridz };
+            submap *tmpsub = MAPBUFFER.lookup_submap( pos );
+            if( tmpsub == nullptr ) {
+                dbg( D_ERROR ) << "failed to generate a submap at " << pos;
+                debugmsg( "failed to generate a submap at %s", pos.to_string() );
+                return;
+            }
+        }
+    }
+
+    const int start_z = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    const int stop_z = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+
+    submap *tmpsub;
+
+    for( int z = start_z; z <= stop_z; z++ ) {
+        const tripoint_abs_sm pos = { grid_abs_sub.xy(), z };
+        // New submap changes the content of the map and all caches must be recalculated
+        set_transparency_cache_dirty( z );
+        set_seen_cache_dirty( z );
+        set_outside_cache_dirty( z );
+        set_floor_cache_dirty( z );
+        set_pathfinding_cache_dirty( z );
+        tmpsub = MAPBUFFER.lookup_submap( pos );
+        setsubmap( get_nonant( { grid, z } ), tmpsub );
+        if( !tmpsub->active_items.empty() ) {
+            submaps_with_active_items_dirty.emplace( pos );
+        }
+        if( tmpsub->field_count > 0 ) {
+            get_cache( z ).field_cache.set( grid.x + grid.y * MAPSIZE );
         }
 
-        // Note: we want it in a separate loop! It is a post-load cleanup
-        // Since we're adding roofs, we want it to go up (from lowest to highest)
-        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-            add_roofs( tripoint( grid, gridz ) );
+        // Destroy bugged no-part vehicles
+        auto &veh_vec = tmpsub->vehicles;
+        for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
+            vehicle *veh = iter->get();
+            if( veh->part_count() > 0 ) {
+                // Always fix submap coordinates for easier Z-level-related operations
+                veh->sm_pos = { grid, z };
+                iter++;
+                if( main_inbounds ) {
+                    _main_requires_cleanup = true;
+                }
+            } else {
+                if( veh->tracking_on ) {
+                    overmap_buffer.remove_vehicle( veh );
+                }
+                dirty_vehicle_list.erase( veh );
+                iter = veh_vec.erase( iter );
+            }
         }
-    } else {
-        loadn( tripoint( grid, abs_sub.z() ), update_vehicles );
+
+        // Update vehicle data
+        if( update_vehicles ) {
+            level_cache &map_cache = get_cache( z );
+            for( const auto &veh : tmpsub->vehicles ) {
+                // Only add if not tracking already.
+                if( map_cache.vehicle_list.find( veh.get() ) == map_cache.vehicle_list.end() ) {
+                    map_cache.vehicle_list.insert( veh.get() );
+                    if( !veh->loot_zones.empty() ) {
+                        map_cache.zone_vehicles.insert( veh.get() );
+                    }
+                }
+            }
+        }
+
+        if( zlevels ) {
+            add_roofs( tripoint( grid, z ) );
+        }
     }
 }
 
@@ -8379,7 +8390,8 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
         return;
     }
 
-    if( dead_monster->decay.is_null() ) {
+    //FIXME: Get this working using is_null(). harvest_list and harvest_id resolving is bizarre
+    if( dead_monster->decay.is_empty() ) {
         return;
     }
     int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
@@ -8391,7 +8403,7 @@ void map::handle_decayed_corpse( const item &it, const tripoint_abs_ms &pnt )
     }
 
     bool anything_left = false;
-    for( const harvest_entry &entry : dead_monster->decay.obj() ) {
+    for( const harvest_entry &entry : *dead_monster->decay ) {
         item harvest = item( entry.drop );
         const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
         const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
@@ -9873,7 +9885,7 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 
     if( zlevels ) {
-        const int indexz = gridp.z + OVERMAP_HEIGHT; // Can't be lower than 0
+        const int indexz = gridp.z + OVERMAP_DEPTH; // Can't be lower than 0
         return indexz + ( gridp.x + gridp.y * my_MAPSIZE ) * OVERMAP_LAYERS;
     } else {
         return gridp.x + gridp.y * my_MAPSIZE;
