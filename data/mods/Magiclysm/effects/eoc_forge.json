@@ -30,8 +30,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FORGE_TELEPORT",
-	"condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
-	"false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
+    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
     "effect": [
       { "run_eocs": "EOC_VALIDATE_FORGE" },
       { "u_consume_item": "forge_warp_scroll" },
