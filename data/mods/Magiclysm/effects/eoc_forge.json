@@ -1,23 +1,5 @@
 [
   {
-    "id": "ACT_magic_forge_warp",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "reciting incantation",
-    "based_on": "time",
-    "can_resume": false,
-    "completion_eoc": "EOC_FORGE_TELEPORT"
-  },
-  {
-    "id": "ACT_magic_forge_return_warp",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "reciting incantation",
-    "based_on": "time",
-    "can_resume": false,
-    "completion_eoc": "EOC_FORGE_RETURN_TELEPORT"
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_FIND_FORGE_GATE",
     "condition": { "math": [ "searched_forge", "!=", "1" ] },
@@ -47,25 +29,13 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_FORGE_TELEPORT_START",
-    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
-    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
-    "effect": [ { "u_assign_activity": "ACT_magic_forge_warp", "duration": 300 } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_FORGE_RETURN_TELEPORT_START",
-    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
-    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
-    "effect": [ { "u_assign_activity": "ACT_magic_forge_return_warp", "duration": 300 } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_FORGE_TELEPORT",
+	"condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+	"false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
     "effect": [
       { "run_eocs": "EOC_VALIDATE_FORGE" },
       { "u_consume_item": "forge_warp_scroll" },
-      { "u_spawn_item": "forge_return_warp_scroll" },
+      { "u_spawn_item": "forge_return_warp_scroll", "suppress_message": true },
       { "u_location_variable": { "u_val": "forge_return_point" }, "min_radius": 0, "max_radius": 0 },
       { "u_teleport": { "global_val": "loc_forge_of_wonders" } },
       {
@@ -77,6 +47,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FORGE_RETURN_TELEPORT",
+	"condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+	"false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
     "effect": [
       { "u_teleport": { "u_val": "forge_return_point" } },
       { "u_consume_item": "forge_return_warp_scroll" },
