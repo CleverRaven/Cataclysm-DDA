@@ -401,12 +401,7 @@
     "description": "This scroll is imbued with a magical spell that,  when activated,  will transport you to the Forge of Wonders.  Good for one round-trip.",
     "use_action": {
       "type": "effect_on_conditions",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_FORGE_WARP_SCROLL_USE",
-          "effect": [ { "u_cast_spell": { "id": "forge_teleport" } }, { "transform_item": "forge_return_warp_scroll" } ]
-        }
-      ]
+      "effect_on_conditions": [ { "id": "EOC_FORGE_WARP_SCROLL_USE", "effect": [ { "run_eocs": "EOC_FORGE_TELEPORT_START" } ] } ]
     },
     "type": "GENERIC",
     "category": "other",
@@ -424,12 +419,7 @@
     "description": "This scroll is imbued with a magical spell that,  when activated,  will return you to where you were before you warped to the Forge.",
     "use_action": {
       "type": "effect_on_conditions",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_FORGE_RETURN_WARP_SCROLL_USE",
-          "effect": [ { "u_cast_spell": { "id": "forge_return_teleport" } }, { "u_remove_item_with": "forge_return_warp_scroll" } ]
-        }
-      ]
+      "effect_on_conditions": [ { "id": "EOC_FORGE_RETURN_WARP_SCROLL_USE", "effect": [ { "run_eocs": "EOC_FORGE_RETURN_TELEPORT_START" } ] } ]
     },
     "type": "GENERIC",
     "category": "other",
