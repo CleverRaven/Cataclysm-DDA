@@ -1529,7 +1529,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
                 add_msg( _( "%1s crafts %2s from memory." ), get_name(), making.result_name() );
             }
         } else {
-            if( is_avatar() ){
+            if( is_avatar() ) {
                 add_msg( _( "You craft %s using a reference." ), making.result_name() );
             } else {
                 add_msg( _( "%1s crafts %2s using a reference." ), get_name(), making.result_name() );
