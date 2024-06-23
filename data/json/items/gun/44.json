@@ -225,7 +225,7 @@
         "allowed_speedloaders": [ "44_speedloader6" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "colt_anaconda_6",
