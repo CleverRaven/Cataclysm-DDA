@@ -82,7 +82,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "recovery_chance": 80,
+    "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
@@ -1748,7 +1748,7 @@
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
-    "rot_spawn_chance": 50
+    "rot_spawn_chance": 98
   },
   {
     "type": "COMESTIBLE",
@@ -2121,7 +2121,7 @@
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "recovery_chance": 25,
+    "recovery_chance": 96,
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {

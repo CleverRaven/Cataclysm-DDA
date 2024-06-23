@@ -92,7 +92,6 @@ static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
-static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
@@ -694,14 +693,6 @@ bool Character::handle_gun_damage( item &it )
     } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
-                               it.tname() );
-        return false;
-        // Here we check for a chance for the weapon to suffer a misfire due to
-        // using player-made 'RECYCLED' bullets. Note that not all forms of
-        // player-made ammunition have this effect.
-    } else if( curammo_effects.count( ammo_effect_RECYCLED ) && one_in( 256 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
         return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
