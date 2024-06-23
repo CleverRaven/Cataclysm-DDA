@@ -2863,24 +2863,31 @@ std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs 
     }
 }
 
-std::string Creature::string_for_ground_contact_bodyparts( bool arms_legs ) const
+
+std::string Creature::string_for_ground_contact_bodyparts( std::vector<bodypart_id> bps) const
 {
-    std::string bodyparts;
-    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
-        if( arms_legs == true ) {
-            bodyparts = "arms and legs";
-        } else {
-            bodyparts = "hands and feet";
+    //Taken of "body_part_names" function in armor_layers.cpp
+    std::vector<std::string> names;
+    names.reserve( bps.size() );
+    for( bodypart_id part : bps ) {
+        bool can_be_consolidated = false;
+        std::string current_part = body_part_name_accusative( part );
+        std::string opposite_part = body_part_name_accusative( part->opposite_part );
+        std::string part_group = body_part_name_accusative( part, 2 );
+        for( const std::string &already_listed : names ) {
+            if( already_listed == opposite_part ) {
+                can_be_consolidated = true;
+                break;
+            }
         }
-        return bodyparts;
-    } else {
-        if( arms_legs == true ) {
-            bodyparts = "legs";
+        if( can_be_consolidated ) {
+            std::replace( names.begin(), names.end(), opposite_part, part_group );
         } else {
-            bodyparts = "feet";
+            names.push_back( current_part );
         }
-        return bodyparts;
     }
+
+    return enumerate_as_string( names );
 }
 
 int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const

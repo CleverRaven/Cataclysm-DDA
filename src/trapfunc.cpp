@@ -755,11 +755,12 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
             for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
                 you->deal_damage( nullptr, bp, damage_instance( damage_cut, 5 ) );
             }
+            std::vector<bodypart_id> bps = you->get_ground_contact_bodyparts();
             you->add_msg_player_or_npc( m_bad,
                                         string_format( _( "The acidic goo eats away at your %s!" ),
-                                                you->string_for_ground_contact_bodyparts() ),
+                                                you->string_for_ground_contact_bodyparts( bps ) ),
                                         string_format( _( "The acidic goo eats away at <npcname>'s %s!" ),
-                                                you->string_for_ground_contact_bodyparts() ) );
+                                                you->string_for_ground_contact_bodyparts( bps ) ) );
             you->check_dead_state();
         }
         return true;
