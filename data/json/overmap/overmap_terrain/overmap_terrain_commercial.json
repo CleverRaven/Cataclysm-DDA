@@ -1515,7 +1515,8 @@
     "name": "small market roof",
     "copy-from": "generic_city_building",
     "sym": "m",
-    "color": "i_light_gray"
+    "color": "i_light_gray",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
