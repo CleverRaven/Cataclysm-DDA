@@ -2075,6 +2075,33 @@
   },
   {
     "type": "effect_type",
+    "id": "bile",
+    "name": [ "Bile Splashed" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST", "IRRITANT_IMMUNE", "TOXICFLESH", "CHITIN" ],
+    "base_mods": {
+      "vomit_chance": [ 500, 2000 ],
+      "health_chance": [ 1 ],
+      "health_min_val": [ -200, -50 ],
+      "health_min": [ -1 ],
+      "health_chance_bot": [ 300, 1200 ]
+    },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": -12 },
+          { "value": "SOCIAL_LIE", "add": -5 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 10 },
+          { "value": "UGLINESS", "add": 8 },
+          { "value": "SCENT_MASK", "add": 500 }
+        ]
+      }
+    ],
+    "max_duration": "30 m"
+  },
+  {
+    "type": "effect_type",
     "id": "skunk_spray",
     "name": [ "Skunk Spray" ],
     "desc": [ "You were sprayed by a skunk!" ],
