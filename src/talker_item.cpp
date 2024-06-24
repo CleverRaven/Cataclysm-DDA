@@ -136,6 +136,12 @@ void talker_item::remove_value( const std::string &var_name )
     me_it->get_item()->erase_var( var_name );
 }
 
+void talker_item::set_power_cur( units::energy value )
+{
+    me_it->get_item()->ammo_set( itype_battery, clamp( ( int )value.value(), 0,
+                                 me_it_const->get_item()->ammo_capacity( ammo_battery ) ) );
+}
+
 void talker_item::set_all_parts_hp_cur( int set ) const
 {
     me_it->get_item()->set_damage( me_it->get_item()->max_damage() - set );
