@@ -726,6 +726,7 @@
       "or": [
         { "u_is_on_terrain_with_flag": "DIGGABLE" },
         { "u_is_on_terrain": "t_soil" },
+        { "u_is_on_terrain": "t_rock" },
         { "u_is_on_terrain": "t_dirt_underground" }
       ]
     },
