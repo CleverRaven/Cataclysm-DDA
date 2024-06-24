@@ -132,7 +132,6 @@ class path_manager_ui : public cataimgui::window
         path_manager_impl *pimpl;
 };
 
-
 void path::record_step( const tripoint_abs_ms &new_pos )
 {
     // early return on a huge step, like an elevator teleport
@@ -147,18 +146,23 @@ void path::record_step( const tripoint_abs_ms &new_pos )
         }
     }
     // if a loop exists find it and remove it
-    for( auto it = recorded_path.begin(); it != recorded_path.end(); ) {
-        if( *it == new_pos ) {
+    // it + 1 so that we don't try to optimize from last tile to last tile (nothing)
+    for( auto it = recorded_path.begin(); it + 1 < recorded_path.end(); ) {
+        tripoint point_diff = ( *it - new_pos ).raw().abs();
+        if( point_diff.z == 0 && ( point_diff.x <= 1 && point_diff.y <= 1 ) ) {
             const size_t old_path_len = recorded_path.size();
             recorded_path.erase( it + 1, recorded_path.end() );
-            add_msg( m_info, _( "Auto path: Made a loop!  Old path len: %s, new path len: %s." ),
+            // special case: character stepped at the first tile so recorded_path = { new_pos }
+            if( recorded_path.back() != new_pos ) {
+                recorded_path.emplace_back( new_pos );
+            }
+            add_msg( m_info, _( "Auto path: Cut a corner!  Old path length: %s, new path length: %s." ),
                      old_path_len,
                      recorded_path.size() );
             return;
         }
         // Asuming the path tiles are at most (1, 1, 1) apart,
         // we can skip as many tiles, as the curent tile is far from the `new_pos`.
-        tripoint point_diff = ( *it - new_pos ).raw().abs();
         int diff = std::max( { point_diff.x, point_diff.y, point_diff.z } );
         // Move 1 less than that for the corner optimization. Move at least 1.
         it += std::max( 1, diff - 1 );
