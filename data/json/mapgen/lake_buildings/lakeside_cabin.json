@@ -471,7 +471,7 @@
         { "chance": 5, "item": "clutter_bedroom", "x": 12, "y": 9 }
       ],
       "place_vehicles": [ { "chance": 75, "rotation": 90, "vehicle": "raft", "x": [ 1, 4 ], "y": [ 12, 16 ] } ],
-      "place_nested": [ { "chunks": [ [ "null", 1 ], [ "zombie_cages", 50 ] ], "x": 2, "y": 3 } ]
+      "place_nested": [ { "chunks": [ [ "null", 1000 ], [ "zombie_cages", 50 ] ], "x": 2, "y": 3 } ]
     }
   },
   {
