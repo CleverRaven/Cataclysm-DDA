@@ -142,7 +142,7 @@ void talker_item::remove_value( const std::string &var_name )
 
 void talker_item::set_power_cur( units::energy value )
 {
-    me_it->get_item()->ammo_set( itype_battery, clamp( ( int )value.value(), 0,
+    me_it->get_item()->ammo_set( itype_battery, clamp( static_cast<int>( value.value() ), 0,
                                  me_it_const->get_item()->ammo_capacity( ammo_battery ) ) );
 }
 
