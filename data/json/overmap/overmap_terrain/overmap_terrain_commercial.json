@@ -1510,6 +1510,7 @@
   },
   {
     "type": "overmap_terrain",
+    "//": "Obsolete 2024-06-24. Remains to work in existing saves",
     "id": "cs_market_small_roof",
     "name": "small market roof",
     "copy-from": "generic_city_building",
