@@ -153,7 +153,6 @@
     "//": "This EOC controls the speed at which vampires mutate and evolve.",
     "recurrence": [ "48 hours", "72 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
-    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
     "effect": {
       "run_eocs": [
         {
@@ -169,29 +168,33 @@
               "id": "eoc_vampvirus_1_math_checker",
               "condition": { "math": [ "vampire_total_tier_one_traits()", "<", "4" ] },
               "effect": {
-                "id": "eoc_vampvirus_1_trait",
-                "condition": { "u_has_trait": "VAMPIRE" },
-                "effect": [
+                "run_eocs": [
                   {
-                    "u_roll_remainder": [
-                      "EYEGLEAM",
-                      "STAMINAFORBLOOD",
-                      "COMMUNE_NIGHT",
-                      "VAMPIRIC_STRENGTH",
-                      "VAMPIRIC_RESILIENCE",
-                      "VAMPIRE_HEIGHTENED_SENSES",
-                      "VAMPIRE_SILENT_MOVE"
+                    "id": "eoc_vampvirus_1_trait",
+                    "condition": { "u_has_trait": "VAMPIRE" },
+                    "effect": [
+                      {
+                        "u_roll_remainder": [
+                          "EYEGLEAM",
+                          "STAMINAFORBLOOD",
+                          "COMMUNE_NIGHT",
+                          "VAMPIRIC_STRENGTH",
+                          "VAMPIRIC_RESILIENCE",
+                          "VAMPIRE_HEIGHTENED_SENSES",
+                          "VAMPIRE_SILENT_MOVE"
+                        ],
+                        "type": "mutation",
+                        "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                        "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]
+                      },
+                      { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
                     ],
-                    "type": "mutation",
-                    "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
-                    "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS", "EOC_VAMPVIRUS1" ]
-                  },
-                  { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
-                ],
-                "false_effect": [
-                  { "u_add_trait": "VAMPIRE" },
-                  {
-                    "u_message": "You suddenly understand that drinking someones blood will make you feel better than you've ever felt before in your life."
+                    "false_effect": [
+                      { "u_add_trait": "VAMPIRE" },
+                      {
+                        "u_message": "You suddenly understand that drinking someones blood will make you feel better than you've ever felt before in your life."
+                      }
+                    ]
                   }
                 ]
               }
@@ -287,7 +290,6 @@
     "//": "This EOC works on telling the vampire whether they need to consume blood or not.",
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
     "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-450" ] }, { "u_has_effect": "vampire_virus" } ] },
-    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
     "effect": {
       "run_eocs": [
         {

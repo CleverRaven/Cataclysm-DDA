@@ -56,7 +56,10 @@
                 }
               }
             ],
-            "false_effect": [ { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" } ]
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" },
+              { "u_deactivate_trait": "EYEGLEAM" }
+            ]
           }
         ]
       }
@@ -93,7 +96,8 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your gleaming eyes.", "type": "bad" },
-              { "u_lose_effect": "eyegleam" }
+              { "u_lose_effect": "eyegleam" },
+              { "u_deactivate_trait": "EYEGLEAM" }
             ]
           }
         ]

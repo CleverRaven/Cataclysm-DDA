@@ -112,7 +112,7 @@
   },
   {
     "type": "jmath_function",
-    "id": "vampire_total_tier_three_traits",
+    "id": "vampire_total_tier_four_traits",
     "num_args": 0,
     "//": "Tier four is currently impossible to get and has no traits. Jmath is included so that durations don't all have to be scaled when it is implemented",
     "return": "0"
