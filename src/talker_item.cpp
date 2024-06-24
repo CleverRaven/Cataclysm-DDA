@@ -10,6 +10,10 @@
 #include "talker_item.h"
 #include "vehicle.h"
 
+static const ammotype ammo_battery( "battery" );
+
+static const itype_id itype_battery( "battery" );
+
 talker_item::talker_item( item_location *new_me )
 {
     me_it = new_me;
