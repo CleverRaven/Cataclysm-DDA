@@ -54,7 +54,7 @@
     "dissect": "dissect_feline_sample_small",
     "special_attacks": [ [ "EAT_FOOD", 71 ] ],
     "extend": { "flags": [ "NO_BREED" ], "fear_triggers": [ "PLAYER_CLOSE", "HURT" ] },
-    "delete": { "anger_triggers": "PLAYER_NEAR_BABY" },
+    "delete": { "anger_triggers": [ "PLAYER_NEAR_BABY" ] },
     "upgrades": { "age_grow": 234, "into": "mon_yulecat" }
   },
   {
