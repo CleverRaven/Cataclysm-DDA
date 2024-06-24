@@ -203,7 +203,7 @@
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": { "str_sp": "S&W 686 Plus" },
-    "description": "Introduced in the 90's, the Smith & Wessons's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life.",
+    "description": "Introduced in the 90's, the Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life.",
     "ascii_picture": "sw_610",
     "weight": "1280 g",
     "volume": "760 ml",
