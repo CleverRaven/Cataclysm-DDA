@@ -124,6 +124,31 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
   {
+    "id": "srm_1216_mag_16",
+    "type": "MAGAZINE",
+    "name": { "str": "16-round rotary shotgun magazine" },
+    "description": "A 16-round magazine for a rotary magazine-fed shotgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "srm_1216_mag_16",
+        "name": { "str": "SRM Arms Model 1216 16-round magazine" },
+        "description": "A 16-round rotary magazine for that strangest of beasts, the SRM Arms Model 1216 shotgun."
+      }
+    ],
+    "weight": "453 g",
+    "volume": "3670 ml",
+    "longest_side": "355 mm",
+    "price": "200 USD",
+    "price_postapoc": "6 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 16 } } ]
+  },
+  {
     "id": "m26_mass_mag_3",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "type": "MAGAZINE",

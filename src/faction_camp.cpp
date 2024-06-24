@@ -751,6 +751,10 @@ void talk_function::basecamp_mission( npc &p )
         return;
     }
     basecamp *bcp = *temp_camp;
+    if( !bcp->allowed_access_by( p ) ) {
+        popup( _( "%s isn't under your control!" ), bcp->name );
+        return;
+    }
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
     map &here = bcp->get_camp_map();
     bcp->form_storage_zones( here, p.get_location() );

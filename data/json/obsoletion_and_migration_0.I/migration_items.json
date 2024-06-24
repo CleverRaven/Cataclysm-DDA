@@ -106,6 +106,21 @@
     "replace": "gambeson"
   },
   {
+    "id": "ksg_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
     "id": "gambeson_loose_vest",
     "type": "MIGRATION",
     "replace": "gambeson_nylon_vest"

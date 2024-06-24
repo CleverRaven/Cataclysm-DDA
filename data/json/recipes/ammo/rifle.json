@@ -1534,7 +1534,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 1 ], [ "ammo_30carbine", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorous", 10 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous_small", 10 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_30carbine_jsp",
@@ -1589,7 +1589,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 1 ], [ "ammo_30carbine", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "red_phosphorous", 10 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "red_phosphorous_small", 10 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_123ln",
@@ -1987,7 +1987,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "red_phosphorous", 1 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "red_phosphorous_small", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "matchhead_22_lr",
@@ -2005,6 +2005,6 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "red_phosphorous", 1 ] ] ]
+    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "red_phosphorous_small", 1 ] ] ]
   }
 ]
