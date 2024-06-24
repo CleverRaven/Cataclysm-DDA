@@ -10,7 +10,7 @@
     "components": [
       [ [ "zipper_short_plastic", 3 ] ],
       [ [ "zipper_long_plastic", 1 ] ],
-      [ [ "snapfastener", 5 ] ],
+      [ [ "snapfastener_steel", 5 ] ],
       [ [ "sheet_nylon", 16 ] ],
       [ [ "nylon", 18 ] ],
       [ [ "cotton_patchwork", 4 ] ]
