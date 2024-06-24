@@ -17,7 +17,7 @@
     "material": [ "nut" ],
     "volume": "31 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 5 ] ],
+    "vitamins": [ [ "iron", 5 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ], [ "nut_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
