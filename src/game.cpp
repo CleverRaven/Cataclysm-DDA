@@ -11584,12 +11584,12 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return false;
     }
 
-    int ramp_offset = 0;
+    int ramp_z_offset = 0;
     // Furniture could be on a ramp at different time than player so adjust for that.
     if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + tripoint( dp.xy(), 0 ) ) ) {
-        ramp_offset = 1;
+        ramp_z_offset = 1;
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + tripoint( dp.xy(), 0 ) ) ) {
-        ramp_offset = -1;
+        ramp_z_offset = -1;
     }
 
     const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
@@ -11597,7 +11597,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_offset );
+    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -11737,7 +11737,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
-    u.grab_point.z += ramp_offset;
+    u.grab_point.z += ramp_z_offset;
 
     if( shifting_furniture ) {
         // We didn't move
