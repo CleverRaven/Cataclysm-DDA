@@ -60,6 +60,10 @@ class path
         void set_avatar_path();
         void set_name_start();
         void set_name_end();
+        /**
+         * Reverse path and swap start, end names.
+         */
+        void swap_start_end();
 
         void serialize( JsonOut &jsout );
         void deserialize( const JsonObject &jsin );
@@ -215,6 +219,12 @@ std::string path::set_name_popup( std::string old_name, const std::string &label
     return old_name;
 }
 
+void path::swap_start_end()
+{
+    std::reverse( recorded_path.begin(), recorded_path.end() );
+    std::swap( name_start, name_end );
+}
+
 void path::serialize( JsonOut &jsout )
 {
     jsout.start_object();
@@ -355,6 +365,8 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "RENAME_START", pimpl->selected_id != -1 );
     ImGui::SameLine();
     enabled_active_button( "RENAME_END", pimpl->selected_id != -1 );
+    ImGui::SameLine();
+    enabled_active_button( "SWAP_START_END", pimpl->selected_id != -1 );
 
     ImGui::BeginChild( "table" );
     if( ! ImGui::BeginTable( "PATH_MANAGER", 5, ImGuiTableFlags_Resizable ) ) {
@@ -419,6 +431,7 @@ void path_manager_ui::run()
     ctxt.register_action( "MOVE_PATH_DOWN" );
     ctxt.register_action( "RENAME_START" );
     ctxt.register_action( "RENAME_END" );
+    ctxt.register_action( "SWAP_START_END" );
     std::string action;
 
     ui_manager::redraw();
@@ -452,6 +465,8 @@ void path_manager_ui::run()
             pimpl->paths[pimpl->selected_id].set_name_start();
         } else if( action == "RENAME_END" && pimpl->selected_id != -1 ) {
             pimpl->paths[pimpl->selected_id].set_name_end();
+        } else if( action == "SWAP_START_END" && pimpl->selected_id != -1 ) {
+            pimpl->paths[pimpl->selected_id].swap_start_end();
         } else if( action == "QUIT" ) {
             break;
         }
