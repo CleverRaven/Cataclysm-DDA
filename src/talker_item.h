@@ -75,6 +75,7 @@ class talker_item: public talker_cloner<talker_item, talker_item_const>
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string & ) override;
 
+        void set_power_cur( units::energy value ) override;
         void set_all_parts_hp_cur( int ) const override;
         void die() override;
 
