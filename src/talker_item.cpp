@@ -89,6 +89,16 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
     return me_it_const->get_item()->max_damage();
 }
 
+units::energy talker_item_const::power_cur() const
+{
+    return 1_mJ * me_it_const->get_item()->ammo_remaining();
+}
+
+units::energy talker_item_const::power_max() const
+{
+    return 1_mJ * me_it_const->get_item()->ammo_capacity( ammo_battery );
+}
+
 int talker_item_const::get_count() const
 {
     return me_it_const->get_item()->count();
