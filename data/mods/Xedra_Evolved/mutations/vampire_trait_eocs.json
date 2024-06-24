@@ -58,16 +58,32 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" },
-              { "u_deactivate_trait": "EYEGLEAM" }
+              { "queue_eocs": "EOC_EYEGLEAM_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
     "false_effect": [
-      { "u_message": "Your eyes lose their reddish glint as the darkness rolls back in.", "type": "neutral" },
-      { "u_lose_effect": "eyegleam" }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_EYEGLEAM_deactivated",
+            "condition": { "u_has_effect": "eyegleam" },
+            "effect": [
+              { "u_message": "Your eyes lose their reddish glint as the darkness rolls back in.", "type": "neutral" },
+              { "u_lose_effect": "eyegleam" }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYEGLEAM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "EYEGLEAM" }
   },
   {
     "type": "effect_on_condition",
@@ -130,16 +146,32 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate vigor mortis.", "type": "bad" },
-              { "u_deactivate_trait": "VAMPIRIC_STRENGTH" }
+              { "queue_eocs": "EOC_VAMPIRIC_STRENGTH_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
     "false_effect": [
-      { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
-      { "u_lose_effect": "effect_vampiric_strength" }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STRENGTH_deactivated",
+            "condition": { "u_has_effect": "effect_vampiric_strength" },
+            "effect": [
+              { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_strength" }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STRENGTH_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_STRENGTH" }
   },
   {
     "type": "effect_on_condition",
@@ -202,16 +234,32 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate sanguine resilience.", "type": "bad" },
-              { "u_deactivate_trait": "VAMPIRIC_RESILIENCE" }
+              { "queue_eocs": "EOC_VAMPIRIC_RESILIENCE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
     "false_effect": [
-      { "u_message": "Your flesh loses its resilience as the stolen blood leaves it.", "type": "neutral" },
-      { "u_lose_effect": "effect_vampiric_resilience" }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_RESILIENCE_deactivated",
+            "condition": { "u_has_effect": "effect_vampiric_resilience" },
+            "effect": [
+              { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_resilience" }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_RESILIENCE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_RESILIENCE" }
   },
   {
     "type": "effect_on_condition",
@@ -308,7 +356,7 @@
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
               { "u_add_effect": "blood_weave", "duration": "PERMANENT" },
               { "u_message": "You hold tightly to your blood, preventing it from leaving your body.", "type": "good" },
-              { "u_lose_effect": "bleed", "target_part": "torse" },
+              { "u_lose_effect": "bleed", "target_part": "torso" },
               { "u_lose_effect": "bleed", "target_part": "leg_l" },
               { "u_lose_effect": "bleed", "target_part": "leg_r" },
               { "u_lose_effect": "bleed", "target_part": "head" },
@@ -325,16 +373,32 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate coagulant weave.", "type": "bad" },
-              { "u_deactivate_trait": "COAGULANTWEAVE" }
+              { "queue_eocs": "EOC_COAGULANTWEAVE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
     "false_effect": [
-      { "u_message": "Your blood flows more freely as your grip on it relaxes.", "type": "neutral" },
-      { "u_lose_effect": "blood_weave" }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_COAGULANTWEAVE_deactivated",
+            "condition": { "u_has_effect": "blood_weave" },
+            "effect": [
+              { "u_message": "Your blood flows more freely as your grip on it relaxes.", "type": "neutral" },
+              { "u_lose_effect": "blood_weave" }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COAGULANTWEAVE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "COAGULANTWEAVE" }
   },
   {
     "type": "effect_on_condition",
@@ -448,17 +512,33 @@
               }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to activate flood like blood.", "type": "bad" },
-              { "u_deactivate_trait": "VAMPIRIC_DODGE" }
+              { "u_message": "You don't have enough blood to activate flow like blood.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRIC_DODGE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
     "false_effect": [
-      { "u_message": "Your movements slow as your lose your preternatural avoidance.", "type": "neutral" },
-      { "u_lose_effect": "effect_vampiric_dodge" }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_DODGE_deactivate",
+            "condition": { "u_has_effect": "effect_vampiric_dodge" },
+            "effect": [
+              { "u_message": "Your movements slow as your lose your preternatural avoidance.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_dodge" }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_DODGE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_DODGE" }
   },
   {
     "type": "effect_on_condition",
@@ -565,16 +645,32 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate your claws of the beast.", "type": "bad" },
-              { "u_deactivate_trait": "VAMPIRE_BEAST_CLAWS" }
+              { "queue_eocs": "EOC_VAMPIRE_BEAST_CLAWS_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
     "false_effect": [
-      { "u_message": "Your fingers warp and twist as your claws vanish.", "type": "neutral" },
-      { "u_lose_trait": "VAMPIRE_BEAST_CLAWS_active" }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BEAST_CLAWS_deactivate",
+            "condition": { "u_has_trait": "VAMPIRE_BEAST_CLAWS_active" },
+            "effect": [
+              { "u_message": "Your fingers warp and twist as your claws vanish.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_BEAST_CLAWS_active" }
+            ]
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BEAST_CLAWS_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_BEAST_CLAWS" }
   },
   {
     "type": "effect_on_condition",
@@ -658,13 +754,29 @@
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate blood-driven speed.", "type": "bad" },
-              { "u_deactivate_trait": "BLOODHASTE" }
+              { "queue_eocs": "EOC_BLOODHASTE_deactivate_future", "time_in_future": 0 }
             ]
           }
         ]
       }
     ],
-    "false_effect": [ { "u_message": "Your speed returns to normal.", "type": "neutral" }, { "u_lose_effect": "haste" } ]
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLOODHASTE_deactivated",
+            "condition": { "u_has_effect": "haste" },
+            "effect": [ { "u_message": "Your speed returns to normal.", "type": "neutral" }, { "u_lose_effect": "haste" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODHASTE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "BLOODHASTE" }
   },
   {
     "type": "effect_on_condition",

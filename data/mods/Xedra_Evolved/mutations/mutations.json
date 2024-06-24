@@ -148,7 +148,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_EYEGLEAM_activated" ],
-    "deactivated_eocs": [ "EOC_EYEGLEAM_activated" ]
+    "deactivated_eocs": [ "EOC_EYEGLEAM_deactivated" ]
   },
   {
     "type": "mutation",
@@ -162,7 +162,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
-    "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
@@ -177,7 +177,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_activated" ],
-    "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
         "values": [
@@ -281,7 +281,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ],
-    "deactivated_eocs": [ "EOC_COAGULANTWEAVE_activated" ]
+    "deactivated_eocs": [ "EOC_COAGULANTWEAVE_deactivated" ]
   },
   {
     "type": "mutation",
@@ -306,7 +306,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRIC_DODGE_activated" ],
-    "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_deactivate" ],
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
@@ -343,7 +343,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ],
-    "deactivated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ]
+    "deactivated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_deactivate" ]
   },
   {
     "type": "mutation",
@@ -408,7 +408,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BLOODHASTE_activated" ],
-    "deactivated_eocs": [ "EOC_BLOODHASTE_activated" ]
+    "deactivated_eocs": [ "EOC_BLOODHASTE_deactivated" ]
   },
   {
     "type": "mutation",
