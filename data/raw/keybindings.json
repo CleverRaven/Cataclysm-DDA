@@ -3586,6 +3586,12 @@
   },
   {
     "type": "keybinding",
+    "id": "SWAP_START_END",
+    "category": "PATH_MANAGER",
+    "name": "Swap start with end"
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add zone",
