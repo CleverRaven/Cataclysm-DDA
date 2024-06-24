@@ -147,8 +147,7 @@ void path::record_step( const tripoint_abs_ms &new_pos )
         }
     }
     // if a loop exists find it and remove it
-    // todo optimize, probably with unordered set
-    for( auto it = recorded_path.begin(); it != recorded_path.end(); ++it ) {
+    for( auto it = recorded_path.begin(); it != recorded_path.end(); ) {
         if( *it == new_pos ) {
             const size_t old_path_len = recorded_path.size();
             recorded_path.erase( it + 1, recorded_path.end() );
@@ -157,6 +156,12 @@ void path::record_step( const tripoint_abs_ms &new_pos )
                      recorded_path.size() );
             return;
         }
+        // Asuming the path tiles are at most (1, 1, 1) apart,
+        // we can skip as many tiles, as the curent tile is far from the `new_pos`.
+        tripoint point_diff = ( *it - new_pos ).raw().abs();
+        int diff = std::max( { point_diff.x, point_diff.y, point_diff.z } );
+        // Move 1 less than that for the corner optimization. Move at least 1.
+        it += std::max( 1, diff - 1 );
     }
     recorded_path.emplace_back( new_pos );
 }
