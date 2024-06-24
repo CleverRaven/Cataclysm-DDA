@@ -1167,7 +1167,7 @@
     "primary_material": "bread",
     "volume": "649 ml",
     "fun": 10,
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
