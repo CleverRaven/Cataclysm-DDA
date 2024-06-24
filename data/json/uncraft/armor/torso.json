@@ -31,7 +31,7 @@
       [ [ "button_plastic", 12 ] ],
       [ [ "zipper_short_plastic", 1 ] ],
       [ [ "zipper_long_plastic", 1 ] ],
-      [ [ "snapfastener", 5 ] ],
+      [ [ "snapfastener_steel", 5 ] ],
       [ [ "sheet_nylon", 20 ] ],
       [ [ "sheet_cotton", 4 ] ],
       [ [ "nylon", 10 ] ],
