@@ -135,6 +135,17 @@ class path_manager_ui : public cataimgui::window
 
 void path::record_step( const tripoint_abs_ms &new_pos )
 {
+    // early return on a huge step, like an elevator teleport
+    if( recorded_path.size() >= 1 ) {
+        tripoint diff = ( recorded_path.back() - new_pos ).raw().abs();
+        if( std::max( { diff.x, diff.y, diff.z } ) > 1 ) {
+            popup( _( string_format(
+                          "Character moved by %s, expected 1 in each at most.  Recording stopped.",
+                          diff.to_string_writable() ) ) );
+            get_avatar().get_path_manager()->pimpl->stop_recording();
+            return;
+        }
+    }
     // if a loop exists find it and remove it
     // todo optimize, probably with unordered set
     for( auto it = recorded_path.begin(); it != recorded_path.end(); ++it ) {
