@@ -339,7 +339,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Claws of the Beast" },
-    "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed comabt.",
+    "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed combat.",
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ],
