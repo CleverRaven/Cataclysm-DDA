@@ -378,12 +378,8 @@
     "copy-from": "mre_side",
     "name": { "str": "fried rice (small portion)", "str_pl": "fried rice (small portions)" },
     "description": "Fried rice, a simple dish made by stir-frying rice with other ingredients.",
-<<<<<<< allergens
-    "material": [ "wheat" ],
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
-=======
-    "material": [ "veggy" ]
->>>>>>> master
+    "material": [ "veggy" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
