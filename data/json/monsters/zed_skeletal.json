@@ -71,8 +71,7 @@
       { "id": "grab", "cooldown": 21 },
       { "id": "scratch_humanoid" },
       { "id": "bite_humanoid", "cooldown": 5 },
-      [ "PARROT", 8 ],
-      [ "SHOCKSTORM", 25 ]
+      [ "PARROT", 8 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "fungalize_into": "mon_skeleton_fungus",

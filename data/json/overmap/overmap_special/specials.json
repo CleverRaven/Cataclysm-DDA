@@ -923,6 +923,9 @@
       { "point": [ 0, 2, 0 ], "overmap": "fema_3_1_north" },
       { "point": [ 1, 2, 0 ], "overmap": "fema_3_2_north" },
       { "point": [ 2, 2, 0 ], "overmap": "fema_3_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fema_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "fema_entrance_roof_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "fema_1_3_roof_north" },
       { "point": [ 1, -1, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],

@@ -20,11 +20,6 @@
     "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
   },
   {
-    "id": "spell_components_human_blood",
-    "type": "requirement",
-    "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
-  },
-  {
     "id": "spell_components_dreamer_coin",
     "type": "requirement",
     "components": [

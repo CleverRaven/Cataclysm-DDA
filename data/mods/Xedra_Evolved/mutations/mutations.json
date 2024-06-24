@@ -134,8 +134,7 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "spells_learned": [ [ "consume_human_blood", 1 ] ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "CANNIBAL", "HEMOVORE" ]
   },
   {
     "type": "mutation",

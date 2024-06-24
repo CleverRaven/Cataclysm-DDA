@@ -122,7 +122,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -3,
-    "recovery_chance": 60,
+    "recovery_chance": 98,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "melee_damage": { "bash": 8 }
   },
@@ -164,7 +164,7 @@
     "dispersion": 12,
     "loudness": 0,
     "to_hit": 3,
-    "recovery_chance": 80,
+    "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "melee_damage": { "bash": 6 }
   },
