@@ -192,5 +192,18 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_boomer_bile_affliction",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "and": [ { "compare_string": [ "boomered", { "context_val": "effect" } ] } ] },
+    "effect": [
+      {
+        "u_add_effect": "bile",
+        "duration": { "math": [ "u_effect_duration('bile') > 0 ? u_effect_duration('bile') + 300 : 600" ] }
+      }
+    ]
   }
 ]
