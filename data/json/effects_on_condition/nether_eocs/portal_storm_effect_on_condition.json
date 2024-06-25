@@ -1120,7 +1120,7 @@
           "case": 7,
           "effect": {
             "run_eocs": [
-              { "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM" },
+              "EOC_PORTAL_DUNGEON_REWARD_ITEM",
               {
                 "id": "EOC_PORTAL_DEPENDENT_DUNGEON_FINAL",
                 "condition": { "u_has_trait": "PORTAL_DEPENDENT" },
