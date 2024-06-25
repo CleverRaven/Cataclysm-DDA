@@ -17,7 +17,7 @@
     "price_postapoc": "1 USD",
     "material": [ "veggy", "milk" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -37,7 +37,7 @@
     "price_postapoc": "1 USD",
     "material": [ "veggy", "milk", "egg" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -77,7 +77,7 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh", "wheat", "milk" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -99,7 +99,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 8
   }
 ]

@@ -681,7 +681,8 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1729,7 +1730,7 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ], [ "egg_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "freezing_point": -11
   },
   {

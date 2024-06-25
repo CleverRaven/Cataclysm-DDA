@@ -169,7 +169,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -213,7 +214,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ], [ "junk_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -273,7 +274,8 @@
     "spoils_in": "14 hours",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "Imitation coffee brewed from Kentucky coffeetree, this drink has no caffeine, no sweetener, and is still unpleasantly bitter even with the added milk.",
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -524,7 +526,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 15
   },
   {
@@ -618,7 +620,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -645,7 +647,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -1003,7 +1005,7 @@
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ], [ "junk_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -1033,7 +1035,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -1059,7 +1061,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10,
     "flags": [ "EATEN_HOT" ]
   },

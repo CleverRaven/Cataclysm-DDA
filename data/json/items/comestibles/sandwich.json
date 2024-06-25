@@ -19,7 +19,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -100,7 +100,8 @@
       [ "iron", 49 ],
       [ "meat_allergen", 1 ],
       [ "veggy_allergen", 1 ],
-      [ "wheat_allergen", 1 ]
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
     ]
   },
   {
@@ -135,7 +136,8 @@
       [ "iron", 49 ],
       [ "meat_allergen", 1 ],
       [ "veggy_allergen", 1 ],
-      [ "wheat_allergen", 1 ]
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
     ]
   },
   {
@@ -176,7 +178,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -218,7 +220,14 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 7 ],
+      [ "iron", 12 ],
+      [ "wheat_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -239,7 +248,14 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 7 ],
+      [ "iron", 12 ],
+      [ "wheat_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -286,7 +302,7 @@
     "id": "sandwich_sauce",
     "name": { "str": "boring sandwich", "str_pl": "boring sandwiches" },
     "copy-from": "bread",
-    "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
+    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",
@@ -336,7 +352,14 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 36 ],
+      [ "calcium", 34 ],
+      [ "iron", 28 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -357,7 +380,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 34 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -570,7 +593,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -603,7 +626,14 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 12,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 26 ],
+      [ "calcium", 8 ],
+      [ "iron", 49 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -631,7 +661,14 @@
     "primary_material": "processed_food",
     "volume": "125 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 26 ],
+      [ "calcium", 8 ],
+      [ "iron", 49 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -671,7 +708,7 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 50 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -713,7 +750,14 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 7 ],
+      [ "iron", 12 ],
+      [ "veggy_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -734,7 +778,14 @@
     "primary_material": "veggy",
     "volume": "250 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 7 ],
+      [ "iron", 12 ],
+      [ "veggy_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -781,7 +832,7 @@
     "id": "sandwich_sauce_wheat_free",
     "name": { "str": "boring wheat-free sandwich", "str_pl": "boring wheat-free sandwiches" },
     "copy-from": "cornbread",
-    "proportional": { "weight": 2.0, "calories": 2.0, "volume": 2.0 },
+    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",

@@ -623,7 +623,8 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] }
+    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] },
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -801,7 +802,8 @@
       "type": "delayed_transform",
       "transform_age": 28800,
       "not_ready_msg": "The yogurt is still fermenting."
-    }
+    },
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

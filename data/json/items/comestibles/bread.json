@@ -263,7 +263,7 @@
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
     "relative": { "calories": 101, "fun": 4 },
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -274,7 +274,7 @@
     "material": [ "milk", "veggy" ],
     "primary_material": "veggy",
     "relative": { "calories": 101, "fun": 4 },
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -347,7 +347,7 @@
     "material": [ "fruit", "milk", "wheat" ],
     "primary_material": "wheat",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] },
-    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -358,7 +358,7 @@
     "material": [ "fruit", "milk", "veggy" ],
     "primary_material": "veggy",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] },
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

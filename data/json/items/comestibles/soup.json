@@ -445,7 +445,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -469,7 +469,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {

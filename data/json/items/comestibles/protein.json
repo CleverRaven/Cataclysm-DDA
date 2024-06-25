@@ -141,7 +141,7 @@
     "calories": 232,
     "quench": 22,
     "fun": 1,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -162,6 +162,6 @@
     "charges": 2,
     "quench": 18,
     "relative": { "vitamins": [ [ "vitC", 20 ] ] },
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   }
 ]

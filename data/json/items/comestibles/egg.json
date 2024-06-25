@@ -1119,7 +1119,7 @@
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1134,7 +1134,7 @@
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk", "veggy" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1149,7 +1149,7 @@
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk", "veggy", "flesh" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

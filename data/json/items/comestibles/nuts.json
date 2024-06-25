@@ -446,7 +446,7 @@
     "price": "1 USD",
     "price_postapoc": "4 USD",
     "material": [ "nut", "milk" ],
-    "vitamins": [ [ "nut_allergen", 1 ] ],
+    "vitamins": [ [ "nut_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,

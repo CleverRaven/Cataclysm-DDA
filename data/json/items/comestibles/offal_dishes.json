@@ -57,7 +57,14 @@
     "fun": 6,
     "quench": -4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 9 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 0 ],
+      [ "calcium", 2 ],
+      [ "iron", 9 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "id": "humble_pie",
@@ -144,7 +151,8 @@
       [ "iron", 5 ],
       [ "meat_allergen", 1 ],
       [ "veggy_allergen", 1 ],
-      [ "wheat_allergen", 1 ]
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
     ]
   },
   {

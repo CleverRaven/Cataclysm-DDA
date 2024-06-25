@@ -157,7 +157,7 @@
     "description": "The creamy spinach fettuccine entree from an MRE.",
     "material": [ "veggy", "milk" ],
     "fun": -2,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -178,7 +178,7 @@
     "calories": 251,
     "description": "The cheese tortellini entree from an MRE.",
     "material": [ "tomato", "veggy", "milk" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -242,7 +242,7 @@
     "calories": 148,
     "description": "The pepper jack beef entree from an MRE.",
     "material": [ "flesh", "milk" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -332,7 +332,7 @@
     "price": "8 USD 50 cent",
     "material": [ "wheat", "milk" ],
     "fun": 1,
-    "vitamins": [ [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -343,7 +343,7 @@
     "description": "The pizza entree from an MRE, featuring pepperoni slices and cheese.",
     "material": [ "flesh", "wheat", "milk" ],
     "fun": 3,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "abstract": "mre_side",
