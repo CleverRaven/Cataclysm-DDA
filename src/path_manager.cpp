@@ -143,7 +143,7 @@ void path::record_step( const tripoint_abs_ms &new_pos )
         tripoint diff = ( recorded_path.back() - new_pos ).raw().abs();
         if( std::max( { diff.x, diff.y, diff.z } ) > 1 ) {
             popup( _( string_format(
-                          "Character moved by %s, expected 1 in each at most.  Recording stopped.",
+                          "Character moved by %s, expected 1 in each direction at most.  Recording stopped.",
                           diff.to_string_writable() ) ) );
             get_avatar().get_path_manager()->pimpl->stop_recording();
             return;
@@ -254,7 +254,7 @@ void path_manager_impl::stop_recording()
     path &current_path = paths[recording_path_index];
     if( current_path.recorded_path.size() <= 1 ) {
         paths.erase( paths.begin() + recording_path_index );
-        popup( _( "Recorded path has no lenght.  Path erased." ) );
+        popup( _( "Recorded path has no length.  Path erased." ) );
     } else {
         current_path.set_name_end();
         popup( _( "Path saved." ) );
@@ -373,11 +373,11 @@ void path_manager_ui::draw_controls()
         return;
     }
     // TODO invlet
-    ImGui::TableSetupColumn( "start name" );
-    ImGui::TableSetupColumn( "start distance" );
-    ImGui::TableSetupColumn( "end name" );
-    ImGui::TableSetupColumn( "end distance" );
-    ImGui::TableSetupColumn( "total lenght" );
+    ImGui::TableSetupColumn( _( "start name" ) );
+    ImGui::TableSetupColumn( _( "start distance" ) );
+    ImGui::TableSetupColumn( _( "end name" ) );
+    ImGui::TableSetupColumn( _( "end distance" ) );
+    ImGui::TableSetupColumn( _( "total length" ) );
     ImGui::TableHeadersRow();
 
     ImGuiListClipper clipper;
@@ -396,16 +396,18 @@ void path_manager_ui::draw_controls()
 
             ImGui::TableNextColumn();
             std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
+            nc_color color = dist == "" ? c_light_green : c_white;
             dist = dist == "" ? _( "It's under your feet." ) : dist;
-            draw_colored_text( dist, c_white );
+            draw_colored_text( dist, color );
 
             ImGui::TableNextColumn();
             draw_colored_text( curr_path.name_end, c_white );
 
             ImGui::TableNextColumn();
             dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
+            color = dist == "" ? c_light_green : c_white;
             dist = dist == "" ? _( "It's under your feet." ) : dist;
-            draw_colored_text( dist, c_white );
+            draw_colored_text( dist, color );
 
             ImGui::TableNextColumn();
             ImGui::Text( "%zu", curr_path.recorded_path.size() );
