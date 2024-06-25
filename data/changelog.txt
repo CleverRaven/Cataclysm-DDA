@@ -126,7 +126,6 @@ Allow ammo effects to cast spells
 Automatic turrets will not fire guns if they are going to overheat
 Deconstructing now prompts with potential items, can be toggled off in settings
 NPC @ menu: Show morale, medical; Change name, gender, armor sprite
-Various knives now using the variant system
 (Currently player only) Factions can take over and loot camps they don't own
 
 
@@ -276,15 +275,10 @@ Red Phosphorus Using Matchbox Strikers and Potassium Chloride Using Match-heads
 Add brick construction to camp expansions
 Clean water in open containers reverts to water after a while
 Update the basic gas mask, related filter, filter ammunition, and gas mask bag to modern CDDA standards, add possible inserts and outserts, disassembly recipe, and item group goodness.
-nicotine liquid alteration
-Added Mossberg 590M. Just look at this gun, it is ridiculous
-Add the Chiappa Rhino
 Remove the 'Shockstorm' attack from monsters that have it
 Adds new endings which are impacted by the strength of other factions
 Add white phosphorus and related recipes
-Added two shotguns, streamlined another two
-adds Colt Python
-Adds pump action rifle
+Added multiple new guns
 
 
 ## Interface:
@@ -611,9 +605,7 @@ Adjust Alpha to make breach harder while supporting future mutations
 Lower the warmth values of some undergarments and thin clothes.
 Switched Reload Speeds for Plasma Rifle and PPA
 Bring volume calculations for player body more in line with realistic examples
-profession item audit
 Give pebble ammo type recovery chance
-Balancing recipe imbalances due to red phosphorus weight changes
 
 
 ## Bugfixes:
@@ -799,11 +791,6 @@ Properly warn if food will cause you to overeat
 Not to shatter already shattered armor.
 Make farm plots re-tillable in farming extension version 2
 Break fake vehicle parts when the real part breaks
-Removes FS2K, Colt Lightning
-updates ench_quadruped_movement_full and the map::player_in_field function to consider quadrupedal movement.
-Tone down hair growth times.
-Reloaded ammo failure removed
-Removes AF-2011A1
 Fixes OM Terrains triggering their exit_eoc on entry instead of correctly triggering their entry_eoc
 Raw copper wire (weighing 4.747 g) can no longer be disassembled into copper (5 g). New recipe to turn raw copper wire into copper.
 
