@@ -2079,11 +2079,11 @@
     "name": [ "Bile Splashed" ],
     "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
     "rating": "bad",
-    "resist_traits": [ "POISRESIST", "IRRITANT_IMMUNE", "TOXICFLESH", "CHITIN" ],
+    "resist_traits": [ "POISRESIST", "IRRITANT_IMMUNE" ],
     "base_mods": {
-      "vomit_chance": [ 500, 2000 ],
+      "vomit_chance": [ 500, 1000 ],
       "health_chance": [ 1 ],
-      "health_min_val": [ -200, -50 ],
+      "health_min_val": [ -100, -35 ],
       "health_min": [ -1 ],
       "health_chance_bot": [ 300, 1200 ]
     },
