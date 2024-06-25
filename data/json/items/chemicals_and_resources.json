@@ -2116,7 +2116,6 @@
     "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
     "comestible_type": "INVALID",
     "charges": 1,
-    "delete": { "ammo_type": "components" },
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
   },
