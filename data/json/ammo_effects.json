@@ -421,5 +421,10 @@
     "type": "ammo_effect",
     "//": "Creates a trail of laser",
     "trail": { "field_type": "fd_laser", "intensity_min": 2, "intensity_max": 2 }
+  },
+  {
+    "id": "LIQUID",
+    "type": "ammo_effect",
+    "//": "This is basically a flag for liquid ammo, it is set automatically when the material of the ammo is liquid"
   }
 ]
