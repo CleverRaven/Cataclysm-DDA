@@ -54,8 +54,6 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
-static const efftype_id effect_quadruped_full( "quadruped_full" );
-static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_slow_descent( "slow_descent" );
