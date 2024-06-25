@@ -305,7 +305,7 @@
     "description": "The head of a boomer, if you see this item it's a bug.",
     "material": [ "flesh" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
-    "ammo_effects": [ "PSEUDO", "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES", "BILE_BOMB", "BILE_JET" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES", "BILE_BOMB", "BILE_JET" ],
     "ammo": [ "bile" ],
     "skill": "rifle",
     "dispersion": 300,
