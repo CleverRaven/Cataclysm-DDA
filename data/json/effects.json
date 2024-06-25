@@ -2054,7 +2054,7 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "base_mods": { "per_mod": [ -3 ] },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
@@ -2080,7 +2080,7 @@
     "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
     "apply_message": "You're covered in a foul smelling fluid!",
     "rating": "bad",
-    "resist_traits": [ "FLOWERS", "ROSEBUDS" ],
+    "resist_traits": [ "FLOWERS", "ROSEBUDS", "SAPROVORE", "EATDEAD" ],
     "base_mods": { "vomit_chance": [ 500, 2000 ] },
     "enchantments": [
       {
