@@ -785,13 +785,27 @@
         "max_range": 10,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
-      }
+      },
+      [ "EAT_CARRION", 120 ]
     ],
+    "stomach_size": 600,
     "fear_triggers": [ "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_husk",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
+    "flags": [
+      "EATS",
+      "FISHABLE",
+      "RANGED_ATTACKER",
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "SWARMS",
+      "SWIMS",
+      "WATER_CAMOUFLAGE",
+      "CLIMBS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_strange_bigfrog",
@@ -804,6 +818,7 @@
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
     "zombify_into": "mon_zombullfrog",
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 },
+    "extend": { "flags": [ "CORNERED_FIGHTER" ] },
     "delete": { "flags": [ "SWARMS" ] }
   },
   {
@@ -816,7 +831,7 @@
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
     "zombify_into": "mon_toad_zombie",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 },
-    "extend": { "flags": [ "POISON" ] },
+    "extend": { "flags": [ "CORNERED_FIGHTER", "POISON" ] },
     "delete": { "flags": [ "SWARMS" ] }
   },
   {
@@ -1026,13 +1041,29 @@
         "max_range": 10,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
-      }
+      },
+      [ "EAT_CARRION", 120 ]
     ],
+    "stomach_size": 1200,
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_mummy",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
+    "flags": [
+      "CORNERED_FIGHTER",
+      "EATS",
+      "FISHABLE",
+      "RANGED_ATTACKER",
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "GRABS",
+      "SWIMS",
+      "WATER_CAMOUFLAGE",
+      "CLIMBS",
+      "BASHES",
+      "WARM"
+    ]
   },
   {
     "id": "mon_strange_giganfrog",
@@ -1198,13 +1229,15 @@
         "max_range": 12,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
-      }
+      },
+      [ "EAT_CARRION", 120 ]
     ],
+    "stomach_size": 1800,
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
     "burn_into": "mon_frog_smoker_hulk",
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
+    "flags": [ "CORNERED_FIGHTER", "EATS", "RANGED_ATTACKER", "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS", "WARM" ]
   },
   {
     "id": "mon_strange_megafrog",
