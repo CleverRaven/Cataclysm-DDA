@@ -479,7 +479,8 @@ path_manager::~path_manager() = default;
 
 void path_manager::record_step( const tripoint_abs_ms &new_pos )
 {
-    if( !pimpl->recording_path() ) {
+    // !pimpl for tests, they don't initialize avatar like game does
+    if( !pimpl || !pimpl->recording_path() ) {
         return;
     }
     pimpl->paths[pimpl->recording_path_index].record_step( new_pos );
