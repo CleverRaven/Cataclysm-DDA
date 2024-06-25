@@ -200,9 +200,14 @@
     "required_event": "character_gains_effect",
     "condition": { "and": [ { "compare_string": [ "boomered", { "context_val": "effect" } ] } ] },
     "effect": [
+      { "math": [ "BILE_DURATION", "=", "u_effect_duration('bile') > 0 ? u_effect_duration('bile') + 300 : 600" ] },
+      { "u_add_effect": "bile", "duration": { "global_val": "BILE_DURATION" } },
       {
-        "u_add_effect": "bile",
-        "duration": { "math": [ "u_effect_duration('bile') > 0 ? u_effect_duration('bile') + 300 : 600" ] }
+        "u_add_morale": "morale_bile",
+        "bonus": { "math": [ "u_has_trait('SQUEAMISH') ? -20 : -5" ] },
+        "max_bonus": { "math": [ "u_has_trait('SQUEAMISH') ? -40 : -10" ] },
+        "duration": { "global_val": "BILE_DURATION" },
+        "decay_start": { "math": [ "BILE_DURATION / 2" ] }
       }
     ]
   }
