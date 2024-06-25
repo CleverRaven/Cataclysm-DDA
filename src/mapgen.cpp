@@ -367,11 +367,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                         if( !mgr.name ) {
                             continue;
                         }
-                        if( const std::optional<tripoint> pt =
-                        random_point( *this, [this]( const tripoint & n ) {
+                        if( const std::optional<tripoint_bub_ms> pt =
+                        random_point_on_level( *this, gridz, [this]( const tripoint_bub_ms & n ) {
                         return passable( n );
                         } ) ) {
-                            const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
+                            const tripoint_bub_ms pnt = pt.value();
                             add_spawn( mgr, pnt );
                         }
                     }
@@ -5356,7 +5356,9 @@ void mapgen_function_json::generate( mapgendata &md )
     // Note that we need to perform rotations even if there is no predecessor, as other Z levels
     // have to be kept aligned regardless.
 
-    m->rotate( ( -rotation.get() + 4 ) % 4 );
+    // rotation.get can return a random value if val differs from valmax. Use same value in both directions.
+    const int rot = rotation.get() % 4;
+    m->rotate( 4 - rot );
 
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
@@ -5367,7 +5369,7 @@ void mapgen_function_json::generate( mapgendata &md )
     apply_mapgen_in_phases( md_with_params, setmap_points, objects, tripoint_rel_ms( tripoint_zero ),
                             context_ );
 
-    m->rotate( rotation.get() );
+    m->rotate( rot );
 
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ter.get_rotation() );
@@ -5549,6 +5551,19 @@ void map::draw_lab( mapgendata &dat )
             lw = EAST_EDGE + 1;
         }
         if( dat.zlevel() == 0 ) { // We're on ground level
+            int rot = 0;
+
+            if( dat.east()->get_type_id() == oter_type_road ) {
+                rot = 1;
+            } else if( dat.south()->get_type_id() == oter_type_road ) {
+                rot = 2;
+            } else if( dat.west()->get_type_id() == oter_type_road ) {
+                rot = 3;
+            }
+
+            // Rotate the map backwards so contents can be placed in the 'normal' orientation.
+            rotate( 4 - rot );
+
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( i <= 1 || i >= SEEX * 2 - 2 ||
@@ -5577,13 +5592,9 @@ void map::draw_lab( mapgendata &dat )
             place_spawns( GROUP_TURRET, 1, point_bub_ms( SEEX, 5 ), point_bub_ms( SEEX, 5 ), dat.zlevel(), 1,
                           true );
 
-            if( dat.east()->get_type_id() == oter_type_road ) {
-                rotate( 1 );
-            } else if( dat.south()->get_type_id() == oter_type_road ) {
-                rotate( 2 );
-            } else if( dat.west()->get_type_id() == oter_type_road ) {
-                rotate( 3 );
-            }
+            // Rotate everything back to normal, giving rotated addition its proper rotation.
+            rotate( rot );
+
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
@@ -5657,19 +5668,29 @@ void map::draw_lab( mapgendata &dat )
             //A lab area with only one entrance
             if( boarders == 1 ) {
                 // If you remove the usage of "lab_1side" here, remove it from mapgen_factory::get_usages above as well.
-                if( oter_mapgen.generate( dat, "lab_1side" ) ) {
-                    if( tw == 2 ) {
-                        rotate( 2 );
-                    }
-                    if( rw == 2 ) {
-                        rotate( 1 );
-                    }
-                    if( lw == 2 ) {
-                        rotate( 3 );
-                    }
-                } else {
+                int rot = 0;
+
+                if( tw == 2 ) {
+                    rot += 2;
+                }
+                if( rw == 2 ) {
+                    rot += 1;
+                }
+                if( lw == 2 ) {
+                    rot += 3;
+                }
+                rot %= 4;
+
+                // Rotate the map backwards so the new material can be placed in its 'normal' orientation.
+                rotate( 4 - rot );
+
+                if( !oter_mapgen.generate( dat, "lab_1side" ) ) {
                     debugmsg( "Error: Tried to generate 1-sided lab but no lab_1side json exists." );
                 }
+
+                // Rotate the map back to its normal orientation, resulting in the new addition being rotated properly.
+                rotate( rot );
+
                 maybe_insert_stairs( dat.above(), ter_t_stairs_up );
                 maybe_insert_stairs( terrain_type, ter_t_stairs_down );
             } else {

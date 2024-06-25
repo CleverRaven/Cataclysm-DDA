@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIND_FORGE_GATE",
+    "condition": { "math": [ "searched_forge", "!=", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "loc_forge_of_wonders" },
+        "target_params": { "om_terrain": "forge_3B", "z": 0, "search_range": 20 },
+        "furniture": "f_magiclysm_translocator_gate",
+        "target_max_radius": 26
+      },
+      { "math": [ "searched_forge", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VALIDATE_FORGE",
+    "condition": { "math": [ "has_var(loc_forge_of_wonders)" ] },
+    "false_effect": [
+      { "u_message": "MANUALLY FINDING THE FORGE AS A FALLBACK (PRESS SPACE).", "popup": true },
+      {
+        "u_location_variable": { "global_val": "loc_forge_of_wonders" },
+        "target_params": { "om_terrain": "forge_3B", "z": 0, "random": true, "search_range": 2000 },
+        "furniture": "f_magiclysm_translocator_gate",
+        "target_max_radius": 26
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_TELEPORT",
+    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
+    "effect": [
+      { "run_eocs": "EOC_VALIDATE_FORGE" },
+      { "u_consume_item": "forge_warp_scroll" },
+      { "u_spawn_item": "forge_return_warp_scroll", "suppress_message": true },
+      { "u_location_variable": { "u_val": "forge_return_point" }, "min_radius": 0, "max_radius": 0 },
+      { "u_teleport": { "global_val": "loc_forge_of_wonders" } },
+      {
+        "u_message": "As you recite the incantation the runes on the scroll begin to shift.  And in the blink of an eye you are suddenly somewhere else.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FORGE_RETURN_TELEPORT",
+    "condition": { "and": [ "u_can_see", { "not": { "or": [ { "u_has_trait": "MUTE" }, { "u_has_trait": "ILLITERATE" } ] } } ] },
+    "false_effect": { "u_message": "You need to be able to see, read, and speak to recite the incantation." },
+    "effect": [
+      { "u_teleport": { "u_val": "forge_return_point" } },
+      { "u_consume_item": "forge_return_warp_scroll" },
+      {
+        "u_message": "As you recite the incantation the scroll burns away in your hands.  And in the blink of an eye you are suddenly somewhere else.",
+        "type": "good"
+      }
+    ]
+  }
+]

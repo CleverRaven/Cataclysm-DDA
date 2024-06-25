@@ -1494,6 +1494,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "red_phosphorous",
+    "id_suffix": "with_white_phosphorous",
     "charges": 3,
     "batch_time_factors": [ 95, 1 ],
     "category": "CC_CHEM",
@@ -1504,6 +1505,35 @@
     "tools": [ [ [ "vac_oven_small", 1000 ] ] ],
     "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
     "components": [ [ [ "white_phosphorous", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "red_phosphorous",
+    "charges": 1,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "time": "1 s",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [  ],
+    "components": [ [ [ "red_phosphorous_small", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "red_phosphorous_small",
+    "charges": 1,
+    "batch_time_factors": [ 60, 5 ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SIEVE", "level": 1 } ],
+    "//": "calculation based on https://www.youtube.com/watch?v=5ZrfNAHDjWU; 1 matchbox contains 30 mg phosphorus and 1 unit of phosphor is 100 mg",
+    "components": [ [ [ "survival_match", 1 ], [ "ref_matches", 3 ], [ "matches", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1520,6 +1550,22 @@
     "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "components": [ [ [ "bone_meal_any", 1, "LIST" ] ], [ [ "material_sand", 3 ] ], [ [ "charcoal", 7 ], [ "coal_lump", 7 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "white_phosphorous",
+    "id_suffix": "with_red_phosphorous",
+    "charges": 4,
+    "batch_time_factors": [ 95, 1 ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "difficulty": 3,
+    "skill_used": "chemistry",
+    "time": "6 m",
+    "tools": [ [ [ "vac_oven_small", 100 ] ] ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
+    "components": [ [ [ "red_phosphorous", 3 ] ] ]
   },
   {
     "type": "recipe",
