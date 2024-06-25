@@ -270,7 +270,7 @@
         "distribution": [
           { "item": "teargas_sprayer", "prob": 10, "charges": [ 0, 8 ] },
           {
-            "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
+            "collection": [ { "item": "XL_holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
             "prob": 8
           },
           {

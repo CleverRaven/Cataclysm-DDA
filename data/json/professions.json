@@ -4650,7 +4650,7 @@
           { "item": "spiral_stone" },
           { "group": "charged_smart_phone" },
           { "group": "speedloaders_s&w619_special" },
-          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "XL_holster" },
+          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "XL_holster" },
           { "item": "pants", "variant": "generic_pants" }
         ]
       },
