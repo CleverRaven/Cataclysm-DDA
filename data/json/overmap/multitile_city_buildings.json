@@ -1410,10 +1410,7 @@
     "type": "city_building",
     "id": "cs_market_small",
     "locations": [ "land" ],
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "cs_market_small_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "cs_market_small_roof_north" }
-    ]
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cs_market_small_north" } ]
   },
   {
     "type": "city_building",
