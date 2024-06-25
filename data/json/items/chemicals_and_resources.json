@@ -1943,7 +1943,7 @@
     "color": "red",
     "price": "50 cent",
     "price_postapoc": "2 cent",
-    "stack_size": 25
+    "stack_size": 1
   },
   {
     "id": "red_phosphorous_small",
@@ -1953,13 +1953,13 @@
     "name": { "str_sp": "small portion of red phosphorous" },
     "description": "An allotrope of the element phosphorous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.  You could use it to make bombs, and if you were truly desperate you might even be able to use it as a propellant for bullets.",
     "weight": "100 mg",
-    "volume": "1 ml",
+    "volume": "5 ml",
     "container": "bottle_plastic_small",
     "symbol": "=",
     "color": "red",
     "price": "50 cent",
     "price_postapoc": "2 cent",
-    "stack_size": 25
+    "stack_size": 100
   },
   {
     "id": "white_phosphorous",
@@ -1976,7 +1976,7 @@
     "color": "white",
     "price": "50 cent",
     "price_postapoc": "2 cent",
-    "stack_size": 25
+    "stack_size": 1
   },
   {
     "id": "acetic_anhydride",
