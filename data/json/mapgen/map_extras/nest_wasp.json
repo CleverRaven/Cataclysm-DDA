@@ -31,7 +31,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_floor_paper" }
+      "terrain": { ".": "t_roof_paper" }
     }
   },
   {
