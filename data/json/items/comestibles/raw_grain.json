@@ -383,6 +383,7 @@
     "id": "wild_rice",
     "name": { "str_sp": "wild rice" },
     "copy-from": "oats",
+    "material": [ "veggy" ],
     "calories": 120,
     "description": "Raw wild rice, still in its fibrous shell.  It'll need to be milled before it's edible for humans.",
     "milling": { "into": "dry_wild_rice", "recipe": "dry_wild_rice_mill_1_5" },

@@ -699,7 +699,8 @@
             "cp33": 10,
             "ruger_charger": 10,
             "ruger_charger_auto": 10,
-            "ruger_1022_auto": 10
+            "ruger_1022_auto": 10,
+            "rossi_gallery": 10
           }
         },
         {
@@ -1176,6 +1177,7 @@
             "rm51_assault_rifle": 1,
             "rm614_lmg": 1,
             "rm88_battle_rifle": 1,
+            "rossi_gallery": 1,
             "ruger_1022": 1,
             "ruger_1022_auto": 1,
             "ruger_arr": 1,

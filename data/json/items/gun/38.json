@@ -147,6 +147,58 @@
     "melee_damage": { "bash": 8 }
   },
   {
+    "id": "colt_python",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str_sp": ".357 revolver" },
+    "//": "This is the Colt Python 2020 6-inch version.",
+    "description": "A six inch revolver chambered in .357 Magnum/.38 Special.  Favorite of sheriffs and post-Cataclysm survivor group leaders.",
+    "//s": "omg twd reference :O",
+    "weight": "1300 g",
+    "volume": "703 ml",
+    "longest_side": "292 mm",
+    "barrel_length": "152 mm",
+    "symbol": "(",
+    "color": "light_gray",
+    "//2": "Price of one according to colt's own website. Goddamn.",
+    "price": "1 kUSD 599 USD",
+    "price_postapoc": "20 USD",
+    "to_hit": { "grip": "solid", "length": "short", "balance": "neutral", "surface": "point" },
+    "material": [ "steel", "wood" ],
+    "ammo": [ "357mag", "38" ],
+    "dispersion": 280,
+    "durability": 10,
+    "blackpowder_tolerance": 48,
+    "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "stocks mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 6, "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader" ]
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_python",
+        "name": { "str_sp": "Colt Python" },
+        "description": "Made by Colt, this six inch six-shooter is one of the most lauded revolvers ever produced.  Can fire .38 Special and .357 Magnum."
+      }
+    ],
+    "melee_damage": { "bash": 9 }
+  },
+  {
     "id": "sw_619",
     "copy-from": "pistol_revolver",
     "//": "Tileset whitelist for revolvers.",
