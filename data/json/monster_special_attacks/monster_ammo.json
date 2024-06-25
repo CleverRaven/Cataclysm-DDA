@@ -23,7 +23,7 @@
     "ammo_type": "bile",
     "range": 4,
     "count": 100,
-    "effects": [ "NEVER_MISFIRES", "JET" ]
+    "effects": [ "NEVER_MISFIRES", "JET", "BILE_GLOW" ]
   },
   {
     "id": "boomer_stomach",
@@ -53,5 +53,10 @@
     "type": "ammo_effect",
     "//": "Creates a trail of bile",
     "trail": { "field_type": "fd_bile", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "BILE_GLOW",
+    "type": "ammo_effect",
+    "on_hit_effects": [ { "effect": "glowing", "duration": "5 m", "intensity": 1 } ]
   }
 ]
