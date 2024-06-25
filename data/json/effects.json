@@ -2075,18 +2075,13 @@
   },
   {
     "type": "effect_type",
-    "id": "bile",
-    "name": [ "Bile Splashed" ],
+    "id": "bile_stink",
+    "name": [ "Bile Stink" ],
     "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in a foul smelling fluid!",
     "rating": "bad",
-    "resist_traits": [ "POISRESIST", "IRRITANT_IMMUNE" ],
-    "base_mods": {
-      "vomit_chance": [ 500, 1000 ],
-      "health_chance": [ 1 ],
-      "health_min_val": [ -100, -35 ],
-      "health_min": [ -1 ],
-      "health_chance_bot": [ 300, 1200 ]
-    },
+    "resist_traits": [ "FLOWERS", "ROSEBUDS" ],
+    "base_mods": { "vomit_chance": [ 500, 2000 ] },
     "enchantments": [
       {
         "values": [
@@ -2098,7 +2093,31 @@
         ]
       }
     ],
-    "max_duration": "30 m"
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95, "resist_modifier": 1 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "max_duration": "60 m",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "bile_irritant",
+    "name": [ "Bile Irritant" ],
+    "desc": [ "Acidic boomer bile is irritating your skin." ],
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "wet" ],
+    "immune_flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ],
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "pain_max_val": [ 8, 6 ],
+      "pain_chance": [ 150, 300 ],
+      "health_min_val": [ -30, -10 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 1 ],
+      "health_chance_bot": [ 300, 1200 ],
+      "int_mod": [ -1 ]
+    },
+    "max_duration": "15 m"
   },
   {
     "type": "effect_type",
