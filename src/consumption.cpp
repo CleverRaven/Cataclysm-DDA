@@ -98,16 +98,10 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
-static const flag_id json_flag_ALLERGEN_BREAD( "ALLERGEN_BREAD" );
 static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
-static const flag_id json_flag_ALLERGEN_DRIED_VEGETABLE( "ALLERGEN_DRIED_VEGETABLE" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
-static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
-static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
-static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
-static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 
 static const item_category_id item_category_chems( "chems" );
@@ -198,18 +192,16 @@ static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_bread_allergen( "bread_allergen" );
 static const vitamin_id vitamin_egg_allergen( "egg_allergen" );
 static const vitamin_id vitamin_fruit_allergen( "fruit_allergen" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 static const vitamin_id vitamin_junk_allergen( "junk_allergen" );
 static const vitamin_id vitamin_meat_allergen( "meat_allergen" );
 static const vitamin_id vitamin_milk_allergen( "milk_allergen" );
+static const vitamin_id vitamin_nut_allergen( "nut_allergen" );
 static const vitamin_id vitamin_veggy_allergen( "veggy_allergen" );
 static const vitamin_id vitamin_wheat_allergen( "wheat_allergen" );
-static const vitamin_id vitamin_nut_allergen( "nut_allergen" );
-static const vitamin_id vitamin_bread_allergen( "bread_allergen" );
-
-
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
