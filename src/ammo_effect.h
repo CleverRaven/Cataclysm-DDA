@@ -19,6 +19,15 @@ template <typename T> class generic_factory;
 
 generic_factory<ammo_effect> &get_all_ammo_effects();
 
+struct on_hit_effect {
+    bodypart_id bp_to_hit;
+    bool need_touch_skin;
+    efftype_id effect;
+    time_duration duration;
+    int intensity;
+    std::vector<bodypart_id> affected_bps;
+};
+
 struct ammo_effect {
     public:
         void load( const JsonObject &jo, std::string_view src );
@@ -54,6 +63,8 @@ struct ammo_effect {
         int trail_intensity_min = 0;
         int trail_intensity_max = 0;
         int trail_chance = 100;
+
+        std::vector<on_hit_effect> on_hit_effects;
 
         // Used by generic_factory
         ammo_effect_str_id id;
