@@ -521,12 +521,8 @@ Summon Mojocycle gets better at lvl 10
 [Aftershock] Esper additions
 [Aftershock] Adds one the Solar Array Overmap special to Aftershock.
 Give some map extras CLASSIC tag
-Adds a police station to the Aftershock Exoplanet. As well as content supporting that.
 [Aftershock] Add Spark to Esper scenario
-[Aftershock] Adds 6 variants of Enclosed Parks to the Exoplanet
-[MoM] Write single variable-based EoC for power contemplation, make it more like other meditation activities
-[Aftershock] Add two versions of the Exosuit Garage
-Aftershock: Fix some uncommon failures to travel to Port Augustmoon.
+[Aftershock] Add two versions of the Exosuit Garage,  travel to Port Augustmoon, 6 variants of Enclosed Parks to the Exoplanet, and Enforcer station for Aftershock
 [Xedra Evolved] Vampires can just drink blood.  They can just drink it
 [TropiCata] Audit and balance pass on termites and termite accessories
 
