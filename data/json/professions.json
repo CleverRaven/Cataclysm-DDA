@@ -6879,8 +6879,7 @@
           { "item": "rope_30" },
           { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7 },
-          { "item": "XL_holster", "contents-group": "bandolier_cowboy" }
+          { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7, "container-item": "western_holster" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
