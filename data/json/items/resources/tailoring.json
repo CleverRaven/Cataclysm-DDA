@@ -774,5 +774,20 @@
     "material": [ "canvas" ],
     "symbol": "=",
     "color": "dark_gray"
+  },
+  {
+    "id": "strap_cotton",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "fabric strap" },
+    "description": "A strip of broad, flat cotton, 42 inches in length, with a metal adjustment buckle threaded in the centre.  Normally used as a shoulder strap for bags, its ends are usually sown about a corresponding container's D-rings.",
+    "weight": "59 g",
+    "volume": "52 ml",
+    "//": "Medium weight cotton fabric with a GSM of 203",
+    "price": "0 USD",
+    "price_postapoc": "5 cent",
+    "material": [ { "type": "cotton", "portion": 6 }, { "type": "steel", "portion": 1 } ],
+    "symbol": "=",
+    "color": "dark_gray"
   }
 ]
