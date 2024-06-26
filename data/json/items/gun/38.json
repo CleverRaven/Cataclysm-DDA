@@ -192,7 +192,7 @@
     "variants": [
       {
         "id": "colt_python",
-        "name": { "str_sp": "Colt Python" },
+        "name": { "str": "Colt Python revolver" },
         "description": "Made by Colt, this six inch six-shooter is one of the most lauded revolvers ever produced.  Can fire .38 Special and .357 Magnum."
       }
     ],
@@ -283,7 +283,7 @@
     "variants": [
       {
         "id": "chiappa_rhino",
-        "name": { "str": "Chiappa Rhino" },
+        "name": { "str": "Chiappa Rhino revolver" },
         "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder to alleviate muzzle flip."
       }
     ]

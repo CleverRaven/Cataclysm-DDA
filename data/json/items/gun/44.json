@@ -189,7 +189,7 @@
     "variants": [
       {
         "id": "colt_anaconda_8",
-        "name": { "str": "Colt Anaconda" },
+        "name": { "str": "Colt Anaconda revolver" },
         "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has an extended 8-inch barrel."
       }
     ],
@@ -237,7 +237,7 @@
     "variants": [
       {
         "id": "colt_anaconda",
-        "name": { "str": "Colt Anaconda" },
+        "name": { "str": "Colt Anaconda revolver" },
         "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has a 6-inch barrel."
       }
     ],
@@ -260,7 +260,7 @@
     "variants": [
       {
         "id": "colt_anaconda",
-        "name": { "str": "Colt Anaconda" },
+        "name": { "str": "Colt Anaconda revolver" },
         "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has a shortened 4-inch barrel."
       }
     ],
