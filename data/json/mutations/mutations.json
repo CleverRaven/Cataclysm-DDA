@@ -238,6 +238,7 @@
       "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
+      "RESTRICTED",
       "STOCKY_TROGLO",
       "STRONGBACK",
       "TUNNEL_FIGHTER",
@@ -1259,8 +1260,19 @@
     "vitamin_cost": 260,
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
-    "cancels": [ "CHAOTIC_BAD" ],
+    "cancels": [ "CHAOTIC_BAD", "RESTRICTED" ],
     "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESTRICTED",
+    "name": { "str": "Restricted Genetics" },
+    "points": 3,
+    "vitamin_cost": 160,
+    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category.  Any that you previously developed are safe, for now.",
+    "allowed_category": [ "ALPHA" ],
+    "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -2180,7 +2192,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
-    "cancels": [ "ROBUST" ],
+    "cancels": [ "ROBUST", "RESTRICTED" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
