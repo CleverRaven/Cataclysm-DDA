@@ -9085,7 +9085,7 @@
     "name": { "str": "MD" },
     "points": 0,
     "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hospital computer systems would recognize the PC as a valid user and grant access.",
-    "description": "You were just through with the administrative formalities for your residency when the Cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
+    "description": "You trained as a medical professional in a clinic or hospital.  You can put \"Dr.\" in front of your name and everything.",
     "valid": false,
     "purifiable": false,
     "profession": true
