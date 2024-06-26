@@ -1154,6 +1154,9 @@ class game
         // show NPC pathfinding on overmap ui
         bool debug_pathfinding = false; // NOLINT(cata-serialize)
 
+        //Ugly kludge to pass info to tile overmaps
+        npc *follower_path_to_show = nullptr; // NOLINT(cata-serialize)
+
         /* tile overlays */
         // Toggle all other overlays off and flip the given overlay on/off.
         void display_toggle_overlay( action_id );

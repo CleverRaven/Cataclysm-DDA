@@ -37,10 +37,6 @@
   },
   {
     "type": "camp_migration",
-    "camp_migrations": { "name": "Cabin", "overmap_terrain": "cabin_isherwood", "faction": "isherwood_family" }
-  },
-  {
-    "type": "camp_migration",
     "camp_migrations": { "name": "Isherwood Stables", "overmap_terrain": "horse_farm_isherwood_6", "faction": "isherwood_family" }
   },
   {

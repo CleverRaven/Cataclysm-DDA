@@ -157,7 +157,7 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
         return false;
     }
 
-    if( rec.category == "CC_BUILDING" ) {
+    if( rec.category->is_building ) {
         add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
         return false;
     }
@@ -1523,9 +1523,17 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
     if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
         // TODO: reconsider recipe memorization
         if( knows_recipe( &making ) ) {
-            add_msg( _( "You craft %s from memory." ), making.result_name() );
+            if( is_avatar() ) {
+                add_msg( _( "You craft %s from memory." ), making.result_name() );
+            } else {
+                add_msg( _( "%1s crafts %2s from memory." ), get_name(), making.result_name() );
+            }
         } else {
-            add_msg( _( "You craft %s using a reference." ), making.result_name() );
+            if( is_avatar() ) {
+                add_msg( _( "You craft %s using a reference." ), making.result_name() );
+            } else {
+                add_msg( _( "%1s crafts %2s using a reference." ), get_name(), making.result_name() );
+            }
             // If we made it, but we don't know it, we're using a book, device or NPC
             // as a reference and have a chance to learn it.
             // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.

@@ -73,11 +73,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_AFS_ESCAPE_POD_CARGO_TP",
-    "effect": [ { "u_teleport": { "global_val": "new_map" }, "force": true } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_CRASHING_SHIP_SETUP",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [

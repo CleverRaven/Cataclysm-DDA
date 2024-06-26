@@ -2,6 +2,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "mx_nest_dermatik_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            ....        ",
+        "         .......        ",
+        "       ...........      ",
+        "       ............     ",
+        "     ........ .....     ",
+        "     ..... .........    ",
+        "      .............     ",
+        "     .... .... ....     ",
+        "     ..............     ",
+        "      .... .........    ",
+        "      ..............    ",
+        "       ...........      ",
+        "        ........        ",
+        "         .....          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": [ "t_roof_paper" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "mx_nest_dermatik",
     "object": {
       "rows": [
@@ -39,7 +74,8 @@
         ":": [ "t_floor_paper" ]
       },
       "monster": { ":": { "monster": "mon_dermatik_larva" } },
-      "place_monsters": [ { "monster": "GROUP_DERMATIK", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_DERMATIK", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.1 } ],
+      "place_nested": [ { "chunks": [ "mx_nest_dermatik_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

@@ -1185,7 +1185,7 @@ struct memory_card_info {
     int recipes_amount;
     int recipes_level_min;
     int recipes_level_max;
-    std::set<std::string> recipes_categories;
+    std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
 };
 

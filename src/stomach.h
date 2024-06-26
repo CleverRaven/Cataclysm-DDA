@@ -67,6 +67,8 @@ struct nutrients {
             return !( *this == r );
         }
 
+        nutrients operator-();
+
         nutrients &operator+=( const nutrients &r );
         nutrients &operator-=( const nutrients &r );
         nutrients &operator*=( int r );

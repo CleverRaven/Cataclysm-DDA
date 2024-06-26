@@ -238,6 +238,7 @@
       "RESISTCHILL_RESISTWARM",
       "RESISTWARM",
       "ROBUST",
+      "RESTRICTED",
       "STOCKY_TROGLO",
       "STRONGBACK",
       "TUNNEL_FIGHTER",
@@ -1259,8 +1260,19 @@
     "vitamin_cost": 260,
     "description": "Your genome has rapidly adapted to the Cataclysm and can handle the strain of mutation better.  Taking different kinds of mutagen won't result in more defective mutations than normal.",
     "starting_trait": true,
-    "cancels": [ "CHAOTIC_BAD" ],
+    "cancels": [ "CHAOTIC_BAD", "RESTRICTED" ],
     "category": [ "FISH", "SLIME", "MEDICAL", "PLANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RESTRICTED",
+    "name": { "str": "Restricted Genetics" },
+    "points": 3,
+    "vitamin_cost": 160,
+    "description": "Your genome has become an impregnable fortress to lesser genetic deviations.  You are no longer able to mutate traits that are outside of the Alpha category.  Any that you previously developed are safe, for now.",
+    "allowed_category": [ "ALPHA" ],
+    "cancels": [ "CHAOTIC_BAD", "ROBUST" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -2180,7 +2192,7 @@
     "purifiable": false,
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
-    "cancels": [ "ROBUST" ],
+    "cancels": [ "ROBUST", "RESTRICTED" ],
     "valid": false,
     "vitamin_rates": [ [ "instability", -60 ] ]
   },
@@ -2675,6 +2687,7 @@
     "description": "We have begun adapting local physiology to Mycus physical structure, greatly reducing wet effects.",
     "purifiable": false,
     "category": [ "MYCUS" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "prereqs": [ "M_IMMUNE" ],
     "threshreq": [ "THRESH_MYCUS" ],
     "leads_to": [ "M_DEFENDER" ],
@@ -2702,7 +2715,7 @@
     "ugliness": 8,
     "description": "We have spliced the dense, amphibole fibers from Mycus core towers with the resilient, adaptive flesh of local physiology.  This reduces our speed by a moderate amount, but provides powerful armor across our body, nullifies wet effects, and provides complete protection from fire.",
     "purifiable": false,
-    "flags": [ "HEAT_IMMUNE" ],
+    "flags": [ "HEAT_IMMUNE", "IRRITANT_IMMUNE" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN" ],
     "prereqs2": [ "M_DEFENDER" ],
@@ -2732,7 +2745,7 @@
     "ugliness": 10,
     "description": "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
     "purifiable": false,
-    "flags": [ "HEAT_IMMUNE" ],
+    "flags": [ "HEAT_IMMUNE", "IRRITANT_IMMUNE" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN2" ],
     "threshreq": [ "THRESH_MYCUS" ],
@@ -5660,7 +5673,8 @@
     "prereqs": [ "GASTROPOD_FOOT" ],
     "leads_to": [ "MUCUS_SECRETION2" ],
     "changes_to": [ "SNAIL_TRAIL" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -5679,7 +5693,8 @@
       "base_damage": { "damage_type": "acid", "amount": 6 }
     },
     "prereqs": [ "MUCUS_SECRETION" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -5692,6 +5707,7 @@
     "description": "You've developed some ability to control your slime emissions.  As a result of this you can leave trails of slime anywhere you walk.",
     "prereqs": [ "MUCUS_SECRETION" ],
     "category": [ "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "active": true,
     "cost": 174,
     "time": "100 s",
@@ -7700,6 +7716,7 @@
     "leads_to": [ "SLIME_HANDS" ],
     "changes_to": [ "VISCOUS" ],
     "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD", "GASTROPOD", "BATRACHIAN" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "wet_protection": [
       { "part": "head", "neutral": 3, "good": 4 },
       { "part": "leg_l", "neutral": 7, "good": 14 },
@@ -7726,6 +7743,7 @@
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_GASTROPOD" ],
     "category": [ "SLIME", "GASTROPOD" ],
+    "flags": [ "IRRITANT_IMMUNE" ],
     "wet_protection": [
       { "part": "head", "neutral": 4, "good": 5 },
       { "part": "leg_l", "neutral": 8, "good": 15 },
@@ -8875,7 +8893,7 @@
     "name": { "str": "Acidproof" },
     "points": 3,
     "vitamin_cost": 160,
-    "flags": [ "ACID_IMMUNE" ],
+    "flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ],
     "description": "Your mutated flesh is immune to the damaging effects of acid.",
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
@@ -9079,7 +9097,7 @@
     "name": { "str": "MD" },
     "points": 0,
     "//": "In the US, a medical 'residency' is essentially an extended post-graduate, on-the-job medical training.  The idea here is that hospital computer systems would recognize the PC as a valid user and grant access.",
-    "description": "You were just through with the administrative formalities for your residency when the Cataclysm struck.  \"Your\" hospital was overrun and evacuated, but there's always work for a good doctor.",
+    "description": "You trained as a medical professional in a clinic or hospital.  You can put \"Dr.\" in front of your name and everything.",
     "valid": false,
     "purifiable": false,
     "profession": true
