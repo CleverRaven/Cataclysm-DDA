@@ -92,15 +92,16 @@
         
         "responses": [
           {
-              "text": "[MASTODON 75%] Come, join the herd before you're left behind.",
-              "condition": { "and": [ { "u_has_trait": "THRESH_MASTODON" }, { "npc_has_trait": "THRESH_MASTODON" } ] },
-              "topic": "TALK_AGREE_FOLLOW",
-              "effect": "follow",
-              "opinion": { "value": -1 }
+              "text": "I want to increase my power.",
+              "condition": { "u_has_effect": "vampire_virus" },
+              "topic": "TALK_VAMPIRE_MENTOR_BECOME_STRONGER"
           },
-          { "text": "What is this place?", "topic": "TALK_VAMPIRE_MENTOR_SELF" },
-          { "text": "Can I do something for you?", "topic": "TALK_VAMPIRE_MENTOR_ASSISTANCE" },
-          { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
+          {
+            "text": "I want to become a vampire.",
+            "condition": { "not": { "u_has_effect": "vampire_virus" } },
+            "topic": "TALK_VAMPIRE_MENTOR_BECOME_VAMPIRE"
+          },
+          { "text": "Maybe later. Bye.", "topic": "TALK_DONE" }
         ]
     },
     {
