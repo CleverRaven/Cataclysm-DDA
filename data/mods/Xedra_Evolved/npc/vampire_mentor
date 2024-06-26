@@ -1,0 +1,119 @@
+[
+    {
+    "type": "npc",
+    "id": "xe_vampire_mentor",
+    "//": "Maybe there will be non-mentor vampire NPCs someday. For now, there's only the mentors.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE_MENTOR",
+    "attitude": 0,
+    "mission": 2,
+    "chat": "TALK_VAMPIRE_MENTOR",
+    "faction": "no_faction"
+},
+{
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE MENTOR",
+    "name": "Vampire Mentor",
+    "job_description": "An ancient vampire, willing to assist those who want to further their curse",
+    "common": false,
+    "skills": [
+      { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 2, 3 ] } }
+    ],
+    "bonus_int": { "rng": [ 2, 4 ] },
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 2, 4 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_vampire_mentor" }
+    ]
+  },
+  [
+    {
+      "id": "TALK_VAMPIRE_MENTOR",
+      "type": "talk_topic",
+      "dynamic_line": {
+        "u_has_var": "general_meeting_u_met_mentor",
+        "value": "yes",
+        "yes": [ "Welcome back.", "Hello again." ],
+        "no": "Welcome. What do you seek here? Fortune? Safety? A friend? A mentor? What brought you here?"
+      },
+      "responses": [
+        {
+          "text": "I want to talk.",
+          "topic": "TALK_VAMPIRE_MENTOR_Talk",
+          "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+        },
+        {
+          "text": "I want a mentor.",
+          "topic": "TALK_VAMPIRE_MENTOR_MENTORING",
+          "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+        },
+        {
+          "text": "I want to kill vampires.",
+          "topic": "TALK_VAMPIRE_MENTOR_KILLING",
+          "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+        },
+        {
+          "text": "Just passing through, don't mind me.",
+          "topic": "TALK_DONE",
+          "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
+        }
+      ]
+    },
+    {
+        "id": [ "TALK_VAMPIRE_MENTOR_Talk" ],
+        "type": "talk_topic",
+        "dynamic_line": { "str": "What do you wish to discuss?" },
+        "responses": [
+          { "text": "Who are you?", "topic": "TALK_VAMPIRE_MENTOR_SELF" },
+          { "text": "What is this place?", "topic": "TALK_VAMPIRE_MENTOR_SELF" },
+          { "text": "Can I do something for you?", "topic": "TALK_VAMPIRE_MENTOR_ASSISTANCE" },
+          { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
+        ]
+    },
+    {
+        "id": [ "TALK_VAMPIRE_MENTOR_MENTORING" ],
+        "type": "talk_topic",
+        "dynamic_line": {
+            "u_has_effect": "vampire_virus",
+            "no": "I can share with you the gift of vampirism, if it is what you wish.",
+            "yes": "I can help you become a stronger vampire, if it is what you wish."
+        },
+        
+        "responses": [
+          {
+              "text": "[MASTODON 75%] Come, join the herd before you're left behind.",
+              "condition": { "and": [ { "u_has_trait": "THRESH_MASTODON" }, { "npc_has_trait": "THRESH_MASTODON" } ] },
+              "topic": "TALK_AGREE_FOLLOW",
+              "effect": "follow",
+              "opinion": { "value": -1 }
+          },
+          { "text": "What is this place?", "topic": "TALK_VAMPIRE_MENTOR_SELF" },
+          { "text": "Can I do something for you?", "topic": "TALK_VAMPIRE_MENTOR_ASSISTANCE" },
+          { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
+        ]
+    },
+    {
+        "id": [ "TALK_VAMPIRE_MENTOR_KILLING" ],
+        "type": "talk_topic",
+        "dynamic_line": { "str": "There are many vampires in this place. Feel free to kill all the others, I am not affiliated with them." },
+        "responses": [
+          { "text": "I'm here to kill all vampires, no exceptions. Prepare to die.", "topic": "TALK_DONE", "effect": "hostile" },
+          { "text": "You seem more reasonable than the rest. Would you like to be cured of your curse?", "topic": "TALK_VAMPIRE_MENTOR_CURE" },
+          { "text": "It can wait. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_Talk" },
+          { "text": "It can wait. Can we discuss what you meant by \"mentor\"?", "topic": "TALK_VAMPIRE_MENTOR_MENTORING" },
+          { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
+        ]
+    }
+  ]
+]
