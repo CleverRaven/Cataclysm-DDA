@@ -325,8 +325,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
     } else {
         for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
-            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9,
-                                       30 ) ) );
+            c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9, 30 ) ) );
         }
     }
     c->check_dead_state();
