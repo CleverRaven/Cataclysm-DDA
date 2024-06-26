@@ -296,7 +296,7 @@ npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc_template::load( const JsonObject &jsobj )
+void npc_template::load( const JsonObject &jsobj, const std::string_view src )
 {
     npc_template tem;
     npc &guy = tem.guy;
@@ -450,7 +450,7 @@ void npc_template::load( const JsonObject &jsobj )
         tem.personality->altruism = personality.get_int( "altruism" );
     }
     for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
-        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     npc_templates.emplace( guy.idz, std::move( tem ) );

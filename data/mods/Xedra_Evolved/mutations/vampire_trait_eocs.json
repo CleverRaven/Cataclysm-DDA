@@ -20,27 +20,294 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_EYEGLEAM_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "id": "EOC_SET_VAMPIRE_TRAIT_NUMBERS_FOR_NPC_USE",
+    "//": "This is necessary for powers whose effect on NPCs is variable, since the jmath equations return the avatar's traits",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "VAMPIRE2" }, { "u_has_trait": "VAMPIRE3" } ] },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
-      { "queue_eocs": [ "EOC_EYEGLEAM_cast" ], "time_in_future": 1 }
-    ],
-    "false_effect": [ { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" } ]
+      { "math": [ "u_vampire_total_tier_one_traits", "=", "vampire_total_tier_one_traits()" ] },
+      { "math": [ "u_vampire_total_tier_two_traits", "=", "vampire_total_tier_two_traits()" ] },
+      { "math": [ "u_vampire_total_tier_three_traits", "=", "vampire_total_tier_three_traits()" ] },
+      { "math": [ "u_vampire_total_tier_four_traits", "=", "vampire_total_tier_four_traits()" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_EYEGLEAM_cast",
+    "id": "EOC_EYEGLEAM_activated",
+    "condition": { "not": { "u_has_effect": "eyegleam" } },
     "effect": [
       {
-        "u_cast_spell": {
-          "id": "spell_eyegleam",
-          "message": "Your eyes gleam red momentarily as they catch the light available and grant you nightvision."
-        },
-        "targeted": true
+        "run_eocs": [
+          {
+            "id": "EOC_EYEGLEAM_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
+              { "u_add_effect": "eyegleam", "duration": "PERMANENT" },
+              { "u_message": "Your eyes gleam red momentarily as they drink in all available light.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_EYEGLEAM_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350)  +        (vampire_total_tier_four_traits() * 500))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" },
+              { "queue_eocs": "EOC_EYEGLEAM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_EYEGLEAM_deactivated",
+            "condition": { "u_has_effect": "eyegleam" },
+            "effect": [
+              { "u_message": "Your eyes lose their reddish glint as the darkness rolls back in.", "type": "neutral" },
+              { "u_lose_effect": "eyegleam" }
+            ]
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYEGLEAM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "EYEGLEAM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYEGLEAM_maintenance",
+    "condition": { "u_has_effect": "eyegleam" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_EYEGLEAM_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "50" ] },
+              {
+                "u_message": "You feel a momentary warmth as you channel stolen blood into your eyes.",
+                "type": "mixed"
+              },
+              {
+                "queue_eocs": [ "EOC_EYEGLEAM_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350)  +        (vampire_total_tier_four_traits() * 500))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your gleaming eyes.", "type": "bad" },
+              { "u_lose_effect": "eyegleam" },
+              { "u_deactivate_trait": "EYEGLEAM" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STRENGTH_activated",
+    "condition": { "not": { "u_has_effect": "effect_vampiric_strength" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STRENGTH_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
+              { "u_add_effect": "effect_vampiric_strength", "duration": "PERMANENT" },
+              { "u_message": "You feel a surge of power as blood floods your muscles.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300)  +        (vampire_total_tier_four_traits() * 400))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate vigor mortis.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRIC_STRENGTH_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STRENGTH_deactivated",
+            "condition": { "u_has_effect": "effect_vampiric_strength" },
+            "effect": [
+              { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_strength" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STRENGTH_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_STRENGTH" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_STRENGTH_maintenance",
+    "condition": { "u_has_effect": "effect_vampiric_strength" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_STRENGTH_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "75" ] },
+              {
+                "u_message": "You feel a momentary warmth as you channel stolen blood into your muscles.",
+                "type": "mixed"
+              },
+              {
+                "queue_eocs": [ "EOC_VAMPIRIC_STRENGTH_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300) +        (vampire_total_tier_four_traits() * 400))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your vigor mortis.", "type": "bad" },
+              { "u_lose_effect": "effect_vampiric_strength" },
+              { "u_deactivate_trait": "VAMPIRIC_STRENGTH" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_RESILIENCE_activated",
+    "condition": { "not": { "u_has_effect": "effect_vampiric_resilience" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_RESILIENCE_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.25 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
+              { "u_add_effect": "effect_vampiric_resilience", "duration": "PERMANENT" },
+              { "u_message": "You feel a surge of power as blood fortifies your flesh.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300)  +        (vampire_total_tier_four_traits() * 400))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate sanguine resilience.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRIC_RESILIENCE_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_RESILIENCE_deactivated",
+            "condition": { "u_has_effect": "effect_vampiric_resilience" },
+            "effect": [
+              { "u_message": "Your muscles weaken as the stolen blood leaves them.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_resilience" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_RESILIENCE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_RESILIENCE" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_RESILIENCE_maintenance",
+    "condition": { "u_has_effect": "effect_vampiric_resilience" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_RESILIENCE_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "75" ] },
+              {
+                "u_message": "You feel a momentary warmth as you channel stolen blood into your flesh.",
+                "type": "mixed"
+              },
+              {
+                "queue_eocs": [ "EOC_VAMPIRIC_RESILIENCE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (750 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 200) + (vampire_total_tier_three_traits() * 300)  +        (vampire_total_tier_four_traits() * 400))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your sanguine resilience.", "type": "bad" },
+              { "u_lose_effect": "effect_vampiric_resilience" },
+              { "u_deactivate_trait": "VAMPIRIC_RESILIENCE" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_SCENT_BLOOD_activated",
+    "condition": {
+      "math": [
+        "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_archaeologist', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both'))",
+        ">=",
+        "1"
+      ]
+    },
+    "effect": [ { "u_message": "The scent of fresh blood fills your nostrils.  There is a human nearby.", "type": "good" } ],
+    "false_effect": [ { "u_message": "You do not smell any nearby human blood.", "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
@@ -49,22 +316,19 @@
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
-      { "queue_eocs": [ "EOC_STAMINAFORBLOOD_cast" ], "time_in_future": 1 }
+      {
+        "u_message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
+        "type": "good"
+      },
+      {
+        "math": [
+          "u_val('stamina')",
+          "+=",
+          "min((1500 + (vampire_total_tier_one_traits() * 200) + (vampire_total_tier_two_traits() * 450) + (vampire_total_tier_three_traits() * 900) + (vampire_total_tier_four_traits() * 1500)), 15000)"
+        ]
+      }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to recover any stamina.", "type": "bad" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_STAMINAFORBLOOD_cast",
-    "effect": [
-      {
-        "u_cast_spell": {
-          "id": "spell_stamina4blood",
-          "message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution."
-        },
-        "targeted": true
-      }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -80,88 +344,533 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COAGULANTWEAVE_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "500" ] },
+    "condition": { "not": { "u_has_effect": "blood_weave" } },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
-      { "queue_eocs": [ "EOC_COAGULANTWEAVE_cast" ], "time_in_future": 1 }
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_COAGULANTWEAVE_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] },
+              { "u_add_effect": "blood_weave", "duration": "PERMANENT" },
+              { "u_message": "You hold tightly to your blood, preventing it from leaving your body.", "type": "good" },
+              { "u_lose_effect": "bleed", "target_part": "torso" },
+              { "u_lose_effect": "bleed", "target_part": "leg_l" },
+              { "u_lose_effect": "bleed", "target_part": "leg_r" },
+              { "u_lose_effect": "bleed", "target_part": "head" },
+              { "u_lose_effect": "bleed", "target_part": "arm_l" },
+              { "u_lose_effect": "bleed", "target_part": "arm_r" },
+              {
+                "queue_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125)  +        (vampire_total_tier_four_traits() * 200))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate coagulant weave.", "type": "bad" },
+              { "queue_eocs": "EOC_COAGULANTWEAVE_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
     ],
-    "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_COAGULANTWEAVE_deactivated",
+            "condition": { "u_has_effect": "blood_weave" },
+            "effect": [
+              { "u_message": "Your blood flows more freely as your grip on it relaxes.", "type": "neutral" },
+              { "u_lose_effect": "blood_weave" }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_COAGULANTWEAVE_cast",
+    "id": "EOC_COAGULANTWEAVE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "COAGULANTWEAVE" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COAGULANTWEAVE_maintenance",
+    "condition": { "u_has_effect": "blood_weave" },
     "effect": [
       {
-        "u_cast_spell": {
-          "id": "spell_coagulant_weave",
-          "message": "Blood flushes through your skin building preemptive threading that increases your resistance to bleed and bite attacks."
-        },
-        "targeted": true
+        "run_eocs": [
+          {
+            "id": "EOC_COAGULANTWEAVE_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
+              {
+                "u_message": "You feel a momentary warmth as you maintain your grip on your stolen blood.",
+                "type": "mixed"
+              },
+              {
+                "queue_eocs": [ "EOC_COAGULANTWEAVE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (300 + (vampire_total_tier_one_traits() * 33) + (vampire_total_tier_two_traits() * 75) + (vampire_total_tier_three_traits() * 125)  +        (vampire_total_tier_four_traits() * 200))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your coagulant weave.", "type": "bad" },
+              { "u_lose_effect": "blood_weave" },
+              { "u_deactivate_trait": "COAGULANTWEAVE" }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHEAL_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-9500" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
-      { "queue_eocs": [ "EOC_BLOODHEAL_cast" ], "time_in_future": 1 }
+      { "u_message": "Blood suffuses your flesh, repairing any damage it comes across.", "type": "good" },
+      {
+        "math": [
+          "u_hp('arm_l')",
+          "+=",
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits() * 2.5)), 25)"
+        ]
+      },
+      {
+        "math": [
+          "u_hp('arm_r')",
+          "+=",
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits() * 2.5)), 25)"
+        ]
+      },
+      {
+        "math": [
+          "u_hp('leg_l')",
+          "+=",
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits() * 2.5)), 25)"
+        ]
+      },
+      {
+        "math": [
+          "u_hp('leg_r')",
+          "+=",
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits() * 2.5)), 25)"
+        ]
+      },
+      {
+        "math": [
+          "u_hp('torso')",
+          "+=",
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits() * 2.5)), 25)"
+        ]
+      },
+      {
+        "math": [
+          "u_hp('head')",
+          "+=",
+          "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25)  +        (vampire_total_tier_four_traits() * 2.5)), 25)"
+        ]
+      }
     ],
-    "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You don't have enough blood to heal your wounds.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BLOODHEAL_cast",
+    "id": "EOC_VAMPIRIC_DODGE_activated",
+    "condition": { "not": { "u_has_effect": "effect_vampiric_dodge" } },
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_blood_heal", "message": "Blood flushes through your flesh repairing any damage it comes across." },
-        "targeted": true
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_DODGE_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "250" ] },
+              { "u_add_effect": "effect_vampiric_dodge", "duration": "PERMANENT" },
+              { "u_message": "You begin dodging with preternatural agility.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  +        (vampire_total_tier_four_traits() * 30))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate flow like blood.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRIC_DODGE_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_DODGE_deactivate",
+            "condition": { "u_has_effect": "effect_vampiric_dodge" },
+            "effect": [
+              { "u_message": "Your movements slow as your lose your preternatural avoidance.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampiric_dodge" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_DODGE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRIC_DODGE" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRIC_DODGE_maintenance",
+    "condition": { "u_has_effect": "effect_vampiric_dodge" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRIC_DODGE_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "125" ] },
+              {
+                "u_message": "You feel a momentary warmth as you maintain your preternatural dodging.",
+                "type": "mixed"
+              },
+              {
+                "queue_eocs": [ "EOC_VAMPIRIC_DODGE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  +        (vampire_total_tier_four_traits() * 30))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your flow like blood.", "type": "bad" },
+              { "u_lose_effect": "effect_vampiric_dodge" },
+              { "u_deactivate_trait": "VAMPIRIC_DODGE" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_FEAR_GAZE_activated",
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "effect": [
+      {
+        "math": [
+          "u_vampire_fear_gaze_power_level",
+          "=",
+          "(n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1) + (n_vampire_total_tier_four_traits * 2) "
+        ]
+      },
+      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_FEAR_GAZE_activated_2",
+            "condition": { "not": { "u_has_effect": "effect_vampire_fear_gazed" } },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_VAMPIRE_FEAR_GAZE_activated_3",
+                    "condition": "u_is_npc",
+                    "effect": [
+                      { "math": [ "u_val('npc_fear')", "+=", "u_vampire_fear_gaze_power_level / 2" ] },
+                      { "npc_message": "You bare your fangs and hiss at your target." },
+                      { "u_add_effect": "effect_vampire_fear_gazed", "duration": "5 minutes" }
+                    ],
+                    "false_effect": [
+                      { "math": [ "u_val('morale')", "-=", "u_vampire_fear_gaze_power_level * 5" ] },
+                      { "npc_message": "You bare your fangs and hiss at your target." },
+                      { "u_add_effect": "effect_vampire_fear_gazed", "duration": "5 minutes" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "npc_message": "You don't have enough blood to activate your predator's mien.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BEAST_CLAWS_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_BEAST_CLAWS_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BEAST_CLAWS_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 0.75 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "125" ] },
+              { "u_add_trait": "VAMPIRE_BEAST_CLAWS_active" },
+              { "u_message": "Your fingers twist into sharp claws.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150)  +        (vampire_total_tier_four_traits() * 225))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate your claws of the beast.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRE_BEAST_CLAWS_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BEAST_CLAWS_deactivate",
+            "condition": { "u_has_trait": "VAMPIRE_BEAST_CLAWS_active" },
+            "effect": [
+              { "u_message": "Your fingers warp and twist as your claws vanish.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_BEAST_CLAWS_active" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BEAST_CLAWS_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_BEAST_CLAWS" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BEAST_CLAWS_maintenance",
+    "condition": { "u_has_trait": "VAMPIRE_BEAST_CLAWS_active" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BEAST_CLAWS_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "62" ] },
+              { "u_message": "You feel a momentary warmth as you maintain your sharp claws.", "type": "mixed" },
+              {
+                "queue_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (800 + (vampire_total_tier_one_traits() * 60) + (vampire_total_tier_two_traits() * 100) + (vampire_total_tier_three_traits() * 150)  +        (vampire_total_tier_four_traits() * 225))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your claws of the beast.", "type": "bad" },
+              { "u_lose_trait": "VAMPIRE_BEAST_CLAWS_active" },
+              { "u_deactivate_trait": "VAMPIRE_BEAST_CLAWS" }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "150" ] },
-      { "queue_eocs": [ "EOC_HYPNOTIC_GAZE_cast" ], "time_in_future": 1 }
+      {
+        "math": [
+          "u_vampire_hypnotic_gaze_power_level",
+          "=",
+          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) "
+        ]
+      },
+      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "150" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HYPNOTIC_GAZE_activated_2",
+            "effect": [ { "u_add_effect": "stunned", "duration": { "math": [ "u_vampire_hypnotic_gaze_power_level" ] } } ]
+          }
+        ]
+      }
     ],
-    "false_effect": [ { "u_message": "You don't have enough blood to hypnotize your foes.", "type": "bad" } ]
+    "false_effect": [ { "npc_message": "You don't have enough blood to activate your hypnotic gaze.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_HYPNOTIC_GAZE_cast",
+    "id": "EOC_BLOODHASTE_activated",
+    "condition": { "not": { "u_has_effect": "haste" } },
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_hypnotic_gaze", "message": "Your eyes redden and deepen as you lock gazes with your prey." },
-        "targeted": true
+        "run_eocs": [
+          {
+            "id": "EOC_BLOODHASTE_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
+              { "u_add_effect": "haste", "duration": "PERMANENT" },
+              { "u_message": "You movements accelerate to superhuman levels.", "type": "good" },
+              {
+                "queue_eocs": [ "EOC_BLOODHASTE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  +        (vampire_total_tier_four_traits() * 30))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to activate blood-driven speed.", "type": "bad" },
+              { "queue_eocs": "EOC_BLOODHASTE_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLOODHASTE_deactivated",
+            "condition": { "u_has_effect": "haste" },
+            "effect": [ { "u_message": "Your speed returns to normal.", "type": "neutral" }, { "u_lose_effect": "haste" } ]
+          }
+        ]
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BLOODHASTE_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-1500" ] },
-    "effect": [
-      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "750" ] },
-      { "queue_eocs": [ "EOC_BLOODHASTE_cast" ], "time_in_future": 1 }
-    ],
-    "false_effect": [ { "u_message": "You lack the stolen lifeforce to accelerate your own.", "type": "bad" } ]
+    "id": "EOC_BLOODHASTE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "BLOODHASTE" }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BLOODHASTE_cast",
+    "id": "EOC_BLOODHASTE_maintenance",
+    "condition": { "u_has_effect": "haste" },
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_blood_haste", "message": "Blood flushes through your flesh pushing you beyond human limits." },
-        "targeted": true
+        "run_eocs": [
+          {
+            "id": "EOC_BLOODHASTE_maintenance_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "375" ] },
+              { "u_message": "You feel a momentary warmth as you maintain your superhuman speed.", "type": "mixed" },
+              {
+                "queue_eocs": [ "EOC_BLOODHASTE_maintenance" ],
+                "time_in_future": {
+                  "math": [
+                    "rng(0.75,1.25) * (60 + (vampire_total_tier_one_traits() * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20)  +        (vampire_total_tier_four_traits() * 30))"
+                  ]
+                }
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your blood-driven speed.", "type": "bad" },
+              { "u_lose_effect": "haste" },
+              { "u_deactivate_trait": "BLOODHASTE" }
+            ]
+          }
+        ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_COMMAND_BEAST_activated",
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "effect": [
+      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "500" ] },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_COMMAND_BEAST_activated_2",
+            "effect": [
+              { "npc_cast_spell": { "id": "vampire_command_beast_spell_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
+              { "npc_message": "You exert your predatory will on your target.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "npc_message": "You don't have enough blood to attempt to cow the beast.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_EARTH_SLUMBER_activated",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain": "t_soil" },
+        { "u_is_on_terrain": "t_rock" },
+        { "u_is_on_terrain": "t_dirt_underground" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_VAMPIRE_EARTH_SLUMBER_activated_2" } ],
+    "false_effect": [ { "u_message": "You must be on diggable soil to sink into it.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_EARTH_SLUMBER_activated_2",
+    "condition": { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_VAMPIRE_EARTH_SLUMBER_activated_3",
+          "effect": [
+            { "u_location_variable": { "u_val": "VAMPIRE_sleep_in_earth_starting_point" }, "min_radius": 0, "max_radius": 0 },
+            {
+              "u_location_variable": { "u_val": "VAMPIRE_sleep_in_earth_destination" },
+              "min_radius": 0,
+              "max_radius": 0,
+              "z_adjust": -9,
+              "z_override": true
+            },
+            { "u_message": "The earth parts beneath you and you sink down into the soil.", "type": "good" },
+            { "u_teleport": { "u_val": "VAMPIRE_sleep_in_earth_destination" }, "force": true }
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_teleport": { "u_val": "VAMPIRE_sleep_in_earth_starting_point" } },
+      { "u_message": "You feel yourself rising until you stand in the clear air once again.", "type": "good" }
     ]
   }
 ]

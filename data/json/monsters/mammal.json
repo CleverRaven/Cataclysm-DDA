@@ -1187,7 +1187,7 @@
     "melee_dice_sides": 1,
     "stomach_size": 115,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "delete": { "zombify_into": "mon_zombie_dog" },
+    "zombify_into": "",
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",

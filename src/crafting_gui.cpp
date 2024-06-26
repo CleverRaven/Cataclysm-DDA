@@ -91,9 +91,24 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
     {NORMAL_CRAFTING, to_translation( "craftable" )}
 };
 
-// TODO: Convert these globals to handling categories via generic_factory?
-static std::vector<std::string> craft_cat_list;
-static std::map<std::string, std::vector<std::string> > craft_subcat_list;
+namespace
+{
+
+generic_factory<crafting_category> craft_cat_list( "recipe_category" );
+
+} // namespace
+
+template<>
+const crafting_category &string_id<crafting_category>::obj() const
+{
+    return craft_cat_list.obj( *this );
+}
+
+template<>
+bool string_id<crafting_category>::is_valid() const
+{
+    return craft_cat_list.is_valid( *this );
+}
 
 static bool query_is_yes( std::string_view query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
@@ -127,32 +142,39 @@ static std::string get_cat_unprefixed( const std::string_view prefixed_name )
     return std::string( prefixed_name.substr( 3, prefixed_name.size() - 3 ) );
 }
 
-void load_recipe_category( const JsonObject &jsobj )
+void load_recipe_category( const JsonObject &jsobj, const std::string &src )
 {
-    const std::string category = jsobj.get_string( "id" );
-    const bool is_hidden = jsobj.get_bool( "is_hidden", false );
+    craft_cat_list.load( jsobj, src );
+}
 
-    if( category.find( "CC_" ) != 0 ) {
-        jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
+void crafting_category::load( const JsonObject &jo, const std::string_view )
+{
+    // Ensure id is correct
+    if( id.str().find( "CC_" ) != 0 ) {
+        jo.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    if( !is_hidden
-        && std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end()
-      ) {
-        craft_cat_list.push_back( category );
-    }
+    optional( jo, was_loaded, "is_hidden", is_hidden, false );
+    optional( jo, was_loaded, "is_practice", is_practice, false );
+    optional( jo, was_loaded, "is_building", is_building, false );
+    optional( jo, was_loaded, "is_wildcard", is_wildcard, false );
+    mandatory( jo, was_loaded, "recipe_subcategories", subcategories,
+               auto_flags_reader<> {} );
 
-    const std::string cat_name = get_cat_unprefixed( category );
-
-    craft_subcat_list[category].clear();
-    for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
+    // Ensure subcategory ids are correct and remove dupes
+    std::string cat_name = get_cat_unprefixed( id.str() );
+    std::unordered_set<std::string> known;
+    for( auto it = subcategories.begin(); it != subcategories.end(); ) {
+        const std::string &subcat_id = *it;
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
-            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
+            jo.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
-        if( find( craft_subcat_list[category].begin(), craft_subcat_list[category].end(),
-                  subcat_id ) == craft_subcat_list[category].end() ) {
-            craft_subcat_list[category].push_back( subcat_id );
+        if( known.find( subcat_id ) != known.end() ) {
+            it = subcategories.erase( it );
+            continue;
         }
+        known.emplace( subcat_id );
+        ++it;
     }
 }
 
@@ -170,8 +192,7 @@ static std::string get_subcat_unprefixed( const std::string_view cat,
 
 void reset_recipe_categories()
 {
-    craft_cat_list.clear();
-    craft_subcat_list.clear();
+    craft_cat_list.reset();
 }
 
 static bool cannot_gain_skill_or_prof( const Character &crafter, const recipe &recp )
@@ -860,7 +881,7 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
 }
 
 static std::pair<std::vector<const recipe *>, bool>
-recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat,
+recipes_from_cat( const recipe_subset &available_recipes, const crafting_category_id &cat,
                   const std::string &subcat )
 {
     if( subcat == "CSC_*_FAVORITE" ) {
@@ -1282,8 +1303,16 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     bool is_filtered_unread = false;
     std::map<std::string, bool> is_cat_unread;
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
-    tab_list tab( craft_cat_list );
-    tab_list subtab( craft_subcat_list[tab.cur()] );
+    std::vector<std::string> crafting_categories;
+    crafting_categories.reserve( craft_cat_list.size() );
+    for( const crafting_category &cat : craft_cat_list.get_all() ) {
+        if( cat.is_hidden ) {
+            continue;
+        }
+        crafting_categories.emplace_back( cat.id.str() );
+    }
+    tab_list tab( crafting_categories );
+    tab_list subtab( crafting_category_id( tab.cur() )->subcategories );
     std::map<size_t, inclusive_rectangle<point>> translated_tab_map;
     std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
     std::map<size_t, inclusive_rectangle<point>> list_map;
@@ -1330,13 +1359,11 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             gotocat.end(), [&goto_recipe]( const recipe * r ) {
                 return r && r->ident() == goto_recipe;
             } );
-            if( gotorec != gotocat.end() &&
-                std::find( craft_cat_list.begin(), craft_cat_list.end(),
-                           goto_recipe->category ) != craft_cat_list.end() ) {
-                while( tab.cur() != goto_recipe->category ) {
+            if( gotorec != gotocat.end() && ( *gotorec )->category.is_valid() ) {
+                while( tab.cur() != goto_recipe->category.str() ) {
                     tab.next();
                 }
-                subtab = tab_list( craft_subcat_list[tab.cur()] );
+                subtab = tab_list( crafting_category_id( tab.cur() )->subcategories );
                 chosen = *gotorec;
                 show_hidden = true;
                 keepline = true;
@@ -1349,12 +1376,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         if( highlight_unread_recipes && recalc_unread ) {
             if( filterstring.empty() ) {
-                for( const std::string &cat : craft_cat_list ) {
+                for( const std::string &cat : crafting_categories ) {
                     is_cat_unread[cat] = false;
-                    for( const std::string &subcat : craft_subcat_list[cat] ) {
+                    for( const std::string &subcat : crafting_category_id( cat )->subcategories ) {
                         is_subcat_unread[cat][subcat] = false;
                         const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
-                                cat, subcat );
+                                crafting_category_id( cat ), subcat );
                         const std::vector<const recipe *> &recipes = result.first;
                         const bool include_hidden = result.second;
                         for( const recipe *const rcp : recipes ) {
@@ -1583,7 +1610,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
                 } else {
                     const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
-                            tab.cur(), subtab.cur() );
+                            crafting_category_id( tab.cur() ), subtab.cur() );
                     show_hidden = result.second;
                     if( show_hidden ) {
                         current = result.first;
@@ -1722,7 +1749,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                     if( entry.second.contains( local_coord ) ) {
                         tab.set_index( entry.first );
                         recalc = true;
-                        subtab = tab_list( craft_subcat_list[tab.cur()] );
+                        subtab = tab_list( crafting_category_id( tab.cur() )->subcategories );
                         handled = true;
                     }
                 }
@@ -1751,8 +1778,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             std::string start = subtab.cur();
             do {
                 subtab.prev();
-            } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
-                     subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
+            } while( subtab.cur() != start &&
+                     available_recipes.empty_category( crafting_category_id( tab.cur() ),
+                             subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
         } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             line_item_info -= scroll_item_info_lines;
@@ -1766,7 +1794,7 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                                              mouse_in_window( coord, w_head_tabs ) ) ) {
             tab.prev();
             // Default ALL
-            subtab = tab_list( craft_subcat_list[tab.cur()] );
+            subtab = tab_list( crafting_category_id( tab.cur() )->subcategories );
             recalc = true;
         } else if( action == "RIGHT" || ( action == "SCROLL_DOWN" &&
                                           mouse_in_window( coord, w_subhead ) ) ) {
@@ -1776,14 +1804,15 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             std::string start = subtab.cur();
             do {
                 subtab.next();
-            } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
-                     subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
+            } while( subtab.cur() != start &&
+                     available_recipes.empty_category( crafting_category_id( tab.cur() ),
+                             subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
         } else if( action == "NEXT_TAB" || ( action == "SCROLL_DOWN" &&
                                              mouse_in_window( coord, w_head_tabs ) ) ) {
             tab.next();
             // Default ALL
-            subtab = tab_list( craft_subcat_list[tab.cur()] );
+            subtab = tab_list( crafting_category_id( tab.cur() )->subcategories );
             recalc = true;
         } else if( action == "DOWN" ) {
             if( !previously_toggled_unread ) {
@@ -2333,12 +2362,15 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
         case NORMAL: {
             std::vector<std::string> translated_cats;
             translated_cats.reserve( craft_cat_list.size() );
-            for( const std::string &cat : craft_cat_list ) {
-                if( unread[ cat ] ) {
+            for( const crafting_category &cat : craft_cat_list.get_all() ) {
+                if( cat.is_hidden ) {
+                    continue;
+                }
+                if( unread[ cat.id.str() ] ) {
                     translated_cats.emplace_back( _( get_cat_unprefixed(
-                                                         cat ) ).append( "<color_light_green>⁺</color>" ) );
+                                                         cat.id.str() ) ).append( "<color_light_green>⁺</color>" ) );
                 } else {
-                    translated_cats.emplace_back( _( get_cat_unprefixed( cat ) ) );
+                    translated_cats.emplace_back( _( get_cat_unprefixed( cat.id.str() ) ) );
                 }
             }
             std::pair<std::vector<std::string>, size_t> fitted_tabs = fit_tabs_to_width( getmaxx( w ),
@@ -2390,19 +2422,22 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
             std::vector<std::string> translated_subcats;
             std::vector<bool> empty_subcats;
             std::vector<bool> unread_subcats;
-            translated_subcats.reserve( craft_subcat_list[tab].size() );
-            empty_subcats.reserve( craft_subcat_list[tab].size() );
-            unread_subcats.reserve( craft_subcat_list[tab].size() );
-            for( const std::string &subcat : craft_subcat_list[tab] ) {
+            crafting_category_id current_cat = crafting_category_id( tab );
+            size_t subcats_count = current_cat->subcategories.size();
+            translated_subcats.reserve( subcats_count );
+            empty_subcats.reserve( subcats_count );
+            unread_subcats.reserve( subcats_count );
+            for( const std::string &subcat : current_cat->subcategories ) {
                 translated_subcats.emplace_back( _( get_subcat_unprefixed( tab, subcat ) ) );
-                empty_subcats.emplace_back( available_recipes.empty_category( tab,
-                                            subcat != "CSC_ALL" ? subcat : "" ) );
+                empty_subcats.emplace_back( available_recipes.empty_category(
+                                                crafting_category_id( tab ),
+                                                subcat != "CSC_ALL" ? subcat : "" ) );
                 unread_subcats.emplace_back( unread[subcat] );
             }
             std::pair<std::vector<std::string>, size_t> fitted_subcat_list = fit_tabs_to_width( getmaxx( w ),
                     subtab, translated_subcats );
             size_t offset = fitted_subcat_list.second;
-            if( fitted_subcat_list.first.size() + offset > craft_subcat_list[tab].size() ) {
+            if( fitted_subcat_list.first.size() + offset > subcats_count ) {
                 break;
             }
             // Draw the tabs on each other
@@ -2440,9 +2475,9 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
 
 const std::vector<std::string> *subcategories_for_category( const std::string &category )
 {
-    auto it = craft_subcat_list.find( category );
-    if( it != craft_subcat_list.end() ) {
-        return &it->second;
+    crafting_category_id cat( category );
+    if( !cat.is_valid() ) {
+        return nullptr;
     }
-    return nullptr;
+    return &cat->subcategories;
 }
