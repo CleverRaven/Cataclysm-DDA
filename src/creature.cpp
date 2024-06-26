@@ -2864,7 +2864,7 @@ std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs 
 }
 
 
-std::string Creature::string_for_ground_contact_bodyparts( std::vector<bodypart_id> bps ) const
+std::string Creature::string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps ) const
 {
     //Taken of "body_part_names" function in armor_layers.cpp
     std::vector<std::string> names;
