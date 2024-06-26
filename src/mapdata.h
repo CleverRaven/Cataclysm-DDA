@@ -33,7 +33,7 @@ struct itype;
 struct tripoint;
 
 // size of connect groups bitset; increase if needed
-const int NUM_TERCONN = 32;
+const int NUM_TERCONN = 256;
 connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
