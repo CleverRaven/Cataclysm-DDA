@@ -115,7 +115,8 @@
     "name": { "str": "hunting magnum" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
     "description": "Early handgun hunters helped develop this revolver's magnum ammunition from standard calibers, which needed heavier revolvers to safely fire it.  These revolvers' cylinders can thus chamber both magnum and standard pistol ammunition.  You could take medium to large game with this hefty piece.",
-    "longest_side": "300 mm",
+    "longest_side": "250 mm",
+    "volume": "400 ml",
     "clip_size": 6,
     "pocket_data": [
       {
