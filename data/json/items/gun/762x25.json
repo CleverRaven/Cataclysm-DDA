@@ -5,12 +5,12 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Tokarev handgun" },
-    "description": "A symbol of Soviet pride and favored sidearm of Red Army officers, this is a compact pistol firing the punchy 7.62x25mm cartridge.  featuring an uncomfortable grip angle reminiscent of brandishing an unusually irate capital L at one's opponents, it is nevertheless a commendably accurate and durable handgun.",
+    "description": "The Tokarev TT-33 is an antique Russian semiautomatic pistol, famous for its durability, accuracy, and uncomfortable grip angle.  It was chambered for the 7.62x25mm due to the popularity of the C96 pistol among Russian revolutionaries.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tokarev",
-        "name": { "str": "Tokarev TT-33 pistol" },
+        "name": { "str": "Tokarev TT-33" },
         "//": "And it's therefore expensive.",
         "description": "The Tokarev TT-33 is an antique Russian semiautomatic pistol, famous for its durability, accuracy, and uncomfortable grip angle.  It was chambered for the 7.62x25mm due to the popularity of the C96 pistol among Russian revolutionaries."
       }
