@@ -1,5 +1,19 @@
 [
   {
+    "id": "fae_changeling",
+    "//": "nether organs could be in base game.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fae_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "fae_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "fae_organs", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 }
+    ]
+  },
+  {
     "id": "fae_furred",
     "//": "nether organs could be in base game.",
     "type": "harvest",
