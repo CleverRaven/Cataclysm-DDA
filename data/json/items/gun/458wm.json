@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "win70_458_safari",
-        "name": { "str": "Winchester Model 70 Safari rifle" },
+        "name": { "str": "Winchester Model 70 Safari", "str_pl": "Winchester Model 70s Safari" },
         "description": "This is a Winchester Model 70 Safari Express chambered in .458 Winchester Magnum, a fine bolt-action rifle for hunting dangerous game.  A fixture of American gun culture, the Model 70 has been held in high regard by shooters since it was introduced in 1936."
       }
     ],
