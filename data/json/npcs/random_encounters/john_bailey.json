@@ -85,7 +85,7 @@
       { "item": "backpack_hiking" },
       { "item": "wristwatch" },
       { "item": "bandolier_pistol", "contents-group": "john_bailey_bandolier" },
-      { "item": "holster", "contents-group": "john_bailey_pistol" },
+      { "item": "XL_holster", "contents-group": "john_bailey_pistol" },
       { "item": "bow_sling", "contents-item": "compbow_low" },
       { "item": "quiver", "contents-group": "john_bailey_quiver" }
     ]
