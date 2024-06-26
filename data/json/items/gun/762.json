@@ -57,7 +57,7 @@
     "variants": [
       {
         "id": "arx160",
-        "name": { "str": "Beretta ARX-160 rifle" },
+        "name": { "str": "Beretta ARX-160" },
         "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm."
       }
     ],
@@ -357,7 +357,7 @@
     "variants": [
       {
         "id": "mk47",
-        "name": { "str": "Mk47 Mutant rifle" },
+        "name": { "str": "Mk47 Mutant" },
         "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo."
       }
     ],
@@ -401,12 +401,12 @@
     "variants": [
       {
         "id": "bren2_762",
-        "name": { "str": "CZ Bren 2 carbine" },
+        "name": { "str": "CZ Bren 2" },
         "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former's features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       },
       {
         "id": "805_bren",
-        "name": { "str": "CZ 805 Bren rifle" },
+        "name": { "str": "CZ 805 Bren" },
         "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic's formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
       }
     ],

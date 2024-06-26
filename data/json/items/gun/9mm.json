@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "calico",
-        "name": { "str": "Calico M960 carbine" },
+        "name": { "str": "Calico M960" },
         "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
         "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of lead down range for a long time providing that it doesn't choke, jam, and die."
       }
@@ -66,7 +66,7 @@
     "variants": [
       {
         "id": "cx4",
-        "name": { "str": "Cx4 Storm carbine" },
+        "name": { "str": "Cx4 Storm" },
         "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns."
       }
     ],
@@ -128,7 +128,7 @@
     "variants": [
       {
         "id": "glock_19",
-        "name": { "str": "Glock 19 pistol" },
+        "name": { "str": "Glock 19" },
         "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right."
       },
       {
@@ -277,7 +277,7 @@
     "variants": [
       {
         "id": "ptr_603",
-        "name": { "str": "PTR 603 submachine gun" },
+        "name": { "str": "PTR 603" },
         "description": "The PTR 603 is a semi-automatic copy of the famous MP5 series, domestically produced for the US market on original Heckler & Koch tooling by PTR Industries.  Like the MP5, its roller delayed blowback action offers smooth shooting and precision, setting it apart from other submachine guns and pistol caliber carbines.  This model is configured as a pistol to avoid inconvenient and costly NFA regulations.  A welded-on section of M1913 rail offers convenient mounting for aftermarket optics, but precludes the use of claw mounts."
       }
     ],
@@ -398,7 +398,7 @@
     "variants": [
       {
         "id": "mauser_c96",
-        "name": { "str": "Mauser C96 Broomhandle pistol" },
+        "name": { "str": "Mauser C96 Broomhandle" },
         "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it's only fitting that one of the globe's first produced and oldest semi-automatic handguns gets reinstated into service now that the planet's facing its end."
       }
     ],
@@ -448,7 +448,7 @@
     "variants": [
       {
         "id": "mauser_m714",
-        "name": { "str": "M714 Broomhandle pistol" },
+        "name": { "str": "M714 Broomhandle" },
         "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship.  However, what rests before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser's own 7.63x25mm cartridge."
       }
     ],
@@ -471,7 +471,7 @@
     "variants": [
       {
         "id": "mp40",
-        "name": { "str": "Vollmer MP 40 submachine gun" },
+        "name": { "str": "Vollmer MP 40" },
         "description": "A simple and renowned 9x19mm submachine gun developed by Heinrich Vollmer for the German army.  Adopted  in 1940, it saw extensive service on both fronts of the Second World War and was much regarded by soldiers who fielded the weapon in combat, being praised for its reliability and relatively modern design.  Featuring an integral folding wire butt stock, this weapon more than likely entered the United States as a war trophy by a returning veteran.  It was often called \"Schmeisser\" by the Allies, after Hugo Schmeisser, who designed the MP 18, although he was not involved in the design or production of the MP 40."
       }
     ],
@@ -510,7 +510,7 @@
     "id": "mp40semi",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": { "str": "Semi Automatic MP 40 submachine gun" },
+    "name": { "str": "MP 40 semi-auto submachine gun" },
     "description": "A modern semi-automatic replica of the MP 40 submachine gun, which lacks a butt stock to make it legally be considered a pistol.  It actually bears only a visual resemblance to the original, differing substantially from originally manufactured MP 40 submachine guns in its internal operations.",
     "weight": "3722 g",
     "volume": "2020 ml",
@@ -543,7 +543,7 @@
     "variants": [
       {
         "id": "ksub2000",
-        "name": { "str": "Kel-Tec SUB-2000 carbine" },
+        "name": { "str": "Kel-Tec SUB-2000" },
         "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded."
       }
     ],
@@ -611,12 +611,12 @@
     "variants": [
       {
         "id": "m9",
-        "name": { "str": "Beretta M9A1 pistol" },
+        "name": { "str": "Beretta M9A1" },
         "description": "An iconic 9x19mm pistol, the M9 was the standard issue sidearm of the US armed forces from 1985 until only recently.  It was formerly popular amongst law enforcement before the advent of commercially available polymer-framed handguns and the FBI's adoption of .40 S&W."
       },
       {
         "id": "90two",
-        "name": { "str": "Beretta 90-two pistol" },
+        "name": { "str": "Beretta 90-two", "str_pl": "Berettas 90-two" },
         "description": "A more modern version of Beretta's popular 92 series of handguns, the 90-two performs largely the same.  The main difference is a sleeker, almost futuristic-looking design owed in large part to the polymer underbarrel rail cover."
       }
     ],
@@ -880,7 +880,7 @@
     "variants": [
       {
         "id": "glock_17",
-        "name": { "str": "Glock 17 pistol" },
+        "name": { "str": "Glock 17" },
         "description": "Commonly seen tucked away in the holsters of police officers, certain military professionals, and civilian shooters, this is a larger, older, service-oriented version of the popular Glock 19.  Similarly firing the 9x19mm cartridge and using higher capacity magazines, it performs largely the same, but due to the longer magazine well, it can't fit magazines shorter than the standard 17-round ones."
       }
     ],
@@ -921,7 +921,7 @@
     "variants": [
       {
         "id": "glock_18c",
-        "name": { "str": "Glock 18C pistol" },
+        "name": { "str": "Glock 18C" },
         "description": "A selective-fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable."
       }
     ],
@@ -982,7 +982,7 @@
     "variants": [
       {
         "id": "m17",
-        "name": { "str": "M17 pistol" },
+        "name": { "str": "M17" },
         "description": "The M17 is an army issued semi-automatic, short recoil operated pistol derived from the SIG Sauer P320."
       }
     ],
@@ -1019,7 +1019,7 @@
     "variants": [
       {
         "id": "m18",
-        "name": { "str": "M18 pistol" },
+        "name": { "str": "M18" },
         "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.  Practically the same as its big brother, the M17, in every respect, the M18 features a moderately shorter slide and barrel which terminates at the end of the frame rather than extending partway beyond it like the M17."
       }
     ],
@@ -1255,7 +1255,7 @@
     "variants": [
       {
         "id": "colt_ro635",
-        "name": { "str": "Colt Model 635 submachine gun" },
+        "name": { "str": "Colt Model 635" },
         "description": "A 9x19mm submachine gun based on the M16 rifle design, it is a closed bolt, blowback operated firearm.  There is a large plastic brass deflector mounted by the ejection port, and no forward assist.  It looks very similar to an M4 carbine, except for the magazine well that accepts Uzi-style magazines."
       }
     ],
