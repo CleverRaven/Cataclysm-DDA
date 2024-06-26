@@ -675,6 +675,20 @@ bool Character::handle_gun_damage( item &it )
         return false;
     }
 
+
+    double mag_ftf_chance = 0.0;
+    double mag_damage = 0.0;
+    if (it.magazine_current()) { 
+    mag_ftf_chance = it.magazine_current()->type->magazine->mag_fail_to_feed_chance;
+    mag_damage = it.magazine_current()->damage() / 1000.0;
+    }
+    const double gun_damage = it.damage() / 1000.0;
+    const double gun_ftf_chance = firing.gun_fail_to_feed_chance;
+
+    const double jam_chance = (mag_ftf_chance + gun_ftf_chance) * std::pow(2, (gun_damage * 1.75) + (mag_damage * 2));
+     
+    add_msg_debug(debugmode::DF_RANGED, "Gun fail to feed chance: %g\nMagazine fail to feed chance: %g\nGun damage level: %g\nMagazine damage level: %g\nFail to feed chance: %g%%", gun_ftf_chance, mag_ftf_chance, gun_damage, mag_damage, jam_chance * 100);
+
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
@@ -690,14 +704,16 @@ bool Character::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
-    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
-        add_msg_player_or_npc( _( "Your %s malfunctions!" ),
-                               _( "<npcname>'s %s malfunctions!" ),
-                               it.tname() );
+    }
+    else if (one_in((2 << effective_durability) * 3) && !it.has_flag(flag_NEVER_JAMS)) {
+        add_msg_player_or_npc(_("Your %s malfunctions!"),
+            _("<npcname>'s %s malfunctions!"),
+            it.tname());
         return false;
         // Here we check for a chance for the weapon to suffer a failure to feed
         // usually caused by the magazine size or condition
-    else if ( x_in_y( it.magazine_current()->type->magazine->mag_jam_odds, 1000 )) {
+    }
+    else if (x_in_y(jam_chance, 1 )) {
         add_msg_player_or_npc(_("Your %s didn't load into the chamber!"),
             _("<npcname>'s %s didn't load into the chamber!"),
             it.tname());

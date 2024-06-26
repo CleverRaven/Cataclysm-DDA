@@ -787,6 +787,11 @@ struct islot_gun : common_ranged_data {
     */
     double overheat_threshold = -1.0;
 
+    /**
+    *  Chance for the gun to fail to feed.
+    */
+    double gun_fail_to_feed_chance = 0.00027;
+
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 
     /**
@@ -945,8 +950,8 @@ struct islot_magazine {
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 
-    /** Permille for the gun to jam, usually due the size of the magazine*/
-    int mag_jam_odds = 0;
+    /** Permille for the gun to fail to feed, usually due the size of the magazine*/
+    double mag_fail_to_feed_chance = 0.00053 ;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     std::optional<itype_id> linkage;
