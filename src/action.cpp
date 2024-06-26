@@ -555,12 +555,6 @@ std::optional<std::string> press_x_if_bound( action_id act )
 
 action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
 {
-    if( d.z == -1 ) {
-        return ACTION_MOVE_DOWN;
-    } else if( d.z == 1 ) {
-        return ACTION_MOVE_UP;
-    }
-
     const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     if( d.xy() == point_north ) {
         return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
@@ -576,9 +570,20 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
         return iso_mode ? ACTION_MOVE_BACK : ACTION_MOVE_BACK_LEFT;
     } else if( d.xy() == point_west ) {
         return iso_mode ? ACTION_MOVE_BACK_LEFT : ACTION_MOVE_LEFT;
-    } else {
+    } else if( d.xy() == point_north_west ) {
         return iso_mode ? ACTION_MOVE_LEFT : ACTION_MOVE_FORTH_LEFT;
     }
+
+    // Check z location last.
+    // If auto-moving over ramps, we need the character to move the xy directions.
+    // The z-movement is caused by the ramp automatically.
+    if( d.z == -1 ) {
+        return ACTION_MOVE_DOWN;
+    } else if( d.z == 1 ) {
+        return ACTION_MOVE_UP;
+    }
+
+    return ACTION_NULL;
 }
 
 point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
