@@ -5874,9 +5874,10 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
         // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
+        { effect_boomered, ef_con( to_translation( " has <color_magenta>bile</color> covering their eyes.  " ) ) },
         { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
         { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
+        { effect_bile_irritant, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
         { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
         { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
         { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
