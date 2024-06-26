@@ -10,8 +10,8 @@
     "variants": [
       {
         "id": "sw_500",
-        "name": { "str": "S&W 500 revolver" },
-        "description": "The 5-shot Smith and Wesson 500 revolver fires the comparably-named .500 S&W Magnum.  It's an impressive weapon."
+        "name": { "str": "S&W 500" },
+        "description": "The definition of 'overkill', this behemoth handgun puts large .44 caliber revolvers to shame with its sheer size, power, and immense chambering.  Firing the appropriately named .500 Magnum cartridge, the most powerful handgun round in the world, the weapon has seen work in both sport shooting and hunting roles.  A pistol for those of the 'bigger is better' mentality, a high recoil junky's personal dream, and an all-around useless military sidearm, should the urge to assault the Cataclysm in fine style grip you, this giant provides you with 5 rounds with which to reduce a zombie into an afterthought."
       }
     ],
     "weight": "1960 g",

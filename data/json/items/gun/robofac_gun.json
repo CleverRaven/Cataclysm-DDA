@@ -314,7 +314,7 @@
     "id": "robofac_gun_40mm",
     "copy-from": "launcher_base",
     "looks_like": "mark19",
-    "name": { "str_sp": "Hub 01 FSP" },
+    "name": { "str": "Hub 01 FSP" },
     "description": "The Hub 01 Fire Support Platform, or just the FSP.  Like the Hybrid Weapons Platform, it combines black-finished aluminum, blue polymer furniture, and a number of proprietary bolts and fasteners for a sci-fi aesthetic.  The barrel is stamped with \"40x46mm LV\", and the magwell looks like it accepts some truly MASSIVE magazines, which the gun appears to be capable of emptying in semi-automatic or fully-automatic fashion.",
     "//": "This is just a Rheinmetall Hydra.",
     "weight": "4082 g",
