@@ -51,6 +51,7 @@
         "topic": "TALK_FRIEND",
         "effect": "reveal_stats"
       },
+      { "text": "Please go to this location.", "topic": "TALK_GOTO_LOCATION", "effect": "goto_location" },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
       { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
@@ -1017,7 +1018,10 @@
   {
     "id": "TALK_GOTO_LOCATION",
     "type": "talk_topic",
-    "dynamic_line": "Sure thing, I'll make my way there.",
+    "dynamic_line": {
+      "npc_is_travelling": "Sure thing, I'll make my way there.",
+      "no": "All right, tell me if you want me to go somewhere."
+    },
     "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
   },
   {
@@ -1036,12 +1040,6 @@
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_camp"
-      },
-      {
-        "text": "Please go to this location.",
-        "topic": "TALK_GOTO_LOCATION",
-        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
-        "effect": "goto_location"
       },
       {
         "text": "I want you to build a camp here.",
