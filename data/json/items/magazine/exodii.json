@@ -3,8 +3,16 @@
     "id": "exodiiminimag",
     "looks_like": "garandclip",
     "type": "MAGAZINE",
-    "name": { "str": "PA md. 71 Exodii 10-round magazine" },
+    "name": { "str": "Exodii zombie hunting rifle 10-round magazine" },
     "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiminimag",
+        "name": { "str": "PA md. 71 10-round magazine" },
+        "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload."
+      }
+    ],
     "weight": "30 g",
     "volume": "250 ml",
     "//": "just 10 shots stacked on top of one another as a clip",
@@ -23,8 +31,16 @@
     "id": "exodiiBRmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "PA md. 68 Exodii 60-round magazine" },
+    "name": { "str": "Exodii battle rifle 60-round magazine" },
     "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiBRmag",
+        "name": { "str": "PA md. 68 60-round magazine" },
+        "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine."
+      }
+    ],
     "weight": "600 g",
     "volume": "1250 ml",
     "longest_side": "255 mm",
@@ -42,8 +58,16 @@
     "id": "exodiisapramag5",
     "looks_like": "exodiiminimag",
     "type": "MAGAZINE",
-    "name": { "str": "Sapra '36 magazine" },
+    "name": { "str": "Exodii grenade launcher 5-round magazine" },
     "description": "A large, five round single stack magazine for the Sapra '36.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiisapramag5",
+        "name": { "str": "Sapra 5-round magazine" },
+        "description": "A large, five round single stack magazine for the Sapra '36."
+      }
+    ],
     "weight": "710 g",
     "volume": "449 ml",
     "longest_side": "132 mm",
