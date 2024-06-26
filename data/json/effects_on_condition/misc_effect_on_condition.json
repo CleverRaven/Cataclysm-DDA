@@ -203,30 +203,19 @@
         { "compare_string": [ "boomered", { "context_val": "effect" } ] },
         { "compare_string": [ "eyes", { "context_val": "bodypart" } ] },
         { "not": { "u_has_effect": "conjunctivitis" } },
-        { "not": { "math": [ "u_coverage('eyes')", ">=", "90" ] } },
         { "not": { "u_has_trait": "COMPOUND_EYES" } },
         { "not": { "u_has_trait": "SEESLEEP" } },
         { "not": { "u_has_bionics": "armor_bio_eyes" } },
-        {
-          "or": [
-            { "x_in_y_chance": { "x": 1, "y": 12 } },
-            {
-              "and": [
-                {
-                  "or": [
-                    { "u_has_effect": "contacts" },
-                    { "u_has_effect": "transition_contacts" },
-                    { "u_has_effect": "transition_contacts_plano" },
-                    { "u_has_flag": "EYE_MEMBRANE" }
-                  ]
-                },
-                { "x_in_y_chance": { "x": 1, "y": 12 } }
-              ]
-            }
-          ]
-        }
+        { "math": [ "u_coverage('eyes')", "<", "rand(100)" ] },
+        { "x_in_y_chance": { "x": 2, "y": 3 } }
       ]
     },
-    "effect": [ { "u_add_effect": "conjunctivitis", "duration": { "math": [ "rand(259200) + 172800" ] }, "target_part": "eyes" } ]
+    "effect": [
+      {
+        "u_add_effect": "conjunctivitis",
+        "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(259200) + 172800" ] },
+        "target_part": "eyes"
+      }
+    ]
   }
 ]
