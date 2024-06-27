@@ -70,7 +70,7 @@
   {
     "id": "afs_drotik_shotpistol",
     "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
+    "looks_like": "revolver_357_long",
     "type": "GUN",
     "name": { "str": "Drotik Shotpistol" },
     "description": "A massive TSKBEM-designed 'sidearm' intended for exosuits and uplifts, the Drotik aka 'Dart' is a large revolver firing 12ga shells.",

@@ -122,7 +122,7 @@
     "type": "item_group",
     "id": "john_bailey_pistol",
     "subtype": "collection",
-    "entries": [ { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7 } ]
+    "entries": [ { "item": "revolver_357_long", "variant": "sw_619", "ammo-item": "357mag_fmj", "charges": 7 } ]
   },
   {
     "type": "item_group",

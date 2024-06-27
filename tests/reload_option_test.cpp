@@ -19,7 +19,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     avatar dummy;
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
-    item_location gun = dummy.i_add( item( "sw_619", calendar::turn_zero, 0 ) );
+    item_location gun = dummy.i_add( item( "revolver_357_long", calendar::turn_zero, 0 ) );
     const ammotype &gun_ammo_type = item::find_type( gun->ammo_default() )->ammo->type;
     item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
                                             gun->ammo_capacity( gun_ammo_type ) ) );

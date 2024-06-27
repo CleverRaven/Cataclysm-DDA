@@ -2,7 +2,7 @@
   {
     "id": "colt_army",
     "copy-from": "pistol_revolver_cap_ball",
-    "looks_like": "sw_619",
+    "looks_like": "revolver_357_long",
     "type": "GUN",
     "name": { "str_sp": "Colt M1860 Army" },
     "description": "The Colt Army Model 1860 is a cap & ball .44-caliber revolver.  It was used during the American Civil War, and made by Colt's Manufacturing Company.",

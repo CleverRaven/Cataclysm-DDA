@@ -1530,7 +1530,8 @@
   {
     "id": "cop_38",
     "type": "MIGRATION",
-    "replace": "sw_619"
+    "replace": "revolver_357_long",
+    "variant": "sw_619"
   },
   {
     "id": "fs2000",
@@ -1545,6 +1546,7 @@
   {
     "id": "mr73",
     "type": "MIGRATION",
-    "replace": "sw_619"
+    "replace": "revolver_357_long",
+    "variant": "sw_619"
   }
 ]

@@ -145,7 +145,10 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_357mag",
-    "items": [ { "item": "sw_619", "prob": 5, "charges": [ 0, -1 ] }, { "item": "colt_python", "prob": 5, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "revolver_357_long", "variant": "sw_619", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "revolver_357_long", "variant": "colt_python", "prob": 5, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -232,7 +235,10 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_357mag",
-    "items": [ { "item": "sw_619", "prob": 1 }, { "item": "colt_python", "prob": 2 } ]
+    "items": [
+      { "item": "revolver_357_long", "variant": "sw_619", "prob": 1 },
+      { "item": "revolver_357_long", "variant": "colt_python", "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
@@ -355,7 +361,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_display_357mag",
-    "items": [ { "item": "chiappa_rhino", "prob": 5 }, { "group": "modular_deagle_357", "prob": 4 } ]
+    "items": [ { "item": "revolver_357_long", "variant": "chiappa_rhino", "prob": 5 }, { "group": "modular_deagle_357", "prob": 4 } ]
   },
   {
     "type": "item_group",

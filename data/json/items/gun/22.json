@@ -173,7 +173,7 @@
   },
   {
     "id": "ruger_lcr_22",
-    "looks_like": "sw_619",
+    "looks_like": "revolver_357_long",
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
     "name": { "str": ".22 caliber revolver" },

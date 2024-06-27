@@ -783,7 +783,7 @@
           "weight": 34,
           "items": { "ak47": 1, "arx160": 1, "sks": 1, "aksemi": 1, "draco": 1, "mk47": 1, "vz58_p": 1, "bren2_762": 1 }
         },
-        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "chiappa_rhino": 1 } },
+        { "type": "357mag", "weight": 34, "items": { "revolver_357_long": 1 } },
         {
           "type": "shot",
           "weight": 26,
@@ -1003,7 +1003,7 @@
             "mauser_m714": 1,
             "minidraco556": 1,
             "model_10_revolver": 1,
-            "chiappa_rhino": 1,
+            "revolver_357_long": 1,
             "p08": 1,
             "p220_10": 1,
             "p226_357sig": 1,
@@ -1032,7 +1032,6 @@
             "surv_six_shooter": 1,
             "sw_500": 1,
             "sw_610": 1,
-            "sw_619": 1,
             "sw629": 1,
             "taurus_spectrum": 1,
             "TDI_10": 1,

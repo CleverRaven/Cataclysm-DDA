@@ -281,7 +281,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "sw_619", "charges": [ 0, 7 ] }, { "group": "on_hand_38" } ]
+    "entries": [ { "item": "revolver_357_long", "variant": "sw_619", "charges": [ 0, 7 ] }, { "group": "on_hand_38" } ]
   },
   {
     "id": "nested_colt_python",
@@ -289,7 +289,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "colt_python", "charges": [ 0, 6 ] }, { "group": "on_hand_357" } ]
+    "entries": [ { "item": "revolver_357_long", "variant": "colt_python", "charges": [ 0, 6 ] }, { "group": "on_hand_357" } ]
   },
   {
     "id": "nested_model_10_revolver",
@@ -306,7 +306,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "chiappa_rhino", "charges": [ 0, 6 ] },
+      { "item": "revolver_357_long", "variant": "chiappa_rhino", "charges": [ 0, 6 ] },
       { "group": "on_hand_357_38mixed" },
       { "item": "38_speedloader6" },
       { "item": "38_speedloader6", "prob": 50 }

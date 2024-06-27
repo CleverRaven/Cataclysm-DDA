@@ -125,7 +125,7 @@
   {
     "id": "sw629",
     "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
+    "looks_like": "revolver_357_long",
     "type": "GUN",
     "name": { "str": ".44 revolver" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",

@@ -2101,7 +2101,7 @@
         { "id": "sw_22", "fg": 1060, "rotates": false, "multitile": false },
         { "id": "sw_500", "fg": 1060, "rotates": false, "multitile": false },
         { "id": "sw_610", "fg": 1060, "rotates": false, "multitile": false },
-        { "id": "sw_619", "fg": 1060, "rotates": false, "multitile": false },
+        { "id": "revolver_357_long", "fg": 1060, "rotates": false, "multitile": false },
         { "id": "swage", "fg": 1271, "rotates": false, "multitile": false },
         { "id": "sweet_water", "fg": 1443, "rotates": false, "multitile": false },
         { "id": "switchblade", "fg": 1209, "rotates": false, "multitile": false },

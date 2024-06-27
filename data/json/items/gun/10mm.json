@@ -2,7 +2,7 @@
   {
     "id": "sw_610",
     "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
+    "looks_like": "revolver_357_long",
     "type": "GUN",
     "name": { "str": "10mm/.40 revolver" },
     "description": "A classic six-shooter revolver chambered for 10mm and .40 rounds.",

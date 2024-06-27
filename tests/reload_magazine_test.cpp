@@ -28,7 +28,7 @@ static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_glockmag( "glockmag" );
 static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
 static const itype_id itype_stanag30( "stanag30" );
-static const itype_id itype_sw_619( "sw_619" );
+static const itype_id itype_sw_619( "revolver_357_long" );
 
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [reload]" )

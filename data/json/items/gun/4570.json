@@ -39,7 +39,7 @@
   {
     "id": "bfr",
     "copy-from": "pistol_revolver",
-    "looks_like": "sw_619",
+    "looks_like": "revolver_357_long",
     "type": "GUN",
     "name": { "str": "Magnum Research BFR" },
     "//": "This is the 7.5in barrel model",

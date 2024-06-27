@@ -288,7 +288,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
-        arm_shooter( shooter, "sw_619", { "red_dot_sight" } );
+        arm_shooter( shooter, "revolver_357_long", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 10, 12, 35 );
         test_fast_shooting( shooter, 40, 0.35 );
     }

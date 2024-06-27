@@ -801,7 +801,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
                                             item::default_charges_tag{} ) );
     item_location speedloader = dummy.i_add( item( "38_speedloader", calendar::turn_zero, false ) );
-    item_location gun = dummy.i_add( item( "sw_619", calendar::turn_zero, false ) );
+    item_location gun = dummy.i_add( item( "revolver_357_long", calendar::turn_zero, false ) );
 
     REQUIRE( dummy.has_item( *ammo ) );
     REQUIRE( gun->ammo_remaining() == 0 );
