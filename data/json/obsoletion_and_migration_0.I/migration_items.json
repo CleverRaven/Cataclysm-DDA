@@ -1548,5 +1548,23 @@
     "type": "MIGRATION",
     "replace": "revolver_357_long",
     "variant": "sw_619"
+  },
+  {
+    "id": "sw_619",
+    "type": "MIGRATION",
+    "replace": "revolver_357_long",
+    "variant": "sw_619"
+  },
+  {
+    "id": "chiappa_rhino",
+    "type": "MIGRATION",
+    "replace": "revolver_357_long",
+    "variant": "chiappa_rhino"
+  },
+  {
+    "id": "colt_python",
+    "type": "MIGRATION",
+    "replace": "revolver_357_long",
+    "variant": "colt_python"
   }
 ]
