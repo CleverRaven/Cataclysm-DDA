@@ -119,7 +119,7 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "professions": [ "whitedeath_expy" ] },
+    "extend": { "professions": [ "whitedeath_expy", "elven_ceremonial_guard" ] },
     "id": "heli_crash"
   },
   {

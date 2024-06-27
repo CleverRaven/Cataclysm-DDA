@@ -1841,5 +1841,11 @@
       { "item": "potion_fruit_grapes", "prob": 1 },
       { "item": "potion_fruit_mayapple", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "group_forge_warp_items",
+    "items": [ { "item": "forge_warp_scroll", "count": [ 1, 3 ] } ]
   }
 ]

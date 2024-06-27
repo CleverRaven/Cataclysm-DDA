@@ -538,7 +538,8 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 static void draw_ascii(
     const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
-    input_context * /* inp_ctxt */, const draw_data_t &data )
+    input_context * /* inp_ctxt */, const draw_data_t &data,
+    const std::vector<tripoint_abs_omt> &display_path )
 {
 
     const int om_map_width = OVERMAP_WINDOW_WIDTH;
@@ -688,6 +689,11 @@ static void draw_ascii(
             }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
+        }
+        if( !display_path.empty() ) {
+            for( const tripoint_abs_omt &elem : display_path ) {
+                npc_path_route.insert( elem );
+            }
         }
         // get all traveling NPCs for the debug menu to show pathfinding routes.
         if( g->debug_pathfinding ) {
@@ -1257,7 +1263,8 @@ tiles_redraw_info redraw_info;
 static void draw(
     ui_adaptor &ui, const tripoint_abs_omt &center, const tripoint_abs_omt &orig,
     bool blink, bool show_explored, bool fast_scroll,
-    input_context *inp_ctxt, const draw_data_t &data )
+    input_context *inp_ctxt, const draw_data_t &data,
+    const std::vector<tripoint_abs_omt> &display_path )
 {
     draw_om_sidebar( ui, g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
 #if defined( TILES )
@@ -1269,7 +1276,8 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data,
+                display_path );
 }
 
 static void create_note( const tripoint_abs_omt &curs )
@@ -1773,7 +1781,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
 }
 
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
-                                 const draw_data_t &data = draw_data_t() )
+                                 const draw_data_t &data = draw_data_t(), std::vector<tripoint_abs_omt> display_path = {} )
 {
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
@@ -1861,10 +1869,13 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
+    std::chrono::time_point<std::chrono::steady_clock> last_advance = std::chrono::steady_clock::now();
+    auto display_path_iter = display_path.rbegin();
+    std::chrono::milliseconds cursor_advance_time = std::chrono::milliseconds( 0 );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw( ui, curs, orig, uistate.overmap_show_overlays,
-              show_explored, fast_scroll, &ictxt, data );
+              show_explored, fast_scroll, &ictxt, data, display_path );
     } );
 
     do {
@@ -1880,6 +1891,22 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 #else
         action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
+        if( !display_path.empty() ) {
+            std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
+            // We go faster per-tile the more we have to go
+            cursor_advance_time = std::chrono::milliseconds( 1000 ) / display_path.size();
+            cursor_advance_time = std::max( cursor_advance_time, std::chrono::milliseconds( 1 ) );
+            if( now > last_advance + cursor_advance_time ) {
+                if( display_path_iter != display_path.rend() ) {
+                    curs = *display_path_iter;
+                    last_advance = now;
+                    display_path_iter++;
+                } else if( now > last_advance + cursor_advance_time * 10 ) {
+                    action = "QUIT";
+                    break;
+                }
+            }
+        }
         if( const std::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs += vec->xy() * scroll_d;
@@ -2051,6 +2078,12 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 void ui::omap::display()
 {
     overmap_ui::display( get_player_character().global_omt_location(), overmap_ui::draw_data_t() );
+}
+
+void ui::omap::display_npc_path( tripoint_abs_omt starting_pos,
+                                 const std::vector<tripoint_abs_omt> &display_path )
+{
+    overmap_ui::display( starting_pos, overmap_ui::draw_data_t(), display_path );
 }
 
 void ui::omap::display_hordes()

@@ -73,7 +73,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_44",
-    "items": [ { "group": "nested_sw629", "prob": 5 } ]
+    "items": [ { "group": "nested_sw629", "prob": 5 }, { "group": "nested_colt_anaconda", "prob": 4 } ]
   },
   {
     "type": "item_group",
@@ -158,7 +158,12 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_44",
-    "items": [ { "item": "sw629", "prob": 5, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "sw629", "prob": 150, "charges": [ 0, -1 ] },
+      { "item": "colt_anaconda_8", "prob": 33, "charges": [ 0, -1 ] },
+      { "item": "colt_anaconda_6", "prob": 50, "charges": [ 0, -1 ] },
+      { "item": "colt_anaconda_4", "prob": 16, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -242,7 +247,12 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_44",
-    "items": [ { "item": "sw629", "prob": 5 } ]
+    "items": [
+      { "item": "sw629", "prob": 150 },
+      { "item": "colt_anaconda_8", "prob": 33 },
+      { "item": "colt_anaconda_6", "prob": 50 },
+      { "item": "colt_anaconda_4", "prob": 16 }
+    ]
   },
   {
     "type": "item_group",
@@ -301,7 +311,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_44",
-    "items": [ { "group": "nested_sw629", "prob": 40 } ]
+    "items": [ { "group": "nested_sw629", "prob": 40 }, { "group": "nested_colt_anaconda", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -360,7 +370,13 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_display_44",
-    "items": [ { "item": "sw629", "prob": 15 }, { "group": "modular_deagle_44", "prob": 10 } ]
+    "items": [
+      { "item": "sw629", "prob": 150 },
+      { "group": "modular_deagle_44", "prob": 100 },
+      { "item": "colt_anaconda_8", "prob": 33 },
+      { "item": "colt_anaconda_6", "prob": 50 },
+      { "item": "colt_anaconda_4", "prob": 16 }
+    ]
   },
   {
     "type": "item_group",

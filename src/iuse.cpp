@@ -146,6 +146,8 @@ static const construction_str_id construction_constr_pit( "constr_pit" );
 static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
 static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
 
+static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
@@ -7569,7 +7571,8 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint &po
         int counter = 0;
         static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
 
-        for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+        for( const recipe * const &r : get_avatar().get_learned_recipes().in_category(
+                 crafting_category_CC_FOOD ) ) {
             if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                 dishes.push_back( r );
                 const bool can_make = r->deduped_requirements().can_make_with_inventory(

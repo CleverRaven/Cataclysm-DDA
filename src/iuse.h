@@ -285,7 +285,7 @@ class iuse_actor
         int cost;
 
         virtual ~iuse_actor() = default;
-        virtual void load( const JsonObject &jo ) = 0;
+        virtual void load( const JsonObject &jo, const std::string &src ) = 0;
         virtual std::optional<int> use( Character *, item &, const tripoint & ) const = 0;
         virtual ret_val<void> can_use( const Character &, const item &, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}

@@ -187,13 +187,13 @@ static const material_id material_water( "water" );
 
 static const morale_type morale_support( "morale_support" );
 
+static const mtype_id mon_amalgamation_breather( "mon_amalgamation_breather" );
+static const mtype_id mon_amalgamation_breather_hub( "mon_amalgamation_breather_hub" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
 static const mtype_id mon_blob_large( "mon_blob_large" );
 static const mtype_id mon_blob_small( "mon_blob_small" );
-static const mtype_id mon_amalgamation_breather( "mon_amalgamation_breather" );
-static const mtype_id mon_amalgamation_breather_hub( "mon_amalgamation_breather_hub" );
 static const mtype_id mon_breather( "mon_breather" );
 static const mtype_id mon_breather_hub( "mon_breather_hub" );
 static const mtype_id mon_creeper_hub( "mon_creeper_hub" );

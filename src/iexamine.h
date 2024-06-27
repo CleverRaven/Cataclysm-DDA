@@ -29,7 +29,7 @@ struct iexamine_actor {
 
     explicit iexamine_actor( const std::string &type ) : type( type ) {}
 
-    virtual void load( const JsonObject & ) = 0;
+    virtual void load( const JsonObject &, const std::string & ) = 0;
     virtual void call( Character &, const tripoint & ) const = 0;
     virtual void finalize() const = 0;
 
