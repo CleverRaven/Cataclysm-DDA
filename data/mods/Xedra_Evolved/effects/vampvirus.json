@@ -117,7 +117,7 @@
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE3",
     "effect": {
-      "u_message": "You can advance no further without access to a mentor. Maybe you could find one where you've found the other vampires?"
+      "u_message": "You can advance no further without access to a mentor.  Maybe you could find one where you've found the other vampires?"
     }
   },
   {
