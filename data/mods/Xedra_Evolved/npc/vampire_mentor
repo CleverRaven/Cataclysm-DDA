@@ -38,6 +38,7 @@
       { "trait": "VAMPIRE2", "prob": 100 },
       { "trait": "VAMPIRE3", "prob": 100 },
       { "trait": "VAMPIRE4", "prob": 100 },
+      { "trait": "MENTOR_PEACE", "prob": 100 },
       { "trait": "BLOOD_DRINKER", "prob": 100 }
     ]
   },

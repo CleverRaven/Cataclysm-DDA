@@ -50,6 +50,11 @@
   },
   {
     "type": "SPECIES",
+    "id": "RENFIELD",
+    "description": "living humans obsessed with serving their vampire masters"
+  },
+  {
+    "type": "SPECIES",
     "id": "NIGHTMARE",
     "description": "creatures made from dreams, technically not alive"
   }
