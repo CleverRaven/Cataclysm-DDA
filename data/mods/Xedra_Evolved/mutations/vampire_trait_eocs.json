@@ -872,5 +872,53 @@
       { "u_teleport": { "u_val": "VAMPIRE_sleep_in_earth_starting_point" } },
       { "u_message": "You feel yourself rising until you stand in the clear air once again.", "type": "good" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BAT_FORM_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BAT_FORM_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              {
+                "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to transform into a bat.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRE_BAT_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BAT_FORM_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+            "effect": [
+              { "u_message": "You wings receed and you land on now-humanoid legs.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BAT_FORM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_BAT_FORM" }
   }
 ]

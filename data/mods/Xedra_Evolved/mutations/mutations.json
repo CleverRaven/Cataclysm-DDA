@@ -446,6 +446,20 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_BAT_FORM",
+    "name": { "str": "Shape of the Night Flier." },
+    "points": 0,
+    "description": "You can transform yourself into a bat and take wing on the night air.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_BAT_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_BAT_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
     "id": "BLOOD_DRINKER",
     "name": { "str": "Mortal hungers are replaced with immortal hungers." },
     "points": 0,
