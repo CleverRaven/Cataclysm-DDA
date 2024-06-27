@@ -103,6 +103,10 @@ class path_manager_impl
          */
         void start_recording();
         /**
+         * Continue recording the first path the player is standing at start or end of.
+         */
+        void continue_recording();
+        /**
          * Stop recording path.
          */
         void stop_recording();
@@ -132,6 +136,8 @@ class path_manager_impl
         void set_recording_path( int p_index );
         void swap_selected( int index_a, int index_b );
         int recording_path_index = -1;
+        // Used when continuing a recording from start
+        bool swap_after_recording = false;
         int selected_id = -1;
         std::vector<path> paths;
 };
@@ -274,16 +280,33 @@ void path_manager_impl::start_recording()
     p.set_name_start();
 }
 
+void path_manager_impl::continue_recording()
+{
+    int p_index = player_at_what_start_or_end();
+    cata_assert( p_index != -1 );
+    set_recording_path( p_index );
+    swap_after_recording = paths[recording_path_index].player_at_start();
+    if( swap_after_recording ) {
+        paths[recording_path_index].swap_start_end();
+    }
+}
+
 void path_manager_impl::stop_recording()
 {
     path &current_path = paths[recording_path_index];
     if( current_path.recorded_path.size() <= 1 ) {
         paths.erase( paths.begin() + recording_path_index );
         popup( _( "Recorded path has no length.  Path erased." ) );
+        set_recording_path( -1 );
+        return;
+    }
+    if( swap_after_recording ) {
+        current_path.swap_start_end();
+        current_path.set_name_start();
     } else {
         current_path.set_name_end();
-        popup( _( "Path saved." ) );
     }
+    popup( _( "Path saved." ) );
 
     set_recording_path( -1 );
     // TODO error when starts or stops at the same tile as another path ??
@@ -352,6 +375,9 @@ void path_manager_impl::auto_route_from_path() const
 void path_manager_impl::set_recording_path( int p_index )
 {
     cata_assert( -1 <= p_index && p_index < static_cast<int>( paths.size() ) );
+    if( p_index == -1 ) {
+        swap_after_recording = false;
+    }
     recording_path_index = p_index;
 }
 
@@ -376,6 +402,9 @@ void path_manager_ui::draw_controls()
     enabled_active_button( "WALK_PATH", true );
     ImGui::SameLine();
     enabled_active_button( "START_RECORDING", !pimpl->recording_path() );
+    ImGui::SameLine();
+    enabled_active_button( "CONTINUE_RECORDING", !pimpl->recording_path()
+                           && pimpl->player_at_what_start_or_end() != -1 );
     ImGui::SameLine();
     enabled_active_button( "STOP_RECORDING", pimpl->recording_path() );
 
@@ -459,6 +488,7 @@ void path_manager_ui::run()
     ctxt.register_action( "WALK_PATH" );
     ctxt.register_action( "START_RECORDING" );
     ctxt.register_action( "STOP_RECORDING" );
+    ctxt.register_action( "CONTINUE_RECORDING" );
     ctxt.register_action( "DELETE_PATH" );
     ctxt.register_action( "MOVE_PATH_UP" );
     ctxt.register_action( "MOVE_PATH_DOWN" );
@@ -483,6 +513,9 @@ void path_manager_ui::run()
         } else if( action == "START_RECORDING" && !pimpl->recording_path() ) {
             pimpl->start_recording();
             break;
+        } else if( action == "CONTINUE_RECORDING" && !pimpl->recording_path()
+                   && pimpl->player_at_what_start_or_end() != -1 ) {
+            pimpl->continue_recording();
         } else if( action == "STOP_RECORDING" && pimpl->recording_path() ) {
             pimpl->stop_recording();
             break;
@@ -554,6 +587,7 @@ void path_manager::deserialize( const JsonValue &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "recording_path_index", pimpl->recording_path_index );
+    data.read( "swap_after_recording", pimpl->swap_after_recording );
 
     JsonArray data_paths = data.get_array( "paths" );
     for( int i = 0; data_paths.has_object( i ); ++i ) {
@@ -567,6 +601,7 @@ void path_manager::deserialize( const JsonValue &jsin )
 void path_manager::serialize( JsonOut &jsout )
 {
     jsout.member( "recording_path_index", pimpl->recording_path_index );
+    jsout.member( "swap_after_recording", pimpl->swap_after_recording );
     jsout.member( "paths" );
     jsout.start_array();
     for( path &p : pimpl->paths ) {
