@@ -21,7 +21,7 @@
     "max_level": 35,
     "base_casting_time": 120,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "shortwave_2" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "shortwave_2" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "shortwave_2",
@@ -49,7 +49,7 @@
     "description": "Cause cell damage to everything in a wide area.  Fast to cast, but does damage slowly.",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "shape": "blast",
     "effect": "attack",
     "damage_type": "necrotic",

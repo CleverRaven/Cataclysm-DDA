@@ -190,7 +190,7 @@
     "max_range": 20,
     "base_casting_time": 400,
     "base_energy_cost": 600,
-    "extra_effects": [ { "id": "railgun_sparks" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "railgun_sparks" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "railgun_sparks",
@@ -236,7 +236,7 @@
     "base_energy_cost": 500,
     "final_energy_cost": 150,
     "energy_increment": -10,
-    "extra_effects": [ { "id": "magnetismmage_electrolaser_electro" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "magnetismmage_electrolaser_electro" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "magnetismmage_electrolaser_electro",
@@ -308,6 +308,6 @@
     "casting_time_increment": -9,
     "final_casting_time": 100,
     "max_level": 35,
-    "extra_effects": [ { "id": "robot_disabler" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "robot_disabler" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   }
 ]

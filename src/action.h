@@ -594,13 +594,9 @@ enum class iso_rotate : int {
  * that would generated that delta.  See @ref action_id for the list of available movement
  * commands that may be generated.  This function takes iso mode into account.
  *
- * The only valid values for the coordinates of \p d are -1, 0 and 1
- *
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
- * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
- * 2. If d.z is invalid, it is treated as if it were zero.
- * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_FORTH_LEFT
- * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_FORTH_LEFT
+ * 1. If d.x, d.y are valid and non-zero, then d.z is ignored.
+ * 2. If d.x, d.y and d.z are invalid or zero, then result is @ref ACTION_NULL
  *
  * @param[in] d coordinate delta, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)

@@ -1,5 +1,21 @@
 [
   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "indoor_tent_3x3_N",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+#",
+        "#x#",
+        "###"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+    }
+  },
+  {
     "type": "palette",
     "id": "mil_surplus",
     "parameters": {
@@ -142,7 +158,7 @@
       ],
       "U": { "item": "trash" }
     },
-    "nested": { "T": { "chunks": [ "tent_3x3_N" ] } }
+    "nested": { "T": { "chunks": [ "indoor_tent_3x3_N" ] } }
   },
   {
     "type": "palette",
@@ -327,6 +343,6 @@
       },
       "L": { "item": "SUS_janitors_closet", "chance": 50 }
     },
-    "nested": { "T": { "chunks": [ [ "tent_3x3_N", 25 ], [ "deployed_small_tent", 25 ], [ "null", 50 ] ] } }
+    "nested": { "T": { "chunks": [ [ "indoor_tent_3x3_N", 25 ], [ "deployed_small_tent", 25 ], [ "null", 50 ] ] } }
   }
 ]

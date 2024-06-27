@@ -979,6 +979,15 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             }
         }
 
+        if( g->follower_path_to_show ) {
+            for( const tripoint_abs_omt &pos : g->follower_path_to_show->omt_path ) {
+                if( pos.z() == center_abs_omt.z() ) {
+                    draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+                                         false );
+                }
+            }
+        }
+
         // only draw in full tiles so it doesn't get cut off
         const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
                     get_mission_arrow( full_om_tile_area, center_abs_omt );

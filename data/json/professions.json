@@ -450,20 +450,66 @@
   },
   {
     "type": "profession_item_substitutions",
-    "trait": "WOOLALLERGY",
+    "item": "blazer",
     "sub": [
-      { "item": "blazer", "new": [ "jacket_leather_red" ] },
-      { "item": "hat_hunting", "new": [ "hat_cotton" ] },
-      { "item": "hat_newsboy", "new": [ "hat_cotton" ] },
-      { "item": "peacoat", "new": [ "jacket_flannel" ] },
-      { "item": "sweater", "new": [ "sweatshirt" ] },
-      { "item": "boots_winter", "new": [ "boots_fur" ] },
-      { "item": "cloak_wool", "new": [ "cloak_leather" ] },
-      { "item": "gloves_wool", "new": [ "gloves_leather" ] },
-      { "item": "socks_wool", "new": [ "socks" ] },
-      { "item": "kilt", "new": [ "kilt_leather" ] },
-      { "item": "mask_ski", "new": [ "balclava" ] }
+      { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather_red" ] },
+      { "present": [ "VEGAN" ], "new": [ "jacket_light" ] }
     ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "hat_hunting",
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "hat_newsboy",
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "hat_cotton" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "peacoat",
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "jacket_flannel" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "sweater",
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "sweatshirt" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "boots_winter",
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "boots_fur" ] }, { "present": [ "VEGAN" ], "new": [ "boots_faux_fur" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "cloak_wool",
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "cloak_leather" ] }, { "present": [ "VEGAN" ], "new": [ "cloak" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "gloves_wool",
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "gloves_leather" ] }, { "present": [ "VEGAN" ], "new": [ "gloves_light" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "socks_wool",
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "socks" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "mask_ski",
+    "sub": [ { "present": [ "WOOLALLERGY", "VEGAN" ], "new": [ "balclava" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "kilt",
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "kilt_leather" ] }, { "present": [ "VEGAN" ], "new": [ "kilt_utility" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "trait": "VEGAN",
+    "sub": [ { "item": "dress_shoes", "new": [ "espadrilles" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -529,6 +575,7 @@
       { "present": [ "ANTIWHEAT", "ANTIJUNK", "MEATARIAN" ], "new": [ "fried_spam", "fork" ] },
       { "present": [ "LACTOSE" ], "absent": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "hamburger" ] },
       { "present": [ "LACTOSE", "VEGETARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_veggy" ] },
+      { "present": [ "VEGAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_veggy" ] },
       {
         "present": [ "VEGETARIAN" ],
         "absent": [ "ANTIWHEAT", "LACTOSE" ],
@@ -541,7 +588,9 @@
     "item": "pizza_meat",
     "sub": [
       { "present": [ "VEGETARIAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_veggy" ] },
+      { "present": [ "VEGAN" ], "absent": [ "ANTIWHEAT" ], "new": [ "pizza_veggy" ] },
       { "present": [ "VEGETARIAN", "ANTIWHEAT" ], "new": [ "veggy_salad", "fork" ] },
+      { "present": [ "VEGAN", "ANTIWHEAT" ], "new": [ "veggy_salad", "fork" ] },
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
@@ -559,6 +608,7 @@
     "item": "pizza_veggy",
     "sub": [
       { "present": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "veggy_salad", "fork" ] },
+      { "present": [ "ANTIWHEAT", "VEGAN" ], "new": [ "veggy_salad", "fork" ] },
       {
         "present": [ "ANTIWHEAT" ],
         "absent": [ "VEGETARIAN", "ANTIJUNK" ],
@@ -2003,6 +2053,7 @@
       "prof_wound_care",
       "prof_wound_care_expert",
       "prof_intro_biology",
+      "prof_intro_chemistry",
       "prof_physiology",
       "prof_burn_care",
       "prof_dissect_humans"
@@ -2032,6 +2083,123 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "doctor",
+    "name": "Doctor",
+    "requirement": "achievement_reach_hospital",
+    "description": "You were a patient-facing doctor practicing general or specialized medicine.  While your bedside manner might not get you far in this new world, your medical skills will certainly help.",
+    "points": 5,
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 3, "name": "speech" } ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+      "prof_intro_chemistry",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans"
+    ],
+    "traits": [ "PROF_MED" ],
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "gloves_medical",
+          "socks",
+          "dress_shoes",
+          "coat_lab",
+          "badge_doctor",
+          "glasses_safety",
+          "wristwatch",
+          "water_clean",
+          { "item": "bandages", "count": 5 },
+          { "item": "adhesive_bandages", "count": 10 },
+          "disinfectant",
+          "thermometer",
+          "pepto",
+          "stethoscope",
+          "scalpel"
+        ],
+        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "age_lower": 25
+  },
+  {
+    "type": "profession",
+    "id": "pharmacist",
+    "name": "Pharmacist",
+    "requirement": "achievement_reach_hospital",
+    "description": "You were a pharmacist working in a community pharmacy.  No simple pill-pusher, you have a plethora of knowledge of drug preparation, biochemistry, and biology.  With your trusty mortar and pestle, you hope to grind the undead to a pulp.",
+    "points": 5,
+    "skills": [ { "level": 6, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
+    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_organic_chemistry", "prof_biochemistry", "prof_physiology" ],
+    "traits": [ "PROF_MED" ],
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "gloves_medical",
+          "socks",
+          "dress_shoes",
+          "coat_lab",
+          "badge_doctor",
+          "glasses_safety",
+          "wristwatch",
+          "mortar_pestle",
+          "water_clean",
+          { "item": "bandages", "count": 5 },
+          { "item": "adhesive_bandages", "count": 10 },
+          "disinfectant",
+          "pepto",
+          "flu_shot",
+          {
+            "item": "tramadol",
+            "count": 30,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "ibuprofen",
+            "count": 30,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "aspirin",
+            "count": 30,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "antibiotics",
+            "count": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "antifungal",
+            "count": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
+          {
+            "item": "antiparasitic",
+            "count": 10,
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          }
+        ],
+        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
