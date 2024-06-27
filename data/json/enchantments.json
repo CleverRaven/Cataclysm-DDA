@@ -194,7 +194,7 @@
     "id": "combat_exoskeleton_heavy_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.1" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton shields you against harmful gas, cools you down, and has reduced encumbrance. Designed for heavy loadouts, this model also provides significant improvements to your movement exertion cost and carry weight.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -207,7 +207,7 @@
     "id": "combat_exoskeleton_medium_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.2" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton shields you against harmful gas, cools you down, and has reduced encumbrance. Designed for medium loadouts, this model also provides moderate improvements to your movement exertion cost and carry weight.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
@@ -220,7 +220,7 @@
     "id": "combat_exoskeleton_light_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.3" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton shields you against harmful gas, cools you down, and has reduced encumbrance. Designed for light loadouts, this model also provides slight improvements to your movement exertion cost and carry weight.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
