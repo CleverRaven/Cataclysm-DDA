@@ -379,6 +379,16 @@
   {
     "type": "mapgen",
     "method": "json",
+    "//": "A nested map bash damage.",
+    "nested_mapgen_id": "1x1_2z_bash",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "set": [ { "point": "bash", "x": 0, "y": 0, "z": 0 }, { "point": "bash", "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "destroyed_small_tent",
     "object": {
       "mapgensize": [ 3, 3 ],

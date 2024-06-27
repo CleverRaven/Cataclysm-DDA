@@ -2,24 +2,8 @@
   {
     "type": "recipe_category",
     "id": "CC_PRACTICE",
-    "recipe_subcategories": [
-      "CSC_ALL",
-      "CSC_PRACTICE_SCIENCE",
-      "CSC_PRACTICE_ELECTRONICS",
-      "CSC_PRACTICE_FABRICATION",
-      "CSC_PRACTICE_FOOD",
-      "CSC_PRACTICE_SURVIVAL",
-      "CSC_PRACTICE_TAILORING",
-      "CSC_PRACTICE_ATHLETICS",
-      "CSC_PRACTICE_COMPUTERS",
-      "CSC_PRACTICE_DEVICES",
-      "CSC_PRACTICE_HEALTH",
-      "CSC_PRACTICE_MECHANICS",
-      "CSC_PRACTICE_SOCIAL",
-      "CSC_PRACTICE_MELEE",
-      "CSC_PRACTICE_RANGED",
-      "CSC_PRACTICE_METAPHYSICS"
-    ]
+    "copy-from": "CC_PRACTICE",
+    "extend": { "recipe_subcategories": [ "CSC_PRACTICE_METAPHYSICS" ] }
   },
   {
     "id": "prac_psionics_begin",

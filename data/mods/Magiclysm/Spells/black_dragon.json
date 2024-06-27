@@ -6,7 +6,7 @@
     "description": "Your claws glow with yellow acid energy, and as you swipe your claw a wave of acid sweeps forth from it.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "LOUD" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "NONE",
     "effect": "attack",
     "effect_str": "dragon_acidburn",
@@ -59,7 +59,7 @@
     "casting_time_increment": -9,
     "energy_source": "MANA",
     "base_energy_cost": 350,
-    "extra_effects": [ { "id": "dragon_bite" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "dragon_bite" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -85,7 +85,7 @@
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "dragon_shell_black",
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "NONE",
@@ -145,7 +145,7 @@
     "base_energy_cost": 400,
     "energy_source": "MANA",
     "difficulty": 0,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "flags": [ "LOUD", "NO_HANDS", "NO_LEGS" ]
   },
   {
@@ -160,7 +160,7 @@
     "extra_effects": [
       { "id": "health_recovery", "hit_self": true },
       { "id": "stamina_recovery", "hit_self": true },
-      { "id": "eoc_enhancement_setup" }
+      { "id": "eoc_enhancement_setup", "hit_self": true }
     ],
     "max_level": 5,
     "min_range": 1,
@@ -206,7 +206,7 @@
     "description": "You conjure up acidic spittle that you can shoot long distances as you close in on your terrified prey.",
     "valid_targets": [ "hostile" ],
     "flags": [ "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "acid",
@@ -232,7 +232,7 @@
     "name": { "str": "Black Dragon Breath" },
     "description": "Spews a line of acid from your mouth.",
     "valid_targets": [ "hostile", "ally", "ground" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "acid",
     "max_level": 5,
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(5, 0.5)" ] },

@@ -106,7 +106,10 @@
       { "group": "modular_deagle_44", "prob": 5 },
       { "group": "modular_deagle_50", "prob": 1 },
       { "group": "nested_deagle_with_kits", "prob": 1 },
-      { "item": "sw629", "prob": 30 }
+      { "item": "sw629", "prob": 30 },
+      { "item": "colt_anaconda_8", "prob": 11 },
+      { "item": "colt_anaconda_6", "prob": 16 },
+      { "item": "colt_anaconda_4", "prob": 5 }
     ]
   },
   {

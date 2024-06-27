@@ -3351,7 +3351,7 @@ static void map_extra()
     if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
         const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
         if( where_omt != overmap::invalid_tripoint ) {
-            tinymap mx_map;
+            smallmap mx_map;
             mx_map.load( where_omt, false );
             MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
             g->load_npcs();

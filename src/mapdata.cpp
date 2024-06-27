@@ -822,7 +822,7 @@ void init_mapdata()
     add_actor( std::make_unique<eoc_examine_actor>() );
 }
 
-void map_data_common_t::load( const JsonObject &jo, const std::string & )
+void map_data_common_t::load( const JsonObject &jo, const std::string &src )
 {
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
@@ -830,7 +830,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
     } else if( jo.has_object( "examine_action" ) ) {
         JsonObject data = jo.get_object( "examine_action" );
         examine_actor = iexamine_actor_from_jsobj( data );
-        examine_actor->load( data );
+        examine_actor->load( data, src );
         examine_func = iexamine_functions_from_string( "invalid" );
     } else if( !was_loaded ) {
         examine_actor = nullptr;

@@ -5,11 +5,11 @@
     "expected_dps": {
       "naginata_fake": 5.38,
       "pike_fake": 7.55,
+      "lucern_hammerfake": 10.0,
       "pike_wood": 10.08,
       "pike_pole": 12.51,
       "halberd_fake": 12.77,
       "long_pole": 13.0,
-      "lucern_hammerfake": 13.0,
       "pike_copper": 13.96,
       "spear_homemade_halfpike": 15.41,
       "pike_inferior": 16.0,
@@ -22,12 +22,12 @@
       "brush_axe": 27.67,
       "spear_dory": 28.0,
       "qiang": 30.68,
+      "lucern_hammer": 31.5,
       "glaive": 33.87,
       "naginata": 33.97,
       "poleaxe": 34.5,
       "scythe_war": 34.59,
       "ji": 35.82,
-      "lucern_hammer": 36.0,
       "halberd": 36.28
     }
   }

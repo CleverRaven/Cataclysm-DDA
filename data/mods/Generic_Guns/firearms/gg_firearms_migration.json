@@ -71,7 +71,16 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "revolver_357_long", "sw629", "bfr", "sw_500", "raging_bull" ],
+    "id": [
+      "revolver_357_long",
+      "sw629",
+      "bfr",
+      "sw_500",
+      "raging_bull",
+      "colt_anaconda_8",
+      "colt_anaconda_6",
+      "colt_anaconda_4"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
