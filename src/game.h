@@ -302,7 +302,7 @@ class game
         /** Add goes up/down auto_notes (if turned on) */
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
-        void use_computer( const tripoint &p );
+        void use_computer( const tripoint_bub_ms &p );
         /**
          * @return The living creature with the given id. Returns null if no living
          * creature with such an id exists. Never returns a dead creature.
@@ -923,7 +923,9 @@ class game
 
         void control_vehicle(); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items
+        // TODO: Get rid of untyped overload.
         void examine( const tripoint &p, bool with_pickup = false );
+        void examine( const tripoint_bub_ms &p, bool with_pickup = false );
         void examine( bool with_pickup = true );
 
         // Pick up items from a single nearby tile (prompting first)
@@ -964,7 +966,9 @@ class game
         std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
         // Pick up items from the given point
+        // TODO: Get rid of untyped overloads.
         void pickup( const tripoint &p );
+        void pickup( const tripoint_bub_ms &p );
     private:
         void wield();
         void wield( item_location loc );
@@ -1036,7 +1040,9 @@ class game
          * been done. false if the player did not choose any action and the function
          * has effectively done nothing.
          */
+        // TODO: Get rid of untyped overload.
         bool disable_robot( const tripoint &p );
+        bool disable_robot( const tripoint_bub_ms &p );
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
     private:

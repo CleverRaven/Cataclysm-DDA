@@ -5116,7 +5116,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     }
 }
 
-void game::use_computer( const tripoint &p )
+void game::use_computer( const tripoint_bub_ms &p )
 {
     if( u.has_trait( trait_ILLITERATE ) ) {
         add_msg( m_info, _( "You can not read a computer screen!" ) );
@@ -5141,8 +5141,8 @@ void game::use_computer( const tripoint &p )
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
             dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
-                           p.x << ", " << p.y << ", " << p.z << ") - none there";
-            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+                           p.x() << ", " << p.y() << ", " << p.z() << ") - none there";
+            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x(), p.y(), p.z() );
         }
         return;
     }
@@ -6153,7 +6153,7 @@ void game::examine( bool with_pickup )
     u.manual_examine = false;
 }
 
-static std::string get_fire_fuel_string( const tripoint &examp )
+static std::string get_fire_fuel_string( const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     if( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, examp ) ) {
@@ -6221,6 +6221,11 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 }
 
 void game::examine( const tripoint &examp, bool with_pickup )
+{
+    game::examine( tripoint_bub_ms( examp ), with_pickup );
+}
+
+void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 {
     if( disable_robot( examp ) ) {
         return;
@@ -6371,6 +6376,11 @@ void game::pickup_all()
 }
 
 void game::pickup( const tripoint &p )
+{
+    game::pickup( tripoint_bub_ms( p ) );
+}
+
+void game::pickup( const tripoint_bub_ms &p )
 {
     // Highlight target
     shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -6748,7 +6758,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
                                           m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
-                                        get_fire_fuel_string( lp ) ) - 1;
+                                        get_fire_fuel_string( tripoint_bub_ms( lp ) ) ) - 1;
             line += lines;
         } else {
             mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
@@ -10482,6 +10492,11 @@ void game::set_safe_mode( safe_mode_type mode )
 
 bool game::disable_robot( const tripoint &p )
 {
+    return game::disable_robot( tripoint_bub_ms( p ) );
+}
+
+bool game::disable_robot( const tripoint_bub_ms &p )
+{
     monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p );
     if( !mon_ptr ) {
         return false;
@@ -10495,7 +10510,7 @@ bool game::disable_robot( const tripoint &p )
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
-        const disable_activity_actor actor( p, disable_activity_actor::get_disable_turns(), false );
+        const disable_activity_actor actor( p.raw(), disable_activity_actor::get_disable_turns(), false );
         u.assign_activity( actor );
         return true;
     }
@@ -10509,7 +10524,8 @@ bool game::disable_robot( const tripoint &p )
         }
 
         if( choice == 0 ) {
-            u.assign_activity( disable_activity_actor( p, disable_activity_actor::get_disable_turns(), true ) );
+            u.assign_activity( disable_activity_actor( p.raw(), disable_activity_actor::get_disable_turns(),
+                               true ) );
         }
     }
     return false;

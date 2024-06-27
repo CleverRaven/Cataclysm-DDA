@@ -10701,6 +10701,12 @@ bool Character::knows_trap( const tripoint &pos ) const
     return known_traps.count( p ) > 0;
 }
 
+bool Character::knows_trap( const tripoint_bub_ms &pos ) const
+{
+    const tripoint_abs_ms p = get_map().getglobal( pos );
+    return known_traps.count( p.raw() ) > 0;
+}
+
 void Character::add_known_trap( const tripoint &pos, const trap &t )
 {
     const tripoint p = get_map().getabs( pos );
@@ -11475,8 +11481,7 @@ action_id Character::get_next_auto_move_direction()
 
     tripoint_rel_ms dp = *next_expected_position - pos_bub();
 
-    // TODO: fix point types
-    return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
+    return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
 
 int Character::persuade_skill() const
