@@ -676,7 +676,7 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
     }
     if( p->has_effect( effect_conjunctivitis ) ) {
         effect &eff = p->get_effect( effect_conjunctivitis );
-        if ( eff.get_duration() > 2_days ) {
+        if( eff.get_duration() > 2_days ) {
             p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
             eff.set_duration( 2_days );
         }
