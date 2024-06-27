@@ -68,6 +68,12 @@
           "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
         },
         {
+            "text": "I've done it. I am now a true vampire.",
+            "topic": "TALK_VAMPIRE_MENTOR_TRUEVAMP",
+            "condition": { "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "u_has_var": "told_about_trueness", "value": "yes" } } ] },
+            "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
+        },
+        {
           "text": "Just passing through, don't mind me.",
           "topic": "TALK_DONE",
           "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
@@ -98,9 +104,14 @@
         "responses": [
           {
               "text": "I want to become a stronger vampire.",
-              "condition": { "u_has_effect": "vampire_virus" },
+              "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_trait": "VAMPIRE4" } } ] },
               "topic": "TALK_VAMPIRE_MENTOR_BECOME_STRONGER"
           },
+          {
+            "text": "I want to become a stronger vampire.",
+            "condition": { "u_has_trait": "VAMPIRE4" },
+            "topic": "TALK_VAMPIRE_MENTOR_BECOME_MORE_STRONGER"
+        },
           {
             "text": "I want to become a vampire.",
             "condition": { "not": { "u_has_effect": "vampire_virus" } },
@@ -144,6 +155,16 @@
         ]
     },
     {
+        "id": [ "TALK_VAMPIRE_MENTOR_TRUEVAMP" ],
+        "type": "talk_topic",
+        "dynamic_line": { "str": "Yes, I've noticed it. I am overjoyed that a new person decided to take their place as a new ruler of the night! Soon, you'll be ready for the final step, the one that will allow you to fully walk the path!" },
+        "responses": [
+          { "text": "I want to talk.", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
+          { "text": "Can you help me walk that path?", "topic": "TALK_VAMPIRE_MENTOR_BECOME_MORE_STRONGER" },
+          { "text": "I just wanted to share the news.  See you.", "topic": "TALK_DONE" }
+        ]
+    },
+    {
         "id": [ "TALK_VAMPIRE_MENTOR_BECOME_VAMPIRE" ],
         "type": "talk_topic",
         "dynamic_line": { "str": "I can do it, if you truly want it. I've seen that those who willingly become vampires are more likely to fully walk the path so I won't attempt to force you." },
@@ -167,12 +188,9 @@
         "id": [ "TALK_VAMPIRE_MENTOR_BECOME_STRONGER" ],
         "type": "talk_topic",
         "dynamic_line": {
-              "u_has_trait": "VAMPIRE3",
-              "yes": {
-                "gendered_line": "You are ready for the next step. However, I must warn you: there is no coming back from that. Your vampirism will become impossible to lose. Do you wish to proceed?",
-                "relevant_genders": [ "u" ]
-              },
-              "no": "Your vampirism isn't potent enough. Come back when your mortal hungers will begin to be replaced by immortal hungers. They are the signs that your power increased enough to withstand what you'll gain from my help." },
+            "u_has_trait": "VAMPIRE3",
+              "yes": "You are ready for the next step. However, I must warn you: there is no coming back from that. Your vampirism will become impossible to lose. Do you wish to proceed?",
+                "no": "Your vampirism isn't potent enough. Come back when your mortal hungers will begin to be replaced by immortal hungers. They are the signs that your power increased enough to withstand what you'll gain from my help." },
             "responses": [
             {
                 "text": "I am certain. Make me more powerful.",
@@ -192,6 +210,15 @@
         ]
     },
     {
+        "id": [ "TALK_VAMPIRE_MENTOR_BECOME_MORE_STRONGER" ],
+        "type": "talk_topic",
+        "dynamic_line": "You are now ready to fully walk the path, however there is something that'll stop us from that for now [4th wall the way to reach the last stage doesn't exist yet",
+            "responses": [
+                { "text": "I understand. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
+                { "text": "Got it. See you.",  "topic": "TALK_DONE"  }
+        ]
+    },
+    {
         "id": [ "TALK_VAMPIRE_MENTOR_POWER" ],
         "type": "talk_topic",
         "dynamic_line": { "str": "It's not something I do, it's something you'll do. I know it'll be asking a lot from you, but I hope you'll understand why we are doing it." },
@@ -205,8 +232,8 @@
         "type": "talk_topic",
         "dynamic_line": { "str": "To become a true vampire, you must kill someone that cherishes you with your own hands. It might be hard to bear at first, but with time you'll see how much it was worth it." },
         "responses": [
-            { "text": "That's all?", "effect": { "assign_mission": "EXODII_SACRIFICE_FRIEND" }, "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_1" },
-            { "text": "I'll do it, if it what it takes.", "effect": { "assign_mission": "EXODII_SACRIFICE_FRIEND" }, "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_2" },
+            { "text": "That's all?", "effect": { "assign_mission": "KILL_YOUR_BEST_FRIEND" }, "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_1" },
+            { "text": "I'll do it, if it what it takes.", "effect": { "assign_mission": "KILL_YOUR_BEST_FRIEND" }, "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_2" },
             { "text": "I'm not doing that. Bye.", "topic": "TALK_DONE" }
         ]
     },
@@ -232,7 +259,7 @@
         "dynamic_line": { "str": "No. I've long passed the point of no return. Either your cure won't do anything, or it'll kill me." },
         "responses": [
             { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
-            { "text": "It can wait. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
+            { "text": "I understand. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
             { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
         ]
     },
