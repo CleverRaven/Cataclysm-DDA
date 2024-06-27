@@ -58,8 +58,8 @@
           {
             "type": "enchantment",
             "id": "sacrificial_marked",
-            "name": { "str": "Sacrifice" },
-            "description": "You shouldn't see this. It allows to register that you are killing your best friend.",
+            "name": { "str": "Absolute best friend" },
+            "description": "This person considers you their absolute best friend, the best person in the entire world.",
             "condition": "ALWAYS",
             "hit_me_effect": [ { "id": "sacrificial_marked" } ]
           },
