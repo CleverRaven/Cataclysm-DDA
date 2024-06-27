@@ -56,12 +56,6 @@
   },
   {
     "type": "SPECIES",
-    "id": "RENFIELD",
-    "description": "a variety of creatures that have partaken of the unholy blood of the vampyr",
-    "fear_triggers": [ "FIRE" ]
-  },
-  {
-    "type": "SPECIES",
     "id": "NIGHTMARE",
     "description": "creatures made from dreams, technically not alive"
   }
