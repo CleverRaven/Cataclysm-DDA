@@ -1667,7 +1667,7 @@
     "charges": 4,
     "//": "stackable to keep the test using this item working",
     "stackable": true,
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -1724,7 +1724,7 @@
     "fun": 10,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "test_egg",
@@ -1747,7 +1747,7 @@
     "//": "Omitting the RAW flag so calories will be taken at face value.",
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "egg_allergen", 1 ] ],
     "rot_spawn_chance": 98
   },
   {
@@ -2687,7 +2687,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -2801,7 +2801,7 @@
     "stackable": true,
     "charges": 2,
     "stack_size": 4,
-    "vitamins": [  ],
+    "vitamins": [ [ "meat_allergen", 1 ] ],
     "fun": -18
   },
   {
@@ -2831,7 +2831,7 @@
     "stackable": true,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "meat_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -2986,7 +2986,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "vitamins": [ [ "mutagen", 60 ], [ "human_flesh_vitamin", 100 ] ],
+    "vitamins": [ [ "mutagen", 60 ], [ "human_flesh_vitamin", 100 ], [ "meat_allergen", 1 ] ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -3323,7 +3323,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ] ]
+    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "debug_vitamins",
@@ -3513,7 +3513,7 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "test_vitx", 200 ] ],
+    "vitamins": [ [ "test_vitx", 200 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {

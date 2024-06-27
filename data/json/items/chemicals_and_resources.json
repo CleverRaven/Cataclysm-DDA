@@ -1874,7 +1874,8 @@
     "description": "A grayish, flexible vesicle filled to the brim with the potent paralytic agent the triffids use to subdue still-moving fertilizer such as yourself.  If you know your way around poisons you might be able to find a use for it.",
     "material": [ "veggy" ],
     "color": "light_gray",
-    "fun": -50
+    "fun": -50,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "triffid_fungicide",
@@ -1884,7 +1885,8 @@
     "description": "A triffid sac filled with what appears to be a triffid-produced antifungal agent.  It will likely already work as an antifungal compound for more offensive applications, but requires further refining before it can be used as a medical drug.",
     "material": [ "veggy" ],
     "color": "light_blue",
-    "fun": -50
+    "fun": -50,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "conc_venom",

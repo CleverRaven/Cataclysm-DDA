@@ -131,7 +131,8 @@
     "material": [ "veggy" ],
     "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "soysauce",
@@ -169,7 +170,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "mustard_powder",

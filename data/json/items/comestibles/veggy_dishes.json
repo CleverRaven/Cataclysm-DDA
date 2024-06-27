@@ -53,7 +53,7 @@
     "volume": "250 ml",
     "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "fun": -14,
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
@@ -75,7 +75,7 @@
     "volume": "150 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -94,7 +94,7 @@
     "material": [ "veggy" ],
     "volume": "83 ml",
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -125,7 +125,8 @@
     "volume": "100 ml",
     "weight": "50 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -155,7 +156,8 @@
     "volume": "500 ml",
     "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -173,7 +175,8 @@
     "volume": "500 ml",
     "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -203,7 +206,8 @@
     "volume": "170 ml",
     "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -243,7 +247,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "//": "TODO: Confirm nutrition facts for aspic",
-    "flags": [ "EATEN_COLD", "FREEZERBURN" ]
+    "flags": [ "EATEN_COLD", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -266,7 +271,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "spoils_in": "2 days",
     "container": "can_medium",
     "quench": 5,
@@ -286,7 +291,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "spoils_in": "2 days",
     "quench": -2,
     "calories": 370,
@@ -305,7 +310,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "spoils_in": "2 days",
     "calories": 172,
     "fun": 3,
@@ -324,7 +329,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "spoils_in": "2 days",
     "container": "bowl_plastic",
     "calories": 120,
@@ -345,7 +350,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 44,
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "description": "This yellow cornmeal is useful for baking.",
     "price": "45 cent",
     "price_postapoc": "2 cent",
@@ -365,7 +370,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 295,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 8 ], [ "iron", 32 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 8 ], [ "iron", 32 ], [ "veggy_allergen", 1 ] ],
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": "7 USD",
     "price_postapoc": "1 USD",
@@ -396,7 +401,7 @@
     "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_4" },
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": -15
   },
   {
@@ -420,7 +425,7 @@
     "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_4" },
     "cooks_like": "wild_rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": -15
   },
   {
@@ -481,7 +486,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -501,7 +506,7 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -520,7 +525,7 @@
     "material": [ "veggy" ],
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ], [ "veggy_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -540,7 +545,7 @@
     "material": [ "veggy" ],
     "volume": "500 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ], [ "veggy_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -560,7 +565,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ] ]
+    "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -579,7 +584,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 19,
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -599,7 +604,7 @@
     "volume": "750 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -620,7 +625,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -640,7 +645,7 @@
     "price_postapoc": "25 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -659,7 +664,7 @@
     "price_postapoc": "25 cent",
     "material": [ "veggy" ],
     "volume": "400 ml",
-    "vitamins": [ [ "vitC", 58 ], [ "calcium", 5 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 58 ], [ "calcium", 5 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -677,7 +682,7 @@
     "material": [ "veggy" ],
     "volume": "500 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 26 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "vitC", 26 ], [ "iron", 6 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -696,7 +701,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -715,7 +720,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -734,7 +739,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "weight": "275 g",
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -756,7 +761,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -776,7 +781,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ] ]
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -796,7 +801,7 @@
     "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 11 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 3 ], [ "veggy_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -862,7 +867,7 @@
     "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -926,7 +931,7 @@
     "price_postapoc": "1 USD",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -945,7 +950,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ], [ "nut_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -979,7 +984,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 99 ], [ "calcium", 21 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 99 ], [ "calcium", 21 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1107,7 +1112,8 @@
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1127,7 +1133,7 @@
     "milling": { "into": "chilly-p", "recipe": "chilly-p_mill_1_50" },
     "volume": "55 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": -4
   },
   {
@@ -1148,7 +1154,8 @@
     "milling": { "into": "garlic_powder", "recipe": "garlic_powder_mill_1_50" },
     "volume": "17 ml",
     "fun": -6,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1166,7 +1173,7 @@
     "material": [ "veggy" ],
     "milling": { "into": "cornmeal", "recipe": "cornmeal_mill_1_3" },
     "volume": "83 ml",
-    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
@@ -1244,7 +1251,7 @@
     "material": [ "veggy" ],
     "volume": "70 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -1264,7 +1271,8 @@
     "material": [ "garlic" ],
     "volume": "21 ml",
     "fun": -3,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1302,7 +1310,7 @@
     "volume": "250 ml",
     "fun": 6,
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1373,7 +1381,7 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "fun": 3,
-    "vitamins": [  ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1392,7 +1400,7 @@
     "material": [ "veggy" ],
     "volume": "125 ml",
     "fun": 8,
-    "vitamins": [  ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1411,7 +1419,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": 12,
-    "vitamins": [ [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1443,7 +1451,7 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ] ],
+    "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -1462,7 +1470,7 @@
     "price_postapoc": "16 cent",
     "material": [ "veggy" ],
     "volume": "166 ml",
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1482,7 +1490,7 @@
     "material": [ "veggy" ],
     "volume": "120 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1501,7 +1509,7 @@
     "material": [ "veggy" ],
     "volume": "240 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 32 ], [ "calcium", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1584,7 +1592,7 @@
     "primary_material": "tomato",
     "volume": "62 ml",
     "flags": [ "FREEZERBURN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -1605,7 +1613,8 @@
     "volume": "250 ml",
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "FREEZERBURN" ] },
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1624,7 +1633,7 @@
     "volume": "200 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1643,6 +1652,6 @@
     "volume": "25 ml",
     "flags": [ "INEDIBLE" ],
     "smoking_result": "kombu",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]
