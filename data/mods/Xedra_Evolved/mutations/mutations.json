@@ -462,7 +462,7 @@
     "id": "MENTOR_PEACE",
     "name": { "str": "Mentor's peace" },
     "points": 0,
-    "description": "Intended to be hidden. Prevent the mentor from being killed by vampires and renfields.",
+    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.",
     "starting_trait": false,
     "player_display": false,
     "purifiable": false,
