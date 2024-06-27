@@ -9,7 +9,6 @@
     "description": "A large object folded up into a box for itself, the size of a keyboard.",
     "symbol": "H",
     "color": "cyan",
-    "flags": [ "NO_SALVAGE" ],
     "price": "250 USD",
     "price_postapoc": "15 USD",
     "longest_side": "213 cm",
