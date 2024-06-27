@@ -31,6 +31,8 @@
 #include "messages.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -57,18 +59,26 @@ class path
          * Set avatar to auto route to this paths other end.
          * Avatar must be at one of the ends of the path.
          */
-        void set_avatar_path();
+        void set_avatar_path() const;
         void set_name_start();
         void set_name_end();
         /**
          * Reverse path and swap start, end names.
          */
         void swap_start_end();
+        /**
+         * Player stands at the start of the `recorded_path`.
+         */
+        bool player_at_start() const;
+        /**
+         * Player stands at the end of the `recorded_path`.
+         */
+        bool player_at_end() const;
 
         void serialize( JsonOut &jsout );
         void deserialize( const JsonObject &jsin );
     private:
-        std::string set_name_popup( std::string old_name, const std::string &label );
+        std::string set_name_popup( std::string old_name, const std::string &label ) const;
         std::vector<tripoint_abs_ms> recorded_path;
         std::string name_start;
         std::string name_end;
@@ -87,7 +97,7 @@ class path_manager_impl
          * Try to find a path then walk on it.
          * Start new path if player doesn't stand at start or end of any path.
          */
-        void auto_route_from_path();
+        void auto_route_from_path() const;
         /**
          * Start recording a new path.
          */
@@ -108,8 +118,13 @@ class path_manager_impl
          * Move path selected by `select_id` down.
          */
         void move_selected_down();
+        /**
+         * Return the index of the first path a player is standing at start or end of.
+         * -1 if the player stands at no start or end.
+         */
+        int player_at_what_start_or_end() const;
     private:
-        bool recording_path();
+        bool recording_path() const;
         /**
          * Set recording_path_index to p_index.
          * -1 means not recording.
@@ -174,17 +189,17 @@ void path::record_step( const tripoint_abs_ms &new_pos )
     recorded_path.emplace_back( new_pos );
 }
 
-void path::set_avatar_path()
+void path::set_avatar_path() const
 {
     avatar &player_character = get_avatar();
     std::vector<tripoint_bub_ms> route;
-    if( player_character.pos_bub() == get_map().bub_from_abs( recorded_path.front() ) ) {
-        add_msg( m_info, _( "Auto path: Go from start." ) );
+    if( player_at_start() ) {
+        add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", name_start, name_end ) ) );
         for( auto it = std::next( recorded_path.begin() ); it != recorded_path.end(); ++it ) {
             route.emplace_back( get_map().bub_from_abs( *it ) );
         }
-    } else if( player_character.pos_bub() == get_map().bub_from_abs( recorded_path.back() ) ) {
-        add_msg( m_info, _( "Auto path: Go from end." ) );
+    } else if( player_at_end() ) {
+        add_msg( m_info, _( string_format( "Auto path: Go from %s to %s.", name_end, name_start ) ) );
         for( auto it = std::next( recorded_path.rbegin() ); it != recorded_path.rend(); ++it ) {
             route.emplace_back( get_map().bub_from_abs( *it ) );
         }
@@ -205,7 +220,7 @@ void path::set_name_end()
     name_end = set_name_popup( name_end, _( "Name path end:" ) );
 }
 
-std::string path::set_name_popup( std::string old_name, const std::string &label )
+std::string path::set_name_popup( std::string old_name, const std::string &label ) const
 {
     std::string new_name = old_name;
     string_input_popup popup;
@@ -223,6 +238,16 @@ void path::swap_start_end()
 {
     std::reverse( recorded_path.begin(), recorded_path.end() );
     std::swap( name_start, name_end );
+}
+
+bool path::player_at_start() const
+{
+    return get_avatar().pos_bub() == get_map().bub_from_abs( recorded_path.front() );
+}
+
+bool path::player_at_end() const
+{
+    return get_avatar().pos_bub() == get_map().bub_from_abs( recorded_path.back() );
 }
 
 void path::serialize( JsonOut &jsout )
@@ -302,24 +327,26 @@ void path_manager_impl::move_selected_down()
     ++selected_id;
 }
 
-bool path_manager_impl::recording_path()
+int path_manager_impl::player_at_what_start_or_end() const
+{
+    for( auto it = paths.begin(); it != paths.end(); ++it ) {
+        if( it->player_at_start() || it->player_at_end() ) {
+            return it - paths.begin();
+        }
+    }
+    return -1;
+}
+
+bool path_manager_impl::recording_path() const
 {
     return recording_path_index != -1;
 }
 
-void path_manager_impl::auto_route_from_path()
+void path_manager_impl::auto_route_from_path() const
 {
-    avatar &player_character = get_avatar();
-    for( int path_index = 0; path_index < static_cast<int>( paths.size() ); ++path_index ) {
-        const std::vector<tripoint_abs_ms> &p = paths[path_index].recorded_path;
-        if( player_character.pos_bub() == get_map().bub_from_abs( p.front() )
-            || player_character.pos_bub() == get_map().bub_from_abs( p.back() )
-          ) {
-            paths[path_index].set_avatar_path();
-            return;
-        }
-    }
-    popup( _( "Player doesn't stand at start or end of existing path." ) );
+    int p_index = player_at_what_start_or_end();
+    cata_assert( p_index != -1 );
+    paths[p_index].set_avatar_path();
 }
 
 void path_manager_impl::set_recording_path( int p_index )
@@ -395,19 +422,23 @@ void path_manager_ui::draw_controls()
             draw_colored_text( curr_path.name_start, c_white );
 
             ImGui::TableNextColumn();
-            std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
-            nc_color color = dist == "" ? c_light_green : c_white;
-            dist = dist == "" ? _( "It's under your feet." ) : dist;
-            draw_colored_text( dist, color );
+            if( curr_path.player_at_start() ) {
+                draw_colored_text( _( "It's under your feet." ), c_light_green );
+            } else {
+                std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
+                draw_colored_text( dist, c_white );
+            }
 
             ImGui::TableNextColumn();
             draw_colored_text( curr_path.name_end, c_white );
 
             ImGui::TableNextColumn();
-            dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
-            color = dist == "" ? c_light_green : c_white;
-            dist = dist == "" ? _( "It's under your feet." ) : dist;
-            draw_colored_text( dist, color );
+            if( curr_path.player_at_end() ) {
+                draw_colored_text( _( "It's under your feet." ), c_light_green );
+            } else {
+                std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.back() );
+                draw_colored_text( dist, c_white );
+            }
 
             ImGui::TableNextColumn();
             ImGui::Text( "%zu", curr_path.recorded_path.size() );
