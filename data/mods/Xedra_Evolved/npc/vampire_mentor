@@ -12,7 +12,7 @@
 },
 {
     "type": "npc_class",
-    "id": "NC_NPC_XE_VAMPIRE MENTOR",
+    "id": "NC_NPC_XE_VAMPIRE_MENTOR",
     "name": "Vampire Mentor",
     "job_description": "An ancient vampire, willing to assist those who want to further their curse",
     "common": false,
@@ -34,10 +34,14 @@
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "trait_group_vampire_mentor" }
+      { "trait": "VAMPIRE", "prob": 100 },
+      { "trait": "VAMPIRE2", "prob": 100 },
+      { "trait": "VAMPIRE3", "prob": 100 },
+      { "trait": "VAMPIRE4", "prob": 100 },
+      { "trait": "BLOOD_DRINKER", "prob": 100 }
     ]
   },
-  [
+  
     {
       "id": "TALK_VAMPIRE_MENTOR",
       "type": "talk_topic",
@@ -50,7 +54,7 @@
       "responses": [
         {
           "text": "I want to talk.",
-          "topic": "TALK_VAMPIRE_MENTOR_Talk",
+          "topic": "TALK_VAMPIRE_MENTOR_TALK",
           "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
         },
         {
@@ -71,13 +75,14 @@
       ]
     },
     {
-        "id": [ "TALK_VAMPIRE_MENTOR_Talk" ],
+        "id": [ "TALK_VAMPIRE_MENTOR_TALK" ],
         "type": "talk_topic",
         "dynamic_line": { "str": "What do you wish to discuss?" },
         "responses": [
           { "text": "Who are you?", "topic": "TALK_VAMPIRE_MENTOR_SELF" },
           { "text": "What is this place?", "topic": "TALK_VAMPIRE_MENTOR_PLACE" },
           { "text": "Can I do something for you?", "topic": "TALK_VAMPIRE_MENTOR_ASSISTANCE" },
+          { "text": "What did you meant by \"mentor\"?", "topic": "TALK_VAMPIRE_MENTOR_MENTORING" },
           { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
         ]
     },
@@ -92,7 +97,7 @@
         
         "responses": [
           {
-              "text": "I want to increase my power.",
+              "text": "I want to become a stronger vampire.",
               "condition": { "u_has_effect": "vampire_virus" },
               "topic": "TALK_VAMPIRE_MENTOR_BECOME_STRONGER"
           },
@@ -111,7 +116,7 @@
         "responses": [
           { "text": "I'm here to kill all vampires, no exceptions. Prepare to die.", "topic": "TALK_DONE", "effect": "hostile" },
           { "text": "You seem more reasonable than the rest. Would you like to be cured of your curse?", "topic": "TALK_VAMPIRE_MENTOR_CURE" },
-          { "text": "It can wait. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_Talk" },
+          { "text": "It can wait. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
           { "text": "It can wait. Can we discuss what you meant by \"mentor\"?", "topic": "TALK_VAMPIRE_MENTOR_MENTORING" },
           { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
         ]
@@ -121,7 +126,7 @@
         "type": "talk_topic",
         "dynamic_line": { "str": "I am an old vampire, wishing to see more embrace and develop that gift." },
         "responses": [
-          { "text": "I want to talk.", "topic": "TALK_VAMPIRE_MENTOR_Talk" },
+          { "text": "I want to talk.", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
           { "text": "What is this place?", "topic": "TALK_VAMPIRE_MENTOR_PLACE" },
           { "text": "Can I do something for you?", "topic": "TALK_VAMPIRE_MENTOR_ASSISTANCE" },
           { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
@@ -133,7 +138,7 @@
         "dynamic_line": { "str": "It's a safe place for the blood-drinkers. Here, it's only them, their servants and their food. And also those who wish to become blood-drinkers themselves." },
         "responses": [
           { "text": "Who are you?", "topic": "TALK_VAMPIRE_MENTOR_SELF" },
-          { "text": "I want to talk.", "topic": "TALK_VAMPIRE_MENTOR_Talk" },
+          { "text": "I want to talk.", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
           { "text": "Can I do something for you?", "topic": "TALK_VAMPIRE_MENTOR_ASSISTANCE" },
           { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
         ]
@@ -152,9 +157,10 @@
     {
         "id": [ "TALK_VAMPIRE_MENTOR_NEWVAMPIRE" ],
         "type": "talk_topic",
-        "dynamic_line": { "str": "Here you go. You might not notice the effects at first, but keep some human blood close for when your thirst will appear and some shelter for when the sun will start to burn your skin. There are levels of vampiric power that cannot be achieved through time alone. When you'll reach that point, come here and I'll help you reach them." },
+        "dynamic_line": { "str": "[bites you] Here you go. You might not notice the effects at first, but keep some human blood close for when your thirst will appear and some shelter for when the sun will start to burn your skin. There are levels of vampiric power that cannot be achieved through time alone. When you'll reach that point, come here and I'll help you reach them." },
         "responses": [
-            { "text": "Got it. See you.", "topic": "TALK_DONE" }
+            { "text": "Can we talk about something else?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
+            { "text": "Got it. See you.", "topic": "TALK_DONE" } 
         ]
     },
     {
@@ -166,7 +172,7 @@
                 "gendered_line": "You are ready for the next step. However, I must warn you: there is no coming back from that. Your vampirism will become impossible to lose. Do you wish to proceed?",
                 "relevant_genders": [ "u" ]
               },
-              "no": "Your vampirism isn't potent enough. Come back when you'll gain the ability to accelerate your movements, hypnotise others, store more blood in your body, command the predators or sink into the earth. They are the signs that your power increased enough to withstand what you'll gain from my help.",
+              "no": "Your vampirism isn't potent enough. Come back when your mortal hungers will begin to be replaced by immortal hungers. They are the signs that your power increased enough to withstand what you'll gain from my help." },
             "responses": [
             {
                 "text": "I am certain. Make me more powerful.",
@@ -184,7 +190,6 @@
                 "topic": "TALK_DONE"
             }
         ]
-    }
     },
     {
         "id": [ "TALK_VAMPIRE_MENTOR_POWER" ],
@@ -208,7 +213,7 @@
     {
         "id": [ "TALK_VAMPIRE_MENTOR_SACRIFICE_1" ],
         "type": "talk_topic",
-        "dynamic_line": { "str": "They need to be completely trusting of you, someone that consider themselves your \"best friend forever\". It also needed you to know that doing that would empower your gift, but I just told you all that." },
+        "dynamic_line": { "str": "They need to be completely trusting of you, someone that consider themselves your \"best friend forever\". They also need to declare how much they love you right before you kill them, then you'll become a true vampire." },
         "responses": [
             { "text": "Got it. See you.", "topic": "TALK_DONE" }
         ]
@@ -216,7 +221,7 @@
     {
         "id": [ "TALK_VAMPIRE_MENTOR_SACRIFICE_2" ],
         "type": "talk_topic",
-        "dynamic_line": { "str": "Do not worry about the pain, my friend. It is always temporary, no matter how much it hurts. After that, you won't ever be temporary again." },
+        "dynamic_line": { "str": "Do not worry about the pain, my friend. It is always temporary, no matter how much it hurts. After that, you won't ever be temporary again. Keep in mind that they need to be completely trusting of you, someone that consider themselves your \"best friend forever\". They also need to declare how much they love you right before you kill them, then you'll be freed from your limited time as you become a true vampire." },
         "responses": [
             { "text": "Got it. See you.", "topic": "TALK_DONE" }
         ]
@@ -227,7 +232,7 @@
         "dynamic_line": { "str": "No. I've long passed the point of no return. Either your cure won't do anything, or it'll kill me." },
         "responses": [
             { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
-            { "text": "It can wait. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_Talk" },
+            { "text": "It can wait. Can we talk?", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
             { "text": "I just wanted to look around.  See you.", "topic": "TALK_DONE" }
         ]
     },
@@ -244,7 +249,7 @@
     {
         "id": [ "TALK_VAMPIRE_MENTOR_KILLING_HELP" ],
         "type": "talk_topic",
-        "dynamic_line": { "str": "No thanks. I've decided long ago to never gamble my life for someone else's cause. I prefer waiting on the side, helping those who want my help" },
+        "dynamic_line": { "str": "No thanks. I've decided long ago to never gamble my life for someone else's cause. I prefer waiting on the side, helping those who want my help." },
         "responses": [
             { "text": "I want your help, mentor.", "topic": "TALK_VAMPIRE_MENTOR_MENTORING" },
             { "text": "Then you must die.", "topic": "TALK_DONE", "effect": "hostile" },
@@ -273,5 +278,4 @@
           "failure": "Someday you'll find a suitable sacrifice."
         }
       }
-    ] 
   ]

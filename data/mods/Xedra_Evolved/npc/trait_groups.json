@@ -69,17 +69,5 @@
       { "distribution": [ { "trait": "BADCARDIO" }, { "trait": "GOODCARDIO" } ] },
       { "trait": "FRIENDLY_CHIMERAS", "prob": 100 }
     ]
-  },
-  {
-    "type": "trait_group",
-    "id": "trait_group_dreamer_hero",
-    "subtype": "collection",
-    "traits": [
-      { "trait": "VAMPIRE", "prob": 100 },
-      { "trait": "VAMPIRE", "prob": 100 },
-      { "trait": "VAMPIRE", "prob": 100 },
-      { "trait": "VAMPIRE", "prob": 100 },
-      { "trait": "BLOOD_DRINKER", "prob": 100 }
-    ]
   }
 ]
