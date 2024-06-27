@@ -245,7 +245,7 @@
     "id": [ "TALK_VAMPIRE_MENTOR_SACRIFICE" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "str": "To become a true vampire, you must kill someone that cherishes you with your own hands. It might be hard to bear at first, but with time you'll see how much it was worth it."
+      "str": "To become a true vampire, you must kill someone that cherishes you with your own hands.  It might be hard to bear at first, but with time you'll see how much it was worth it."
     },
     "responses": [
       {
