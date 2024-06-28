@@ -152,6 +152,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOOD_FUN",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Sanguine Extasy" },
+    "description": "Your palate adapted to your new condition.  Drinking human blood will make you feel great."
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRIC_STRENGTH",
     "points": 0,
     "starting_trait": false,
@@ -445,6 +455,22 @@
     "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     "type": "mutation",
     "id": "BLOOD_DRINKER",
