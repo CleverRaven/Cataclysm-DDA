@@ -20,7 +20,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wine_mycus", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wine_mycus", "yeast" ] },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -43,7 +44,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wine_marloss", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wine_marloss", "yeast" ] },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -71,7 +73,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "wash_whiskey", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_whiskey", "yeast" ] },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -177,7 +180,8 @@
     "volume": "36 ml",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "sake_unfiltered", "koji", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "sake_unfiltered", "koji", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -205,7 +209,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "freezing_point": -30,
-    "brewable": { "time": "21 days", "results": [ "soy_sauce_unstrained" ] }
+    "brewable": { "time": "21 days", "results": [ "soy_sauce_unstrained" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -227,7 +232,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "freezing_point": -30,
-    "flags": [ "NUTRIENT_OVERRIDE" ]
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -250,7 +256,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "wash_vodka", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_vodka", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -352,7 +359,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "fruit_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "fruit_wine", "yeast" ] },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -420,7 +428,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "dandelion_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "dandelion_wine", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -448,7 +457,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "burdock_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "burdock_wine", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -476,7 +486,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 days", "results": [ "pine_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "pine_wine", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -505,7 +516,8 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "hb_beer", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "hb_beer", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -534,7 +546,8 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "7 days", "results": [ "hb_seltzer", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "hb_seltzer", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -557,7 +570,8 @@
     "charges": 1,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "5 days", "results": [ "wash_moonshine", "yeast" ] }
+    "brewable": { "time": "5 days", "results": [ "wash_moonshine", "yeast" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -609,7 +623,8 @@
     "phase": "liquid",
     "fun": -12,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] }
+    "brewable": { "time": "4 hours", "results": [ "milk_curdled" ] },
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -633,7 +648,8 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "14 days", "results": [ "vinegar" ] }
+    "brewable": { "time": "14 days", "results": [ "vinegar" ] },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -677,7 +693,7 @@
     "material": [ "veggy" ],
     "volume": "1 L",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "fun": -15,
     "use_action": {
       "target": "malted_grain",
@@ -705,7 +721,7 @@
     "material": [ "veggy" ],
     "volume": "1 L",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "fun": -15
   },
   {
@@ -725,7 +741,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ], [ "veggy_allergen", 1 ] ],
     "fun": -15,
     "use_action": {
       "target": "soaked_dandelion",
@@ -754,7 +770,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ],
     "fun": -4
   },
   {
@@ -786,7 +802,8 @@
       "type": "delayed_transform",
       "transform_age": 28800,
       "not_ready_msg": "The yogurt is still fermenting."
-    }
+    },
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

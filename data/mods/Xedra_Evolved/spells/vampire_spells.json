@@ -1,74 +1,70 @@
 [
   {
-    "id": "spell_eyegleam",
-    "type": "SPELL",
-    "name": "Eye gleam",
-    "description": "Gives you the power to see in the dark.",
-    "message": "Your eyes glow red for a moment.  Now your sight can pierce the darkest shadows.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "eyegleam",
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "shape": "blast",
-    "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "min_range": 1,
-    "max_range": 1,
-    "base_casting_time": 100,
-    "min_duration": 100000,
-    "max_duration": 1000000,
-    "duration_increment": 2000
+    "type": "enchantment",
+    "id": "ench_vampire_heightened_senses_hearing",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "HEARING_MULT",
+        "multiply": { "math": [ "0.25 + (u_has_trait('VAMPIRE2') * 0.25) + (u_has_trait('VAMPIRE3') * 0.5)" ] }
+      }
+    ]
   },
   {
-    "id": "spell_stamina4blood",
+    "type": "enchantment",
+    "id": "ench_vampire_heightened_senses_perception",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "PERCEPTION",
+        "multiply": { "math": [ "1 + (u_has_trait('VAMPIRE2') * 1) + (u_has_trait('VAMPIRE3') * 2)" ] }
+      }
+    ]
+  },
+  {
+    "id": "vampire_smell_nearby_blood_spell",
     "type": "SPELL",
-    "name": "Stamina from blood",
-    "description": "You focus on sending the blood in your veins to where it can do the most good for your immediate stamina.",
+    "name": "Scent of Blood",
+    "description": "You can smell even the faintest traces of living human, or nearly-human, blood.",
+    "message": "",
     "teachable": false,
-    "effect": "recover_energy",
-    "effect_str": "STAMINA",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_SCENT_BLOOD_activated",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE",
-    "min_damage": 1500,
-    "max_damage": 10000,
+    "base_casting_time": 25,
+    "difficulty": 1
+  },
+  {
+    "id": "vampire_stamina_for_blood_spell",
+    "type": "SPELL",
+    "name": "Unholy Endurance",
+    "description": "You focus on sending the blood in your veins to where it can do the most good for your immediate stamina.",
+    "message": "",
+    "teachable": false,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_STAMINAFORBLOOD_activated",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
     "base_casting_time": 100,
     "difficulty": 5
   },
   {
-    "id": "spell_coagulant_weave",
-    "type": "SPELL",
-    "name": "Coagulant Weave",
-    "description": "Turning your blood mastery inwards, magically enhancing your flesh.  Rather than strength of healing, it staves off blood loss and purges wounds before they can turn septic, at the cost of increased hunger and thirst.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "vamp_blood_weave",
-    "shape": "blast",
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
-    "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "base_energy_cost": 150,
-    "max_level": 20,
-    "min_duration": 6000,
-    "max_duration": 12000,
-    "duration_increment": 300
-  },
-  {
     "id": "spell_blood_heal",
     "type": "SPELL",
-    "name": "Blood healing",
-    "description": "Heals a little bit of damage on the target.",
+    "name": "Sanguine Restoration",
+    "description": "Heal your wounds with the power of stolen blood.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "min_damage": -5,
-    "max_damage": -20,
-    "damage_increment": -1.0,
-    "max_level": 15,
-    "effect": "attack",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BLOODHEAL_activated",
     "shape": "blast",
     "base_casting_time": 20,
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
@@ -77,45 +73,159 @@
     "difficulty": 2
   },
   {
-    "id": "spell_blood_haste",
+    "id": "vampire_fear_gaze_spell",
     "type": "SPELL",
-    "name": "Haste",
-    "description": "This spell gives you an enormous boost of speed lasting a short period of time.",
+    "name": { "str": "Predator's Mien" },
+    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.  This power only works on enemies capable of feeling fear.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_FEAR_GAZE_activated",
+    "shape": "blast",
+    "valid_targets": [ "ally", "hostile" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE",
-    "effect": "attack",
-    "effect_str": "haste",
-    "shape": "blast",
-    "base_casting_time": 200,
-    "max_level": 20,
-    "min_duration": 600,
-    "max_duration": 12000,
-    "duration_increment": 600
+    "min_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
   },
   {
     "id": "spell_hypnotic_gaze",
     "type": "SPELL",
-    "name": "hypnotic gaze",
-    "description": "Stares into the eyes of your victim and wills them to pause.",
+    "name": "Hypnotic Gaze",
+    "description": "Stare into the eyes of your victim and wills them to pause.  This power does not work on unliving targets.",
+    "message": "",
     "teachable": false,
     "skill": "deduction",
     "spell_class": "VAMPIRE",
     "valid_targets": [ "ally", "hostile" ],
-    "effect": "attack",
-    "effect_str": "stunned",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HYPNOTIC_GAZE_activated",
     "shape": "blast",
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
     "difficulty": 3,
     "base_casting_time": 100,
-    "max_level": 15,
-    "min_range": 3,
-    "max_range": 9,
-    "range_increment": 0.4,
-    "min_duration": 1200,
-    "max_duration": 12000,
-    "duration_increment": 720
+    "min_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+  },
+  {
+    "id": "vampire_command_beast_spell",
+    "type": "SPELL",
+    "name": "Cowing the Beast",
+    "description": "Exert command over a predatory wild animal like a wolf or a rat, making it your ally for a time.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_COMMAND_BEAST_activated",
+    "shape": "blast",
+    "base_casting_time": 75,
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "difficulty": 7,
+    "min_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "targeted_monster_ids": [
+      "mon_wolf",
+      "mon_wolf_mutant_huge",
+      "mon_wolf_pup",
+      "mon_coyote_wolf",
+      "mon_coyote",
+      "mon_coyote_mutant_shark",
+      "mon_coyote_mutant_venom",
+      "mon_bear",
+      "mon_bear_cub",
+      "mon_bear_mutant_3headed",
+      "mon_big_rat",
+      "mon_pack_rat",
+      "mon_sewer_rat",
+      "mon_black_ratkin",
+      "mon_black_rat",
+      "mon_bat",
+      "xe_mon_bat",
+      "mon_vampire_bat",
+      "mon_bat_giant"
+    ]
+  },
+  {
+    "id": "vampire_command_beast_spell_real",
+    "type": "SPELL",
+    "name": "Cowing the Beast Real",
+    "description": "The actual power that lets you command a beast.  If you see this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "spell_class": "VAMPIRE",
+    "difficulty": 7,
+    "max_level": 1,
+    "min_range": 60,
+    "max_range": 60,
+    "min_damage": {
+      "math": [
+        "rng (0.75,1.25) * (50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "rng (0.75,1.25) * (50 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "rng (0.75,1.25) * (6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500))"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "rng (0.75,1.25) * (6000 + (vampire_total_tier_one_traits()  * 1000) + (vampire_total_tier_two_traits() * 1800) + (vampire_total_tier_three_traits() * 2700) + (vampire_total_tier_three_traits() * 4500))"
+      ]
+    }
+  },
+  {
+    "id": "vampire_earth_slumber_spell",
+    "type": "SPELL",
+    "name": "Earthen Slumber",
+    "description": "You can sleep within the earth itself, avoiding the hateful light of the sun.  This power must be used on diggable soil.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_EARTH_SLUMBER_activated",
+    "shape": "blast",
+    "base_casting_time": 150,
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "difficulty": 2
   }
 ]

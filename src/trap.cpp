@@ -307,6 +307,18 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
+bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
+{
+    if( is_null() ) {
+        // There is no trap at all, so logically one can not see it.
+        return false;
+    }
+    if( is_always_invisible() ) {
+        return false;
+    }
+    return visibility < 0 || p.knows_trap( pos );
+}
+
 void trap::trigger( const tripoint &pos ) const
 {
     if( is_null() ) {

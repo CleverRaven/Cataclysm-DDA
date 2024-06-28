@@ -1221,9 +1221,9 @@ class tab_list
 {
     private:
         size_t _index = 0;
-        std::vector<std::string> *_list;
+        const std::vector<std::string> *_list;
     public:
-        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
+        explicit tab_list( const std::vector<std::string> &_list ) : _list( &_list ) {
         }
 
         void last() {

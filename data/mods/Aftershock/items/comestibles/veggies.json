@@ -22,7 +22,7 @@
     "symbol": ";",
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "bad_food", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 1,
     "color": "brown"
   }

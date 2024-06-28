@@ -126,6 +126,7 @@ Allow ammo effects to cast spells
 Automatic turrets will not fire guns if they are going to overheat
 Deconstructing now prompts with potential items, can be toggled off in settings
 NPC @ menu: Show morale, medical; Change name, gender, armor sprite
+(Currently player only) Factions can take over and loot camps they don't own
 
 
 ## Content:
@@ -274,6 +275,10 @@ Red Phosphorus Using Matchbox Strikers and Potassium Chloride Using Match-heads
 Add brick construction to camp expansions
 Clean water in open containers reverts to water after a while
 Update the basic gas mask, related filter, filter ammunition, and gas mask bag to modern CDDA standards, add possible inserts and outserts, disassembly recipe, and item group goodness.
+Remove the 'Shockstorm' attack from monsters that have it
+Adds new endings which are impacted by the strength of other factions
+Add white phosphorus and related recipes
+Added multiple new guns
 
 
 ## Interface:
@@ -342,6 +347,7 @@ Warn on setting an auto feature when auto features are off
 support selecting all npcs
 Change: Container for X -> Pour X into
 Show actual real-world distance to mission objective
+Add selection menu for cosmetic traits in character creation
 
 
 ## Mods:
@@ -514,6 +520,11 @@ Summon Mojocycle gets better at lvl 10
 [Aftershock] Add the Esper scenario
 [Aftershock] Esper additions
 [Aftershock] Adds one the Solar Array Overmap special to Aftershock.
+Give some map extras CLASSIC tag
+[Aftershock] Add Spark to Esper scenario
+[Aftershock] Add two versions of the Exosuit Garage,  travel to Port Augustmoon, 6 variants of Enclosed Parks to the Exoplanet, and Enforcer station for Aftershock
+[Xedra Evolved] Vampires can just drink blood.  They can just drink it
+[TropiCata] Audit and balance pass on termites and termite accessories
 
 
 ## Balance:
@@ -590,6 +601,7 @@ Adjust Alpha to make breach harder while supporting future mutations
 Lower the warmth values of some undergarments and thin clothes.
 Switched Reload Speeds for Plasma Rifle and PPA
 Bring volume calculations for player body more in line with realistic examples
+Give pebble ammo type recovery chance
 
 
 ## Bugfixes:
@@ -774,6 +786,9 @@ Fix extension cords falling off when items are turned on
 Properly warn if food will cause you to overeat
 Not to shatter already shattered armor.
 Make farm plots re-tillable in farming extension version 2
+Break fake vehicle parts when the real part breaks
+Fixes OM Terrains triggering their exit_eoc on entry instead of correctly triggering their entry_eoc
+Raw copper wire (weighing 4.747 g) can no longer be disassembled into copper (5 g). New recipe to turn raw copper wire into copper.
 
 
 ## Performance:
@@ -861,6 +876,8 @@ Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
 refactor cataimgui::draw_colored_text
 Create header for forward declarations of point types
+Check DPS of all items with sufficient DPS
+Add IRRITANT_IMMUNE flag for describing immunity to skin irritants
 
 
 ## Build:
@@ -881,6 +898,7 @@ Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
 Update Flatpak manifest to use clang and include the default soundpack
 stl_emulation span::count_ is not const anymore
+No longer build object creator in CI nor include it in releases
 
 
 ## I18N and A11Y:

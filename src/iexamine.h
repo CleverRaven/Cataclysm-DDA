@@ -29,7 +29,7 @@ struct iexamine_actor {
 
     explicit iexamine_actor( const std::string &type ) : type( type ) {}
 
-    virtual void load( const JsonObject & ) = 0;
+    virtual void load( const JsonObject &, const std::string & ) = 0;
     virtual void call( Character &, const tripoint & ) const = 0;
     virtual void finalize() const = 0;
 
@@ -109,7 +109,9 @@ void tree_maple_tapped( Character &you, const tripoint &examp );
 void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
+// TODO: Get rid of untyped overload.
 void part_con( Character &you, const tripoint &examp );
+void part_con( Character &you, const tripoint_bub_ms &examp );
 void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );

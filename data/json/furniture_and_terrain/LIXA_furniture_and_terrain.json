@@ -33,7 +33,8 @@
     "color": "light_gray",
     "move_cost": 3,
     "coverage": 50,
-    "connect_groups": "INDOORFLOOR",
+    "connect_groups": [ "INDOORFLOOR", "LIXATUBE" ],
+    "connects_to": "LIXATUBE",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE", "UNSTABLE", "INDOORS" ],
     "bash": {
       "str_min": 30,
@@ -106,7 +107,8 @@
     "color": "light_gray",
     "move_cost": 3,
     "coverage": 50,
-    "connect_groups": "INDOORFLOOR",
+    "connect_groups": [ "INDOORFLOOR", "LIXATUBE" ],
+    "connects_to": "LIXATUBE",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 7,
@@ -128,7 +130,8 @@
     "light_emitted": 120,
     "move_cost": 2,
     "coverage": 50,
-    "connect_groups": "INDOORFLOOR",
+    "connect_groups": [ "INDOORFLOOR", "LIXATUBE" ],
+    "connects_to": "LIXATUBE",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "emissions": [ "emit_congealed_light" ]
   },
@@ -304,6 +307,8 @@
     "move_cost": 3,
     "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "connect_groups": [ "INDOORFLOOR", "LIXATUBE" ],
+    "connects_to": "LIXATUBE",
     "deconstruct": {
       "ter_set": "t_metal_floor",
       "items": [
