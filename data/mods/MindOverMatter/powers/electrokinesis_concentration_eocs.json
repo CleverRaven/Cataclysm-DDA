@@ -212,7 +212,12 @@
       },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": [ "RECHARGE" ] }, { "flags": [ "ELECTRONIC" ] }, { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] } ],
+        "search_data": [
+          { "flags": [ "RECHARGE" ] },
+          { "flags": [ "ELECTRONIC" ] },
+          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+          { "flags": [ "USE_UPS" ] }
+        ],
         "true_eocs": [
           {
             "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",

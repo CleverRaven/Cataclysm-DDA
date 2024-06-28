@@ -73,7 +73,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_AFS_ESCAPE_POD_CARGO_TP",
+    "id": "EOC_AFS_ESCAPE_POD_CARGO_TP_ASDF",
     "effect": [ { "u_teleport": { "global_val": "new_map" }, "force": true } ]
   },
   {
