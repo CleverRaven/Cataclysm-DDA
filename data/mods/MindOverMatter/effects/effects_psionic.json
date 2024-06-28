@@ -1637,7 +1637,7 @@
       "You are editing out your most negative thoughts.  When you think about it, is the Cataclysm really the worst thing that could have happened?"
     ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You let your thoughts return to their normal flow.",
     "rating": "good",
     "max_duration": "7 days"
   },
