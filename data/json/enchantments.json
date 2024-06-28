@@ -207,7 +207,7 @@
     "id": "combat_exoskeleton_medium_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.2" },
-    "description": "Now powered, the exoskeleton shields you against harmful gas, cools you down, and has reduced encumbrance. Designed for medium loadouts, this model also provides moderate improvements to your movement exertion cost and carry weight.",
+    "description": "Now powered, the exoskeleton provides <color_white>moderate</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
