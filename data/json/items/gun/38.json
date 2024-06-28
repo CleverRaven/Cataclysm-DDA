@@ -201,19 +201,18 @@
   {
     "id": "sw_619",
     "copy-from": "pistol_revolver",
-    "//": "Tileset whitelist for revolvers.",
     "type": "GUN",
-    "name": { "str_sp": "S&W 619" },
-    "description": "A seven-round .357 revolver sold by Smith & Wesson.  Can also fire .38 Special.  It features a fixed rear sight and a reinforced frame.",
+    "name": { "str_sp": "7-shots .357 revolver" },
+    "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
-    "weight": "1074 g",
-    "volume": "608 ml",
-    "longest_side": "278 mm",
-    "barrel_length": "140 mm",
-    "//2": "100mm + 40mm max OAL for 357mag. Revolvers just built different.",
-    "price": "620 USD",
+    "weight": "1280 g",
+    "volume": "760 ml",
+    "//1": "took 5mm off `longest_side` so it can fit regular holsters",
+    "longest_side": "300 mm",
+    "//2": "barrel length (152mm) + cylinder length (40mm)",
+    "barrel_length": "192  mm",
+    "price": "980 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -239,7 +238,14 @@
         "allowed_speedloaders": [ "38_speedloader" ]
       }
     ],
-    "melee_damage": { "bash": 9 }
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw_619",
+        "name": { "str_sp": "S&W 686 Plus" },
+        "description": "Introduced in the 90's, Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life."
+      }
+    ]
   },
   {
     "id": "chiappa_rhino",
