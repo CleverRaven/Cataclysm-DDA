@@ -35,7 +35,7 @@
         { "u_has_trait": "BLOOD_FUN" }
       ]
     },
-    "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 20, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+    "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
   },
   {
     "type": "effect_on_condition",
@@ -913,9 +913,6 @@
       { "u_message": "You feel yourself rising until you stand in the clear air once again.", "type": "good" }
     ]
   },
-
-
-
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_TORPOR_activated",
@@ -998,5 +995,30 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DOMINATING_GAZE_activated",
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "effect": [
+      {
+        "math": [
+          "u_vampire_hypnotic_gaze_power_level",
+          "=",
+          "2 + (n_vampire_total_tier_one_traits * 0.5) + (n_vampire_total_tier_two_traits * 0.75) + (n_vampire_total_tier_three_traits * 1.2) + (n_vampire_total_tier_four_traits * 2.5) "
+        ]
+      },
+      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "300" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_DOMINATING_GAZE_activated_2",
+            "effect": [ { "u_cast_spell": "vampire_dominate_real" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "npc_message": "You don't have enough blood to activate your dominating gaze.", "type": "bad" } ]
   }
+
 ]

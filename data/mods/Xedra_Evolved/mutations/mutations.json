@@ -474,69 +474,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "True Vampire's Potence" },
-    "description": "Your new status as a true vampire has empowered your other abilities.",
-    "enchantments": [ "true_vampire_power_real" ]
-  },
-  {
-    "type": "enchantment",
-    "id": "true_vampire_power_real",
-    "condition": "ALWAYS",
-    "mutations": [ "TRUE_VAMPIRE_POWER_1", "TRUE_VAMPIRE_POWER_2", "TRUE_VAMPIRE_POWER_3", "TRUE_VAMPIRE_POWER_4", "TRUE_VAMPIRE_POWER_5" ]
-  },
-  {
-    "type": "mutation",
-    "id": "TRUE_VAMPIRE_POWER_1",
-    "points": 0,
-    "player_display": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "True Vampire's Potence 1" },
-    "description": "Fake mutation to boost vampiric abilities."
-  },
-  {
-    "type": "mutation",
-    "id": "TRUE_VAMPIRE_POWER_2",
-    "points": 0,
-    "player_display": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "True Vampire's Potence 2" },
-    "description": "Fake mutation to boost vampiric abilities."
-  },
-  {
-    "type": "mutation",
-    "id": "TRUE_VAMPIRE_POWER_3",
-    "points": 0,
-    "player_display": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "True Vampire's Potence 3" },
-    "description": "Fake mutation to boost vampiric abilities."
-  },
-  {
-    "type": "mutation",
-    "id": "TRUE_VAMPIRE_POWER_4",
-    "points": 0,
-    "player_display": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "True Vampire's Potence 4" },
-    "description": "Fake mutation to boost vampiric abilities."
-  },
-  {
-    "type": "mutation",
-    "id": "TRUE_VAMPIRE_POWER_5",
-    "points": 0,
-    "player_display": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "True Vampire's Potence 5" },
-    "description": "Fake mutation to boost vampiric abilities."
+    "description": "Your new status as a true vampire has empowered your other abilities."
   },
   {
     "type": "mutation",
@@ -565,13 +503,40 @@
     "shape": "blast",
     "energy_source": "NONE"
   },
-
-
-
-
-
-
-
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DOMINATE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Dominating Gaze" },
+    "description": "You can focus your gaze and take control of your target.  Only works against targets that have a mind.",
+    "spells_learned": [ [ "vampire_dominate", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_BREATHE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Falcultative Breathing" },
+    "description": "You do not need to breathe air to live anymore.  It prevents you from drowning and allows you to ignore inhaled gases.",
+    "flags": [ "GILLS" ],
+    "integrated_armor": [ "integrated_nobreathe" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_ILLNESS",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Corpse-like Flesh" },
+    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.",
+    "flags": [ "PARAIMMUNE", "NO_DISEASE", "NO_RADIATION", "INFECTION_IMMUNE" ]
+  },
   {
     "type": "mutation",
     "id": "BLOOD_DRINKER",
