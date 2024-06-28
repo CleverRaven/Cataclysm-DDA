@@ -2719,6 +2719,19 @@
     ]
   },
   {
+    "id": "nested_rp63",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rp63", "charges": [ 0, 6 ] },
+      { "item": "38_speedloader6" },
+      { "item": "38_speedloader6", "prob": 50 },
+      { "group": "on_hand_357_38mixed" }
+    ]
+  },
+  {
     "id": "nested_taurus_judge",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

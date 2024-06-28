@@ -287,5 +287,57 @@
         "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder to alleviate muzzle flip."
       }
     ]
+  },
+  {
+    "id": "rp63",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str_sp": ".357-caliber snub-nosed revolver" },
+    "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rp63",
+        "name": { "str": "Rossi RP63 revolver" },
+        "description": "A small frame, stainless-steel Brazilian wheel gun with rubberized grips, a serrated front sight, and a satin finish, boasting a 6-round cylinder of .357-magnum persuasion.  Affordable, before the world collapsed, and confidently asserted by Rossi themselves to be the ideal carry gun for its rounded butt and 3-inch barrel, you aren't wholly sure that such assertions accounted for zombies."
+      }
+    ],
+    "weight": "774 g",
+    "volume": "614 ml",
+    "longest_side": "19 cm",
+    "barrel_length": "116 mm",
+    "//": "72.6mm + 39.4mm max OAL for 38spl. Revolvers just built different.",
+    "//2": "Dimensions are 19.3x13.3x3.7 cm, with the final result trimmed by 35% to account for the inherent empty spaces.",
+    "//3": "Yes, the revolver is actually 193 mm long rather than 19 cm, but I deemed not having it fit in a standard-sized pocket because of a 3 mm difference to be silly.",
+    "price": "469 USD 99 cent",
+    "price_postapoc": "10 USD 40 cent",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "357mag", "38" ],
+    "//4": "3 to 3.5-inch groups at 10 yards shooting off-handed: https://www.shootingillustrated.com/content/review-rossi-rp-63-revolver/",
+    "dispersion": 350,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "357mag": 6, "38": 6 },
+        "allowed_speedloaders": [ "38_speedloader6" ]
+      }
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]
