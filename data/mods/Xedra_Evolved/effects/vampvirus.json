@@ -313,7 +313,7 @@
             "condition": { "u_has_trait": "VAMPIRE4" },
             "effect": [
               {
-                "u_roll_remainder": [ "TRUE_VAMPIRE_POWER", "VAMPIRE_TORPOR" ],
+                "u_roll_remainder": [ "TRUE_VAMPIRE_POWER", "VAMPIRE_TORPOR", "VAMPIRE_DOMINATE", "VAMPIRE_NO_BREATHE", "VAMPIRE_NO_ILLNESS" ],
                 "type": "mutation",
                 "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                 "false_eocs": [ "EOC_COMPLETED_VAMPIRE4" ]

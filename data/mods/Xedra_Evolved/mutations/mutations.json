@@ -488,22 +488,6 @@
     "spells_learned": [ [ "vampire_torpor", 1 ] ]
   },
   {
-    "id": "vampire_torpor",
-    "type": "SPELL",
-    "name": "Torpor",
-    "description": "Enter a deathlike slumber and recover from your wounds and fatigue.",
-    "message": "You enter a torpor.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_VAMPIRE_TORPOR_activated",
-    "shape": "blast",
-    "energy_source": "NONE"
-  },
-  {
     "type": "mutation",
     "id": "VAMPIRE_DOMINATE",
     "points": 0,
