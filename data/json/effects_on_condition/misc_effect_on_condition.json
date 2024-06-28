@@ -220,11 +220,25 @@
         ]
       },
       {
-        "u_add_morale": "morale_bile",
-        "bonus": { "math": [ "MORALE_MULTIPLIER * 3" ] },
-        "max_bonus": { "math": [ "MORALE_MULTIPLIER * 6" ] },
-        "duration": { "global_val": "BILE_STINK_DURATION" },
-        "decay_start": { "math": [ "BILE_STINK_DURATION / 2" ] }
+        "if": { "not": { "u_has_any_trait": [ "SAPROVORE", "EATDEAD", "THRESH_SLIME" ] } },
+        "then": [
+          {
+            "u_add_morale": "morale_bile",
+            "bonus": { "math": [ "MORALE_MULTIPLIER * 3" ] },
+            "max_bonus": { "math": [ "MORALE_MULTIPLIER * 6" ] },
+            "duration": { "global_val": "BILE_STINK_DURATION" },
+            "decay_start": { "math": [ "BILE_STINK_DURATION / 2" ] }
+          }
+        ],
+        "else": [
+          {
+            "u_add_morale": "morale_bile",
+            "bonus": { "math": [ "MORALE_MULTIPLIER" ] },
+            "max_bonus": { "math": [ "MORALE_MULTIPLIER * 2" ] },
+            "duration": { "global_val": "BILE_STINK_DURATION / 2" },
+            "decay_start": { "math": [ "BILE_STINK_DURATION / 4" ] }
+          }
+        ]
       }
     ]
   }
