@@ -203,7 +203,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
-    "flags": [ "SEES", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_lab_rat",
@@ -2349,7 +2349,7 @@
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER", "EATS", "SMALL_HIDER", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_sheep_lamb",
