@@ -19,21 +19,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
-    "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
-    "effect": [
-      { "u_remove_item_with": "electrokinetic_ups_1" },
-      { "u_remove_item_with": "electrokinetic_ups_2" },
-      { "u_remove_item_with": "electrokinetic_ups_3" },
-      { "u_remove_item_with": "electrokinetic_ups_4" },
-      { "u_remove_item_with": "electrokinetic_ups_5" },
-      { "u_remove_item_with": "electrokinetic_ups_6" },
-      { "u_lose_effect": "effect_electrokin_personal_battery" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_SWITCHER",
     "effect": {
       "switch": { "math": [ "u_spell_level('electrokinetic_personal_battery')" ] },
