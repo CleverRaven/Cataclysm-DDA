@@ -52,6 +52,11 @@
     "spell_data": { "id": "spell_electric_chain" }
   },
   {
+    "id": "FUSION_FAN",
+    "type": "ammo_effect",
+    "spell_data": { "id": "spell_fusion_fan" }
+  },
+  {
     "id": "MULTI_EFFECTS",
     "type": "ammo_effect",
     "//": "Applies multi_projectile_effects to all ammo used by this weapon, even if the ammo doesn't normally have it. Hardcoded in projectile_attack (ranged.cpp)"
