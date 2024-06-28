@@ -513,10 +513,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue",
     "type": "talk_topic",
-    "dynamic_line": {
-      "//~": "Let me see.  Will do what I can for a coin.",
-      "str": "Lemme peep.  Will do what I can for a bob."
-    },
+    "dynamic_line": { "//~": "Let me see.  Will do what I can for a coin.", "str": "Lemme peep.  Will do what I can for a bob." },
     "responses": [
       {
         "text": "[Prototype Cyborg] Can you help this guy look like they have lost their mind?",
