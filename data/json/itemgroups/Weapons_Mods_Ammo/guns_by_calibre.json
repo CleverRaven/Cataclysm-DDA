@@ -232,7 +232,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_357mag",
-    "items": [ { "item": "sw_619", "prob": 1 }, { "item": "colt_python", "prob": 2 } ]
+    "items": [ { "item": "sw_619", "variant": "sw_619", "prob": 1 }, { "item": "colt_python", "prob": 2 } ]
   },
   {
     "type": "item_group",
