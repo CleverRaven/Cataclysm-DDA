@@ -157,7 +157,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Sanguine Extasy" },
+    "name": { "str": "Sanguine Ecstasy" },
     "description": "Your palate adapted to your new condition.  Drinking human blood will make you feel great."
   },
   {
@@ -422,6 +422,17 @@
   },
   {
     "type": "mutation",
+    "id": "MAGICFORBLOOD",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blood-Fueled Magic" },
+    "description": "Your exhaust some of the blood in your veins to recover some of your spent mana.",
+    "spells_learned": [ [ "vampire_magic_for_blood_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_COMMAND_BEAST",
     "points": 0,
     "starting_trait": false,
@@ -455,15 +466,105 @@
     "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
   },
-
-
-
-
-
-
-
-
-
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence" },
+    "description": "Your new status as a true vampire has empowered your other abilities.",
+    "enchantments": [ "true_vampire_power_real" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "true_vampire_power_real",
+    "condition": "ALWAYS",
+    "mutations": [ "TRUE_VAMPIRE_POWER_1", "TRUE_VAMPIRE_POWER_2", "TRUE_VAMPIRE_POWER_3", "TRUE_VAMPIRE_POWER_4", "TRUE_VAMPIRE_POWER_5" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER_1",
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence 1" },
+    "description": "Fake mutation to boost vampiric abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER_2",
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence 2" },
+    "description": "Fake mutation to boost vampiric abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER_3",
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence 3" },
+    "description": "Fake mutation to boost vampiric abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER_4",
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence 4" },
+    "description": "Fake mutation to boost vampiric abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER_5",
+    "points": 0,
+    "player_display": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence 5" },
+    "description": "Fake mutation to boost vampiric abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TORPOR",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Torpor" },
+    "description": "You can enter a deathlike stake known as torpor, in which your wounds will close faster, your fatigue will recover and your blood thirst will be less intense.  You can wake up from torpor as you want.",
+    "spells_learned": [ [ "vampire_torpor", 1 ] ]
+  },
+  {
+    "id": "vampire_torpor",
+    "type": "SPELL",
+    "name": "Torpor",
+    "description": "Enter a deathlike slumber and recover from your wounds and fatigue.",
+    "message": "You enter a torpor.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_TORPOR_activated",
+    "shape": "blast",
+    "energy_source": "NONE"
+  },
 
 
 

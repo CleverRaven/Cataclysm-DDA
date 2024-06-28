@@ -725,6 +725,27 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MAGICFORBLOOD_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
+      {
+        "u_message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
+        "type": "good"
+      },
+      {
+        "math": [
+          "u_val('mana')",
+          "+=",
+          "min((150 + (vampire_total_tier_one_traits() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits() * 150)), 1500)"
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to recover any mana.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
     "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
@@ -890,6 +911,92 @@
     "false_effect": [
       { "u_teleport": { "u_val": "VAMPIRE_sleep_in_earth_starting_point" } },
       { "u_message": "You feel yourself rising until you stand in the clear air once again.", "type": "good" }
+    ]
+  },
+
+
+
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_activated",
+    "effect": [
+      { "u_assign_activity": "ACT_VAMPIRE_TORPOR", "duration": "2400 minutes" },
+      { "u_add_effect": "effect_vampire_torpor", "duration": "2400 minutes" }
+    ]
+  },
+  {
+    "id": "ACT_VAMPIRE_TORPOR",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "slumbering",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_VAMPIRE_TORPOR_REMOVE",
+    "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_REMOVE",
+    "effect": [ { "u_lose_effect": "effect_vampire_torpor" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_RECOVER",
+    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_VAMPIRE_TORPOR_SLEEPINESS", "EOC_VAMPIRE_TORPOR_DEPRIVATION" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_SLEEPINESS",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('sleepiness')", ">=", "0" ] },
+        {
+          "x_in_y_chance": {
+            "x": 1,
+            "y": { "math": [ "max( (55 - ( (vampire_total_tier_one_traits() * 0.5) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 2)  +  (vampire_total_tier_four_traits() * 3)), 15 )" ] }
+          }
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_DEPRIVATION",
+    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_torpor",
+    "name": [ "Torpor" ],
+    "desc": [ "Thanks to your torpor you are healing and recovering quickly" ],
+    "rating": "good",
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "3 m" ] } ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                       "(n_vampire_total_tier_one_traits * 0.05) + (n_vampire_total_tier_two_traits * 0.075) + (n_vampire_total_tier_three_traits * 0.1) + (n_vampire_total_tier_four_traits * 0.2) "
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                       "(n_vampire_total_tier_one_traits * 0.05) + (n_vampire_total_tier_two_traits * 0.075) + (n_vampire_total_tier_three_traits * 0.1) + (n_vampire_total_tier_four_traits * 0.2) "
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
     ]
   }
 ]

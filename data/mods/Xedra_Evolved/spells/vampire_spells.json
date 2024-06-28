@@ -56,6 +56,23 @@
     "difficulty": 5
   },
   {
+    "id": "vampire_magic_for_blood_spell",
+    "type": "SPELL",
+    "name": "Blood-Fueled Magic",
+    "description": "You consume some of the blood in your veins, turning it into magical power.",
+    "message": "",
+    "teachable": false,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGICFORBLOOD_activated",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "base_casting_time": 100,
+    "difficulty": 5
+  },
+  {
     "id": "spell_blood_heal",
     "type": "SPELL",
     "name": "Sanguine Restoration",

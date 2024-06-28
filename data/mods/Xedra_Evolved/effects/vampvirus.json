@@ -20,6 +20,7 @@
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
               { "u_lose_trait": "EYEGLEAM" },
+              { "u_lose_trait": "BLOOD_FUN" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "COMMUNE_NIGHT" },
@@ -62,8 +63,10 @@
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
               { "u_lose_trait": "BLOODHASTE" },
+              { "u_lose_trait": "MAGICFORBLOOD" },
               { "u_lose_trait": "VAMPIRE_COMMAND_BEAST" },
               { "u_lose_trait": "VAMPIRE_EARTH_SLUMBER" },
+              { "math": [ "u_spell_level('vampire_magic_for_blood_spell')", "=", "-1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze')", "=", "-1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell')", "=", "-1" ] },
               {
@@ -276,7 +279,7 @@
                   "condition": { "u_has_trait": "VAMPIRE3" },
                   "effect": [
                     {
-                      "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+                      "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]
@@ -310,7 +313,7 @@
             "condition": { "u_has_trait": "VAMPIRE4" },
             "effect": [
               {
-                "u_roll_remainder": [  ],
+                "u_roll_remainder": [ "TRUE_VAMPIRE_POWER", "VAMPIRE_TORPOR" ],
                 "type": "mutation",
                 "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                 "false_eocs": [ "EOC_COMPLETED_VAMPIRE4" ]
