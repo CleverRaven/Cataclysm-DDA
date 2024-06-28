@@ -194,7 +194,7 @@
     "id": "combat_exoskeleton_heavy_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.1" },
-    "description": "Now powered, the exoskeleton shields you against harmful gas, cools you down, and has reduced encumbrance. Designed for heavy loadouts, this model also provides significant improvements to your movement exertion cost and carry weight.",
+    "description": "Now powered, the exoskeleton provides <color_white>significant</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
