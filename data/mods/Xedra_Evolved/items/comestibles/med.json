@@ -95,15 +95,8 @@
     ],
     "false_effect": [
       { "u_message": "You imbibed the concoction and you feel your veins flex in a warm glow.", "type": "good" },
-      { "u_add_trait": "BLOOD_OF_SAINTS" }
+      { "u_add_trait": "BLOOD_OF_SAINTS" },
+      { "u_add_effect": "blood_treatment", "duration": "PERMANENT" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BLOOD_OF_SAINTS_REVERSE_VAMPIRISM",
-    "recurrence": [ "6 hours", "6 hours" ],
-    "global": true,
-    "condition": { "u_has_trait": "BLOOD_OF_SAINTS" },
-    "effect": [ { "u_add_effect": "blood_treatment", "duration": "6 hours" } ]
   }
 ]
