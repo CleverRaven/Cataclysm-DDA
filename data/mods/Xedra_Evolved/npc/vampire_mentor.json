@@ -258,6 +258,16 @@
         "effect": { "assign_mission": "KILL_YOUR_BEST_FRIEND" },
         "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_2"
       },
+      {
+        "text": "[Killer or Psychopath] Make someone love me and then kill them in return for immortality and power?  What's the downside?",
+        "topic": "TALK_VAMPIRE_MENTOR_SACRIFICE_1",
+        "condition": { "or": [ { "u_has_trait": "KILLER" }, { "u_has_trait": "PSYCHOPATH" } ] }
+      },
+      {
+        "text": "[Pacifist] That's monstrous, of course I won't do that!",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "PACIFIST" }
+      },
       { "text": "I'm not doing that.  Bye.", "topic": "TALK_DONE" }
     ]
   },
