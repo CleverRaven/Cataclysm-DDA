@@ -45,6 +45,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_fumigator",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken croplord drone" },
+    "category": "other",
+    "description": "This bloodhound won't be chasing anyone anymore.  Could be gutted for parts.",
+    "price": "10 USD",
+    "material": [ "steel", "plastic" ],
+    "volume": "1750 ml",
+    "weight": "1 kg",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_utilibot",
     "symbol": ",",
     "color": "light_gray",
@@ -76,6 +92,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_afs_commercial_laser_turret",
+    "looks_like": "bot_rifleturret",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken interior laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_hazmatbot",
     "name": "broken Likvidator",
     "description": "A broken Likvidator, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
@@ -101,6 +127,16 @@
     "type": "GENERIC",
     "id": "broken_utilibot_const",
     "copy-from": "broken_utilibot",
+    "color": "dark_gray",
+    "name": "broken Udarnik",
+    "volume": "680388 ml",
+    "weight": "680388 g",
+    "description": "A broken Udarnik, now wrecked and immobile.  Could be stripped down for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_hostile",
+    "copy-from": "broken_utilibot_const",
     "color": "dark_gray",
     "name": "broken Udarnik",
     "description": "A broken Udarnik, now wrecked and immobile.  Could be stripped down for parts."
@@ -164,7 +200,7 @@
   {
     "type": "GENERIC",
     "id": "broken_eyebot_heater",
-    "copy-from": "broken_eyebot",
+    "copy-from": "afs_broken_eyebot",
     "color": "pink",
     "name": "broken floating heater",
     "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
@@ -291,7 +327,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_eyebot",
+    "id": "afs_broken_eyebot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken eyebot" },
@@ -308,7 +344,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_copbot",
+    "id": "afs_broken_copbot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken police bot" },
@@ -325,7 +361,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_riotbot",
+    "id": "afs_broken_riotbot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken riot control bot" },

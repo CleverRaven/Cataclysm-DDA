@@ -1,0 +1,140 @@
+[
+  {
+    "id": "electrokinetic_electrohack_1",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "=",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "UNBREAKABLE",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "INTEGRATED",
+      "MAGICAL"
+    ],
+    "qualities": [ [ "HACK", 0 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 1 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 2 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 3 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 4 ] ]
+  },
+  {
+    "id": "afs_electrokinetic_ups_1",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "=",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "UNBREAKABLE",
+      "SEMITANGIBLE",
+      "INTEGRATED",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "IS_UPS"
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 400 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "afs_electrokinetic_ups_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "afs_electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 800 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "afs_electrokinetic_ups_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "afs_electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "afs_electrokinetic_ups_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "afs_electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "afs_electrokinetic_ups_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "afs_electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  },
+  {
+    "id": "afs_electrokinetic_ups_6",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "[Ψ]electron overflow" },
+    "description": "You are generating power for your personal devices.",
+    "copy-from": "afs_electrokinetic_ups_1",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
+    "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
+  }
+]

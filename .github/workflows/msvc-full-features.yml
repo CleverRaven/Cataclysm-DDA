@@ -29,6 +29,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
@@ -55,6 +56,7 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: windows-2019
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     steps:
     - uses: actions/checkout@v4
@@ -135,7 +137,6 @@ jobs:
     - name: Build
       run: |
           msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:ObjectCreator-vcpkg-static" msvc-object_creator/ObjectCreator-vcpkg-static.sln
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
@@ -155,8 +156,6 @@ jobs:
       run: |
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
-        echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-object_creator/vcpkg_installed" -Recurse
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
         Foreach-Object {
@@ -197,8 +196,6 @@ jobs:
         du -sh *
         echo =================================================
         du -sh msvc-full-features/*
-        echo =================================================
-        du -sh msvc-object_creator/*
         echo =================================================
         du -sh tools/*
         echo =================================================

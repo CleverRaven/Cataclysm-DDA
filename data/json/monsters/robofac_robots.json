@@ -60,7 +60,7 @@
     "vision_day": 50,
     "path_settings": { "max_dist": 50, "avoid_traps": true },
     "flags": [
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "FLIES",
       "ELECTRONIC",
@@ -132,7 +132,7 @@
       "COLDPROOF",
       "BIOLOGICALPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }

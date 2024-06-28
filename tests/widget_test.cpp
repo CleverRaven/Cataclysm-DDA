@@ -44,6 +44,9 @@ static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
 
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_run( "run" );
@@ -697,11 +700,11 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
 
         ava.clear_morale();
         CHECK( morale_w.layout( ava ) == "MORALE: 0" );
-        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        ava.add_morale( morale_food_good, 20 );
         CHECK( morale_w.layout( ava ) == "MORALE: 20" );
 
         ava.clear_morale();
-        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        ava.add_morale( morale_killed_innocent, -100 );
         CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
 

@@ -67,7 +67,8 @@
     "apply_message": "You are bolstered and pushed along by the power of the wind",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
-    "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "((u_spell_level('windrun') * 2) + 10)" ] } } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
   },
   {
     "type": "effect_type",
@@ -77,7 +78,7 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape.",
     "rating": "good",
-    "flags": [ "NIGHT_VISION" ]
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "((u_spell_level('dark_sight')) + 3)" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -108,7 +109,16 @@
     "apply_message": "You are filled with energy that improves everything you do!",
     "remove_message": "Your energy fades.",
     "rating": "good",
-    "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bless') ) + 5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -279,7 +289,7 @@
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "ogres_strength", "foxs_cunning" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('cats_grace') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",

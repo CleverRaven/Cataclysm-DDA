@@ -128,9 +128,17 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Browning Automatic Rifle" },
-    "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
+    "name": { "str": "BAR rifle" },
+    "description": "This heavy rifle was designed near the end of World War I, and provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
     "ascii_picture": "1918_BAR",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m1918",
+        "name": { "str": "Browning Automatic Rifle" },
+        "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield."
+      }
+    ],
     "weight": "8820 g",
     "volume": "4450 ml",
     "longest_side": "1216 mm",

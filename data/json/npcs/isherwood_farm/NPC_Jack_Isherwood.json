@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
     "mission": 7,
+    "age": 73,
+    "height": 184,
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"

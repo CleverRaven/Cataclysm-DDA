@@ -1,23 +1,34 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "fema_entrance",
+    "id": [ "fema_entrance", "fema_entrance_roof" ],
     "name": "FEMA camp",
     "sym": "+",
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "fema", "fema_1_3", "fema_2_1", "fema_2_2", "fema_2_3", "fema_3_1", "fema_3_2", "fema_3_3" ],
+    "id": [
+      "fema",
+      "fema_1_3",
+      "fema_2_1",
+      "fema_2_2",
+      "fema_2_3",
+      "fema_3_1",
+      "fema_3_2",
+      "fema_3_3",
+      "fema_roof",
+      "fema_1_3_roof"
+    ],
     "name": "FEMA camp",
     "sym": "F",
     "color": "i_blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -267,7 +278,7 @@
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "KNOWN_DOWN", "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -276,7 +287,7 @@
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "KNOWN_UP", "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -285,7 +296,7 @@
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -295,7 +306,7 @@
     "color": "red",
     "see_cost": 2,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -305,7 +316,7 @@
     "color": "red",
     "see_cost": 2,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -323,7 +334,7 @@
     "sym": "0",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -380,7 +391,7 @@
     "sym": "H",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "SOURCE_FUEL", "SOURCE_GUN", "SOURCE_VEHICLES", "RISK_HIGH" ]
+    "flags": [ "SOURCE_FUEL", "SOURCE_GUN", "SOURCE_VEHICLES", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -479,7 +490,24 @@
       "mil_base_7d1",
       "mil_base_7e1",
       "mil_base_7f1",
-      "mil_base_8e1"
+      "mil_base_8e1",
+      "mil_base_1b2",
+      "mil_base_2b2",
+      "mil_base_3b2",
+      "mil_base_4b2",
+      "mil_base_5b2",
+      "mil_base_6b2",
+      "mil_base_7b2",
+      "mil_base_8b2",
+      "mil_base_1g2",
+      "mil_base_2g2",
+      "mil_base_3g2",
+      "mil_base_8g2",
+      "mil_base_1k2",
+      "mil_base_2k2",
+      "mil_base_3k2",
+      "mil_base_4k2",
+      "mil_base_8k2"
     ],
     "name": "military base roof",
     "sym": "M",

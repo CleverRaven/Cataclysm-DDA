@@ -67,13 +67,13 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "compact bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ksg",
         "name": { "str": "Kel-Tec KSG shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations."
+        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity."
       }
     ],
     "ascii_picture": "ksg",
@@ -89,7 +89,6 @@
     "sight_dispersion": 500,
     "durability": 7,
     "clip_size": 7,
-    "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
@@ -101,51 +100,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "ksg-25",
-    "copy-from": "shotgun_pump",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "extended bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 24 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's still only as long as conventional shotguns despite having a comparatively far higher capacity.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ksg-25",
-        "name": { "str": "Kel-Tec KSG-25 shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes."
-      }
-    ],
-    "ascii_picture": "ksg-25",
-    "weight": "2100 g",
-    "volume": "4495 ml",
-    "longest_side": "971 mm",
-    "barrel_length": "775 mm",
-    "price": "1 kUSD 400 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 425,
-    "sight_dispersion": 500,
-    "durability": 7,
-    "clip_size": 12,
-    "built_in_mods": [ "ksg25_aux_shotgun" ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "underbarrel", 2 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
     "melee_damage": { "bash": 9 }
   },
   {
@@ -228,6 +183,48 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
+  },
+  {
+    "id": "mossberg_590m",
+    "copy-from": "mossberg_590",
+    "looks_like": "mossberg_590",
+    "type": "GUN",
+    "name": { "str": "magazine-fed pump shotgun" },
+    "description": "A classic pump-action shotgun, all save for the fact that the manufacturer has modified it to use detachable box magazines instead of a standard shotgun tube.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590",
+        "name": { "str": "Mossberg 590M shotgun" },
+        "description": "A classic Mossberg 590 pump-action shotgun, modified by the manufacturer to utilize box magazines."
+      }
+    ],
+    "weight": "3628 g",
+    "volume": "2548 ml",
+    "longest_side": "1033 mm",
+    "barrel_length": "469 mm",
+    "price": "770 USD",
+    "price_postapoc": "19 USD",
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "mossberg_590m_mag_5", "mossberg_590m_mag_10", "mossberg_590m_mag_15", "mossberg_590m_mag_20" ]
+      }
+    ]
   },
   {
     "id": "mossberg_930",
@@ -646,7 +643,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "auto-loading bullpup shotgun" },
-    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
@@ -669,7 +666,6 @@
     "min_cycle_recoil": 1250,
     "clip_size": 5,
     "sight_dispersion": 500,
-    "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -681,8 +677,48 @@
       [ "sling", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 15 } } ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "dp_12",
+    "copy-from": "shotgun_pump",
+    "type": "GUN",
+    "name": { "str": "double-barrelled pump shotgun" },
+    "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "dp_12",
+        "name": { "str": "DP-12" },
+        "description": "A bullpup, 12-gauge, pump-action, double-barrelled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
+      }
+    ],
+    "weight": "4989 g",
+    "volume": "8862 ml",
+    "//": "180 x 750 x 101 mm, trimmed about 35% down for empty spaces",
+    "longest_side": "749 mm",
+    "barrel_length": "479 mm",
+    "price": "1599 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 550,
+    "sight_dispersion": 700,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 14 } } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "winchester_1887",
@@ -896,6 +932,47 @@
     "modes": [ [ "DEFAULT", "double", 2 ] ],
     "//": "no provision for separate triggers",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
+  },
+  {
+    "id": "srm_1216",
+    "copy-from": "shotgun_pump",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "rotary-magazine shotgun" },
+    "description": "A lengthy shotgun that accepts revolving 16-round magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "srm_1216",
+        "name": { "str": "SRM Arms Model 1216" },
+        "description": "A delayed blowback semi-automatic shotgun feeding from detachable 16-round rotary magazines."
+      }
+    ],
+    "weight": "3062 g",
+    "volume": "8015 ml",
+    "//": "857 x 195 x 97 mm, trimmed about 30% down for empty spaces, minus 3670 ml of magazine volume.",
+    "longest_side": "857 mm",
+    "barrel_length": "470 mm",
+    "price": "1799 USD",
+    "price_postapoc": "50 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "plastic" ],
+    "dispersion": 425,
+    "sight_dispersion": 500,
+    "durability": 7,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "srm_1216_mag_16" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "m26_mass_standalone",

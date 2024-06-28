@@ -2096,6 +2096,16 @@
   },
   {
     "type": "effect_type",
+    "id": "skunk_spray_neutralizer",
+    "name": [ "Skunk Spray Neutralized" ],
+    "desc": [ "A solution that neutralizes skunk odors." ],
+    "rating": "good",
+    "apply_message": "As you apply the solution, the skunk odor dissipates.",
+    "max_duration": "2 minutes",
+    "removes_effects": [ "skunk_spray" ]
+  },
+  {
+    "type": "effect_type",
     "id": "invisibility",
     "name": [ "Invisible" ],
     "desc": [ "You are invisible." ],
@@ -4617,6 +4627,12 @@
   },
   {
     "type": "effect_type",
+    "id": "nvg_green",
+    "name": [ "Night Vision Goggles (Green)" ],
+    "desc": [ "Your night vision goggles give a green tint to the world." ]
+  },
+  {
+    "type": "effect_type",
     "id": "glowing_gas",
     "name": [ { "ctxt": "inhaled", "str": "Glowing Gas" } ],
     "desc": [
@@ -4786,7 +4802,7 @@
     "id": "star_vampire_blood_drink",
     "type": "effect_type",
     "name": [ "Exsanguination" ],
-    "desc": [ "The monster is drinking your blood!" ],
+    "desc": [ "The monster is greedily drinking your blood!" ],
     "rating": "bad",
     "resist_traits": [ "BLEED_IMMUNE" ],
     "show_in_info": true,
@@ -4797,6 +4813,23 @@
     "vitamins": [
       { "vitamin": "blood", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] },
       { "vitamin": "redcells", "rate": [ [ -250, -650 ] ], "tick": [ "1 s" ] }
+    ]
+  },
+  {
+    "id": "star_vampire_blood_drink",
+    "type": "effect_type",
+    "name": [ "Hemorrhage" ],
+    "desc": [ "The monster is sucking up your blood!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "show_in_info": true,
+    "max_intensity": 2,
+    "show_intensity": false,
+    "int_decay_step": -2,
+    "int_decay_tick": 1,
+    "vitamins": [
+      { "vitamin": "blood", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -125, -325 ] ], "tick": [ "1 s" ] }
     ]
   },
   {
@@ -4835,16 +4868,7 @@
     "rating": "bad",
     "resist_traits": [ "BENDY1", "BENDY2", "BENDY3" ],
     "resist_effects": [ "incorporeal" ],
-    "pain_sizing": true,
-    "hurt_sizing": true,
-    "base_mods": {
-      "dex_mod": [ -2 ],
-      "str_mod": [ -2 ],
-      "speed_mod": [ -20 ],
-      "pain_min": [ 2 ],
-      "pain_chance": [ 100, 500 ],
-      "pain_max_val": [ 35 ]
-    },
+    "base_mods": { "dex_mod": [ -2 ], "str_mod": [ -2 ], "speed_mod": [ -20 ] },
     "show_in_info": true
   },
   {
@@ -4863,6 +4887,14 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "mute",
+    "show_in_info": true,
+    "name": [ "Mute" ],
+    "desc": [ "You can't talk." ],
+    "flags": [ "MUTE" ]
   },
   {
     "type": "effect_type",

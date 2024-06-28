@@ -2,6 +2,12 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "desolate_shingle_roof_chunk",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "." ], "terrain": { ".": [ [ "t_shingle_flat_roof", 90 ], [ "t_open_air", 10 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "ruins_4x4_front",
     "object": {
       "mapgensize": [ 4, 4 ],
@@ -64,6 +70,7 @@
         "__R_"
       ],
       "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "^": "t_dirtfloor" },
       "items": { "^": { "item": "hardware", "chance": 10 }, "R": { "item": "hardware", "chance": 25 } },
       "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
@@ -100,6 +107,7 @@
         "_mg^"
       ],
       "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "^": "t_dirtfloor" },
       "items": { "^": { "item": "hardware", "chance": 10 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
     }
@@ -527,7 +535,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "ruins_8x8_yard",
-    "//": "yard with shed",
+    "//": "yard with ruined shed",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -549,6 +557,26 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "small_camp_8x8_tent_roof",
+    "//": "a tent and firepit",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "  RRR   ",
+        "  RRR   ",
+        "  RRR   ",
+        "        ",
+        "        ",
+        "        ",
+        "        ",
+        "        "
+      ],
+      "terrain": { "R": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "small_camp_8x8",
     "//": "a tent and firepit",
     "object": {
@@ -565,14 +593,15 @@
         "        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "k": "t_trunk" },
+      "terrain": { "#": "t_dirt", "x": "t_dirt", "+": "t_dirt", "b": "t_dirt", "k": "t_trunk" },
       "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door", "b": "f_firering" },
       "place_items": [
         { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
         { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
         { "item": "camping", "x": 1, "y": 5, "chance": 30, "repeat": [ 1, 3 ] },
         { "item": "stash_wood", "x": 3, "y": 6, "chance": 100, "repeat": [ 6, 10 ] }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "small_camp_8x8_tent_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -599,6 +628,20 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "tent_3x3_roof",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "###",
+        "###",
+        "###"
+      ],
+      "terrain": { "#": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "tent_3x3_S",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -609,7 +652,8 @@
         "#+#"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -625,7 +669,8 @@
         "###"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -641,7 +686,8 @@
         "###"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -657,7 +703,24 @@
         "###"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" }
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tent_5x5_roof",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "#####",
+        "#####",
+        "#####",
+        "#####",
+        "#####"
+      ],
+      "terrain": { "#": "t_canvas_roof" }
     }
   },
   {
@@ -675,7 +738,8 @@
         "##+##"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -693,13 +757,15 @@
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "leather_tent_5x5_S",
+    "//": "Canvas roof since we don't have a skin/leather one",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -716,7 +782,8 @@
         "X": "f_skin_center_groundsheet",
         "x": "f_large_skin_groundsheet",
         "+": "f_large_skin_door"
-      }
+      },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -734,7 +801,8 @@
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -752,13 +820,15 @@
         "#####"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" },
+      "place_nested": [ { "chunks": [ "tent_5x5_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_S",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -780,6 +850,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_E",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -801,6 +872,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_N",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -822,6 +894,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_3x3_W",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 3, 3 ],
       "rotation": [ 0, 3 ],
@@ -843,6 +916,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_S",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -866,6 +940,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_E",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -889,6 +964,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_N",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
@@ -912,6 +988,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "tent_b_5x5_W",
+    "//": "No roof due to the ruined state. Could make chunks to sync roof and wall/floor, but too insignificant to bother",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],

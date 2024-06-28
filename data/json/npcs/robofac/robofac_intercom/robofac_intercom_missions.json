@@ -899,7 +899,7 @@
         "om_special": "physics_lab_LIXA",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 180,
+        "search_range": 800,
         "z": 0
       }
     },
@@ -1011,7 +1011,7 @@
     "dynamic_line": "&The intercom waits patiently.",
     "responses": [
       {
-        "text": "Hoo boy, where do I even begin with this one?  Let's start with the fact that your intel was about as useful as a screen door on a submarine!\"Sparsely-populated,\" my ass!  How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
+        "text": "Hoo boy, where do I even begin with this one?  Let's start with the fact that your intel was about as useful as a screen door on a submarine!  \"Sparsely-populated,\" my ass!  How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_1"
       }
     ]

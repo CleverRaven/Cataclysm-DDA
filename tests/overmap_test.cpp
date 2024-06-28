@@ -451,14 +451,15 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                 for( int i = 0; i < sample_size; ++i ) {
                     // clear the generated maps so we keep getting new results.
                     MAPBUFFER.clear_outside_reality_bubble();
-                    tinymap tm;
-                    tm.generate( pos, calendar::turn );
+                    smallmap tm;
+                    tm.generate( pos, calendar::turn, false );
                     bool found = tally_items( item_counts, p.second.item_counts, tm );
                     if( enable_item_demographics && found && !p.second.found ) {
                         goal_samples = std::pow( std::log( std::max( 10, count ) ), 3 );
                         sample_size = goal_samples - p.second.samples;
                         p.second.found = true;
                     }
+                    tm.delete_unmerged_submaps();
                 }
             } );
             p.second.samples = goal_samples;
@@ -499,7 +500,8 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) ) {
+            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) &&
+                       !id->has_flag( oter_flags::ocean ) ) {
                 missing.push_back( id );
             }
         }
@@ -520,11 +522,12 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         } );
         CAPTURE( missing_oter_type_ids );
         INFO( "To resolve errors about missing terrains you can either give the terrain the "
-              "SHOULD_NOT_SPAWN flag (intended for terrains that should never spawn, for example "
-              "test terrains or work in progress), or tweak the constraints so that the terrain "
-              "can spawn more reliably, or add them to the whitelist above in this function "
-              "(inteded for terrains that sometimes spawn, but cannot be expected to spawn "
-              "reliably enough for this test)" );
+              "SHOULD_NOT_SPAWN flag, intended for terrains that should never spawn, for example "
+              "test terrains or work in progress, or tweak the constraints so that the terrain "
+              "can spawn more reliably, or add them to the whitelist at "
+              "/data/mods/TEST_DATA/overmap_terrain_coverage_test/overmap_terrain_coverage_whitelist.json "
+              "intended for terrains that sometimes spawn, but cannot be expected to spawn "
+              "reliably enough for this test." );
         CHECK( num_missing == 0 );
     }
 

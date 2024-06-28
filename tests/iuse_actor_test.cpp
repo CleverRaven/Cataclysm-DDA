@@ -136,7 +136,7 @@ static void cut_up_yields( const std::string &target )
     CAPTURE( target );
     salvage_actor test_actor;
     item cut_up_target{ target };
-    item tool{ "knife_butcher" };
+    item tool{ "knife_huge" };
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
@@ -151,7 +151,7 @@ static void cut_up_yields( const std::string &target )
 
     units::mass cut_up_target_mass = cut_up_target.weight();
     item &spawned_item = here.add_item_or_charges( guy.pos(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    item_location item_loc( map_cursor( guy.pos_bub() ), &spawned_item );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 

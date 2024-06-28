@@ -332,6 +332,28 @@
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
+    "id": "skunk_spray_neutralizing_solution",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "skunk spray neutralizing solution" },
+    "description": "A combination of hydrogen peroxide, baking soda, and dish soap that works together to transform skunk spray thiocetates into odorless acids.",
+    "weight": "28 g",
+    "volume": "250 ml",
+    "price": "1 USD",
+    "price_postapoc": "5 USD",
+    "charges": 10,
+    "symbol": "~",
+    "color": "white",
+    "phase": "liquid",
+    "container": "bottle_plastic_small",
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You cover yourself in the solution everywhere the spray touched your body.",
+      "effects": [ { "id": "skunk_spray_neutralizer" } ]
+    }
+  },
+  {
     "id": "cig",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -466,7 +488,8 @@
     "charges": 4,
     "flags": [ "EATEN_COLD", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "freezing_point": -45,
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "myopia_contacts_weekly",
@@ -1786,7 +1809,8 @@
     "color": "white",
     "looks_like": "calcium_tablet",
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 24 ] ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "flavored_bonemeal_tablet",
@@ -1805,7 +1829,8 @@
     "color": "yellow",
     "looks_like": "calcium_tablet",
     "flags": [ "EDIBLE_FROZEN" ],
-    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] }
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "calcium", 23 ] ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "gummy_vitamins",
@@ -1912,7 +1937,8 @@
       "charges_needed": { "fire": 1 },
       "tools_needed": { "apparatus": -1 },
       "moves": 40
-    }
+    },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "xanax",
@@ -1934,7 +1960,6 @@
       {
         "id": "xanax",
         "name": { "str_sp": "Xanax" },
-        "append": true,
         "description": "An anti-anxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual."
       }
     ],

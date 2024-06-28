@@ -11,6 +11,7 @@
           "u_has_any_trait": [
             "IERDE_STOMP_GROUND_SMASH",
             "IERDE_CREATE_PITS",
+            "IERDE_REVEAL_EARTH_MAP",
             "IERDE_KNOCKBACK_PUNCH",
             "IERDE_RESHAPE_THE_EARTH",
             "IERDE_SLOW_ENEMIES",
@@ -59,6 +60,7 @@
         { "math": [ "u_spell_level('ierde_create_pits_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_knockback_punch_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_reshape_the_earth_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_slow_enemies_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", "<", "per_to_level(1)" ] },
@@ -76,6 +78,7 @@
         [ "EOC_LEVELER_IERDE_CREATE_PITS", 7 ],
         [ "EOC_LEVELER_IERDE_KNOCKBACK_PUNCH", 9 ],
         [ "EOC_LEVELER_IERDE_IRON_ARMOR", 6 ],
+        [ "EOC_LEVELER_IERDE_REVEAL_EARTH_MAP", 4 ],
         [ "EOC_LEVELER_IERDE_RESHAPE_THE_EARTH", 7 ],
         [ "EOC_LEVELER_IERDE_SLOW_ENEMIES", 5 ],
         [ "EOC_LEVELER_IERDE_ENTRAP_TARGET_IN_STONE", 4 ],
@@ -157,6 +160,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('ierde_iron_armor_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_REVEAL_EARTH_MAP",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_reveal_earth_map_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_reveal_earth_map_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

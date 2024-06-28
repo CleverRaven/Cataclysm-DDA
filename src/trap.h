@@ -65,7 +65,7 @@ bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
 bool cast_spell( const tripoint &p, Creature *critter, item * );
-bool sound_detect( const tripoint &p, Creature *, item * );
+bool dummy_trap( const tripoint &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -202,7 +202,9 @@ struct trap {
          * called on the null trap.
          */
         // Implemented for historical reasons in iexamine.cpp
+        // TODO: Get rid of untyped overload.
         void examine( const tripoint &examp ) const;
+        void examine( const tripoint_bub_ms &examp ) const;
 
         update_mapgen_id map_regen_target() const;
 
@@ -250,7 +252,9 @@ struct trap {
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
+        // TODO: Get rid of untyped overload.
         bool can_see( const tripoint &pos, const Character &p ) const;
+        bool can_see( const tripoint_bub_ms &pos, const Character &p ) const;
 
         bool has_trigger_msg() const {
             return trigger_message_u && trigger_message_npc;
@@ -381,26 +385,5 @@ struct trap {
 const trap_function &trap_function_from_string( const std::string &function_name );
 
 extern trap_id tr_null;
-extern const trap_str_id tr_beartrap_buried;
-extern const trap_str_id tr_shotgun_2;
-extern const trap_str_id tr_shotgun_1;
-extern const trap_str_id tr_blade;
-extern const trap_str_id tr_landmine;
-extern const trap_str_id tr_landmine_buried;
-extern const trap_str_id tr_telepad;
-extern const trap_str_id tr_goo;
-extern const trap_str_id tr_dissector;
-extern const trap_str_id tr_sinkhole;
-extern const trap_str_id tr_pit;
-extern const trap_str_id tr_lava;
-extern const trap_str_id tr_portal;
-extern const trap_str_id tr_ledge;
-extern const trap_str_id tr_temple_flood;
-extern const trap_str_id tr_temple_toggle;
-extern const trap_str_id tr_glow;
-extern const trap_str_id tr_hum;
-extern const trap_str_id tr_shadow;
-extern const trap_str_id tr_drain;
-extern const trap_str_id tr_snake;
 
 #endif // CATA_SRC_TRAP_H

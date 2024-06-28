@@ -18,7 +18,8 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "recovery_chance": 99,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "qualities": [ [ "CUT", 1 ] ],
     "melee_damage": { "bash": 1, "cut": 10 }
   },

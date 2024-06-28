@@ -186,7 +186,10 @@ static const ter_str_id ter_t_water_moving_dp( "t_water_moving_dp" );
 static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
+static const trap_str_id tr_blade( "tr_blade" );
 static const trap_str_id tr_engine( "tr_engine" );
+static const trap_str_id tr_landmine( "tr_landmine" );
+static const trap_str_id tr_landmine_buried( "tr_landmine_buried" );
 
 static const vgroup_id VehicleGroup_crashed_helicopters( "crashed_helicopters" );
 
@@ -1029,7 +1032,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     switch( rng( 1, 6 ) ) {
         //Mycus spreading through the portal
         case 1: {
-            m.add_field( portal_location, fd_reality_tear, 3 );
+            m.add_field( portal_location, fd_fatigue, 3 );
             fungal_effects fe;
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
@@ -1043,7 +1046,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Netherworld monsters spawning around the portal
         case 2: {
-            m.add_field( portal_location, fd_reality_tear, 3 );
+            m.add_field( portal_location, fd_fatigue, 3 );
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), loc.z(), 1, true );
             }
@@ -1051,7 +1054,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Several cracks in the ground originating from the portal
         case 3: {
-            m.add_field( portal_location, fd_reality_tear, 3 );
+            m.add_field( portal_location, fd_fatigue, 3 );
             for( int i = 0; i < rng( 1, 10 ); i++ ) {
                 tripoint_bub_ms end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
                 std::vector<tripoint_bub_ms> failure = line_to( portal_location, end_location );
@@ -1063,7 +1066,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Radiation from the portal killed the vegetation
         case 4: {
-            m.add_field( portal_location, fd_reality_tear, 3 );
+            m.add_field( portal_location, fd_fatigue, 3 );
             const int rad = 5;
             for( int i = p.x() - rad; i <= p.x() + rad; i++ ) {
                 for( int j = p.y() - rad; j <= p.y() + rad; j++ ) {
@@ -1104,7 +1107,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 }
 
                 const tripoint portal_location = { p1 + tripoint( extra, abs_sub.z ) };
-                m.add_field( portal_location, fd_reality_tear, 3 );
+                m.add_field( portal_location, fd_fatigue, 3 );
 
                 std::set<point> ignited;
                 place_fumarole( m, p1, p2, ignited );
@@ -1124,7 +1127,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Anomaly caused by the portal and spawned an artifact
         case 6: {
-            m.add_field( portal_location, fd_reality_tear, 3 );
+            m.add_field( portal_location, fd_fatigue, 3 );
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
@@ -2363,10 +2366,23 @@ void map_extra::load( const JsonObject &jo, const std::string_view )
         mandatory( jg, was_loaded, "generator_id", generator_id );
     }
     optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
-    color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
+    color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : was_loaded ?
+            color : c_white;
     optional( jo, was_loaded, "autonote", autonote, false );
     optional( jo, was_loaded, "min_max_zlevel", min_max_zlevel_ );
     optional( jo, was_loaded, "flags", flags_ );
+    if( was_loaded && jo.has_member( "extend" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            flags_.insert( flag );
+        }
+    }
+    if( was_loaded && jo.has_member( "delete" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            flags_.erase( flag );
+        }
+    }
 }
 
 void map_extra::check() const

@@ -1,0 +1,383 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_initialization_eoc",
+    "effect": [
+      { "u_location_variable": { "u_val": "mission_return_position" } },
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": [
+          { "run_eocs": [ "isherwood_mission_family_included_eoc", "isherwood_mission_set_teleport_position" ] },
+          { "math": [ "currently_invading_map", "=", "1" ] }
+        ],
+        "else": {
+          "if": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+          "then": [
+            {
+              "u_location_variable": { "global_val": "invasion_map" },
+              "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+            },
+            { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+            { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
+            { "u_teleport": { "u_val": "mission_return_position" }, "force": true },
+            { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+          ]
+        }
+      },
+      {
+        "if": { "math": [ "isherwood_luke_truck_coming", "==", "1" ] },
+        "then": {
+          "mapgen_update": "truck_bomb_spawn",
+          "om_terrain": "barry_mi-go_scout_tower_1",
+          "om_special": "Barry's Mi-Go Scout Tower"
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_chris_spawn_eoc",
+    "effect": [
+      {
+        "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
+        "then": {
+          "mapgen_update": "nest_Isherwood_chris_swat_add",
+          "om_terrain": "rural_road",
+          "om_special": "Barry's Mi-Go Scout Tower"
+        },
+        "else": {
+          "if": { "math": [ "isherwood_gear_status", "!=", "1" ] },
+          "then": { "mapgen_update": "nest_Isherwood_chris_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_lisa_spawn_eoc",
+    "effect": [
+      {
+        "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "==", "1" ] } ] },
+        "then": {
+          "mapgen_update": "nest_Isherwood_lisa_swat_add",
+          "om_terrain": "rural_road",
+          "om_special": "Barry's Mi-Go Scout Tower"
+        },
+        "else": {
+          "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "!=", "1" ] } ] },
+          "then": { "mapgen_update": "nest_Isherwood_lisa_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_family_included_eoc",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "invasion_map" },
+        "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+      },
+      { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+      {
+        "if": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "then": [
+          {
+            "mapgen_update": "nest_Isherwood_firing_line_add",
+            "om_terrain": "rural_road",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
+        ],
+        "else": {
+          "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
+          "then": [
+            {
+              "mapgen_update": "nest_Isherwood_firing_line_swat_add",
+              "om_terrain": "rural_road",
+              "om_special": "Barry's Mi-Go Scout Tower"
+            }
+          ]
+        }
+      },
+      {
+        "if": { "math": [ "isherwood_wall_status", "==", "1" ] },
+        "then": [
+          {
+            "mapgen_update": "nest_Isherwood_firing_wall_add",
+            "om_terrain": "rural_road",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
+        ]
+      },
+      { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
+      {
+        "u_location_variable": { "global_val": "invasion_map_proper_place" },
+        "terrain": "t_dirt_isherwood_player_spawnpoint",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "global_val": "invasion_map_proper_place" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_wall_finished",
+    "effect": [ { "math": [ "isherwood_wall_status", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_lisa_coming",
+    "effect": [ { "math": [ "isherwood_lisa_coming", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_barry_return_home",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_near_om_location": "horse_farm_isherwood_13", "range": 17 }
+      ]
+    },
+    "effect": [
+      { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
+      {
+        "u_message": "Barry raises a hand to signal you to stop.  \"This is it.  Thank you so much.  I can't believe I'm here, alive.  It almost feels like I'm dreaming, like it can't be real.\"  He stares at you, his eyes glistening.  \"Whoever you are, thank you.  I'm going to head the rest of the way now and catch up to my family.  Come by and talk to me later when I've had a moment to rest.\"",
+        "type": "good",
+        "popup": true
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_BARRY_LEAVE",
+            "effect": [
+              {
+                "u_location_variable": { "global_val": "invasion_map" },
+                "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+              },
+              { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+              {
+                "mapgen_update": "remove_barry_and_company",
+                "om_terrain": "barry_mi-go_scout_tower_1",
+                "om_special": "Barry's Mi-Go Scout Tower"
+              }
+            ]
+          }
+        ],
+        "unique_ids": [ "BARRY_MISSION", "CHRIS_MISSION", "LISA_MISSION" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_large_damage_retreat",
+    "recurrence": 1,
+    "condition": { "math": [ "currently_invading_map", "==", "1" ] },
+    "effect": [
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": {
+          "u_run_npc_eocs": [
+            {
+              "id": "EOC_ISHERWOODS_TOO_MUCH_DAMAGE_FLEE",
+              "condition": {
+                "or": [
+                  { "math": [ "u_hp('ALL')", "<=", "(u_hp_max('bp_null') * 0.7)" ] },
+                  { "math": [ "u_effect_intensity('bleed')", ">=", "3" ] }
+                ]
+              },
+              "effect": [
+                { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
+                {
+                  "mapgen_update": "isherwood_rescue_remove_npcs",
+                  "om_terrain": "rural_road",
+                  "om_special": "Barry's Mi-Go Scout Tower"
+                },
+                { "math": [ "currently_invading_map", "=", "0" ] },
+                { "queue_eocs": "isherwood_mission_damage_flee_message", "time_in_future": 1 }
+              ]
+            }
+          ],
+          "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_player_leaves_map",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        {
+          "and": [
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 } },
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_2", "range": 2 } },
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_3", "range": 2 } },
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_4", "range": 2 } }
+          ]
+        },
+        { "math": [ "currently_invading_map", "==", "1" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Chris sees you leaving the tower, and gives you a harsh look.  \"Where are you going?  Dammit, we're backing out?  Fine.  I'll make sure everyone knows.\"",
+        "type": "bad",
+        "popup": true
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_ISHERWOODS_PLAYER_LEAVE_FLEE",
+            "effect": [
+              { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
+              {
+                "mapgen_update": "isherwood_rescue_remove_npcs",
+                "om_terrain": "rural_road",
+                "om_special": "Barry's Mi-Go Scout Tower"
+              }
+            ]
+          }
+        ],
+        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+      },
+      { "math": [ "currently_invading_map", "=", "0" ] },
+      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] },
+      {
+        "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+        "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+        "furniture": "f_sofa",
+        "target_max_radius": 30,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_set_teleport_position",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "isherwood_mission_set_teleport_position_effect",
+            "effect": { "u_location_variable": { "global_val": "_teleport_pos" } }
+          }
+        ],
+        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_remove_all_isherwoods",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          { "id": "EOC_ISHERWOODS_TELEPORT_ALL", "effect": [ { "u_teleport": { "global_val": "invasion_map" }, "force": true } ] }
+        ],
+        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+      },
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
+      },
+      {
+        "mapgen_update": "isherwood_rescue_remove_npcs",
+        "om_terrain": "barry_mi-go_scout_tower_1",
+        "om_special": "Barry's Mi-Go Scout Tower"
+      },
+      { "math": [ "currently_invading_map", "=", "0" ] },
+      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_damage_flee_message",
+    "global": true,
+    "effect": [
+      {
+        "u_message": "You hear a horn honk, and one of the Isherwoods calling out from their truck.  \"We're swarmed out here!  We're going to have to head back and regroup!\"  The horn bleats again, and there's a sound of an engine revving, followed by the fleshy 'smack' of something large hitting a windshield.",
+        "type": "bad",
+        "popup": true
+      },
+      {
+        "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+        "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+        "furniture": "f_sofa",
+        "target_max_radius": 30,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_player_leaves_map_setup",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        { "math": [ "isherwood_family_coming", "==", "0" ] },
+        { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 },
+        { "math": [ "is_isherwood_flee_eoc_activated", "==", "0" ] }
+      ]
+    },
+    "effect": [ { "math": [ "currently_invading_map", "=", "1" ] }, { "math": [ "is_isherwood_flee_eoc_activated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUKE_RETRIEVE_TRUCK_END",
+    "condition": { "not": { "u_near_om_location": "trailhead_shack_z0", "range": 2 } },
+    "deactivate_condition": { "math": [ "isherwood_luke_truck_status", ">", "1" ] },
+    "effect": [
+      { "mapgen_update": "LUKE_REMOVE_TRUCK", "om_terrain": "trailhead_shack_z0" },
+      { "math": [ "isherwood_luke_truck_status", "++" ] }
+    ],
+    "false_effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARRY_ISHERWOOD_DIE",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ { "queue_eocs": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT",
+    "global": true,
+    "effect": [
+      { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": false },
+      { "set_string_var": "true", "target_var": { "global_val": "is_barry_dead" } },
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": [
+          { "set_string_var": "blames_themselves", "target_var": { "global_val": "isherwood_barry_death_opinion" } },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          {
+            "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "furniture": "f_sofa",
+            "target_max_radius": 30,
+            "min_radius": 0,
+            "max_radius": 0
+          },
+          { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+        ],
+        "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
+      }
+    ]
+  }
+]

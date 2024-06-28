@@ -1264,7 +1264,7 @@
       [ [ "cufflinks_intricate", 1 ] ],
       [ [ "ring_signet", 1 ] ],
       [ [ "platinum_locket", 1 ] ],
-      [ [ "onyx_silver_earring", 1 ] ]
+      [ [ "tieclip", 1 ] ]
     ]
   },
   {
@@ -1522,7 +1522,7 @@
     "id": "upgradekey_rankup1",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Proof of Determination" },
+    "name": { "str": "Proof of Determination", "str_pl": "Proofs of Determination" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Island Rank Up 1",
     "volume": "25000 ml",
     "weight": "15000 g",

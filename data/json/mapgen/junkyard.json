@@ -152,5 +152,39 @@
       ],
       "place_liquids": [ { "liquid": "water_clean", "chance": 2, "amount": [ 1, 3 ], "x": 22, "y": 4 } ]
     }
+  },
+  {
+    "method": "json",
+    "om_terrain": [ [ "junkyard_roof_2a", "junkyard_roof_2b" ] ],
+    "type": "mapgen",
+    "object": {
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                      ----                      ",
+        "                      -..-                      ",
+        "                      ----                      ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

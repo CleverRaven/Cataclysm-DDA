@@ -785,7 +785,7 @@ void json_item_substitution::load( const JsonObject &jo )
             itype_id old_it;
             sub.read( "item", old_it, true );
             if( check_duplicate_item( old_it ) ) {
-                sub.throw_error( "Duplicate definition of item" );
+                sub.throw_error( "Item substitutions can only be defined once.  Items with multiple substition traits should use arrays." );
             }
             s.trait_reqs.present.emplace_back( jo.get_string( "trait" ) );
             for( const JsonValue info : sub.get_array( "new" ) ) {

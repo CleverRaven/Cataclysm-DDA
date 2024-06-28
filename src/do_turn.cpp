@@ -566,7 +566,7 @@ bool do_turn()
                 sounds::process_sound_markers( &u );
                 if( !u.activity && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
-                    g->wait_popup.reset();
+                    g->wait_popup_reset();
                     ui_manager::redraw();
                 }
 
@@ -654,7 +654,7 @@ bool do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
     monmove();
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( time_between_npc_OM_moves ) ) {
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
@@ -721,7 +721,7 @@ bool do_turn()
         }
     } else {
         // Nothing to wait for now
-        g->wait_popup.reset();
+        g->wait_popup_reset();
         g->first_redraw_since_waiting_started = true;
     }
 

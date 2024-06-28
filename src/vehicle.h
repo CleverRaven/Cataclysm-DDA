@@ -24,7 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -624,7 +624,7 @@ class turret_data
         bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
-        std::set<std::string> ammo_effects() const;
+        std::set<ammo_effect_str_id> ammo_effects() const;
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
@@ -1789,7 +1789,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
-        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+        static bool use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                      const itype_id &tool_type,
                                       bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
@@ -2091,7 +2092,9 @@ class vehicle
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
         void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        // TODO: Get rid of untyped overload.
         void interact_with( const tripoint &p, bool with_pickup = false );
+        void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;
 

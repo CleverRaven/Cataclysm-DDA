@@ -58,6 +58,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct crafting_category;
+using crafting_category_id = string_id<crafting_category>;
+
 struct effect_on_condition;
 using effect_on_condition_id = string_id<effect_on_condition>;
 

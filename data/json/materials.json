@@ -1177,6 +1177,17 @@
   },
   {
     "type": "material",
+    "id": "crude_oil",
+    "density": 0.8,
+    "name": "Crude oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": "38000 kJ",
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
     "id": "iflesh",
     "name": "Insect Flesh",
     "density": 1.1,
@@ -1666,6 +1677,7 @@
     "copy-from": "plastic",
     "name": "Transparent Impact Resistant Plastic",
     "//2": "This one represents various transparent impact-resistant plastics, like polycarbonate.  Prime material for visors and safety goggles.",
+    "density": 1.2,
     "resist": { "bash": 4, "cut": 3, "acid": 9, "heat": 1, "bullet": 1.5 },
     "repair_difficulty": 4
   },
@@ -1840,6 +1852,19 @@
     ],
     "resist": { "bash": 5, "cut": 1, "acid": 5, "heat": 2, "bullet": 1 },
     "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "butyl_rubber",
+    "copy-from": "rubber",
+    "name": "malleable rubber",
+    "density": 1.2,
+    "soft": true,
+    "chip_resist": 5,
+    "repaired_with": "chunk_rubber",
+    "dmg_adj": [ "compromised", "mangled", "shredded", "ruined" ],
+    "bash_dmg_verb": "mangled",
+    "cut_dmg_verb": "sliced"
   },
   {
     "type": "material",
@@ -2411,7 +2436,7 @@
   {
     "type": "material",
     "id": "veggy",
-    "name": "Vegetable Matter",
+    "name": "Plant Matter",
     "density": 1.1,
     "specific_heat_liquid": 3.9,
     "specific_heat_solid": 1.9,

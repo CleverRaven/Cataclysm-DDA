@@ -330,9 +330,7 @@
     "end": {
       "effect": [
         "stop_following",
-        {
-          "weighted_list_eocs": [ [ { "id": "get_katana" }, 5 ], [ { "id": "get_deagle_44" }, 10 ], [ { "id": "get_m4_carbine" }, 6 ] ]
-        }
+        { "weighted_list_eocs": [ [ "get_katana", 5 ], [ "get_deagle_44", 10 ], [ "get_m4_carbine", 6 ] ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

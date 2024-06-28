@@ -887,7 +887,7 @@
     "display_field": true
   },
   {
-    "id": "fd_reality_tear",
+    "id": "fd_fatigue",
     "type": "field_type",
     "legacy_enum_id": 20,
     "intensity_levels": [

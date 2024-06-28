@@ -1,6 +1,12 @@
 [
   {
     "type": "enchantment",
+    "id": "ench_sylph_louder_shouting",
+    "condition": "ACTIVE",
+    "values": [ { "value": "SHOUT_NOISE", "multiply": { "math": [ " 1 + (u_spell_level_sum('school': 'SYLPH') / 20)" ] } } ]
+  },
+  {
+    "type": "enchantment",
     "id": "sylph_extra_dodges",
     "condition": "ALWAYS",
     "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "1 + u_has_trait('THRESH_SYLPH')" ] } } ]
@@ -416,9 +422,9 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "damage_type": "bashing",
-    "min_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 2) * (scaling_factor(u_val('dexterity') ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 6) * (scaling_factor(u_val('dexterity') ) )" ] },
-    "min_range": { "math": [ "( (u_spell_level('pushing_wind') * 1.2) + 1) * (scaling_factor(u_val('dexterity') ) )" ] },
+    "min_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 2) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('pushing_wind') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('pushing_wind') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) )" ] },
     "max_range": 40,
     "energy_source": "MANA",
     "base_energy_cost": 100,
@@ -426,6 +432,31 @@
     "energy_increment": -5,
     "base_casting_time": 50,
     "final_casting_time": 10,
+    "casting_time_increment": -4
+  },
+  {
+    "id": "sylph_hindering_wind_spell",
+    "type": "SPELL",
+    "name": "Hindering Winds",
+    "description": "Surround a target with a blanket of buffeting winds, slowing them and hindering their freedom of movement.",
+    "valid_targets": [ "hostile" ],
+    "skill": "deduction",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_sylph_hindering_wind",
+    "shape": "blast",
+    "min_range": { "math": [ "( (u_spell_level('sylph_hindering_wind_spell') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "max_range": 40,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 100,
+    "energy_increment": -5,
+    "base_casting_time": 75,
+    "final_casting_time": 15,
     "casting_time_increment": -4
   },
   {
