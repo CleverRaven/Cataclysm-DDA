@@ -435,14 +435,15 @@
   {
     "type": "mutation",
     "id": "VAMPIRE4",
-    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "name": { "str": "Discarded their mortality." },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "You have become a true vampire and are beginning to see some of the most potent abilities vampirism has to offer.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
+    "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -455,6 +456,18 @@
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "MENTOR_PEACE",
+    "name": { "str": "Mentor's peace" },
+    "points": 0,
+    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.",
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
   },
   {
     "type": "mutation",
