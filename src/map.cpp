@@ -29,7 +29,9 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
+#include "coordinate_constants.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
@@ -5219,21 +5221,27 @@ units::volume map::free_volume( const tripoint_bub_ms &p )
 
 item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflow )
 {
+    return map::add_item_ret_loc( tripoint_bub_ms( pos ), std::move( obj ), overflow );
+}
+
+item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow )
+{
     int copies = 1;
-    std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), copies, overflow );
+    std::pair<item *, tripoint_bub_ms> ret = _add_item_or_charges( pos, std::move( obj ), copies,
+            overflow );
     if( ret.first != nullptr && !ret.first->is_null() ) {
-        return item_location { map_cursor{ tripoint_bub_ms( ret.second ) }, ret.first };
+        return item_location{ map_cursor{ tripoint_bub_ms( ret.second ) }, ret.first };
     }
 
     return {};
 }
 
-item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow )
+item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 {
-    return map::add_item_ret_loc( pos.raw(), std::move( obj ), overflow );
+    return map::add_item_or_charges( tripoint_bub_ms( pos ), obj, overflow );
 }
 
-item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
+item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
 {
     int copies = 1;
     return *_add_item_or_charges( pos, std::move( obj ), copies, overflow ).first;
@@ -5242,17 +5250,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 item &map::add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
                                 bool overflow )
 {
-    return *_add_item_or_charges( pos, std::move( obj ), copies_remaining, overflow ).first;
+    return add_item_or_charges( tripoint_bub_ms( pos ), std::move( obj ), copies_remaining, overflow );
 }
 
 // clang-tidy is confused and thinks obj can be made into a const reference, but it can't
 // on_drop is not a const function
 // NOLINTNEXTLINE(performance-unnecessary-value-param)
-std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item obj,
+std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub_ms &pos, item obj,
         int &copies_remaining, bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
-    auto valid_tile = [&]( const tripoint & e ) {
+    auto valid_tile = [&]( const tripoint_bub_ms & e ) {
         if( !inbounds( e ) ) {
             dbg( D_INFO ) << e; // should never happen
             return false;
@@ -5272,14 +5280,14 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
     };
 
     // Get how many copies of the item can fit in a tile
-    auto how_many_copies_fit = [&]( const tripoint & e ) {
+    auto how_many_copies_fit = [&]( const tripoint_bub_ms & e ) {
         return std::min( { copies_remaining,
                            obj.volume() == 0_ml ? INT_MAX : free_volume( e ) / obj.volume(),
                            static_cast<int>( MAX_ITEM_IN_SQUARE - i_at( e ).size() ) } );
     };
 
     // Performs the actual insertion of the object onto the map
-    auto place_item = [&]( const tripoint & tile, int &copies ) -> item& {
+    auto place_item = [&]( const tripoint_bub_ms & tile, int &copies ) -> item& {
         if( obj.count_by_charges() )
         {
             for( item &e : i_at( tile ) ) {
@@ -5289,25 +5297,25 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
             }
         }
 
-        support_dirty( tile );
+        support_dirty( tile.raw() );
         return add_item( tile, obj, copies );
     };
 
     if( item_is_blacklisted( obj.typeId() ) ) {
-        return { &null_item_reference(), tripoint_min };
+        return { &null_item_reference(), tripoint_bub_ms_min };
     }
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( flag_NO_DROP ) ) {
-        return { &null_item_reference(), tripoint_min };
+        return { &null_item_reference(), tripoint_bub_ms_min };
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return { &null_item_reference(), tripoint_min };
+        return { &null_item_reference(), tripoint_bub_ms_min };
     }
 
-    std::optional<std::pair<item *, tripoint>> first_added;
+    std::optional<std::pair<item *, tripoint_bub_ms>> first_added;
     int copies_to_add_here = how_many_copies_fit( pos );
 
     if( ( !has_flag( ter_furn_flag::TFLAG_NOITEM, pos ) ||
@@ -5316,7 +5324,7 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
-                return { &null_item_reference(), tripoint_min };
+                return { &null_item_reference(), tripoint_bub_ms_min };
             }
         }
         // If tile can contain items place here...
@@ -5327,12 +5335,12 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
     if( overflow && copies_remaining > 0 ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
         const int max_dist = 2;
-        std::vector<tripoint> tiles = closest_points_first( pos, max_dist );
+        std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, max_dist );
         tiles.erase( tiles.begin() ); // we already tried this position
         const int max_path_length = 4 * max_dist;
         const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, false, true, false,
                                             false, false );
-        for( const tripoint &e : tiles ) {
+        for( const tripoint_bub_ms &e : tiles ) {
             if( copies_remaining <= 0 ) {
                 break;
             }
@@ -5345,7 +5353,8 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
             }
             if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
-                    return first_added ? first_added.value() : std::make_pair( &null_item_reference(), tripoint_min );
+                    return first_added ? first_added.value() : std::make_pair( &null_item_reference(),
+                            tripoint_bub_ms_min );
                 }
             }
 
@@ -5355,24 +5364,20 @@ std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item
                 continue;
             }
             copies_remaining -= copies_to_add_here;
-            std::pair<item *, tripoint> new_item = { &place_item( e, copies_to_add_here ), e };
+            std::pair<item *, tripoint_bub_ms> new_item = { &place_item( e, copies_to_add_here ), e };
             first_added = first_added ? first_added : new_item;
         }
     }
 
     // If first_added has no value, no items were added due to lack of space at target tile (+/- overflow tiles)
-    return first_added ? first_added.value() : std::make_pair( &null_item_reference(), tripoint_min );
-}
-
-item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
-{
-    return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
+    return first_added ? first_added.value() : std::make_pair( &null_item_reference(),
+            tripoint_bub_ms_min );
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, int &copies_remaining,
                                 bool overflow )
 {
-    return add_item_or_charges( pos.raw(), std::move( obj ), copies_remaining, overflow );
+    return *_add_item_or_charges( pos, std::move( obj ), copies_remaining, overflow ).first;
 }
 
 float map::item_category_spawn_rate( const item &itm )
@@ -5385,16 +5390,16 @@ float map::item_category_spawn_rate( const item &itm )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
-    int copies = 1;
-    return add_item( p, std::move( new_item ), copies );
+    return map::add_item( tripoint_bub_ms( p ), std::move( new_item ) );
 }
 
 item &map::add_item( const tripoint_bub_ms &p, item new_item )
 {
-    return map::add_item( p.raw(), std::move( new_item ) );
+    int copies = 1;
+    return add_item( p, std::move( new_item ), copies );
 }
 
-item &map::add_item( const tripoint &p, item new_item, int copies )
+item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
 {
     if( item_is_blacklisted( new_item.typeId() ) ) {
         return null_item_reference();
@@ -5408,10 +5413,10 @@ item &map::add_item( const tripoint &p, item new_item, int copies )
         return null_item_reference();
     }
 
-    point l;
+    point_sm_ms l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to add items at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to add items at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return null_item_reference();
     }
 
@@ -5458,7 +5463,7 @@ item &map::add_item( const tripoint &p, item new_item, int copies )
     }
 
     current_submap->ensure_nonuniform();
-    invalidate_max_populated_zlev( p.z );
+    invalidate_max_populated_zlev( p.z() );
 
     current_submap->update_lum_add( l, new_item );
 
@@ -5467,9 +5472,9 @@ item &map::add_item( const tripoint &p, item new_item, int copies )
         current_submap->get_items( l ).insert( new_item );
     }
 
-    if( current_submap->active_items.add( *new_pos, l ) ) {
+    if( current_submap->active_items.add( *new_pos, rebase_rel( l ) ) ) {
         // TODO: fix point types
-        tripoint_abs_sm const loc( abs_sub.x() + p.x / SEEX, abs_sub.y() + p.y / SEEY, p.z );
+        tripoint_abs_sm const loc( abs_sub.x() + p.x() / SEEX, abs_sub.y() + p.y() / SEEY, p.z() );
         submaps_with_active_items_dirty.insert( loc );
         if( this != &get_map() && get_map().inbounds( loc ) ) {
             get_map().make_active( loc );
@@ -5530,7 +5535,7 @@ void map::make_active( item_location &loc )
     cata::colony<item> &item_stack = current_submap->get_items( l );
     cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
-    if( current_submap->active_items.add( *iter, l ) ) {
+    if( current_submap->active_items.add( *iter, point_rel_ms( l ) ) ) {
         // TODO: fix point types
         tripoint_abs_sm const smloc( abs_sub.x() + loc.position().x / SEEX,
                                      abs_sub.y() + loc.position().y / SEEY, loc.position().z );
@@ -5746,7 +5751,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             continue;
         }
 
-        const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
+        const tripoint map_location = tripoint( grid_offset + active_item_ref.location.raw(), gridp.z );
         const furn_t &furn = this->furn( map_location ).obj();
 
         if( furn.has_flag( ter_furn_flag::TFLAG_DONT_REMOVE_ROTTEN ) ) {
@@ -5818,7 +5823,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         }
         const auto it = std::find_if( begin( cargo_parts ),
         end( cargo_parts ), [&]( const vpart_reference & part ) {
-            return active_item_ref.location == part.mount();
+            return active_item_ref.location.raw() == part.mount();
         } );
 
         if( it == end( cargo_parts ) ) {
@@ -10351,7 +10356,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
         std::vector<item_reference> items = type == special_item_type::none ? sm->active_items.get() :
                                             sm->active_items.get_special( type );
         for( const item_reference &elem : items ) {
-            const tripoint pos( sm_offset + elem.location, submap_loc.z );
+            const tripoint pos( sm_offset + elem.location.raw(), submap_loc.z );
 
             if( rl_dist( pos, center ) > radius ) {
                 continue;

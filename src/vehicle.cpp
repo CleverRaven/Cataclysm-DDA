@@ -5852,7 +5852,7 @@ void vehicle::make_active( item_location &loc )
     }
     // System insures that there is only one part in this vector.
     vehicle_part *cargo_part = cargo_parts.front();
-    active_items.add( target, cargo_part->mount );
+    active_items.add( target, point_rel_ms( cargo_part->mount ) );
 }
 
 int vehicle::add_charges( vehicle_part &vp, const item &itm )
@@ -5911,7 +5911,7 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &vp, cons
     }
 
     const vehicle_stack::iterator new_pos = vp.items.insert( itm_copy );
-    active_items.add( *new_pos, vp.mount );
+    active_items.add( *new_pos, point_rel_ms( vp.mount ) );
 
     invalidate_mass();
     return std::optional<vehicle_stack::iterator>( new_pos );
@@ -6188,7 +6188,7 @@ void vehicle::refresh_active_item_cache()
         auto it = vs.begin();
         auto end = vs.end();
         for( ; it != end; ++it ) {
-            active_items.add( *it, vp.mount() );
+            active_items.add( *it, point_rel_ms( vp.mount() ) );
         }
     }
 }
@@ -7274,7 +7274,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
 void vehicle::shift_parts( map &here, const point &delta )
 {
     // Don't invalidate the active item cache's location!
-    active_items.subtract_locations( delta );
+    active_items.subtract_locations( point_rel_ms( delta ) );
     for( vehicle_part &elem : parts ) {
         elem.mount -= delta;
     }

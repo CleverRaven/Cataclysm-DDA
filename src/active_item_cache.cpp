@@ -26,7 +26,7 @@ bool item_reference::has_watertight_container() const
     } );
 }
 
-bool active_item_cache::add( item &it, point location, item *parent,
+bool active_item_cache::add( item &it, point_rel_ms location, item *parent,
                              std::vector<item_pocket const *> const &pocket_chain )
 {
     std::vector<item_pocket const *> pockets = pocket_chain;
@@ -140,7 +140,7 @@ std::vector<item_reference> active_item_cache::get_special( special_item_type ty
     return matching_items;
 }
 
-void active_item_cache::subtract_locations( const point &delta )
+void active_item_cache::subtract_locations( const point_rel_ms &delta )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
@@ -149,23 +149,24 @@ void active_item_cache::subtract_locations( const point &delta )
     }
 }
 
-void active_item_cache::rotate_locations( int turns, const point &dim )
+void active_item_cache::rotate_locations( int turns, const point_rel_ms &dim )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
-            ir.location = ir.location.rotate( turns, dim );
+            // Should 'rotate' be propaged up to the typed coordinates?
+            ir.location = point_rel_ms( ir.location.raw().rotate( turns, dim.raw() ) );
         }
     }
 }
 
-void active_item_cache::mirror( const point &dim, bool horizontally )
+void active_item_cache::mirror( const point_rel_ms &dim, bool horizontally )
 {
     for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
             if( horizontally ) {
-                ir.location.x = dim.x - 1 - ir.location.x;
+                ir.location.x() = dim.x() - 1 - ir.location.x();
             } else {
-                ir.location.y = dim.y - 1 - ir.location.y;
+                ir.location.y() = dim.y() - 1 - ir.location.y();
             }
         }
     }

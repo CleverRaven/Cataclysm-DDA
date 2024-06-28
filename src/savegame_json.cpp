@@ -5008,7 +5008,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, p );
+                active_items.add( it, point_rel_ms( p ) );
             }
         }
     } else if( member_name == "traps" ) {
