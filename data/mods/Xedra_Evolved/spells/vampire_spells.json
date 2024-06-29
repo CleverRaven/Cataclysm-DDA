@@ -249,8 +249,8 @@
     "id": "vampire_torpor",
     "type": "SPELL",
     "name": "Torpor",
-    "description": "Enter a deathlike slumber and recover from your wounds and fatigue.",
-    "message": "You enter a torpor.",
+    "description": "Enter a deathlike slumber and recover from your wounds and fatigue.  Preferably while somewhere nobody could attack you while you sleep.",
+    "message": "You enter torpor.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "skill": "deduction",
@@ -259,40 +259,25 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_TORPOR_activated",
     "shape": "blast",
-    "energy_source": "NONE"
+    "base_casting_time": 100,
+    "difficulty": 2
   },
   {
     "id": "vampire_dominate",
     "type": "SPELL",
     "name": "Dominating Gaze",
-    "description": "Take control of a mind.  Only works on targets that have one.",
-    "message": "You attempt to take control of your target's mind.",
+    "description": "Take control of a mind.  Only works on targets that have weak minds.",
+    "message": "You look for a mind to control.",
     "teachable": false,
-    "valid_targets": [ "ally", "hostile" ],
+    "valid_targets": [ "hostile" ],
     "skill": "deduction",
     "spell_class": "VAMPIRE",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_VAMPIRE_DOMINATE_activated",
     "shape": "blast",
-    "energy_source": "NONE"
-  },
-  {
-    "id": "spell_dominating_gaze",
-    "type": "SPELL",
-    "name": "Dominating Gaze",
-    "description": "Stare into the eyes of your victim and wills them to fight for you.  This power does not work on targets lacking a mind.",
-    "message": "",
-    "teachable": false,
-    "skill": "deduction",
-    "spell_class": "VAMPIRE",
-    "valid_targets": [ "ally", "hostile" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_DOMINATING_GAZE_activated",
-    "shape": "blast",
-    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL", "NO_PROJECTILE" ],
-    "difficulty": 3,
     "base_casting_time": 100,
+    "difficulty": 8,
     "min_range": {
       "math": [
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
@@ -303,7 +288,7 @@
         "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
       ]
     },
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
   },
   {
     "id": "vampire_dominate_real",
@@ -323,24 +308,24 @@
     "max_range": 60,
     "min_damage": {
       "math": [
-        "rng (0.75,1.25) * (25 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
+        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
       ]
     },
     "max_damage": {
       "math": [
-        "rng (0.75,1.25) * (25 + (vampire_total_tier_one_traits()  * 5) + (vampire_total_tier_two_traits() * 12) + (vampire_total_tier_three_traits() * 20) + (vampire_total_tier_three_traits() * 35))"
+        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
       ]
     },
     "min_duration": {
       "math": [
-        "rng (0.75,1.25) * (3000 + (vampire_total_tier_one_traits()  * 500) + (vampire_total_tier_two_traits() * 900) + (vampire_total_tier_three_traits() * 1350) + (vampire_total_tier_three_traits() * 2250))"
+        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
       ]
     },
     "max_duration": {
       "math": [
-        "rng (0.75,1.25) * (3000 + (vampire_total_tier_one_traits()  * 500) + (vampire_total_tier_two_traits() * 900) + (vampire_total_tier_three_traits() * 1350) + (vampire_total_tier_three_traits() * 2250))"
+        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
       ]
     },
-    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME" ]
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
   }
 ]

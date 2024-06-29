@@ -119,8 +119,8 @@
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE3",
     "condition": { "not": { "u_has_trait": "VAMPIRE4" } },
-    "effect": [ "EOC_COMPLETED_VAMPIRE3_REAL" ],
-    "false_effect": [ "EOC_VAMPVIRUS3" ]
+    "effect": { "run_eocs": "EOC_COMPLETED_VAMPIRE3_REAL" },
+    "false_effect": [ { "run_eocs": "EOC_VAMPVIRUS3" } ]
   },
   {
     "type": "effect_on_condition",

@@ -484,7 +484,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Torpor" },
-    "description": "You can enter a deathlike stake known as torpor, in which your wounds will close faster, your fatigue will recover and your blood thirst will be less intense.  You can wake up from torpor as you want.",
+    "description": "You can enter a deathlike stake known as torpor, in which your wounds will close faster, your fatigue will fully recover and your blood thirst will be less intense.  Be careful, though, as nothing will be able to wake you up until eight hours have passed.",
     "spells_learned": [ [ "vampire_torpor", 1 ] ]
   },
   {

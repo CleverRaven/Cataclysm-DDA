@@ -39,8 +39,8 @@
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "math": [ "n_val('npc_trust')", "<=", "9" ] },
             { "math": [ "n_val('npc_value')", "<=", "9" ] },
-            { "math": [ "n_val('npc_trust')", ">=", "1" ] },
-            { "math": [ "n_val('npc_value')", ">=", "1" ] },
+            { "math": [ "n_val('npc_trust')", ">", "0" ] },
+            { "math": [ "n_val('npc_value')", ">", "0" ] },
             { "u_has_trait": "VAMPIRE" }
           ]
         }
@@ -79,8 +79,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_NOPE",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "0" ] },
-            { "math": [ "n_val('npc_value')", ">=", "0" ] },
+            { "math": [ "n_val('npc_trust')", "<=", "0" ] },
+            { "math": [ "n_val('npc_value')", "<=", "0" ] },
             { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
             { "not": { "npc_has_trait": "ACIDBLOOD" } },
             { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
@@ -97,8 +97,7 @@
     "type": "talk_topic",
     "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_YES",
     "dynamic_line": {
-      "npc_has_var": "feed_from_recently",
-      "value": "yes",
+      "npc_has_effect": "feed_from_recently",
       "yes": "It'll have to wait, unfortunately.  If I let you do that too often it'll be very bad for my health.",
       "no": "Sure!  Anything to help you feel better."
     },
@@ -107,13 +106,13 @@
         "text": "Thank you.  Can we talk about something else?", 
         "topic": "TALK_FRIEND", 
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "run_eocs": [ "EOC_VAMPIRE_DRINK_FROM_HUMAN", "EOC_NPC_GOT_DRANK_FROM_FRIEND" ]
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
     },
       { 
         "text": "Thank you.  See you later.", 
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "run_eocs": [ "EOC_VAMPIRE_DRINK_FROM_HUMAN", "EOC_NPC_GOT_DRANK_FROM_FRIEND" ]
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
     },
     { 
       "text": "I changed my mind.  Keep your blood.", 
@@ -136,8 +135,7 @@
     "type": "talk_topic",
     "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_KINDA",
     "dynamic_line": {
-      "npc_has_var": "feed_from_recently",
-      "value": "yes",
+      "npc_has_effect": "feed_from_recently",
       "yes": "I'm not letting you do that this soon after last time.  I need that blood too, you know?",
       "no": "If you really need to, then sure you can.  Don't make an habit out of it, however."
     },
@@ -146,14 +144,14 @@
         "text": "Thank you.  Can we talk about something else?", 
         "topic": "TALK_FRIEND", 
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "run_eocs": [ "EOC_VAMPIRE_DRINK_FROM_HUMAN", "EOC_NPC_GOT_DRANK_FROM_ALLY" ],
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 } 
     },
       { 
         "text": "Thank you.  See you later.", 
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
-        "run_eocs": [ "EOC_VAMPIRE_DRINK_FROM_HUMAN", "EOC_NPC_GOT_DRANK_FROM_ALLY" ],
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 } 
     },
     { 
@@ -196,7 +194,7 @@
     "id": "feed_from_recently",
     "name": [ "Gave you blood" ],
     "desc": [ "This person won't accept to let you drink more of their blood for a while." ],
-    "max_duration": "10 weeks"
+    "max_duration": "100 d"
   },
   {
     "id": "regular_vampire_blood_drink",
