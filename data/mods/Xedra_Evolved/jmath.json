@@ -108,7 +108,7 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_three_traits",
     "num_args": 0,
-    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER')"
+    "return": "u_has_trait('BLOODHASTE') + u_has_trait('HYPNOTIC_GAZE') + u_has_trait('MAGICFORBLOOD') + u_has_trait('BLOODBANK') + u_has_trait('VAMPIRE_COMMAND_BEAST') + u_has_trait('VAMPIRE_EARTH_SLUMBER')"
   },
   {
     "type": "jmath_function",
