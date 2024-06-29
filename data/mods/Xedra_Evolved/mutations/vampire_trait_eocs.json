@@ -930,6 +930,7 @@
     "can_resume": false,
     "interruptable": false,
     "interruptable_with_kb": false,
+    "rooted": true,
     "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER"
   },
   {
@@ -952,7 +953,7 @@
             "value": "REGEN_HP",
             "multiply": {
               "math": [
-                       "(n_vampire_total_tier_one_traits * 0.05) + (n_vampire_total_tier_two_traits * 0.075) + (n_vampire_total_tier_three_traits * 0.1) + (n_vampire_total_tier_four_traits * 0.2) "
+                       "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
               ]
             }
           },
@@ -960,7 +961,7 @@
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
-                       "(n_vampire_total_tier_one_traits * 0.05) + (n_vampire_total_tier_two_traits * 0.075) + (n_vampire_total_tier_three_traits * 0.1) + (n_vampire_total_tier_four_traits * 0.2) "
+                       "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
               ]
             }
           },
@@ -972,9 +973,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DOMINATE_activated",
-    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
-      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "700" ] },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "700" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
         "run_eocs": [
