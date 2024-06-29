@@ -953,7 +953,7 @@
             "value": "REGEN_HP",
             "multiply": {
               "math": [
-                       "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
               ]
             }
           },
@@ -961,7 +961,7 @@
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
-                       "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
               ]
             }
           },
@@ -983,7 +983,10 @@
             "id": "EOC_VAMPIRE_DOMINATE_activated2",
             "effect": [
               { "npc_cast_spell": { "id": "vampire_dominate_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
-              { "npc_message": "You focus you gaze on your target's mind, attempting to take control of it.", "type": "good" }
+              {
+                "npc_message": "You focus you gaze on your target's mind, attempting to take control of it.",
+                "type": "good"
+              }
             ]
           }
         ]
