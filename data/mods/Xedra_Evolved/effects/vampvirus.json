@@ -125,12 +125,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE3_REAL",
-    "effect": { "u_message": "You can advance no further without access to a mentor.  Maybe you could find one where you've found the other vampires?" }
+    "effect": {
+      "u_message": "You can advance no further without access to a mentor.  Maybe you could find one where you've found the other vampires?"
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE4",
-    "effect": { "u_message": "You can advance no further without more guidance from your mentor [fourth wall tier 5 and its content do not exist yet]" }
+    "effect": {
+      "u_message": "You can advance no further without more guidance from your mentor [fourth wall tier 5 and its content do not exist yet]"
+    }
   },
   {
     "type": "effect_on_condition",
@@ -302,7 +306,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPVIRUS3",
-    "condition":  { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+    "condition": { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
     "effect": {
       "run_eocs": {
         "id": "eoc_vampvirus_4_math_checker",
@@ -319,12 +323,12 @@
                 "false_eocs": [ "EOC_COMPLETED_VAMPIRE4" ]
               }
             ],
-        "false_effect": [ { "run_eocs": "EOC_COMPLETED_VAMPIRE4" } ]
+            "false_effect": [ { "run_eocs": "EOC_COMPLETED_VAMPIRE4" } ]
+          }
+        }
       }
     }
-  }
-   }
-    },
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_blood_needs",
