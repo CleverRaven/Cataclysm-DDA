@@ -7,7 +7,7 @@
     "weight": "290 g",
     "volume": "320 ml",
     "longest_side": "44 cm",
-    "//1": "Values based roughly on a male human femur.",
+    "//": "Values based roughly on a male human femur.",
     "symbol": "%",
     "color": "white",
     "material": [ "bone" ],
@@ -16,8 +16,8 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
-    "vitamins": [ [ "calcium", "77140 mg" ], [ "meat_allergen", 1 ] ],
-    "//2": "Roughly calculated raw calcium amount in 290g of bone tissue, with the assumption that 66.5% of bone weight is hydroxyapatite, and 40% of hydroxyapatite is calcium (in reality it's ~200/502, but it's safe to round down) putting the calcium content at roughly 26.6% of bone weight.",
+    "calories": 171,
+    "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 3 },
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
     "flags": [ "RAW", "INEDIBLE", "LUPINE" ]
@@ -61,7 +61,7 @@
     "name": { "str": "human bone" },
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
     "//": "No extend support for vitamins, we need to overwrite",
-    "vitamins": [ [ "calcium", 96 ], [ "human_flesh_vitamin", 100 ] ]
+    "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "GENERIC",
