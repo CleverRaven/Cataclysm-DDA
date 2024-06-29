@@ -2020,6 +2020,8 @@ FLDSMDFR
 flechette
 flechettes
 flensing
+fleshborg
+fleshborgs
 Fleshmender
 fleshmonger
 fleshwarp
@@ -4421,6 +4423,7 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
+ouroboros
 Orpheus
 Orphic
 Orson
@@ -5800,6 +5803,8 @@ Steyr
 STI
 Stig
 Stillwater
+stiltwalker
+stiltwalkers
 stim
 stimpack
 stims
@@ -6285,6 +6290,7 @@ travelpack
 travelpacks
 Travers
 travois
+treaded
 treecutting
 treefrog
 treefrogs

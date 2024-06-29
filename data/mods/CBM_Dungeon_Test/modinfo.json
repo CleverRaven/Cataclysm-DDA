@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "CBM_Dungeon_Test",
+    "name": "CBM Dungeon Test: Into the Labyrinth",
+    "authors": [ "I-am-Erk" ],
+    "maintainers": [ "I-am-Erk" ],
+    "description": "The test alpha version of a netherum dungeon where you can loot CBMs.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]
