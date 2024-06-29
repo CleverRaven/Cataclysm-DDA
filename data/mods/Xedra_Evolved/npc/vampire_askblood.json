@@ -57,13 +57,15 @@
         "condition": {
           "and": [
             { "u_has_trait": "VAMPIRE" },
-            { "or": [ 
-            { "npc_has_flag": "BLEED_IMMUNE" },
-            { "npc_has_trait": "ACIDBLOOD" },
-            { "npc_has_trait": "THRESH_CRUSTACEAN" },
-            { "npc_has_trait": "THRESH_INSECT" },
-            { "npc_has_trait": "THRESH_CEPHALOPOD" },
-            { "npc_has_trait": "THRESH_GASTROPOD" } ]
+            {
+              "or": [
+                { "npc_has_flag": "BLEED_IMMUNE" },
+                { "npc_has_trait": "ACIDBLOOD" },
+                { "npc_has_trait": "THRESH_CRUSTACEAN" },
+                { "npc_has_trait": "THRESH_INSECT" },
+                { "npc_has_trait": "THRESH_CEPHALOPOD" },
+                { "npc_has_trait": "THRESH_GASTROPOD" }
+              ]
             }
           ]
         }
@@ -102,33 +104,33 @@
       "no": "Sure!  Anything to help you feel better."
     },
     "responses": [
-      { 
-        "text": "Thank you.  Can we talk about something else?", 
-        "topic": "TALK_FRIEND", 
+      {
+        "text": "Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
-    },
-      { 
-        "text": "Thank you.  See you later.", 
+      },
+      {
+        "text": "Thank you.  See you later.",
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
-    },
-    { 
-      "text": "I changed my mind.  Keep your blood.", 
-      "topic": "TALK_DONE",
-      "condition": { "not": { "npc_has_effect": "feed_from_recently" } }
-  },
-    { 
-      "text": "Got it.  Can we talk about something else?", 
-      "topic": "TALK_FRIEND", 
-      "condition": { "npc_has_effect": "feed_from_recently" }
-  },
-    { 
-      "text": "Got it.  See you later.", 
-      "topic": "TALK_DONE",
-      "condition": { "npc_has_effect": "feed_from_recently" }
-  }
+      },
+      {
+        "text": "I changed my mind.  Keep your blood.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } }
+      },
+      {
+        "text": "Got it.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      },
+      {
+        "text": "Got it.  See you later.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      }
     ]
   },
   {
@@ -140,35 +142,35 @@
       "no": "If you really need to, then sure you can.  Don't make an habit out of it, however."
     },
     "responses": [
-      { 
-        "text": "Thank you.  Can we talk about something else?", 
-        "topic": "TALK_FRIEND", 
+      {
+        "text": "Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
-        "opinion": { "trust": -1, "value": -1 } 
-    },
-      { 
-        "text": "Thank you.  See you later.", 
+        "opinion": { "trust": -1, "value": -1 }
+      },
+      {
+        "text": "Thank you.  See you later.",
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
-        "opinion": { "trust": -1, "value": -1 } 
-    },
-    { 
-      "text": "I changed my mind.  Keep your blood.", 
-      "topic": "TALK_DONE",
-      "condition": { "not": { "npc_has_effect": "feed_from_recently" } }
-  },
-    { 
-      "text": "Got it.  Can we talk about something else?", 
-      "topic": "TALK_FRIEND", 
-      "condition": { "npc_has_effect": "feed_from_recently" }
-  },
-    { 
-      "text": "Got it.  See you later.", 
-      "topic": "TALK_DONE",
-      "condition": { "npc_has_effect": "feed_from_recently" }
-  }
+        "opinion": { "trust": -1, "value": -1 }
+      },
+      {
+        "text": "I changed my mind.  Keep your blood.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } }
+      },
+      {
+        "text": "Got it.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      },
+      {
+        "text": "Got it.  See you later.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      }
     ]
   },
   {
@@ -217,7 +219,16 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
     "condition": { "u_has_trait": "BLOOD_FUN" },
-    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] }, { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ],
+    "effect": [
+      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+      {
+        "u_add_morale": "morale_drank_blood",
+        "bonus": 30,
+        "max_bonus": 60,
+        "duration": "20 m",
+        "decay_start": "10 m"
+      }
+    ],
     "false_effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
   },
   {
