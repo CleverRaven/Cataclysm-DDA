@@ -156,8 +156,9 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
             z->mod_moves( -z->get_speed() * 0.8 );
         }
         if( dmg > 0 ) {
-            c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, dmg ) );
-            c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, dmg ) );
+            for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
+                c->deal_damage( nullptr, bp, damage_instance( damage_cut, dmg ) );
+            }
             c->check_dead_state();
         }
     }
@@ -189,11 +190,13 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
     here.remove_trap( p );
     if( c != nullptr ) {
         // What got hit?
-        const bodypart_id hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "leg_r" );
+        const bodypart_id hit = random_entry( c->get_ground_contact_bodyparts( true ) );
 
         // Messages
-        c->add_msg_player_or_npc( m_bad, _( "A bear trap closes on your foot!" ),
-                                  _( "A bear trap closes on <npcname>'s foot!" ) );
+        c->add_msg_player_or_npc( m_bad,
+                                  string_format( _( "A bear trap closes on your %s" ), body_part_name_accusative( hit ) ),
+                                  string_format( _( "A bear trap closes on <npcname>'s %s" ), body_part_name( hit ) ) );
+
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
         }
@@ -244,12 +247,13 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 3,
                         5 ) ) );
     } else {
-        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
-                                            damage_instance( damage_cut, rng( 6, 10 ) ) );
-        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
-                                            damage_instance( damage_cut, rng( 6, 10 ) ) );
-        int total_cut_dmg = dealt_dmg_l.type_damage( damage_cut ) + dealt_dmg_l.type_damage(
-                                damage_cut );
+        int total_cut_dmg = 0;
+
+        for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
+            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 6,
+                                       10 ) ) );
+            total_cut_dmg += dd.type_damage( damage_cut );
+        }
         if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
             if( one_in( chance_in ) ) {
@@ -285,15 +289,12 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9,
                         15 ) ) );
     } else {
-        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
-                                            damage_instance( damage_cut, rng( 9,
-                                                    30 ) ) );
-        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
-                                            damage_instance( damage_cut, rng( 9,
-                                                    30 ) ) );
-
-        const int total_cut_dmg = dealt_dmg_l.type_damage( damage_cut ) + dealt_dmg_l.type_damage(
-                                      damage_cut );
+        int total_cut_dmg = 0;
+        for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
+            dealt_damage_instance dd = c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9,
+                                       30 ) ) );
+            total_cut_dmg += dd.type_damage( damage_cut );
+        }
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr && !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
@@ -301,7 +302,6 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
                 you->add_effect( effect_tetanus, 1_turns, true );
             }
         }
-
     }
     c->check_dead_state();
     return true;
@@ -324,8 +324,9 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 30 ) ) );
+        for( const bodypart_id &bp : c->get_ground_contact_bodyparts() ) {
+            c->deal_damage( nullptr, bp, damage_instance( damage_cut, rng( 9, 30 ) ) );
+        }
     }
     c->check_dead_state();
     if( get_player_view().sees( p ) ) {
@@ -744,12 +745,19 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        you->add_env_effect( effect_slimed, bodypart_id( "foot_l" ), 6, 2_minutes );
-        you->add_env_effect( effect_slimed, bodypart_id( "foot_r" ), 6, 2_minutes );
+        for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
+            you->add_env_effect( effect_slimed, bp, 6, 2_minutes );
+        }
         if( one_in( 3 ) ) {
-            you->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
-            you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, 5 ) );
-            you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, 5 ) );
+            for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
+                you->deal_damage( nullptr, bp, damage_instance( damage_cut, 5 ) );
+            }
+            std::vector<bodypart_id> bps = you->get_ground_contact_bodyparts();
+            you->add_msg_player_or_npc( m_bad,
+                                        string_format( _( "The acidic goo eats away at your %s!" ),
+                                                you->string_for_ground_contact_bodyparts( bps ) ),
+                                        string_format( _( "The acidic goo eats away at <npcname>'s %s!" ),
+                                                you->string_for_ground_contact_bodyparts( bps ) ) );
             you->check_dead_state();
         }
         return true;
@@ -1066,10 +1074,12 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        you->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_heat, 20 ) );
-        you->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_heat, 20 ) );
-        you->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_heat, 20 ) );
-        you->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_heat, 20 ) );
+        for( const bodypart_id &bp : you->get_ground_contact_bodyparts( true ) ) {
+            you->deal_damage( nullptr, bp, damage_instance( damage_heat, 20 ) );
+        }
+        for( const bodypart_id &bp : you->get_ground_contact_bodyparts() ) {
+            you->deal_damage( nullptr, bp, damage_instance( damage_heat, 20 ) );
+        }
     } else if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_bad, _( "Your %s is burned by the lava!" ), z->get_name() );
