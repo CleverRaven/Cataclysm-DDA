@@ -37,7 +37,7 @@
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "//2": "While it would make sense to be able to mill it, the bone won't fit into a mill…",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 15 }
   },
   {
@@ -111,7 +111,6 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
-    "to_hit": -5,
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ]
