@@ -2816,7 +2816,7 @@ void game::bury_screen() const
                                iOffset );
     draw_border( w_rip );
 
-    const ascii_art_id art = static_cast<ascii_art_id>("battery_motorbike");
+    const ascii_art_id art = static_cast<ascii_art_id>("ascii_rip_cross");
     if( art.is_valid() ) {
         int row = 1;
         for( const std::string &line : art->picture ) {
