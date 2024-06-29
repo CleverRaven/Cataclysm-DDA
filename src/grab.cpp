@@ -198,7 +198,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         if( grabbed_vehicle->is_falling ) {
             add_msg( _( "You let go of the %1$s as it starts to fall." ), grabbed_vehicle->disp_name() );
             u.grab( object_type::NONE );
-            m.drop_vehicle( final_dp_veh );
+            m.set_seen_cache_dirty( grabbed_vehicle->pos_bub().raw() );
             return true;
         }
     } else {
