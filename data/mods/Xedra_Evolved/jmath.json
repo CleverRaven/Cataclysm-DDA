@@ -114,6 +114,6 @@
     "type": "jmath_function",
     "id": "vampire_total_tier_four_traits",
     "num_args": 0,
-    "return": "(u_has_trait('TRUE_VAMPIRE_POWER') * 6)+ u_has_trait('VAMPIRE_TORPOR') + u_has_trait('VAMPIRE_DOMINATE') + u_has_trait('VAMPIRE_NO_BREATHE') + u_has_trait('VAMPIRE_NO_ILLNESS')"
+    "return": "(u_has_trait('TRUE_VAMPIRE_POWER') * 6) + u_has_trait('VAMPIRE_TORPOR') + u_has_trait('VAMPIRE_DOMINATE') + u_has_trait('VAMPIRE_NO_BREATHE') + u_has_trait('VAMPIRE_NO_ILLNESS')"
   }
 ]

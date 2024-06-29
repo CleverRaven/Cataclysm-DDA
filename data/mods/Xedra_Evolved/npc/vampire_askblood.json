@@ -8,12 +8,12 @@
         "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_YES",
         "condition": {
           "and": [
-            {"not": { "npc_has_flag": "BLEED_IMMUNE" } },
-            {"not": { "npc_has_trait": "ACIDBLOOD" } },
-            {"not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
-            {"not": { "npc_has_trait": "THRESH_INSECT" } },
-            {"not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
-            {"not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "math": [ "n_val('npc_trust')", ">=", "10" ] },
             { "math": [ "n_val('npc_value')", ">=", "10" ] },
             { "u_has_trait": "VAMPIRE" }
@@ -31,12 +31,12 @@
         "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_KINDA",
         "condition": {
           "and": [
-            {"not": { "npc_has_flag": "BLEED_IMMUNE" } },
-            {"not": { "npc_has_trait": "ACIDBLOOD" } },
-            {"not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
-            {"not": { "npc_has_trait": "THRESH_INSECT" } },
-            {"not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
-            {"not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "math": [ "n_val('npc_trust')", "<=", "9" ] },
             { "math": [ "n_val('npc_value')", "<=", "9" ] },
             { "math": [ "n_val('npc_trust')", ">=", "1" ] },
@@ -81,12 +81,12 @@
           "and": [
             { "math": [ "n_val('npc_trust')", ">=", "0" ] },
             { "math": [ "n_val('npc_value')", ">=", "0" ] },
-            {"not": { "npc_has_flag": "BLEED_IMMUNE" } },
-            {"not": { "npc_has_trait": "ACIDBLOOD" } },
-            {"not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
-            {"not": { "npc_has_trait": "THRESH_INSECT" } },
-            {"not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
-            {"not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
             { "u_has_trait": "VAMPIRE" }
           ]
         }
@@ -211,14 +211,14 @@
     "int_decay_step": -2,
     "int_decay_tick": 1,
     "vitamins": [
-      { "vitamin": "blood", "rate": [ [ -250, -250 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ -250, -250 ] ], "tick": [ "1 s" ] }
+      { "vitamin": "blood", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
-    "condition": {"u_has_trait": "BLOOD_FUN" },
+    "condition": { "u_has_trait": "BLOOD_FUN" },
     "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] }, { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ],
     "false_effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
   },
