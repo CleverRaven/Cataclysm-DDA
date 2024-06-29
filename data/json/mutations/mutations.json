@@ -10102,8 +10102,8 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "You're a very picky eater.  You refuse to eat any food that tastes bad unless you're starving.",
-    "cancels": [ "GOURMAND" ],
     "category": [ "ALPHA" ],
+    "cancels": [ "GOURMAND" ],
     "starting_trait": true
   },
   {
