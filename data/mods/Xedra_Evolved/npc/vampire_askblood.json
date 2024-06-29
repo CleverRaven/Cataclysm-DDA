@@ -105,13 +105,13 @@
     },
     "responses": [
       {
-        "text": "Thank you.  Can we talk about something else?",
+        "text": "[Drink from them] Thank you.  Can we talk about something else?",
         "topic": "TALK_FRIEND",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
       },
       {
-        "text": "Thank you.  See you later.",
+        "text": "[Drink from them] Thank you.  See you later.",
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
@@ -143,14 +143,14 @@
     },
     "responses": [
       {
-        "text": "Thank you.  Can we talk about something else?",
+        "text": "[Drink from them] Thank you.  Can we talk about something else?",
         "topic": "TALK_FRIEND",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
         "opinion": { "trust": -1, "value": -1 }
       },
       {
-        "text": "Thank you.  See you later.",
+        "text": "[Drink from them] Thank you.  See you later.",
         "topic": "TALK_DONE",
         "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
         "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
