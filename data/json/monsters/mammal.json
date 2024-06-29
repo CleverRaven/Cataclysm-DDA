@@ -2320,7 +2320,7 @@
     "id": "mon_sewer_rat",
     "type": "MONSTER",
     "name": { "str": "brown rat" },
-    "description": "The brown rat is worm-tailed rodent with long whiskers and beady eyes, larger than its cousin, the black rat.  Widespread where ever humans are (save for Antarctica and Alberta), they live off of foraging and will eat whatever they can find.",
+    "description": "The brown rat is a worm-tailed rodent with long whiskers and beady eyes, larger than its cousin, the black rat.  Widespread mostly wherever humans are, they live off of foraging and will eat whatever they can find.",
     "default_faction": "rat",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
