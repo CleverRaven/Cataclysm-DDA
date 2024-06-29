@@ -1150,12 +1150,12 @@
     "weight": "3200 g",
     "volume": "3750 ml",
     "longest_side": "200 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "price_postapoc": "100 USD",
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "category": "weapons",
-    "melee_damage": { "bash": 44, "stab": 33 }
+    "melee_damage": { "bash": 44, "stab": 39 }
   },
   {
     "id": "lucern_hammerfake",

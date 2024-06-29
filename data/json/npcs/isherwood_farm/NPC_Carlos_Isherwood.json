@@ -105,7 +105,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…(Leave)",
+        "text": "…[Leave.]",
         "topic": "TALK_DONE",
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_CARLOS_SawMarshal" },
         "opinion": { "trust": -20, "value": -20 },
@@ -140,7 +140,10 @@
         "*looks up warily as you approach",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+          "yes": {
+            "gendered_line": ", looking at your marshal badge immediately.  \"You said you'd keep that goddamn piece of tin out of my sight.\"",
+            "relevant_genders": [ "u" ]
+          },
           "no": ".  \"Yeah?\""
         }
       ]

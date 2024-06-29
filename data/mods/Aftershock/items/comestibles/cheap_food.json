@@ -131,7 +131,7 @@
     "description": "Smooth crackers colored grayish-green.  Used to be perfectly edible seaweed, or so the wrapper claims.",
     "fun": 2,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ], [ "veggy_allergen", 1 ] ],
     "volume": "74 ml"
   },
   {
@@ -147,7 +147,7 @@
     "description": "Soy or pureed rat?  Better not to know.\n(But its probably both.)",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "volume": "111 ml"
   },
   {
@@ -163,7 +163,7 @@
     "description": "Yellow chunks float on creamy liquid, like flotsam on a filthy summer pond.  Branding implies at least 26 other flavors, but you have neither seen or heard about any of them.",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "afs_escapepod_ration",
@@ -203,6 +203,7 @@
     "volume": "100 ml",
     "weight": "50 g",
     "description": "Time and the elements have reverted this heavily processed meal to its original form.  Eating it isn't even worth thinking about.",
-    "material": [ "flesh", "veggy" ]
+    "material": [ "flesh", "veggy" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

@@ -92,7 +92,6 @@ static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
-static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
@@ -696,14 +695,6 @@ bool Character::handle_gun_damage( item &it )
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
         return false;
-        // Here we check for a chance for the weapon to suffer a misfire due to
-        // using player-made 'RECYCLED' bullets. Note that not all forms of
-        // player-made ammunition have this effect.
-    } else if( curammo_effects.count( ammo_effect_RECYCLED ) && one_in( 256 ) ) {
-        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
-                               _( "<npcname>'s %s misfires with a muffled click!" ),
-                               it.tname() );
-        return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
@@ -1018,7 +1009,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
             if( shot.missed_by <= .1 ) {
                 headshot = true;
             }
-            if( proj.count > 1 && rl_dist( pos(), shot.end_point ) == 1 ) {
+            if( proj.count > 1 && shot.proj.count == 1 ) {
                 // Point-blank shots don't act like shot, everything hits the same target.
                 multishot = false;
                 break;

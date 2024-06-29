@@ -38,7 +38,7 @@
     "price": "500 USD",
     "material": [ "black_dragon_hide", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "vitamins": [  ],
+    "vitamins": [ [ "meat_allergen", 1 ] ],
     "volume": "4 L"
   },
   {

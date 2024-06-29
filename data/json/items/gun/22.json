@@ -441,5 +441,54 @@
     ],
     "price_postapoc": "10 USD",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
+    "id": "rossi_gallery",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "pump action varmint rifle" },
+    "description": "A lightweight, wood framed pump action rifle, holding 15 rounds of .22 with an 18 inch barrel.  While pump actions tend to be largely shotguns, they can be made in calibers such as .22 LR.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rossi_gallery",
+        "name": { "str": "Rossi Gallery", "str_pl": "Rossi Galleries" },
+        "description": "A modern take on the Winchester 1890, the Rossi Gallery is a .22 LR rifle, notably using a pump action.  Much like a pump action shotgun, the magazine tube is below it's 18 inch barrel and can hold 15 rounds.  While pump actions are quite often associated with shotguns, the mechanism can be applied to rifles as well, though in practice it's limited to .22 LR."
+      }
+    ],
+    "weight": "2344 g",
+    "volume": "2054 ml",
+    "longest_side": "913 mm",
+    "barrel_length": "457 mm",
+    "price": "394 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel", "wood", "aluminum" ],
+    "symbol": "(",
+    "color": "brown",
+    "range": 7,
+    "ammo": [ "22" ],
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 140,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 15,
+    "valid_mod_locations": [
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

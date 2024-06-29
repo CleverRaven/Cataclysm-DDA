@@ -134,8 +134,7 @@
     "purifiable": false,
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "spells_learned": [ [ "consume_human_blood", 1 ] ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "CANNIBAL", "HEMOVORE" ]
   },
   {
     "type": "mutation",
@@ -147,7 +146,71 @@
     "name": { "str": "Gleaming Eyes" },
     "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
     "active": true,
-    "activated_eocs": [ "EOC_EYEGLEAM_activated" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_EYEGLEAM_activated" ],
+    "deactivated_eocs": [ "EOC_EYEGLEAM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_STRENGTH",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Vigor Mortis" },
+    "description": "Your stolen blood reinforces your muscles, making your grip crack bone and your punches dent steel.",
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRIC_STRENGTH_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_STRENGTH_deactivated" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_RESILIENCE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Sanguine Resilience" },
+    "description": "Your cold flesh is not as vulnerable as it once was.  Activate to render it even more resistant to physical damage.",
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_BASH", "multiply": -0.05 },
+          { "value": "ARMOR_CUT", "multiply": -0.03 },
+          { "value": "ARMOR_STAB", "multiply": -0.02 },
+          { "value": "ARMOR_BULLET", "multiply": -0.08 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_HEIGHTENED_SENSES",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Predator's Senses" },
+    "description": "Your senses are heightened, allowing you to see more clearly, hear even tiny sounds, and smell nearby fresh human blood.",
+    "spells_learned": [ [ "vampire_smell_nearby_blood_spell", 1 ] ],
+    "enchantments": [ "ench_vampire_heightened_senses_hearing", "ench_vampire_heightened_senses_perception" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SILENT_MOVE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Silent as Death" },
+    "description": "Your movements don't make nearby as much noise as they used to.",
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -167,10 +230,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Recover Stamina" },
+    "name": { "str": "Unholy Endurance" },
     "description": "Your exhaust some of the blood in your veins to boost and recover some of your spent stamina.",
-    "active": true,
-    "activated_eocs": [ "EOC_STAMINAFORBLOOD_activated" ]
+    "spells_learned": [ [ "vampire_stamina_for_blood_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -195,7 +257,7 @@
     "types": [ "TEETH" ],
     "valid": false,
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL", "ALBINO" ],
+    "flags": [ "CANNIBAL", "ALBINO", "HEMOVORE" ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s!",
@@ -217,7 +279,9 @@
     "name": { "str": "Coagulant Weave" },
     "description": "Your body prepares to prevent the loss of any blood to combat damage.",
     "active": true,
-    "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ],
+    "deactivated_eocs": [ "EOC_COAGULANTWEAVE_deactivated" ]
   },
   {
     "type": "mutation",
@@ -226,10 +290,86 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Blood spurred healing" },
+    "name": { "str": "Sanguine Restoration" },
     "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins.",
+    "spells_learned": [ [ "spell_blood_heal", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRIC_DODGE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Flow Like Blood" },
+    "description": "You can move faster than the eye can see, avoiding the claws and teeth and weapons of your enemies.",
     "active": true,
-    "activated_eocs": [ "EOC_BLOODHEAL_activated" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRIC_DODGE_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRIC_DODGE_deactivate" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_FEAR_GAZE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Predator's Mien" },
+    "description": "With a bit of stolen blood and a savage expression, you can send your enemies fleeing.",
+    "spells_learned": [ [ "vampire_fear_gaze_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WALK_ON_WALLS",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Spider's Walk" },
+    "description": "Gravity seems to have less of an effect than it used it.  With barely an effort you can ascend or descend even sheer walls, and you can fall any distance and land on your feet uninjured.",
+    "flags": [ "CLIMB_NO_LADDER", "FEATHER_FALL", "WALL_CLING" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BEAST_CLAWS",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Claws of the Beast" },
+    "description": "You can twist your fingernails into sharp claws, allowing you to inflict extra damage in unarmed combat.",
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_BEAST_CLAWS_deactivate" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BEAST_CLAWS_active",
+    "name": { "str": "Claws of the Beast Extended" },
+    "points": 0,
+    "visibility": 3,
+    "ugliness": 2,
+    "description": "Your fingers are transformed into sharp claws.  You can use them to attack, but performing mundane tasks will be harder.",
+    "types": [ "CLAWS" ],
+    "cost": 0,
+    "player_display": false,
+    "valid": false,
+    "integrated_armor": [ "integrated_claws_rat" ],
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SEE_HEAT",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Crimson Vision" },
+    "description": "Your vision has improved and now you can see flowing blood in the vein, like bright trails in the dark.",
+    "flags": [ "INFRARED" ]
   },
   {
     "type": "mutation",
@@ -242,7 +382,7 @@
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
-    "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR" ],
+    "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.8 } ] } ]
   },
   {
@@ -252,10 +392,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Hypnotic gaze" },
-    "description": "You lock eyes with your prey and stun them with the force of your will.",
-    "active": true,
-    "activated_eocs": [ "EOC_HYPNOTIC_GAZE_activated" ]
+    "name": { "str": "Hypnotic Gaze" },
+    "description": "You can mesmerize your prey, gazing into their eyes and freezing them in their tracks.",
+    "spells_learned": [ [ "spell_hypnotic_gaze", 1 ] ]
   },
   {
     "type": "mutation",
@@ -264,22 +403,47 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Blood driven speed" },
+    "name": { "str": "Blood-Driven Speed" },
     "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.",
     "active": true,
-    "activated_eocs": [ "EOC_BLOODHASTE_activated" ]
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_BLOODHASTE_activated" ],
+    "deactivated_eocs": [ "EOC_BLOODHASTE_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_COMMAND_BEAST",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Cowing the Beast" },
+    "description": "You are a supreme predator, and other predators bow at your feet.",
+    "spells_learned": [ [ "vampire_command_beast_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_EARTH_SLUMBER",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Earthen Slumber" },
+    "description": "You can sleep within the earth itself, avoiding the hateful light of the sun.",
+    "spells_learned": [ [ "vampire_earth_slumber_spell", 1 ] ]
   },
   {
     "type": "mutation",
     "id": "VAMPIRE4",
-    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "name": { "str": "Discarded their mortality." },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "You have become a true vampire and are beginning to see some of the most potent abilities vampirism has to offer.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE" ],
+    "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -292,6 +456,18 @@
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "MENTOR_PEACE",
+    "name": { "str": "Mentor's peace" },
+    "points": 0,
+    "description": "Intended to be hidden.  Prevent the mentor from being killed by vampires and renfields.",
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "VAMPIRE", -150 ], [ "RENFIELD", -150 ] ]
   },
   {
     "type": "mutation",

@@ -49,6 +49,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -372,7 +373,7 @@ void talk_function::goto_location( npc &p )
         camps.push_back( temp_camp );
     }
     for( const basecamp *iter : camps ) {
-        //~ %1$s: camp name, %2$d and %3$d: coordinates
+        //~ %1$s: camp name, %2$s: coordinates of the camp
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
@@ -404,6 +405,19 @@ void talk_function::goto_location( npc &p )
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
+        return;
+    }
+    g->follower_path_to_show = &p; // Necessary for overmap display in tiles version...
+    ui::omap::display_npc_path( p.global_omt_location(), p.omt_path );
+    g->follower_path_to_show = nullptr;
+    int tiles_to_travel = p.omt_path.size();
+    time_duration ETA = time_between_npc_OM_moves * tiles_to_travel;
+    ETA = ETA * rng_float( 0.8, 1.2 ); // Add +-20% variance in our estimate
+    if( !query_yn(
+            _( "Estimated time to arrival: %1$s  \nTiles to travel: %2$s  \nIs this path and destination acceptable?" ),
+            to_string_approx( ETA ), tiles_to_travel ) ) {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
         return;
     }
     p.set_mission( NPC_MISSION_TRAVELLING );

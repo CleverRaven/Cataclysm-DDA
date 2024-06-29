@@ -10701,6 +10701,12 @@ bool Character::knows_trap( const tripoint &pos ) const
     return known_traps.count( p ) > 0;
 }
 
+bool Character::knows_trap( const tripoint_bub_ms &pos ) const
+{
+    const tripoint_abs_ms p = get_map().getglobal( pos );
+    return known_traps.count( p.raw() ) > 0;
+}
+
 void Character::add_known_trap( const tripoint &pos, const trap &t )
 {
     const tripoint p = get_map().getabs( pos );
@@ -11456,7 +11462,15 @@ action_id Character::get_next_auto_move_direction()
     }
 
     if( next_expected_position ) {
-        if( pos_bub() != *next_expected_position ) {
+        // Difference between where the character is and where we expect them to be after last auto-move.
+        tripoint diff = ( pos_bub() - *next_expected_position ).raw().abs();
+        // This might differ by 1 (in z-direction), since the character might have crossed a ramp,
+        // which teleported them a tile up or down. If the error is in x or y direction, we might as well
+        // give them a turn to recover, as the move still might be vaild.
+        // We cut off at 1 since 2 definitely results in an invalid move.
+        // If the character is still stumbling or stuck,
+        // they will cancel the auto-move on the next cycle (as the distance increases).
+        if( std::max( { diff.x, diff.y, diff.z } ) > 1 ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
@@ -11467,15 +11481,7 @@ action_id Character::get_next_auto_move_direction()
 
     tripoint_rel_ms dp = *next_expected_position - pos_bub();
 
-    // Make sure the direction is just one step and that
-    // all diagonal moves have 0 z component
-    if( std::abs( dp.x() ) > 1 || std::abs( dp.y() ) > 1 || std::abs( dp.z() ) > 1 ||
-        ( dp.z() != 0 && ( dp.x() != 0 || dp.y() != 0 ) ) ) {
-        // Should never happen, but check just in case
-        return ACTION_NULL;
-    }
-    // TODO: fix point types
-    return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
+    return get_movement_action_from_delta( dp, iso_rotate::yes );
 }
 
 int Character::persuade_skill() const

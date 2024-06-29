@@ -123,7 +123,7 @@ class recipe
         bool was_loaded = false;
         bool obsolete = false;
 
-        std::string category;
+        crafting_category_id category;
         std::string subcategory;
 
         translation description;

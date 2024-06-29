@@ -269,7 +269,9 @@ class submap
 
         bool has_computer( const point &p ) const;
         const computer *get_computer( const point &p ) const;
+        // TOD: Get rid of untyped overload.
         computer *get_computer( const point &p );
+        computer *get_computer( const point_sm_ms &p );
         void set_computer( const point &p, const computer &c );
         void delete_computer( const point &p );
 

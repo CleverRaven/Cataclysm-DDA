@@ -17,7 +17,7 @@
     "material": [ "fruit" ],
     "fun": 1,
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,7 +38,8 @@
       "type": "effect_on_conditions",
       "description": "Peel open the mysterious fruit.",
       "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GACHA" ]
-    }
+    },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "effect_on_condition",

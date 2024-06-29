@@ -4558,7 +4558,7 @@ bool npc::consume_food_from_camp()
     Character &player_character = get_player_character();
     std::optional<basecamp *> potential_bc;
     for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
-        if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
+        if( rl_dist( camp_pos.xy(), global_omt_location().xy() ) < 3 ) {
             potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
             if( potential_bc ) {
                 break;
