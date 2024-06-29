@@ -808,12 +808,6 @@
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRADER_AVOID" ],
     "environmental_protection": 15,
-    "armor": [
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "covers": [ "mouth" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "mouth" ] } ]
   }
 ]
