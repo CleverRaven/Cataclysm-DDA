@@ -38,7 +38,8 @@
         "afs_formless_ruins_dynamic": 600,
         "afs_house_1": 300,
         "afs_habitat_block_1": 200,
-        "afs_habitat_block_2": 100
+        "afs_habitat_block_2": 100,
+        "afs_habitat_block_3": 200
       },
       "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10, "afs_enclosed_park": 30 },
       "shops": {
