@@ -53,5 +53,41 @@
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 20, "cut": 15 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_fae",
+    "//": "Changeling corpses.",
+    "copy-from": "corpse",
+    "name": { "str": "fae corpse" },
+    "description": "The dead body of a changeling.  There are multiple bites across the body and numerous scratches.  It looks like blood loss might have brought them down.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "fae_flesh" ],
+    "snippet_category": [
+      {
+        "id": "generic_fae_corpse_01",
+        "text": "The dead body of a changeling.  There are multiple bites across the body and numerous scratches.  It looks like blood loss might have brought them down."
+      },
+      {
+        "id": "generic_fae_corpse_02",
+        "text": "Extreme burns cover the body of this changeling.  In multiple locations the charring goes all the way to the bone."
+      },
+      {
+        "id": "generic_fae_corpse_03",
+        "text": "Several ballistic wounds seem to have brought down this changeling.  It probably happened elsewhere and they escaped to here."
+      },
+      {
+        "id": "generic_fae_corpse_04",
+        "text": "This lifeless body is covered in a rime of frost, that seems resistant to the prevailing weather."
+      },
+      {
+        "id": "generic_fae_corpse_05",
+        "text": "This changeling seems to have gotten themselves impaled upon an unhealthy number of large thorns.  What kind of plant could do this?"
+      },
+      {
+        "id": "generic_fae_corpse_06",
+        "text": "This changeling corpse has a belly wound that appears to be caused by a sword and is also missing its hand."
+      }
+    ]
   }
 ]
