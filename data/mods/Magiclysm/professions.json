@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "pouch_wild_druid",
-    "entries": [ { "item": "fur" }, { "item": "fur" }, { "item": "fur" }, { "item": "bone_tainted" }, { "item": "bone_tainted" } ]
+    "entries": [ { "item": "fur", "count": 3 } ]
   },
   {
     "type": "item_group",
