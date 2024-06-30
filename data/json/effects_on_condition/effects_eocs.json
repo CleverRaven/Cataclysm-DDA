@@ -63,5 +63,77 @@
       }
     ],
     "false_effect": [ { "u_lose_morale": "morale_asocial_dissatisfied" } ]
-  }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_PREGNANCY_EARLY",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
+    "effect": [
+      { "queue_eocs": "EOC_DERMATIK_FORMICATION", "duration": "15 minutes", "target_part": "RANDOM" },
+      { "queue_eocs": "EOC_DERMATIK_PREGNANCY", "time_in_future": "1 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_FORMICATION",
+    "effect": [
+      { "u_add_effect": "formication", "duration": "15 minutes", "target_part": { "context_val": "bodypart" } },
+      { "queue_eocs": "EOC_DERMATIK_FORMICATION", "time_in_future": [ "20 seconds", "3 days" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DERMATIK_PREGNANCY",
+    "effect": [
+      { "u_message": "Your flesh crawls…  A larva tears through your flesh and begins to emerge!", "type": "bad" },
+      { "u_spawn_monster": "mon_dermatik_larva", "real_count": 1, "min_radius": 1, "max_radius": 4 },
+      { "u_lose_effect": "dermatik" }
+    ]
+  },
+  [
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_FORMICATION_INIT",
+      "eoc_type": "EVENT",
+      "required_event": "character_gains_effect",
+      "condition": { "compare_string": [ "formication", { "context_val": "effect" } ] },
+      "effect": [ { "queue_eocs": "EOC_FORMICATION", "time_in_future": "1 s" } ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_FORMICATION",
+      "condition": { "u_has_effect": "formication" },
+      "effect": [
+        {
+          "if": { "or": [ { "u_has_effect": "narcosis" }, { "u_has_effect": "sleep" } ] },
+          "else": { "run_eocs": [ "EOC_TRY_SCRATCH" ] }
+        },
+        { "queue_eocs": "EOC_FORMICATION", "time_in_future": "1 s" }
+      ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_TRY_SCRATCH",
+      "effect": [
+        {
+          "if": {
+            "x_in_y_chance": {
+              "x": { "math": [ "u_effect_intensity('formication', 'bodypart': _bodypart)" ] },
+              "y": { "math": [ "600 + 300 * u_val('intelligence')" ] }
+            }
+          },
+          "then": [
+            { "u_message": "You start scratching yourself!" },
+            { "npc_message": "<npc_name> stars scratching themselves!" },
+            { "turn_cost": 1.5 },
+            { "math": [ "u_pain()", "++" ] },
+            { "math": [ "hp(_bodypart)", "--" ] }
+          ],
+          "else": { "u_message": "You want to scratch yourself badly, but you force yourself to stop." }
+        }
+      ]
+    }
+  ]
 ]
