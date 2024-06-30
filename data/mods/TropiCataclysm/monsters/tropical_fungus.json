@@ -33,6 +33,7 @@
     "morale": 100,
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "zombify_into": "",
+    "upgrades": false,
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
@@ -49,7 +50,7 @@
     "special_attacks": [ [ "FUNGUS_INJECT", 10 ] ],
     "zombify_into": "",
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
+    "extend": { "flags": [ "NO_FUNG_DMG", "NO_BREED" ], "species": [ "FUNGUS" ] }
   },
   {
     "id": "mon_fungaloid_cultivator",
