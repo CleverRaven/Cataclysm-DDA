@@ -184,5 +184,25 @@
     ],
     "energy_source": "NONE",
     "damage_type": "biological"
+  },
+  {
+    "id": "shock_touch",
+    "type": "SPELL",
+    "name": { "str": "Shock touch" },
+    "description": "Shocks an enemy.",
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "attack",
+    "damage_type": "electric",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_aoe": 0,
+    "max_aoe": 0,
+    "min_range": 1,
+    "max_range": 1,
+    "effect_str": "zapped",
+    "min_duration": 300,
+    "max_duration": 500,
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ]
   }
 ]

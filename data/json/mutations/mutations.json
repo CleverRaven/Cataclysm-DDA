@@ -19,7 +19,17 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "BIOLUM", "HORNS", "HAIR", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
-    "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
+    "cancels": [
+      "ARM_FEATHERS",
+      "CF_HAIR",
+      "HAIRROOTS",
+      "INK_GLANDS",
+      "THORNS",
+      "TRANSPIRATION",
+      "WEB_RAPPEL",
+      "WEB_ROPE",
+      "ELECTROCYTES"
+    ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
   {
@@ -10238,5 +10248,26 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTROCYTES",
+    "name": { "str": "Electrocytes" },
+    "description": "A new organ is running through your extremities, composed of thousands of modified current-producing muscle cells, it feels weird.",
+    "points": 1
+  },
+  {
+    "type": "mutation",
+    "id": "SHOCK_TOUCH",
+    "name": { "str": "Shock Touch" },
+    "description": "Some change in your brain now allows you to polarize your electrocytes to deliver shocks powerful enough to cause debilitating muscle spasms.  You also now have a patch of dark, smooth, mucus-coated skin at your extremities to reduce resistance when running current through your target.",
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_SHOCK_TOUCH" ],
+    "prereqs": [ "ELECTROCYTES" ],
+    "types": [ "CLAWS" ],
+    "points": 2,
+    "visibility": 1,
+    "ugliness": 1
   }
 ]

@@ -132,5 +132,29 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHOCK_TOUCH",
+    "condition": { "math": [ "u_effect_intensity('electrocytes_charge')", ">", "1" ] },
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "1",
+          "spell_to_cast": "shock_touch",
+          "message_success": {
+            "i18n": true,
+            "str": "You make contact with your target as you polarize your electrocytes, delivering a powerful shock."
+          },
+          "message_fail": { "i18n": true, "str": "Your electrocytes are spent and need to recharge." }
+        }
+      },
+      {
+        "u_add_effect": "electrocytes_charge",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('electrocytes_charge') - 1" ] }
+      }
+    ]
   }
 ]

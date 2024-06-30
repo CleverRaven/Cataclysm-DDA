@@ -1706,6 +1706,7 @@ elasmosaurus
 Elbereth
 Eldridge
 electrocutioner
+electrocytes
 electrohack
 electrohacks
 electrokinesis

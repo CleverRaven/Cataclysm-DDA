@@ -4985,5 +4985,12 @@
     "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
     "max_duration": "5 m",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "electrocytes_charge",
+    "name": [ "Electrocytes charge" ],
+    "desc": [ "You electrocytes are depolarizing over time in exchange for some calories." ],
+    "max_intensity": 10
   }
 ]
