@@ -39,7 +39,6 @@ They are the most common and well known way of defining an item disassembly. Wit
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "firstaid", 5 ],
     "time": "50 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
@@ -56,7 +55,6 @@ They are the most common and well known way of defining an item disassembly. Wit
 | `activity_level`              | (Mandatory) How energy intensive of an activity this craft is. Options are ``NO_EXERCISE``, ``LIGHT_EXERCISE``, ``MODERATE_EXERCISE``, ``BRISK_EXERCISE``, ``ACTIVE_EXERCISE``, ``EXTRA_EXERCISE``
 | `skill_used`                  | Skill trained and used for success checks
 | `difficulty`                  | Difficulty of success check, connected to ``skill_used``
-| `skills_required`             | Skills required to unlock recipe
 | `time`                        | (Mandatory) Time to perform the recipe; can specify in minutes, hours etc.
 | `using`                       | Requirement IDs and multipliers of tools and materials used
 | `qualities`                   | Qualities of tools needed to perform the disassembly
@@ -76,6 +74,7 @@ Things to note:
 
 - due to not supporting component lists, and not remembering what items were used to craft the item that is being disassembled, uncraft recipes can be used to transmute resources by the players
 - it is technically possible to define proficencies for uncraft recipes, but they currently have no effect
+- similarly, it is possible to define a ``skills_required`` field for uncraft recipes, but it has no effect either
 
 ## Reversible crafting recipes
 A reversible recipe and an uncraft recipe are almost indistinguishable in game, with the only potential way to tell them apart being items crafted by the player through a reversible crafting recipe may yield different items upon disassembly than items of the same ID found spawned in the world. Having said that, they are quite different from the JSON side.
@@ -85,8 +84,10 @@ Reversible crafting recipes also have their time, skills used, difficulty, and t
 
 Things to note:
 - **Reversible crafting recipes cannot have byproducts!** Trying to make a recipe with byproducts reversible will not work.
+- On the other hand, it is possible to make recipes using ``result_mult`` reversible, but this will inadvertantly cause infinite resource generation, as full recipe ingredients will be obtained from disassembling a single result item
 - All items used to craft the item will be obtained through the disassembly, with the exception of items with the ``UNRECOVERABLE`` flag
 - While unlike with uncraft recipes it is impossible to transmute materials through those, it is very easy to make nonsensical disassemblies through this method when it comes to required tools
+- Making a recipe that crafts a specific item variant reversible will result in all variants of this item using the same disassembly
 
 ## Salvaging / Cutting Up
 This process is largely hardcoded, with the JSON side only consisting of defining whether a specific material is salvageable, and possible per-item salvaging disabling through flags. The only way to make an item that's normally salvageable not-salvageable is by either editing its material or adding the ``NO_SALVAGE`` flag.
