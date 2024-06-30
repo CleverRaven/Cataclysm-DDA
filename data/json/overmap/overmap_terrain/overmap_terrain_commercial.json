@@ -59,7 +59,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_doctor_roof", "office_doctor_roof_1", "office_doctor_roof_2", "office_doctor_upper_roof_2" ],
+    "id": [
+      "office_doctor_roof",
+      "office_doctor_access_roof",
+      "office_doctor_roof_1",
+      "office_doctor_access_roof_1",
+      "office_doctor_roof_2",
+      "office_doctor_upper_roof_2"
+    ],
     "copy-from": "generic_city_building",
     "looks_like": "office_doctor_roof",
     "name": "doctor's office roof",
@@ -110,7 +117,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
+    "id": [
+      "office_tower_roof_nw",
+      "office_tower_roof_ne",
+      "office_tower_roof_sw",
+      "office_tower_roof_se",
+      "office_tower_roof_ne_roof",
+      "office_tower_roof_se_roof"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "office building roof",
     "sym": "t",
@@ -346,7 +360,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4", "s_gunstore_roof" ],
+    "id": [
+      "s_gun_roof",
+      "s_gun_upper_roof",
+      "s_gun_roof_1",
+      "s_gun_upper_roof_1",
+      "s_gun_roof_3",
+      "s_gun_roof_4",
+      "s_gunstore_roof"
+    ],
     "name": "gun store roof",
     "looks_like": "s_gun_roof",
     "copy-from": "generic_city_building",
@@ -453,6 +475,7 @@
       "s_restaurant_roof",
       "s_restaurant_roof_1",
       "s_restaurant_roof_2",
+      "s_restaurant_upper_roof_2",
       "s_restaurant_roof_3"
     ],
     "copy-from": "generic_city_building",
@@ -557,7 +580,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1" ],
+    "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1", "s_bike_shop_roof_1_shack_roof" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_bike_shop_roof",
     "name": "bike shop roof",
@@ -714,7 +737,7 @@
     "spawns": { "group": "GROUP_VANILLA", "population": [ 10, 20 ], "chance": 100 },
     "flags": [
       "SIDEWALK",
-      "RISK_HIGH",
+      "RISK_EXTREME",
       "SOURCE_FOOD",
       "SOURCE_DRINK",
       "SOURCE_GUN",
@@ -819,7 +842,10 @@
       "hotel_tower_flr4_1_9",
       "hotel_tower_roof_1_7",
       "hotel_tower_roof_1_8",
-      "hotel_tower_roof_1_9"
+      "hotel_tower_roof_1_9",
+      "hotel_tower_6_1_7",
+      "hotel_tower_6_1_8",
+      "hotel_tower_6_1_9"
     ],
     "copy-from": "generic_city_building",
     "name": "hotel",
@@ -923,7 +949,8 @@
       "hdwr_large_0_1_1",
       "hdwr_large_1_1_1",
       "hdwr_large_0_2_1",
-      "hdwr_large_1_2_1"
+      "hdwr_large_1_2_1",
+      "hdwr_large_1_1_2"
     ],
     "name": "home improvement superstore roof",
     "sym": "H",
@@ -1483,11 +1510,13 @@
   },
   {
     "type": "overmap_terrain",
+    "//": "Obsolete 2024-06-24. Remains to work in existing saves",
     "id": "cs_market_small_roof",
     "name": "small market roof",
     "copy-from": "generic_city_building",
     "sym": "m",
-    "color": "i_light_gray"
+    "color": "i_light_gray",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

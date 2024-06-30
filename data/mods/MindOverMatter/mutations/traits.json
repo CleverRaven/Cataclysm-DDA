@@ -118,12 +118,22 @@
   },
   {
     "type": "mutation",
-    "id": "KI_STRIKE",
+    "id": "VERDANT_HAND_PROTOCOLS",
     "name": { "str": "VERDANT HAND Combat Protocols" },
     "points": 2,
-    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill increases.",
+    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill and biokinetic prowess increase.",
     "starting_trait": false,
-    "valid": false
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -160,31 +170,43 @@
   {
     "type": "mutation",
     "id": "PSI_EXTENDED_CHANNELING",
-    "name": { "str": "Standard Channeling" },
+    "name": { "str": "Extended Channeling" },
     "points": 0,
-    "description": "You are channeling your powers as quickly as you can.",
+    "description": "You can take more time and care in channeling your powers.  It will take 25x as long to evoke them, but it will be much easier to activate them and you will be less likely to gain Nether Attunement while doing so.",
     "active": true,
+    "activated_is_setup": true,
     "valid": false,
-    "transform": {
-      "target": "PSI_EXTENDED_CHANNELING_ON",
-      "msg_transform": "You start to take more care in channeling your powers.",
-      "active": true,
-      "moves": 0
-    }
+    "activated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ],
+    "deactivated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ]
   },
   {
     "type": "mutation",
-    "id": "PSI_EXTENDED_CHANNELING_ON",
-    "name": { "str": "Extended Channeling" },
+    "id": "PSI_EXTENDED_CHANNELING_active",
+    "name": { "str": "Extended Channeling Active" },
     "points": 0,
-    "description": "You are taking more time and care in channeling your powers.  It takes 25x as long to evoke them, but your Focus has no effect on their chance of success.",
-    "active": true,
+    "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
     "valid": false,
-    "transform": {
-      "target": "PSI_EXTENDED_CHANNELING",
-      "msg_transform": "Your return to channeling your powers as fast as you can.",
-      "active": false,
-      "moves": 0
-    }
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_TORRENTIAL_CHANNELING",
+    "name": { "str": "Torrential Channeling" },
+    "points": 0,
+    "description": "You can draw deeply on the Nether, increasing the strength of your powers but making making them harder to initiate and control.",
+    "active": true,
+    "activated_is_setup": true,
+    "valid": false,
+    "activated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ],
+    "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_TORRENTIAL_CHANNELING_active",
+    "name": { "str": "Torrential Channeling Active" },
+    "points": 0,
+    "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
+    "valid": false,
+    "player_display": false
   }
 ]

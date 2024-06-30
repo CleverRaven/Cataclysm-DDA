@@ -32,7 +32,12 @@
     "types": [ "Cyberframe", "Cybernetic" ],
     "enchantments": [
       {
-        "values": [ { "value": "MAX_HP", "add": 20 }, { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ]
+        "values": [
+          { "value": "MAX_HP", "add": 20 },
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CARRY_WEIGHT", "multiply": 2 }
+        ]
       }
     ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
@@ -46,8 +51,7 @@
         "acid": 25,
         "electric": 5
       }
-    ],
-    "weight_capacity_modifier": 3
+    ]
   },
   {
     "type": "mutation",
@@ -64,7 +68,12 @@
     "types": [ "Cyberframe", "Cybernetic" ],
     "enchantments": [
       {
-        "values": [ { "value": "MAX_HP", "add": 10 }, { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ]
+        "values": [
+          { "value": "MAX_HP", "add": 10 },
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CARRY_WEIGHT", "multiply": 2 }
+        ]
       }
     ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
@@ -78,7 +87,6 @@
         "acid": 25,
         "electric": 0
       }
-    ],
-    "weight_capacity_modifier": 3
+    ]
   }
 ]

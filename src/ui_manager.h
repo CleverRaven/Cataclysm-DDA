@@ -7,14 +7,12 @@
 #include "cuboid_rectangle.h"
 #include "point.h"
 
-#if !defined(__ANDROID__)
 namespace cataimgui
 {
 class client;
 } // namespace cataimgui
 
 extern std::unique_ptr<cataimgui::client> imclient;
-#endif
 
 namespace catacurses
 {
@@ -129,6 +127,11 @@ class ui_adaptor
          * and curses builds.
          **/
         void position( const point &topleft, const point &size );
+        /**
+         * like 'position', except topleft and size are given as
+         * pixels in tiled builds and console cells on curses builds
+         **/
+        void position_absolute( const point &topleft, const point &size );
         /**
          * Set redraw and resize callbacks. The resize callback should
          * call `position` or `position_from_window` to set the size of the UI,

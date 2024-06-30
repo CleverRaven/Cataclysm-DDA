@@ -32,23 +32,6 @@
     ]
   },
   {
-    "result": "RPG-7_tbg7v",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "copper", 50 ] ],
-      [ [ "chem_compositionb", 50 ] ],
-      [ [ "gunpowder_artillery", 3000 ] ],
-      [ [ "impact_fuze", 1 ] ],
-      [ [ "scrap", 3 ] ],
-      [ [ "incendiary", 150 ] ]
-    ]
-  },
-  {
     "result": "RPG-7_og7v",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

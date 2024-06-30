@@ -135,32 +135,6 @@
     "om_terrain": "house_05_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "palettes": [ "house_05_variant_palette" ],
       "place_nested": [
         {

@@ -32,7 +32,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_field",
+    "id": [ "special_field" ],
     "copy-from": "generic_open_land",
     "name": "field",
     "sym": ".",
@@ -40,11 +40,12 @@
     "looks_like": "field",
     "see_cost": 2,
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "lab_subway_vent_shaft_surface" ],
+    "id": [ "special_forest", "special_forest_isherwood", "lab_subway_vent_shaft_surface" ],
     "copy-from": "generic_forest",
     "name": "forest",
     "sym": "F",
@@ -56,7 +57,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "special_forest_thick",
+    "id": [ "special_forest_thick", "special_forest_thick_isherwood" ],
     "copy-from": "generic_forest",
     "name": "forest",
     "sym": "F",

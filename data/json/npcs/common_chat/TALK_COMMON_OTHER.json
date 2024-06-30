@@ -56,7 +56,7 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_hint",
@@ -306,7 +306,7 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_train",
@@ -337,7 +337,7 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_train",

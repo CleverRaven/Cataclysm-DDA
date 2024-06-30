@@ -8,8 +8,8 @@
     "weight": "16 g",
     "volume": "113 ml",
     "longest_side": "56 mm",
-    "price": 120,
-    "price_postapoc": 800,
+    "price": "1 USD 20 cent",
+    "price_postapoc": "8 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
@@ -62,8 +62,8 @@
     "name": { "str_sp": "7.62x39mm JHP" },
     "description": "7.62x39mm ammunition with a 123gr jacketed, hollowpoint bullet.  Made for hunting medium game, cartridges such as these were once popular for those using cheap military surplus rifles, as 7.62x39's ballistics are somewhat similar to that of 30-30 Winchester.  The combination of sanctions against exporting nations and drying up of formerly plentiful surplus has made these loadings of 7.62x39 less popular.",
     "ascii_picture": "762_jhp",
-    "price": 100,
-    "price_postapoc": 750,
+    "price": "1 USD",
+    "price_postapoc": "7 USD 50 cent",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
   },
   {

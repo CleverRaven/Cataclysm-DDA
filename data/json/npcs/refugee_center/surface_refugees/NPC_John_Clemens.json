@@ -83,9 +83,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -102,10 +100,7 @@
       "relevant_genders": [ "u" ]
     },
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_John_1a" }
-      ]
+      "effect": [ { "u_add_var": "general_meeting_u_met_John_Clemens", "value": "yes" }, { "npc_first_topic": "TALK_REFUGEE_John_1a" } ]
     },
     "responses": [
       { "text": "Nice to meet you, John.", "topic": "TALK_REFUGEE_John_1_firstmeet" },

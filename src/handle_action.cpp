@@ -1,9 +1,9 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <initializer_list>
+#include <list>
 #include <map>
 #include <sstream>
 #include <string>
@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
@@ -49,6 +50,8 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input_context.h"
+#include "input_enums.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -61,11 +64,13 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -77,10 +82,13 @@
 #include "safemode_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -131,6 +139,8 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
+static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
@@ -163,8 +173,6 @@ static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 
-static const std::string flag_CANT_DRAG( "CANT_DRAG" );
-
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 #if defined(__ANDROID__)
@@ -173,6 +181,8 @@ extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
         const std::string &category, bool back );
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
+
+static bool has_vehicle_control( avatar &player_character );
 
 class user_turn
 {
@@ -469,7 +479,7 @@ static void rcdrive( const point &d )
         tripoint src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
-        player_character.moves -= 50;
+        player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         here.i_rem( src, rc_car );
         car_location_string.clear();
         car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
@@ -576,14 +586,14 @@ static void open()
     const tripoint openp = *openp_;
     map &here = get_map();
 
-    player_character.moves -= 100;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) );
 
     // Is a vehicle part here?
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
         // Check for potential thievery, and restore moves if action is canceled
         if( !veh->handle_potential_theft( player_character ) ) {
-            player_character.moves += 100;
+            player_character.mod_moves( to_moves<int>( 1_seconds ) );
             return;
         }
         // Check if vehicle has a part here that can be opened
@@ -605,7 +615,7 @@ static void open()
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
                     add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
-                    player_character.moves += 100;
+                    player_character.mod_moves( to_moves<int>( 1_seconds ) );
                 } else {
                     veh->open_all_at( openable );
                     //~ %1$s - vehicle name, %2$s - part name
@@ -623,7 +633,7 @@ static void open()
                     add_msg( m_info, _( "That %s is already open." ), name );
                 }
             }
-            player_character.moves += 100;
+            player_character.mod_moves( to_moves<int>( 1_seconds ) );
         }
         return;
     }
@@ -640,11 +650,11 @@ static void open()
         } else if( tid.obj().close ) {
             // if the following message appears unexpectedly, the prior check was for t_door_o
             add_msg( m_info, _( "That door is already open." ) );
-            player_character.moves += 100;
+            player_character.mod_moves( to_moves<int>( 1_seconds ) );
             return;
         }
         add_msg( m_info, _( "No door there." ) );
-        player_character.moves += 100;
+        player_character.mod_moves( to_moves<int>( 1_seconds ) );
     }
 }
 
@@ -655,6 +665,28 @@ static void close()
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
+    }
+}
+
+static void set_next_option( const std::string &option )
+{
+    get_options().get_option( option ).setNext();
+    get_options().save();
+    add_msg( _( "Set %s to %s." ),
+             get_options().get_option( option ).getMenuText(),
+             get_options().get_option( option ).getValueName() );
+}
+
+static void auto_features_warn()
+{
+    if( !get_option<bool>( "AUTO_FEATURES" ) ) {
+        const options_manager::cOpt &auto_features = get_options().get_option( "AUTO_FEATURES" );
+        add_msg( _( "Warning: Options > %s > %s > %s set to %s." ),
+                 auto_features.getPage(),
+                 auto_features.getGroupName(),
+                 auto_features.getMenuText(),
+                 auto_features.getValueName()  // false in locale
+               );
     }
 }
 
@@ -700,15 +732,32 @@ static void grab()
     }
 
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
+        std::string veh_name = vp->vehicle().name;
         if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
-        if( vp->vehicle().has_tag( flag_CANT_DRAG ) ) {
-            add_msg( m_info, _( "There's nothing to grab there!" ) );
+        if( vp.part_with_feature( VPFLAG_WALL_MOUNTED, false ) ) {
+            add_msg( m_info, _( "You can't move that, it's attached to the wall." ) );
             return;
         }
+        // Powergrids with more than one part are undraggable.
+        // Offer to split the targeted part off onto its own, making it draggable.
+        if( vp->vehicle().is_powergrid() && vp->vehicle().part_count() > 1 ) {
+            if( !query_yn(
+                    _( "That's part of a power grid.  Separate it from the grid so you can move it?" ) ) ) {
+                return;
+            }
+            get_player_character().pause();
+            vp->vehicle().separate_from_grid( vp.value().mount() );
+            if( const optional_vpart_position split_vp = here.veh_at( grabp ) ) {
+                veh_name = split_vp->vehicle().name;
+            } else {
+                debugmsg( "Lost the part to drag after splitting power grid!" );
+                return;
+            }
+        }
         you.grab( object_type::VEHICLE, grabp - you.pos() );
-        add_msg( _( "You grab the %s." ), vp->vehicle().name );
+        add_msg( _( "You grab the %s." ), veh_name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !here.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
@@ -1001,7 +1050,7 @@ static void smash()
                 }
             }
         }
-        player_character.moves -= move_cost * weary_mult;
+        player_character.mod_moves( -move_cost * weary_mult );
         player_character.recoil = MAX_RECOIL;
 
         if( bash_result.success ) {
@@ -1198,6 +1247,10 @@ static void wait()
 static void sleep()
 {
     avatar &player_character = get_avatar();
+    if( has_vehicle_control( player_character ) ) {
+        add_msg( m_info, _( "You can't sleep while controlling a vehicle." ) );
+        return;
+    }
     if( player_character.is_mounted() ) {
         add_msg( m_info, _( "You cannot sleep while mounted." ) );
         return;
@@ -1326,7 +1379,7 @@ static void sleep()
         }
     }
 
-    player_character.moves = 0;
+    player_character.set_moves( 0 );
     player_character.try_to_sleep( try_sleep_dur );
 }
 
@@ -1712,8 +1765,18 @@ static void cast_spell()
     }
 
     if( !can_cast_spells ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 _( "You can't cast any of the spells you know!" ) );
+        if( player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
+            !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     _( "You can't cast any of the spells you know!" ) );
+        } else if( !player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
+                   player_character.has_flag( json_flag_NO_PSIONICS ) ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     _( "You can't channel any of the powers you know!" ) );
+        } else {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     _( "You can't use any of your powers!" ) );
+        }
     }
 
     const int spell_index = player_character.magic->select_spell( player_character );
@@ -2471,19 +2534,32 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         }
 
         case ACTION_SELECT_FIRE_MODE:
-            if( weapon ) {
-                if( weapon->is_gun() && !weapon->is_gunmod() &&
-                    weapon->gun_all_modes().size() > 1 ) {
+            if( weapon && weapon->is_gun() && !weapon->is_gunmod() ) {
+                if( weapon->gun_all_modes().size() > 1 ) {
                     weapon->gun_cycle_mode();
-                } else if( weapon->has_flag( flag_RELOAD_ONE ) ||
-                           weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                } else {
+                    add_msg( m_info, _( "Your %s has only one firing mode." ), weapon->tname() );
+                }
+            }
+            break;
+
+        case ACTION_SELECT_DEFAULT_AMMO:
+            if( weapon && weapon->is_gun() && !weapon->is_gunmod() ) {
+                if( weapon->has_flag( flag_RELOAD_ONE ) ||
+                    weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                     item::reload_option opt = player_character.select_ammo( weapon, false );
                     if( !opt ) {
                         break;
                     } else if( player_character.ammo_location && opt.ammo == player_character.ammo_location ) {
+                        player_character.add_msg_if_player( _( "Cleared ammo preferences for %s." ), weapon->tname() );
                         player_character.ammo_location = item_location();
-                    } else {
+                    } else if( player_character.has_item( *opt.ammo ) ) {
+                        player_character.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(),
+                                                            weapon->tname() );
                         player_character.ammo_location = opt.ammo;
+                    } else {
+                        player_character.add_msg_if_player(
+                            _( "You need to keep that ammo on you to select it as default ammo." ) );
                     }
                 }
             }
@@ -2554,11 +2630,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SLEEP:
-            if( has_vehicle_control( player_character ) ) {
-                add_msg( m_info, _( "You can't sleep while controlling a vehicle" ) );
-            } else {
-                sleep();
-            }
+            sleep();
             break;
 
         case ACTION_CONTROL_VEHICLE:
@@ -2594,10 +2666,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTOSAFE: {
-            options_manager::cOpt &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
-            add_msg( m_info, autosafemode_option.value_as<bool>()
-                     ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
-            autosafemode_option.setNext();
+            // Set Auto reactivate safe mode to x
+            set_next_option( "AUTOSAFEMODE" );
             break;
         }
 
@@ -2641,7 +2711,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_SUICIDE:
             if( query_yn( _( "Abandon this character?" ) ) ) {
                 if( query_yn( _( "This will kill your character.  Continue?" ) ) ) {
-                    player_character.moves = 0;
+                    player_character.set_moves( 0 );
                     player_character.place_corpse();
                     uquit = QUIT_SUICIDE;
                 }
@@ -2651,7 +2721,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_SAVE:
             if( query_yn( _( "Save and quit?" ) ) ) {
                 if( save() ) {
-                    player_character.moves = 0;
+                    player_character.set_moves( 0 );
                     uquit = QUIT_SAVED;
                 }
             }
@@ -2772,30 +2842,20 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTO_FEATURES:
-            get_options().get_option( "AUTO_FEATURES" ).setNext();
-            get_options().save();
-            //~ Auto Features are now ON/OFF
-            add_msg( _( "%s are now %s." ),
-                     get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
-                     get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
+            // Set Auto Features to x
+            set_next_option( "AUTO_FEATURES" );
             break;
 
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
-            get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
-            get_options().save();
-            //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
-            add_msg( _( "%s is now set to %s." ),
-                     get_options().get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
-                     get_options().get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
+            // Set Auto pulp or butcher to x
+            set_next_option( "AUTO_PULP_BUTCHER" );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_MINING:
-            get_options().get_option( "AUTO_MINING" ).setNext();
-            get_options().save();
-            //~ Auto Mining is now ON/OFF
-            add_msg( _( "%s is now %s." ),
-                     get_options().get_option( "AUTO_MINING" ).getMenuText(),
-                     get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
+            // Set Auto Mining to x
+            set_next_option( "AUTO_MINING" );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_THIEF_MODE:
@@ -2822,21 +2882,14 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTO_FORAGING:
-            get_options().get_option( "AUTO_FORAGING" ).setNext();
-            get_options().save();
-            //~ Auto Foraging is now set to x
-            add_msg( _( "%s is now set to %s." ),
-                     get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
-                     get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+            // Set Auto Foraging to x
+            set_next_option( "AUTO_FORAGING" );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_PICKUP:
-            get_options().get_option( "AUTO_PICKUP" ).setNext();
-            get_options().save();
-            //~ Auto pickup is now set to x
-            add_msg( _( "%s is now set to %s." ),
-                     get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
-                     get_options().get_option( "AUTO_PICKUP" ).getValueName() );
+            // Set Auto pickup enabled to x
+            set_next_option( "AUTO_PICKUP" );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -2899,8 +2952,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_PREVENT_OCCLUSION:
-            get_options().get_option( "PREVENT_OCCLUSION" ).setNext();
-            get_options().save();
+            set_next_option( "PREVENT_OCCLUSION" );
             break;
 
         case ACTION_ZOOM_IN:
@@ -3101,7 +3153,7 @@ bool game::handle_action()
     // This has no action unless we're in a special game mode.
     gamemode->pre_action( act );
 
-    int before_action_moves = player_character.moves;
+    int before_action_moves = player_character.get_moves();
 
     // These actions are allowed while deathcam is active. Registered in game::get_player_input
     if( uquit == QUIT_WATCH || !player_character.is_dead_state() ) {
@@ -3120,9 +3172,9 @@ bool game::handle_action()
     gamemode->post_action( act );
 
     player_character.movecounter = ( !player_character.is_dead_state() ? ( before_action_moves -
-                                     player_character.moves ) : 0 );
+                                     player_character.get_moves() ) : 0 );
     dbg( D_INFO ) << string_format( "%s: [%d] %d - %d = %d", action_ident( act ),
                                     to_turn<int>( calendar::turn ), before_action_moves, player_character.movecounter,
-                                    player_character.moves );
+                                    player_character.get_moves() );
     return !player_character.is_dead_state();
 }

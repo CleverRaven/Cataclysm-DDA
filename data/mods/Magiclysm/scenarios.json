@@ -76,7 +76,14 @@
     "points": 1,
     "description": "You are an exile, whether because of people shunning you because of who you are or from a personal choice.  The dead aren't willing to leave you be.",
     "start_name": "Exiled",
-    "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_lmoe", "sloc_lighthouse_ground", "sloc_cabin_lake" ],
+    "allowed_locs": [
+      "sloc_hermit_shack",
+      "sloc_cabin",
+      "sloc_lmoe",
+      "sloc_lighthouse_ground",
+      "sloc_lighthouse_small_ground",
+      "sloc_cabin_lake"
+    ],
     "professions": [
       "druid",
       "novice_necromancer",
@@ -112,7 +119,7 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "professions": [ "whitedeath_expy" ] },
+    "extend": { "professions": [ "whitedeath_expy", "elven_ceremonial_guard" ] },
     "id": "heli_crash"
   },
   {

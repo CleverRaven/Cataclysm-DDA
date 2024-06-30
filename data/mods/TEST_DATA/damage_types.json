@@ -14,8 +14,8 @@
     "type": "effect_on_condition",
     "id": "EOC_TEST_FIRE_DAMAGE",
     "effect": [
-      { "u_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "source" },
-      { "npc_add_var": "test_fire", "type": "general", "context": "dmg_type_test", "value": "target" }
+      { "u_add_var": "general_dmg_type_test_test_fire", "value": "source" },
+      { "npc_add_var": "general_dmg_type_test_test_fire", "value": "target" }
     ]
   },
   {

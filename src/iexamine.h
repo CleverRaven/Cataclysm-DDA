@@ -10,6 +10,7 @@
 #include <tuple>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -28,7 +29,7 @@ struct iexamine_actor {
 
     explicit iexamine_actor( const std::string &type ) : type( type ) {}
 
-    virtual void load( const JsonObject & ) = 0;
+    virtual void load( const JsonObject &, const std::string & ) = 0;
     virtual void call( Character &, const tripoint & ) const = 0;
     virtual void finalize() const = 0;
 
@@ -48,7 +49,7 @@ namespace iexamine
 
 bool can_hack( Character &you );
 
-bool try_start_hacking( Character &you, const tripoint &examp );
+bool try_start_hacking( Character &you, const tripoint_bub_ms &examp );
 
 void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &montype );
 
@@ -108,7 +109,9 @@ void tree_maple_tapped( Character &you, const tripoint &examp );
 void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
+// TODO: Get rid of untyped overload.
 void part_con( Character &you, const tripoint &examp );
+void part_con( Character &you, const tripoint_bub_ms &examp );
 void water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
@@ -122,6 +125,8 @@ void autoclave_full( Character &, const tripoint &examp );
 void fireplace( Character &you, const tripoint &examp );
 void fvat_empty( Character &you, const tripoint &examp );
 void fvat_full( Character &you, const tripoint &examp );
+void compost_empty( Character &you, const tripoint &examp );
+void compost_full( Character &you, const tripoint &examp );
 void keg( Character &you, const tripoint &examp );
 void reload_furniture( Character &you, const tripoint &examp );
 void curtains( Character &you, const tripoint &examp );
@@ -144,9 +149,9 @@ void workout( Character &you, const tripoint &examp );
 void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
-std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
-bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
+std::optional<tripoint_bub_ms> getGasPumpByNumber( const tripoint_bub_ms &p, int number );
+bool toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units );
+std::optional<tripoint_bub_ms> getNearFilledGasTank( const tripoint_bub_ms &center, int &fuel_units,
         fuel_station_fuel_type &fuel_type );
 
 bool has_keg( const tripoint &pos );
@@ -158,6 +163,7 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id );
+void clear_overgrown( Character &you, const tripoint &examp );
 void harvest_plant_ex( Character &you, const tripoint &examp );
 void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );

@@ -35,7 +35,7 @@ const std::vector<std::pair<std::string, mass>> mass_units = { {
 // them
 struct nutrients {
         /** amount of calories (1/1000s of kcal) this food has */
-        int calories = 0;
+        int64_t calories = 0;
 
         /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
          * values taken from r. */
@@ -66,6 +66,8 @@ struct nutrients {
         bool operator!=( const nutrients &r ) const {
             return !( *this == r );
         }
+
+        nutrients operator-();
 
         nutrients &operator+=( const nutrients &r );
         nutrients &operator-=( const nutrients &r );
@@ -164,6 +166,10 @@ class stomach_contents
          * @return This stomach's capacity, in units::volume
          */
         units::volume capacity( const Character &owner ) const;
+        // These functions need a ref to the stomach's owner because capacity() does
+        bool would_be_engorged_with( const Character &owner, units::volume intake,
+                                     bool calorie_deficit ) const;
+        bool would_be_full_with( const Character &owner, units::volume intake, bool calorie_deficit ) const;
         // how much stomach capacity you have left before you puke from stuffing your gob
         units::volume stomach_remaining( const Character &owner ) const;
         // how much volume is in the stomach_contents

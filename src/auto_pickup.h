@@ -3,20 +3,22 @@
 #define CATA_SRC_AUTO_PICKUP_H
 
 #include <functional>
-#include <iosfwd>
+#include <list>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
-#include "item_location.h"
 #include "item_stack.h"
 
 class JsonArray;
 class JsonObject;
 class JsonOut;
 class item;
+class item_location;
 struct itype;
+struct tripoint;
 
 namespace auto_pickup
 {

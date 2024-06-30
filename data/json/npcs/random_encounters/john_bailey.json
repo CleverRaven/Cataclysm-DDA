@@ -166,6 +166,17 @@
       { "text": "What are you doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
       { "text": "You looking for any kind of work?", "topic": "TALK_RC_John_Bailey_Work" },
+      {
+        "text": "I'm looking for a very specific building in the wilderness.  Have you seen it?",
+        "topic": "TALK_JOHN_BAILEY_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
       { "text": "Not at the moment, thanks.", "topic": "TALK_DONE" }
     ]
   },
@@ -175,8 +186,7 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "u_has_var": "John_Bailey_Convo",
-          "context": "RC_John_Bailey_2",
+          "u_has_var": "RC_John_Bailey_2_John_Bailey_Convo",
           "value": "seen",
           "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
           "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
@@ -184,7 +194,7 @@
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "John_Bailey_Convo", "context": "RC_John_Bailey_2", "value": "seen" } },
+    "speaker_effect": { "effect": { "u_add_var": "RC_John_Bailey_2_John_Bailey_Convo", "value": "seen" } },
     "responses": [
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
@@ -213,11 +223,51 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_JOHN_BAILEY_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  John listens intently",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then shakes his head.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+          "no": ", looking thoughtful.  \"I can't guarantee it, but I'm pretty sure I've seen something like that.  It was far away, and the weather was bad.  Could've been a church or something, but it didn't look right for that.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well, thanks John.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_RefCenter",
     "dynamic_line": "You'd do better to talk to the people here about it.  Seems like a bunch of them gathered here in the early days of <the_cataclysm> and managed to make it through.  It's the biggest bunch of survivors I've found yet, but most of them hunker up in the basement.  I can understand the urge.  We've all been through way too much.  They say they don't have room for more people though, so I'm just here to do some shopping, see if there's work to be done, then move on.",
     "responses": [
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
-      { "text": "Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_RefCenter",
+    "dynamic_line": "You'd do better to talk to the people here about it.  Seems like a bunch of them gathered here in the early days of <the_cataclysm> and managed to make it through.  It's the biggest bunch of survivors I've found yet, but most of them hunker up in the basement.  I can understand the urge.  We've all been through way too much.  They say they don't have room for more people though, so I'm just here to do some shopping, see if there's work to be done, then move on.",
+    "responses": [
+      { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
+      { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
       { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -269,7 +319,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Darius",
-    "dynamic_line": "Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anwyay.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.",
+    "dynamic_line": "Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anyway.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.",
     "responses": [
       { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },

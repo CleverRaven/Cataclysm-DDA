@@ -71,5 +71,19 @@
       { "item": "long_patchwork_scarf", "count": [ 2, 4 ] },
       { "item": "rock", "charges": [ 2, 4 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_NPC_guns",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 100,
+        "charges": 30,
+        "contents-group": "issued_carbine_mods"
+      }
+    ]
   }
 ]

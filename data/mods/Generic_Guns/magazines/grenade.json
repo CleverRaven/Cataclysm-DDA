@@ -6,7 +6,7 @@
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  This one holds grenade cartridges and is too bulky to be worn like other ammo belts.",
     "volume": "10 L",
     "weight": "7800 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",

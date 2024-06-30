@@ -1,9 +1,99 @@
 [
   {
+    "id": "depowered_armor",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light_salvaged"
+  },
+  {
+    "id": "depowered_helmet",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_frame",
+    "type": "MIGRATION",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "power_armor_generator",
+    "type": "MIGRATION",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "power_armor_helmet_basic",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_medium"
+  },
+  {
+    "id": "power_armor_helmet_basic_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_medium"
+  },
+  {
+    "id": "power_armor_helmet_light",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_helmet_light_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_helmet_heavy",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_heavy"
+  },
+  {
+    "id": "power_armor_helmet_heavy_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_heavy"
+  },
+  {
+    "id": "power_armor_basic",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_medium"
+  },
+  {
+    "id": "power_armor_basic_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_medium_on"
+  },
+  {
+    "id": "power_armor_light",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light"
+  },
+  {
+    "id": "power_armor_light_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light_on"
+  },
+  {
+    "id": "power_armor_heavy",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_heavy"
+  },
+  {
+    "id": "power_armor_heavy_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_heavy_on"
+  },
+  {
     "id": "lobotomizer",
     "type": "MIGRATION",
     "replace": "box_medium_wood",
     "contents": [ { "id": "steel_lump", "count": 6 } ]
+  },
+  {
+    "id": "fridge",
+    "type": "MIGRATION",
+    "replace": "apartment_fridge"
+  },
+  {
+    "id": "freezer",
+    "type": "MIGRATION",
+    "replace": "apartment_freezer"
   },
   {
     "id": "mold_plastic",
@@ -14,6 +104,21 @@
     "id": "gambeson_loose",
     "type": "MIGRATION",
     "replace": "gambeson"
+  },
+  {
+    "id": "ksg_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
+  },
+  {
+    "id": "ts12_aux_shotgun2",
+    "type": "MIGRATION",
+    "replace": "m26_mass"
   },
   {
     "id": "gambeson_loose_vest",
@@ -1141,5 +1246,305 @@
     "id": "ak74",
     "type": "MIGRATION",
     "replace": "ak74_semi"
+  },
+  {
+    "id": "bh_m89",
+    "type": "MIGRATION",
+    "replace": "henry_big_boy"
+  },
+  {
+    "id": "rifle_9mm",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_9x18",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_45",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_40",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_380",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_32",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "lemat_revolver",
+    "type": "MIGRATION",
+    "replace": "colt_saa"
+  },
+  {
+    "id": "lemat_revolver_shotgun",
+    "type": "MIGRATION",
+    "replace": "u_shotgun"
+  },
+  {
+    "id": "shot_paper_slug",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_bird",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_00",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_dragon",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "lever_shotgun",
+    "type": "MIGRATION",
+    "replace": "remington_870"
+  },
+  {
+    "id": "famas",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "famasmag",
+    "type": "MIGRATION",
+    "replace": "stanag30"
+  },
+  {
+    "id": "cz75mag_12rd",
+    "type": "MIGRATION",
+    "replace": "cz75mag_16rd"
+  },
+  {
+    "id": "mossberg_500",
+    "type": "MIGRATION",
+    "from_variant": "mossberg_500_security",
+    "replace": "benelli_tsa",
+    "variant": "mossberg_500_security"
+  },
+  {
+    "id": "bottle_suppressor",
+    "type": "MIGRATION",
+    "replace": "filter_suppressor"
+  },
+  {
+    "id": "riv_suppressor",
+    "type": "MIGRATION",
+    "replace": "suppressor"
+  },
+  {
+    "id": "surv_six_shooter",
+    "type": "MIGRATION",
+    "replace": "hptjcpmag"
+  },
+  {
+    "id": "surv_hand_cannon",
+    "type": "MIGRATION",
+    "replace": "hptjhpmag"
+  },
+  {
+    "id": "con_mix",
+    "type": "MIGRATION",
+    "replace": "con_mix_foldable",
+    "reset_item_vars": true
+  },
+  {
+    "id": "raw_lentils",
+    "type": "MIGRATION",
+    "replace": "dry_lentils"
+  },
+  {
+    "id": "uno",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "uno"
+  },
+  {
+    "id": "onirim",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "onirim"
+  },
+  {
+    "id": "cards_magic",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "cards_magic"
+  },
+  {
+    "id": "deck_of_cards_makeshift",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "deck_of_cards_makeshift"
+  },
+  {
+    "id": "mp18",
+    "type": "MIGRATION",
+    "replace": "p08"
+  },
+  {
+    "id": "plr16",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "oa93",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "m231pfw",
+    "type": "MIGRATION",
+    "replace": "ar_pistol"
+  },
+  {
+    "id": "moss_brownie",
+    "type": "MIGRATION",
+    "replace": "ruger_lcr_22"
+  },
+  {
+    "id": "vz58_p",
+    "type": "MIGRATION",
+    "replace": "ak47"
+  },
+  {
+    "id": "vz58ts",
+    "type": "MIGRATION",
+    "replace": "aksemi"
+  },
+  {
+    "id": "vz58mag10",
+    "type": "MIGRATION",
+    "replace": "akmag10"
+  },
+  {
+    "id": "vz58mag30",
+    "type": "MIGRATION",
+    "replace": "akmag30"
+  },
+  {
+    "id": "stowed_fridge",
+    "type": "MIGRATION",
+    "replace": "apartment_fridge"
+  },
+  {
+    "id": "stowed_freezer",
+    "type": "MIGRATION",
+    "replace": "apartment_freezer"
+  },
+  {
+    "id": "stowed_glass_fridge",
+    "type": "MIGRATION",
+    "replace": "glass_fridge"
+  },
+  {
+    "id": "knife_steak",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_steak"
+  },
+  {
+    "id": "knife_paring",
+    "type": "MIGRATION",
+    "replace": "knife_small",
+    "variant": "knife_paring"
+  },
+  {
+    "id": "knife_chef",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_chef"
+  },
+  {
+    "id": "knife_carving",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_carving"
+  },
+  {
+    "id": "knife_bread",
+    "type": "MIGRATION",
+    "replace": "knife_large",
+    "variant": "knife_bread"
+  },
+  {
+    "id": "knife_butcher",
+    "type": "MIGRATION",
+    "replace": "knife_huge",
+    "variant": "knife_butcher"
+  },
+  {
+    "id": "knife_meat_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_meat_cleaver"
+  },
+  {
+    "id": "knife_vegetable_cleaver",
+    "type": "MIGRATION",
+    "replace": "knife_cleaver",
+    "variant": "knife_vegetable_cleaver"
+  },
+  {
+    "id": "spear_survivor",
+    "type": "MIGRATION",
+    "replace": "naginata"
+  },
+  {
+    "id": "j22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "j22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "sw_22",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4"
+  },
+  {
+    "id": "sw22mag",
+    "type": "MIGRATION",
+    "replace": "ruger_mk4_mag"
+  },
+  {
+    "id": "cop_38",
+    "type": "MIGRATION",
+    "replace": "sw_619"
+  },
+  {
+    "id": "fs2000",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "factory_handguard",
+    "type": "MIGRATION",
+    "replace": "grip"
+  },
+  {
+    "id": "mr73",
+    "type": "MIGRATION",
+    "replace": "sw_619"
   }
 ]

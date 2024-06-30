@@ -176,10 +176,6 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
-// Currently used to store the only throwing stats of character dropping this item. Default is -1
-struct dropped_by_character_stats {
-    float throwing;
-};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -235,8 +231,6 @@ class item : public visitable
         {}
 
         ~item() override;
-
-        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -418,6 +412,8 @@ class item : public visitable
         std::string tname( unsigned int quantity = 1,
                            tname::segment_bitset const &segments = tname::default_tname ) const;
         std::string tname( unsigned int quantity, bool with_prefix ) const;
+        static std::string tname( const itype_id &id, unsigned int quantity = 1,
+                                  tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -840,6 +836,8 @@ class item : public visitable
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
+        bool container_type_pockets_empty() const;
+
         // gets all pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
         std::vector<item_pocket *> get_all_contained_pockets();
@@ -1053,7 +1051,8 @@ class item : public visitable
          * @return true if the item is fully rotten and is ready to be removed
          */
         bool process_temperature_rot( float insulation, const tripoint &pos, map &here, Character *carrier,
-                                      temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
+                                      temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f,
+                                      bool watertight_container = false );
 
         /** Set the item to HOT and resets last_temp_check */
         void heat_up();
@@ -1150,6 +1149,11 @@ class item : public visitable
         time_duration brewing_time() const;
         /** The results of fermenting this item. */
         const std::map<itype_id, int> &brewing_results() const;
+
+        /** Time for this item to be fully fermented. */
+        time_duration composting_time() const;
+        /** The results of fermenting this item. */
+        const std::map<itype_id, int> &composting_results() const;
 
         /**
          * Detonates the item and adds remains (if any) to drops.
@@ -1387,14 +1391,15 @@ class item : public visitable
          * This version is for items with durability
          * @return the state of the armor
          */
-        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp );
+        armor_status damage_armor_durability( damage_unit &du, const bodypart_id &bp,
+                                              double enchant_multiplier = 1 );
 
         /**
          * Damage related logic for armor items that warp and transform instead of degrading.
          * Items such as ablative plates are considered with this.
          * @return the state of the armor
          */
-        armor_status damage_armor_transforms( damage_unit &du ) const;
+        armor_status damage_armor_transforms( damage_unit &du, double enchant_multiplier = 1 ) const;
 
         // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
         std::string damage_indicator() const;
@@ -1444,7 +1449,7 @@ class item : public visitable
          */
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
-                      bool recursive = true );
+                      bool watertight_container = false, bool recursive = true );
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
@@ -1630,6 +1635,7 @@ class item : public visitable
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
+        bool is_compostable() const;
         bool is_engine() const;
         bool is_wheel() const;
         bool is_fuel() const;
@@ -1699,12 +1705,14 @@ class item : public visitable
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
@@ -1736,9 +1744,10 @@ class item : public visitable
         bool can_reload_with( const item &ammo, bool now ) const;
 
         /**
-          * Returns true if any of the contents are not frozen or not empty if it's liquid
+          * Returns true if it doesn't have flag NO_UNLOAD,
+          * and any of the contents are not frozen or not empty if it's liquid
           */
-        bool can_unload_liquid() const;
+        bool can_unload() const;
 
         /**
          * Returns true if none of the contents are solid
@@ -1951,6 +1960,13 @@ class item : public visitable
             } );
         }
 
+        template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
+        bool has_any_vitamin( const Container &vitamins ) const {
+            return std::any_of( vitamins.begin(), vitamins.end(), [&]( const T & vitamin ) {
+                return has_vitamin( vitamin );
+            } );
+        }
+
         /**
          * Checks whether item itself has given flag (doesn't check item type or gunmods).
          * Essentially get_flags().count(f).
@@ -1970,6 +1986,9 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
+        /** Idempotent filter setting an item specific fault. */
+        item &set_fault( const fault_id &fault_id );
+
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
 
@@ -1979,6 +1998,9 @@ class item : public visitable
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
+
+        /**Does this item have the specified vitamin*/
+        bool has_vitamin( const vitamin_id &vitamin ) const;
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
@@ -2037,27 +2059,15 @@ class item : public visitable
          */
         bool is_seed() const;
         /**
-         * Time it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        time_duration get_plant_epoch() const;
+        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
-         */
-        std::optional<furn_str_id> get_plant_seedling_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
-         */
-        std::optional<furn_str_id> get_plant_mature_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
-         */
-        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
         /**
          * @name Armor related functions.
@@ -2254,16 +2264,6 @@ class item : public visitable
         int get_encumber( const Character &, const bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
-        /**
-         * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
-         */
-        float get_weight_capacity_modifier() const;
-        /**
-         * Returns the weight capacity bonus (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 0. The bonus is added to the total weight capacity of the character that wears the item.
-         */
-        units::mass get_weight_capacity_bonus() const;
         /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
@@ -2497,7 +2497,9 @@ class item : public visitable
          * @param fuel_efficiency if this is a generator of some kind the efficiency at which it consumes fuel
          * @return amount of ammo consumed which will be between 0 and qty
          */
+        // TODO: Get rid of untyped overload
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
+        int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
@@ -2549,7 +2551,7 @@ class item : public visitable
         itype_id common_ammo_default( bool conversion = true ) const;
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
-        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+        std::set<ammo_effect_str_id> ammo_effects( bool with_ammo = true ) const;
 
         /* Get the name to be used when sorting this item by ammo type */
         std::string ammo_sort_name() const;
@@ -3012,8 +3014,8 @@ class item : public visitable
         const use_function *get_use_internal( const std::string &use_name ) const;
         template<typename Item>
         static Item *get_usable_item_helper( Item &self, const std::string &use_name );
-        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
-                               temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
+        bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation,
+                               temperature_flag flag, float spoil_modifier, bool watertight_container );
         void iterate_covered_body_parts_internal( side s,
                 const std::function<void( const bodypart_str_id & )> &cb ) const;
         void iterate_covered_sub_body_parts_internal( side s,
@@ -3079,6 +3081,10 @@ class item : public visitable
         bool process_blackpowder_fouling( Character *carrier );
         bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
+        bool process_decay_in_air( map &here, Character *carrier, const tripoint &pos,
+                                   int max_air_exposure_hours,
+                                   time_duration time_delta );
+
 
     public:
         static const int INFINITE_CHARGES;
@@ -3087,6 +3093,7 @@ class item : public visitable
         item_components components;
         /** What faults (if any) currently apply to this item */
         cata::heap<std::set<fault_id>> faults;
+        const mtype *get_corpse_mon() const;
 
     private:
         item_contents contents;
@@ -3286,11 +3293,6 @@ inline bool is_crafting_component( const item &component )
  * Filter for crafting components first pass searches excluding undesirable properties.
  */
 bool is_preferred_component( const item &component );
-
-/**
- * Filter for empty crafting components first pass searches
- */
-bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
 

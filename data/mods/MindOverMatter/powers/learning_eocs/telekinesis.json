@@ -1,6 +1,35 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_NOISEMAKER",
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEKINETIC" },
+        { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_NO_PREREQ_POWER_INSIGHT" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('telekinetic_noise')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telekinetic_noise" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "TELEKINETIC" } }, { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telekinetic_noise" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could use a quick burst of telekinetic force to create noise, luring enemies away from you or toward a trapped location, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_SLAM_DOWN",
     "recurrence": [ "12 hours", "24 hours" ],
     "condition": {
@@ -9,8 +38,13 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
-            { "and": [ { "math": [ "u_spell_level('telekinetic_push')", ">=", "4" ] } ] }
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            {
+              "or": [
+                { "math": [ "u_spell_level('telekinetic_push')", ">=", "4" ] },
+                { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] }
+              ]
+            }
           ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
@@ -33,14 +67,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_MOMENTUM",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telekinetic_push')", ">=", "5" ] },
@@ -69,14 +106,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_SLOWFALL",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             { "and": [ { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "6" ] } ] }
           ]
         },
@@ -100,14 +140,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_WAVE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telekinetic_push')", ">=", "7" ] },
@@ -136,14 +179,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_STRENGTH",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -177,14 +223,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_HAMMER",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -218,14 +267,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_VEHICLE_LIFT",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "or": [
                 {
@@ -259,14 +311,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_SHIELD",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telekinetic_wave')", ">=", "8" ] },
@@ -295,14 +350,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_EXPLOSION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -341,14 +399,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_LEVITATION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -381,15 +442,70 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_LEARNING_AEGIS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "id": "EOC_TELEKIN_LEARNING_MEGAKINESIS",
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telekinetic_push')", ">=", "15" ] },
+                    { "math": [ "u_spell_level('telekinetic_pull')", ">=", "15" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "6" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('telekinetic_move_large_weight')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_telekinetic_move_large_weight" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "TELEKINETIC" } },
+        { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_telekinetic_move_large_weight" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could lift truly enormous amounts of weight, hurling huge creatures with a moment of effort, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKIN_LEARNING_AEGIS",
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -429,14 +545,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_EARTHSHAKER",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -447,7 +566,7 @@
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('telekinetic_strength')", ">=", "12" ] },
+                    { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "5" ] },
                     { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "9" ] }
                   ]
                 }

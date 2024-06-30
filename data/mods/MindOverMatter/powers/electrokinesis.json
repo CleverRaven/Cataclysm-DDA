@@ -52,7 +52,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "psi_dazed_zap",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": {
@@ -99,7 +98,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokin_zap_enemies",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -134,7 +132,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokin_melee_attacks",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -246,7 +243,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "stunned",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "//": "Complicated formula here is to produce diminishing returns, since stunning for too long might as well just kill the target.  Level 1 minimum is 46.15 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_duration": {
@@ -326,7 +322,6 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "line",
     "damage_type": "electric",
     "min_damage": {
@@ -374,7 +369,6 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "recharge_vehicle",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -408,7 +402,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_PAIN_IMMUNE_ON",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -444,7 +437,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_electrokinetic_speed_boost",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -479,10 +471,7 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_seven", "hit_self": true },
-      { "id": "electrokinetic_kill_robot_sparks", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "electrokinetic_kill_robot_sparks", "hit_self": false } ],
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": 150,
@@ -500,7 +489,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -2.5,
-    "targeted_monster_species": [ "CYBORG", "ROBOT" ],
+    "targeted_monster_species": [ "CYBORG", "ROBOT", "ROBOT_FLYING" ],
     "ignored_monster_species": [ "PSI_NULL", "YRAX_CONSTRUCT" ]
   },
   {
@@ -528,7 +517,7 @@
     "max_range": 50,
     "sound_type": "combat",
     "sound_description": "zzzzaaaaaapp!",
-    "targeted_monster_species": [ "CYBORG", "ROBOT" ],
+    "targeted_monster_species": [ "CYBORG", "ROBOT", "ROBOT_FLYING" ],
     "ignored_monster_species": [ "YRAX_CONSTRUCT", "PSI_NULL" ]
   },
   {
@@ -545,7 +534,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_ELECTROKIN_ROBOT_INTERFACE",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
@@ -672,10 +660,7 @@
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_nine", "hit_self": true },
-      { "id": "electrokinetic_lightning_blast_trail", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "electrokinetic_lightning_blast_trail", "hit_self": false } ],
     "shape": "blast",
     "damage_type": "electric",
     "min_damage": {
@@ -770,7 +755,6 @@
     "effect": "revive",
     "effect_str": "ZOMBIE",
     "extra_effects": [
-      { "id": "psionic_drained_difficulty_ten", "hit_self": true },
       { "id": "electrokinetic_revive_charm", "hit_self": false },
       { "id": "electrokinetic_revive_heal", "hit_self": false },
       { "id": "electrokinetic_revive_debuff", "hit_self": false }

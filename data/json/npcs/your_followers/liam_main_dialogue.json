@@ -1,9 +1,9 @@
 [
   {
-    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities" ],
+    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "is_by_radio": " *pshhhttt* This big turtle, I read you loud and clear, red burrito.",
+      "is_by_radio": " *pshhhttt* This is big turtle, I read you loud and clear, red burrito.",
       "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
     },
     "responses": [
@@ -15,6 +15,7 @@
         "effect": "reveal_stats"
       },
       { "text": "There's something I want you to do.", "topic": "TALK_Liam_ORDERS" },
+      { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
       {
         "text": "I just wanted to talk for a bit.",
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
@@ -41,36 +42,6 @@
     "dynamic_line": "As you know, I am experienced in practically every low-wage job on the Eastern seaboard, and I'm probably a regional leading expert on video games.  My dad made me learn archery and I kinda kept it up.  What else is there?"
   },
   {
-    "id": [ "TALK_Liam_SOCIAL" ],
-    "type": "talk_topic",
-    "dynamic_line": "Any time, what's on your mind?",
-    "responses": [
-      { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
-      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      {
-        "text": "I just wanted to chat, you know.  To relax.",
-        "topic": "TALK_FRIEND_Liam_CHAT",
-        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
-      },
-      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_FRIEND_Liam_CHAT",
-    "dynamic_line": "Sure.  Can I tell you about this idea I had for a comic I'm never gonna make?",
-    "//": "TK: custom chat topics here that actually include small talk that expands Liam's character, while still giving the socialize bonus.",
-    "responses": [
-      {
-        "text": "<chitchat_player_responses>",
-        "topic": "TALK_DONE",
-        "switch": true,
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
-      }
-    ]
-  },
-  {
     "id": [ "TALK_Liam_ORDERS" ],
     "type": "talk_topic",
     "dynamic_line": [
@@ -87,7 +58,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               { "npc_has_trait": "HALLUCINATION" },
               "u_driving",
@@ -107,7 +78,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               "u_driving",
               "npc_driving"
@@ -197,7 +168,7 @@
   {
     "id": "TALK_TRAIN_SEMINAR_PERSUADE_Liam",
     "type": "talk_topic",
-    "dynamic_line": "A… seminar?  About what, how not to burn yourself on the frier at FoodPlace?",
+    "dynamic_line": "A… seminar?  About what, how not to burn yourself on the frier at Foodplace?",
     "responses": [
       {
         "text": "Y'know, you have more useful skills than you think.",
@@ -210,54 +181,9 @@
     ]
   },
   {
+    "id": "TALK_Liam_Callsigns",
     "type": "talk_topic",
-    "id": "BGSS_Liam1",
-    "dynamic_line": "Well, sure.  I dunno what more there is to tell, we've known each other for ages.",
-    "responses": [
-      { "text": "We hadn't caught up in a while before <the_cataclysm>.  What've you been doing?", "topic": "BGSS_Liam2" },
-      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "BGSS_Liam2",
-    "dynamic_line": "*shrugs.  \"Same as I was when we used to hang out more, mostly.  I quit my job at FoodPlace a while back, got tired of the stupid outfits.  Worked doing labor in construction for a bit, but I didn't like my boss so I ditched it.  Got a job doing deliveries for Amazon, which was absolutely shitty, but I managed to jump from that to a bit of a better delivery job for a smaller company.  It was actually going pretty good before everything happened.\"",
-    "responses": [
-      { "text": "How did you make it through the cataclysm?", "topic": "BGSS_Liam3" },
-      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "BGSS_Liam3",
-    "dynamic_line": "I wanna say it was a hell of a story, but really, I was on the way back to Boston from a delivery and a thing about the riots on the radio.  I was close to the cabin so I just thought, 'this is starting to sound really fuckin bad.'  I called in sick and took a few days out there.  By the time I had to think about going back to work, we were into that wild time when half the people were trying to keep things running and the other half were trying to burn everything down.  I shut the blinds and stayed in, until Chris showed up acting like a freak.",
-    "responses": [
-      { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "BGSS_Liam_Expertise",
-    "dynamic_line": "It doesn't feel that way, but I guess so.  I don't know if I ever told you, but my dad was quite the weirdo prepper.  He built the cabin and when I was a kid we'd come out here and do drills for the end of the world.  It's part of why I was kinda wacked out on apocalypse stuff when you and I first met, back when we made the plan to come out here.  He taught me archery and some survival skills but I never really took to it, partly because my ol' man was a real piece of work.\"  He stares off for a minute.  \"To be honest, though, now that we're in the middle of a real-ass apocalypse, I can see a lot of what he taught me was just crap anyway.\"",
-    "responses": [
-      { "text": "What happened to your father?  You never talked about him much.", "topic": "BGSS_Liam_Father" },
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "BGSS_Liam_Father",
-    "dynamic_line": "*snorts.  \"I was pretty low-contact with him the last couple years.  He got me that job in construction and when I left it, he tried to hit me, found out I'm not so much of a pushover as when I was fifteen.  Asshole.  I was still texting my mom a bit, apparently when things went to shit, he tried to join the riots.  I hope he got gunned down.\"",
-    "responses": [
-      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
-      { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": "Roger that red burrito, that's a ten-forward on the callsigns.  Glad you like 'em.",
+    "responses": [ { "text": "You're weird, my friend.  Red burrito, out.", "topic": "TALK_DONE" } ]
   }
 ]

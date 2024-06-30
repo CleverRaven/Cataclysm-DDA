@@ -9,7 +9,7 @@
       { "item": "evac_pamphlet", "prob": 99 },
       { "item": "jacket_evac", "prob": 75 },
       { "item": "emer_blanket", "prob": 75 },
-      { "item": "mask_gas", "prob": 2 },
+      { "group": "gasmask_bag_full", "prob": 2 },
       { "item": "flashlight", "prob": 50 },
       { "item": "light_disposable_cell", "prob": 10 },
       { "item": "lighter", "prob": 20, "charges": [ 60, 100 ] },
@@ -37,7 +37,7 @@
       { "item": "evac_pamphlet", "prob": 95 },
       { "item": "jacket_evac", "prob": 15 },
       { "item": "emer_blanket", "prob": 45 },
-      { "item": "mask_gas", "prob": 1 },
+      { "group": "gasmask_bag_full", "prob": 1 },
       { "item": "flashlight", "prob": 10 },
       { "item": "wrapper", "prob": 50 },
       { "item": "wrapper_foil", "prob": 2 },
@@ -154,12 +154,12 @@
             "collection": [
               { "item": "detergent", "count": [ 0, 2 ] },
               { "item": "brush", "prob": 85 },
-              { "item": "bleach", "charges-min": 1, "prob": 45 },
+              { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
-              { "item": "ammonia_hydroxide", "charges-min": 1, "prob": 15 },
-              { "item": "chem_washing_soda", "charges-min": 1, "prob": 10 }
+              { "item": "ammonia_hydroxide", "charges": [ 1, -1 ], "prob": 15 },
+              { "item": "chem_washing_soda", "charges": [ 1, -1 ], "prob": 10 }
             ],
             "prob": 15
           },

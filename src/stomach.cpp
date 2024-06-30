@@ -150,6 +150,18 @@ bool nutrients::operator==( const nutrients &r ) const
     return true;
 }
 
+nutrients nutrients::operator-()
+{
+    nutrients negative_copy = *this;
+    negative_copy.calories *= -1;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         negative_copy.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) * -1;
+    }
+    return negative_copy;
+}
+
 nutrients &nutrients::operator+=( const nutrients &r )
 {
     if( !finalized || !r.finalized ) {
@@ -210,7 +222,7 @@ nutrients &nutrients::operator/=( int r )
     if( !finalized ) {
         debugmsg( "Nutrients not finalized when -= called!" );
     }
-    calories = divide_round_up( calories, r );
+    calories = divide_round_up<int64_t>( calories, r );
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
         here = divide_round_up( std::get<int>( here ), r );
@@ -305,12 +317,26 @@ void stomach_contents::deserialize( const JsonObject &jo )
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
     return owner.enchantment_cache->modify_value( enchant_vals::mod::STOMACH_SIZE_MULTIPLIER,
-            max_volume * owner.mutation_value( "stomach_size_multiplier" ) );
+            max_volume );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
 {
     return capacity( owner ) - contents - water;
+}
+
+bool stomach_contents::would_be_engorged_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 1.0 ) || ( fullness_ratio >= 5.0 / 6.0 );
+}
+
+bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) || ( fullness_ratio >= 3.0 / 4.0 );
 }
 
 units::volume stomach_contents::contains() const
@@ -348,7 +374,7 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
     int kcal_fraction = std::lround( nutr.kcal() * rates.percent_kcal );
-    digested.nutr.calories = half_hours * clamp( rates.min_calories, kcal_fraction * 1000,
+    digested.nutr.calories = half_hours * clamp<int64_t>( rates.min_calories, kcal_fraction * 1000,
                              nutr.calories );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.

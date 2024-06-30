@@ -60,7 +60,7 @@
             { "math": [ "u_glass_health_arm_r", "=", "u_hp('arm_r')" ] },
             { "math": [ "u_glass_health_leg_l", "=", "u_hp('leg_l')" ] },
             { "math": [ "u_glass_health_leg_r", "=", "u_hp('leg_r')" ] },
-            { "math": [ "u_glass_fatigue", "=", "u_val('fatigue')" ] }
+            { "math": [ "u_glass_sleepiness", "=", "u_val('sleepiness')" ] }
           ]
         },
         {
@@ -383,7 +383,7 @@
       { "math": [ "u_hp('arm_r')", "=", "u_glass_health_arm_r" ] },
       { "math": [ "u_hp('leg_l')", "=", "u_glass_health_leg_l" ] },
       { "math": [ "u_hp('leg_r')", "=", "u_glass_health_leg_r" ] },
-      { "math": [ "u_val('fatigue')", "=", "u_glass_fatigue" ] },
+      { "math": [ "u_val('sleepiness')", "=", "u_glass_sleepiness" ] },
       { "u_lose_morale": "morale_vitri_placid" },
       {
         "u_message": "You suck in a deep, ragged draught of air that burns in your chest.  Have you been holding your breath?  You must have been.  All you can hear for a moment is your heart hammering in your ears.  It takes a while to settle down.",

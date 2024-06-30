@@ -146,8 +146,8 @@ struct islot_comestible {
         /** stimulant effect */
         int stim = 0;
 
-        /**fatigue altering effect*/
-        int fatigue_mod = 0;
+        /**sleepiness altering effect*/
+        int sleepiness_mod = 0;
 
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
@@ -171,7 +171,7 @@ struct islot_comestible {
         std::vector<effect_on_condition_id> consumption_eocs;
 
         /**List of diseases carried by this comestible and their associated probability*/
-        std::map<diseasetype_id, int> contamination;
+        std::map<diseasetype_id, float> contamination;
 
         // Materials to generate the below
         std::map<material_id, int> materials;
@@ -213,6 +213,19 @@ struct islot_brewable {
     std::map<itype_id, int> results;
 
     /** How long for this brew to ferment. */
+    time_duration time = 0_turns;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+struct islot_compostable {
+    /** What are the results of fermenting this item? */
+    std::map<itype_id, int> results;
+
+    /** How long for this compost to ferment. */
     time_duration time = 0_turns;
 
     bool was_loaded = false;
@@ -385,14 +398,6 @@ struct islot_armor {
          * How much warmth this item provides.
          */
         int warmth = 0;
-        /**
-        * Factor modifying weight capacity
-        */
-        float weight_capacity_modifier = 1.0f;
-        /**
-        * Bonus to weight capacity
-        */
-        units::mass weight_capacity_bonus = 0_gram;
         /**
          * Whether this is a power armor item.
          */
@@ -734,7 +739,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Effects that are applied to the ammo when fired.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Location for gun mods.
      * Key is the location (untranslated!), value is the number of mods
@@ -988,6 +993,10 @@ struct islot_ammo : common_ranged_data {
      */
     int count = 1;
     /**
+     * Whether this multi-projectile shot has its effects applied to all projectiles
+     */
+    bool multi_projectile_effects = false;
+    /**
      * Spread/dispersion between projectiles fired from the same round.
      */
     int shot_spread = 0;
@@ -999,7 +1008,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * TODO: document me.
      */
-    std::set<std::string> ammo_effects;
+    std::set<ammo_effect_str_id> ammo_effects;
     /**
      * Base loudness of ammo (possibly modified by gun/gunmods). If unspecified an
      * appropriate value is calculated based upon the other properties of the ammo
@@ -1008,6 +1017,9 @@ struct islot_ammo : common_ranged_data {
 
     /** Recoil (per shot), roughly equivalent to kinetic energy (in Joules) */
     int recoil = 0;
+
+    /** Percentage of chance to recover the ammo after a shot*/
+    int recovery_chance = 0;
 
     /**
      * Should this ammo explode in fire?
@@ -1118,6 +1130,7 @@ struct islot_seed {
 
 enum condition_type {
     FLAG,
+    VITAMIN,
     COMPONENT_ID,
     COMPONENT_ID_SUBSTRING,
     VAR,
@@ -1169,7 +1182,7 @@ struct memory_card_info {
     int recipes_amount;
     int recipes_level_min;
     int recipes_level_max;
-    std::set<std::string> recipes_categories;
+    std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
 };
 
@@ -1187,6 +1200,7 @@ struct itype {
         cata::value_ptr<islot_tool> tool;
         cata::value_ptr<islot_comestible> comestible;
         cata::value_ptr<islot_brewable> brewable;
+        cata::value_ptr<islot_compostable> compostable;
         cata::value_ptr<islot_armor> armor;
         cata::value_ptr<islot_pet_armor> pet_armor;
         cata::value_ptr<islot_book> book;

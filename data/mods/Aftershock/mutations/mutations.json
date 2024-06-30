@@ -5,9 +5,70 @@
     "name": { "str": "PrepNet Tag" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a Prepnet.  It is a bug if you have it.",
+    "description": "NPC trait that makes monsters see it as a PrepNet.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_SYSTEM_SECURITY",
+    "name": { "str": "Local System Security" },
+    "points": 0,
+    "description": "You are a duly sworn law enforcement officer, with jurisdiction that technically extends to the Salus System.  Whether you can find anyone who that matters to is questionable.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_PINKERTON",
+    "name": { "str": "Pinkerton" },
+    "points": 0,
+    "description": "You are an UICA affiliated private-security professional, with jurisdiction that technically extends to the Salus System.  Whether you can find anyone who that matters to is questionable.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_TRAVELING_DOCTOR",
+    "name": { "str": "MD" },
+    "points": 0,
+    "description": "You're a doctor who went out to space and has somehow ended up out on the frontier in the Salus System.  At least out here you get a lot more hands on life or death work compared to the core UICA worlds.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_REDISCOVERED_TRIBAL",
+    "name": { "str": "Rediscovered Tribal" },
+    "points": 0,
+    "description": "Some worlds maintained human life but lost technologically advanced civilization.  As these worlds get rediscovered some organizations leave the worlds to develop, while others see a source of cheap labor.  Whether you snuck onto a ship or were Shanghaied onto one you've somehow ended up on the hell that is Salus IV.  At least you have some experience surviving outside of what these spacers call 'civilization'.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_UICA_INSPECTOR",
+    "name": { "str": "UICA Inspector" },
+    "points": 0,
+    "description": "You are a UICA Inspector from a civilized part of space.  You have the authority to investigate under a variety of different legal frameworks, UICA, planetary, corporate, system, pre-Discontinuity legal systems for worlds that have only recently been re-discovered.  All of this means that you are nearly a law unto yourself, though you wonder how much that matters in a place like Salus IV outside of maybe Port Augustmoon.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_UICA_SECRET_POLICE",
+    "name": { "str": "UICA Astrographic and Gatepoint Agent" },
+    "points": 0,
+    "description": "As a member of the Astrographic and Gatepoint Division you are responsible for spreading the boundaries of the Frontiers and protecting interstellar travel.  This gives you wide ranging latitude when it comes to addressing threats to interstellar travel.  Does this technically make you a member of UICA's very own secret police?  Yes, yes it does.",
+    "cancels": [ "PROF_HUB01_ANCILLIARY" ],
+    "valid": false,
+    "purifiable": false,
+    "profession": true
   },
   {
     "type": "mutation_category",
@@ -82,7 +143,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
-    "consume_time_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ],
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_TENDRILS" ],
@@ -440,7 +501,7 @@
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 60%.",
     "category": [ "MASTODON" ],
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -523,7 +584,7 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_sleep": 550,
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1.1 } ] } ],
     "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
@@ -793,6 +854,16 @@
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
     "bodytemp_modifiers": [ -850, 850 ],
     "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_LEADERSHIP",
+    "name": "Empathic Leadership",
+    "description": "You have a natural talent for leadership and can easily see yourself in others.  Quite literally.  In fact, you can swap control to any other character that follows you.",
+    "points": 5,
     "valid": false,
     "purifiable": false,
     "profession": true

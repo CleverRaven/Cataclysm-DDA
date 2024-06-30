@@ -23,7 +23,7 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
     "changes_to": [ "ARVORE_SKIN_3" ],
-    "thirst_modifier": -0.3,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.3 } ] } ],
     "integrated_armor": [ "integrated_vegital_cuticle" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -53,7 +53,7 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_bark_skin" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "id": "ARVORE_MOSS",
@@ -63,7 +63,7 @@
     "visibility": 5,
     "ugliness": 3,
     "bodytemp_modifiers": [ 250, 600 ],
-    "bodytemp_sleep": 250,
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 0.5 } ] } ],
     "wet_protection": [
       { "part": "head", "neutral": 4, "good": 5 },
       { "part": "leg_l", "neutral": 8, "good": 15 },
@@ -505,7 +505,7 @@
     "player_display": false,
     "valid": false,
     "integrated_armor": [ "integrated_arvore_claws" ],
-    "crafting_speed_multiplier": 0.5
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -896,13 +896,7 @@
     "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "metabolism_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
-    "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "//": "Healing values copied from the Regeneration mutation",
-    "attackcost_modifier": 900,
     "override_look": { "id": "t_tree", "tile_category": "terrain" },
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
     "wet_protection": [
@@ -948,7 +942,20 @@
       "HOMULLUS"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
+    "enchantments": [
+      "ench_arvore_tree_form",
+      "ench_arvore_tree_reduce_thirst",
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": 900 },
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

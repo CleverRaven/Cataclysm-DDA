@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -13,9 +14,10 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 
-#include "action.h"
+#include "activity_actor.h"
 #include "activity_type.h"
 #include "advanced_inv.h"
 #include "avatar.h"
@@ -26,6 +28,8 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -34,15 +38,15 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "damage.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
-#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -50,6 +54,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -62,14 +67,11 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
@@ -80,7 +82,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ranged.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -89,6 +91,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -97,6 +100,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 #include "weather.h"
 
 enum class creature_size : int;
@@ -140,7 +144,6 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
-static const activity_id ACT_MUTANT_TREE_COMMUNION( "ACT_MUTANT_TREE_COMMUNION" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -191,6 +194,13 @@ static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
+static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
+static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
+static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
@@ -215,6 +225,11 @@ static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
+static const morale_type morale_butcher( "morale_butcher" );
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_game( "morale_game" );
+static const morale_type morale_tree_communion( "morale_tree_communion" );
+
 static const proficiency_id proficiency_prof_dissect_humans( "prof_dissect_humans" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -229,11 +244,12 @@ static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_tree( "t_tree" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -255,7 +271,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
-    { ACT_MUTANT_TREE_COMMUNION, mutant_tree_communion_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
@@ -272,15 +287,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ATM, atm_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
-    { ACT_BLEED, butcher_do_turn },
-    { ACT_BUTCHER, butcher_do_turn },
-    { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIELD_DRESS, butcher_do_turn },
-    { ACT_SKIN, butcher_do_turn },
-    { ACT_QUARTER, butcher_do_turn },
-    { ACT_DISMEMBER, butcher_do_turn },
-    { ACT_DISSECT, butcher_do_turn },
+    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
@@ -295,6 +303,14 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
     { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
     { ACT_MULTIPLE_READ, multiple_read_do_turn },
+    { ACT_BLEED, butcher_do_turn },
+    { ACT_BUTCHER, butcher_do_turn },
+    { ACT_BUTCHER_FULL, butcher_do_turn },
+    { ACT_FIELD_DRESS, butcher_do_turn },
+    { ACT_SKIN, butcher_do_turn },
+    { ACT_QUARTER, butcher_do_turn },
+    { ACT_DISMEMBER, butcher_do_turn },
+    { ACT_DISSECT, butcher_do_turn },
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -420,6 +436,58 @@ static bool butcher_dissect_item( item &what, const tripoint &pos,
         here.add_item( pos, what );
     }
     return success;
+}
+
+static std::string butcher_progress_var( const butcher_type action )
+{
+    return io::enum_to_string( action ) + "_progress";
+}
+
+// How much of `butcher_type` has already been completed, in range [0..1], 0=not started yet, 1=completed.
+// used for resuming previously started butchery
+double butcher_get_progress( const item &corpse_item, const butcher_type action )
+{
+    return corpse_item.get_var( butcher_progress_var( action ), 0.0 );
+}
+
+static butcher_type get_butcher_type( player_activity *act )
+{
+    butcher_type action = butcher_type::QUICK;
+    if( act->id() == ACT_BUTCHER ) {
+        action = butcher_type::QUICK;
+    } else if( act->id() == ACT_BUTCHER_FULL ) {
+        action = butcher_type::FULL;
+    } else if( act->id() == ACT_FIELD_DRESS ) {
+        action = butcher_type::FIELD_DRESS;
+    } else if( act->id() == ACT_QUARTER ) {
+        action = butcher_type::QUARTER;
+    } else if( act->id() == ACT_DISSECT ) {
+        action = butcher_type::DISSECT;
+    } else if( act->id() == ACT_BLEED ) {
+        action = butcher_type::BLEED;
+    } else if( act->id() == ACT_SKIN ) {
+        action = butcher_type::SKIN;
+    } else if( act->id() == ACT_DISMEMBER ) {
+        action = butcher_type::DISMEMBER;
+    }
+    return action;
+}
+
+void activity_handlers::butcher_do_turn( player_activity *act, Character * )
+{
+    if( act->targets.empty() || act->moves_total <= 0 || act->moves_left <= 0 ) {
+        return;
+    }
+    const butcher_type action = get_butcher_type( act );
+    const double progress = static_cast<double>( act->moves_total - act->moves_left ) /
+                            act->moves_total;
+    item_location target = act->targets.back();
+    if( !target || !target->is_corpse() ) {
+        act->set_to_null();
+        return;
+    }
+    item &corpse_item = *target;
+    corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
 static void set_up_butchery( player_activity &act, Character &you, butcher_type action )
@@ -567,7 +635,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                    get_player_character().add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
                 } else {
                     //player has the dissect_humans prof, so they're familiar with dissection. reference this in their refusal to butcher
                     you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
@@ -576,7 +644,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //if not the avatar, don't ask, just do it and suffer without comment
-                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
             }
         } else {
             //this runs if the butcherer does NOT have prof_dissect_humans
@@ -595,7 +663,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                    get_player_character().add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
                 } else {
                     //player doesn't have dissect_humans, so just give a regular refusal to mess with the corpse
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
@@ -604,7 +672,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //again, don't complain about it, or inform about it, just do it
-                you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
             }
         }
     }
@@ -649,7 +717,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+                    get_player_character().add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
                 } else {
                     //standard refusal to butcher
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
@@ -658,11 +726,13 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //if we're not player and don't have dissect_humans, just add morale penalty.
-                you.add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
+                you.add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
             }
         }
     }
-    act.moves_left = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
+    const double progress = butcher_get_progress( corpse_item, action );
+    act.moves_total = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
+    act.moves_left = act.moves_total - static_cast<int>( act.moves_total * progress );
 
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
@@ -1175,14 +1245,16 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         const int item_charges = monster_weight_remaining / to_gram( item::find_type(
                                      leftover_id )->weight );
         if( item_charges > 0 ) {
-            item ruined_parts( leftover_id, calendar::turn, item_charges );
+            item ruined_parts( leftover_id, calendar::turn );
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
             if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
             }
-            here.add_item_or_charges( you.pos(), ruined_parts );
+            for( int i = 0; i < item_charges; ++i ) {
+                here.add_item_or_charges( you.pos(), ruined_parts );
+            }
         }
     }
 
@@ -1250,24 +1322,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         return;
     }
 
-    butcher_type action = butcher_type::QUICK;
-    if( act->id() == ACT_BUTCHER ) {
-        action = butcher_type::QUICK;
-    } else if( act->id() == ACT_BUTCHER_FULL ) {
-        action = butcher_type::FULL;
-    } else if( act->id() == ACT_FIELD_DRESS ) {
-        action = butcher_type::FIELD_DRESS;
-    } else if( act->id() == ACT_QUARTER ) {
-        action = butcher_type::QUARTER;
-    } else if( act->id() == ACT_DISSECT ) {
-        action = butcher_type::DISSECT;
-    } else if( act->id() == ACT_BLEED ) {
-        action = butcher_type::BLEED;
-    } else if( act->id() == ACT_SKIN ) {
-        action = butcher_type::SKIN;
-    } else if( act->id() == ACT_DISMEMBER ) {
-        action = butcher_type::DISMEMBER;
-    }
+    const butcher_type action = get_butcher_type( act );
 
     // index is a bool that determines if we are ready to start the next target
     if( act->index ) {
@@ -1283,6 +1338,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
     // Dump items from the "container" before destroying it.
     // Presumably, the character would be doing this while setting up for butchering.
     corpse_item.spill_contents( target.position() );
+    corpse_item.erase_var( butcher_progress_var( action ) );
 
     if( action == butcher_type::QUARTER ) {
         butchery_quarter( &corpse_item, *you );
@@ -1404,6 +1460,9 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
     }
 
     you->recoil = MAX_RECOIL;
+
+    get_event_bus().send<event_type::character_butchered_corpse>( you->getID(),
+            corpse_item.get_mtype()->id, act->id().str() );
 
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
@@ -1562,10 +1621,19 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            if( here.furn( source_pos ) == f_fvat_wood_full ) {
-                                here.furn_set( source_pos, f_fvat_wood_empty );
+                            if( here.furn( source_pos ) == furn_f_fvat_wood_full ) {
+                                here.furn_set( source_pos, furn_f_fvat_wood_empty );
                             } else {
-                                here.furn_set( source_pos, f_fvat_empty );
+                                here.furn_set( source_pos, furn_f_fvat_empty );
+                            }
+                        }
+                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the tank." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                                here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
                     }
@@ -1592,58 +1660,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();
         return;
-    }
-}
-
-void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Character *you )
-{
-    int communioncycles = 0;
-    // The mutant tree is intelligent, but communicating via mycelium is slow
-    if( calendar::once_every( 2_minutes ) ) {
-        bool adjacent_mutant_tree = false;
-        map &here = get_map();
-        for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
-            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
-                adjacent_mutant_tree = true;
-            }
-        }
-        if( adjacent_mutant_tree == false ) {
-            if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
-                you->add_msg_if_player( m_bad,
-                                        _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
-                you->add_morale( MORALE_FEELING_BAD, -10, 10, 6_hours, 2_hours );
-            } else {
-                you->add_msg_if_player(
-                    _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );
-            }
-            act->set_to_null();
-        }
-        if( one_in( 128 ) ) {
-            communioncycles += 1;
-            if( one_in( 256 ) ) {
-                if( you->has_effect( effect_social_dissatisfied ) ) {
-                    you->remove_effect( effect_social_dissatisfied );
-                }
-                if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
-                    !you->has_effect( effect_social_satisfied ) ) {
-                    you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
-                }
-                if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
-                    !you->has_effect( effect_asocial_dissatisfied ) ) {
-                    you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
-                }
-            }
-            you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
-                                        translation() ) );
-            you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
-            you->mod_daily_health( rng( 0, 1 ), 5 );
-            if( communioncycles >= 20 ) {
-                you->add_msg_if_player(
-                    _( "You retract your roots, feeling a lingering sense of warmth after your communion." ) );
-                you->add_morale( MORALE_TREE_COMMUNION, 20, 20, 18_hours, 8_hours );
-                act->set_to_null();
-            }
-        }
     }
 }
 
@@ -1674,7 +1690,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, Charact
             morale_max_bonus *= mod;
         }
         // Playing alone - 1 points/min, almost 2 hours to fill
-        you->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
+        you->add_morale( morale_game, morale_bonus, morale_max_bonus );
     }
 }
 
@@ -1695,7 +1711,7 @@ void activity_handlers::generic_game_finish( player_activity *act, Character *yo
             you->add_msg_if_player( m_good, _( "You won!" ) );
             you->add_msg_if_npc( m_good, _( "<npcname> won!" ) );
         }
-        you->add_morale( MORALE_GAME, 4 * mod );
+        you->add_morale( morale_game, 4 * mod );
     }
     act->set_to_null();
 }
@@ -1730,7 +1746,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
-            here.ter( pos ) != t_tree ) {
+            here.ter( pos ) != ter_t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
             if( you->has_trait( trait_STOCKY_TROGLO ) ) {
@@ -1836,12 +1852,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             moves += 100 / std::max( 0.25f,
                                      stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->moves = std::min( 0, you->moves - moves );
+                you->set_moves( std::min( 0, you->get_moves() - moves ) );
                 return;
             }
-            if( moves >= you->moves ) {
+            if( moves >= you->get_moves() ) {
                 // Enough for this turn;
-                you->moves -= moves;
+                you->mod_moves( -moves );
                 return;
             }
         }
@@ -1865,6 +1881,7 @@ void activity_handlers::pulp_finish( player_activity *act, Character *you )
     if( you->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( you );
         guy->revert_after_activity();
+        guy->pulp_location.reset();
     } else {
         act->set_to_null();
     }
@@ -1964,7 +1981,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         return;
     }
 
-    you->mod_moves( -you->moves );
+    you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( you->pos() );
     act->moves_left -= light * 100;
@@ -2105,7 +2122,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = here.veh_at( here.getlocal( tripoint( act->values[0],
+    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
     veh_interact::complete_vehicle( *you );
@@ -2167,7 +2184,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
             add_msg( m_info, _( "You've charged the battery completely." ) );
         }
     }
-    if( you->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
@@ -2189,17 +2206,17 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     if( calendar::once_every( 1_minutes ) ) {
         if( vibrator_item.ammo_remaining( you ) > 0 ) {
             vibrator_item.ammo_consume( 1, you->pos(), you );
-            you->add_morale( MORALE_FEELING_GOOD, 3, 40 );
+            you->add_morale( morale_feeling_good, 3, 40 );
             if( vibrator_item.ammo_remaining( you ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
             //twenty minutes to fill
-            you->add_morale( MORALE_FEELING_GOOD, 1, 40 );
+            you->add_morale( morale_feeling_good, 1, 40 );
         }
     }
     // Dead Tired: different kind of relaxation needed
-    if( you->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too tired to continue." ) );
     }
@@ -2597,10 +2614,15 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             }
         }
 
-        title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
-                                ammo_remaining, used_tool->ammo_capacity( current_ammo, true ),
-                                ammo_name,
-                                used_tool->ammo_required() );
+        title += used_tool->is_tool() && used_tool->has_flag( flag_USES_NEARBY_AMMO )
+                 ? string_format( _( "Charges: <color_light_blue>%s</color> %s (%s per use)\n" ),
+                                  ammo_remaining,
+                                  ammo_name,
+                                  used_tool->ammo_required() )
+                 : string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
+                                  ammo_remaining, used_tool->ammo_capacity( current_ammo, true ),
+                                  ammo_name,
+                                  used_tool->ammo_required() );
         title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
@@ -2721,6 +2743,11 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
     }
+    for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
+        const double var_value_multiplier = var_value;
+        const double var_oldvalue = target.get_var( var_name, 0.0 );
+        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
+    }
 
     const std::string start_durability = target.durability_indicator( true );
 
@@ -2802,12 +2829,10 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 
     recipe_id id( act->name );
     std::string itname;
-    const inventory &inven = you->crafting_inventory();
-    const std::vector<Character *> &helpers = you->get_crafting_helpers();
     if( act->index != 0 ) {
         // act->name is recipe_id
         itname = id->result_name();
-        if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+        if( !you->get_group_available_recipes().contains( &id.obj() ) ) {
             add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
             return;
         }
@@ -2824,8 +2849,8 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     for( const auto& [_, r] : recipe_dict ) {
         if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
             is_byproduct = true;
-            // If if exists, do I know it?
-            if( you->get_available_recipes( inven, &helpers ).contains( &r ) ) {
+            // If a recipe exists, does my group know it?
+            if( you->get_group_available_recipes().contains( &r ) ) {
                 can_craft = true;
                 break;
             }
@@ -2997,17 +3022,17 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
     const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->moves / ( you->fine_detail_vision_mod() * exertion_mult );
+    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
-        you->moves = 0;
+        you->set_moves( 0 );
     } else {
-        you->moves -= act->moves_left * you->fine_detail_vision_mod();
+        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
+void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
 {
     you->burn_energy_arms( -20 );
 }
@@ -3332,11 +3357,11 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, t_dirt, f_plant_seed );
+            here.set( examp, ter_t_dirt, furn_f_plant_seed );
         } else {
-            here.furn_set( examp, f_plant_seed );
+            here.furn_set( examp, furn_f_plant_seed );
         }
-        you->add_msg_player_or_npc( _( "You plant your %s." ), _( "<npcname> plants their %s." ),
+        you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                     item::nname( seed_id ) );
     }
     // Go back to what we were doing before
@@ -3388,12 +3413,10 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
     // Current progress in moves
     const double current_progress = old_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
+    you->set_moves( 0 );
+    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
     // Current progress as a percent of base_total_moves to 2 decimal places
     pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
-
-    you->set_moves( 0 );
-
-    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
@@ -3480,7 +3503,7 @@ void activity_handlers::fetch_do_turn( player_activity *act, Character *you )
 void activity_handlers::vibe_finish( player_activity *act, Character *you )
 {
     you->add_msg_if_player( m_good, _( "You feel much better." ) );
-    you->add_morale( MORALE_FEELING_GOOD, 10, 40 );
+    you->add_morale( morale_feeling_good, 10, 40 );
     act->set_to_null();
 }
 
@@ -3587,7 +3610,7 @@ static void perform_zone_activity_turn(
             // we are at destination already
             /* Perform action */
             tile_action( *you, tile_loc );
-            if( you->moves <= 0 ) {
+            if( you->get_moves() <= 0 ) {
                 return;
             }
         }
@@ -3744,35 +3767,10 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )
 {
     // There's an initial rooting process.
-    bool adjacent_mutant_tree = false;
     if( act->values.front() > 0 ) {
         act->values.front() -= 1;
         if( act->values.front() == 0 ) {
-            map &here = get_map();
-            for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
-                if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
-                    adjacent_mutant_tree = true;
-                }
-            }
-            if( adjacent_mutant_tree == true ) {
-                uilist mutant_tree_query;
-                mutant_tree_query.text = string_format(
-                                             _( "Something familiar reaches out to your roots as the communion begins." ) );
-                mutant_tree_query.addentry( 1, true, 'f', _( "Focus only on the mutant tree." ) );
-                mutant_tree_query.addentry( 2, true, 's',
-                                            _( "Spread your roots in communion with all nearby trees." ) );
-                mutant_tree_query.query();
-                switch( mutant_tree_query.ret ) {
-                    case 1:
-                        you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
-                        return;
-                    case 2:
-                        add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
-                        return;
-                    default:
-                        return;
-                }
-            } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
+            if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
                 you->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
@@ -3791,15 +3789,16 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
-        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
+        // FIXME: this is terrible and should be a property instead of a name check...
+        return ter.obj().is_wooded() || ter.obj().get_name() == _( "field" );
     };
     while( !q.empty() ) {
         tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( you->has_trait( trait_SPIRITUAL ) ) {
-                you->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
+                you->add_morale( morale_tree_communion, 2, 30, 8_hours, 6_hours );
             } else {
-                you->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
+                you->add_morale( morale_tree_communion, 1, 15, 2_hours, 1_hours );
             }
             if( one_in( 128 ) ) {
                 if( one_in( 256 ) ) {
@@ -3876,7 +3875,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
     // choose target for spell before continuing
     const std::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
-            you ) : get_map().getlocal( act->coords.front() );
+            you ) : get_map().bub_from_abs( act->coords.front() ).raw();
     if( target ) {
         // npcs check for target viability
         if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {

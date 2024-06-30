@@ -11,7 +11,7 @@
     "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 95,
+    "hp": 84,
     "speed": 110,
     "material": [ "flesh" ],
     "symbol": "@",
@@ -25,7 +25,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 3,
-    "armor": { "bash": 5, "cut": 3, "stab": 3, "bullet": 3 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 48,
@@ -54,7 +53,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS"
     ]
@@ -70,7 +69,7 @@
     "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 120,
+    "hp": 84,
     "speed": 125,
     "material": [ "flesh" ],
     "color": "pink",
@@ -85,7 +84,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 5,
-    "armor": { "bash": 8, "cut": 6, "acid": 6, "bullet": 10 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 50,
@@ -104,7 +102,17 @@
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       [ "BIO_OP_DISARM", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
+      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } },
+      {
+        "id": "psi_biokin2_hardened_skin",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+        },
+        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+      }
     ],
     "flags": [
       "SEES",
@@ -115,7 +123,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "STUN_IMMUNE"
@@ -133,7 +141,7 @@
     "species": [ "FERAL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 135,
+    "hp": 84,
     "speed": 135,
     "material": [ "flesh" ],
     "color": "pink",
@@ -148,7 +156,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 5,
-    "armor": { "bash": 8, "cut": 6, "acid": 6, "bullet": 10 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 55,
@@ -176,7 +183,17 @@
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
+      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } },
+      {
+        "id": "psi_biokin3_hardened_skin",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+        },
+        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+      }
     ],
     "flags": [
       "SEES",
@@ -187,7 +204,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_BREATHE",
@@ -223,7 +240,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 45,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -238,8 +255,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
       "HARDTOSHOOT"
@@ -269,11 +285,13 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 8,
+    "armor": { "bullet": 20 },
+    "//": "Armor here represents knowing where the enemy is going to shoot and not being there, not being literally immune to bullets.",
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 50,
     "vision_night": 50,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -305,8 +323,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO",
       "WIELDED_WEAPON",
@@ -338,12 +355,14 @@
     "melee_dice_sides": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "dodge": 10,
+    "dodge": 12,
+    "armor": { "bullet": 40 },
+    "//": "Armor here represents knowing where the enemy is going to shoot and not being there, not being literally immune to bullets.",
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 55,
     "vision_night": 55,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -382,8 +401,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO",
       "WIELDED_WEAPON",
@@ -447,7 +465,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -523,7 +541,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRIC"
     ]
@@ -609,7 +627,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRIC_FIELD"
     ]
@@ -676,7 +694,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -760,7 +778,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PHOTOKIN_MONSTER_IMMUNE"
     ]
@@ -850,7 +868,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PHOTOKIN_MONSTER_IMMUNE"
     ]
@@ -928,7 +946,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREPROOF"
     ]
@@ -1019,7 +1037,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREY"
     ]
@@ -1115,7 +1133,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREY"
     ]
@@ -1129,7 +1147,7 @@
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "FERAL" ],
+    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 84,
@@ -1166,7 +1184,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
         "cooldown": 15,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -1190,16 +1208,29 @@
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 15, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 6,
-        "throw_strength": 60,
+        "throw_strength": 20,
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      },
+      {
+        "id": "psi_telekin1_momentum_alteration",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_momentum_monster" },
+        "cooldown": 10,
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_psi_null" } },
+            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+          ]
+        },
+        "monster_message": "The air around %1$s wavers."
       },
       [ "PULL_METAL_WEAPON", 15 ]
     ],
@@ -1212,7 +1243,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "PUSH_VEH",
@@ -1227,7 +1258,7 @@
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
-    "species": [ "FERAL" ],
+    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 84,
@@ -1244,7 +1275,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 3,
-    "armor": { "bash": 15, "cut": 10, "stab": 5, "bullet": 35 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
@@ -1263,7 +1293,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
         "cooldown": 10,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -1292,15 +1322,38 @@
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
-        "throw_strength": 100,
+        "throw_strength": 50,
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      },
+      {
+        "id": "psi_telekin2_momentum_alteration",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_momentum_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_psi_null" } },
+            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+          ]
+        },
+        "monster_message": "The air around %1$s wavers."
+      },
+      {
+        "id": "psi_telekin2_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        },
+        "monster_message": "The air around %1$s distorts."
       },
       [ "PULL_METAL_WEAPON", 10 ]
     ],
@@ -1313,7 +1366,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "FLIES",
@@ -1352,7 +1405,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1388,8 +1441,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -1421,7 +1473,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1466,8 +1518,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
     ]
@@ -1500,7 +1551,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1554,8 +1605,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
     ]
@@ -1588,7 +1638,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1620,8 +1670,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1656,7 +1705,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1704,8 +1753,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1741,7 +1789,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "death_function": {
       "effect": { "id": "teleport_summon_monster", "hit_self": true },
@@ -1802,8 +1850,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1879,7 +1926,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG"
@@ -1982,7 +2029,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG"

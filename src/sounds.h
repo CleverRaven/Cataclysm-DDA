@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
@@ -68,7 +68,10 @@ void sound( const tripoint_bub_ms &p, int vol, sound_t category, const translati
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
+// TODO: Get rid of untyped overload
 void ambient_sound( const tripoint &p, int vol, sound_t category, const std::string &description );
+void ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const std::string &description );
 /** Creates a list of coordinates at which to draw footsteps. */
 void add_footstep( const tripoint &p, int volume, int distance, monster *source,
                    const std::string &footstep );
@@ -141,7 +144,7 @@ enum class group : int {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    fatigue         //SFX related to fatigue
+    sleepiness         //SFX related to sleepiness
 };
 
 void load_sound_effects( const JsonObject &jsobj );
@@ -173,7 +176,9 @@ void generate_melee_sound( const tripoint &source, const tripoint &target, bool 
 void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
+// TODO: Get rid of untyped overload
 int get_heard_volume( const tripoint &source );
+int get_heard_volume( const tripoint_bub_ms &source );
 units::angle get_heard_angle( const tripoint &source );
 void do_footstep();
 void do_danger_music();
@@ -191,7 +196,7 @@ void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const Character &target, bool death );
-void do_fatigue();
+void do_sleepiness();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx

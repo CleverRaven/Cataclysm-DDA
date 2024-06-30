@@ -6,7 +6,7 @@
     "messages": [ "You unleash a fiery attack against %s!", "<npcname> unleash a fiery attack against %s!" ],
     "melee_allowed": true,
     "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 3.0 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -17,7 +17,7 @@
     "melee_allowed": true,
     "crit_tec": true,
     "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -29,7 +29,7 @@
     "crit_ok": true,
     "aoe": "impale",
     "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 7.0 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -44,7 +44,7 @@
     "crit_tec": true,
     "aoe": "spin",
     "flat_bonuses": [ { "stat": "damage", "type": "heat", "scale": 10.0 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -54,7 +54,7 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "aoe": "wide",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -64,7 +64,7 @@
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 0.5 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -75,7 +75,7 @@
     "melee_allowed": true,
     "crit_tec": true,
     "flat_bonuses": [ { "stat": "damage", "type": "stab", "scaling-stat": "int", "scale": 1.0 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -90,7 +90,7 @@
     "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
     "aoe": "spin",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -105,7 +105,7 @@
     "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
     "aoe": "wide",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -123,7 +123,7 @@
         "message": "The weapon of %s has been forced out ot their hands!"
       }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -134,7 +134,7 @@
     "melee_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -175,7 +175,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -216,7 +216,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -229,7 +229,7 @@
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "aoe": "wide",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -245,7 +245,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -260,7 +260,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "WEAPON", "FOOT" ]
+    "attack_vectors": [ "vector_null", "vector_foot_heel" ]
   },
   {
     "type": "technique",
@@ -309,7 +309,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_punch" ]
   },
   {
     "type": "technique",
@@ -326,7 +326,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_punch" ]
   },
   {
     "type": "technique",
@@ -341,7 +341,7 @@
       { "stat": "damage", "type": "cut", "scale": 2.0 },
       { "stat": "damage", "type": "stab", "scale": 2.0 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -356,7 +356,7 @@
       { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
     ],
-    "attack_vectors": [ "ARM" ]
+    "attack_vectors": [ "vector_arm" ]
   },
   {
     "type": "technique",
@@ -367,7 +367,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
-    "attack_vectors_random": [ "HAND", "FOOT", "HEAD", "TORSO", "HEAD" ]
+    "attack_vectors": [ "vector_punch", "vector_foot_toes", "vector_headbutt", "vector_shoulder" ]
   },
   {
     "type": "technique",
@@ -387,7 +387,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors_random": [ "FOOT", "LOWER_LEG" ]
+    "attack_vectors": [ "vector_foot_toes", "vector_shin" ]
   },
   {
     "type": "technique",
@@ -424,7 +424,7 @@
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_punch" ]
   },
   {
     "type": "technique",
@@ -465,7 +465,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -508,7 +508,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -528,7 +528,7 @@
         "message": "The weapon of %s has been forced out ot their hands!"
       }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -539,7 +539,7 @@
     "melee_allowed": true,
     "crit_ok": true,
     "aoe": "wide",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -557,12 +557,12 @@
       { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_wrist" ]
   },
   {
     "type": "technique",
     "id": "mma_tec_stone_dragon_strike",
-    "name": "Irrestistible Mountain Strike",
+    "name": "Irresistible Mountain Strike",
     "messages": [ "You smash down on %s with a Mountain Strike!", "<npcname> smashes down on %s with a Mountain Strike!" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
@@ -594,7 +594,7 @@
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_wrist" ]
   },
   {
     "type": "technique",
@@ -614,7 +614,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.3 },
       { "stat": "damage", "type": "stab", "scale": 1.3 }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_punch" ]
   },
   {
     "type": "technique",

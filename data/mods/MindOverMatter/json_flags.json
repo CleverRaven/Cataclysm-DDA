@@ -25,6 +25,11 @@
     "info": "You are protected against telepathic attack.  Sometimes."
   },
   {
+    "id": "ELECTROKINETIC_CHARGEABLE",
+    "type": "json_flag",
+    "info": "This item can be recharged by an electrokinetic"
+  },
+  {
     "id": "MATRIX_CRYSTAL_BIOKINESIS",
     "type": "json_flag",
     "info": "This is a matrix crystal attuned to biokinesis."

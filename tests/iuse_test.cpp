@@ -9,7 +9,6 @@
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
-#include "morale_types.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -47,6 +46,8 @@ static const itype_id itype_antiparasitic( "antiparasitic" );
 static const itype_id itype_diazepam( "diazepam" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_towel_wet( "towel_wet" );
+
+static const morale_type morale_wet( "morale_wet" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
@@ -360,9 +361,9 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     avatar dummy;
     dummy.normalize();
 
-    // Baseline fatigue level before caffeinating
-    int fatigue_before = 200;
-    dummy.set_fatigue( fatigue_before );
+    // Baseline sleepiness level before caffeinating
+    int sleepiness_before = 200;
+    dummy.set_sleepiness( sleepiness_before );
 
     // No stimulants or radiation
     dummy.set_stim( 0 );
@@ -370,17 +371,18 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_stim() == 0 );
     REQUIRE( dummy.get_rad() == 0 );
 
-    SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
+    SECTION( "coffee reduces sleepiness, but does not give stimulant effect" ) {
         item coffee( "coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before - coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
-    SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
+    SECTION( "atomic caffeine greatly reduces sleepiness, and increases stimulant effect" ) {
         item atomic_coffee( "atomic_coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( atomic_coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before -
+               atomic_coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
 }
@@ -434,8 +436,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
     GIVEN( "avatar has poor morale due to being wet" ) {
         dummy.drench( 100, { body_part_torso, body_part_head, body_part_arm_l, body_part_arm_r },
                       false );
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
+        dummy.add_morale( morale_wet, -10, -10, 1_hours, 1_hours );
+        REQUIRE( dummy.has_morale( morale_wet ) == -10 );
 
         WHEN( "they use a wet towel" ) {
             towel.convert( itype_towel_wet );
@@ -443,7 +445,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it does not improve their morale" ) {
-                CHECK( dummy.has_morale( MORALE_WET ) == -10 );
+                CHECK( dummy.has_morale( morale_wet ) == -10 );
             }
         }
 
@@ -452,7 +454,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it improves their morale" ) {
-                CHECK( dummy.has_morale( MORALE_WET ) == 0 );
+                CHECK( dummy.has_morale( morale_wet ) == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
                     CHECK( towel.typeId() == itype_towel_wet );
@@ -487,8 +489,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     GIVEN( "avatar is boomered and wet" ) {
         dummy.add_effect( effect_boomered, 1_hours );
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-        REQUIRE( std::abs( dummy.has_morale( MORALE_WET ) ) );
+        dummy.add_morale( morale_wet, -10, -10, 1_hours, 1_hours );
+        REQUIRE( std::abs( dummy.has_morale( morale_wet ) ) );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
@@ -496,7 +498,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( effect_boomered ) );
-                CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
+                CHECK( std::abs( dummy.has_morale( morale_wet ) ) );
 
                 AND_THEN( "the towel becomes filthy" ) {
                     CHECK( towel.is_filthy() );
@@ -515,7 +517,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     REQUIRE( dummy.has_item_with( []( const item & it ) {
         return it.typeId() == itype_thorazine;
     } ) );
-    dummy.set_fatigue( 0 );
+    dummy.set_sleepiness( 0 );
 
     GIVEN( "avatar has hallucination, visuals, and high effects" ) {
         dummy.add_effect( effect_hallu, 1_hours );
@@ -536,8 +538,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
                 REQUIRE_FALSE( dummy.has_effect( effect_visuals ) );
                 REQUIRE_FALSE( dummy.has_effect( effect_high ) );
 
-                AND_THEN( "it causes some fatigue" ) {
-                    CHECK( dummy.get_fatigue() >= 5 );
+                AND_THEN( "it causes some sleepiness" ) {
+                    CHECK( dummy.get_sleepiness() >= 5 );
                 }
             }
         }
@@ -556,11 +558,11 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
         WHEN( "they take more thorazine" ) {
             dummy.consume( thorazine );
 
-            THEN( "it only causes more fatigue" ) {
+            THEN( "it only causes more sleepiness" ) {
                 CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
                     return it.typeId() == itype_thorazine;
                 } ) );
-                CHECK( dummy.get_fatigue() >= 20 );
+                CHECK( dummy.get_sleepiness() >= 20 );
             }
         }
     }
@@ -626,10 +628,10 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     GIVEN( "avatar is not suffering from asthma" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_asthma ) );
 
-        THEN( "inhaler reduces fatigue" ) {
-            dummy.set_fatigue( 10 );
+        THEN( "inhaler reduces sleepiness" ) {
+            dummy.set_sleepiness( 10 );
             dummy.use( inhaler_loc );
-            CHECK( dummy.get_fatigue() < 10 );
+            CHECK( dummy.get_sleepiness() < 10 );
         }
     }
 }

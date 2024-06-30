@@ -2,39 +2,30 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
-#include <algorithm>
-#include <cstdlib>
+#include <functional>
+#include <iosfwd>
 #include <iterator>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "coordinate_conversions.h"
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "line.h"
-#include "point.h"
 #include "debug.h"
+#include "game_constants.h"
+#include "line.h"  // IWYU pragma: keep
+#include "point.h"
 
+class JsonOut;
 class JsonValue;
 
 enum class direction : unsigned;
 
 namespace coords
 {
-
-enum class scale {
-    map_square,
-    submap,
-    overmap_terrain,
-    segment,
-    overmap,
-    vehicle
-};
-
-constexpr scale ms = scale::map_square;
-constexpr scale sm = scale::submap;
-constexpr scale omt = scale::overmap_terrain;
-constexpr scale seg = scale::segment;
-constexpr scale om = scale::overmap;
 
 constexpr int map_squares_per( scale s )
 {
@@ -56,15 +47,6 @@ constexpr int map_squares_per( scale s )
             constexpr_fatal( 0, "Requested scale of %d", s );
     }
 }
-
-enum class origin {
-    relative, // this is a special origin that can be added to any other
-    abs, // the global absolute origin for the entire game
-    submap, // from corner of submap
-    overmap_terrain, // from corner of overmap_terrain
-    overmap, // from corner of overmap
-    reality_bubble, // from corner of a reality bubble (aka 'map' or 'tinymap')
-};
 
 constexpr origin origin_from_scale( scale s )
 {
@@ -219,7 +201,7 @@ class coord_point_mut< Point, Subpoint, true> : public coord_point_base<Point>
         constexpr coord_point_mut( T x, T y, T z ) : base( x, y, z ) {}
 };
 
-template<typename Point, origin Origin, scale Scale, bool InBounds = false>
+template<typename Point, origin Origin, scale Scale, bool InBounds>
 class coord_point : public
     coord_point_mut<Point, coord_point<point, Origin, Scale, InBounds>, InBounds>
 {
@@ -667,67 +649,27 @@ struct std::hash<coords::coord_point<Point, Origin, Scale, InBounds>> {
     }
 };
 
-/** Typedefs for point types with coordinate mnemonics.
- *
- * Each name is of the form (tri)point_<origin>_<scale>(_ib) where <origin> tells you
- * the context in which the point has meaning, and <scale> tells you what one unit
- * of the point means. The optional "_ib" suffix denotes that the type is guaranteed
- * to be inbounds.
- *
- * For example:
- * point_omt_ms is the position of a map square within an overmap terrain.
- * tripoint_rel_sm is a relative tripoint submap offset.
- *
- * For more details see doc/POINTS_COORDINATES.md.
- */
-/*@{*/
-using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;
-using point_abs_ms = coords::coord_point<point, coords::origin::abs, coords::ms>;
-using point_sm_ms = coords::coord_point<point, coords::origin::submap, coords::ms>;
-using point_sm_ms_ib = coords::coord_point<point, coords::origin::submap, coords::ms, true>;
-using point_omt_ms = coords::coord_point<point, coords::origin::overmap_terrain, coords::ms>;
-using point_bub_ms = coords::coord_point<point, coords::origin::reality_bubble, coords::ms>;
-using point_bub_ms_ib =
-    coords::coord_point<point, coords::origin::reality_bubble, coords::ms, true>;
-using point_rel_sm = coords::coord_point<point, coords::origin::relative, coords::sm>;
-using point_abs_sm = coords::coord_point<point, coords::origin::abs, coords::sm>;
-using point_omt_sm = coords::coord_point<point, coords::origin::overmap_terrain, coords::sm>;
-using point_om_sm = coords::coord_point<point, coords::origin::overmap, coords::sm>;
-using point_bub_sm = coords::coord_point<point, coords::origin::reality_bubble, coords::sm>;
-using point_bub_sm_ib =
-    coords::coord_point<point, coords::origin::reality_bubble, coords::sm, true>;
-using point_rel_omt = coords::coord_point<point, coords::origin::relative, coords::omt>;
-using point_abs_omt = coords::coord_point<point, coords::origin::abs, coords::omt>;
-using point_om_omt = coords::coord_point<point, coords::origin::overmap, coords::omt>;
-using point_abs_seg = coords::coord_point<point, coords::origin::abs, coords::seg>;
-using point_rel_om = coords::coord_point<point, coords::origin::relative, coords::om>;
-using point_abs_om = coords::coord_point<point, coords::origin::abs, coords::om>;
-
-using tripoint_rel_ms = coords::coord_point<tripoint, coords::origin::relative, coords::ms>;
-using tripoint_abs_ms = coords::coord_point<tripoint, coords::origin::abs, coords::ms>;
-using tripoint_sm_ms = coords::coord_point<tripoint, coords::origin::submap, coords::ms>;
-using tripoint_sm_ms_ib = coords::coord_point<tripoint, coords::origin::submap, coords::ms, true>;
-using tripoint_omt_ms = coords::coord_point<tripoint, coords::origin::overmap_terrain, coords::ms>;
-using tripoint_bub_ms = coords::coord_point<tripoint, coords::origin::reality_bubble, coords::ms>;
-using tripoint_bub_ms_ib =
-    coords::coord_point<tripoint, coords::origin::reality_bubble, coords::ms, true>;
-using tripoint_rel_sm = coords::coord_point<tripoint, coords::origin::relative, coords::sm>;
-using tripoint_abs_sm = coords::coord_point<tripoint, coords::origin::abs, coords::sm>;
-using tripoint_om_sm = coords::coord_point<tripoint, coords::origin::overmap, coords::sm>;
-using tripoint_bub_sm = coords::coord_point<tripoint, coords::origin::reality_bubble, coords::sm>;
-using tripoint_bub_sm_ib =
-    coords::coord_point<tripoint, coords::origin::reality_bubble, coords::sm, true>;
-using tripoint_rel_omt = coords::coord_point<tripoint, coords::origin::relative, coords::omt>;
-using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
-using tripoint_om_omt = coords::coord_point<tripoint, coords::origin::overmap, coords::omt>;
-using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
-using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
-/*@}*/
-
 using coords::project_to;
 using coords::project_remain;
 using coords::project_combine;
 using coords::project_bounds;
+
+// Rebase relative coordinates to the base you know they're actually relative to.
+point_rel_ms rebase_rel( point_omt_ms p );
+point_rel_ms rebase_rel( point_bub_ms p );
+point_omt_ms rebase_omt( point_rel_ms p );
+point_bub_ms rebase_bub( point_rel_ms p );
+
+tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
+tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
+tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
+
+// 'Glue' rebase operations for when a tinymap is using the underlying map operation and when a tinymap
+// has to be cast to a map to access common functionality. Note that this doesn't actually change anything
+// as the reference remains the same location regardless, and the map operation still knows how large the map is.
+point_bub_ms rebase_bub( point_omt_ms p );
+tripoint_bub_ms rebase_bub( tripoint_omt_ms p );
 
 template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
 inline int square_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
@@ -771,16 +713,35 @@ direction direction_from( const coords::coord_point<Point, Origin, Scale, LhsInB
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
-std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
+template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
+std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBounds >>
         line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
+                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2,
+                 const int t = 0 )
 {
-    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t );
     std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const Point & p ) {
         return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
+               RhsInBounds >::make_unchecked( p );
+    } );
+    return result;
+}
+
+template<typename Tripoint, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point < Tripoint, Origin, Scale, LhsInBounds && RhsInBounds >>
+        line_to( const coords::coord_point<Tripoint, Origin, Scale, LhsInBounds> &loc1,
+                 const coords::coord_point<Tripoint, Origin, Scale, RhsInBounds> &loc2,
+                 const int t = 0, const int t2 = 0 )
+{
+    std::vector<Tripoint> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
+    std::vector < coords::coord_point < Tripoint, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Tripoint & p ) {
+        return coords::coord_point < Tripoint, Origin, Scale, LhsInBounds &&
                RhsInBounds >::make_unchecked( p );
     } );
     return result;

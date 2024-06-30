@@ -203,6 +203,14 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             selector_menu.query();
         }
 
+        if( selected_pocket->get_pocket_data()->_no_unload ) {
+            popup( std::string( _( "Can't unload that." ) ), PF_GET_KEY );
+            // These make sure we exit back to the top level of the menu regardless of how the function was called.
+            selector_menu.ret = -1;
+            item_to_move = { nullptr, nullptr };
+            refresh_columns( menu );
+        }
+
         if( selector_menu.ret >= 0 ) {
             item_to_move = { item_list[selector_menu.ret], selected_pocket };
         }
@@ -234,12 +242,20 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
     } else {
         // If no pockets are enabled, uilist allows scrolling through them, so we need to recheck
         ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
-        if( contain.success() ) {
+
+        bool cant_reload = false;
+        std::string reload_fail;
+        if( selected_pocket->get_pocket_data()->_no_reload ) {
+            cant_reload = true;
+            reload_fail = _( "destination container can't be reloaded." );
+        }
+
+        if( contain.success() && !cant_reload ) {
             // storage should mimick character inserting
             get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
         } else {
             const std::string base_string = _( "Cannot put item in pocket because %s" );
-            popup( string_format( base_string, contain.str() ) );
+            popup( string_format( base_string, cant_reload ? reload_fail : contain.str() ) );
         }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
@@ -706,7 +722,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
 
-            if( !current_pocket_iter->is_type( pocket.saved_type() ) ) {
+            if( !current_pocket_iter->is_type( convert ? pocket.get_pocket_data()->type :
+                                               pocket.saved_type() ) ) {
                 mismatched_pockets.push_back( pocket );
                 continue;
             }
@@ -734,8 +751,9 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item_pocket &pocket : mismatched_pockets ) {
+        const pocket_type mismatched_type = convert ? pocket.get_pocket_data()->type : pocket.saved_type();
         for( const item *it : pocket.all_items_top() ) {
-            const ret_val<item *> inserted = insert_item( *it, pocket.saved_type(), ignore_contents );
+            const ret_val<item *> inserted = insert_item( *it, mismatched_type, ignore_contents );
             if( !inserted.success() ) {
                 uninserted_items.push_back( *it );
                 debugmsg( "error: item %s cannot fit into any pocket while loading: %s",
@@ -1039,17 +1057,23 @@ ret_val<void> item_contents::is_compatible( const item &it ) const
 }
 
 ret_val<void> item_contents::can_contain_rigid( const item &it,
-        const bool ignore_pkt_settings ) const
+        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
 {
     int copies = 1;
-    return can_contain_rigid( it, copies, ignore_pkt_settings );
+    return can_contain_rigid( it, copies, ignore_pkt_settings, is_pick_up_inv );
 }
 
 ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_remaining,
-        const bool ignore_pkt_settings ) const
+        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        // Only count container in pickup_inventory_preset.
+        if( is_pick_up_inv ) {
+            if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+                continue;
+            }
+        }
         if( pocket.is_type( pocket_type::MOD ) ||
             pocket.is_type( pocket_type::CORPSE ) ||
             pocket.is_type( pocket_type::MIGRATION ) ) {
@@ -1064,7 +1088,7 @@ ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_rema
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it,
-                copies_remaining );
+                copies_remaining, false );
         if( copies_remaining <= 0 || pocket_contain_code.success() ) {
             return ret_val<void>::make_success();
         }
@@ -1074,14 +1098,15 @@ ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_rema
 }
 
 ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
-        units::volume remaining_parent_volume ) const
+        const bool is_pick_up_inv, units::volume remaining_parent_volume ) const
 {
     int copies = 1;
-    return can_contain( it, copies, ignore_pkt_settings, remaining_parent_volume );
+    return can_contain( it, copies, ignore_pkt_settings, is_pick_up_inv, remaining_parent_volume );
 }
 
 ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
-        const bool ignore_pkt_settings, units::volume remaining_parent_volume ) const
+        const bool ignore_pkt_settings, const bool is_pick_up_inv,
+        units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
 
@@ -1091,6 +1116,12 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_forbidden() ) {
             continue;
+        }
+        // Only count container in pickup_inventory_preset.
+        if( is_pick_up_inv ) {
+            if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+                continue;
+            }
         }
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
@@ -1185,7 +1216,9 @@ bool item_contents::spill_contents( const tripoint &pos )
 {
     bool spilled = false;
     for( item_pocket &pocket : contents ) {
-        spilled = pocket.spill_contents( pos ) || spilled;
+        if( !pocket.get_pocket_data()->_no_unload ) {
+            spilled = pocket.spill_contents( pos ) || spilled;
+        }
     }
     return spilled;
 }
@@ -1343,7 +1376,7 @@ const item &item_contents::first_ammo() const
 bool item_contents::will_spill() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             return true;
         }
     }
@@ -1353,8 +1386,7 @@ bool item_contents::will_spill() const
 bool item_contents::will_spill_if_unsealed() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER )
-            && pocket.will_spill_if_unsealed() ) {
+        if( pocket.is_standard_type() && pocket.will_spill_if_unsealed() ) {
             return true;
         }
     }
@@ -1364,7 +1396,7 @@ bool item_contents::will_spill_if_unsealed() const
 bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
             if( !pocket.empty() ) {
                 return false;
@@ -1377,7 +1409,7 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( pocket.is_standard_type() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
         }
     }
@@ -1680,6 +1712,32 @@ std::list<const item *> item_contents::all_items_top( const
         }
     }
     return all_items_internal;
+}
+
+content_newness item_contents::get_content_newness( const std::set<itype_id> &read_items ) const
+{
+    content_newness ret = content_newness::SEEN;
+    for( const item_pocket *pocket : get_all_standard_pockets() ) {
+        // taking transparent from item_contents::all_known_contents()
+        if( !pocket->transparent() ) {
+            ret = content_newness::MIGHT_BE_HIDDEN;
+            continue;
+        }
+        for( const item *itm : pocket->all_items_top() ) {
+            if( !read_items.count( itm->typeId() ) ) {
+                return content_newness::NEW;
+            }
+            switch( itm->get_contents().get_content_newness( read_items ) ) {
+                case content_newness::NEW:
+                    return content_newness::NEW;
+                case content_newness::MIGHT_BE_HIDDEN:
+                    ret = content_newness::MIGHT_BE_HIDDEN;
+                case content_newness::SEEN:
+                    break;
+            }
+        }
+    }
+    return ret;
 }
 
 std::list<const item *> item_contents::all_items_top( pocket_type pk_type ) const
@@ -2260,11 +2318,22 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             restriction_condition = restriction_condition && !pocket.is_restricted();
         }
         if( restriction_condition ) {
-            // if the pocket has default volume or is a holster that has an
-            // item in it or is a pocket that has normal pickup disabled
-            // instead of returning the volume return the volume of things contained
-            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                pocket.settings.is_disabled() || pocket.holster_full() ) {
+            // If the pocket is a holster that has an item return the volume when it is full (not larger than capacity).
+            // If the pocket has default volume or is a pocket that has normal pickup disabled return the volume of things contained.
+            // Otherwise, return the capacity.
+            if( pocket.holster_full() ) {
+                units::volume add_volume = pocket.front().volume();
+                for( const item_pocket *it_pocket : pocket.front().get_all_contained_pockets() ) {
+                    // Here, the case where the pocket is not empty for the holster is not considered, which will lead to higher results.
+                    // To obtain accurate results, a recursive function may be required. Since in the actual game,
+                    // the situation of holster nested in the holster is very rare, from a performance perspective, it seems not worth it to do so.
+                    if( it_pocket->is_valid() && !it_pocket->rigid() ) {
+                        add_volume += it_pocket->remaining_volume();
+                    }
+                }
+                total_vol += std::min( pocket.volume_capacity(), add_volume );
+            } else if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
+                       pocket.settings.is_disabled() ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
@@ -2427,11 +2496,12 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
 }
 
 void item_contents::process( map &here, Character *carrier, const tripoint &pos, float insulation,
-                             temperature_flag flag, float spoil_multiplier_parent )
+                             temperature_flag flag, float spoil_multiplier_parent, bool watertight_container )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::CONTAINER ) ) {
-            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+            pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+                            watertight_container );
         }
     }
 }
@@ -2492,6 +2562,19 @@ bool item_contents::all_pockets_rigid() const
             continue;
         }
         if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool item_contents::container_type_pockets_empty() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.empty() ) {
             return false;
         }
     }

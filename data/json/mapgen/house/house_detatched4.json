@@ -80,7 +80,7 @@
     "om_terrain": "house_detatched4",
     "//": "suicide variant",
     "type": "mapgen",
-    "weight": 50,
+    "weight": 10,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

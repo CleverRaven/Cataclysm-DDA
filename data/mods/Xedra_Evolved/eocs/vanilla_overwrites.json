@@ -1,0 +1,21 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_NIGHTMARES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "effect_hedge_no_nightmares" } },
+        { "u_has_effect": "nightmares" },
+        { "math": [ "dream_counter", "==", "0" ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "nightmares", "snippet": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
+      { "math": [ "dream_counter", "=", "1" ] },
+      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+    ]
+  }
+]

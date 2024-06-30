@@ -19,7 +19,8 @@
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_DINO",
-    "rot_spawn_chance": 70
+    "rot_spawn_chance": 70,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -36,7 +37,8 @@
     "description": "Pale, round egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
     "volume": "12 ml",
-    "rot_spawn": "GROUP_EGG_DINO_SMALL"
+    "rot_spawn": "GROUP_EGG_DINO_SMALL",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -51,7 +53,8 @@
     "description": "Pale, round egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": "GROUP_EGG_DINO_LARGE"
+    "rot_spawn": "GROUP_EGG_DINO_LARGE",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +76,8 @@
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_THEROPOD",
-    "rot_spawn_chance": 70
+    "rot_spawn_chance": 70,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -84,7 +88,8 @@
     "comestible_type": "FOOD",
     "description": "Pale, football-shaped egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
-    "rot_spawn": "GROUP_EGG_THEROPOD_SMALL"
+    "rot_spawn": "GROUP_EGG_THEROPOD_SMALL",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -98,7 +103,8 @@
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": "GROUP_EGG_THEROPOD_LARGE"
+    "rot_spawn": "GROUP_EGG_THEROPOD_LARGE",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -260,6 +266,13 @@
     "name": "albertonykus egg",
     "copy-from": "egg_dino_theropod_small",
     "rot_spawn": "GROUP_EGG_albertonykus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_falcarius",
+    "name": "falcarius egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_falcarius"
   },
   {
     "type": "COMESTIBLE",
@@ -536,6 +549,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_iguanodon",
+    "name": "iguanodon egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_iguanodon"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_hadrosaurus",
     "name": "hadrosaurus egg",
     "copy-from": "egg_dino",
@@ -760,13 +780,14 @@
     "symbol": "o",
     "quench": -1,
     "description": "A smaller hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
-    "price": 95,
-    "price_postapoc": 50,
+    "price": "95 cent",
+    "price_postapoc": "50 cent",
     "material": [ "egg" ],
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -777,13 +798,14 @@
     "symbol": "o",
     "quench": -10,
     "description": "A hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
-    "price": 395,
-    "price_postapoc": 200,
+    "price": "3 USD 95 cent",
+    "price_postapoc": "2 USD",
     "material": [ "egg" ],
     "fun": 10,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -794,12 +816,13 @@
     "symbol": "o",
     "quench": -15,
     "description": "A large hard-boiled dinosaur egg, still in its shell.  It may be wise to disassemble it into two pieces to eat.",
-    "price": 595,
-    "price_postapoc": 300,
+    "price": "5 USD 95 cent",
+    "price_postapoc": "3 USD",
     "material": [ "egg" ],
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   }
 ]

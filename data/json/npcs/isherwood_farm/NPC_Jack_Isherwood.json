@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
     "mission": 7,
+    "age": 73,
+    "height": 184,
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"
@@ -169,26 +171,18 @@
         "text": "I'm here to deliver some resources.",
         "topic": "TALK_ISHERWOOD_JACK_RESOURCES",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" } ]
         }
       },
       {
         "text": "This is a lot of land, you been here since the collapse?",
         "topic": "TALK_ISHERWOOD_JACK_TALK1",
-        "effect": { "u_add_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": [ { "u_add_var": "u_met_Jack_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ]
       },
       {
         "text": "Hey, good to see you again.",
         "topic": "TALK_ISHERWOOD_JACK_TOPICS",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
       },
       {
         "text": "Can I do anything for you?",
@@ -252,7 +246,7 @@
       {
         "text": "Sounds reasonable, I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" }
       },
       { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -261,7 +255,7 @@
     "type": "talk_topic",
     "id": "TALK_JACK_WIFE",
     "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -271,7 +265,7 @@
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
     "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -281,7 +275,7 @@
     "type": "talk_topic",
     "id": "TALK_JACK_BROTHER",
     "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -302,10 +296,7 @@
         "text": "I'm here to deliver some resources.",
         "topic": "TALK_ISHERWOOD_JACK_RESOURCES",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" } ]
         }
       },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_JACK_FARM" },
@@ -385,7 +376,7 @@
         { "u_spawn_item": "tomato", "count": 25 },
         { "u_spawn_item": "onion", "count": 25 },
         { "u_spawn_item": "cucumber", "count": 25 },
-        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_jack_missions", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

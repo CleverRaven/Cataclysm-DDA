@@ -178,38 +178,45 @@
   {
     "type": "vehicle",
     "id": "forklift",
-    "name": "Forklift",
+    "name": "Electric Forklift",
     "blueprint": [
-      [ "o#o-" ],
-      [ "o|o-" ]
+      [ "|" ],
+      [ "^" ],
+      [ "#" ],
+      [ "-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "hdframe#vertical_T_left", "seat", "hdroof", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "dashboard" ] },
-      { "x": 0, "y": 1, "parts": [ "hdframe#vertical_T_right", "engine_electric", "hdroof" ] },
-      { "x": 0, "y": 1, "parts": [ "hdhalfboard#vertical_right", "storage_battery" ] },
-      { "x": 1, "y": 0, "parts": [ "hdframe#nw", "hdhalfboard#nw", "wheel_mount_medium" ] },
-      { "x": 1, "y": 0, "parts": [ "wheel", "headlight" ] },
-      { "x": 1, "y": 1, "parts": [ "hdframe#ne", "hdhalfboard#ne", "wheel_mount_medium" ] },
-      { "x": 1, "y": 1, "parts": [ "wheel", "headlight" ] },
-      { "x": 2, "y": 0, "parts": [ "forklift_fork" ] },
-      { "x": 2, "y": 1, "parts": [ "forklift_fork" ] },
-      { "x": -1, "y": 0, "parts": [ "hdframe#sw", "counterweight#sw", "wheel_mount_light_steerable" ] },
-      { "x": -1, "y": 0, "parts": [ "wheel_small" ] },
-      { "x": -1, "y": 1, "parts": [ "hdframe#se", "counterweight#se", "wheel_mount_light_steerable" ] },
-      { "x": -1, "y": 1, "parts": [ "wheel_small" ] }
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "frame#cover", "counterweight#horizontal_rear", "wheel_mount_light_steerable", "wheel_small", "muffler" ]
+      },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_T_left", "seat", "roof", "controls", "dashboard" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [
+          "frame#vertical_2",
+          "halfboard#cover",
+          "wheel_mount_medium",
+          "wheel",
+          "headlight",
+          "engine_electric",
+          "storage_battery"
+        ]
+      },
+      { "x": 2, "y": 0, "parts": [ "forklift_fork" ] }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] },
       { "x": 0, "y": 0, "chance": 8, "items": [ "vest" ] },
-      { "x": 2, "y": 0, "chance": 10, "items": [ "2x4" ] },
-      { "x": 2, "y": 1, "chance": 10, "items": [ "2x4" ] }
+      { "x": 2, "y": 0, "chance": 10, "items": [ "2x4" ] }
     ]
   },
   {
     "type": "vehicle",
     "id": "forklift_diesel",
-    "name": "Forklift",
+    "name": "Heavy-Duty Forklift",
     "blueprint": [
       [ "o#o-" ],
       [ "o|o-" ]

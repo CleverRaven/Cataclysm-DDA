@@ -121,5 +121,25 @@
     "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "//3": "Metal sawing for removing the base, rim, and primer, and filing for smoothing down the resulting edges.",
     "components": [ [ [ "wire", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "necklace_teeth",
+    "variant": "necklace_teeth_monster",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "time": "15 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_gem_setting" } ],
+    "//": "Pliers to cut and manipulate the wire.",
+    "tools": [ [ [ "pliers", -1 ] ] ],
+    "using": [ [ "cordage_short", 1 ] ],
+    "//2": "The filing quality is only there to blunt the 'impossibly-sharp' monster teeth, probably not needed for other teeth.",
+    "qualities": [ { "id": "FILE", "level": 1 } ],
+    "components": [ [ [ "wire", 1 ] ], [ [ "nm_teeth", 1 ] ] ]
   }
 ]

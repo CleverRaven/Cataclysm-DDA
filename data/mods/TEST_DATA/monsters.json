@@ -11,7 +11,7 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW" ],
     "upgrades": { "half_life": 0, "into_group": "test_upgrades_multi", "multiple_spawns": true, "spawn_range": 5 }
   },
   {
@@ -182,7 +182,7 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW" ],
     "upgrades": { "half_life": 0, "into_group": "test_upgrades_multi_late", "multiple_spawns": true, "spawn_range": 5 }
   },
   {
@@ -218,7 +218,7 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW" ],
     "upgrades": {
       "half_life": 0,
       "into_group": "test_upgrades_multi_null",
@@ -398,22 +398,6 @@
     "copy-from": "mon_test_zombie_cop",
     "weakpoints": [ { "id": "test_eye", "name": "inline eye (zero coverage)", "coverage": 0 } ],
     "delete": { "weakpoints": [ { "id": "test_head" } ], "weakpoint_sets": [ "test_special_head" ] }
-  },
-  {
-    "id": "mon_zombie_survivor_no_weakpoints",
-    "type": "MONSTER",
-    "name": { "str": "zombie survivor test only" },
-    "description": "This zombie survivor is for testing purposes only.",
-    "copy-from": "mon_zombie_survivor",
-    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] }
-  },
-  {
-    "id": "mon_zombie_soldier_no_weakpoints",
-    "type": "MONSTER",
-    "name": { "str": "zombie soldier test only" },
-    "description": "This zombie soldier is for testing purposes only.",
-    "copy-from": "mon_zombie_soldier",
-    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] }
   },
   {
     "id": "mon_shoggoth_flesh_only",

@@ -23,6 +23,9 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+struct attack_vector;
+using attack_vector_id = string_id<attack_vector>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
@@ -54,6 +57,9 @@ using construction_group_str_id = string_id<construction_group>;
 
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
+
+struct crafting_category;
+using crafting_category_id = string_id<crafting_category>;
 
 struct effect_on_condition;
 using effect_on_condition_id = string_id<effect_on_condition>;

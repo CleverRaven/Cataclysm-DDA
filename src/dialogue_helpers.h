@@ -2,18 +2,26 @@
 #ifndef CATA_SRC_DIALOGUE_HELPERS_H
 #define CATA_SRC_DIALOGUE_HELPERS_H
 
+#include <functional>
+#include <memory>
 #include <optional>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
 #include <variant>
+#include <vector>
 
 #include "calendar.h"
+#include "debug.h"
 #include "global_vars.h"
-#include "math_parser.h"
-#include "rng.h"
 #include "translation.h"
-#include "type_id.h"
 
-struct dialogue;
+class JsonArray;
+class JsonObject;
+class math_exp;
 class npc;
+struct dialogue;
 
 using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
@@ -83,7 +91,7 @@ template<class T>
 std::string read_var_value( const abstract_var_info<T> &info, const dialogue &d );
 template<class T>
 std::optional<std::string> maybe_read_var_value(
-    const abstract_var_info<T> &info, const dialogue &d );
+    const abstract_var_info<T> &info, const dialogue &d, int call_depth = 0 );
 
 var_info process_variable( const std::string &type );
 

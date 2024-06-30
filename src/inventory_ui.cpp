@@ -366,6 +366,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
+    json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
@@ -476,6 +477,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
 
     jo.read( "list_item_sort", list_item_sort );
+    jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
@@ -865,7 +867,7 @@ std::string inventory_holster_preset::get_denial( const item_location &it ) cons
     item_copy.charges = 1;
     item_location parent = it.has_parent() ? it.parent_item() : item_location();
 
-    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, parent );
+    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, false, parent );
     if( !ret.success() ) {
         return !ret.str().empty() ? ret.str() : "item can't be stored there";
     }
@@ -2101,7 +2103,7 @@ void inventory_selector::add_map_items( const tripoint &target )
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), translation(), 100 );
         _add_map_items( target, map_cat, items, [target]( item & it ) {
-            return item_location( map_cursor( target ), &it );
+            return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
         } );
     }
 }
@@ -2165,7 +2167,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
     const std::string name = to_upper_case( remote_map->name( target ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
-        return item_location( map_cursor( target ), &it );
+        return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
     } );
 }
 
@@ -2694,7 +2696,8 @@ int inventory_selector::query_count( char init, bool end_with_toggle )
         try {
             ret = std::stoi( query.second );
         } catch( const std::invalid_argument &e ) {
-            // TODO Tell User they did a bad
+            // Tell User they did a bad
+            popup( _( "That is not an integer." ) );
             ret = -1;
         } catch( const std::out_of_range &e ) {
             ret = INT_MAX;
@@ -3379,7 +3382,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
                 item_location it = entry->any_item();
-                if( loc->can_reload_with( *it, true ) ) {
+                if( loc.can_reload_with( it, true ) ) {
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
@@ -3400,7 +3403,7 @@ void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int valu
         return;
     }
     for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+        if( loc.can_reload_with( entry.any_item(), true ) ) {
             item::reload_option tmp_opt( &u, loc, entry.any_item() );
             tmp_opt.qty( entry.chosen_count + value );
             entry.chosen_count = tmp_opt.qty();
@@ -3619,7 +3622,8 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
     // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
     inventory_entry &highlighted_entry = get_active_column().get_highlighted();
-    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+    if( mode == toggle_mode::SELECTED
+        && !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
         cata_assert( highlighted_entry.denial.has_value() );
         const std::string &denial = *highlighted_entry.denial;
 
@@ -3930,9 +3934,9 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( entry.is_selectable() ) {
             size_t const count = entry.chosen_count;
             size_t const max = entry.get_available_count();
-            size_t const newcount = input.action == "INCREASE_COUNT"
-                                    ? count < max ? count + 1 : max
-                                    : count > 1 ? count - 1 : 0;
+            size_t const newcount = std::clamp<size_t>( 0,
+                                    count + ( input.action == "INCREASE_COUNT" ? +1 : -1 ),
+                                    max );
             toggle_entry( entry, newcount );
         }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
@@ -4438,7 +4442,7 @@ std::string unload_selector::hint_string()
 {
     std::string mode = uistate.unload_auto_contain ? _( "Auto" ) : _( "Manual" );
     return string_format(
-               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Contain mode(<color_yellow>%s</color>)" ),
+               _( "[<color_yellow>%s</color>] Confirm [<color_yellow>%s</color>] Cancel [<color_yellow>%s</color>] Select destination(<color_yellow>%s</color>)" ),
                ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "QUIT" ), ctxt.get_desc( "CONTAIN_MODE" ), mode );
 }
 

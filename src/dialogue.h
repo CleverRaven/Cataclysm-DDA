@@ -129,12 +129,14 @@ struct talk_effect_t {
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
-        void load_effect( const JsonObject &jo, const std::string &member_name );
-        void parse_sub_effect( const JsonObject &jo );
-        void parse_string_effect( const std::string &effect_id, const JsonObject &jo );
+        void load_effect( const JsonObject &jo, const std::string &member_name,
+                          std::string_view src );
+        void parse_sub_effect( const JsonObject &jo, std::string_view src );
+        void parse_string_effect( const std::string &effect_id, const JsonObject &jo,
+                                  std::string_view src );
 
         talk_effect_t() = default;
-        explicit talk_effect_t( const JsonObject &, const std::string & );
+        explicit talk_effect_t( const JsonObject &, const std::string &, std::string_view src );
 
         /**
          * Functions that are called when the response is chosen.
@@ -178,7 +180,7 @@ struct talk_response {
     std::set<dialogue_consequence> get_consequences( dialogue &d ) const;
 
     talk_response();
-    explicit talk_response( const JsonObject & );
+    explicit talk_response( const JsonObject &, std::string_view );
 };
 
 struct dialogue {
@@ -368,12 +370,12 @@ class json_talk_response
         // the topic to move to on failure
         std::string failure_topic;
 
-        void load_condition( const JsonObject &jo );
+        void load_condition( const JsonObject &jo, std::string_view src );
         bool test_condition( dialogue &d ) const;
 
     public:
         json_talk_response() = default;
-        explicit json_talk_response( const JsonObject &jo );
+        explicit json_talk_response( const JsonObject &jo, std::string_view src );
 
         const talk_response &get_actual_response() const;
         bool has_condition() const {
@@ -394,7 +396,7 @@ class json_talk_repeat_response
 {
     public:
         json_talk_repeat_response() = default;
-        explicit json_talk_repeat_response( const JsonObject &jo );
+        explicit json_talk_repeat_response( const JsonObject &jo, std::string_view src );
         bool is_npc = false;
         bool include_containers = false;
         std::vector<itype_id> for_item;
@@ -408,7 +410,7 @@ class json_dynamic_line_effect
         std::function<bool( dialogue & )> condition;
         talk_effect_t effect;
     public:
-        json_dynamic_line_effect( const JsonObject &jo, const std::string &id );
+        json_dynamic_line_effect( const JsonObject &jo, const std::string &id, std::string_view src );
         bool test_condition( dialogue &d ) const;
         void apply( dialogue &d ) const;
 };
@@ -433,7 +435,7 @@ class json_talk_topic
          * It will override dynamic_line and replace_built_in_responses if those entries
          * exist in the input, otherwise they will not be changed at all.
          */
-        void load( const JsonObject &jo );
+        void load( const JsonObject &jo, std::string_view src );
 
         std::string get_dynamic_line( dialogue &d ) const;
         std::vector<json_dynamic_line_effect> get_speaker_effects() const;
@@ -452,6 +454,6 @@ class json_talk_topic
 };
 
 void unload_talk_topics();
-void load_talk_topic( const JsonObject &jo );
+void load_talk_topic( const JsonObject &jo, std::string_view src );
 
 #endif // CATA_SRC_DIALOGUE_H

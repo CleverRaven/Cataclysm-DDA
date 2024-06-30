@@ -389,6 +389,32 @@ trailheads, and some general tuning of the actual trail width/position in mapgen
 }
 ```
 
+## Forest Trail Settings
+
+The **overmap_connection_settings** section defines the `overmap_connection_id`s used in hardcoded placement.
+
+### Fields
+
+|          Identifier          |                                                    Description                                     |
+| ---------------------------- | -------------------------------------------------------------------------------------------------- |
+| `intra_city_road_connection` | overmap_connection id used within cities. Should include locations for road and road_nesw_manhole. |
+| `inter_city_road_connection` | overmap_connection id used between cities. Should include locations for the intra city terrains.   |
+| `trail_connection`           | overmap_connection id used for forest trails.                                                      |
+| `sewer_connection`           | overmap_connection id used for sewer connections.                                                  |
+| `subway_connection`          | overmap_connection id used for for both z-2 and z-4 subway connections.                            |
+| `rail_connection`            | overmap_connection id used for rail connections. ( Unused in vanilla as of 0.H )                   |
+
+### Example
+
+```json
+{
+	"overmap_connection_settings": {
+		"intra_city_road_connection": "cobbled_road",
+		"inter_city_road_connection": "rural_road"
+	}
+}
+```
+
 ## City
 
 The **city** section defines the possible overmap terrains and specials that may be used as

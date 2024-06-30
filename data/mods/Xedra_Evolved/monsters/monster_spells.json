@@ -126,5 +126,43 @@
     "max_range": 20,
     "min_duration": 3000,
     "max_duration": 18000
+  },
+  {
+    "id": "mon_firebird_explosion",
+    "type": "SPELL",
+    "name": { "str": "Firebird Explosion" },
+    "valid_targets": [ "hostile", "ground" ],
+    "description": "A fireball caused by a zealous firebird.",
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "effect": "attack",
+    "extra_effects": [ { "id": "mon_firebird_explosion_self", "hit_self": true } ],
+    "damage_type": "heat",
+    "shape": "blast",
+    "min_aoe": 2,
+    "max_aoe": 5,
+    "min_damage": 50,
+    "max_damage": 120,
+    "min_range": 1,
+    "max_range": 1,
+    "field_id": "fd_fire",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 2
+  },
+  {
+    "id": "mon_firebird_explosion_self",
+    "type": "SPELL",
+    "name": { "str": "Firebird Explosion Self" },
+    "valid_targets": [ "self" ],
+    "description": "A fireball caused by a zealous firebird that consumes itself.  Damage type pure to actually hurt them since they're immune to heat.",
+    "effect": "attack",
+    "damage_type": "pure",
+    "shape": "blast",
+    "min_damage": 500,
+    "max_damage": 500,
+    "field_id": "fd_fire",
+    "field_chance": 1,
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
   }
 ]

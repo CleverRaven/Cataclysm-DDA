@@ -65,10 +65,10 @@ void ScanLine(int x1, int y1, int x2, int y2, int ymax, std::vector<int> & xrang
 
 static std::vector<int> g_xrange;
 
-void drawTriangle(ImVec2 p0, ImVec2 p1, ImVec2 p2, unsigned char col, ImTui::TScreen * screen) {
-    int ymin = std::min(std::min(std::min((float) screen->size(), p0.y), p1.y), p2.y);
+void drawTriangle(ImVec2 p0, ImVec2 p1, ImVec2 p2, unsigned char col, ImTui::TScreen& screen) {
+    int ymin = std::min(std::min(std::min((float) screen.size(), p0.y), p1.y), p2.y);
     int ymax = std::max(std::max(std::max(0.0f, p0.y), p1.y), p2.y);
-
+    
     int ydelta = ymax - ymin + 1;
 
     if ((int) g_xrange.size() < 2*ydelta) {
@@ -90,11 +90,10 @@ void drawTriangle(ImVec2 p0, ImVec2 p1, ImVec2 p2, unsigned char col, ImTui::TSc
             int len = 1 + g_xrange[2*y+1] - g_xrange[2*y+0];
 
             while (len--) {
-                if (x >= 0 && x < screen->nx && y + ymin >= 0 && y + ymin < screen->ny) {
-                    auto & cell = screen->data[(y + ymin)*screen->nx + x];
-                    cell &= 0x00FF0000;
-                    cell |= ' ';
-                    cell |= ((ImTui::TCell)(col) << 24);
+                if (x >= 0 && x < screen.nx && y + ymin >= 0 && y + ymin < screen.ny) {
+                    auto & cell = screen.data[(y + ymin)*screen.nx + x];
+                    cell.ch = ' ';
+                    cell.bg = col;
                 }
                 ++x;
             }
@@ -139,7 +138,7 @@ inline ImTui::TColor rgbToAnsi256(ImU32 col, bool doAlpha) {
     return res;
 }
 
-void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * screen) {
+void ImTui_ImplText_RenderDrawData(ImDrawData * drawData) {
     // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
     int fb_width = (int)(drawData->DisplaySize.x * drawData->FramebufferScale.x);
     int fb_height = (int)(drawData->DisplaySize.y * drawData->FramebufferScale.y);
@@ -148,18 +147,23 @@ void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * scree
         return;
     }
 
-    screen->resize(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y);
-    screen->clear();
+    ImTui::ImplImtui_Data* bd = ImTui::ImTui_Impl_GetBackendData();
+    if(bd == nullptr) {
+        return;
+    }
+    int displayw = ImGui::GetIO().DisplaySize.x;
+    int displayh = ImGui::GetIO().DisplaySize.y;
 
-    // Will project scissor/clipping rectangles into framebuffer space
-    ImVec2 clip_off = drawData->DisplayPos;         // (0,0) unless using multi-viewports
-    ImVec2 clip_scale = drawData->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
+    ImTui::TScreen &screen = bd->Screen;
+    screen.resize(displayw, displayh);
+    screen.clear();
+    for(int index = 0; index < drawData->CmdListsCount; index++) {
+        const ImDrawList* cmd_list = drawData->CmdLists[index];
 
-    // Render command lists
-    for (int n = 0; n < drawData->CmdListsCount; n++)
-    {
-        const ImDrawList* cmd_list = drawData->CmdLists[n];
-
+        // Will project scissor/clipping rectangles into framebuffer space
+        ImVec2 clip_off = drawData->DisplayPos;         // (0,0) unless using multi-viewports
+        ImVec2 clip_scale = drawData->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
+        //int screen_offset = (screen.clipminy * displayw) + screen.clipminx;
         for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
         {
             const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
@@ -196,8 +200,8 @@ void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * scree
                         auto uv2 = cmd_list->VtxBuffer[vidx2].uv;
 
                         auto col0 = cmd_list->VtxBuffer[vidx0].col;
-                        //auto col1 = cmd_list->VtxBuffer[vidx1].col;
-                        //auto col2 = cmd_list->VtxBuffer[vidx2].col;
+                        auto col1 = cmd_list->VtxBuffer[vidx1].col;
+                        auto col2 = cmd_list->VtxBuffer[vidx2].col;
 
                         if (uv0.x != uv1.x || uv0.x != uv2.x || uv1.x != uv2.x ||
                             uv0.y != uv1.y || uv0.y != uv2.y || uv1.y != uv2.y) {
@@ -224,10 +228,10 @@ void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * scree
                             int yy = (y) + 0;
                             if (xx < clip_rect.x || xx >= clip_rect.z || yy < clip_rect.y || yy >= clip_rect.w) {
                             } else {
-                                auto & cell = screen->data[yy*screen->nx + xx];
-                                cell &= 0xFF000000;
-                                cell |= (col0 & 0xff000000) >> 24;
-                                cell |= ((ImTui::TCell)(rgbToAnsi256(col0, false)) << 16);
+                                auto & cell = screen.data[yy*screen.nx + xx];
+                                cell.ch = col1;
+                                cell.chwidth = (uint8_t)col2;
+                                cell.fg = rgbToAnsi256(col0, false);
                             }
                             i += 3;
                         } else {
@@ -238,7 +242,6 @@ void ImTui_ImplText_RenderDrawData(ImDrawData * drawData, ImTui::TScreen * scree
             }
         }
     }
-
 }
 
 bool ImTui_ImplText_Init() {
@@ -307,6 +310,11 @@ bool ImTui_ImplText_Init() {
 }
 
 void ImTui_ImplText_Shutdown() {
+    ImTui::ImplImtui_Data* data = ImTui::ImTui_Impl_GetBackendData();
+    if( data ) {
+        delete data;
+        ImGui::GetIO().BackendPlatformUserData = nullptr;
+    }
 }
 
 void ImTui_ImplText_NewFrame() {

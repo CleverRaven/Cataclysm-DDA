@@ -6,8 +6,8 @@
     "description": "A thin steel circlet studded with chunks of matrix crystal.  Your skin prickles slightly where the crown touches it.",
     "weight": "80 g",
     "volume": "100 ml",
-    "price": 5000,
-    "price_postapoc": 25,
+    "price": "50 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "steel", "portion": 9 }, { "type": "nether_crystal" } ],
     "looks_like": "crown_golden",
     "symbol": "[",
@@ -24,8 +24,8 @@
     "description": "A steel skullcap with a matrix crystal at its crown.  It looks ridiculous, but the documents you read said it would protect you from telepathic attack.",
     "weight": "767 g",
     "volume": "2 L",
-    "price": 3000,
-    "price_postapoc": 25,
+    "price": "30 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "steel", "portion": 12 }, { "type": "nether_crystal" } ],
     "looks_like": "miner_hat",
     "symbol": "[",
@@ -35,6 +35,6 @@
     "armor": [
       { "encumbrance": 4, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] }
     ],
-    "flags": [ "PADDED" ]
+    "flags": [ "PADDED", "PORTAL_PROOF" ]
   }
 ]

@@ -9,13 +9,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_GRANT_MANA_ADD1",
     "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "components": "spell_components_mana_upgrade_efficiency_01",
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -67,13 +67,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_GRANT_MANA_ADD2",
     "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "components": "spell_components_mana_upgrade_efficiency_02",
     "difficulty": 9,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -132,13 +132,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_GRANT_MANA_REGEN1",
     "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "components": "spell_components_mana_upgrade_regeneration_01",
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -202,13 +202,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_GRANT_MANA_REGEN2",
     "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "components": "spell_components_mana_upgrade_regeneration_02",
     "difficulty": 9,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -289,13 +289,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_GRANT_MANA_MULT1",
     "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "components": "spell_components_mana_upgrade_sensitivity_01",
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -367,13 +367,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_SPELL_GRANT_MANA_MULT2",
     "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "components": "spell_components_mana_upgrade_sensitivity_02",
     "difficulty": 9,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
   },
   {
     "type": "effect_on_condition",
