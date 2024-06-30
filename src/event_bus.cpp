@@ -1,4 +1,5 @@
 #include "event_bus.h"
+#include "event_bus.h"
 
 #include <algorithm>
 #include <array>
@@ -15,6 +16,7 @@
 #include "event_subscriber.h"
 #include "item_location.h"
 #include "talker.h"  // IWYU pragma: keep
+#include "vehicle.h"
 
 namespace cata::event_detail
 {
@@ -98,6 +100,13 @@ void event_bus::send_with_talker( Creature *alpha, Creature *beta,
 
 void event_bus::send_with_talker( Creature *alpha, item_location *beta,
                                   const cata::event &e ) const
+{
+    for( event_subscriber *s : subscribers ) {
+        s->notify( e, get_talker_for( alpha ), get_talker_for( beta ) );
+    }
+}
+
+void event_bus::send_with_talker( vehicle *alpha,  Creature *beta, const cata::event &e ) const
 {
     for( event_subscriber *s : subscribers ) {
         s->notify( e, get_talker_for( alpha ), get_talker_for( beta ) );
