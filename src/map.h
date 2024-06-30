@@ -365,6 +365,7 @@ struct tile_render_info {
  */
 class map
 {
+        friend class teleport;
         friend class editmap;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
@@ -795,6 +796,7 @@ class map
         // optionally: include a list of parts to displace instead of the entire vehicle
         bool displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, bool adjust_pos = true,
                                const std::set<int> &parts_to_move = {} );
+
         // make sure a vehicle that is split across z-levels is properly supported
         // calls displace_vehicle() and shouldn't be called from displace_vehicle
         void level_vehicle( vehicle &veh );
