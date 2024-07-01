@@ -277,7 +277,7 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
 
 template<typename T>
 void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
-                                       input_event assigned_hotkey, input_event pressed_key )
+                                       input_event &assigned_hotkey, const input_event &pressed_key )
 {
     ImGui::PushID( rule_number );
     print_hotkey( assigned_hotkey );
@@ -303,7 +303,7 @@ void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
     ImGui::SameLine();
     auto label = _( "Default" );
     auto x = ImGui::GetWindowWidth() - ImGui::GetStyle().ScrollbarSize -
-             ImGui::GetStyle().WindowPadding.x - ImGui::CalcTextSize( label, NULL, true ).x;
+             ImGui::GetStyle().WindowPadding.x - ImGui::CalcTextSize( label, nullptr, true ).x;
     ImGui::SetCursorPosX( x );
     if( ImGui::Button( label ) ) {
         guy->rules.clear_flag( this_rule.rule );
@@ -314,7 +314,7 @@ void follower_rules_ui_impl::checkbox( int rule_number, const T &this_rule,
 
 template<typename T>
 void follower_rules_ui_impl::radio_group( const std::string header_id, const char *title, T *rule,
-        std::map<T, std::string> &values, input_event assigned_hotkey, input_event pressed_key )
+        std::map<T, std::string> &values, input_event &assigned_hotkey, const input_event &pressed_key )
 {
     ImGui::Separator();
     ImGui::NewLine();
@@ -322,7 +322,7 @@ void follower_rules_ui_impl::radio_group( const std::string header_id, const cha
                        pressed_key == assigned_hotkey );
     print_hotkey( assigned_hotkey );
     ImGui::SameLine();
-    auto x = ImGui::GetCursorPosX();
+    float x = ImGui::GetCursorPosX();
     draw_colored_text( title, c_white );
     for( const std::pair<const T, std::string> &value : values ) {
         std::string rule_text = get_parsed( value.second );
