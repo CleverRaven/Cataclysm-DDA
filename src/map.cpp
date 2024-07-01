@@ -5766,12 +5766,14 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             spoil_multiplier = 0.0f;
         }
 
+        bool furniture_is_sealed = has_flag( ter_furn_flag::TFLAG_SEALED, map_location );
+
         map_stack items = i_at( map_location );
 
         process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
                            map_location, 1, flag,
                            spoil_multiplier * active_item_ref.spoil_multiplier(),
-                           active_item_ref.has_watertight_container() );
+                           furniture_is_sealed || active_item_ref.has_watertight_container() );
     }
 }
 
@@ -5850,9 +5852,10 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::HEATER;
             }
         }
+        bool in_tank = pt.info().has_flag( VPFLAG_FLUIDTANK );
         if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
                                 item_loc, it_insulation, flag,
-                                active_item_ref.spoil_multiplier(), active_item_ref.has_watertight_container() ) ) {
+                                active_item_ref.spoil_multiplier(), in_tank || active_item_ref.has_watertight_container() ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
