@@ -2139,8 +2139,8 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             continue; // No traction from wheel in deep water or air
         }
 
-        int move_mod = move_cost_ter_furn( pp );
-        if( move_mod == 0 ) {
+        const int mc = move_cost_ter_furn( pp );
+        if( mc == 0 ) {
             return 0.0f; // Vehicle locked in wall, shouldn't happen, but does
         }
 
@@ -2149,23 +2149,23 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             continue; // Ignore the movement modifier if caller specifies a bool
         }
 
+        int wheel_ter_mod = 0;
         for( const veh_ter_mod &mod : vpi.wheel_info->terrain_modifiers ) {
             const bool ter_has_flag = tr.has_flag( mod.terrain_flag );
             if( ter_has_flag && mod.move_override ) {
-                move_mod = mod.move_override;
+                wheel_ter_mod = mod.move_override;
                 break;
             } else if( !ter_has_flag && mod.move_penalty ) {
-                move_mod += mod.move_penalty;
-                break;
+                wheel_ter_mod += mod.move_penalty;
             }
         }
 
-        if( move_mod == 0 ) {
-            debugmsg( "move_mod resulted in a 0, ignoring wheel" );
-            continue;
+        if( wheel_ter_mod == 0 ) {
+            wheel_ter_mod = 1;
         }
 
-        traction_wheel_area += 2.0 * vpi.wheel_info->contact_area / move_mod;
+        // normalize mc with base terrain move cost 2
+        traction_wheel_area += 2.0f * vpi.wheel_info->contact_area / ( mc * wheel_ter_mod );
     }
 
     return traction_wheel_area;
