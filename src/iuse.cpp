@@ -162,6 +162,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_conjunctivitis( "conjunctivitis" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
@@ -674,6 +675,13 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
     if( p->has_effect( effect_boomered ) ) {
         p->remove_effect( effect_boomered );
         p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
+    }
+    if( p->has_effect( effect_conjunctivitis ) ) {
+        effect &eff = p->get_effect( effect_conjunctivitis );
+        if( eff.get_duration() > 2_days ) {
+            p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
+            eff.set_duration( 2_days );
+        }
     }
     return 1;
 }
