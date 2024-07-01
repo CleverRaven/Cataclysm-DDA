@@ -625,6 +625,15 @@
   },
   {
     "type": "effect_type",
+    "id": "immobilization",
+    "name": [ "Immobilized" ],
+    "desc": [ "You can't move!" ],
+    "rating": "bad",
+    "show_in_info": true,
+    "flags": [ "EFFECT_IMPEDING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "stunned",
     "name": [ "Stunned" ],
     "desc": [ "Your movement is randomized." ],

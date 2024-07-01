@@ -52,6 +52,7 @@ static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_immobilization( "immobilization" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_ridden( "ridden" );
@@ -685,6 +686,68 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
         z->deal_damage( nullptr, hit, damage_instance( damage_bash, damage ) );
     }
     c->check_dead_state();
+    return true;
+}
+
+bool trapfunc::snare_species( const tripoint &p, Creature *critter, item * )
+{
+    map &here = get_map();
+    const trap &laid_trap = here.tr_at( p );
+    if( !critter ) { // Nothing to capture
+        return false;
+    }
+
+    if( laid_trap.is_null() ) {
+        return false; //Should never happen but just in case
+    }
+
+    if( !laid_trap.trap_item_type.has_value() ) {
+        debugmsg( "Active trap %s has no stored item to determine species value.  Removing trap to avoid crashing.",
+                  laid_trap.name() );
+        here.remove_trap( p );
+        return false;
+    }
+
+    item trap_item = item( item::find_type( laid_trap.trap_item_type.value() ) );
+
+    if( !trap_item.has_property( "capture_species" ) ) {
+        debugmsg( "placed trap's item type %s has no \"capture_species\" property!" );
+        here.remove_trap( p );
+        return false;
+    }
+
+    const std::string spec = trap_item.get_property_string( "capture_species" );
+    const species_id species_to_capture = species_id( spec );
+
+    if( !critter->in_species( species_to_capture ) ) {
+        critter->add_msg_if_player( m_good, _( "You harmlessly pass a %1$s." ),
+                                    laid_trap.name() );
+        return false;
+    }
+
+    {
+        sounds::sound( p, 8, sounds::sound_t::combat, _( "phwoom!" ), false, "trap", "species_snare" );
+    }
+
+    if( critter ) {
+        const bodypart_id hit = critter->get_random_body_part_of_type( body_part_type::type::leg );
+
+        critter->add_msg_if_player( m_bad, _( "A %1$s catches your %2$s!" ),
+                                    laid_trap.name(), hit->name.translated() );
+
+        if( critter->has_effect( effect_ridden ) ) {
+            add_msg( m_warning, _( "Your %1$s is caught by a %2$s!" ), critter->get_name(), laid_trap.name() );
+        }
+        if( !critter->is_avatar() ) {
+            add_msg_if_player_sees( p, _( "%1$s is caught by a %2$s!" ), critter->get_name(),
+                                    laid_trap.name() );
+        }
+        // Actual effects
+        critter->add_effect( effect_immobilization, 10_turns, hit );
+        critter->check_dead_state();
+    }
+
+    here.remove_trap( p );
     return true;
 }
 
@@ -1679,6 +1742,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "blade", trapfunc::blade },
             { "snare_light", trapfunc::snare_light },
             { "snare_heavy", trapfunc::snare_heavy },
+            { "snare_species", trapfunc::snare_species },
             { "landmine", trapfunc::landmine },
             { "telepad", trapfunc::telepad },
             { "goo", trapfunc::goo },
