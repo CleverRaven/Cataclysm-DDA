@@ -43,6 +43,7 @@ std::string enum_to_string<event_type>( event_type data )
                                                  return "character_melee_attacks_character";
         case event_type::character_melee_attacks_monster:
                                                  return "character_melee_attacks_monster";
+        case event_type::character_radioactively_mutates: return "character_radioactively_mutates";
         case event_type::character_ranged_attacks_character:
                                                  return "character_ranged_attacks_character";
         case event_type::character_ranged_attacks_monster:

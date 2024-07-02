@@ -53,6 +53,7 @@ enum class event_type : int {
     character_loses_effect,
     character_melee_attacks_character,
     character_melee_attacks_monster,
+    character_radioactively_mutates,
     character_ranged_attacks_character,
     character_ranged_attacks_monster,
     character_smashes_tile,
@@ -417,6 +418,9 @@ struct event_spec<event_type::character_melee_attacks_monster> {
         }
     };
 };
+
+template<>
+struct event_spec<event_type::character_radioactively_mutates> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::character_ranged_attacks_character> {
