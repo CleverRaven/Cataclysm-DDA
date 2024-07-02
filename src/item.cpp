@@ -14112,12 +14112,19 @@ bool item::process_gun_cooling( Character *carrier )
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
 {
-    process_relic( carrier, pos );
+    return item::process( here, carrier, tripoint_bub_ms( pos ), insulation, flag,
+                          spoil_multiplier_parent, watertight_container, recursive );
+}
+
+bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
+{
+    process_relic( carrier, pos.raw() );
     if( recursive ) {
-        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
+        contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
                           spoil_multiplier_parent, watertight_container );
     }
-    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+    return process_internal( here, carrier, pos.raw(), insulation, flag, spoil_multiplier_parent,
                              watertight_container );
 }
 
@@ -14774,6 +14781,11 @@ bool item::on_drop( const tripoint &pos )
 }
 
 bool item::on_drop( const tripoint &pos, map &m )
+{
+    return item::on_drop( tripoint_bub_ms( pos ), m );
+}
+
+bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty

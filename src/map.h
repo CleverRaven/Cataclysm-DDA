@@ -1444,6 +1444,7 @@ class map
         // TODO: fix point types (remove the first overload)
         item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        // TODO: fix point types (remove the first overload)
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
@@ -1467,7 +1468,7 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item, int copies );
+        item &add_item( const tripoint_bub_ms &p, item new_item, int copies );
         // TODO: Get rid of untyped overload
         item &add_item( const tripoint &p, item new_item );
         item &add_item( const tripoint_bub_ms &p, item new_item );
@@ -1787,7 +1788,7 @@ class map
         static cata::copy_const<Map, field_entry> *get_field_helper(
             Map &m, const tripoint &p, const field_type_id &type );
 
-        std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
+        std::pair<item *, tripoint_bub_ms> _add_item_or_charges( const tripoint_bub_ms &pos, item obj,
                 int &copies_remaining, bool overflow = true );
     public:
 

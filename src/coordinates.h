@@ -655,13 +655,17 @@ using coords::project_combine;
 using coords::project_bounds;
 
 // Rebase relative coordinates to the base you know they're actually relative to.
+point_rel_ms rebase_rel( point_sm_ms );
 point_rel_ms rebase_rel( point_omt_ms p );
 point_rel_ms rebase_rel( point_bub_ms p );
+point_sm_ms rebase_sm( point_rel_ms p );
 point_omt_ms rebase_omt( point_rel_ms p );
 point_bub_ms rebase_bub( point_rel_ms p );
 
+tripoint_rel_ms rebase_rel( tripoint_sm_ms p );
 tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
 tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_sm_ms rebase_sm( tripoint_rel_ms p );
 tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
 tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
 
