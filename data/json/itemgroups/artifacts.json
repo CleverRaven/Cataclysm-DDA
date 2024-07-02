@@ -5,9 +5,9 @@
     "subtype": "distribution",
     "entries": [
       {
-        "group": "ps_artifacts",
+        "group": "twisted_geometry",
         "artifact": {
-          "procgen_id": "netherum_tunnels",
+          "procgen_id": "twisted_geometry",
           "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
         },
         "prob": 100

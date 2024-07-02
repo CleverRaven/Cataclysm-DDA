@@ -1,0 +1,16 @@
+[
+  {
+    "type": "item_group",
+    "id": "twisted_geometry",
+    "subtype": "distribution",
+    "items": [
+      [ "art_bomorrean", 7 ],
+      [ "art_penrose", 10 ],
+      [ "art_trident", 10 ],
+      [ "art_klein", 10 ],
+      [ "art_tesseract", 10 ],
+      [ "art_irrational", 10 ],
+      [ "art_duocylinder", 10 ]
+    ]
+  }
+]
