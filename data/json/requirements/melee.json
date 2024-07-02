@@ -15,7 +15,6 @@
         [ "sharp_toothbrush", -1 ],
         [ "bone_knife", -1 ],
         [ "knuckle_katar", -1 ],
-        [ "sharp_toothbrush", -1 ],
         [ "knife_small", -1 ],
         [ "knife_large", -1 ],
         [ "screwdriver", -1 ],
@@ -53,6 +52,8 @@
         [ "ax_sheets_bolted", -1 ],
         [ "hockey_stick", -1 ],
         [ "lucern_hammerfake", -1 ],
+        [ "homemade_polehammer", -1 ],
+        [ "homemade_polehammer_makeshift", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -632,7 +633,9 @@
         [ "naginata_inferior", -1 ],
         [ "makeshift_scythe_war", -1 ],
         [ "hockey_stick", -1 ],
-        [ "lucern_hammerfake", -1 ]
+        [ "lucern_hammerfake", -1 ],
+        [ "homemade_polehammer", -1 ],
+        [ "homemade_polehammer_makeshift", -1 ]
       ]
     ]
   },
