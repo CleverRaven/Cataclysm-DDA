@@ -73,12 +73,47 @@
       "effect_on_conditions": [
         {
           "id": "learn_blood_of_saints",
+          "condition": { "u_has_effect": "vampire_virus_post_mortal" },
           "effect": [
-            { "u_message": "You imbibed the concoction and you feel your veins flex in a warm glow." },
-            { "u_add_trait": "BLOOD_OF_SAINTS" }
-          ]
+            { "u_add_effect": "poisoned_blood2", "duration": "2 hours" },
+            {
+              "u_message": "Your veins burn and ache.  What were you thinking trying this?  You are already one of the damned!",
+              "type": "bad"
+            }
+          ],
+          "false_effect": [ { "run_eocs": "learn_blood_of_saints_2" } ]
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "learn_blood_of_saints_2",
+    "condition": { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+    "effect": [
+      { "u_add_effect": "poisoned_blood", "intensity": 1, "duration": "8 hours" },
+      {
+        "u_message": "Your veins burn and ache.  What were you thinking trying this?  You are already one of the damned!",
+        "type": "bad"
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You imbibed the concoction and you feel your veins flex in a warm glow.", "type": "good" },
+      { "u_add_trait": "BLOOD_OF_SAINTS" },
+      { "u_add_effect": "blood_treatment", "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOOD_OF_SAINTS_AGAINST_VAMPIRISM",
+    "recurrence": [ "16 hours", "16 hours" ],
+    "condition": { "u_has_trait": "BLOOD_OF_SAINTS" },
+    "global": true,
+    "effect": [
+      { "run_eocs": "EOC_REDUCE_VAMPVIRUS" },
+      { "run_eocs": "EOC_REDUCE_VAMPVIRUS1" },
+      { "run_eocs": "EOC_REDUCE_VAMPVIRUS2" },
+      { "run_eocs": "EOC_REDUCE_VAMPVIRUS3" }
+    ]
   }
 ]

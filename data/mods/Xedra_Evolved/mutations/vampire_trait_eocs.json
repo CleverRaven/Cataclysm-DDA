@@ -20,6 +20,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_FUN",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
+          ]
+        },
+        { "u_has_trait": "BLOOD_FUN" }
+      ]
+    },
+    "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SET_VAMPIRE_TRAIT_NUMBERS_FOR_NPC_USE",
     "//": "This is necessary for powers whose effect on NPCs is variable, since the jmath equations return the avatar's traits",
     "eoc_type": "EVENT",
@@ -706,6 +725,27 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MAGICFORBLOOD_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "200" ] },
+      {
+        "u_message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution.",
+        "type": "good"
+      },
+      {
+        "math": [
+          "u_val('mana')",
+          "+=",
+          "min((150 + (vampire_total_tier_one_traits() * 20) + (vampire_total_tier_two_traits() * 45) + (vampire_total_tier_three_traits() * 90) + (vampire_total_tier_four_traits() * 150)), 1500)"
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to recover any mana.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
     "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
@@ -872,5 +912,86 @@
       { "u_teleport": { "u_val": "VAMPIRE_sleep_in_earth_starting_point" } },
       { "u_message": "You feel yourself rising until you stand in the clear air once again.", "type": "good" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_activated",
+    "effect": [
+      { "u_assign_activity": "ACT_VAMPIRE_TORPOR", "duration": "8 hours" },
+      { "u_add_effect": "effect_vampire_torpor", "duration": "8 hours" }
+    ]
+  },
+  {
+    "id": "ACT_VAMPIRE_TORPOR",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "slumbering",
+    "based_on": "time",
+    "can_resume": false,
+    "interruptable": false,
+    "interruptable_with_kb": false,
+    "rooted": true,
+    "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_TORPOR_RECOVER",
+    "effect": [ { "math": [ "u_val('sleepiness')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_torpor",
+    "name": [ "Torpor" ],
+    "desc": [ "Thanks to your torpor you are healing and recovering quickly" ],
+    "rating": "good",
+    "vitamins": [ { "vitamin": "human_blood_vitamin", "rate": [ [ 1, 1 ] ], "tick": [ "3 m" ] } ],
+    "flags": [ "DEAF", "BLIND" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_DOMINATE_activated",
+    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "effect": [
+      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "700" ] },
+      { "u_location_variable": { "context_val": "loc" } },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_DOMINATE_activated2",
+            "effect": [
+              { "npc_cast_spell": { "id": "vampire_dominate_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
+              {
+                "npc_message": "You focus you gaze on your target's mind, attempting to take control of it.",
+                "type": "good"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "npc_message": "You don't have enough blood to activate your dominating gaze.", "type": "bad" } ]
   }
 ]
