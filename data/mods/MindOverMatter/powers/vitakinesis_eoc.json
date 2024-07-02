@@ -228,7 +228,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_HEALING_TRANCE_REMOVE",
-    "effect": [ { "u_lose_effect": "effect_vitakin_healing_trance" } ]
+    "effect": [
+      { "u_lose_effect": "effect_vitakin_healing_trance" },
+      { "u_message": "You exit your trance and your wounds feel less painful", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CANCELLING_ACTIVITY_CANCELS_REVITALIZATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vitakin_healing_trance" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_REMOVE" } ]
   },
   {
     "type": "effect_on_condition",
