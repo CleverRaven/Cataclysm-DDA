@@ -271,6 +271,7 @@
       "NARCOLEPTIC",
       "NOPAIN",
       "SCHIZOPHRENIC",
+      "SEASONAL_AFFECTIVE",
       "TOLERANCE",
       "TREE_COMMUNION",
       "VANITY"
@@ -474,7 +475,6 @@
     "vitamin_cost": 60,
     "description": "You tend to have bouts of depression during the fall and especially winter.  Taking antidepressants can help.",
     "starting_trait": true,
-    "types": [ "ATTITUDE" ],
     "category": [ "PLANT", "ELFA", "MEDICAL" ]
   },
   {
@@ -10238,5 +10238,17 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SIMPLE_MIND",
+    "name": { "str": "Simple Mind" },
+    "points": -1,
+    "description": "You have a simple mind and you enjoy the inner peace that comes with it.",
+    "mixed_effect": true,
+    "types": [ "INT", "ATTITUDE" ],
+    "category": [ "GASTROPOD", "INSECT", "PLANT", "CRUSTACEAN" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -1 } ] } ],
+    "cancels": [ "SCHIZOPHRENIC", "MOODSWINGS" ]
   }
 ]
