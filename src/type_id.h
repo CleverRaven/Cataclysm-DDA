@@ -88,6 +88,9 @@ using emit_id = string_id<emit>;
 class enchantment;
 using enchantment_id = string_id<enchantment>;
 
+struct end_screen;
+using end_screen_id = string_id<end_screen>;
+
 class event_statistic;
 using event_statistic_id = string_id<event_statistic>;
 

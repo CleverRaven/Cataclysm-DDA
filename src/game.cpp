@@ -41,6 +41,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "ascii_art.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -52,6 +53,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
+#include "cata_imgui.h"
 #include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -86,6 +88,7 @@
 #include "editmap.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "end_screen.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -105,6 +108,7 @@
 #include "get_version.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "imgui/imgui.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
@@ -2798,105 +2802,79 @@ bool game::is_game_over()
     return false;
 }
 
+class end_screen_data;
+
+class end_screen_data
+{
+        friend class end_screen_ui_impl;
+    public:
+        void draw_end_screen_ui();
+};
+
+class end_screen_ui_impl : public cataimgui::window
+{
+        end_screen_data &parent;
+    public:
+        explicit end_screen_ui_impl( end_screen_data &parent ) : cataimgui::window( _( "End Screen" ) ),
+            parent( parent )  {
+        }
+    protected:
+        void draw_controls() override;
+};
+
+void end_screen_data::draw_end_screen_ui()
+{
+    input_context ctxt;
+    ctxt.register_action( "QUIT" );
+    end_screen_ui_impl p_impl( *this );
+    bool stay_open = true;
+    while( stay_open ) {
+        ui_manager::redraw_invalidated();
+        std::string action = ctxt.handle_input();
+        if( action == "QUIT" || !p_impl.get_is_open() ) {
+            break;
+        }
+    }
+}
+
+void end_screen_ui_impl::draw_controls()
+{
+    avatar &u = get_avatar();
+    ascii_art_id art = static_cast<ascii_art_id>( "1st_aid" );
+    dialogue d( get_talker_for( &u ), nullptr );
+    for( const end_screen &e_screen : end_screen::get_all() ) {
+        if( e_screen.condition( d ) ) {
+            art = e_screen.picture_id;
+        }
+    }
+
+    if( art.is_valid() ) {
+        int row = 1;
+        for( const std::string &line : art->picture ) {
+            draw_colored_text( line );
+        }
+    }
+}
+
 void game::bury_screen() const
 {
     avatar &u = get_avatar();
 
     std::vector<std::string> vRip;
 
-    int iMaxWidth = 0;
-    int iNameLine = 0;
-    int iInfoLine = 0;
+    //int iMaxWidth = 41;
+    //int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
+    //int iNameLine = 15;
 
-    if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
-        u.has_amount( itype_holybook_bible3, 1 ) ) {
-        if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
-            vRip.emplace_back( "               _______  ___" );
-            vRip.emplace_back( "              <       `/   |" );
-            vRip.emplace_back( "               >  _     _ (" );
-            vRip.emplace_back( "              |  |_) | |_) |" );
-            vRip.emplace_back( "              |  | \\ | |   |" );
-            vRip.emplace_back( "   ______.__%_|            |_________  __" );
-            vRip.emplace_back( " _/                                  \\|  |" );
-            iNameLine = vRip.size();
-            vRip.emplace_back( "|                                        <" );
-            vRip.emplace_back( "|                                        |" );
-            iMaxWidth = utf8_width( vRip.back() );
-            vRip.emplace_back( "|                                        |" );
-            vRip.emplace_back( "|_____.-._____              __/|_________|" );
-            vRip.emplace_back( "              |            |" );
-            iInfoLine = vRip.size();
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |           <" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |   _        |" );
-            vRip.emplace_back( "              |__/         |" );
-            vRip.emplace_back( "             % / `--.      |%" );
-            vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
-            vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
-            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
-            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+    //const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+    //                     TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
-        } else {
-            vRip.emplace_back( "               _______  ___" );
-            vRip.emplace_back( "              |       \\/   |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            iInfoLine = vRip.size();
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |           <" );
-            vRip.emplace_back( "              |   _        |" );
-            vRip.emplace_back( "              |__/         |" );
-            vRip.emplace_back( "   ______.__%_|            |__________  _" );
-            vRip.emplace_back( " _/                                   \\| \\" );
-            iNameLine = vRip.size();
-            vRip.emplace_back( "|                                         <" );
-            vRip.emplace_back( "|                                         |" );
-            iMaxWidth = utf8_width( vRip.back() );
-            vRip.emplace_back( "|                                         |" );
-            vRip.emplace_back( "|_____.-._______            __/|__________|" );
-            vRip.emplace_back( "             % / `_-.   _  |%" );
-            vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
-            vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
-            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
-            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
-        }
-    } else {
-        vRip.emplace_back( R"(           _________  ____           )" );
-        vRip.emplace_back( R"(         _/         `/    \_         )" );
-        vRip.emplace_back( R"(       _/      _     _      \_.      )" );
-        vRip.emplace_back( R"(     _%\      |_) | |_)       \_     )" );
-        vRip.emplace_back( R"(   _/ \/      | \ | |           \_   )" );
-        vRip.emplace_back( R"( _/                               \_ )" );
-        vRip.emplace_back( R"(|                                   |)" );
-        iNameLine = vRip.size();
-        vRip.emplace_back( R"( )                                 < )" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|   _                               |)" );
-        vRip.emplace_back( R"(|__/                                |)" );
-        iMaxWidth = utf8_width( vRip.back() );
-        vRip.emplace_back( R"( / `--.                             |)" );
-        vRip.emplace_back( R"(|                                  ( )" );
-        iInfoLine = vRip.size();
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|     %                         .   |)" );
-        vRip.emplace_back( R"(|  @`                            %% |)" );
-        vRip.emplace_back( R"(| %@%@%\                *      %`%@%|)" );
-        vRip.emplace_back( R"(%%@@@.%@%\%%            `\  %%.%%@@%@)" );
-        vRip.emplace_back( R"(@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@)" );
-    }
+    //catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+    //                           iOffset );
+    //draw_border( w_rip );
 
-    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-    catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               iOffset );
-    draw_border( w_rip );
+    end_screen_data new_instance;
+    new_instance.draw_end_screen_ui();
 
     sfx::do_player_death_hurt( get_player_character(), true );
     sfx::fade_audio_group( sfx::group::weather, 2000 );
@@ -2904,83 +2882,11 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
     sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
 
-    for( size_t iY = 0; iY < vRip.size(); ++iY ) {
-        size_t iX = 0;
-        const char *str = vRip[iY].data();
-        for( int slen = vRip[iY].size(); slen > 0; ) {
-            const uint32_t cTemp = UTF8_getch( &str, &slen );
-            if( cTemp != U' ' ) {
-                nc_color ncColor = c_light_gray;
-
-                if( cTemp == U'%' ) {
-                    ncColor = c_green;
-
-                } else if( cTemp == U'_' || cTemp == U'|' ) {
-                    ncColor = c_white;
-
-                } else if( cTemp == U'@' ) {
-                    ncColor = c_brown;
-
-                } else if( cTemp == U'*' ) {
-                    ncColor = c_red;
-                }
-
-                mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
-                          cTemp );
-            }
-            iX += mk_wcwidth( cTemp );
-        }
-    }
-
-    std::string sTemp;
-
-    center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
-
-    const time_duration survived = calendar::turn - calendar::start_of_game;
-    const int minutes = to_minutes<int>( survived ) % 60;
-    const int hours = to_hours<int>( survived ) % 24;
-    const int days = to_days<int>( survived );
-
-    if( days > 0 ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
-    } else if( hours > 0 ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dh %dm", hours, minutes );
-    } else {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dm", minutes );
-    }
-
-    center_print( w_rip, iInfoLine++, c_white, sTemp );
-
-    const int iTotalKills = g->get_kill_tracker().monster_kill_count();
-
-    sTemp = _( "Kills:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
-               ( sTemp + " " ) );
-    wprintz( w_rip, c_magenta, "%d", iTotalKills );
-
-    sTemp = _( "In memory of:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
-               c_light_gray,
-               sTemp );
-
-    sTemp = u.get_name();
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
-               sTemp );
-
-    sTemp = _( "Last Words:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
-               c_light_gray,
-               sTemp );
-
-    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
-    std::string sLastWords = string_input_popup()
-                             .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
-                             .max_length( iMaxWidth - 4 - 1 )
-                             .query_string();
-
+    //std::string sLastWords = string_input_popup()
+    //                         .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
+    //                         .max_length( iMaxWidth - 4 - 1 )
+    //                         .query_string();
+    std::string sLastWords = "baba";
     const bool is_suicide = uquit == QUIT_SUICIDE;
     get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
             sLastWords );

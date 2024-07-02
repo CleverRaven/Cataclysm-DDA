@@ -37,6 +37,7 @@
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "emit.h"
+#include "end_screen.h"
 #include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
@@ -298,6 +299,7 @@ void DynamicDataLoader::initialize()
     add( "scent_type", &scent_type::load_scent_type );
     add( "disease_type", &disease_type::load_disease_type );
     add( "ascii_art", &ascii_art::load_ascii_art );
+    add( "end_screen", &end_screen::load_end_screen );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
