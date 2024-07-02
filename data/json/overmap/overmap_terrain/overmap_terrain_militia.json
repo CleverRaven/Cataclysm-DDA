@@ -29,8 +29,7 @@
     ],
     "name": "Militia Lodge",
     "sym": "L",
-    "color": "blue",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "color": "brown",
+    "see_cost": 5
   }
 ]
