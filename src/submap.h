@@ -183,21 +183,30 @@ class submap
         }
 
         void update_lum_add( const point &p, const item &i ) {
+            update_lum_add( point_sm_ms( p ), i );
+        }
+
+        void update_lum_add( const point_sm_ms &p, const item &i ) {
             ensure_nonuniform();
-            if( i.is_emissive() && m->lum[p.x][p.y] < 255 ) {
-                m->lum[p.x][p.y]++;
+            if( i.is_emissive() && m->lum[p.x()][p.y()] < 255 ) {
+                m->lum[p.x()][p.y()]++;
             }
         }
 
         void update_lum_rem( const point &p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
+        // TODO: Get rid of untyped overload.
         cata::colony<item> &get_items( const point &p ) {
+            return get_items( point_sm_ms( p ) );
+        }
+
+        cata::colony<item> &get_items( const point_sm_ms &p ) {
             if( is_uniform() ) {
                 cata::colony<item> static noitems;
                 return noitems;
             }
-            return m->itm[p.x][p.y];
+            return m->itm[p.x()][p.y()];
         }
 
         const cata::colony<item> &get_items( const point &p ) const {
