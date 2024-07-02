@@ -598,7 +598,7 @@ void game::load_data_from_dir( const cata_path &path, const std::string &src, lo
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
 
-#if !(defined(_WIN32) || defined(TILES))
+#if defined(TUI)
 // in ncurses_def.cpp
 extern void check_encoding(); // NOLINT
 extern void ensure_term_size(); // NOLINT
@@ -610,7 +610,7 @@ void game_ui::init_ui()
     static bool first_init = true;
 
     if( first_init ) {
-#if !(defined(_WIN32) || defined(TILES))
+#if defined(TUI)
         check_encoding();
 #endif
 
@@ -636,7 +636,7 @@ void game_ui::init_ui()
     }
 
     // First get TERMX, TERMY
-#if defined(TILES) || defined(_WIN32)
+#if !defined(TUI)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
@@ -2401,7 +2401,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
     ( void ) ctxt;
     ( void ) speed;
     ( void ) iso;
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(TUI)
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
         return ret;

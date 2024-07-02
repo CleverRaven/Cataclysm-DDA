@@ -140,7 +140,7 @@ int start_logger( const char *app_name )
 namespace
 {
 
-#if defined(_WIN32)
+#if defined(_WIN32) and defined(TILES)
 // Used only if AttachConsole() works
 FILE *CONOUT;
 #endif

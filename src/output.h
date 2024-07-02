@@ -91,6 +91,31 @@ using chtype = int;
 #define LINE_OXXX_UNICODE 0x252C
 #define LINE_XXXX_UNICODE 0x253C
 
+#if defined(USE_PDCURSES)
+#undef LINE_XOXO
+#undef LINE_OXOX
+#undef LINE_XXOO
+#undef LINE_OXXO
+#undef LINE_OOXX
+#undef LINE_XOOX
+#undef LINE_XXXO
+#undef LINE_XXOX
+#undef LINE_XOXX
+#undef LINE_OXXX
+#undef LINE_XXXX
+
+#define LINE_XOXO LINE_XOXO_UNICODE
+#define LINE_OXOX LINE_OXOX_UNICODE
+#define LINE_XXOO LINE_XXOO_UNICODE
+#define LINE_OXXO LINE_OXXO_UNICODE
+#define LINE_OOXX LINE_OOXX_UNICODE
+#define LINE_XOOX LINE_XOOX_UNICODE
+#define LINE_XXXO LINE_XXXO_UNICODE
+#define LINE_XXOX LINE_XXOX_UNICODE
+#define LINE_XOXX LINE_XOXX_UNICODE
+#define LINE_OXXX LINE_OXXX_UNICODE
+#define LINE_XXXX LINE_XXXX_UNICODE
+#endif
 // Supports line drawing
 std::string string_from_int( catacurses::chtype ch );
 
