@@ -1047,7 +1047,7 @@ reference at least one body part or sub body part.
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
 | `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
-| `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
+| `innate_seal`          | (_optional_) Innate sealing capability of this part. (default: `0`)
 | `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
 | `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated.
@@ -1291,7 +1291,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `mutation_conflicts`         | (_optional_) A list of mutations that prevent this bionic from being installed.
 | `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | `included`                   | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
-| `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| `innate_seal`                | (_optional_) How much innate sealing capability does this bionic provide on the specified body parts.
 | `protec`                     | (_optional_) An array of resistance values that determines the types of protection this bionic provides on the specified body parts.
 | `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
@@ -1400,7 +1400,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | `physical`          | _(optional)_ Identifies this damage type as originating from physical sources. (defaults to false)
 | `melee_only`        | _(optional)_ Identifies this damage type as originating from melee weapons and attacks. (defaults to false)
 | `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
-| `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
+| `matter_state`      | _(optional)_ This damage type corresponds to liquid or gas-based sources of damage. Currently influences whether an item or piece of armor includes seal integrity against this damage type. (defaults to "SOLID")
 | `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
 | `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
 | `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
@@ -3435,7 +3435,7 @@ Weakpoints only match if they share the same id, so it's important to define the
   }
 ],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
-"environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
+"seal_integrity_with_filter": 6,             // The tightness of the seal if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
 "magazines": [                               // Magazines types for each ammo type (if any) which can be used to reload this item
     [ "9mm", [ "glockmag" ] ]                // The first magazine specified for each ammo type is the default
@@ -3580,7 +3580,7 @@ Armor can be defined like this:
                                     // additional some armor specific entries:
 "covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,                      //  (Optional, default = 0) How much warmth clothing provides
-"environmental_protection" : 0,     //  (Optional, default = 0) How much environmental protection it affords
+"seal_integrity" : "OPEN",          //  (Optional, default = "LOOSE") The tightness of the seal on the seams of the clothing
 "encumbrance" : 0,                  // Base encumbrance (unfitted value)
 "max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
 "sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.
@@ -3715,7 +3715,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
     "warmth" : 10,
-    "environmental_protection" : 0,
+    "seal_integrity" : "LOOSE",
     "armor": [
       {
         "material": [
@@ -3786,7 +3786,7 @@ Pet armor can be defined like this:
 "type" : "PET_ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
+"seal_integrity" : "OPEN",  //  (Optional, default = "LOOSE") The tightness of the seal on the seams of the clothing
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "pet_bodytype":        // the body type of the pet that this monster will fit. See MONSTERS.md
 "max_pet_vol":          // the maximum volume of the pet that will fit into this armor. Volume in ml or L can be used - "50 ml" or "2 L".
@@ -3798,7 +3798,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "pet_armor_data" : {      // additionally the same armor data like above
-    "environmental_protection" : 0,
+    "seal_integrity" : "OPEN",
     "pet_bodytype": "dog",
     "max_pet_vol": "35000 ml",
     "min_pet_vol": "25000 ml",
@@ -6094,7 +6094,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
             "max_duration": "5 minutes", // Effect duration randomized between min and max duration
             "intensity": 1, // Intensity of the effect to apply
             "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
-            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
+            "matter_state": "SOLID", // Determines whether seals on clothing are relevant
             "immune_in_vehicle": // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
             "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
             "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
