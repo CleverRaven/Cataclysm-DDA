@@ -18,6 +18,7 @@
           "mx_supplydrop": 100,
           "mx_portal": 50,
           "mx_portal_in": 40,
+          "mx_dreamwound_shadow": 25,
           "mx_roadworks": 1000,
           "mx_mayhem": 500,
           "mx_casings": 1000,
@@ -31,6 +32,7 @@
       "field": {
         "chance": 75,
         "extras": {
+          "mx_dreamwound_shadow": 5,
           "mx_trees_map_salamander": 75,
           "mx_trees_map_sylph": 75,
           "mx_trees_map_ierde": 75,
