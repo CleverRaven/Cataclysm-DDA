@@ -281,7 +281,7 @@ Adds new endings which are impacted by the strength of other factions
 Add white phosphorus and related recipes
 Added multiple new guns
 This adds a Doctor and Pharmacist profession. It also generalizes the "MD" trait description to include more medical professionals.
-Three new skeletal zombe evolutions
+Three new skeletal zombie evolutions
 Microlabs will now spawn foes from a series of mutually exclusive lists.
 
 
