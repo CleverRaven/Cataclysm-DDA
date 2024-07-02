@@ -187,7 +187,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 103,
+static_assert( static_cast<int>( event_type::num_event_types ) == 104,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
