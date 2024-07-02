@@ -21,7 +21,8 @@
       "wax",
       "bifocal_contacts_weekly",
       "bifocal_transition_contacts_weekly",
-      "butternut"
+      "butternut",
+      "large_bone"
     ],
     "//1": "CAUTION: this list is for items that are safe for straightforward deactivation",
     "//2": "items that may be active for additional reasons other than temperature tracking should use separate special case handling"

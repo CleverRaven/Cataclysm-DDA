@@ -102,7 +102,7 @@
     "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_hair_beads",
@@ -112,7 +112,7 @@
     "description": "An assortment of cowrie shells used to decorate locs or braids.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_necklace",
@@ -122,7 +122,7 @@
     "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "diamond_dental_grill",
