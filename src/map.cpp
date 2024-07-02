@@ -5238,7 +5238,7 @@ item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool 
 
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 {
-    return map::add_item_or_charges( tripoint_bub_ms( pos ), obj, overflow );
+    return map::add_item_or_charges( tripoint_bub_ms( pos ), std::move( obj ), overflow );
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
