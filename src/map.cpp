@@ -5472,7 +5472,7 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         current_submap->get_items( l ).insert( new_item );
     }
 
-    if( current_submap->active_items.add( *new_pos, rebase_rel( l ) ) ) {
+    if( current_submap->active_items.add( *new_pos, l ) ) {
         // TODO: fix point types
         tripoint_abs_sm const loc( abs_sub.x() + p.x() / SEEX, abs_sub.y() + p.y() / SEEY, p.z() );
         submaps_with_active_items_dirty.insert( loc );
@@ -5526,17 +5526,16 @@ void map::make_active( item_location &loc )
 {
     item *target = loc.get_item();
 
-    point l;
-    submap *const current_submap = get_submap_at( loc.position(), l );
+    point_sm_ms l;
+    submap *const current_submap = get_submap_at( loc.position(), l.raw() );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to make active at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to make active at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return;
     }
     cata::colony<item> &item_stack = current_submap->get_items( l );
     cata::colony<item>::iterator iter = item_stack.get_iterator_from_pointer( target );
 
-    if( current_submap->active_items.add( *iter, point_rel_ms( l ) ) ) {
-        // TODO: fix point types
+    if( current_submap->active_items.add( *iter, l ) ) {
         tripoint_abs_sm const smloc( abs_sub.x() + loc.position().x / SEEX,
                                      abs_sub.y() + loc.position().y / SEEY, loc.position().z );
         submaps_with_active_items_dirty.insert( smloc );

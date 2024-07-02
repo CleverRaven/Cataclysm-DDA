@@ -58,7 +58,11 @@ class active_item_cache
         /**
          * Adds the reference to the cache. Does nothing if the reference is already in the cache.
          * Relies on the fact that item::processing_speed() is a constant.
+         * These two operations are really the same, but tailored to their usages.
+         * The submap coordinates are for submaps, and the relative ones are for vehicles.
          */
+        bool add( item &it, point_sm_ms location, item *parent = nullptr,
+                  std::vector<item_pocket const *> const &pocket_chain = {} );
         bool add( item &it, point_rel_ms location, item *parent = nullptr,
                   std::vector<item_pocket const *> const &pocket_chain = {} );
 

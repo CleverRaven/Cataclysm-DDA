@@ -26,6 +26,12 @@ bool item_reference::has_watertight_container() const
     } );
 }
 
+bool active_item_cache::add( item &it, point_sm_ms location, item *parent,
+                             std::vector<item_pocket const *> const &pocket_chain )
+{
+    return active_item_cache::add( it, rebase_rel( location ), parent, pocket_chain );
+}
+
 bool active_item_cache::add( item &it, point_rel_ms location, item *parent,
                              std::vector<item_pocket const *> const &pocket_chain )
 {
