@@ -8,6 +8,18 @@
       "place_nested": [
         { "chunks": [ "microlab_generic_tile" ], "x": 0, "y": 0 },
         {
+          "//": "Decorative chunk No. 1",
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
+        {
+          "//": "Gameplay conditioning chunk No. 1",
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
