@@ -3580,7 +3580,7 @@ Armor can be defined like this:
                                     // additional some armor specific entries:
 "covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,                      //  (Optional, default = 0) How much warmth clothing provides
-"seal_integrity" : "OPEN",          //  (Optional, default = "LOOSE") The tightness of the seal on the seams of the clothing
+"seal_integrity" : "LOOSE",          //  (Optional, default = "LOOSE") The tightness of the seal on the seams of the clothing
 "encumbrance" : 0,                  // Base encumbrance (unfitted value)
 "max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
 "sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.
@@ -3786,7 +3786,7 @@ Pet armor can be defined like this:
 "type" : "PET_ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"seal_integrity" : "OPEN",  //  (Optional, default = "LOOSE") The tightness of the seal on the seams of the clothing
+"seal_integrity" : "LOOSE",  //  (Optional, default = "LOOSE") The tightness of the seal on the seams of the clothing
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "pet_bodytype":        // the body type of the pet that this monster will fit. See MONSTERS.md
 "max_pet_vol":          // the maximum volume of the pet that will fit into this armor. Volume in ml or L can be used - "50 ml" or "2 L".
@@ -3798,7 +3798,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "pet_armor_data" : {      // additionally the same armor data like above
-    "seal_integrity" : "OPEN",
+    "seal_integrity" : "LOOSE",
     "pet_bodytype": "dog",
     "max_pet_vol": "35000 ml",
     "min_pet_vol": "25000 ml",
