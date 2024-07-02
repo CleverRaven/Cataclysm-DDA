@@ -2696,7 +2696,7 @@ static void CheckMessages()
                         int y = player_character.posy() + dy;
                         int z = player_character.posz();
                         const tripoint pos( x, y, z );
-
+                        const tripoint_bub_ms bub_pos(pos);
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
                             const optional_vpart_position vp = here.veh_at( pos );
@@ -2725,27 +2725,27 @@ static void CheckMessages()
                             //if( can_interact_at( ACTION_OPEN, pos ) ) {
                             // don't bother with open since user can just walk into target
                             //}
-                            if( can_interact_at( ACTION_CLOSE, pos ) ) {
+                            if( can_interact_at( ACTION_CLOSE, bub_pos ) ) {
                                 actions.insert( ACTION_CLOSE );
                             }
-                            if( can_interact_at( ACTION_EXAMINE, pos ) ) {
+                            if( can_interact_at( ACTION_EXAMINE, bub_pos ) ) {
                                 actions.insert( ACTION_EXAMINE );
                             }
                         } else {
                             // Check for actions that work on own tile only
-                            if( can_interact_at( ACTION_BUTCHER, pos ) ) {
+                            if( can_interact_at( ACTION_BUTCHER, bub_pos ) ) {
                                 actions.insert( ACTION_BUTCHER );
                             } else {
                                 actions_remove.insert( ACTION_BUTCHER );
                             }
 
-                            if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
+                            if( can_interact_at( ACTION_MOVE_UP, bub_pos ) ) {
                                 actions.insert( ACTION_MOVE_UP );
                             } else {
                                 actions_remove.insert( ACTION_MOVE_UP );
                             }
 
-                            if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
+                            if( can_interact_at( ACTION_MOVE_DOWN, bub_pos ) ) {
                                 actions.insert( ACTION_MOVE_DOWN );
                             } else {
                                 actions_remove.insert( ACTION_MOVE_DOWN );
@@ -2753,7 +2753,7 @@ static void CheckMessages()
                         }
 
                         // Check for actions that work on nearby tiles and own tile
-                        if( can_interact_at( ACTION_PICKUP, tripoint_bub_ms( pos ) ) ) {
+                        if( can_interact_at( ACTION_PICKUP, bub_pos ) ) {
                             actions.insert( ACTION_PICKUP );
                         }
                     }
