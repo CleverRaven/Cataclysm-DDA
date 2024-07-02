@@ -60,6 +60,7 @@
     "price": "200 USD",
     "longest_side": "90 cm",
     "price_postapoc": "15 USD",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",

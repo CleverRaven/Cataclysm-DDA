@@ -724,6 +724,39 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
     }
 }
 
+
+TEST_CASE( "item_new_to_hit_enforcement", "[item]" )
+{
+    std::vector<const itype *> all_items = item_controller->all();
+    const std::set<itype_id> &blacklist = test_data::legacy_to_hit;
+    std::string msg_enforce;
+    std::string msg_prune;
+    for( const itype *type : all_items ) {
+        const bool on_blacklist = blacklist.find( type->get_id() ) != blacklist.end();
+        if( type->using_legacy_to_hit ) {
+            if( !on_blacklist ) {
+                msg_enforce += msg_enforce.empty() ? string_format( "\n[\n  \"%s\"", type->get_id().str() ) :
+                               string_format( ",\n  \"%s\"", type->get_id().str() );
+            }
+        } else if( on_blacklist ) {
+            msg_prune += msg_prune.empty() ? string_format( "\n[\n  \"%s\"", type->get_id().str() ) :
+                         string_format( ",\n  \"%s\"", type->get_id().str() );
+        }
+    }
+    if( !msg_enforce.empty() ) {
+        msg_enforce +=
+            "\n]\nThe item(s) above use legacy to_hit, please change them to the newer object method (see /docs/GAME_BALANCE.md#to-hit-value) or remove the to_hit field if the item(s) aren't intended to be used as weapons.";
+    }
+    if( !msg_prune.empty() ) {
+        msg_prune +=
+            "\n]\nThe item(s) above should be removed from the blacklist at /data/mods/TEST_DATA/legacy_to_hit.json.";
+    }
+    CAPTURE( msg_enforce );
+    REQUIRE( msg_enforce.empty() );
+    CAPTURE( msg_prune );
+    REQUIRE( msg_prune.empty() );
+}
+
 static float max_density_for_mats( const std::map<material_id, int> &mats, float total_size )
 {
     REQUIRE( !mats.empty() );

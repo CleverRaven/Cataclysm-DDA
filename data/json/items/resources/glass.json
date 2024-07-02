@@ -78,7 +78,6 @@
     "weight": "11475 g",
     "volume": "5300 ml",
     "longest_side": "305 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 4 }
   },
   {

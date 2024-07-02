@@ -3,6 +3,7 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 
+std::set<itype_id> test_data::legacy_to_hit;
 std::set<itype_id> test_data::known_bad;
 std::unordered_set<oter_type_id> test_data::overmap_terrain_coverage_whitelist;
 std::map<vproto_id, std::vector<double>> test_data::drag_data;
@@ -111,6 +112,12 @@ void test_data::load( const JsonObject &jo )
 {
     // It's probably not necessary, but these are set up to
     // extend existing data instead of overwrite it.
+    if( jo.has_array( "legacy_to_hit" ) ) {
+        std::set<itype_id> new_legacy_to_hit;
+        jo.read( "legacy_to_hit", new_legacy_to_hit );
+        legacy_to_hit.insert( new_legacy_to_hit.begin(), new_legacy_to_hit.end() );
+    }
+
     if( jo.has_array( "known_bad" ) ) {
         std::set<itype_id> new_known_bad;
         jo.read( "known_bad", new_known_bad );

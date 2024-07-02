@@ -91,7 +91,6 @@
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
     "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
-    "to_hit": 2,
     "techniques": [ "PRECISE" ],
     "extend": { "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ] },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],

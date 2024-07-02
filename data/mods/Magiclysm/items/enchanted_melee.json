@@ -684,7 +684,6 @@
     "volume": "1250 ml",
     "longest_side": "130 cm",
     "price": "39 USD",
-    "to_hit": 2,
     "material": [ "wood", "bone" ],
     "symbol": "/",
     "color": "light_gray",
@@ -737,6 +736,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
@@ -758,6 +758,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS", "WATCH", "ALARMCLOCK", "NO_RELOAD", "NO_UNLOAD" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
@@ -923,6 +924,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "weapon_category": [ "KNIVES" ],
     "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "melee_damage": { "bash": 2, "stab": 13 }
@@ -943,6 +945,7 @@
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "weapon_category": [ "KNIVES" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
     },
@@ -956,7 +959,6 @@
     "name": { "str": "springstaff(baton)", "str_pl": "springstaves(baton)" },
     "description": "This versatile weapon uses Technomancy-enhanced springs to keep the staff tips retracted while in baton configuration.  Activate to extend.",
     "weight": "1800 g",
-    "to_hit": 2,
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel", "plastic" ],

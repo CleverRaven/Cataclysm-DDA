@@ -217,7 +217,6 @@
     "longest_side": "249 mm",
     "price": "650 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "material": [ "steel", "aluminum" ],
     "symbol": "(",

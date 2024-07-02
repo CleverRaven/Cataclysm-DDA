@@ -271,7 +271,6 @@
     "volume": "250 ml",
     "weight": "227 g",
     "material": [ "paper" ],
-    "to_hit": -2,
     "snippet_category": [
       {
         "id": "tpaper1",

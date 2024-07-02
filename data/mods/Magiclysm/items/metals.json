@@ -27,7 +27,6 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": "10 USD",
-    "to_hit": -2,
     "stack_size": 4,
     "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 250g/unit ~ stack 8 but mishapen so only 50% of this",
     "material": [ "orichalcum_metal" ],

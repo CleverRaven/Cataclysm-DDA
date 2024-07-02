@@ -140,7 +140,6 @@
     "weight": "7257 g",
     "volume": "5277 ml",
     "longest_side": "216 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 18 }
   },
   {
@@ -276,7 +275,6 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "76 mm",
-    "to_hit": 2,
     "melee_damage": { "bash": 7 }
   },
   {
@@ -293,7 +291,6 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "to_hit": -2,
     "melee_damage": { "bash": 18 },
     "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
   },
@@ -311,7 +308,6 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "to_hit": -2,
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
     "pocket_data": [

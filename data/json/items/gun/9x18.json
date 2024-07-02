@@ -21,7 +21,6 @@
     "barrel_length": "94 mm",
     "price": "250 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": [ "9x18" ],

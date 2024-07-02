@@ -12,7 +12,6 @@
     "barrel_length": "152 mm",
     "price": "875 USD",
     "price_postapoc": "27 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",

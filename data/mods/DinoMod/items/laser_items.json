@@ -10,7 +10,6 @@
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "UNRECOVERABLE", "TRADER_AVOID", "WATERPROOF_GUN", "NO_SALVAGE" ],
     "skill": "rifle",
     "weight": "540 g",
-    "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 6 },

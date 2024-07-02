@@ -51,7 +51,6 @@
     "//2": "190.5 + 64.8mm max OAL for 45-70. Revolvers just built different.",
     "price": "1 kUSD 50 USD",
     "price_postapoc": "27 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "symbol": "(",

@@ -46,7 +46,6 @@
     "description": "A large and slightly misshapen metal spike, could do some damage mounted on a vehicle.",
     "category": "spare_parts",
     "weight": "550 g",
-    "to_hit": -2,
     "color": "light_gray",
     "symbol": ";",
     "material": [ "steel" ],
@@ -54,6 +53,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "BUTCHER", -42 ] ],
     "price_postapoc": "10 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 6 },
     "weapon_category": [ "SHIVS" ]
   },
@@ -175,7 +175,6 @@
     "//2": "appears to be about 20% cheaper than bronze",
     "price": "1 USD 40 cent",
     "price_postapoc": "80 cent",
-    "to_hit": -2,
     "material": [ "brass" ],
     "symbol": ",",
     "color": "yellow",
@@ -269,7 +268,6 @@
     "//1": "250ml × 8.0 = 2kg -> 500g/unit @ stack 4; but mishapen so weight is only 50% of this",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "stack_size": 4,
     "material": [ "steel" ],
     "symbol": ",",
@@ -369,7 +367,6 @@
     "material": [ "copper" ],
     "volume": "30 ml",
     "weight": "250 g",
-    "to_hit": -2,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -385,8 +382,7 @@
     "material": [ "tin" ],
     "//": "Density of 7.265g/cm³ => 50g/7.265g/cm³ ~ 7ml",
     "volume": "8 ml",
-    "weight": "50 g",
-    "to_hit": -2
+    "weight": "50 g"
   },
   {
     "type": "AMMO",
@@ -1165,7 +1161,6 @@
     "material": [ "aluminum" ],
     "volume": "20 ml",
     "weight": "50 g",
-    "to_hit": -2,
     "melee_damage": { "bash": 1 }
   },
   {

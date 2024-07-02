@@ -28,7 +28,6 @@
     "material": [ "steel", "leather" ],
     "volume": "500 ml",
     "weight": "970 g",
-    "to_hit": 2,
     "price_postapoc": "1 kUSD 240 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],

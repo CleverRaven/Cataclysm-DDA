@@ -12,7 +12,6 @@
     "material": [ "iron" ],
     "weight": "1000 g",
     "volume": "235 ml",
-    "to_hit": -1,
     "melee_damage": { "bash": 7 }
   },
   {

@@ -4191,12 +4191,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
             def.melee_relative = load_damage_map( jrel.get_object( "melee_damage" ) );
         }
     }
+    def.using_legacy_to_hit = false; // Reset to false so inherited legacy to_hit s aren't flagged
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );
+        def.using_legacy_to_hit = true;
     } else if( jo.has_object( "to_hit" ) ) {
         io::acc_data temp;
-        bool was_loaded = false;
-        mandatory( jo, was_loaded, "to_hit", temp );
+        mandatory( jo, false, "to_hit", temp );
         def.m_to_hit = temp.sum_values();
     }
     optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
