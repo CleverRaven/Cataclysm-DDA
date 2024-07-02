@@ -371,9 +371,13 @@
     "id": "EOC_RADIATION_MUTATION",
     "eoc_type": "EVENT",
     "required_event": "character_radioactively_mutates",
-    "condition": { "or": [ { "u_is_character" }, { "u_is_npc" } ] },
+    "condition": { "or": [ { "u_is_character": true }, { "u_is_npc": true } ] },
     "effect": [
-      { "set_string_var": "<radiation_category>", "target_var": { "context_val": "radiation_mutation_category" }, "parse_tags": true },
+      {
+        "set_string_var": "<radiation_category>",
+        "target_var": { "context_val": "radiation_mutation_category" },
+        "parse_tags": true
+      },
       { "u_mutate_category": { "context_val": "radiation_mutation_category" }, "use_vitamins": false }
     ]
   },
