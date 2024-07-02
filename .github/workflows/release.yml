@@ -56,7 +56,7 @@ jobs:
       matrix:
         include:
           - name: Windows Tiles x64 MSVC
-            artifact: windows-tiles-x64-msvc
+            artifact: windows-graphics-no-sound-alternate
             arch: x64
             os: windows-2019
             mxe: none
@@ -64,7 +64,7 @@ jobs:
             content: application/zip
             sound: 0
           - name: Windows Tiles Sounds x64 MSVC
-            artifact: windows-tiles-sounds-x64-msvc
+            artifact: windows-graphics-with-sound-alternate
             arch: x64
             os: windows-2019
             mxe: none
@@ -74,7 +74,7 @@ jobs:
           - name: Windows Tiles x64
             mxe: x86_64
             libbacktrace: 1
-            artifact: windows-tiles-x64
+            artifact: windows-graphics-no-sound
             os: ubuntu-latest
             ext: zip
             content: application/zip
@@ -82,7 +82,7 @@ jobs:
           - name: Windows Tiles Sounds x64
             mxe: x86_64
             libbacktrace: 1
-            artifact: windows-tiles-sounds-x64
+            artifact: windows-graphics-with-sound
             os: ubuntu-latest
             ext: zip
             content: application/zip
@@ -94,7 +94,7 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 0
-            artifact: linux-tiles-x64
+            artifact: linux-graphics-no-sound
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
@@ -104,7 +104,7 @@ jobs:
             libbacktrace: 1
             tiles: 1
             sound: 1
-            artifact: linux-tiles-sounds-x64
+            artifact: linux-graphics-with-sound
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
