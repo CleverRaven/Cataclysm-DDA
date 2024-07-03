@@ -289,9 +289,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
-static const itype_id itype_holybook_bible1( "holybook_bible1" );
-static const itype_id itype_holybook_bible2( "holybook_bible2" );
-static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rope_30( "rope_30" );
@@ -346,7 +343,6 @@ static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -359,7 +355,6 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
@@ -2813,10 +2808,9 @@ class end_screen_data
 
 class end_screen_ui_impl : public cataimgui::window
 {
-        end_screen_data &parent;
     public:
-        explicit end_screen_ui_impl( end_screen_data &parent ) : cataimgui::window( _( "End Screen" ) ),
-            parent( parent )  {
+        std::array<char, 255> text;
+        explicit end_screen_ui_impl() : cataimgui::window( _( "End Screen" ) ) {
         }
     protected:
         void draw_controls() override;
@@ -2825,54 +2819,73 @@ class end_screen_ui_impl : public cataimgui::window
 void end_screen_data::draw_end_screen_ui()
 {
     input_context ctxt;
-    ctxt.register_action( "QUIT" );
-    end_screen_ui_impl p_impl( *this );
-    bool stay_open = true;
-    while( stay_open ) {
+    ctxt.register_action( "TEXT.CONFIRM" );
+#if defined(WIN32) || defined(TILES)
+    ctxt.set_timeout( 50 );
+#endif
+    end_screen_ui_impl p_impl;
+
+    while( true ) {
         ui_manager::redraw_invalidated();
         std::string action = ctxt.handle_input();
-        if( action == "QUIT" || !p_impl.get_is_open() ) {
+        if( action == "TEXT.CONFIRM" || !p_impl.get_is_open() ) {
             break;
         }
     }
+    avatar &u = get_avatar();
+    const bool is_suicide = g->uquit == QUIT_SUICIDE;
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
+            std::string( p_impl.text.data() ) );
 }
 
 void end_screen_ui_impl::draw_controls()
 {
+    text[0] = '\0';
     avatar &u = get_avatar();
-    ascii_art_id art = static_cast<ascii_art_id>( "1st_aid" );
-    dialogue d( get_talker_for( &u ), nullptr );
+    ascii_art_id art = static_cast<ascii_art_id>( "ascii_tombstone" );
+    dialogue d( get_talker_for( u ), nullptr );
+    std::string input_label;
+    std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
     for( const end_screen &e_screen : end_screen::get_all() ) {
         if( e_screen.condition( d ) ) {
             art = e_screen.picture_id;
+            if( !e_screen.added_info.empty() ) {
+                added_info = e_screen.added_info;
+            }
+            if( !e_screen.last_words_label.empty() ) {
+                input_label = e_screen.last_words_label;
+            }
         }
     }
 
     if( art.is_valid() ) {
         int row = 1;
-        for( const std::string &line : art->picture ) {
+        for( std::string line : art->picture ) {
             draw_colored_text( line );
+
+            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
+                if( row ==  info.first.second ) {
+                    parse_tags( info.second, u, u );
+                    ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
+                    draw_colored_text( info.second );
+                }
+            }
+            row++;
         }
     }
+
+    if( !input_label.empty() ) {
+        ImGui::NewLine();
+        draw_colored_text( input_label );
+        ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
+        ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
+        ImGui::SetKeyboardFocusHere( -1 );
+    }
+
 }
 
 void game::bury_screen() const
 {
-    avatar &u = get_avatar();
-
-    std::vector<std::string> vRip;
-
-    //int iMaxWidth = 41;
-    //int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
-    //int iNameLine = 15;
-
-    //const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-    //                     TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-    //catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-    //                           iOffset );
-    //draw_border( w_rip );
-
     end_screen_data new_instance;
     new_instance.draw_end_screen_ui();
 
@@ -2881,15 +2894,6 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
     sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
-
-    //std::string sLastWords = string_input_popup()
-    //                         .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
-    //                         .max_length( iMaxWidth - 4 - 1 )
-    //                         .query_string();
-    std::string sLastWords = "baba";
-    const bool is_suicide = uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            sLastWords );
 }
 
 void game::death_screen()
