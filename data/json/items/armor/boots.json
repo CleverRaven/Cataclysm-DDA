@@ -590,7 +590,7 @@
     "color": "brown",
     "warmth": 30,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -739,8 +739,8 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 3,
-    "environmental_protection": 12,
-    "flags": [ "WATERPROOF" ],
+    "environmental_protection": 15,
+    "flags": [ "WATERPROOF", "STURDY" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -897,7 +897,7 @@
     "color": "brown",
     "warmth": 30,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "NONCONDUCTIVE" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "NONCONDUCTIVE", "STURDY" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -946,7 +946,7 @@
     "warmth": 18,
     "material_thickness": 2.5,
     "environmental_protection": 3,
-    "flags": [ "NONCONDUCTIVE", "WATERPROOF", "VARSIZE" ],
+    "flags": [ "NONCONDUCTIVE", "WATERPROOF", "VARSIZE", "STURDY" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1889,7 +1889,7 @@
     "warmth": 35,
     "material_thickness": 2.5,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
