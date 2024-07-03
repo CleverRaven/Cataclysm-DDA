@@ -328,11 +328,11 @@ The main reason would be that it was not a fun system. To quote Venera3:
 
 > The point system turning every character into a Heavy Sleeper Truth Teller Wool Allergy Stimulant Psychosis \<and now insert the traits you want to take\> is just shit design
 
-The point system did not encouraged players to try new approaches or roleplay but instead supported attempts to 'break' it, find a way to trick the system, and try to find as much profit within existing points as possible. Which brings us to issue number two, which is...
+The point system did not encourage players to try new approaches or roleplay but instead supported attempts to 'break' it, find a way to trick the system, and try to find as much profit within existing points as possible. Which brings us to issue number two, which is...
 
-Points are a bad tool for balance. How much points is worth a bad back trait? 3? 2? 2.5? 2.76? π? Numbers have difficulties representing the abstract influence of a single trait on your entire playthrough. 
+Points are a bad tool for balance. How many points is a bad back trait worth? 3? 2? 2.5? 2.76? π? Numbers have difficulties representing the abstract influence of a single trait on your entire playthrough. 
 
-Lucky for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against zomibe. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
+Luckily for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against a zombie. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
 
 Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Has the pool system been removed completely? No, you can still turn it on when you create the world, and it won't be removed unless it stands in the way of another changes. Is it possible to make a good system out of a pool system? Probably, but no one did.
 
