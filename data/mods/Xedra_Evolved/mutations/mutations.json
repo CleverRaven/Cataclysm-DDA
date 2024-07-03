@@ -152,6 +152,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOOD_FUN",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Sanguine Ecstasy" },
+    "description": "Your palate adapted to your new condition.  Drinking human blood will make you feel great."
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRIC_STRENGTH",
     "points": 0,
     "starting_trait": false,
@@ -412,6 +422,17 @@
   },
   {
     "type": "mutation",
+    "id": "MAGICFORBLOOD",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blood-Fueled Magic" },
+    "description": "Your exhaust some of the blood in your veins to recover some of your spent mana.",
+    "spells_learned": [ [ "vampire_magic_for_blood_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE_COMMAND_BEAST",
     "points": 0,
     "starting_trait": false,
@@ -444,6 +465,61 @@
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE" ],
     "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence" },
+    "description": "Your new status as a true vampire has empowered your other abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TORPOR",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Torpor" },
+    "description": "You can enter a deathlike stake known as torpor, in which your wounds will close faster, your fatigue will fully recover and your blood thirst will be less intense.  Be careful, though, as nothing will be able to wake you up until eight hours have passed.",
+    "spells_learned": [ [ "vampire_torpor", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DOMINATE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Dominating Gaze" },
+    "description": "You can focus your gaze and take control of your target.  Only works against targets that have a mind.",
+    "spells_learned": [ [ "vampire_dominate", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_BREATHE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Facultative Breathing" },
+    "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
+    "flags": [ "GILLS" ],
+    "integrated_armor": [ "integrated_nobreathe" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_ILLNESS",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Corpse-like Flesh" },
+    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.",
+    "flags": [ "PARAIMMUNE", "NO_DISEASE", "NO_RADIATION", "INFECTION_IMMUNE" ]
   },
   {
     "type": "mutation",

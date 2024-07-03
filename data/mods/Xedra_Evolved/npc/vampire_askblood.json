@@ -1,0 +1,252 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Can I drink some of your blood?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_YES",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
+            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "u_has_trait": "VAMPIRE" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Can I drink some of your blood?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_KINDA",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "math": [ "n_val('npc_trust')", "<=", "9" ] },
+            { "math": [ "n_val('npc_value')", "<=", "9" ] },
+            { "math": [ "n_val('npc_trust')", ">", "0" ] },
+            { "math": [ "n_val('npc_value')", ">", "0" ] },
+            { "u_has_trait": "VAMPIRE" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Can I drink some of your blood?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_IMPOSSIBLE",
+        "condition": {
+          "and": [
+            { "u_has_trait": "VAMPIRE" },
+            {
+              "or": [
+                { "npc_has_flag": "BLEED_IMMUNE" },
+                { "npc_has_trait": "ACIDBLOOD" },
+                { "npc_has_trait": "THRESH_CRUSTACEAN" },
+                { "npc_has_trait": "THRESH_INSECT" },
+                { "npc_has_trait": "THRESH_CEPHALOPOD" },
+                { "npc_has_trait": "THRESH_GASTROPOD" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Can I drink some of your blood?  I really need some of it.",
+        "topic": "TALK_FRIEND_FOLLOWER_BLOODFEED_NOPE",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", "<=", "0" ] },
+            { "math": [ "n_val('npc_value')", "<=", "0" ] },
+            { "not": { "npc_has_flag": "BLEED_IMMUNE" } },
+            { "not": { "npc_has_trait": "ACIDBLOOD" } },
+            { "not": { "npc_has_trait": "THRESH_CRUSTACEAN" } },
+            { "not": { "npc_has_trait": "THRESH_INSECT" } },
+            { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
+            { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "u_has_trait": "VAMPIRE" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_YES",
+    "dynamic_line": {
+      "npc_has_effect": "feed_from_recently",
+      "yes": "It'll have to wait, unfortunately.  If I let you do that too often it'll be very bad for my health.",
+      "no": "Sure!  Anything to help you feel better."
+    },
+    "responses": [
+      {
+        "text": "[Drink from them] Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
+      },
+      {
+        "text": "[Drink from them] Thank you.  See you later.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_FRIEND" } ]
+      },
+      {
+        "text": "I changed my mind.  Keep your blood.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } }
+      },
+      {
+        "text": "Got it.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      },
+      {
+        "text": "Got it.  See you later.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_KINDA",
+    "dynamic_line": {
+      "npc_has_effect": "feed_from_recently",
+      "yes": "I'm not letting you do that this soon after last time.  I need that blood too, you know?",
+      "no": "If you really need to, then sure you can.  Don't make an habit out of it, however."
+    },
+    "responses": [
+      {
+        "text": "[Drink from them] Thank you.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
+        "opinion": { "trust": -1, "value": -1 }
+      },
+      {
+        "text": "[Drink from them] Thank you.  See you later.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } },
+        "effect": [ { "run_eocs": "EOC_VAMPIRE_DRINK_FROM_HUMAN" }, { "run_eocs": "EOC_NPC_GOT_DRANK_FROM_ALLY" } ],
+        "opinion": { "trust": -1, "value": -1 }
+      },
+      {
+        "text": "I changed my mind.  Keep your blood.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "npc_has_effect": "feed_from_recently" } }
+      },
+      {
+        "text": "Got it.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      },
+      {
+        "text": "Got it.  See you later.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_effect": "feed_from_recently" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_NOPE",
+    "dynamic_line": "Nope.  I'm not going to be your blood bag.  Find someone else for that.",
+    "responses": [
+      { "text": "Got it.  Can we talk about something else?", "topic": "TALK_FRIEND" },
+      { "text": "Got it.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_BLOODFEED_IMPOSSIBLE",
+    "dynamic_line": "(As you approach to ask about letting you drink their blood, your senses tell you that whatever blood they have in their veins wouldn't nourish you at all, so you decide to not ask your question)",
+    "responses": [
+      { "text": "(Ask them about something else)", "topic": "TALK_FRIEND" },
+      { "text": "(Go do something else)", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "feed_from_recently",
+    "name": [ "Gave you blood" ],
+    "desc": [ "This person won't accept to let you drink more of their blood for a while." ],
+    "max_duration": "100 d"
+  },
+  {
+    "id": "regular_vampire_blood_drink",
+    "type": "effect_type",
+    "name": [ "Bloodsucking" ],
+    "desc": [ "The monster is sucking up your blood!" ],
+    "rating": "bad",
+    "resist_traits": [ "BLEED_IMMUNE" ],
+    "show_in_info": true,
+    "max_intensity": 2,
+    "show_intensity": false,
+    "int_decay_step": -2,
+    "int_decay_tick": 1,
+    "vitamins": [
+      { "vitamin": "blood", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] },
+      { "vitamin": "redcells", "rate": [ [ -125, -125 ] ], "tick": [ "1 s" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_DRINK_FROM_HUMAN",
+    "condition": { "u_has_trait": "BLOOD_FUN" },
+    "effect": [
+      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+      {
+        "u_add_morale": "morale_drank_blood",
+        "bonus": 30,
+        "max_bonus": 60,
+        "duration": "20 m",
+        "decay_start": "10 m"
+      }
+    ],
+    "false_effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_GOT_DRANK_FROM_FRIEND",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "feed_from_recently", "duration": "5 d" },
+      { "npc_add_effect": "regular_vampire_blood_drink", "duration": "2 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NPC_GOT_DRANK_FROM_ALLY",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "feed_from_recently", "duration": "10 d" },
+      { "npc_add_effect": "regular_vampire_blood_drink", "duration": "2 s" }
+    ]
+  }
+]

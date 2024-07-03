@@ -274,16 +274,18 @@
   {
     "id": [ "TALK_VAMPIRE_MENTOR_SACRIFICE_1" ],
     "type": "talk_topic",
+    "//": "Note: the part about the kill being in melee only is due to bug #72281.  Remove it when the bug gets fixed",
     "dynamic_line": {
-      "str": "They need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll become a true vampire."
+      "str": "They need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll become a true vampire.  And I almost forgot: you also need to kill them in melee combat or else it won't work."
     },
     "responses": [ { "text": "Got it.  See you.", "topic": "TALK_DONE" } ]
   },
   {
     "id": [ "TALK_VAMPIRE_MENTOR_SACRIFICE_2" ],
+    "//": "Note: the part about the kill being in melee only is due to bug #72281.  Remove it when the bug gets fixed",
     "type": "talk_topic",
     "dynamic_line": {
-      "str": "Do not worry about the pain, my friend.  It is always temporary, no matter how much it hurts.  After that, you won't ever be temporary again.  Keep in mind that they need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll be freed from your limited time as you become a true vampire."
+      "str": "Do not worry about the pain, my friend.  It is always temporary, no matter how much it hurts.  After that, you won't ever be temporary again.  Keep in mind that they need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll be freed from your limited time as you become a true vampire.  And I almost forgot: you also need to kill them in melee combat or else it won't work."
     },
     "responses": [ { "text": "Got it.  See you.", "topic": "TALK_DONE" } ]
   },
