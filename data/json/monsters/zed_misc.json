@@ -1259,7 +1259,8 @@
       { "id": "drag_followup" },
       { "id": "longswipe" }
     ],
-    "armor": { "electric": 1 }
+    "armor": { "electric": 1 },
+    "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
     "id": "mon_zombie_predator",
