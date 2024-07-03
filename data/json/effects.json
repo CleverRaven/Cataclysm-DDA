@@ -624,7 +624,7 @@
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
-    "type": "effect_type",
+    "type": "effect_type"
     "id": "immobilization",
     "name": [ "Immobilized" ],
     "desc": [ "You can't move!" ],
