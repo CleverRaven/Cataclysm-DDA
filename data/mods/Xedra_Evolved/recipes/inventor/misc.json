@@ -177,7 +177,7 @@
     "subcategory": "CSC_XEDRA_MISC",
     "skill_used": "deduction",
     "difficulty": 6,
-    "skills_required": [ "computers", 3 ],
+    "skills_required": [ "computer", 3 ],
     "time": "3 h",
     "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": 0 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
