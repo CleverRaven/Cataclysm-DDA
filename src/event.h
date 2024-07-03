@@ -34,6 +34,7 @@ enum class event_type : int {
     broken_bone,
     broken_bone_mends,
     buries_corpse,
+    camp_taken_over,
     causes_resonance_cascade,
     // Eating is always consuming, but consuming also covers medication and
     // fueling bionics
@@ -269,6 +270,17 @@ struct event_spec<event_type::buries_corpse> {
             { "character", cata_variant_type::character_id },
             { "corpse_type", cata_variant_type::mtype_id },
             { "corpse_name", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::camp_taken_over> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
+            { "old_owner", cata_variant_type::faction_id },
+            { "new_owner", cata_variant_type::faction_id },
+            { "camp_name", cata_variant_type::string },
+            { "was_violent", cata_variant_type::bool_ },
         }
     };
 };

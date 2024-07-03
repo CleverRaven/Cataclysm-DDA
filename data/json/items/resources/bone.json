@@ -9,7 +9,8 @@
     "price": "0 cent",
     "material": [ "bone" ],
     "weight": "1000 g",
-    "flags": [ "RAW", "NUTRIENT_OVERRIDE", "INEDIBLE", "LUPINE" ]
+    "flags": [ "RAW", "NUTRIENT_OVERRIDE", "INEDIBLE", "LUPINE" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -60,7 +61,8 @@
     "material": [ "bone" ],
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

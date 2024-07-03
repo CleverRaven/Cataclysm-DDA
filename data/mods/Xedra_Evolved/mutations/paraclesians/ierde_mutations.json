@@ -36,7 +36,7 @@
       { "part": "torso", "ignored": 6 }
     ],
     "integrated_armor": [ "integrated_pebbled" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "type": "mutation",
@@ -64,7 +64,7 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_granite_skin" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "type": "mutation",

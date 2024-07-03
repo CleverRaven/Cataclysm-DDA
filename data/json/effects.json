@@ -1961,12 +1961,7 @@
   {
     "type": "effect_type",
     "id": "smoke_eyes",
-    "name": [
-      "Little Eye Irritation (Smoke)",
-      "Minor Eye Irritation (Smoke)",
-      "Huge Eye Irritation (Smoke)",
-      "Bad Eye Irritation (Smoke)"
-    ],
+    "name": [ "Little Eye Irritation", "Minor Eye Irritation", "Huge Eye Irritation", "Bad Eye Irritation" ],
     "desc": [
       "Your eyes are mildly irritated.",
       "Your eyes are watering.",
@@ -1982,7 +1977,7 @@
         "bad"
       ]
     ],
-    "miss_messages": [ [ "Your eyes sting and tear from the smoke.", 1 ] ],
+    "miss_messages": [ [ "Your eyes sting and tear from the irritation.", 1 ] ],
     "max_duration": "3 m",
     "max_intensity": 4,
     "int_decay_tick": 40,
@@ -2103,6 +2098,21 @@
     "apply_message": "As you apply the solution, the skunk odor dissipates.",
     "max_duration": "2 minutes",
     "removes_effects": [ "skunk_spray" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "conjunctivitis",
+    "name": [ "Conjunctivitis" ],
+    "desc": [ "Your eyes are inflamed." ],
+    "apply_message": "The chemical irritant damaged your eyes!",
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
+    "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],
+    "int_dur_factor": "50 m",
+    "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.925 } ],
+    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",

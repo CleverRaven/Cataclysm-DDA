@@ -202,7 +202,9 @@ struct trap {
          * called on the null trap.
          */
         // Implemented for historical reasons in iexamine.cpp
+        // TODO: Get rid of untyped overload.
         void examine( const tripoint &examp ) const;
+        void examine( const tripoint_bub_ms &examp ) const;
 
         update_mapgen_id map_regen_target() const;
 
@@ -250,7 +252,9 @@ struct trap {
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
+        // TODO: Get rid of untyped overload.
         bool can_see( const tripoint &pos, const Character &p ) const;
+        bool can_see( const tripoint_bub_ms &pos, const Character &p ) const;
 
         bool has_trigger_msg() const {
             return trigger_message_u && trigger_message_npc;

@@ -1984,6 +1984,28 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         if( !temp_camp->allowed_access_by( you ) ) {
+            if( !you.is_avatar() ) {
+                return; // One day, NPCs may be able to use bulletin boards
+            }
+            // Checks the reality bubble for NPCs
+            std::vector<shared_ptr_fast<npc>> nearby_npcs = overmap_buffer.get_npcs_near_player( HALF_MAPSIZE );
+            bool unoccupied_camp = true;
+            for( npc_ptr &some_guy : nearby_npcs ) {
+                if( !some_guy ) {
+                    continue;
+                } else if( some_guy->get_faction()->id == temp_camp->get_owner() ) {
+                    unoccupied_camp = false;
+                }
+            }
+            if( unoccupied_camp &&
+                query_yn( _( "There's nobody here to protect %s.  Do you want to claim ownership?" ),
+                          temp_camp->camp_name() ) ) {
+                bool plunder = query_yn(
+                                   _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
+                                   temp_camp->get_owner()->name );
+                temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
+                return;
+            }
             you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
             return;
         }
@@ -4640,11 +4662,20 @@ void trap::examine( const tripoint &examp ) const
     }
 }
 
+void trap::examine( const tripoint_bub_ms &examp ) const
+{
+    trap::examine( examp.raw() );
+}
+
 void iexamine::part_con( Character &you, tripoint const &examp )
 {
+    iexamine::part_con( you, tripoint_bub_ms( examp ) );
+}
+
+void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
+{
     map &here = get_map();
-    // TODO: fix point types
-    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
         if( you.fine_detail_vision_mod() > 4 &&
             !you.has_trait( trait_DEBUG_HS ) ) {
             add_msg( m_info, _( "It is too dark to construct right now." ) );
@@ -4655,10 +4686,9 @@ void iexamine::part_con( Character &you, tripoint const &examp )
                        built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 for( const item &it : pc->components ) {
-                    here.add_item_or_charges( you.pos(), it );
+                    here.add_item_or_charges( you.pos_bub(), it );
                 }
-                // TODO: fix point types
-                here.partial_con_remove( tripoint_bub_ms( examp ) );
+                here.partial_con_remove( examp );
             }
         } else {
             you.assign_activity( ACT_BUILD );

@@ -3265,7 +3265,7 @@ class Character : public Creature, public visitable
         int run_cost( int base_cost, bool diag = false ) const;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -3756,7 +3756,9 @@ class Character : public Creature, public visitable
         using trap_map = std::map<tripoint, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
+        // TODO: Get rid of untyped overload.
         bool knows_trap( const tripoint &pos ) const;
+        bool knows_trap( const tripoint_bub_ms &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
 
         // see Creature::sees

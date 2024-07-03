@@ -401,7 +401,7 @@
     "mod_targets": [ "m26_mass_standalone" ],
     "handling_modifier": 4,
     "min_skills": [ [ "shotgun", 2 ] ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "scout_stock",
@@ -421,7 +421,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_targets": [ "steyr_scout" ],
-    "melee_damage": { "bash": 6 },
+    "melee_damage": { "bash": 3 },
     "pocket_mods": [
       {
         "pocket_type": "CONTAINER",

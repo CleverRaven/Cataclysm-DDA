@@ -7,7 +7,7 @@
     "//3": "For ease of calculation, all math will be done with centimeters for hair growth.",
     "//4": "For reference starting point, a buzzcut is 0.32 centimeters long.",
     "//5": "1 inch is 2.54 centimeters.",
-    "recurrence": { "math": [ "(648000000 - ((u_val('health') * 180000) ) )" ] },
+    "recurrence": { "math": [ "(6480000 - ((u_val('health') * 180000) ) )" ] },
     "global": false,
     "condition": { "u_has_trait": "natural_hair_growth" },
     "effect": [

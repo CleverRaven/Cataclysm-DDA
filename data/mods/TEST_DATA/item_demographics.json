@@ -699,7 +699,8 @@
             "cp33": 10,
             "ruger_charger": 10,
             "ruger_charger_auto": 10,
-            "ruger_1022_auto": 10
+            "ruger_1022_auto": 10,
+            "rossi_gallery": 10
           }
         },
         {
@@ -709,7 +710,6 @@
             "ar15": 1,
             "ar_pistol": 1,
             "famas": 1,
-            "fs2000": 1,
             "scar_l": 1,
             "m16a4": 1,
             "m16_auto_rifle": 1,
@@ -783,7 +783,7 @@
           "weight": 34,
           "items": { "ak47": 1, "arx160": 1, "sks": 1, "aksemi": 1, "draco": 1, "mk47": 1, "vz58_p": 1, "bren2_762": 1 }
         },
-        { "type": "357mag", "weight": 34, "items": { "mr73": 1, "sw_619": 1 } },
+        { "type": "357mag", "weight": 34, "items": { "sw_619": 1, "rp63": 1, "chiappa_rhino": 1 } },
         {
           "type": "shot",
           "weight": 26,
@@ -854,11 +854,7 @@
           "weight": 8,
           "items": { "combination_gun": 1, "browning_blr": 1, "garand": 1, "m1903": 1, "m1918": 1, "remington_700": 1, "ruger_m77": 1 }
         },
-        {
-          "type": "45colt",
-          "weight": 8,
-          "items": { "colt_lightning": 1, "colt_saa": 1, "bond_410": 1, "taurus_judge": 1 }
-        },
+        { "type": "45colt", "weight": 8, "items": { "colt_saa": 1, "bond_410": 1, "taurus_judge": 1 } },
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "saiga_410": 1, "shotgun_410": 1 } },
@@ -910,7 +906,6 @@
             "glock_31": 1,
             "p320_357sig": 1,
             "colt_navy": 1,
-            "af2011a1_38super": 1,
             "m1911a1_38super": 1,
             "colt_army": 1,
             "ruger_arr": 1,
@@ -962,7 +957,6 @@
           "items": {
             "2_shot_special": 1,
             "90two40": 1,
-            "af2011a1_38super": 1,
             "ar_pistol": 1,
             "ashot": 1,
             "bfr": 1,
@@ -1009,7 +1003,7 @@
             "mauser_m714": 1,
             "minidraco556": 1,
             "model_10_revolver": 1,
-            "mr73": 1,
+            "chiappa_rhino": 1,
             "p08": 1,
             "p220_10": 1,
             "p226_357sig": 1,
@@ -1096,7 +1090,6 @@
             "bren2_556": 1,
             "bren2_762": 1,
             "browning_blr": 1,
-            "colt_lightning": 1,
             "combination_gun": 1,
             "cx4": 1,
             "cz600": 1,
@@ -1104,7 +1097,6 @@
             "famas": 1,
             "fn_fal": 1,
             "fn_ps90": 1,
-            "fs2000": 1,
             "garand": 1,
             "henry_big_boy": 1,
             "hk417_13": 1,
@@ -1185,6 +1177,7 @@
             "rm51_assault_rifle": 1,
             "rm614_lmg": 1,
             "rm88_battle_rifle": 1,
+            "rossi_gallery": 1,
             "ruger_1022": 1,
             "ruger_1022_auto": 1,
             "ruger_arr": 1,
@@ -1245,7 +1238,6 @@
             "bigun": 1,
             "combination_gun_shotgun": 1,
             "ksg": 1,
-            "ksg_aux_shotgun": 1,
             "lever_shotgun": 1,
             "m26_mass": 1,
             "m26_mass_mod": 1,
@@ -1274,8 +1266,6 @@
             "slamfire_shotgun_d": 1,
             "streetsweeper": 1,
             "tavor_12": 1,
-            "ts12_aux_shotgun": 1,
-            "ts12_aux_shotgun2": 1,
             "u_shotgun": 1,
             "u_shotgun_mod": 1,
             "winchester_1897": 1

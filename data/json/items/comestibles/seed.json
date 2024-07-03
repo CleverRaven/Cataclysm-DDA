@@ -12,7 +12,8 @@
     "material": [ "veggy" ],
     "symbol": ".",
     "color": "brown",
-    "//": "Note that in most cases this item typically represents many seeds, enough to fill an entire tile with plants."
+    "//": "Note that in most cases this item typically represents many seeds, enough to fill an entire tile with plants.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "abstract": "seed_fruit",
@@ -313,7 +314,8 @@
     "calories": 25,
     "description": "Boiled lotus seeds, with a soft taste.",
     "material": [ "veggy" ],
-    "volume": "100 ml"
+    "volume": "100 ml",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -501,7 +503,8 @@
     "volume": "10 ml",
     "fun": 30,
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" }
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "Marloss berry", "grow": "91 days" },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -926,7 +929,8 @@
     "volume": "62 ml",
     "flags": [ "SMOKED" ],
     "freezing_point": -274,
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -949,7 +953,8 @@
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": [ "POISON" ],
-    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
+    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -967,7 +972,7 @@
     "addiction_potential": 1,
     "calories": 549,
     "volume": "6 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "NO_AUTO_CONSUME", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
     "//": "You can technically eat 20 or 30 coffee beans before getting sick, but any more than that and you'll have a very bad time.  This is a negligible amount of calories so we either need to greatly reduce portion size here or find a way to simulate the agony someone would be in after eating an entire cup of the things.",
     "weight": "106 g"

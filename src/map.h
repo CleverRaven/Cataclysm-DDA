@@ -36,6 +36,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
@@ -100,6 +101,8 @@ struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
 struct field_proc_data;
+
+enum pf_special : int;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
 
@@ -729,14 +732,32 @@ class map
         // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
+            return false;
+        } ) const;
         std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
                                             const pathfinding_settings &settings,
-        const std::unordered_set<tripoint> &pre_closed = {{ }} ) const;
+        const std::function<bool( const tripoint & )> &avoid = []( const tripoint & ) {
+            return false;
+        } ) const;
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
         std::vector<tripoint> straight_route( const tripoint &f, const tripoint &t ) const;
+    private:
+        // Pathfinding cost helper that computes the cost of moving into |p| from |cur|.
+        // Includes climbing, bashing and opening doors.
+        int cost_to_pass( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+                          pf_special p_special ) const;
+        // Pathfinding cost helper that computes the cost of moving into |p|
+        // from |cur| based on perceived danger.
+        // Includes moving through traps.
+        int cost_to_avoid( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+                           pf_special p_special ) const;
+        // Sum of cost_to_pass and cost_to_avoid.
+        int extra_cost( const tripoint &cur, const tripoint &p, const pathfinding_settings &settings,
+                        pf_special p_special ) const;
+    public:
 
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
@@ -994,7 +1015,7 @@ class map
         bool has_items( const tripoint_bub_ms &p ) const;
 
         // Check if a tile with LIQUIDCONT flag only contains liquids
-        bool only_liquid_in_liquidcont( const tripoint &p );
+        bool only_liquid_in_liquidcont( const tripoint_bub_ms &p );
 
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.
@@ -1423,6 +1444,7 @@ class map
         // TODO: fix point types (remove the first overload)
         item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        // TODO: fix point types (remove the first overload)
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
@@ -1446,7 +1468,7 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item, int copies );
+        item &add_item( const tripoint_bub_ms &p, item new_item, int copies );
         // TODO: Get rid of untyped overload
         item &add_item( const tripoint &p, item new_item );
         item &add_item( const tripoint_bub_ms &p, item new_item );
@@ -1592,7 +1614,9 @@ class map
         const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
+        // TODO: Get rid of untyped overload.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
+        bool can_see_trap_at( const tripoint_bub_ms &p, const Character &c ) const;
 
         // TODO: fix point types (remove the first overload)
         void remove_trap( const tripoint &p );
@@ -1764,7 +1788,7 @@ class map
         static cata::copy_const<Map, field_entry> *get_field_helper(
             Map &m, const tripoint &p, const field_type_id &type );
 
-        std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
+        std::pair<item *, tripoint_bub_ms> _add_item_or_charges( const tripoint_bub_ms &pos, item obj,
                 int &copies_remaining, bool overflow = true );
     public:
 
@@ -1794,7 +1818,7 @@ class map
                              const point &min, const point &max );
 
         // Computers
-        computer *computer_at( const tripoint &p );
+        computer *computer_at( const tripoint_bub_ms &p );
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
@@ -1863,7 +1887,10 @@ class map
         // mapgen.cpp functions
         // The code relies on the submap coordinate falling on omt boundaries, so taking a
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
-        void generate( const tripoint_abs_omt &p, const time_point &when );
+        void generate( const tripoint_abs_omt &p, const time_point &when, bool save_results );
+        // Used when contents has been generated by 'generate' with save_results = false to dispose of
+        // submaps that aren't present in the map buffer. This is done to avoid memory leaks.
+        void delete_unmerged_submaps();
         void place_spawns( const mongroup_id &group, int chance,
                            const point_bub_ms &p1, const point_bub_ms &p2, int z_level, float density,
                            bool individual = false, bool friendly = false,
@@ -2055,7 +2082,6 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles );
         void loadn( const point &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
@@ -2522,7 +2548,9 @@ template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
-bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter );
+// Returns the terrain to apply if the terrain is uniform, and t_null otherwise.
+ter_str_id uniform_terrain( const oter_id &oter );
+bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter );
 bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 
 /**
@@ -2565,6 +2593,7 @@ class tinymap : private map
         using map::is_main_cleanup_queued;
         using map::main_cleanup_override;
         using map::generate;
+        using map::delete_unmerged_submaps;
         void place_spawns( const mongroup_id &group, int chance,
                            const point_omt_ms &p1, const point_omt_ms &p2, const int z_level, float density,
                            bool individual = false, bool friendly = false,

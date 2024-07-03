@@ -63,5 +63,33 @@
       }
     ],
     "false_effect": [ { "u_lose_morale": "morale_asocial_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_conjunctivitis_itch",
+    "recurrence": [ "10 minutes", "45 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "formication", "duration": 300, "target_part": "head" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_conjunctivitis_sting",
+    "recurrence": [ "10 minutes", "45 minutes" ],
+    "condition": { "and": [ { "u_has_effect": "conjunctivitis", "bodypart": "eyes" }, { "not": { "u_has_effect": "sleep" } } ] },
+    "effect": [
+      {
+        "u_add_effect": "smoke_eyes",
+        "duration": 180,
+        "intensity": { "math": [ "u_effect_intensity('smoke_eyes', 'bodypart': 'eyes') + 1" ] },
+        "target_part": "eyes"
+      }
+    ]
   }
 ]

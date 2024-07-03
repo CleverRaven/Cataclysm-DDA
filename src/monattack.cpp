@@ -187,6 +187,8 @@ static const material_id material_water( "water" );
 
 static const morale_type morale_support( "morale_support" );
 
+static const mtype_id mon_amalgamation_breather( "mon_amalgamation_breather" );
+static const mtype_id mon_amalgamation_breather_hub( "mon_amalgamation_breather_hub" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -2754,27 +2756,6 @@ bool mattack::dogthing( monster *z )
     return false;
 }
 
-bool mattack::gene_sting( monster *z )
-{
-    const float range = 7.0f;
-    Creature *target = sting_get_target( z, range );
-    if( target == nullptr || !( target->is_avatar() || target->is_npc() ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-    damage_instance dam = damage_instance();
-    dam.add_damage( damage_stab, 6, 10, 0.6, 1 );
-    bool hit = sting_shoot( z, target, dam, range );
-    if( hit ) {
-        //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<Character *>( target )->mutate();
-    }
-
-    return true;
-}
-
 bool mattack::para_sting( monster *z )
 {
     const float range = 4.0f;
@@ -3998,13 +3979,17 @@ bool mattack::breathe( monster *z )
 {
     // It takes a while
     z->mod_moves( -to_moves<int>( 1_seconds ) );
+    bool old_breather_type = z->type->id == mon_breather || z->type->id == mon_breather_hub;
+    mtype_id breather_type = old_breather_type ? mon_breather : mon_amalgamation_breather;
+    mtype_id hub_type = old_breather_type ? mon_breather_hub : mon_amalgamation_breather_hub;
+    int spawn_radius = old_breather_type ? 3 : 2;
 
-    bool able = z->type->id == mon_breather_hub;
+    bool able = z->type->id == hub_type;
     creature_tracker &creatures = get_creature_tracker();
     if( !able ) {
-        for( const tripoint &dest : get_map().points_in_radius( z->pos(), 3 ) ) {
+        for( const tripoint &dest : get_map().points_in_radius( z->pos(), spawn_radius ) ) {
             monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->type->id == mon_breather_hub ) {
+            if( mon && mon->type->id == hub_type ) {
                 able = true;
                 break;
             }
@@ -4014,7 +3999,7 @@ bool mattack::breathe( monster *z )
         return true;
     }
 
-    if( monster *const spawned = g->place_critter_around( mon_breather, z->pos(), 1 ) ) {
+    if( monster *const spawned = g->place_critter_around( breather_type, z->pos(), 1 ) ) {
         spawned->reset_special( "BREATHE" );
         spawned->make_ally( *z );
     }

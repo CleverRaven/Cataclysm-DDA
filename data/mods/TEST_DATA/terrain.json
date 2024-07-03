@@ -189,6 +189,26 @@
   },
   {
     "type": "terrain",
+    "id": "test_t_door_glass_opaque_c",
+    "name": "closed opaque glass door",
+    "description": "Copy of glass door for shooting tests that is opaque as a testing workaround",
+    "symbol": "+",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "flags": [ "DOOR", "NOITEM", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_door_frame",
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "test_t_window_no_curtains",
     "name": "window without curtains",
     "description": "barricadable window",

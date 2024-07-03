@@ -67,7 +67,8 @@
       "activation_message": "You feel better almost instantly.",
       "effects": [ { "id": "curesome" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "prophets_lsd",

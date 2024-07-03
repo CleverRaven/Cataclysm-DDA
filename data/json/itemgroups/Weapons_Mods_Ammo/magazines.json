@@ -480,10 +480,15 @@
     "id": "mags_shotgun_rare",
     "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
     "items": [
+      { "item": "srm_1216_mag_16", "prob": 2 },
       { "item": "saiga10mag", "prob": 50 },
       { "item": "saiga30mag", "prob": 10 },
       { "item": "saiga410mag_10rd", "prob": 30 },
-      { "item": "saiga410mag_30rd", "prob": 10 }
+      { "item": "saiga410mag_30rd", "prob": 10 },
+      { "item": "mossberg_590m_mag_5", "prob": 3, "charges": 0 },
+      { "item": "mossberg_590m_mag_10", "prob": 2, "charges": 0 },
+      { "item": "mossberg_590m_mag_15", "prob": 1, "charges": 0 },
+      { "item": "mossberg_590m_mag_20", "prob": 1, "charges": 0 }
     ]
   },
   {
@@ -558,7 +563,6 @@
       [ "762x39_clip", 10 ],
       [ "762R_clip", 10 ],
       [ "clip9mm_10rd", 5 ],
-      [ "af2011a1mag", 1 ],
       [ "ak74mag", 10 ],
       [ "makarovmag", 10 ],
       [ "mausermag_10rd", 3 ],

@@ -66,6 +66,8 @@ static const ammo_effect_str_id ammo_effect_SPECIAL_COOKOFF( "SPECIAL_COOKOFF" )
 
 static const ammotype ammo_NULL( "NULL" );
 
+static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
@@ -1654,7 +1656,7 @@ class iuse_function_wrapper : public iuse_actor
             return std::make_unique<iuse_function_wrapper>( *this );
         }
 
-        void load( const JsonObject & ) override {}
+        void load( const JsonObject &, const std::string & ) override {}
 };
 
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
@@ -2666,7 +2668,7 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
             mcd.recipes_categories.emplace( cat );
         }
     } else {
-        mcd.recipes_categories = { "CC_FOOD" };
+        mcd.recipes_categories = { crafting_category_CC_FOOD };
     }
     if( jo.has_member( "secret_recipes" ) ) {
         mcd.secret_recipes = jo.get_bool( "secret_recipes" );
@@ -4395,8 +4397,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
-    set_use_methods_from_json( jo, "tick_action", def.tick_action, def.ammo_scale );
+    set_use_methods_from_json( jo, src, "use_action", def.use_methods, def.ammo_scale );
+    set_use_methods_from_json( jo, src, "tick_action", def.tick_action, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );
@@ -4406,7 +4408,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "countdown_action" ) ) {
         JsonObject tmp = jo.get_object( "countdown_action" );
-        use_function fun = usage_from_object( tmp ).second;
+        use_function fun = usage_from_object( tmp, src ).second;
         if( fun ) {
             def.countdown_action = fun;
         }
@@ -4417,7 +4419,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "drop_action" ) ) {
         JsonObject tmp = jo.get_object( "drop_action" );
-        use_function fun = usage_from_object( tmp ).second;
+        use_function fun = usage_from_object( tmp, src ).second;
         if( fun ) {
             def.drop_action = fun;
         }
@@ -4471,10 +4473,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     check_and_create_magazine_pockets( def );
     add_special_pockets( def );
 
-    if( !def.src.empty() && def.src.back().first != def.id ) {
-        def.src.clear();
-    }
-    def.src.emplace_back( def.id, mod_id( src ) );
+    mod_tracker::assign_src( def, src );
 
     if( def.magazines.empty() ) {
         migrate_mag_from_pockets( def );
@@ -4495,7 +4494,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // auto-create a category that is unlikely to already be used and put the
         // snippets in it.
         def.snippet_category = "auto:" + def.id.str();
-        SNIPPET.add_snippets_from_json( def.snippet_category, jo.get_array( "snippet_category" ) );
+        SNIPPET.add_snippets_from_json( def.snippet_category, jo.get_array( "snippet_category" ), src );
     } else {
         def.snippet_category = jo.get_string( "snippet_category", "" );
     }
@@ -5192,8 +5191,9 @@ void Item_factory::load_item_group_data( const JsonObject &jsobj, Item_group *ig
     }
 }
 
-void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-        std::map<std::string, use_function> &use_methods, std::map<std::string, int> &ammo_scale )
+void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &src,
+        const std::string &member, std::map<std::string, use_function> &use_methods,
+        std::map<std::string, int> &ammo_scale )
 {
     if( !jo.has_member( member ) ) {
         return;
@@ -5208,7 +5208,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 emplace_usage( use_methods, type );
             } else if( entry.test_object() ) {
                 JsonObject obj = entry.get_object();
-                std::pair<std::string, use_function> fun = usage_from_object( obj );
+                std::pair<std::string, use_function> fun = usage_from_object( obj, src );
                 if( fun.second ) {
                     use_methods.insert( fun );
                     if( obj.has_int( "ammo_scale" ) ) {
@@ -5232,7 +5232,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
             JsonObject obj = jo.get_object( member );
-            std::pair<std::string, use_function> fun = usage_from_object( obj );
+            std::pair<std::string, use_function> fun = usage_from_object( obj, src );
             if( fun.second ) {
                 use_methods.insert( fun );
                 if( obj.has_int( "ammo_scale" ) ) {
@@ -5256,7 +5256,8 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
     }
 }
 
-std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
+std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj,
+        const std::string &src )
 {
     std::string type = obj.get_string( "type" );
 
@@ -5274,7 +5275,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( const Json
         return std::make_pair( type, use_function() );
     }
 
-    method.get_actor_ptr()->load( obj );
+    method.get_actor_ptr()->load( obj, src );
     return std::make_pair( type, method );
 }
 

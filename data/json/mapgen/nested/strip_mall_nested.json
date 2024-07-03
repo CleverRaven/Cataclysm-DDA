@@ -2,6 +2,78 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "indoor_tent_5x5_S",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "##+##"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "indoor_tent_5x5_E",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "#xXx+",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "indoor_tent_5x5_N",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##",
+        "#xxx#",
+        "#xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "indoor_tent_5x5_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####",
+        "#xxx#",
+        "+xXx#",
+        "#xxx#",
+        "#####"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "#": "f_large_canvas_wall", "X": "f_center_groundsheet", "x": "f_large_groundsheet", "+": "f_large_canvas_door" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "//": "Strip mall stores must be 23x by 23y, each chunk must include a back wall and storefront, and both the bottom and top row should be a sidewalk.  Use this sample as a base.  Rename it to one of the following: strip_mall_shop_a; strip_mall_shop_b; strip_mall_shop_c; strip_mall_shop_d",
     "nested_mapgen_id": "strip_mall_sample",
     "weight": 100,
@@ -837,10 +909,10 @@
       },
       "furniture": { ".": "f_null", "#": "f_sign", "B": "f_brazier", "C": "f_camp_chair", "T": "f_tourist_table" },
       "nested": {
-        "N": { "chunks": [ "tent_5x5_N" ] },
-        "S": { "chunks": [ "tent_5x5_S" ] },
-        "E": { "chunks": [ "tent_5x5_E" ] },
-        "W": { "chunks": [ "tent_5x5_W" ] }
+        "N": { "chunks": [ "indoor_tent_5x5_N" ] },
+        "S": { "chunks": [ "indoor_tent_5x5_S" ] },
+        "E": { "chunks": [ "indoor_tent_5x5_E" ] },
+        "W": { "chunks": [ "indoor_tent_5x5_W" ] }
       },
       "items": {
         ".": { "item": "trash", "chance": 4 },
@@ -932,10 +1004,10 @@
         "m": "f_makeshift_bed"
       },
       "nested": {
-        "N": { "chunks": [ "tent_5x5_N" ] },
-        "S": { "chunks": [ "tent_5x5_S" ] },
-        "E": { "chunks": [ "tent_5x5_E" ] },
-        "W": { "chunks": [ "tent_5x5_W" ] }
+        "N": { "chunks": [ "indoor_tent_5x5_N" ] },
+        "S": { "chunks": [ "indoor_tent_5x5_S" ] },
+        "E": { "chunks": [ "indoor_tent_5x5_E" ] },
+        "W": { "chunks": [ "indoor_tent_5x5_W" ] }
       },
       "items": {
         ".": { "item": "trash", "chance": 5 },
@@ -2364,7 +2436,7 @@
       },
       "toilets": { "*": {  } },
       "place_signs": [ { "signage": "Ultimate Explorers of <city>", "x": 10, "y": 21 } ],
-      "nested": { "V": { "chunks": [ "tent_5x5_S" ] } },
+      "nested": { "V": { "chunks": [ "indoor_tent_5x5_S" ] } },
       "place_loot": [
         { "item": "money_strap_one", "x": 3, "y": 10, "chance": 75, "repeat": [ 1, 4 ] },
         { "item": "money_strap_five", "x": 3, "y": 10, "chance": 75, "repeat": [ 1, 4 ] },

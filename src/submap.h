@@ -183,21 +183,30 @@ class submap
         }
 
         void update_lum_add( const point &p, const item &i ) {
+            update_lum_add( point_sm_ms( p ), i );
+        }
+
+        void update_lum_add( const point_sm_ms &p, const item &i ) {
             ensure_nonuniform();
-            if( i.is_emissive() && m->lum[p.x][p.y] < 255 ) {
-                m->lum[p.x][p.y]++;
+            if( i.is_emissive() && m->lum[p.x()][p.y()] < 255 ) {
+                m->lum[p.x()][p.y()]++;
             }
         }
 
         void update_lum_rem( const point &p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
+        // TODO: Get rid of untyped overload.
         cata::colony<item> &get_items( const point &p ) {
+            return get_items( point_sm_ms( p ) );
+        }
+
+        cata::colony<item> &get_items( const point_sm_ms &p ) {
             if( is_uniform() ) {
                 cata::colony<item> static noitems;
                 return noitems;
             }
-            return m->itm[p.x][p.y];
+            return m->itm[p.x()][p.y()];
         }
 
         const cata::colony<item> &get_items( const point &p ) const {
@@ -269,7 +278,9 @@ class submap
 
         bool has_computer( const point &p ) const;
         const computer *get_computer( const point &p ) const;
+        // TOD: Get rid of untyped overload.
         computer *get_computer( const point &p );
+        computer *get_computer( const point_sm_ms &p );
         void set_computer( const point &p, const computer &c );
         void delete_computer( const point &p );
 
@@ -288,6 +299,15 @@ class submap
         bool is_uniform() const {
             return !static_cast<bool>( m );
         }
+
+        // Merge the contents of the two submaps onto the target submap. If there is a
+        // conflict the overlay wins out. Note that it's technically possible for both
+        // submaps to actually be overlays, but the one that's not called out is treated
+        // as the basic map for merging precedent purposes.
+        // The operation is intended for mapgen where data from the "official" generation
+        // may have to be merged with data generated from chunks targeting different
+        // Z levels.
+        void merge_submaps( submap *copy_from, bool copy_from_is_overlay );
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 

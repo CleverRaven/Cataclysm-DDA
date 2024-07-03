@@ -121,7 +121,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…(Leave)",
+        "text": "…[Leave.]",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 },
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_SawMarshal" },
@@ -149,12 +149,12 @@
     },
     "responses": [
       {
-        "text": "<color_green>[SOCIAL]</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
+        "text": "<color_green>[Social 3]</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
         "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", ">=", "3" ] } ] }
       },
       {
-        "text": "<color_yellow>[SOCIAL]</color> I took it off man, what more do you want from me?",
+        "text": "<color_yellow>[Social <3]</color> I took it off man, what more do you want from me?",
         "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", "<", "3" ] } ] }
       },

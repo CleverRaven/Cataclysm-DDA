@@ -4223,212 +4223,6 @@ void game::draw_veh_dir_indicator( bool next )
     }
 }
 
-void game::draw_minimap()
-{
-
-    // Draw the box
-    werase( w_minimap );
-    draw_border( w_minimap );
-
-    const tripoint_abs_omt curs = u.global_omt_location();
-    const point_abs_omt curs2( curs.xy() );
-    const tripoint_abs_omt targ = u.get_active_mission_target();
-    bool drew_mission = targ == overmap::invalid_tripoint;
-
-    const int levz = m.get_abs_sub().z();
-    for( int i = -2; i <= 2; i++ ) {
-        for( int j = -2; j <= 2; j++ ) {
-            const point_abs_omt om( curs2 + point( i, j ) );
-            nc_color ter_color;
-            tripoint_abs_omt omp( om, levz );
-            std::string ter_sym;
-            const bool seen = overmap_buffer.seen( omp );
-            if( overmap_buffer.has_note( omp ) ) {
-
-                const std::string &note_text = overmap_buffer.note( omp );
-
-                ter_color = c_yellow;
-                ter_sym = "N";
-
-                int symbolIndex = note_text.find( ':' );
-                int colorIndex = note_text.find( ';' );
-
-                bool symbolFirst = symbolIndex < colorIndex;
-
-                if( colorIndex > -1 && symbolIndex > -1 ) {
-                    if( symbolFirst ) {
-                        if( colorIndex > 4 ) {
-                            colorIndex = -1;
-                        }
-                        if( symbolIndex > 1 ) {
-                            symbolIndex = -1;
-                            colorIndex = -1;
-                        }
-                    } else {
-                        if( symbolIndex > 4 ) {
-                            symbolIndex = -1;
-                        }
-                        if( colorIndex > 2 ) {
-                            colorIndex = -1;
-                        }
-                    }
-                } else if( colorIndex > 2 ) {
-                    colorIndex = -1;
-                } else if( symbolIndex > 1 ) {
-                    symbolIndex = -1;
-                }
-
-                if( symbolIndex > -1 ) {
-                    int symbolStart = 0;
-                    if( colorIndex > -1 && !symbolFirst ) {
-                        symbolStart = colorIndex + 1;
-                    }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart ).c_str()[0];
-                }
-
-                if( colorIndex > -1 ) {
-
-                    int colorStart = 0;
-
-                    if( symbolIndex > -1 && symbolFirst ) {
-                        colorStart = symbolIndex + 1;
-                    }
-
-                    std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
-
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
-                }
-            } else if( !seen ) {
-                ter_sym = " ";
-                ter_color = c_black;
-            } else if( overmap_buffer.has_vehicle( omp ) ) {
-                ter_color = c_cyan;
-                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
-            } else {
-                const oter_id &cur_ter = overmap_buffer.ter( omp );
-                ter_sym = cur_ter->get_symbol();
-                if( overmap_buffer.is_explored( omp ) ) {
-                    ter_color = c_dark_gray;
-                } else {
-                    ter_color = cur_ter->get_color();
-                }
-            }
-            if( !drew_mission && targ.xy() == omp.xy() ) {
-                // If there is a mission target, and it's not on the same
-                // overmap terrain as the player character, mark it.
-                // TODO: Inform player if the mission is above or below
-                drew_mission = true;
-                if( i != 0 || j != 0 ) {
-                    ter_color = red_background( ter_color );
-                }
-            }
-            if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, point( 3, 3 ), ter_color, ter_sym );
-            } else {
-                mvwputch( w_minimap, point( 3 + i, 3 + j ), ter_color, ter_sym );
-            }
-        }
-    }
-
-    // Print arrow to mission if we have one!
-    if( !drew_mission ) {
-        double slope = curs2.x() != targ.x() ?
-                       static_cast<double>( targ.y() - curs2.y() ) / ( targ.x() - curs2.x() ) : 4;
-
-        if( curs2.x() == targ.x() || std::fabs( slope ) > 3.5 ) { // Vertical slope
-            if( targ.y() > curs2.y() ) {
-                mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
-            } else {
-                mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
-            }
-        } else {
-            point arrow( point_north_west );
-            if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
-                arrow.y = targ.y() > curs2.y() ? 6 : 0;
-                arrow.x =
-                    static_cast<int>( 3 + 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) );
-                if( arrow.x < 0 ) {
-                    arrow.x = 0;
-                }
-                if( arrow.x > 6 ) {
-                    arrow.x = 6;
-                }
-            } else {
-                arrow.x = targ.x() > curs2.x() ? 6 : 0;
-                arrow.y = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
-                if( arrow.y < 0 ) {
-                    arrow.y = 0;
-                }
-                if( arrow.y > 6 ) {
-                    arrow.y = 6;
-                }
-            }
-            char glyph = '*';
-            if( targ.z() > u.posz() ) {
-                glyph = '^';
-            } else if( targ.z() < u.posz() ) {
-                glyph = 'v';
-            }
-
-            mvwputch( w_minimap, arrow, c_red, glyph );
-        }
-    }
-
-    Character &player_character = get_player_character();
-    const int sight_points = player_character.overmap_sight_range( g->light_level(
-                                 player_character.posz() ) );
-    for( int i = -3; i <= 3; i++ ) {
-        for( int j = -3; j <= 3; j++ ) {
-            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
-                continue; // only do hordes on the border, skip inner map
-            }
-            const tripoint_abs_omt omp( curs2 + point( i, j ), levz );
-            if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
-                if( overmap_buffer.seen( omp )
-                    && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
-                              overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                }
-            }
-        }
-    }
-
-    wnoutrefresh( w_minimap );
-}
-
 float game::natural_light_level( const int zlev ) const
 {
     // ignore while underground or above limits
@@ -4528,9 +4322,8 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
                 }
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
-                static const std::unordered_set<tripoint> path_avoid = {};
 
-                if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
+                if( !get_map().route( u.pos(), critter->pos(), pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -5117,7 +4910,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     }
 }
 
-void game::use_computer( const tripoint &p )
+void game::use_computer( const tripoint_bub_ms &p )
 {
     if( u.has_trait( trait_ILLITERATE ) ) {
         add_msg( m_info, _( "You can not read a computer screen!" ) );
@@ -5142,8 +4935,8 @@ void game::use_computer( const tripoint &p )
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
             dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
-                           p.x << ", " << p.y << ", " << p.z << ") - none there";
-            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+                           p.x() << ", " << p.y() << ", " << p.z() << ") - none there";
+            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x(), p.y(), p.z() );
         }
         return;
     }
@@ -6154,7 +5947,7 @@ void game::examine( bool with_pickup )
     u.manual_examine = false;
 }
 
-static std::string get_fire_fuel_string( const tripoint &examp )
+static std::string get_fire_fuel_string( const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     if( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, examp ) ) {
@@ -6222,6 +6015,11 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 }
 
 void game::examine( const tripoint &examp, bool with_pickup )
+{
+    game::examine( tripoint_bub_ms( examp ), with_pickup );
+}
+
+void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 {
     if( disable_robot( examp ) ) {
         return;
@@ -6372,6 +6170,11 @@ void game::pickup_all()
 }
 
 void game::pickup( const tripoint &p )
+{
+    game::pickup( tripoint_bub_ms( p ) );
+}
+
+void game::pickup( const tripoint_bub_ms &p )
 {
     // Highlight target
     shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -6749,7 +6552,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
                                           m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
-                                        get_fire_fuel_string( lp ) ) - 1;
+                                        get_fire_fuel_string( tripoint_bub_ms( lp ) ) ) - 1;
             line += lines;
         } else {
             mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
@@ -7649,17 +7452,14 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         }
     };
     route_t shortest_route;
-    std::unordered_set<tripoint> path_avoid;
-    for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
-        if( is_dangerous_tile( p.raw() ) ) {
-            path_avoid.insert( p.raw() );
-        }
-    }
     for( const tripoint_bub_ms &p : here.points_in_radius( target, threshold, 0 ) ) {
-        if( path_avoid.count( p.raw() ) > 0 ) {
-            continue; // dont route to dangerous tiles
+        if( is_dangerous_tile( p.raw() ) ) {
+            continue;
         }
-        const route_t route = here.route( who.pos_bub(), p, who.get_pathfinding_settings(), path_avoid );
+        const route_t route = here.route( who.pos_bub(), p,
+        who.get_pathfinding_settings(), [this]( const tripoint & p ) {
+            return is_dangerous_tile( p );
+        } );
         if( route.empty() ) {
             continue; // no route
         }
@@ -10486,6 +10286,11 @@ void game::set_safe_mode( safe_mode_type mode )
 
 bool game::disable_robot( const tripoint &p )
 {
+    return game::disable_robot( tripoint_bub_ms( p ) );
+}
+
+bool game::disable_robot( const tripoint_bub_ms &p )
+{
     monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p );
     if( !mon_ptr ) {
         return false;
@@ -10499,7 +10304,7 @@ bool game::disable_robot( const tripoint &p )
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
-        const disable_activity_actor actor( p, disable_activity_actor::get_disable_turns(), false );
+        const disable_activity_actor actor( p.raw(), disable_activity_actor::get_disable_turns(), false );
         u.assign_activity( actor );
         return true;
     }
@@ -10513,7 +10318,8 @@ bool game::disable_robot( const tripoint &p )
         }
 
         if( choice == 0 ) {
-            u.assign_activity( disable_activity_actor( p, disable_activity_actor::get_disable_turns(), true ) );
+            u.assign_activity( disable_activity_actor( p.raw(), disable_activity_actor::get_disable_turns(),
+                               true ) );
         }
     }
     return false;
@@ -11584,12 +11390,12 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return false;
     }
 
-    int ramp_offset = 0;
+    int ramp_z_offset = 0;
     // Furniture could be on a ramp at different time than player so adjust for that.
     if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + tripoint( dp.xy(), 0 ) ) ) {
-        ramp_offset = 1;
+        ramp_z_offset = 1;
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + tripoint( dp.xy(), 0 ) ) ) {
-        ramp_offset = -1;
+        ramp_z_offset = -1;
     }
 
     const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
@@ -11597,7 +11403,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_offset );
+    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -11737,7 +11543,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
-    u.grab_point.z += ramp_offset;
+    u.grab_point.z += ramp_z_offset;
 
     if( shifting_furniture ) {
         // We didn't move
@@ -13925,7 +13731,7 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 
         if( !cur_ter->get_entry_EOC().is_null() ) {
             dialogue d( get_talker_for( get_avatar() ), nullptr );
-            effect_on_condition_id eoc = cur_ter->get_exit_EOC();
+            effect_on_condition_id eoc = cur_ter->get_entry_EOC();
             if( eoc->type == eoc_type::ACTIVATION ) {
                 eoc->activate( d );
             } else {

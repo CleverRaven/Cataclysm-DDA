@@ -3079,13 +3079,13 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        if( ammo.recovery_chance <= 5 ) {
+        if( ammo.recovery_chance <= 75 ) {
             fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 10 ) {
+        } else if( ammo.recovery_chance <= 80 ) {
             fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 20 ) {
+        } else if( ammo.recovery_chance <= 90 ) {
             fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 30 ) {
+        } else if( ammo.recovery_chance <= 95 ) {
             fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
         } else {
             fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
@@ -14112,12 +14112,19 @@ bool item::process_gun_cooling( Character *carrier )
 bool item::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
 {
-    process_relic( carrier, pos );
+    return item::process( here, carrier, tripoint_bub_ms( pos ), insulation, flag,
+                          spoil_multiplier_parent, watertight_container, recursive );
+}
+
+bool item::process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation,
+                    temperature_flag flag, float spoil_multiplier_parent, bool watertight_container, bool recursive )
+{
+    process_relic( carrier, pos.raw() );
     if( recursive ) {
-        contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
+        contents.process( here, carrier, pos.raw(), type->insulation_factor * insulation, flag,
                           spoil_multiplier_parent, watertight_container );
     }
-    return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent,
+    return process_internal( here, carrier, pos.raw(), insulation, flag, spoil_multiplier_parent,
                              watertight_container );
 }
 
@@ -14774,6 +14781,11 @@ bool item::on_drop( const tripoint &pos )
 }
 
 bool item::on_drop( const tripoint &pos, map &m )
+{
+    return item::on_drop( tripoint_bub_ms( pos ), m );
+}
+
+bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 {
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty

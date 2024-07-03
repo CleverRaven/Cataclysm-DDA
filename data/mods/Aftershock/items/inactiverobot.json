@@ -472,7 +472,7 @@
     "abstract": "bot_eyebot_base",
     "type": "TOOL",
     "name": "inactive eyebot",
-    "looks_like": "broken_eyebot",
+    "looks_like": "afs_broken_eyebot",
     "price": "100 USD",
     "price_postapoc": "100 USD",
     "material": [ "steel", "plastic" ],
@@ -525,8 +525,32 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_eyebot",
-    "looks_like": "broken_eyebot",
+    "id": "bot_laserturret_interior",
+    "looks_like": "bot_rifleturret",
+    "type": "TOOL",
+    "name": { "str": "inactive interior laser turret" },
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": "6 kUSD",
+    "price_postapoc": "120 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_afs_commercial_laser_turret",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "afs_bot_eyebot",
+    "looks_like": "afs_broken_eyebot",
     "type": "TOOL",
     "name": { "str": "inactive eyebot" },
     "description": "An inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully, the eyebot will then keep watch for intruders.",
@@ -552,8 +576,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_copbot",
-    "looks_like": "broken_copbot",
+    "id": "afs_bot_copbot",
+    "looks_like": "afs_broken_copbot",
     "type": "TOOL",
     "name": { "str": "inactive police bot" },
     "description": "An inactive police robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the police bot will then identify you as law enforcement, roam around or follow you, and attempt to detain lawbreakers.",
@@ -579,8 +603,8 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "bot_riotbot",
-    "looks_like": "broken_riotbot",
+    "id": "afs_bot_riotbot",
+    "looks_like": "afs_broken_riotbot",
     "type": "TOOL",
     "name": { "str": "inactive riot control bot" },
     "description": "An inactive riot control bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will bring order and peace to the horde.",

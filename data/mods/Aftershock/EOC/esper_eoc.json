@@ -106,6 +106,9 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_AFS_ELECTROKIN_REMOVE_SEE_ELECTRICITY",
+          "EOC_AFS_ELECTROKIN_REMOVE_HACKING_INTERFACE",
+          "EOC_AFS_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
           "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
           "EOC_AFS_TELEPATH_REMOVE_SENSE_MINDS",
           "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SUGGESTION"
@@ -260,6 +263,14 @@
         { "compare_string": [ "lying_down", { "context_val": "effect" } ] }
       ]
     },
+    "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_ESPER_WINDED_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "or": [ { "compare_string": [ "winded", { "context_val": "effect" } ] } ] },
     "effect": [ { "run_eocs": [ "EOC_AFS_END_PSI_POWERS_MAINTAINED" ] } ]
   },
   {

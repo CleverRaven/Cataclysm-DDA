@@ -162,5 +162,60 @@
     "id": "morale_dislikes_sewer",
     "type": "morale_type",
     "text": "Dislikes being in sewer"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TOOK_OVER_CAMP_NOTICE",
+    "eoc_type": "EVENT",
+    "required_event": "camp_taken_over",
+    "condition": { "expects_vars": [ "old_owner", "new_owner", "camp_name", "was_violent" ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "your_followers", { "context_val": "new_owner" } ] },
+        "then": {
+          "queue_eocs": {
+            "id": "EOC_camp_rumor_spread",
+            "effect": { "u_message": "Rumors of your takeover of <context_val:camp_name> have begun to spread…", "type": "mixed" }
+          },
+          "time_in_future": [ "7 days", "14 days" ]
+        },
+        "else": [
+          {
+            "//": "Don't bother player unless they even have a camp.",
+            "if": "u_has_camp",
+            "then": {
+              "u_message": "While you've been out of contact with the powers of <context_val:camp_name> it's been taken over by its enemies.",
+              "popup": true,
+              "type": "bad"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_boomered_apply_conjunctivitis",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "boomered", { "context_val": "effect" } ] },
+        { "compare_string": [ "eyes", { "context_val": "bodypart" } ] },
+        { "not": { "u_has_effect": "conjunctivitis" } },
+        { "not": { "u_has_trait": "COMPOUND_EYES" } },
+        { "not": { "u_has_trait": "SEESLEEP" } },
+        { "not": { "u_has_bionics": "armor_bio_eyes" } },
+        { "math": [ "u_coverage('eyes')", "<", "rand(100)" ] },
+        { "x_in_y_chance": { "x": 2, "y": 3 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "conjunctivitis",
+        "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(259200) + 172800" ] },
+        "target_part": "eyes"
+      }
+    ]
   }
 ]

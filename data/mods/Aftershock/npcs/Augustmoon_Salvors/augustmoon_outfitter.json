@@ -33,6 +33,8 @@
   {
     "type": "item_group",
     "id": "afs_augustmoon_outfitter",
+    "ammo": 100,
+    "magazine": 100,
     "subtype": "collection",
     "items": [
       { "group": "afs_wintersuit_generic_advanced", "count": [ 1, 3 ] },

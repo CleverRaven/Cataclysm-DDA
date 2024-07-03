@@ -23,5 +23,98 @@
     },
     "traps": { "P": "tr_portal" },
     "fields": { "q": { "field": "fd_fatigue", "intensity": 1 }, "Q": { "field": "fd_fatigue", "intensity": 2 } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_flesh_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_nm_floor_flesh" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_bone_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_nm_floor_bone" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_wall_flesh_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_nm_wall_flesh" },
+      "place_nested": [ { "chunks": [ "nest_nm_flesh_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_floor_flesh_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_nm_floor_flesh" },
+      "place_nested": [ { "chunks": [ "nest_nm_flesh_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_slope_down_flesh_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_slope_down" },
+      "place_nested": [ { "chunks": [ "nest_nm_flesh_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_wall_bone_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_nm_wall_bone" },
+      "place_nested": [ { "chunks": [ "nest_nm_bone_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_nm_wall_teeth_bone_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_nm_wall_teeth" },
+      "place_nested": [ { "chunks": [ "nest_nm_bone_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "nether_monster_surface_palette",
+    "nested": {
+      "#": { "chunks": [ "nest_nm_wall_flesh_roof" ] },
+      "=": { "chunks": [ "nest_nm_floor_flesh_roof" ] },
+      "<": { "chunks": [ "nest_nm_slope_down_flesh_roof" ] },
+      "@": { "chunks": [ "nest_nm_wall_bone_roof" ] },
+      "T": { "chunks": [ "nest_nm_wall_teeth_bone_roof" ] }
+    }
   }
 ]

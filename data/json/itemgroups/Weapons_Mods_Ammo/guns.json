@@ -98,6 +98,7 @@
       { "item": "glock_40", "variant": "glock_40", "prob": 1 },
       { "item": "sw_610", "prob": 1 },
       { "item": "sw_619", "prob": 40 },
+      { "item": "colt_python", "prob": 40 },
       { "item": "bfr", "prob": 10 },
       { "item": "raging_bull", "prob": 15 },
       { "item": "sw_500", "prob": 10 },
@@ -105,7 +106,10 @@
       { "group": "modular_deagle_44", "prob": 5 },
       { "group": "modular_deagle_50", "prob": 1 },
       { "group": "nested_deagle_with_kits", "prob": 1 },
-      { "item": "sw629", "prob": 30 }
+      { "item": "sw629", "prob": 30 },
+      { "item": "colt_anaconda_8", "prob": 11 },
+      { "item": "colt_anaconda_6", "prob": 16 },
+      { "item": "colt_anaconda_4", "prob": 5 }
     ]
   },
   {
@@ -129,12 +133,11 @@
     "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian's, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "nested_af2011a1_38super", "prob": 1 },
       { "group": "nested_bfr", "prob": 100 },
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
       { "group": "nested_mauser_c96", "prob": 39 },
-      { "group": "nested_mr73", "prob": 8 },
+      { "group": "nested_chiappa_rhino", "prob": 5 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
       { "group": "nested_tokarev", "prob": 100 },
@@ -148,7 +151,6 @@
     "id": "guns_pistol_obscure_display",
     "//": "Very obscure pistols which are illegal to sell.",
     "items": [
-      { "item": "af2011a1_38super", "prob": 25 },
       { "item": "draco", "prob": 30 },
       { "item": "ar_pistol", "prob": 35 },
       { "group": "guns_pistol_collectible", "prob": 1 },
@@ -341,7 +343,6 @@
       { "group": "guns_rifle_rare_3006", "prob": 35 },
       { "group": "guns_rifle_rare_44", "prob": 10 },
       { "group": "guns_rifle_rare_45", "prob": 21 },
-      { "group": "guns_rifle_rare_45colt", "prob": 7 },
       { "group": "guns_rifle_rare_762R", "prob": 27 },
       { "group": "guns_rifle_rare_300blk", "prob": 10 },
       { "group": "guns_rifle_rare_other", "prob": 94 }
@@ -360,7 +361,6 @@
       { "group": "guns_rifle_rare_display_3006", "prob": 20 },
       { "group": "guns_rifle_rare_display_44", "prob": 10 },
       { "group": "guns_rifle_rare_display_45", "prob": 10 },
-      { "group": "guns_rifle_rare_display_45colt", "prob": 5 },
       { "group": "guns_rifle_rare_display_762R", "prob": 17 },
       { "group": "guns_rifle_rare_display_300blk", "prob": 15 },
       { "group": "guns_rifle_rare_display_other", "prob": 106 }
@@ -465,7 +465,6 @@
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
       { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
-      { "item": "fs2000", "prob": 6 },
       { "item": "acr_300blk", "prob": 15 },
       { "item": "hk417_13", "prob": 40 },
       { "item": "m2carbine", "prob": 5 },
@@ -546,6 +545,7 @@
       { "item": "benelli_sa", "variant": "sbe", "prob": 37 },
       { "item": "benelli_tsa", "variant": "m2_tac", "contents-item": [ "rail_mount" ], "prob": 12 },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 6 },
+      { "item": "mossberg_590m", "prob": 1 },
       { "item": "remington_870", "variant": "ithaca37", "prob": 6 },
       { "item": "remington_870", "variant": "remington_1100", "prob": 17 },
       { "item": "mossberg_930", "prob": 15 },
@@ -562,9 +562,12 @@
     "subtype": "distribution",
     "entries": [
       { "group": "nested_ksg", "prob": 50 },
+      { "group": "nested_dp_12", "prob": 3 },
+      { "group": "nested_srm_1216", "prob": 2 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
-      { "group": "nested_slp", "prob": 10 }
+      { "group": "nested_slp", "prob": 10 },
+      { "group": "nested_mossberg_590m", "prob": 2 }
     ]
   },
   {
@@ -575,9 +578,12 @@
     "subtype": "distribution",
     "entries": [
       { "item": "ksg", "prob": 50, "charges": [ 0, 7 ] },
+      { "item": "srm_1216", "prob": 1, "charges": [ 0, 16 ] },
+      { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] },
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
+      { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
     ]
   },
   {
@@ -588,8 +594,11 @@
     "entries": [
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
+      { "item": "srm_1216", "prob": 3 },
+      { "item": "dp_12", "prob": 4 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
+      { "item": "mossberg_590m", "prob": 2 }
     ]
   },
   {
@@ -1662,7 +1671,8 @@
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
-      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] }
+      { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] },
+      { "item": "colt_python", "prob": 5, "charges": [ 0, 6 ] }
     ]
   },
   {
@@ -1747,7 +1757,8 @@
       { "item": "garand", "prob": 1, "charges": [ 0, 8 ] },
       { "item": "mk47", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "ak556", "prob": 2, "charges": [ 0, 30 ] },
-      { "item": "ak556", "variant": "zpapm90", "prob": 1 }
+      { "item": "ak556", "variant": "zpapm90", "prob": 1 },
+      { "item": "colt_python", "prob": 1, "charges": [ 0, 6 ] }
     ]
   }
 ]

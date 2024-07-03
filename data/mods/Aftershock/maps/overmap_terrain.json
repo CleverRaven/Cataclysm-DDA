@@ -477,7 +477,12 @@
       "afs_habblock_2_floor5_a3",
       "afs_habblock_2_floor5_a4",
       "afs_habblock_2_roof_a1",
-      "afs_habblock_2_roof_a2"
+      "afs_habblock_2_roof_a2",
+      "afs_habblock_3_ground",
+      "afs_habblock_3_floor_2",
+      "afs_habblock_3_floor_3",
+      "afs_habblock_3_floor_4",
+      "afs_habblock_3_roof"
     ],
     "sym": "H",
     "color": "light_green",
@@ -494,6 +499,26 @@
     "color": "light_green",
     "see_cost": 3,
     "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Enclosed Park",
+    "id": [ "afs_park_dome_ground_floor", "afs_park_dome_2nd_floor", "afs_park_dome_roof" ],
+    "sym": "P",
+    "color": "green",
+    "see_cost": 3,
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Enforcer Station",
+    "id": [ "afs_enforcer_station_a1", "afs_enforcer_station_a1_floor2", "afs_enforcer_station_a1_roof" ],
+    "sym": "E",
+    "color": "blue",
+    "see_cost": 3,
+    "mondensity": 3,
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -518,5 +543,15 @@
     "sym": "H",
     "color": "cyan",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Exosuit Garage",
+    "id": [ "afs_exosuit_garage_a1", "afs_exosuit_garage_a1_roof", "afs_exosuit_garage_2_a1", "afs_exosuit_garage_2_a1_roof" ],
+    "sym": "e",
+    "color": "yellow",
+    "see_cost": 3,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
