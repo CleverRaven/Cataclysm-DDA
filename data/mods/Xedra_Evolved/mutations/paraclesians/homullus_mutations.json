@@ -47,7 +47,7 @@
     "visibility": 10,
     "ugliness": -6,
     "mixed_effect": true,
-     "description": "Your skin has become latex like.  While it provides additional protection and attractiveness it also heals at a much slower rate.",
+    "description": "Your skin has become latex like.  While it provides additional protection and attractiveness it also heals at a much slower rate.",
     "types": [ "SKIN", "BODY_ARMOR" ],
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
