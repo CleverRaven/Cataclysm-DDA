@@ -371,7 +371,7 @@
     "id": "EOC_RADIATION_MUTATION",
     "eoc_type": "EVENT",
     "required_event": "character_radioactively_mutates",
-    "condition": "u_is_avatar",
+    "condition": "u_is_character",
     "effect": [
       {
         "set_string_var": "<radiation_category>",
