@@ -24,6 +24,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -868,7 +869,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
-        p.assign_activity( drop_activity_actor( to_drop, tripoint_zero, false ) );
+        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms_zero, false ) );
         p.say( "<acknowledged>" );
     } else {
         p.say( _( "I don't have anything to drop off." ) );

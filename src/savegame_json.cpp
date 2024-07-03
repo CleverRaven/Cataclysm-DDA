@@ -1629,7 +1629,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "grab_point", grab_point );
     std::string grab_typestr = "OBJECT_NONE";
-    if( grab_point.x != 0 || grab_point.y != 0 ) {
+    if( grab_point.x() != 0 || grab_point.y() != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr );
     } else {
