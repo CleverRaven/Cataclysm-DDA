@@ -34,7 +34,6 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
-#include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
