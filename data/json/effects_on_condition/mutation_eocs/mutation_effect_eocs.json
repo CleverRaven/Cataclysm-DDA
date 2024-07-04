@@ -566,5 +566,13 @@
       ]
     },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_chronic_pain_random_mod",
+    "recurrence": { "math": [ "time_until('sunrise') + rng(-time('90 m'), time('90 m'))" ] },
+    "condition": { "u_has_trait": "CHRONICPAIN" },
+    "deactivate_condition": { "not": { "u_has_trait": "CHRONICPAIN" } },
+    "effect": { "math": [ "chronic_pain_mod", "=", "rng(1, 4)" ] }
   }
 ]

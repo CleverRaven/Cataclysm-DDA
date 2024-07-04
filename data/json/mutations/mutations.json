@@ -797,10 +797,16 @@
     "id": "CHRONICPAIN",
     "name": { "str": "Chronic Pain" },
     "points": -2,
-    "description": "For your entire life, you've felt constant pain all around your body.  Painkillers can relieve some of it, but it will never go away.",
+    "description": "Lately, you started to feel constant pain all around your body, especially when you are physically active.  Painkillers can relieve some of it, and some days it is even bearable without medicine, but it can't go away entirely.",
     "starting_trait": true,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "CONSTANT_PAIN", "add": 15 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "CONSTANT_PAIN", "add": { "math": [ "(u_val('activity_level') + 1) * value_or( chronic_pain_mod, 1 )" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
