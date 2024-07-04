@@ -302,33 +302,38 @@
   {
     "type": "monstergroup",
     "name": "GROUP_WORM",
-    "is_animal": true,
     "monsters": [
-      { "monster": "mon_graboid", "weight": 30, "cost_multiplier": 20, "starts": "13 days" },
-      { "monster": "mon_halfworm", "weight": 0, "cost_multiplier": 0 },
-      { "monster": "mon_worm_small", "weight": 970, "cost_multiplier": 0 }
+      { "monster": "mon_worm_small", "weight": 5, "ends": "12 days" },
+      { "monster": "mon_worm", "weight": 5, "starts": "7 days" },
+      { "monster": "mon_graboid", "weight": 2, "starts": "15 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BUTTERFLY",
-    "default": "mon_butterfly",
-    "monsters": [ { "monster": "mon_butterfly", "weight": 50 }, { "monster": "mon_moth", "weight": 50 } ]
+    "monsters": [
+      { "monster": "mon_butterfly", "weight": 5, "ends": "12 days" },
+      { "monster": "mon_butterfly_giant", "weight": 5, "starts": "7 days" },
+      { "monster": "mon_butterfly_titan", "weight": 2, "starts": "15 days" }
+    ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BUTTERFLY_GIANT",
-    "default": "mon_butterfly_giant",
+    "name": "GROUP_MOTH",
     "monsters": [
-      { "monster": "mon_butterfly_giant", "weight": 45 },
-      { "monster": "mon_butterfly_titan", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_moth_giant", "weight": 45 },
-      { "monster": "mon_moth_titan", "weight": 5, "cost_multiplier": 2 }
+      { "monster": "mon_moth", "weight": 5, "ends": "12 days" },
+      { "monster": "mon_moth_giant", "weight": 5, "starts": "7 days" },
+      { "monster": "mon_moth_titan", "weight": 2, "starts": "15 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_CENTIPEDE_MOM_SUMMON",
     "monsters": [ { "monster": "mon_centipede_small", "weight": 67 }, { "monster": "mon_centipede_larva", "weight": 33 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER_MOM_SUMMON",
+    "monsters": [ { "monster": "mon_spider_cellar_small", "weight": 67 }, { "monster": "mon_spider_cellar_giant_s", "weight": 33 } ]
   }
 ]

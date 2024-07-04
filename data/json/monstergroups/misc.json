@@ -320,7 +320,7 @@
       { "monster": "mon_raccoon", "weight": 15 },
       { "monster": "mon_rattlesnake", "weight": 10 },
       { "monster": "mon_rattlesnake_giant", "weight": 5, "cost_multiplier": 2 },
-      { "monster": "mon_worm", "weight": 20 },
+      { "group": "GROUP_WORM", "weight": 20 },
       { "monster": "mon_wasp_small", "weight": 10 }
     ]
   },
