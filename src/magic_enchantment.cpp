@@ -171,6 +171,7 @@ namespace io
             case enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE: return "EQUIPMENT_DAMAGE_CHANCE";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
+            case enchant_vals::mod::CONSTANT_PAIN: return "CONSTANT_PAIN";
             case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
             case enchant_vals::mod::KNOCKBACK_RESIST: return "KNOCKBACK_RESIST";
             case enchant_vals::mod::KNOCKDOWN_RESIST: return "KNOCKDOWN_RESIST";

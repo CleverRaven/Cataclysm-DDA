@@ -12498,7 +12498,9 @@ int Character::get_perceived_pain() const
         return 0;
     }
 
-    return std::max( get_pain() - get_painkiller(), 0 );
+    int constant_pain = enchantment_cache->get_value_add( enchant_vals::mod::CONSTANT_PAIN );
+
+    return std::max( get_pain() + constant_pain - get_painkiller(), 0 );
 }
 
 float Character::fall_damage_mod() const

@@ -794,6 +794,16 @@
   },
   {
     "type": "mutation",
+    "id": "REALLYBADKNEES",
+    "name": { "str": "Chronic Pain" },
+    "points": -2,
+    "description": "Your entire life you feel a constant pain, all around your body.  Painkillers can relief some of it, but it will never gone away",
+    "starting_trait": true,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "CONSTANT_PAIN", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "NIGHTVISION",
     "name": { "str": "Night Vision" },
     "points": 3,
