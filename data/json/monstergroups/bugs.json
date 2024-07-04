@@ -345,6 +345,41 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_WATER_STRIDER",
+    "monsters": [
+      { "monster": "mon_strider_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_strider_giant", "weight": 5, "starts": "30 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PRAYING_MANTIS",
+    "monsters": [
+      { "monster": "mon_mantis_small", "weight": 5, "ends": "63 days" },
+      { "monster": "mon_mantis_giant", "weight": 5, "starts": "42 days" },
+      { "monster": "mon_mantis_mega", "weight": 5, "starts": "84 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SNAIL",
+    "monsters": [
+      { "monster": "mon_snail_forest", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_snail_small", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_snail_giant", "weight": 2, "starts": "72 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SLUG",
+    "monsters": [
+      { "monster": "mon_slug_forest", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_slug_small", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_slug_giant", "weight": 2, "starts": "72 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_BUTTERFLY",
     "monsters": [
       { "monster": "mon_butterfly", "weight": 5, "ends": "45 days" },

@@ -3351,7 +3351,7 @@
     "weight": "4 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "extend": { "flags": [ "NO_BREED" ] },
-    "upgrades": { "age_grow": 40, "into": "mon_strider_giant" }
+    "upgrades": { "age_grow": 30, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",
