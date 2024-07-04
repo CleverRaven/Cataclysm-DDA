@@ -2995,7 +2995,7 @@
     "volume": "750 ml",
     "weight": "1 kg",
     "stomach_size": 30,
-    "upgrades": { "age_grow": 35, "into": "mon_grasshopper_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_grasshopper_giant" },
     "extend": { "flags": [ "SMALL_HIDER", "NO_BREED" ] }
   },
   {

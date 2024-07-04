@@ -303,7 +303,7 @@
     "name": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_null", "weight": 378 },
-      { "monster": "mon_fly", "weight": 100 },
+      { "group": "GROUP_FLY", "weight": 100 },
       { "monster": "mon_crow", "weight": 75 },
       { "monster": "mon_raven", "weight": 75 },
       {
@@ -355,7 +355,7 @@
       { "monster": "mon_null", "weight": 370, "cost_multiplier": 0 },
       { "monster": "mon_zombie_crawler", "weight": 75, "cost_multiplier": 0 },
       { "monster": "mon_raccoon", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_fly", "weight": 100 },
+      { "group": "GROUP_FLY", "weight": 100 },
       { "monster": "mon_blob_sewer", "weight": 100 },
       { "monster": "mon_sewer_rat", "weight": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "group": "GROUP_ROACH", "weight": 75 },

@@ -310,6 +310,41 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_FLY",
+    "monsters": [
+      { "monster": "mon_fly_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_fly", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_fly_mega", "weight": 2, "starts": "72 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MOSQUITO",
+    "monsters": [
+      { "monster": "mon_mosquito_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_mosquito_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_mosquito_mega", "weight": 2, "starts": "72 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GRASSHOPPER",
+    "monsters": [
+      { "monster": "mon_grasshopper_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_grasshopper_giant", "weight": 5, "starts": "30 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LOCUST",
+    "monsters": [
+      { "monster": "mon_locust_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_locust", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_locust_mega", "weight": 2, "starts": "72 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_BUTTERFLY",
     "monsters": [
       { "monster": "mon_butterfly", "weight": 5, "ends": "45 days" },
