@@ -1260,6 +1260,7 @@
       { "id": "longswipe", "cooldown": 15 }
     ],
     "armor": { "electric": 1 },
+    "bleed_rate": 0,
     "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
