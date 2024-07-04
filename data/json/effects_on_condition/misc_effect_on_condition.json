@@ -173,8 +173,8 @@
     "effect": [
       {
         "u_add_morale": "morale_sunrise",
-        "bonus": 20,
-        "max_bonus": 20,
+        "bonus": 10,
+        "max_bonus": 10,
         "duration": "120 minutes",
         "decay_start": "60 minutes"
       }
@@ -190,8 +190,8 @@
     "effect": [
       {
         "u_add_morale": "morale_sunset",
-        "bonus": 20,
-        "max_bonus": 20,
+        "bonus": 10,
+        "max_bonus": 10,
         "duration": "120 minutes",
         "decay_start": "60 minutes"
       }
