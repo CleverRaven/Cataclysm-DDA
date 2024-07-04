@@ -4435,7 +4435,7 @@
     "charges": 6,
     "time": "2 m",
     "autolearn": true,
-    "components": [ "hardtack_cracker", 1 ]
+    "components": "hardtack_cracker", 1
   },
   {
     "type": "recipe",
