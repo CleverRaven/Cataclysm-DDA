@@ -883,7 +883,7 @@
     "price_postapoc": "2 USD 50 cent",
     "quench": -5,
     "fun": 4,
-    "volume": "50 ml", 
+    "volume": "50 ml",
     "proportional": { "price": 2.0, "weight": 0.345 },
     "delete": { "flags": [ "RAW" ] }
   },
