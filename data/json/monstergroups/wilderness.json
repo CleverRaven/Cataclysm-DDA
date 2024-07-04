@@ -241,7 +241,7 @@
       { "group": "GROUP_LOCUST", "weight": 3, "pack_size": [ 3, 9 ], "cost_multiplier": 0 },
       { "group": "GROUP_GRASSHOPPER", "weight": 3, "pack_size": [ 1, 3 ], "cost_multiplier": 0 },
       { "monster": "mon_antlion_giant", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_stag_beetle_small", "weight": 2, "cost_multiplier": 10 },
+      { "group": "GROUP_STAG_BEETLE", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_woodlouse", "weight": 3, "cost_multiplier": 3 },
       { "group": "GROUP_BUTTERFLY", "weight": 2, "cost_multiplier": 3 },
       { "group": "GROUP_MOTH", "weight": 2, "cost_multiplier": 3 },
@@ -470,9 +470,9 @@
       { "monster": "mon_firefly", "weight": 30, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_MOSQUITO", "weight": 50, "pack_size": [ 1, 6 ] },
       { "monster": "mon_dragonfly_giant", "weight": 35, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_centipede_small", "weight": 40, "cost_multiplier": 2 },
+      { "group": "GROUP_CENTIPEDE", "weight": 40, "cost_multiplier": 2 },
       { "monster": "mon_dermatik", "weight": 40, "cost_multiplier": 2 },
-      { "monster": "mon_crayfish_small", "weight": 10 }
+      { "group": "GROUP_CRAYFISH", "weight": 10 }
     ]
   },
   {

@@ -474,7 +474,7 @@
       { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 },
-      { "monster": "mon_centipede_giant", "weight": 200 },
+      { "group": "GROUP_CENTIPEDE", "weight": 200 },
       { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "group": "GROUP_SLUG", "weight": 50 },

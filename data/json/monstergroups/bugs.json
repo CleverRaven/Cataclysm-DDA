@@ -107,11 +107,11 @@
     "default": "mon_spider_cellar_small",
     "//": "`monster` ignores group-level pack size, so numbers are set in mapgen",
     "monsters": [
-      { "monster": "mon_spider_cellar_small", "weight": 300, "ends": "45 days" },
-      { "monster": "mon_spider_cellar_giant", "weight": 220, "starts": "30 days", "ends": "72 days" },
-      { "monster": "mon_spider_cellar_mom", "weight": 80, "starts": "30 days" },
-      { "monster": "mon_spider_cellar_giant", "weight": 200, "starts": "72 days" },
-      { "monster": "mon_spider_cellar_mega", "weight": 100, "starts": "72 days" }
+      { "monster": "mon_spider_cellar_small", "weight": 30, "ends": "45 days" },
+      { "monster": "mon_spider_cellar_giant", "weight": 22, "starts": "30 days", "ends": "72 days" },
+      { "monster": "mon_spider_cellar_mom", "weight": 8, "starts": "30 days" },
+      { "monster": "mon_spider_cellar_giant", "weight": 20, "starts": "72 days" },
+      { "monster": "mon_spider_cellar_mega", "weight": 10, "starts": "72 days" }
     ]
   },
   {
@@ -364,6 +364,26 @@
     "type": "monstergroup",
     "name": "GROUP_LADY_BUG",
     "monsters": [ { "monster": "mon_lady_bug", "ends": "63 days" }, { "monster": "mon_lady_bug_giant", "starts": "42 days" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE",
+    "monsters": [
+      { "monster": "mon_centipede_small", "weight": 30, "ends": "45 days" },
+      { "monster": "mon_centipede_giant", "weight": 22, "starts": "30 days", "ends": "72 days" },
+      { "monster": "mon_centipede_mom", "weight": 8, "starts": "30 days" },
+      { "monster": "mon_centipede_giant", "weight": 20, "starts": "72 days" },
+      { "monster": "mon_centipede_mega", "weight": 10, "starts": "72 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STAG_BEETLE",
+    "monsters": [
+      { "monster": "mon_stag_beetle_small", "weight": 5, "ends": "90 days" },
+      { "monster": "mon_stag_beetle_giant", "weight": 5, "starts": "60 days" },
+      { "monster": "mon_stag_beetle_mega", "weight": 2, "starts": "120 days" }
+    ]
   },
   {
     "type": "monstergroup",

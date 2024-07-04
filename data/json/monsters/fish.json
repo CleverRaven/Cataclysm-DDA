@@ -968,7 +968,6 @@
     "reproduction": { "baby_monster": "mon_fry_crayfish", "baby_count": 3, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "upgrades": { "half_life": 42, "into": "mon_crayfish_small" },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -1017,7 +1016,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "dissect": "dissect_crustacean_small",
-    "upgrades": { "half_life": 28, "into": "mon_giant_crayfish" },
+    "upgrades": { "age_grow": 30, "into": "mon_giant_crayfish" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
   {
@@ -1052,7 +1051,7 @@
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_crayfish_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_crayfish_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ],
     "armor": { "cut": 8, "bullet": 6 }
