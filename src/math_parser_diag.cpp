@@ -1208,8 +1208,11 @@ std::function<double( dialogue & )> time_until_eval( char /* scope */,
         } else {
             ret = val.dbl( d ) - to_turn<double>( calendar::turn );
         }
-        if( ret < 0 ) {
-            ret += to_turns<double>( 1_days );
+        if( val_str == "night_time" || val_str == "daylight_time" || val_str == "sunset" ||
+            val_str == "sunrise" ) {
+            if( ret < 0 ) {
+                ret += to_turns<double>( 1_days );
+            }
         }
         return _time_in_unit( ret, unit_val.str( d ) );
     };
