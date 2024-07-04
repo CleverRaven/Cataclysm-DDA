@@ -1236,7 +1236,7 @@
     "id": "mon_zombie_regenerating_final",
     "type": "MONSTER",
     "name": { "str": "regenerating abomination" },
-    "description": "This zombie hardly resembles a human anymore - Its skeleton has been repeatedly dismantled and reassembled into a horrid quadrapedal shape, like some sort of mismatched action figure.  Slick, bloodied flesh writhes on its frame with an almost viscous quality, digesting and reconstituting itself in an endless ouroborous of undead flesh.",
+    "description": "This zombie hardly resembles a human anymore - Its skeleton has been repeatedly dismantled and reassembled into a horrid quadrupedal shape, like some sort of mismatched action figure.  Slick, bloodied flesh writhes on its frame with an almost viscous quality, digesting and reconstituting itself in an endless ouroboros of undead flesh.",
     "copy-from": "mon_zombie_predator",
     "hp": 100,
     "regenerates": 12,
