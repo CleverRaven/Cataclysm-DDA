@@ -170,7 +170,15 @@
     "global": true,
     "run_for_npcs": true,
     "condition": { "and": [ "u_is_outside", "u_can_see" ] },
-    "effect": { "message": "sunrise" }
+    "effect": [
+      {
+        "u_add_morale": "morale_sunrise",
+        "bonus": 20,
+        "max_bonus": 20,
+        "duration": "120 minutes",
+        "decay_start": "60 minutes"
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -179,6 +187,14 @@
     "global": true,
     "run_for_npcs": true,
     "condition": { "and": [ "u_is_outside", "u_can_see" ] },
-    "effect": { "message": "sunset" }
+    "effect": [
+      {
+        "u_add_morale": "morale_sunset",
+        "bonus": 20,
+        "max_bonus": 20,
+        "duration": "120 minutes",
+        "decay_start": "60 minutes"
+      }
+    ]
   }
 ]
