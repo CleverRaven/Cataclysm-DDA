@@ -343,8 +343,11 @@ class game
          * the one contained in @p mon).
          */
         /** @{ */
+        // TODO: Get rid of untyped overload.
         monster *place_critter_at( const mtype_id &id, const tripoint &p );
+        monster *place_critter_at( const mtype_id &id, const tripoint_bub_ms &p );
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
+        monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius, bool forced = false );

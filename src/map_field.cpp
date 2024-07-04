@@ -427,9 +427,9 @@ void map::process_fields_in_submap( submap *const current_submap,
     scent_block sblk( submap, get_scent() );
 
     // Initialize the map tile wrapper
-    maptile map_tile( current_submap, point_zero );
-    int &locx = map_tile.pos_.x;
-    int &locy = map_tile.pos_.y;
+    maptile map_tile( current_submap, point_sm_ms_zero );
+    int &locx = map_tile.pos_.x();
+    int &locy = map_tile.pos_.y();
     const point sm_offset = sm_to_ms_copy( submap.xy() );
 
     field_proc_data pd{
@@ -456,7 +456,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             // This is a translation from local coordinates to submap coordinates.
-            const tripoint p = tripoint( map_tile.pos() + sm_offset, submap.z );
+            const tripoint_sm_ms p = tripoint_sm_ms( map_tile.pos() + sm_offset, submap.z );
 
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
@@ -468,7 +468,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                 // The field might have been killed by processing a neighbor field
                 if( prev_intensity == 0 ) {
-                    on_field_modified( p, *pd.cur_fd_type );
+                    on_field_modified( p.raw(), *pd.cur_fd_type );
                     --current_submap->field_count;
                     curfield.remove_field( it++ );
                     continue;
@@ -478,19 +478,19 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur.get_field_age() == 0_turns ) {
                     cur.do_decay();
                     if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
-                        on_field_modified( p, *pd.cur_fd_type );
+                        on_field_modified( p.raw(), *pd.cur_fd_type );
                     }
                     it++;
                     continue;
                 }
 
                 for( const FieldProcessorPtr &proc : pd.cur_fd_type->get_processors() ) {
-                    proc( p, cur, pd );
+                    proc( p.raw(), cur, pd );
                 }
 
                 cur.do_decay();
                 if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
-                    on_field_modified( p, *pd.cur_fd_type );
+                    on_field_modified( p.raw(), *pd.cur_fd_type );
                 }
                 it++;
             }
@@ -1146,9 +1146,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const maptile &neigh = neighs[i].second;
-        if( ( neigh.pos().x != remove_tile.pos().x && neigh.pos().y != remove_tile.pos().y ) ||
-            ( neigh.pos().x != remove_tile2.pos().x && neigh.pos().y != remove_tile2.pos().y ) ||
-            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ||
+        if( ( neigh.pos().x() != remove_tile.pos().x() && neigh.pos().y() != remove_tile.pos().y() ) ||
+            ( neigh.pos().x() != remove_tile2.pos().x() && neigh.pos().y() != remove_tile2.pos().y() ) ||
+            ( neigh.pos().x() != remove_tile3.pos().x() && neigh.pos().y() != remove_tile3.pos().y() ) ||
             x_in_y( 1, std::max( 2, windpower ) ) ) {
             neighbour_vec.push_back( i );
         }

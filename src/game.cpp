@@ -5040,9 +5040,19 @@ monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
     return place_critter_around( id, p, 0 );
 }
 
+monster *game::place_critter_at( const mtype_id &id, const tripoint_bub_ms &p )
+{
+    return place_critter_around( id, p.raw(), 0 );
+}
+
 monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p )
 {
     return place_critter_around( mon, p, 0 );
+}
+
+monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &p )
+{
+    return place_critter_around( mon, p.raw(), 0 );
 }
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
