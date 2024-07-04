@@ -797,7 +797,7 @@
     "id": "CHRONICPAIN",
     "name": { "str": "Chronic Pain" },
     "points": -2,
-    "description": "Your entire life you feel a constant pain, all around your body.  Painkillers can relief some of it, but it will never gone away",
+    "description": "For your entire life, you've felt constant pain all around your body.  Painkillers can relieve some of it, but it will never go away.",
     "starting_trait": true,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "CONSTANT_PAIN", "add": 15 } ] } ]
