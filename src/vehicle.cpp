@@ -149,7 +149,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
     const vehicle_part &vp = veh.part( part );
-    const tripoint part_pos = veh.global_part_pos3( vp );
+    const tripoint_bub_ms part_pos = veh.bub_part_pos( vp );
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
@@ -165,7 +165,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
-        player_character.pos() + player_character.grab_point == part_pos ) {
+        player_character.pos_bub() + player_character.grab_point == part_pos ) {
         if( veh.parts_at_relative( vp.mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
@@ -173,9 +173,9 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
 
     here.dirty_vehicle_list.insert( &veh );
-    here.clear_vehicle_point_from_cache( &veh, part_pos );
+    here.clear_vehicle_point_from_cache( &veh, part_pos.raw() );
     here.add_vehicle_to_cache( &veh );
-    here.memory_cache_dec_set_dirty( part_pos, true );
+    here.memory_cache_dec_set_dirty( part_pos.raw(), true );
     player_character.memorize_clear_decoration(
         here.getglobal( part_pos ), "vp_" + vp.info().id.str() );
 }
@@ -1862,7 +1862,7 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
     }
     // Release grab if player is dragging either appliance
     if( get_avatar().get_grab_type() == object_type::VEHICLE ) {
-        const tripoint grab_point = get_avatar().pos() + get_avatar().grab_point;
+        const tripoint_bub_ms grab_point = get_avatar().pos_bub() + get_avatar().grab_point;
         const optional_vpart_position grabbed_veh = get_map().veh_at( grab_point );
         if( grabbed_veh && ( &grabbed_veh->vehicle() == this || &grabbed_veh->vehicle() == &veh_target ) ) {
             add_msg( _( "You release the %s." ), grabbed_veh->vehicle().name );

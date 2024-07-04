@@ -1379,7 +1379,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
     if( !vp ) {
         avatar *player_character = p->as_avatar();
         if( player_character != nullptr &&
-            player_character->grab_point.x == 0 && player_character->grab_point.y == 0 ) {
+            player_character->grab_point.x() == 0 && player_character->grab_point.y() == 0 ) {
             debugmsg( "map::board_vehicle: vehicle with unbroken and BOARDABLE part not found" );
         }
         return;
@@ -1757,6 +1757,12 @@ furn_id map::furn( const tripoint_bub_ms &p ) const
 bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset,
                     bool avoid_creatures )
 {
+    return furn_set( tripoint_bub_ms( p ), new_furniture, furn_reset, avoid_creatures );
+}
+
+bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
+{
     if( !inbounds( p ) ) {
         debugmsg( "map::furn_set %s out of bounds", p.to_string() );
         return false;
@@ -1768,7 +1774,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         }
     }
     point l;
-    submap *const current_submap = unsafe_get_submap_at( p, l );
+    submap *const current_submap = unsafe_get_submap_at( p.raw(), l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
@@ -1811,7 +1817,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
         !furn_reset &&
-        player_character.pos() + player_character.grab_point == p && !new_f.is_movable() ) {
+        player_character.pos_bub() + player_character.grab_point == p && !new_f.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_f.name() );
         player_character.grab( object_type::NONE );
     }
@@ -1823,33 +1829,33 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         }
     }
     if( !new_f.emissions.empty() ) {
-        field_furn_locs.push_back( p );
+        field_furn_locs.push_back( p.raw() );
     }
     if( old_f.transparent != new_f.transparent ) {
-        set_transparency_cache_dirty( p );
-        set_seen_cache_dirty( p );
+        set_transparency_cache_dirty( p.raw() );
+        set_seen_cache_dirty( p.raw() );
     }
 
     if( old_f.has_flag( ter_furn_flag::TFLAG_INDOORS ) != new_f.has_flag(
             ter_furn_flag::TFLAG_INDOORS ) ) {
-        set_outside_cache_dirty( p.z );
+        set_outside_cache_dirty( p.z() );
     }
 
     if( old_f.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) != new_f.has_flag(
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
-        set_floor_cache_dirty( p.z );
-        set_seen_cache_dirty( p );
+        set_floor_cache_dirty( p.z() );
+        set_seen_cache_dirty( p.raw() );
         get_creature_tracker().invalidate_reachability_cache();
     }
 
     if( old_f.has_flag( ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) != new_f.has_flag(
             ter_furn_flag::TFLAG_SUN_ROOF_ABOVE ) ) {
-        set_floor_cache_dirty( p.z + 1 );
+        set_floor_cache_dirty( p.z() + 1 );
     }
 
-    invalidate_max_populated_zlev( p.z );
+    invalidate_max_populated_zlev( p.z() );
 
-    memory_cache_dec_set_dirty( p, true );
+    memory_cache_dec_set_dirty( p.raw(), true );
     if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "f_" );
     }
@@ -1858,24 +1864,18 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         get_creature_tracker().invalidate_reachability_cache();
     }
     // TODO: Limit to changes that affect move cost, traps and stairs
-    set_pathfinding_cache_dirty( p );
+    set_pathfinding_cache_dirty( p.raw() );
 
     // Make sure the furniture falls if it needs to
-    support_dirty( p );
-    tripoint above( p.xy(), p.z + 1 );
+    support_dirty( p.raw() );
+    tripoint_bub_ms above( p.xy(), p.z() + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
-    support_dirty( above );
+    support_dirty( above.raw() );
 
     return result;
 }
 
-bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
-                    bool avoid_creatures )
-{
-    return furn_set( p.raw(), new_furniture, furn_reset, avoid_creatures );
-}
-
-bool map::can_move_furniture( const tripoint &pos, Character *you ) const
+bool map::can_move_furniture( const tripoint_bub_ms &pos, Character *you ) const
 {
     if( !you ) {
         return false;
@@ -5197,7 +5197,7 @@ void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const u
     map::spawn_item( p.raw(), type_id, quantity, charges, birthday, damlevel, flags, variant, faction );
 }
 
-units::volume map::max_volume( const tripoint &p )
+units::volume map::max_volume( const tripoint_bub_ms &p )
 {
     return i_at( p ).max_volume();
 }
@@ -7195,7 +7195,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
         if( !( player_character.get_grab_type() == object_type::FURNITURE
-               && p == player_character.pos() + player_character.grab_point ) ) {
+               && tripoint_bub_ms( p ) == player_character.pos_bub() + player_character.grab_point ) ) {
             memory_sym = sym;
         }
     }
@@ -7317,7 +7317,8 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
 
         if( !veh->forward_velocity() && !veh->player_in_control( player_character )
             && !( player_character.get_grab_type() == object_type::VEHICLE
-                  && veh->get_points().count( player_character.pos() + player_character.grab_point ) ) ) {
+                  && veh->get_points().count( ( player_character.pos_bub() +
+                                                player_character.grab_point ).raw() ) ) ) {
             memory_sym = sym;
         }
     }

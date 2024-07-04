@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "itype.h"
@@ -78,13 +79,13 @@ TEST_CASE( "destroy_grabbed_furniture" )
         player_character.setpos( test_origin );
         const tripoint grab_point = test_origin + tripoint_east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
-        player_character.grab( object_type::FURNITURE, tripoint_east );
+        player_character.grab( object_type::FURNITURE, tripoint_rel_ms_east );
         REQUIRE( player_character.get_grab_type() == object_type::FURNITURE );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
             }
         }
     }

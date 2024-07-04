@@ -902,7 +902,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z() ) );
         }
-        bool can_move_furniture( const tripoint &pos, Character *you = nullptr ) const;
+        bool can_move_furniture( const tripoint_bub_ms &pos, Character *you = nullptr ) const;
 
         // Terrain
         // TODO: fix point types (remove the first overload)
@@ -1426,7 +1426,7 @@ class map
             spawn_item( tripoint( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel, flags,
                         variant, faction );
         }
-        units::volume max_volume( const tripoint &p );
+        units::volume max_volume( const tripoint_bub_ms &p );
         // TODO: fix point types (remove the first overload)
         units::volume free_volume( const tripoint &p );
         units::volume free_volume( const tripoint_bub_ms &p );

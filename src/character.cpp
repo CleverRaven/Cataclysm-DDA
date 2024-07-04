@@ -613,7 +613,7 @@ Character::Character() :
     oxygen = 0;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = tripoint_zero;
+    grab_point = tripoint_rel_ms_zero;
     hauling = false;
     set_focus( 100 );
     last_item = itype_null;
