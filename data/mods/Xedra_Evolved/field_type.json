@@ -168,10 +168,9 @@
         ]
       }
     ],
-    "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
-    "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
-    "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
-    "phase": "gas", // Phase of the field. Gases can spread after spawning and can be spawned out of emitters through impassable terrain with the PERMEABLE flag
+    "half_life": "3 minutes",
+     "percent_spread": 90,
+    "phase": "gas",
     "display_items": true,
   },
   {
