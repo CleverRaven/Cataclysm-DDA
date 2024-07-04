@@ -99,4 +99,3 @@
     "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "multiply": -0.5 }, { "value": "SLEEPINESS", "multiply": 1 } ] } ]
   }
 ]
-
