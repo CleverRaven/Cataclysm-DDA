@@ -1,10 +1,10 @@
 [
   {
     "entries": [
-      { "count": [ 2, 8 ], "item": "nylon" },
-      { "count": [ 1, 3 ], "item": "pipe" },
-      { "count": [ 0, 2 ], "item": "spring" },
-      { "count": [ 3, 5 ], "item": "scrap" }
+      { "count": [2, 8], "item": "nylon" },
+      { "count": [1, 3], "item": "pipe" },
+      { "count": [0, 2], "item": "spring" },
+      { "count": [3, 5], "item": "scrap" }
     ],
     "id": "ig_vp_seat",
     "subtype": "collection",
@@ -12,11 +12,11 @@
   },
   {
     "entries": [
-      { "count": [ 1, 5 ], "item": "leather" },
-      { "count": [ 1, 3 ], "item": "nylon" },
-      { "count": [ 1, 3 ], "item": "pipe" },
-      { "count": [ 0, 2 ], "item": "spring" },
-      { "count": [ 3, 5 ], "item": "scrap" }
+      { "count": [1, 5], "item": "leather" },
+      { "count": [1, 3], "item": "nylon" },
+      { "count": [1, 3], "item": "pipe" },
+      { "count": [0, 2], "item": "spring" },
+      { "count": [3, 5], "item": "scrap" }
     ],
     "id": "ig_vp_seat_leather",
     "subtype": "collection",
@@ -26,14 +26,14 @@
     "id": "seat",
     "breaks_into": "ig_vp_seat",
     "broken_color": "red",
-    "categories": [ "operations", "passengers" ],
+    "categories": ["operations", "passengers"],
     "color": "red",
     "comfort": 2,
     "damage_modifier": 60,
     "damage_reduction": { "all": 2, "bash": 5 },
     "description": "A soft upholstered car seat, contoured to hold one person.",
     "durability": 300,
-    "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
+    "flags": ["SEAT", "BOARDABLE", "CARGO", "BELTABLE"],
     "floor_bedding_warmth": 200,
     "item": "seat",
     "location": "center",
@@ -41,24 +41,63 @@
     "//": "weld repairs would mostly be the frame and springs of the seat, so low 6 cm cost per quadrant",
     "name": { "str": "bucket seat" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
+      "install": {
+        "skills": [["mechanics", 1]],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+        "using": [["vehicle_wrench_2", 1]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "15 m",
+        "using": [["vehicle_wrench_2", 1]]
+      },
+      "repair": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [
+          ["repair_welding_standard", 1],
+          ["sewing_standard", 8]
+        ]
       }
     },
-    "size": "85 L",
+    "size": "125 L",
     "type": "vehicle_part",
-    "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
+    "variants_bases": [
+      { "id": "windshield", "label": "Windshield" },
+      { "id": "swivel_chair", "label": "Swivel Chair" }
+    ],
     "variants": [
-      { "id": "front", "label": "Front", "symbols": "#", "symbols_broken": "*" },
-      { "id": "vertical", "label": "Vertical", "symbols": "#", "symbols_broken": "*" },
-      { "id": "vertical_left", "label": "Left Vertical", "symbols": "#", "symbols_broken": "*" },
-      { "id": "vertical_right", "label": "Right Vertical", "symbols": "#", "symbols_broken": "*" },
+      {
+        "id": "front",
+        "label": "Front",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
+      {
+        "id": "vertical",
+        "label": "Vertical",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
+      {
+        "id": "vertical_left",
+        "label": "Left Vertical",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
+      {
+        "id": "vertical_right",
+        "label": "Right Vertical",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
       { "id": "left", "label": "Left", "symbols": "#", "symbols_broken": "*" },
-      { "id": "right", "label": "Right", "symbols": "#", "symbols_broken": "*" },
+      {
+        "id": "right",
+        "label": "Right",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
       { "id": "rear", "label": "Rear", "symbols": "#", "symbols_broken": "*" }
     ]
   },
@@ -70,7 +109,7 @@
     "name": { "str": "leather bucket seat" },
     "description": "A leather car seat for one.",
     "type": "vehicle_part",
-    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
+    "variants_bases": [{ "id": "windshield", "label": "Windshield" }]
   },
   {
     "id": "reclining_seat",
@@ -79,12 +118,12 @@
     "//": "reclining and bench seats are roomier than standard and are able to fit Large characters, if not comfortably",
     "description": "A soft seat with an adjustable backrest, making it a reasonably comfortable place to sleep.",
     "durability": 100,
-    "size": "95 L",
+    "size": "115 L",
     "floor_bedding_warmth": 350,
     "name": { "str": "reclining bucket seat" },
-    "extend": { "flags": [ "BED" ] },
+    "extend": { "flags": ["BED"] },
     "type": "vehicle_part",
-    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
+    "variants_bases": [{ "id": "windshield", "label": "Windshield" }]
   },
   {
     "id": "reclining_seat_leather",
@@ -94,7 +133,7 @@
     "looks_like": "seat_leather",
     "name": { "str": "reclining leather bucket seat" },
     "type": "vehicle_part",
-    "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
+    "variants_bases": [{ "id": "windshield", "label": "Windshield" }]
   },
   {
     "id": "seat_back",
@@ -103,9 +142,9 @@
     "description": "A soft, wide seat with a high back, the kind often used in back seats or older cars.  It might be a decent place to sleep.",
     "floor_bedding_warmth": 500,
     "item": "seat_bench",
-    "size": "95 L",
+    "size": "115 L",
     "name": { "str": "bench seat" },
-    "extend": { "flags": [ "BED" ] },
+    "extend": { "flags": ["BED"] },
     "type": "vehicle_part"
   },
   {
@@ -130,23 +169,52 @@
     "comfort": 1,
     "item": "saddle",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "200 s",
+        "using": [["vehicle_wrench_2", 1]]
+      },
+      "removal": {
+        "skills": [["mechanics", 1]],
+        "time": "200 s",
+        "using": [["vehicle_wrench_2", 1]]
+      },
       "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
+        "skills": [["mechanics", 2]],
         "time": "20 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
+        "using": [
+          ["repair_welding_standard", 1],
+          ["sewing_standard", 4]
+        ]
       }
     },
-    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "breaks_into": [
+      { "item": "leather", "prob": 50 },
+      { "item": "scrap", "count": [1, 2] }
+    ],
     "size": "0 ml",
-    "extend": { "flags": [ "NONBELTABLE" ] },
-    "delete": { "flags": [ "BELTABLE", "CARGO" ] },
-    "variants_bases": [  ],
+    "extend": { "flags": ["NONBELTABLE"] },
+    "delete": { "flags": ["BELTABLE", "CARGO"] },
+    "variants_bases": [],
     "variants": [
-      { "id": "pedal", "label": "Pedals", "symbols": "#", "symbols_broken": "*" },
-      { "id": "motor", "label": "Motorcycle", "symbols": "#", "symbols_broken": "*" },
-      { "id": "scooter", "label": "Scooter", "symbols": "#", "symbols_broken": "*" }
+      {
+        "id": "pedal",
+        "label": "Pedals",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
+      {
+        "id": "motor",
+        "label": "Motorcycle",
+        "symbols": "#",
+        "symbols_broken": "*"
+      },
+      {
+        "id": "scooter",
+        "label": "Scooter",
+        "symbols": "#",
+        "symbols_broken": "*"
+      }
     ]
   },
   {
@@ -160,11 +228,17 @@
     "item": "sheet",
     "folded_volume": "1000 ml",
     "location": "anywhere",
-    "requirements": { "repair": { "skills": [ [ "tailor", 2 ] ], "time": "200 s", "using": [ [ "sewing_standard", 4 ] ] } },
-    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ],
-    "extend": { "flags": [ "BELTABLE" ] },
-    "delete": { "flags": [ "NONBELTABLE" ] },
-    "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
+    "requirements": {
+      "repair": {
+        "skills": [["tailor", 2]],
+        "time": "200 s",
+        "using": [["sewing_standard", 4]]
+      }
+    },
+    "breaks_into": [{ "item": "cotton_patchwork", "count": [1, 6] }],
+    "extend": { "flags": ["BELTABLE"] },
+    "delete": { "flags": ["NONBELTABLE"] },
+    "variants": [{ "symbols": "#", "symbols_broken": "*" }]
   },
   {
     "id": "metal_bench",
@@ -178,9 +252,21 @@
     "//": "more metal here so bigger weld cost - 20 cm weld per damage quadrant",
     "name": { "str": "steel bench" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": "vehicle_weld_removal"
+      },
+      "repair": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["repair_welding_standard", 2]]
+      }
     },
     "type": "vehicle_part"
   }
