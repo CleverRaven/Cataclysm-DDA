@@ -458,8 +458,7 @@
       { "item": "syringe", "prob": 100, "count": 1 },
       { "item": "serum_regen", "prob": 100, "count": 1 },
       { "item": "bubblewrap", "prob": 100, "count": [ 2, 5 ] },
-      { "item": "lab_file_mutagen_guide", "prob": 100 },
-      { "item": "lab_file_mutation_testing", "prob": 100 }
+      { "item": "lab_file_serum_testing", "prob": 100 }
     ]
   },
   {

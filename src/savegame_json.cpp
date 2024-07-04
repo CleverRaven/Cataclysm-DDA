@@ -1629,7 +1629,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "grab_point", grab_point );
     std::string grab_typestr = "OBJECT_NONE";
-    if( grab_point.x != 0 || grab_point.y != 0 ) {
+    if( grab_point.x() != 0 || grab_point.y() != 0 ) {
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr );
     } else {
@@ -4762,8 +4762,10 @@ void submap::store( JsonOut &jsout ) const
                 jsout.start_array();
                 jsout.write( p.x );
                 jsout.write( p.y );
+                const trap_id &trap_at = get_trap( p );
                 // TODO: jsout should support writing an id like jsout.write( trap_id )
-                jsout.write( get_trap( p ).id().str() );
+                jsout.write( trap_at.id().str() );
+                jsout.write( trap_at->trap_item_type );
                 jsout.end_array();
             }
         }
@@ -5008,7 +5010,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, p );
+                active_items.add( it, point_sm_ms( p ) );
             }
         }
     } else if( member_name == "traps" ) {
@@ -5020,7 +5022,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
             m->trp[p.x][p.y] = trid.id();
-            if( trap_entry.size() > 3 ) {
+            if( trap_entry.has_more() ) {
+                const_cast<trap &>( m->trp[p.x][p.y].obj() ).set_trap_data( itype_id( trap_entry.next_string() ) );
+            }
+            if( trap_entry.size() > 4 ) {
                 trap_entry.throw_error( "Too many values for trap entry" );
             }
         }

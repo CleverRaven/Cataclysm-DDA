@@ -919,7 +919,7 @@ class game
         not to step there */
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp, bool via_ramp );
-        bool grabbed_veh_move( const tripoint &dp );
+        bool grabbed_veh_move( const tripoint_rel_ms &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         // Examine nearby terrain 'e', with or without picking up items

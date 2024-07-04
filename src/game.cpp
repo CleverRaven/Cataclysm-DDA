@@ -10502,29 +10502,29 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
-    const tripoint furn_pos = u.pos() + u.grab_point;
-    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy(), 0 );
+    const tripoint_bub_ms furn_pos = u.pos_bub() + u.grab_point;
+    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy().raw(), 0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
-        pushing = dp.xy() ==  u.grab_point.xy();
-        pulling = dp.xy() == -u.grab_point.xy();
+        pushing = dp.xy() ==  u.grab_point.xy().raw();
+        pulling = dp.xy() == -u.grab_point.xy().raw();
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
-    const optional_vpart_position vp_grabbed = m.veh_at( u.pos() + u.grab_point );
+    const optional_vpart_position vp_grabbed = m.veh_at( u.pos_bub() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
-        if( m.has_furn( u.pos() + u.grab_point ) ) {
+        if( m.has_furn( u.pos_bub() + u.grab_point ) ) {
             shifting_furniture = !pushing && !pulling;
         } else {
             // We were grabbing a furniture that isn't there
             grabbed = false;
         }
     } else if( grabbed && u.get_grab_type() == object_type::VEHICLE ) {
-        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos() + u.grab_point ) );
+        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos_bub() + u.grab_point ) );
         if( grabbed_vehicle == nullptr ) {
             // We were grabbing a vehicle that isn't there anymore
             grabbed = false;
@@ -10533,7 +10533,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
-    if( u.grab_point != tripoint_zero && !grabbed && !furniture_move ) {
+    if( u.grab_point != tripoint_rel_ms_zero && !grabbed && !furniture_move ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( object_type::NONE );
     }
@@ -10604,7 +10604,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
-    if( grabbed && u.get_grab_type() == object_type::FURNITURE && u.pos() + u.grab_point == dest_loc ) {
+    if( grabbed && u.get_grab_type() == object_type::FURNITURE &&
+        ( u.pos_bub() + u.grab_point ).raw() == dest_loc ) {
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
@@ -10763,16 +10764,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( furniture_move ) {
         // Adjust the grab_point if player has changed z level.
-        u.grab_point.z -= u.posz() - oldpos.z;
+        u.grab_point.z() -= u.posz() - oldpos.z;
     }
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z = vp_grabbed->pos().z - u.posz();
+        u.grab_point.z() = vp_grabbed->pos().z - u.posz();
     }
 
     if( pulling ) {
-        const tripoint shifted_furn_pos = furn_pos - ms_shift;
+        const tripoint shifted_furn_pos = furn_pos.raw() - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
         const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
@@ -11294,7 +11295,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
+    // TODO: Fix when unary operation available
+    const bool pulling_furniture = dp.xy() == ( point_rel_ms_zero - u.grab_point.xy() ).raw();
     const bool has_floor = m.has_floor_or_water( fdest );
     creature_tracker &creatures = get_creature_tracker();
     bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
@@ -11315,15 +11317,15 @@ int game::grabbed_furn_move_time( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = u.pos() + u.grab_point;
+    tripoint_bub_ms fpos = u.pos_bub() + u.grab_point;
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         return 0;
     }
 
-    tripoint fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
+    tripoint_bub_ms fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
 
-    const bool canmove = can_move_furniture( fdest, dp );
+    const bool canmove = can_move_furniture( fdest.raw(), dp );
     const furn_t &furntype = m.furn( fpos ).obj();
     const int dst_items = m.i_at( fdest ).size();
 
@@ -11381,7 +11383,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = u.pos() + u.grab_point;
+    tripoint fpos = ( u.pos_bub() + u.grab_point ).raw();
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         // Where did it go? We're grabbing thin air so reset.
@@ -11398,8 +11400,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         ramp_z_offset = -1;
     }
 
-    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
-    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
+    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy().raw();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy().raw();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
@@ -11543,13 +11545,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
-    u.grab_point.z += ramp_z_offset;
+    u.grab_point.z() += ramp_z_offset;
 
     if( shifting_furniture ) {
         // We didn't move
-        tripoint d_sum = u.grab_point + dp;
+        tripoint d_sum = u.grab_point.raw() + dp;
         if( std::abs( d_sum.x ) < 2 && std::abs( d_sum.y ) < 2 ) {
-            u.grab_point = d_sum; // furniture moved relative to us
+            u.grab_point.raw() = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
             add_msg( _( "You let go of the %s." ), furntype.name() );
             u.grab( object_type::NONE );
@@ -11576,7 +11578,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
 
     // vehicle: pulling, pushing, or moving around the grabbed object.
     if( u.get_grab_type() == object_type::VEHICLE ) {
-        return grabbed_veh_move( dp );
+        return grabbed_veh_move( tripoint_rel_ms( dp ) );
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
@@ -11585,7 +11587,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
     }
 
     add_msg( m_info, _( "Nothing at grabbed point %d,%d,%d or bad grabbed object type." ),
-             u.grab_point.x, u.grab_point.y, u.grab_point.z );
+             u.grab_point.x(), u.grab_point.y(), u.grab_point.z() );
     u.grab( object_type::NONE );
     return false;
 }
@@ -11996,8 +11998,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos_bub() ) &&
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos_bub() ) &&
         !u.has_effect( effect_gliding ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
@@ -12010,7 +12012,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
     } else if( !climbing && !force && movez == 1 &&
-               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
+               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) && !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -12018,7 +12020,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( force ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
-    } else if( u.grab_point != tripoint_zero ) {
+    } else if( u.grab_point != tripoint_rel_ms_zero ) {
         add_msg( m_info, _( "You can't drag things up and down stairs." ) );
         return;
     }
@@ -12315,7 +12317,7 @@ void game::start_hauling( const tripoint &pos )
     // Whether the destination is inside a vehicle (not supported)
     const bool to_vehicle = false;
     // Destination relative to the player
-    const tripoint relative_destination{};
+    const tripoint_rel_ms relative_destination{};
 
     const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
                                            true );

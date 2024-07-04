@@ -1413,6 +1413,7 @@
     "name": { "str_sp": "black tea" },
     "weight": "250 g",
     "color": "brown",
+    "addiction_type": "caffeine",
     "sleepiness_mod": 9,
     "stim": 3,
     "container": "bottle_plastic",

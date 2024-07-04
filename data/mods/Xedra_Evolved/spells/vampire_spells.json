@@ -56,6 +56,23 @@
     "difficulty": 5
   },
   {
+    "id": "vampire_magic_for_blood_spell",
+    "type": "SPELL",
+    "name": "Blood-Fueled Magic",
+    "description": "You consume some of the blood in your veins, turning it into magical power.",
+    "message": "",
+    "teachable": false,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGICFORBLOOD_activated",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "base_casting_time": 100,
+    "difficulty": 5
+  },
+  {
     "id": "spell_blood_heal",
     "type": "SPELL",
     "name": "Sanguine Restoration",
@@ -227,5 +244,88 @@
     "skill": "deduction",
     "spell_class": "VAMPIRE",
     "difficulty": 2
+  },
+  {
+    "id": "vampire_torpor",
+    "type": "SPELL",
+    "name": "Torpor",
+    "description": "Enter a deathlike slumber and recover from your wounds and fatigue.  Preferably while somewhere nobody could attack you while you sleep.",
+    "message": "You enter torpor.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_TORPOR_activated",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "difficulty": 2
+  },
+  {
+    "id": "vampire_dominate",
+    "type": "SPELL",
+    "name": "Dominating Gaze",
+    "description": "Take control of a mind.  Only works on targets that have weak minds.",
+    "message": "You look for a mind to control.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "skill": "deduction",
+    "spell_class": "VAMPIRE",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_DOMINATE_activated",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "difficulty": 8,
+    "min_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min((3 + (vampire_total_tier_one_traits() * 0.2) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits() * 0.75)), 12)"
+      ]
+    },
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
+  },
+  {
+    "id": "vampire_dominate_real",
+    "type": "SPELL",
+    "name": "Dominating Gaze real",
+    "description": "The actual power that lets you take over a mind.  If you see this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "spell_class": "VAMPIRE",
+    "difficulty": 8,
+    "max_level": 1,
+    "min_range": 60,
+    "max_range": 60,
+    "min_damage": {
+      "math": [
+        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "rng (0.75,1.25) * (20 + (vampire_total_tier_one_traits()  * 4) + (vampire_total_tier_two_traits() * 10) + (vampire_total_tier_three_traits() * 16) + (vampire_total_tier_four_traits() * 30))"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "rng (0.75,1.25) * (2500 + (vampire_total_tier_one_traits()  * 400) + (vampire_total_tier_two_traits() * 800) + (vampire_total_tier_three_traits() * 1150) + (vampire_total_tier_four_traits() * 2050))"
+      ]
+    },
+    "targeted_monster_species": [ "HUMAN", "FERAL", "CYBORG" ]
   }
 ]
