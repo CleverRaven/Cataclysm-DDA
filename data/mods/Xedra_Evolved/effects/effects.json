@@ -600,6 +600,13 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_vampire_studying_blood_gifts",
+    "//": "Hidden effect, used to make sure only active blood gift research gains powers.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
     "id": "eater_lump_pool",
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
