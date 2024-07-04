@@ -794,7 +794,7 @@
   },
   {
     "type": "mutation",
-    "id": "REALLYBADKNEES",
+    "id": "CHRONICPAIN",
     "name": { "str": "Chronic Pain" },
     "points": -2,
     "description": "Your entire life you feel a constant pain, all around your body.  Painkillers can relief some of it, but it will never gone away",
