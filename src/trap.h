@@ -37,6 +37,7 @@ bool cot( const tripoint &p, Creature *c, item *i );
 bool beartrap( const tripoint &p, Creature *c, item *i );
 bool snare_light( const tripoint &p, Creature *c, item *i );
 bool snare_heavy( const tripoint &p, Creature *c, item *i );
+bool snare_species( const tripoint &p, Creature *critter, item *trap_item );
 bool board( const tripoint &p, Creature *c, item *i );
 bool caltrops( const tripoint &p, Creature *c, item *i );
 bool caltrops_glass( const tripoint &p, Creature *c, item *i );
@@ -160,6 +161,7 @@ struct trap {
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
     public:
+        std::optional<itype_id> trap_item_type;
         // data required for trapfunc::spell()
         fake_spell spell_data;
         int comfort = 0;
@@ -231,6 +233,7 @@ struct trap {
 
         bool is_trivial_to_spot() const;
 
+        void set_trap_data( itype_id trap_item_type_id );
         /**
          * Some traps are part of the terrain (e.g. pits) and can therefore not be disarmed
          * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.

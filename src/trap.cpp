@@ -433,6 +433,11 @@ bool trap::easy_take_down() const
     return avoidance == 0 && difficulty == 0;
 }
 
+void trap::set_trap_data( itype_id trap_item_type_id )
+{
+    trap_item_type = trap_item_type_id;
+}
+
 bool trap::can_not_be_disarmed() const
 {
     return difficulty >= 99;

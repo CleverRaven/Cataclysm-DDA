@@ -115,6 +115,30 @@
     }
   },
   {
+    "id": "nether_snare",
+    "type": "TOOL",
+    "name": "snaring pentagram trap",
+    "category": "traps",
+    "properties": { "capture_species": "NETHER" },
+    "description": "A metallic pentagram full of mystic symbols.  Will trap creatures from other dimensions if they wander into it.",
+    "weight": "1 kg",
+    "volume": "1000 ml",
+    "longest_side": "60 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "lead",
+    "symbol": "*",
+    "color": "dark_gray",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_species_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the pentagram snare."
+    }
+  },
+  {
     "id": "spiritshow_dust",
     "name": { "str_sp": "spirit show dust" },
     "description": "A key ingredient for Victorian seances led by actual occultists.  This dust summons spirits from beyond to walk the earth again for a short time.  The spirits it summons are mindless and disappear upon being touched.",
