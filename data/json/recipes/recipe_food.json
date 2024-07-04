@@ -4432,11 +4432,10 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
-    "difficulty": 0,
     "charges": 6,
     "time": "2 m",
     "autolearn": true,
-    "components": [ [ "hardtack_cracker", 1 ] ]
+    "components": [ "hardtack_cracker", 1 ]
   },
   {
     "type": "recipe",
