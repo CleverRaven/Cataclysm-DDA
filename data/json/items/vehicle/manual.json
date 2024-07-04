@@ -20,7 +20,6 @@
     "id": "foot_crank",
     "copy-from": "hand_rims",
     "name": { "str": "foot crank" },
-    "description": "A pedal and gear assembly from a bicycle.",
-    "melee_damage": { "bash": 8, "cut": 2 }
+    "description": "A pedal and gear assembly from a bicycle."
   }
 ]

@@ -180,6 +180,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 10, "cut": 8 }
   },
   {

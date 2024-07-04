@@ -94,6 +94,7 @@
     "techniques": [ "PRECISE" ],
     "extend": { "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ] },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 8 }
   },
   {

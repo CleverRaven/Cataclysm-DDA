@@ -25,7 +25,6 @@
       "violin": 5.71,
       "etched_skull": 5.71,
       "fighter_sting": 5.72,
-      "foot_crank": 5.73,
       "fishing_rod_2pc_packed": 5.77,
       "flint": 5.78,
       "rock_flaking": 5.78,
@@ -48,9 +47,9 @@
       "ch_steel_chunk": 6.59,
       "mc_steel_chunk": 6.59,
       "steel_chunk": 6.59,
-      "soldering_iron_portable": 6.61,
-      "soldering_iron": 6.61,
-      "reference_fabrication1": 6.74,
+      "soldering_iron_portable": 5.18,
+      "soldering_iron": 5.18,
+      "reference_fabrication1": 5.09,
       "torch_done": 6.75,
       "pickles_ferment": 6.75,
       "fishing_rod_professional": 6.89,
@@ -59,7 +58,7 @@
       "eggs_ferment": 6.94,
       "umbrella": 7.11,
       "teleumbrella-extended": 7.11,
-      "vortex_stone": 7.12,
+      "vortex_stone": 5.38,
       "adjustable_stock": 7.12,
       "robofac_stock": 7.12,
       "landough_calrisean": 7.26,
@@ -90,9 +89,7 @@
       "bolt_ballista_steel": 9.63,
       "chain": 9.64,
       "cow_bell": 10.1,
-      "pastaextruder": 10.37,
-      "baseball": 10.39,
-      "puck": 10.51
+      "pastaextruder": 5.89
     }
   }
 ]
