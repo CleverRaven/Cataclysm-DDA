@@ -98,9 +98,9 @@
     "type": "monstergroup",
     "name": "GROUP_SPIDER",
     "monsters": [
-      { "monster": "mon_spider_web_small", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_spider_web", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_spider_web_mega", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_spider_web_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_spider_web", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_spider_web_mega", "weight": 2, "starts": "72 days" }
     ]
   },
   {
@@ -109,11 +109,11 @@
     "default": "mon_spider_cellar_small",
     "//": "`monster` ignores group-level pack size, so numbers are set in mapgen",
     "monsters": [
-      { "monster": "mon_spider_cellar_small", "weight": 300, "ends": "12 days" },
-      { "monster": "mon_spider_cellar_giant", "weight": 220, "starts": "7 days", "ends": "15 days" },
-      { "monster": "mon_spider_cellar_mom", "weight": 80, "starts": "7 days" },
-      { "monster": "mon_spider_cellar_giant", "weight": 200, "starts": "15 days" },
-      { "monster": "mon_spider_cellar_mega", "weight": 100, "starts": "15 days" }
+      { "monster": "mon_spider_cellar_small", "weight": 300, "ends": "45 days" },
+      { "monster": "mon_spider_cellar_giant", "weight": 220, "starts": "30 days", "ends": "72 days" },
+      { "monster": "mon_spider_cellar_mom", "weight": 80, "starts": "30 days" },
+      { "monster": "mon_spider_cellar_giant", "weight": 200, "starts": "72 days" },
+      { "monster": "mon_spider_cellar_mega", "weight": 100, "starts": "72 days" }
     ]
   },
   {
@@ -129,36 +129,36 @@
     "type": "monstergroup",
     "name": "GROUP_SPIDER_TRAPDOOR",
     "monsters": [
-      { "monster": "mon_spider_trapdoor_small", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_spider_trapdoor_giant", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_spider_trapdoor_mega", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_spider_trapdoor_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_spider_trapdoor_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_spider_trapdoor_mega", "weight": 2, "starts": "72 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SPIDER_WIDOW",
     "monsters": [
-      { "monster": "mon_spider_widow_small", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_spider_widow_giant", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_spider_widow_mega", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_spider_widow_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_spider_widow_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_spider_widow_mega", "weight": 2, "starts": "72 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SPIDER_WOLF",
     "monsters": [
-      { "monster": "mon_spider_wolf_small", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_spider_wolf_giant", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_spider_wolf_mega", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_spider_wolf_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_spider_wolf_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_spider_wolf_mega", "weight": 2, "starts": "72 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_SPIDER_JUMPING",
     "monsters": [
-      { "monster": "mon_spider_jumping_small", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_spider_jumping_giant", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_spider_jumping_mega", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_spider_jumping_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_spider_jumping_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_spider_jumping_mega", "weight": 2, "starts": "72 days" }
     ]
   },
   {
@@ -303,27 +303,27 @@
     "type": "monstergroup",
     "name": "GROUP_WORM",
     "monsters": [
-      { "monster": "mon_worm_small", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_worm", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_graboid", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_worm_small", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_worm", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_graboid", "weight": 2, "starts": "72 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_BUTTERFLY",
     "monsters": [
-      { "monster": "mon_butterfly", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_butterfly_giant", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_butterfly_titan", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_butterfly", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_butterfly_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_butterfly_titan", "weight": 2, "starts": "72 days" }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MOTH",
     "monsters": [
-      { "monster": "mon_moth", "weight": 5, "ends": "12 days" },
-      { "monster": "mon_moth_giant", "weight": 5, "starts": "7 days" },
-      { "monster": "mon_moth_titan", "weight": 2, "starts": "15 days" }
+      { "monster": "mon_moth", "weight": 5, "ends": "45 days" },
+      { "monster": "mon_moth_giant", "weight": 5, "starts": "30 days" },
+      { "monster": "mon_moth_titan", "weight": 2, "starts": "72 days" }
     ]
   },
   {
