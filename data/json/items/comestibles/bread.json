@@ -454,7 +454,7 @@
     "symbol": "%",
     "quench": -12,
     "calories": 280,
-    "description": "A dry, virtually tasteless bread cracker capable of remaining edible without spoilage for vast lengths of time.  So hard it is inedible by itself. Usually broken into smaller pieces for consumption.",
+    "description": "A dry, virtually tasteless bread cracker capable of remaining edible without spoilage for vast lengths of time.  So hard it is inedible by itself.  Usually broken into smaller pieces for consumption.",
     "price": "6 cent",
     "price_postapoc": "7 cent",
     "material": [ "wheat" ],
