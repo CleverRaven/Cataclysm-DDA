@@ -48,7 +48,7 @@
       { "math": [ "u_vampire_total_tier_one_traits", "=", "vampire_total_tier_one_traits()" ] },
       { "math": [ "u_vampire_total_tier_two_traits", "=", "vampire_total_tier_two_traits()" ] },
       { "math": [ "u_vampire_total_tier_three_traits", "=", "vampire_total_tier_three_traits()" ] },
-      { "math": [ "u_vampire_total_tier_four_traits", "=", "vampire_total_tier_four_traits()" ] }
+      { "math": [ "vampire_total_tier_four_traits_plus_potence", "=", "vampire_total_tier_four_traits()" ] }
     ]
   },
   {
@@ -953,7 +953,7 @@
             "value": "REGEN_HP",
             "multiply": {
               "math": [
-                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence * 0.2) "
               ]
             }
           },
@@ -961,7 +961,7 @@
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
-                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (u_vampire_total_tier_four_traits * 0.2) "
+                "(u_vampire_total_tier_one_traits * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence * 0.2) "
               ]
             }
           },

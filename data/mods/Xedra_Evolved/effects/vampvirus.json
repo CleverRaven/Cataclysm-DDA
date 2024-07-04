@@ -310,7 +310,7 @@
     "effect": {
       "run_eocs": {
         "id": "eoc_vampvirus_4_math_checker",
-        "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "10" ] },
+        "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
         "effect": {
           "run_eocs": {
             "id": "eoc_vampvirus_4_trait",
