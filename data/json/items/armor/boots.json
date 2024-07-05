@@ -1880,13 +1880,13 @@
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
     "weight": "2125 g",
     "volume": "2 L",
-    "price": "80 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "kevlar", "cotton" ],
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "dark_gray",
-    "warmth": 35,
+    "warmth": 25,
     "material_thickness": 2.5,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
@@ -1895,11 +1895,11 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
           { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
         ],
         "coverage": 100,
-        "encumbrance": 30
+        "encumbrance": 18
       },
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1914,8 +1914,8 @@
           "foot_ankle_r"
         ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.25 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.5 }
         ],
         "coverage": 100
       }
