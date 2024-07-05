@@ -29,6 +29,34 @@
   },
   {
     "type": "ascii_art",
+    "id": "ascii_rip_inverted_cross",
+    "picture": [
+      "              _______  ___",
+      "             |       \\/   |",
+      "             |            |",
+      "             |            |",
+      "             |            |",
+      "             |            |",
+      "             |            |",
+      "             |            |",
+      "             |           <",
+      "             |   _        |",
+      "             |__/         |",
+      "   _____.__%_|            |_________  _",
+      " _/                                 \\| \\",
+      "|                                       <",
+      "|                                       |",
+      "|                                       |",
+      "|____.-._______           __/|__________|",
+      "             <color_green>%</color> / `_-.   _  |<color_green>%</color>",
+      "         <color_red>*</color> .<color_green>%%</color>|  |_) | |_)< <color_brown>@<color_green>%%%</color>",
+      "         `\\<color_green>%</color>`<color_brown>@</color>|  | \\ | |   |<color_brown>@@</color><color_green>%@<color_green>%%</color>",
+      "       .<color_green>%%%</color><color_brown>@@@</color>|<color_green>%</color>     `   <color_green>%</color> <color_brown>@@@</color><color_green>%%</color><color_brown>@</color><color_green>%%%%</color>",
+      "  _.<color_green>%%%%%%</color><color_brown>@@@@@@</color><color_green>%%%</color>__/\\<color_green>%</color><color_brown>@@</color><color_green>%%</color><color_brown>@@@@@@@</color><color_green>%%%%%%</color>"
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "ascii_tombstone",
     "picture": [
       "           _________  ____           ",
