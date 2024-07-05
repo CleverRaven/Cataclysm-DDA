@@ -286,6 +286,7 @@
         "effects": [ { "id": "corroding", "duration": [ 10, 30 ], "affect_hit_bp": true } ]
       }
     ],
+    "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "age_grow": 30, "into": "mon_onicophore_giant" },
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
@@ -307,6 +308,7 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
+    "zombify_into": "mon_meat_cocoon_large",
     "armor": { "bash": 12, "cut": 5, "bullet": 4 }
   },
   {
