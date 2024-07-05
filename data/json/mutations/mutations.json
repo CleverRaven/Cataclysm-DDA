@@ -4453,8 +4453,6 @@
     "description": "You've gained a strong ability to leap a short distance from a standing position with little preparation time.",
     "//": "This is differentiated from the other two leaps by a shorter range yet a shorter prep time. Probably less useful than them since it will still exhaust you.",
     "active": true,
-    "kcal": true,
-    "cost": 400,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_FELINE_LEAP" ],
     "cancels": [ "LEAPING_LEGS", "LEAPING_LEGS2" ],
