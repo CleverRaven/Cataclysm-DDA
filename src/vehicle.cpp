@@ -6732,9 +6732,6 @@ void vehicle::do_towing_move()
 
     switch( towed_veh->tow_data.tow_direction ) {
         case TOW_FRONT:
-            towed_veh->selfdrive( point( turn_x, accel_y ) );
-            break;
-
         case TOW_BACK:
             towed_veh->selfdrive( point( turn_x, accel_y ) );
             break;
