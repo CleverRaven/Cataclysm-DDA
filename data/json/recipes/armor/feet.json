@@ -1648,15 +1648,21 @@
     "time": "12 h",
     "autolearn": false,
     "using": [
-      [ "tailoring_cotton_patchwork", 27 ],
-      [ "tailoring_kevlar_fabric", 36 ],
+      [ "tailoring_leather_small", 18 ],
+      [ "tailoring_kevlar_fabric", 15 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ],
       [ "sewing_aramids", 5 ]
     ],
-    "byproducts": [ [ "cotton_patchwork", 4 ], [ "scrap_cotton", 3 ], [ "scrap_kevlar", 14 ] ],
-    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ]
+    "byproducts": [ [ "scrap_leather", 2 ], [ "scrap_kevlar", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_cobbling" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_polymerworking" }
+    ]
   },
   {
     "result": "motor_police_boots",
