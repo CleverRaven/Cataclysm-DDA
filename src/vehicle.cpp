@@ -6732,7 +6732,6 @@ void vehicle::do_towing_move()
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
         towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
-        accel_y = 10;
         towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
