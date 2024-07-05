@@ -1290,7 +1290,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "STURDY" ],
     "armor": [
       {
         "material": [
