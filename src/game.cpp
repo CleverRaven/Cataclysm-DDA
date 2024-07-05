@@ -2846,7 +2846,15 @@ void end_screen_ui_impl::draw_controls()
     dialogue d( get_talker_for( u ), nullptr );
     std::string input_label;
     std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
-    for( const end_screen &e_screen : end_screen::get_all() ) {
+
+    //Sort end_screens in order of decreasing priority
+    std::vector<end_screen> sorted_screens = end_screen::get_all();
+    std::sort( sorted_screens.begin(), sorted_screens.end(), []( end_screen const & a,
+    end_screen const & b ) {
+        return a.priority > b.priority;
+    } );
+
+    for( const end_screen &e_screen : sorted_screens ) {
         if( e_screen.condition( d ) ) {
             art = e_screen.picture_id;
             if( !e_screen.added_info.empty() ) {
@@ -2855,6 +2863,7 @@ void end_screen_ui_impl::draw_controls()
             if( !e_screen.last_words_label.empty() ) {
                 input_label = e_screen.last_words_label;
             }
+            break;
         }
     }
 

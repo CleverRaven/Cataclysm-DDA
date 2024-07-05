@@ -23,6 +23,7 @@ class end_screen
         end_screen_id id;
         ascii_art_id picture_id;
         std::function<bool( dialogue & )> condition;
+        int priority;
         std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
         std::string last_words_label;
 };

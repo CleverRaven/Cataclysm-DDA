@@ -8,7 +8,7 @@
       "               >  _     _ (",
       "              |  |_) | |_) |",
       "              |  | \\ | |   |",
-      "   ______.__%_|            |________  __",
+      "   ______.__<color_green>%</color>_|            |________  __",
       " _/                                \\|  |",
       "|                                       <",
       "|                                       |",
@@ -20,11 +20,11 @@
       "              |            |",
       "              |   _        |",
       "              |__/         |",
-      "             % / `--.      |%",
-      "         * .%%|          -< @%%%",
-      "         `\\%`@|            |@@%@%%",
-      "       .%%%@@@|%     `   % @@@%%@%%%%",
-      "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%"
+      "             <color_green>%</color> / `--.      |<color_green>%</color>",
+      "         <color_red>*</color> .<color_green>%%</color>|          -< <color_brown>@</color><color_green>%%%</color>",
+      "         `\\<color_green>%</color>`<color_brown>@</color>|            |<color_brown>@@</color><color_green>%</color><color_brown>@</color><color_green>%%</color>",
+      "       .<color_green>%%%</color><color_brown>@@@</color>|<color_green>%</color>     `   <color_green>%</color> <color_brown>@@@</color><color_green>%%</color><color_brown>@</color><color_green>%%%%</color>",
+      "  _.<color_green>%%%%%%</color><color_brown>@@@@@@</color><color_green>%%%</color>__/\\<color_green>%</color><color_brown>@@</color><color_green>%%</color><color_brown>@@@@@@@</color><color_green>%%%%%%</color>"
     ]
   },
   {
@@ -34,8 +34,8 @@
       "           _________  ____           ",
       "         _/         `/    \\_         ",
       "       _/      _     _      \\_.      ",
-      "     _%\\      |_) | |_)       \\_     ",
-      "   _/ \/      | \\ | |           \\_   ",
+      "     _<color_green>%</color>\\      |_) | |_)       \\_     ",
+      "   _/ \\/      | \\ | |           \\_   ",
       " _/                               \\_ ",
       "|                                   |",
       " )                                 < ",
@@ -47,11 +47,11 @@
       "|                                  ( ",
       "|                                   |",
       "|                                   |",
-      "|     %                         .   |",
-      "|  @`                            %% |",
-      "| %@%@%\\                *      %`%@%|",
-      "%%@@@.%@%\\%%            `\\  %%.%%@@%@",
-      "@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@"
+      "|     <color_green>%</color>                         .   |",
+      "|  <color_brown>@</color>`                            <color_green>%%</color> |",
+      "| <color_green>%</color><color_brown>@</color><color_green>%</color><color_brown>@</color><color_green>%</color>\\                <color_red>*</color>      <color_green>%</color>`<color_green>%</color><color_brown>@</color><color_green>%</color>|",
+      "<color_green>%%</color><color_brown>@@@</color>.<color_green>%</color><color_brown>@</color><color_green>%</color>\\<color_green>%%</color>            `\\  <color_green>%%</color>.<color_green>%%</color><color_brown>@@</color><color_green>%</color><color_brown>@</color>",
+      "<color_brown>@</color><color_green>%</color><color_brown>@@</color><color_green>%%%%%</color><color_brown>@@@@@@</color><color_green>%%%%%%%%</color><color_brown>@@</color><color_green>%%</color><color_brown>@@@</color><color_green>%%%</color><color_brown>@</color><color_green>%%</color><color_brown>@</color>"
     ]
   }
 ]

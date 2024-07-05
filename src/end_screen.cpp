@@ -29,6 +29,7 @@ void end_screen::load( const JsonObject &jo, std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "picture_id", picture_id );
+    mandatory( jo, was_loaded, "priority", priority );
     read_condition( jo, "condition", condition, false );
 
     optional( jo, was_loaded, "added_info", added_info );
