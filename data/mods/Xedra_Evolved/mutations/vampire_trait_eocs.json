@@ -973,9 +973,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_DOMINATE_activated",
-    "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+    "condition": { "math": [ "n_vitamin('human_blood_vitamin')", ">=", "-500" ] },
     "effect": [
-      { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "700" ] },
+      { "math": [ "n_vitamin('human_blood_vitamin')", "-=", "700" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
         "run_eocs": [
