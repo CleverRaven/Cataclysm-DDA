@@ -58,7 +58,6 @@
         "armor_mult": { "bash": 2 },
         "difficulty": { "melee": 2, "ranged": 1 },
         "damage_mult": { "stab": 1.25, "bullet": 1.33 },
-        "coverage_mult": { "ranged": 1.5 },
         "coverage": 18
       },
       {
