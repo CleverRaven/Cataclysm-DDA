@@ -885,6 +885,8 @@
     "fun": 4,
     "volume": "50 ml",
     "proportional": { "price": 2.0, "weight": 0.345 },
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "calories": 130,
     "delete": { "flags": [ "RAW" ] }
   },
   {
