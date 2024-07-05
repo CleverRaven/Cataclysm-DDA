@@ -2107,7 +2107,6 @@
       "health_chance_bot": [ 300, 1200 ],
       "int_mod": [ -1 ]
     },
-    "enchantments": [ { "values": [ { "value": "SOCIAL_INTIMIDATE", "add": 4 } ] } ],
     "max_duration": "15 m"
   },
   {
