@@ -1838,7 +1838,7 @@
     "species": [ "MAMMAL" ],
     "volume": "386 L",
     "weight": "386 kg",
-    "hp": 285,
+    "hp": 375,
     "speed": 200,
     "material": [ "flesh" ],
     "symbol": "M",

@@ -8,6 +8,7 @@
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 2, "ranged": 4 },
+        "damage_mult": { "physical": 1.1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
@@ -54,11 +55,19 @@
       },
       {
         "name": "the chest",
-        "armor_mult": { "bash": 1.75 },
-        "difficulty": { "melee": 3, "ranged": 2 },
-        "crit_mult": { "ranged": 1.5 },
+        "armor_mult": { "bash": 2 },
+        "difficulty": { "melee": 2, "ranged": 1 },
+        "damage_mult": { "stab": 1.25, "bullet": 1.33 },
         "coverage_mult": { "ranged": 1.5 },
-        "coverage": 25
+        "coverage": 18
+      },
+      {
+        "name": "the lungs",
+        "armor_mult": { "physical": 0.45 },
+        "difficulty": { "ranged": 3 },
+        "damage_mult": { "physical": 3 },
+        "coverage_mult": { "melee": 0 },
+        "coverage": 7
       },
       {
         "name": "the leg",
