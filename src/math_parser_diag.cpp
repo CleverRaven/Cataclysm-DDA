@@ -1397,11 +1397,11 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->unimpaired_range();
+        talker const* const actor = d.actor(beta);
+        if (Character const* const chr = actor->get_character(); chr != nullptr) {
+            return chr->unimpaired_range();
         }
+        debugmsg("Tried to access vision range of a non-Character talker");
         return 0;
     };
 }
