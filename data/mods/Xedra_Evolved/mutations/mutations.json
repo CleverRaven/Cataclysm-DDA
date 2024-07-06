@@ -464,7 +464,13 @@
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE" ],
     "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "0" ] },
+        "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
