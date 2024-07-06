@@ -2810,7 +2810,7 @@ class end_screen_ui_impl : public cataimgui::window
 {
     public:
         std::array<char, 255> text;
-        explicit end_screen_ui_impl() : cataimgui::window( _( "End Screen" ) ) {
+        explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
         }
     protected:
         void draw_controls() override;

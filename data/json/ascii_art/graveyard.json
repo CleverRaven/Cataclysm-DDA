@@ -81,5 +81,33 @@
       "<color_green>%%</color><color_brown>@@@</color>.<color_green>%</color><color_brown>@</color><color_green>%</color>\\<color_green>%%</color>            `\\  <color_green>%%</color>.<color_green>%%</color><color_brown>@@</color><color_green>%</color><color_brown>@</color>",
       "<color_brown>@</color><color_green>%</color><color_brown>@@</color><color_green>%%%%%</color><color_brown>@@@@@@</color><color_green>%%%%%%%%</color><color_brown>@@</color><color_green>%%</color><color_brown>@@@</color><color_green>%%%</color><color_brown>@</color><color_green>%%</color><color_brown>@</color>"
     ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ascii_portal_storm_win",
+    "picture": [
+      "                                         ",
+      "    <color_light_blue>|</color>                                    ",
+      "   <color_light_blue>-.-</color>                                  ",
+      "    <color_light_blue>|</color>                                    ",
+      "                                         ",
+      "                                         ",
+      "                             <color_yellow>|</color>           ",
+      "                            <color_yellow>_._</color>          ",
+      "                             <color_yellow>|</color>           ",
+      "                                         ",
+      "                                         ",
+      "                                         ",
+      "    <color_yellow>|</color>                                    ",
+      "   <color_yellow>-.-</color>                                   ",
+      "    <color_yellow>|</color>                                    ",
+      "                                         ",
+      "                                <color_light_blue>|</color>        ",
+      "                               <color_light_blue>_._</color>       ",
+      "                                <color_light_blue>|</color>        ",
+      "                                         ",
+      "                                         ",
+      "                                         "
+    ]
   }
 ]
