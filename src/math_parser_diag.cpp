@@ -1464,13 +1464,13 @@ std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->vitamin_get( vitamin_id( id.str( d ) ) );
+        talker const* const actor = d.actor(beta);
+        if (Character const* const chr = actor->get_character(); chr != nullptr) {
+            return chr->vitamin_get(vitamin_id(id.str(d)));
         }
+         debugmsg("Tried to access vitamins of a non-Character talker");
         return 0;
-    };
+        };
 }
 
 std::function<void( dialogue &, double )> vitamin_ass( char scope,
