@@ -1397,11 +1397,11 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d ) {
-        talker const* const actor = d.actor(beta);
-        if (Character const* const chr = actor->get_character(); chr != nullptr) {
+        talker const *const actor = d.actor( beta );
+        if( Character const *const chr = actor->get_character(); chr != nullptr ) {
             return chr->unimpaired_range();
         }
-        debugmsg("Tried to access vision range of a non-Character talker");
+        debugmsg( "Tried to access vision range of a non-Character talker" );
         return 0;
     };
 }
@@ -1464,13 +1464,13 @@ std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
-        talker const* const actor = d.actor(beta);
-        if (Character const* const chr = actor->get_character(); chr != nullptr) {
-            return chr->vitamin_get(vitamin_id(id.str(d)));
+        talker const *const actor = d.actor( beta );
+        if( Character const *const chr = actor->get_character(); chr != nullptr ) {
+            return chr->vitamin_get( vitamin_id( id.str( d ) ) );
         }
-         debugmsg("Tried to access vitamins of a non-Character talker");
+        debugmsg( "Tried to access vitamins of a non-Character talker" );
         return 0;
-        };
+    };
 }
 
 std::function<void( dialogue &, double )> vitamin_ass( char scope,
