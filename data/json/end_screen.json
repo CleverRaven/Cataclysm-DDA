@@ -15,7 +15,7 @@
   {
     "type": "end_screen",
     "id": "death_cross",
-    "priority": 1,
+    "priority": 100,
     "picture_id": "ascii_rip_cross",
     "condition": {
       "and": [
@@ -36,7 +36,7 @@
   {
     "type": "end_screen",
     "id": "death_inverted_cross",
-    "priority": 1,
+    "priority": 100,
     "picture_id": "ascii_rip_inverted_cross",
     "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] } ] },
     "added_info": [
@@ -49,7 +49,7 @@
   {
     "type": "end_screen",
     "id": "portal_storm_win",
-    "priority": 2,
+    "priority": 200,
     "picture_id": "ascii_portal_storm_win",
     "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_effect": "a_winner_is_u" } ] },
     "added_info": [
