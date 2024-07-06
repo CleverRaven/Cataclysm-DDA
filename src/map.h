@@ -902,7 +902,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z() ) );
         }
-        bool can_move_furniture( const tripoint &pos, Character *you = nullptr ) const;
+        bool can_move_furniture( const tripoint_bub_ms &pos, Character *you = nullptr ) const;
 
         // Terrain
         // TODO: fix point types (remove the first overload)
@@ -1015,7 +1015,7 @@ class map
         bool has_items( const tripoint_bub_ms &p ) const;
 
         // Check if a tile with LIQUIDCONT flag only contains liquids
-        bool only_liquid_in_liquidcont( const tripoint &p );
+        bool only_liquid_in_liquidcont( const tripoint_bub_ms &p );
 
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.
@@ -1426,7 +1426,7 @@ class map
             spawn_item( tripoint( p, abs_sub.z() ), type_id, quantity, charges, birthday, damlevel, flags,
                         variant, faction );
         }
-        units::volume max_volume( const tripoint &p );
+        units::volume max_volume( const tripoint_bub_ms &p );
         // TODO: fix point types (remove the first overload)
         units::volume free_volume( const tripoint &p );
         units::volume free_volume( const tripoint_bub_ms &p );
@@ -1444,6 +1444,7 @@ class map
         // TODO: fix point types (remove the first overload)
         item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
+        // TODO: fix point types (remove the first overload)
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
@@ -1467,7 +1468,7 @@ class map
          *
          * @returns The item that got added, or nulitem.
          */
-        item &add_item( const tripoint &p, item new_item, int copies );
+        item &add_item( const tripoint_bub_ms &p, item new_item, int copies );
         // TODO: Get rid of untyped overload
         item &add_item( const tripoint &p, item new_item );
         item &add_item( const tripoint_bub_ms &p, item new_item );
@@ -1613,7 +1614,9 @@ class map
         const trap &tr_at( const tripoint_abs_ms &p ) const;
         const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
+        // TODO: Get rid of untyped overload.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
+        bool can_see_trap_at( const tripoint_bub_ms &p, const Character &c ) const;
 
         // TODO: fix point types (remove the first overload)
         void remove_trap( const tripoint &p );
@@ -1785,7 +1788,7 @@ class map
         static cata::copy_const<Map, field_entry> *get_field_helper(
             Map &m, const tripoint &p, const field_type_id &type );
 
-        std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
+        std::pair<item *, tripoint_bub_ms> _add_item_or_charges( const tripoint_bub_ms &pos, item obj,
                 int &copies_remaining, bool overflow = true );
     public:
 
@@ -1815,7 +1818,7 @@ class map
                              const point &min, const point &max );
 
         // Computers
-        computer *computer_at( const tripoint &p );
+        computer *computer_at( const tripoint_bub_ms &p );
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps

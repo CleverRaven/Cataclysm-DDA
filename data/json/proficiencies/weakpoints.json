@@ -114,6 +114,30 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_canine",
+    "category": "prof_weakpoint",
+    "name": { "str": "Canine Anatomy" },
+    "description": "Basic familiarity with the anatomy of various canines.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_ungulate",
+    "category": "prof_weakpoint",
+    "name": { "str": "Ungulate Anatomy" },
+    "description": "Basic familiarity with the anatomy of various ungulates.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 1,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_basic_bug",
     "category": "prof_weakpoint",
     "name": { "str": "Invertebrate Biology" },

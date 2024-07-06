@@ -169,6 +169,11 @@ computer *submap::get_computer( const point &p )
     return nullptr;
 }
 
+computer *submap::get_computer( const point_sm_ms &p )
+{
+    return submap::get_computer( p.raw() );
+}
+
 void submap::set_computer( const point &p, const computer &c )
 {
     const auto it = computers.find( p );
@@ -342,7 +347,7 @@ void submap::revert_submap( submap &sr )
                 if( itm.is_emissive() ) {
                     this->update_lum_add( pt, itm );
                 }
-                active_items.add( itm, pt );
+                active_items.add( itm, point_sm_ms( pt ) );
             }
         }
     }

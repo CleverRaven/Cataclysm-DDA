@@ -44,6 +44,8 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
+static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
+
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
@@ -142,7 +144,7 @@ TEST_CASE( "recipe_subset" )
                 CHECK( subset.get_custom_difficulty( r ) == r->difficulty );
             }
             THEN( "it's in the right category" ) {
-                const auto cat_recipes( subset.in_category( "CC_FOOD" ) );
+                const auto cat_recipes( subset.in_category( crafting_category_CC_FOOD ) );
 
                 CHECK( cat_recipes.size() == 1 );
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );

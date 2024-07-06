@@ -7230,7 +7230,7 @@ void map::rotate( int turns, const bool setpos_safe )
             }
             const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
             queued_points[queued_point.first] = tripoint_abs_ms( getabs( tripoint( new_pos,
-                                                z_level ) ) );
+                                                queued_point.second.z() ) ) );
         }
     }
 }

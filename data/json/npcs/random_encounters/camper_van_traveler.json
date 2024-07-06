@@ -147,7 +147,10 @@
         {
           "npc_has_var": "exodii_mission_wh_correct",
           "value": "no",
-          "yes": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+          "yes": {
+            "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
           "no": ", nodding along.  \"Yeah, I remember something like that a while back.  Pretty memorable building, I think it's what you're looking for.\""
         }
       ]

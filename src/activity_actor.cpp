@@ -34,8 +34,10 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "contents_change_handler.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -2402,7 +2404,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_zero );
+    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3768,7 +3770,7 @@ void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*
     }
     const recipe item_recipe = craft->get_making();
     // practice recipe items with no components can be safely removed
-    if( item_recipe.category == "CC_PRACTICE" && craft->components.empty() ) {
+    if( item_recipe.category->is_practice && craft->components.empty() ) {
         craft_item.remove_item();
     }
 }

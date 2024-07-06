@@ -799,7 +799,9 @@ class item : public visitable
          * @param map A map object associated with that position.
          * @return true if the item was destroyed during placement.
          */
+        // TODO: Get rid of untyped overload.
         bool on_drop( const tripoint &pos, map &map );
+        bool on_drop( const tripoint_bub_ms &pos, map &map );
 
         /**
          * Consume a specific amount of items of a specific type.
@@ -1447,7 +1449,11 @@ class item : public visitable
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
+        // TODO: Get rid of untyped overload.
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
+                      temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
+                      bool watertight_container = false, bool recursive = true );
+        bool process( map &here, Character *carrier, const tripoint_bub_ms &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f,
                       bool watertight_container = false, bool recursive = true );
 
@@ -1957,6 +1963,13 @@ class item : public visitable
         bool has_any_flag( const Container &flags ) const {
             return std::any_of( flags.begin(), flags.end(), [&]( const T & flag ) {
                 return has_flag( flag );
+            } );
+        }
+
+        template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
+        bool has_any_vitamin( const Container &vitamins ) const {
+            return std::any_of( vitamins.begin(), vitamins.end(), [&]( const T & vitamin ) {
+                return has_vitamin( vitamin );
             } );
         }
 

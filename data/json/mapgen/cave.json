@@ -2,6 +2,91 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "nest_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_rock_floor_no_roof" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_region_groundcover_forest",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_region_groundcover_forest" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_rock_wall_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_rock" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_rock_floor_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_rock_floor" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_region_soil_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_region_soil" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_slope_down_rock_roof",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "%" ],
+      "terrain": { "%": "t_slope_down" },
+      "place_nested": [ { "chunks": [ "nest_rock_roof" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "cave_surface_palette",
+    "nested": {
+      "%": { "chunks": [ "nest_rock_wall_roof", "nest_region_groundcover_forest" ] },
+      "|": { "chunks": [ "nest_rock_wall_roof" ] },
+      ",": { "chunks": [ "nest_rock_floor_roof" ] },
+      ";": { "chunks": [ "nest_region_soil_rock_roof" ] },
+      "<": { "chunks": [ "nest_slope_down_rock_roof" ] },
+      "B": { "chunks": [ "nest_rock_floor_roof" ] },
+      "F": { "chunks": [ "nest_rock_floor_roof" ] },
+      "W": { "chunks": [ "nest_rock_floor_roof" ] }
+    },
+    "fields": { "W": { "field": "fd_web", "intensity": 2, "age": 10 } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "cave" ],
     "weight": 1000,
     "object": {
@@ -34,14 +119,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        ",": "t_rock_floor",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        "<": "t_slope_down"
-      },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ]
     }
   },
   {
@@ -79,14 +157,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ]
     }
   },
   {
@@ -124,16 +195,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
-      "fields": { "W": { "field": "fd_web", "intensity": 2, "age": 10 } },
+      "palettes": [ "cave_surface_palette" ],
       "monsters": { "W": { "monster": "GROUP_SPIDER", "chance": 2, "density": 0.01 } }
     }
   },
@@ -172,16 +234,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ]
     }
   },
   {
@@ -219,15 +272,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "monster": { "B": { "monster": "mon_bat" } }
     }
   },
@@ -266,16 +311,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
       "monster": { "B": { "monster": "mon_bear" } }
     }
@@ -315,15 +351,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "F": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "monster": { "F": { "monster": "mon_pickerel_frog" } }
     }
   },
@@ -362,17 +390,8 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "furniture": {  }
+      "palettes": [ "cave_surface_palette" ],
+      "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } }
     }
   },
   {
@@ -410,16 +429,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": {
-        "|": "t_rock",
-        "%": [ "t_rock", "t_region_groundcover_forest" ],
-        ";": "t_region_soil",
-        ",": "t_rock_floor",
-        "B": "t_rock_floor",
-        "W": "t_rock_floor",
-        "<": "t_slope_down"
-      },
-      "furniture": {  },
+      "palettes": [ "cave_surface_palette" ],
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
       "monster": { "B": { "monster": "mon_cougar" } }
     }

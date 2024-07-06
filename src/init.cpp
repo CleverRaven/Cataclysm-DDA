@@ -301,8 +301,8 @@ void DynamicDataLoader::initialize()
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
-    add( "snippet", []( const JsonObject & jo ) {
-        SNIPPET.load_snippet( jo );
+    add( "snippet", []( const JsonObject & jo, const std::string & src ) {
+        SNIPPET.load_snippet( jo, src );
     } );
     add( "item_group", []( const JsonObject & jo ) {
         item_controller->load_item_group( jo );

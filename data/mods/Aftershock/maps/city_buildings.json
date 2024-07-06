@@ -233,6 +233,18 @@
     "locations": [ "land" ]
   },
   {
+    "id": "afs_habitat_block_3",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_habblock_3_ground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_habblock_3_floor_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_habblock_3_floor_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "afs_habblock_3_floor_4_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "afs_habblock_3_roof_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_shuttle_pad",
     "type": "city_building",
     "overmaps": [

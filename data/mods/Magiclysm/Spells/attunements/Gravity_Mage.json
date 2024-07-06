@@ -47,7 +47,7 @@
     "extra_effects": [
       { "id": "gravitymage_graviton_damage" },
       { "id": "gravitymage_graviton_centerdamage" },
-      { "id": "eoc_evocation_setup" }
+      { "id": "eoc_evocation_setup", "hit_self": true }
     ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crack"
@@ -80,7 +80,7 @@
     "description": "Decrease your weight to a minimum, and use a mana flow to jump to your enemies from a long distance.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_conveyance_setup" } ],
+    "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
     "effect": "dash",
     "shape": "cone",
     "damage_type": "bash",
@@ -108,7 +108,7 @@
     "effect_str": "gravity_mage_melee",
     "shape": "blast",
     "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "spell_class": "GRAVITY_MAGE",
     "energy_source": "MANA",
     "difficulty": 7,

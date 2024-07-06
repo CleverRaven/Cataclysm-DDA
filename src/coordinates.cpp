@@ -34,6 +34,10 @@ void real_coords::fromabs( const point &abs )
     om_pos.y = om_sub.y / 2;
 }
 
+point_rel_ms rebase_rel( point_sm_ms p )
+{
+    return point_rel_ms( p.raw() );
+}
 point_rel_ms rebase_rel( point_omt_ms p )
 {
     return point_rel_ms( p.raw() );
@@ -41,6 +45,10 @@ point_rel_ms rebase_rel( point_omt_ms p )
 point_rel_ms rebase_rel( point_bub_ms p )
 {
     return point_rel_ms( p.raw() );
+}
+point_sm_ms rebase_sm( point_rel_ms p )
+{
+    return point_sm_ms( p.raw() );
 }
 point_omt_ms rebase_omt( point_rel_ms p )
 {
@@ -50,6 +58,10 @@ point_bub_ms rebase_bub( point_rel_ms p )
 {
     return point_bub_ms( p.raw() );
 }
+tripoint_rel_ms rebase_rel( tripoint_sm_ms p )
+{
+    return tripoint_rel_ms( p.raw() );
+}
 tripoint_rel_ms rebase_rel( tripoint_omt_ms p )
 {
     return tripoint_rel_ms( p.raw() );
@@ -57,6 +69,10 @@ tripoint_rel_ms rebase_rel( tripoint_omt_ms p )
 tripoint_rel_ms rebase_rel( tripoint_bub_ms p )
 {
     return tripoint_rel_ms( p.raw() );
+}
+tripoint_sm_ms rebase_sm( tripoint_rel_ms p )
+{
+    return tripoint_sm_ms( p.raw() );
 }
 tripoint_omt_ms rebase_omt( tripoint_rel_ms p )
 {

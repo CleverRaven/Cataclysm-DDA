@@ -23,7 +23,7 @@
     "volume": "250 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -83,7 +83,7 @@
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 20 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 20 ], [ "meat_allergen", 1 ] ],
     "fun": 1,
     "flags": [ "EATEN_HOT" ]
   },
@@ -103,7 +103,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "price_postapoc": "2 USD 50 cent",
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 22 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ],
     "fun": 8
   },
@@ -130,7 +130,8 @@
     "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -155,7 +156,8 @@
     "//": "volume and weight for a roughly 25cm length, 2.5cm diameter link, estimated",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -173,7 +175,7 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 6 ], [ "iron", 69 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -194,7 +196,7 @@
     "price_postapoc": "250 cent",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT", "SMOKED" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 6 ], [ "meat_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -235,7 +237,7 @@
     "price_postapoc": "125 cent",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "meat_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -243,7 +245,8 @@
     "id": "human_cracklins",
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -251,7 +254,7 @@
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
     "material": [ "flesh" ],
-    "vitamins": [ [ "mutant_toxin", 52 ] ]
+    "vitamins": [ [ "mutant_toxin", 52 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -259,7 +262,7 @@
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "mutant_toxin", 52 ] ]
+    "vitamins": [ [ "mutant_toxin", 52 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -267,7 +270,8 @@
     "name": { "str_sp": "cracklins" },
     "copy-from": "cracklins",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "flags": [ "STRICT_HUMANITARIANISM" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -289,7 +293,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -310,7 +314,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 17 ], [ "calcium", 8 ], [ "iron", 32 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -336,7 +340,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -359,7 +363,7 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
@@ -451,7 +455,8 @@
     "quench": -1,
     "description": "A serving of crisply brined and canned fish.  Tasty and nutritious.",
     "material": [ "flesh" ],
-    "fun": 7
+    "fun": 7,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -499,7 +504,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -519,7 +524,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -577,7 +582,7 @@
     "//": "*Looking for ~$6 per pound here.",
     "material": [ "flesh" ],
     "volume": "75 ml",
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -601,7 +606,7 @@
     "price_postapoc": "25 cent",
     "material": [ "flesh" ],
     "volume": "75 ml",
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 6 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -623,7 +628,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -15,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -645,7 +650,7 @@
     "volume": "83 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -8,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -676,7 +681,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 40 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 40 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -701,7 +706,8 @@
     "material": [ "flesh", "wheat", "mushroom" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "fun": 9
+    "fun": 9,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -725,7 +731,7 @@
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "fruit" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ], [ "meat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -750,7 +756,7 @@
     "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -775,7 +781,7 @@
     "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "volume": "110 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 20 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 20 ], [ "meat_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -802,7 +808,14 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ], [ "iron", 20 ] ]
+    "vitamins": [
+      [ "vitC", 4 ],
+      [ "calcium", 32 ],
+      [ "iron", 20 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -821,7 +834,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 27 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -846,7 +859,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ] ]
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 7 ], [ "iron", 27 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -867,7 +880,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 14 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 14 ], [ "iron", 32 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -886,7 +899,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -905,7 +918,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 57 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 57 ], [ "iron", 9 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -924,7 +937,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 18 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -943,7 +956,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 34 ], [ "iron", 34 ] ]
+    "vitamins": [ [ "calcium", 34 ], [ "iron", 34 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -963,7 +976,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "calcium", 11 ], [ "iron", 25 ] ]
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -988,7 +1001,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 7 ], [ "iron", 16 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1009,7 +1022,7 @@
     "//": "One beans + one protein = 2 servings",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 51 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 51 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1030,7 +1043,7 @@
     "//": "One rice + one protein/veg = 2 servings",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 40 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1050,7 +1063,7 @@
     "volume": "187 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 10 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1076,7 +1089,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1101,7 +1114,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 44 ], [ "iron", 36 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1116,7 +1129,15 @@
     "price_postapoc": "15 USD",
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
+    "vitamins": [
+      [ "vitC", 20 ],
+      [ "calcium", 32 ],
+      [ "iron", 28 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1140,7 +1161,7 @@
     "volume": "83 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 39 ], [ "meat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1182,7 +1203,8 @@
     "material": [ "flesh" ],
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1206,7 +1228,7 @@
     "volume": "218 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 9 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1232,7 +1254,14 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 22 ], [ "iron", 17 ] ]
+    "vitamins": [
+      [ "vitC", 6 ],
+      [ "calcium", 22 ],
+      [ "iron", 17 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1245,7 +1274,8 @@
     "price": "5 USD",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 8
+    "fun": 8,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1272,7 +1302,14 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
+    "vitamins": [
+      [ "vitC", 1 ],
+      [ "calcium", 57 ],
+      [ "iron", 65 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1299,7 +1336,14 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
+    "vitamins": [
+      [ "vitC", 1 ],
+      [ "calcium", 57 ],
+      [ "iron", 65 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1314,7 +1358,15 @@
     "primary_material": "processed_food",
     "volume": "350 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ] ]
+    "vitamins": [
+      [ "vitC", 30 ],
+      [ "calcium", 60 ],
+      [ "iron", 65 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1329,7 +1381,14 @@
     "primary_material": "processed_food",
     "volume": "350 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ] ]
+    "vitamins": [
+      [ "vitC", 30 ],
+      [ "calcium", 60 ],
+      [ "iron", 65 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1355,7 +1414,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1381,7 +1440,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1410,7 +1469,14 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
+    "vitamins": [
+      [ "vitC", 5 ],
+      [ "calcium", 4 ],
+      [ "iron", 5 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1443,7 +1509,7 @@
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 4 ], [ "iron", 5 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1468,7 +1534,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1493,7 +1559,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 8 ], [ "iron", 15 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1534,7 +1600,8 @@
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1552,7 +1619,8 @@
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "25 ml",
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1625,7 +1693,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ] ]
+    "vitamins": [ [ "vitC", 21 ], [ "calcium", 1 ], [ "iron", 29 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1643,7 +1711,7 @@
     "material": [ "veggy", "flesh" ],
     "volume": "250 ml",
     "fun": 14,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 3 ], [ "iron", 3 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1662,7 +1730,7 @@
     "material": [ "veggy", "flesh" ],
     "volume": "500 ml",
     "fun": 13,
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 37 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1676,7 +1744,8 @@
     "price": "6 USD",
     "price_postapoc": "3 USD",
     "material": [ "veggy", "flesh" ],
-    "fun": 7
+    "fun": 7,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1694,7 +1763,8 @@
     "material": [ "flesh" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -7
+    "fun": -7,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1715,7 +1785,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1739,7 +1809,7 @@
     "volume": "83 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 7,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 19 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1762,7 +1832,7 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "85 ml",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -1800,7 +1870,7 @@
     "volume": "110 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 5 ], [ "iron", 11 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 5 ], [ "iron", 11 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1820,7 +1890,14 @@
     "volume": "20 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 18 ], [ "iron", 6 ] ]
+    "vitamins": [
+      [ "vitC", 3 ],
+      [ "calcium", 18 ],
+      [ "iron", 6 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1838,7 +1915,8 @@
     "material": [ "bread", "flesh" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1856,7 +1934,8 @@
     "material": [ "bread", "flesh" ],
     "volume": "120 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1874,7 +1953,8 @@
     "material": [ "bread", "flesh" ],
     "volume": "450 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1892,7 +1972,8 @@
     "material": [ "bread", "flesh" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1910,7 +1991,8 @@
     "material": [ "veggy", "flesh" ],
     "volume": "240 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1962,7 +2044,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 18,
-    "vitamins": [ [ "calcium", "105 mg" ], [ "iron", "1 mg" ] ]
+    "vitamins": [ [ "calcium", "105 mg" ], [ "iron", "1 mg" ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1981,7 +2063,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "calcium", "108 mg" ] ]
+    "vitamins": [ [ "calcium", "108 mg" ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -2000,7 +2082,13 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 18,
-    "vitamins": [ [ "calcium", "423 mg" ], [ "iron", "8 mg" ] ]
+    "vitamins": [
+      [ "calcium", "423 mg" ],
+      [ "iron", "8 mg" ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
     "id": "scrapple",
@@ -2021,6 +2109,6 @@
     "fun": 1,
     "quench": -8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   }
 ]
