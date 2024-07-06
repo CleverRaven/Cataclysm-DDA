@@ -11,8 +11,7 @@
 
 class JsonObject;
 
-class end_screen
-{
+struct end_screen {
     public:
         static void load_end_screen( const JsonObject &jo, const std::string &src );
 
