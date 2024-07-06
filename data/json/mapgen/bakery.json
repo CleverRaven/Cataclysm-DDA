@@ -98,7 +98,7 @@
         "t": [ { "item": "pizza_table", "chance": 20 }, { "item": "coffee_dishes", "chance": 25 } ],
         "@": { "item": "trash", "chance": 75 },
         "a": { "item": "trash", "chance": 75, "repeat": [ 2, 4 ] },
-        "s": { "item": "groce_ingredient", "chance": 50, "repeat": [ 1, 3 ] }
+        "k": { "item": "groce_ingredient", "chance": 50, "repeat": [ 1, 3 ] }
       },
       "place_items": [
         { "item": "SUS_knife_drawer", "x": 4, "y": 16, "chance": 75 },
