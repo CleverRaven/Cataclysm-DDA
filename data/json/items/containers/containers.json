@@ -3743,6 +3743,38 @@
         "ascii_picture": "condom_ribbed",
         "weight": 100,
         "append": true
+      },
+      {
+        "id": "condom_flavored_cherry",
+        "name": { "str": "cherry flavored condom" },
+        "description": "A condom with cherry flavored lube, in red packaging to match.",
+        "ascii_picture": "condom_flavored_cherry",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_banana",
+        "name": { "str": "banana flavored condom" },
+        "description": "A condom with banana flavored lube, in yellow packaging to match.",
+        "ascii_picture": "condom_flavored_banana",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_strawberry",
+        "name": { "str": "strawberry flavored condom" },
+        "description": "A condom with strawberry flavored lube, in red packaging to match.",
+        "ascii_picture": "condom_flavored_strawberry",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "condom_flavored_orange",
+        "name": { "str": "orange flavored condom" },
+        "description": "A condom with orange flavored lube, in orange packaging to match.",
+        "ascii_picture": "condom_flavored_orange",
+        "weight": 40,
+        "append": true
       }
     ],
     "pocket_data": [
