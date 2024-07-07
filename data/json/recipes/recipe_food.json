@@ -5890,9 +5890,9 @@
     [ { "id": "OVEN", "level": 1 } ]
   ],
   "tools": [
-    [ [ "surface_heat", 24, "LIST" ] ]
+    [ [ "surface_heat", 33, "LIST" ] ]
   ],
-  "//": "15u for flour, 3u for potato, 3u for ghee and oil, 2u for pepper",
+  "//": "15u for flour, 16u for potato, 3u for ghee and oil, 2u for pepper",
   "components": [
     [ [ "flour_any", 15, "LIST" ] ],
     [ [ "veggy_potatolike", 3, "LIST" ] ],
