@@ -132,7 +132,7 @@
     "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "place_trap",
-      "trap": "tr_species_snare",
+      "trap": "tr_nether_snare",
       "moves": 150,
       "practice": 2,
       "done_message": "You set the pentagram snare."

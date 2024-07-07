@@ -215,6 +215,50 @@
   },
   {
     "type": "trap",
+    "id": "tr_nether_snare",
+    "name": "pentagram snare trap",
+    "color": "red",
+    "symbol": "⛧",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_robot_snare",
+    "name": "QR snare trap",
+    "color": "red",
+    "symbol": "□",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_cyborg_snare",
+    "name": "ARG snare trap",
+    "color": "red",
+    "symbol": "«",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
+    "id": "tr_fae_snare",
+    "name": "changeling snare trap",
+    "color": "red",
+    "symbol": "§",
+    "visibility": 1,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "snare_species"
+  },
+  {
+    "type": "trap",
     "id": "tr_beartrap",
     "trigger_weight": "200 g",
     "name": "bear trap",

@@ -17,7 +17,7 @@
     "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "place_trap",
-      "trap": "tr_species_snare",
+      "trap": "tr_robot_snare",
       "moves": 150,
       "practice": 2,
       "done_message": "You set the QR code."
@@ -41,7 +41,7 @@
     "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "place_trap",
-      "trap": "tr_species_snare",
+      "trap": "tr_cyborg_snare",
       "moves": 150,
       "practice": 2,
       "done_message": "You set the QR code."
