@@ -607,6 +607,16 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_vampire_recently_learned_blood_gifts",
+    "name": [ "Learned blood gift" ],
+    "desc": [
+      "You recently discovered a gift of the blood.  Until you've experimented with it and tested your new powers, further research will be fruitless."
+    ],
+    "remove_message": "You're sure you could try to learn a new blood gift now.",
+    "rating": "bad"
+  },
+  {
     "id": "eater_lump_pool",
     "type": "effect_type",
     "name": [ "Dream Gorging" ],

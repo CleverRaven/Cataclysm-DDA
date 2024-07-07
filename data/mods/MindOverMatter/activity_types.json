@@ -22,6 +22,6 @@
     "verb": "meditating",
     "based_on": "time",
     "rooted": true,
-    "completion_eoc": "EOC_PSI_STUDYING_POWER"
+    "do_turn_eoc": "EOC_PSI_STUDYING_POWER"
   }
 ]

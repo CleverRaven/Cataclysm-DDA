@@ -74,6 +74,16 @@
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
       },
       {
+        "text": "Before, you said there was more that I needed to learn?",
+        "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH",
+        "condition": {
+          "and": [
+            { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+            { "u_has_var": "told_about_trueness", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }

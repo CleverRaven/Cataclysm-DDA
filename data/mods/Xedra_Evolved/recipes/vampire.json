@@ -40,11 +40,11 @@
         "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_BEGIN",
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "500" ] },
         "effect": [
-          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2000" ] },
+          { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] },
           { "u_add_effect": "effect_vampire_studying_blood_gifts", "duration": "8 hours" },
           { "u_assign_activity": "ACT_VAMPIRE_STUDYING_BLOOD_GIFTS", "duration": "8 hours" },
           {
-            "queue_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWTICHER",
+            "queue_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER",
             "time_in_future": [ "120 minutes", "180 minutes" ]
           }
         ],
@@ -54,15 +54,20 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWTICHER",
-    "condition": { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+    "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vampire_studying_blood_gifts" },
+        { "not": { "u_has_effect": "effect_vampire_recently_learned_blood_gifts" } }
+      ]
+    },
     "//": "Switch statement below determines results.  The two rands on the end simulate rolling 2d10 to get a bell-curve distribution, and the cases are calibrated so a character with Deduction 2 and Intelligence 8 will fail to discover anything slightly more than half the time.  There are five tiers of vampire powers, so each tier is 3 higher (~30% less likely) than the previous tier, but since it's a bell curve, raising deduction and intelligence makes it increasingly much more likely to discover things.  With Deduction 10 and Intelligence 12, hitting case 17 will happen 100% of the time, case 23 will happen 85% of the time, and case 26 will happen 64% of the time.",
     "effect": {
       "switch": { "math": [ "(u_val('intelligence') / 2) + u_skill('deduction') + (rand(9) + 1) + (rand(9) + 1)" ] },
       "cases": [
         {
           "case": 0,
-          "effect": [ { "queue_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWTICHER", "time_in_future": [ "30 minutes", "75 minutes" ] } ]
+          "effect": [ { "queue_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SWITCHER", "time_in_future": [ "90 minutes", "150 minutes" ] } ]
         },
         { "case": 17, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_01" } ] },
         { "case": 20, "effect": [ { "run_eocs": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_02" } ] },
@@ -170,13 +175,15 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": "studying blood gifts",
     "based_on": "time",
-    "rooted": false,
     "completion_eoc": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_FAILURE"
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS",
-    "effect": [ { "u_message": "You learn a new blood gift.", "popup": true } ]
+    "effect": [
+      { "u_message": "You learn a new blood gift.", "popup": true },
+      { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "5 days" }
+    ]
   },
   {
     "type": "effect_on_condition",
