@@ -43,7 +43,7 @@
     "id": "tr_robot_snare",
     "name": "QR snare trap",
     "color": "red",
-    "symbol": "□",
+    "symbol": "e",
     "visibility": 1,
     "avoidance": 8,
     "difficulty": 0,
