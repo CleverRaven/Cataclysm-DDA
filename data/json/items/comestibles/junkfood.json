@@ -908,7 +908,7 @@
     "name": { "str": "pork stick" },
     "weight": "56 g",
     "color": "brown",
-    "spoils_in": "24 days",
+    "spoils_in": "42 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
