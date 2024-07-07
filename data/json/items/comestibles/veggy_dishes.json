@@ -776,7 +776,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 190,
-    "description": "A cripsy, savory pastry filled with spicy potatoes and vegetables, popular in Indian cuisine.",
+    "description": "A crispy, savory pastry filled with spicy potatoes and vegetables, popular in Indian cuisine.",
     "price": "150 cent",
     "price_postapoc": "150 cent",
     "material": [ "wheat", "veggy" ],
