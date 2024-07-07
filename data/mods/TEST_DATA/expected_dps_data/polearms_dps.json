@@ -11,11 +11,13 @@
       "long_pole": 13.0,
       "lucern_hammerfake": 13.0,
       "pike_copper": 13.96,
+      "homemade_polehammer_makeshift": 14.31,
       "spear_homemade_halfpike": 15.41,
       "pike_inferior": 16.0,
       "naginata_inferior": 19.35,
       "makeshift_halberd": 20.5,
       "makeshift_glaive": 20.55,
+      "homemade_polehammer": 21.35,
       "bronze_brush_axe": 21.57,
       "pike": 23.0,
       "makeshift_scythe_war": 24.5,
@@ -28,8 +30,6 @@
       "scythe_war": 34.59,
       "ji": 35.82,
       "lucern_hammer": 36.0,
-      "homemade_polehammer": 21.35,
-      "homemade_polehammer_makeshift": 14.31,
       "halberd": 36.28
     }
   }
