@@ -218,7 +218,7 @@
     "id": "tr_nether_snare",
     "name": "pentagram snare trap",
     "color": "red",
-    "symbol": "⛧",
+    "symbol": "⛤",
     "visibility": 1,
     "avoidance": 8,
     "difficulty": 0,
