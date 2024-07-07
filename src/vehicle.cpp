@@ -6729,31 +6729,32 @@ void vehicle::do_towing_move()
     } else {
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
-    if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
-    } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
-        accel_y = 10;
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
-    } else {
-        towed_veh->skidding = true;
-        std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
-                                                here.bub_from_abs( tower_tow_point ).raw() );
-        tripoint nearby_destination;
-        if( lineto.size() >= 2 ) {
-            nearby_destination = lineto[1];
-        } else {
-            nearby_destination = tower_tow_point;
-        }
-        const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
-                                          nearby_destination.xy() +
-                                          tripoint( 0, 0, towed_veh->global_pos3().z ) );
-        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                         clamp( destination_delta.y, -1, 1 ),
-                                         clamp( destination_delta.z, -1, 1 ) );
-        here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-        towed_veh->move = tileray( destination_delta.xy() );
-    }
 
+    switch( towed_veh->tow_data.tow_direction ) {
+        case TOW_FRONT:
+        case TOW_BACK:
+            towed_veh->selfdrive( point( turn_x, accel_y ) );
+            break;
+
+        default:
+            towed_veh->skidding = true;
+            std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
+                                                    here.bub_from_abs( tower_tow_point ).raw() );
+            tripoint nearby_destination;
+            if( lineto.size() >= 2 ) {
+                nearby_destination = lineto[1];
+            } else {
+                nearby_destination = tower_tow_point;
+            }
+            const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
+                                              nearby_destination.xy() +
+                                              tripoint( 0, 0, towed_veh->global_pos3().z ) );
+            const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
+                                             clamp( destination_delta.y, -1, 1 ),
+                                             clamp( destination_delta.z, -1, 1 ) );
+            here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
+            towed_veh->move = tileray( destination_delta.xy() );
+    }
 }
 
 bool vehicle::is_external_part( const tripoint &part_pt ) const
