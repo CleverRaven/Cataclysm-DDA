@@ -462,13 +462,54 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
     "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
     "enchantments": [
-      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] },
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
+          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "DISINFECTANT_BONUS", "multiply": -1 },
+          { "value": "BANDAGE_BONUS", "multiply": -1 }
+        ]
+      },
       {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "0" ] },
         "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] }
+          ]
+        },
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "5 + (u_vitamin('human_blood_vitamin') / 300)" ] } },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "multiply": 2 }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "4400" ] }
+          ]
+        },
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "11 + ((u_vitamin('human_blood_vitamin') - 1800 ) / 325)" ] } },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "multiply": 6 }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "4400" ] },
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "multiply": 12 }
+        ]
       }
     ]
   },
