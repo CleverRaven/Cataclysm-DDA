@@ -54,7 +54,7 @@
     "desc": [
       "You just take a shot of some weird stuff.  You feel sleepiness, nauseous, and overall weakened, but you wounds close up at unnatural pace."
     ],
-    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and put right into your veins, in hope it won't kill you.",
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into your veins, in hope it won't kill you.",
     "remove_message": "You feel your rapid regeneration turn back to normal, but some negative effects are still presented.",
     "rating": "mixed",
     "flags": [ "MEND_ALL" ],
