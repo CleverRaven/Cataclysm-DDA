@@ -128,6 +128,7 @@ Deconstructing now prompts with potential items, can be toggled off in settings
 NPC @ menu: Show morale, medical; Change name, gender, armor sprite
 (Currently player only) Factions can take over and loot camps they don't own
 Food can inherit the allergens of materials it was cooked from
+Add conjunctivitis from boomer bile
 
 
 ## Content:
@@ -283,6 +284,9 @@ Added multiple new guns
 This adds a Doctor and Pharmacist profession. It also generalizes the "MD" trait description to include more medical professionals.
 Three new skeletal zombie evolutions
 Microlabs will now spawn foes from a series of mutually exclusive lists.
+Militia community follow up
+Event Bus for Radiation
+Species Based Snare traps
 
 
 ## Interface:
@@ -354,6 +358,7 @@ Show actual real-world distance to mission objective
 Add selection menu for cosmetic traits in character creation
 Adds message for NPCs completing crafting so it doesn't reference the player incorrectly.
 Add the 12-bit rainbow as color palette option
+NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
 
 
 ## Mods:
@@ -536,6 +541,11 @@ Give some map extras CLASSIC tag
 Aftershock: New craftable plasma gun.
 (XE) Allow vampires to reach the fourth tier and add vampiric mentors
 [Aftershock] Add Habitat Block 3 Mapgen to Aftershock Exoplanet
+[MoM] Add Revitalizing Meditation ongoing costs
+(XE) add more vampire traits, allow to drink from friends and make blood of saints actually block vampirism
+Aftershock Lore documents
+[Xedra Evolved] Full vampires need blood to heal
+[Xedra Evolved] Full vampires' healing speed is increased with blood but bandages do nothing
 
 
 ## Balance:
@@ -614,6 +624,10 @@ Switched Reload Speeds for Plasma Rifle and PPA
 Bring volume calculations for player body more in line with realistic examples
 Give pebble ammo type recovery chance
 Display ordered NPC path on map, NPCs refuse to go to dangerous locations
+Reduce Anthill Spawns
+Change Hardtack cooking skill required
+Update gunshow search range
+Removed kcal cost of Pounce
 
 
 ## Bugfixes:
@@ -805,6 +819,15 @@ Stop birdshot from firing 20 projectiles, each of which has the power of 100 pro
 Travel to no longer cancels on moving up/down on a ramp
 Offspring inherit friendly value from parents to prevent conflict with tamed parents
 LIXA teleport death bugfix
+[Magiclysm] Dust Reborn clears rads
+Fix rat aggression
+Fix android build
+Clean water in tanks now stays clean
+[MoM] Fix Revitalizating Mutation not going away
+Lime, sulphur chunks, rhodonite, and zincite are now categorised as chemicals
+Fix some minor terrain errors for office_skyscraper & urban_1_house
+Changes some spoils in times
+Webs, sludge, and sap no longer give you superhuman dodge and melee accuracy
 
 
 ## Performance:
@@ -918,6 +941,7 @@ Fix crash with imgui and CMake
 Update Flatpak manifest to use clang and include the default soundpack
 stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
+Add PDCurses to Windows
 
 
 ## I18N and A11Y:
