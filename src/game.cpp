@@ -230,6 +230,8 @@ static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
+static const ascii_art_id ascii_tombstone( "ascii_tombstone" );
+
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -2842,7 +2844,7 @@ void end_screen_ui_impl::draw_controls()
 {
     text[0] = '\0';
     avatar &u = get_avatar();
-    ascii_art_id art = static_cast<ascii_art_id>( "ascii_tombstone" );
+    ascii_art_id art = ascii_tombstone;
     dialogue d( get_talker_for( u ), nullptr );
     std::string input_label;
     std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
@@ -2869,7 +2871,7 @@ void end_screen_ui_impl::draw_controls()
 
     if( art.is_valid() ) {
         int row = 1;
-        for( std::string line : art->picture ) {
+        for( const std::string &line : art->picture ) {
             draw_colored_text( line );
 
             for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
