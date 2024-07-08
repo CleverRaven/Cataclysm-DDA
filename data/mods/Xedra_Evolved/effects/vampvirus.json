@@ -169,6 +169,7 @@
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_escalation",
     "//": "This EOC controls the speed at which vampires mutate and evolve.",
+    "//2": "When adding new learnable traits below, make sure to also add them to the blood gift research recipe EoCs",
     "recurrence": [ "48 hours", "72 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
     "effect": {
@@ -310,7 +311,7 @@
     "effect": {
       "run_eocs": {
         "id": "eoc_vampvirus_4_math_checker",
-        "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "10" ] },
+        "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
         "effect": {
           "run_eocs": {
             "id": "eoc_vampvirus_4_trait",
