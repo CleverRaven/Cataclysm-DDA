@@ -54,7 +54,7 @@
     "id": "tr_cyborg_snare",
     "name": "ARG snare trap",
     "color": "red",
-    "symbol": "«",
+    "symbol": "<",
     "visibility": 1,
     "avoidance": 8,
     "difficulty": 0,
