@@ -94,8 +94,8 @@ void clear_fields( const int zlevel )
     const int mapsize = here.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
-            const tripoint p( x, y, zlevel );
-            point offset;
+            const tripoint_bub_ms p( x, y, zlevel );
+            point_sm_ms offset;
 
             submap *sm = here.get_submap_at( p, offset );
             if( sm ) {
