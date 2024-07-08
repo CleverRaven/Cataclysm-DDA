@@ -150,7 +150,7 @@ void map::check_submap_active_item_consistency()
     for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < MAPSIZE; ++x ) {
             for( int y = 0; y < MAPSIZE; ++y ) {
-                tripoint p( x, y, z );
+                tripoint_rel_sm p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 REQUIRE( s != nullptr );
                 bool submap_has_active_items = !s->active_items.empty();

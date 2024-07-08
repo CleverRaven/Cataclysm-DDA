@@ -10259,11 +10259,16 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
+    return item::spill_contents( tripoint_bub_ms( pos ) );
+}
+
+bool item::spill_contents( const tripoint_bub_ms &pos )
+{
     if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
         is_container_empty() ) {
         return true;
     }
-    return contents.spill_contents( pos );
+    return contents.spill_contents( pos.raw() );
 }
 
 bool item::spill_open_pockets( Character &guy, const item *avoid )
