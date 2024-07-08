@@ -457,8 +457,6 @@
     "id": "eyegleam",
     "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],
-    "apply_message": "Your sight adjusts to the darkness.",
-    "remove_message": "The darkness loses its shape.",
     "rating": "good",
     "enchantments": [
       {
@@ -576,7 +574,7 @@
             "value": "EVASION",
             "add": {
               "math": [
-                "min(0.15 + ((vampire_total_tier_one_traits() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) +  + (vampire_total_tier_four_traits() * 0.075)), 0.7)"
+                "min(0.15 + ((vampire_total_tier_one_traits() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.075)), 0.7)"
               ]
             }
           },
@@ -584,7 +582,7 @@
             "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "min(1 + ((vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) +  + (vampire_total_tier_four_traits() * 0.95)), 15)"
+                "min(1 + ((vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) +  (vampire_total_tier_four_traits_plus_potence() * 0.95)), 15)"
               ]
             }
           },
