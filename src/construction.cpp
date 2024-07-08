@@ -1489,7 +1489,7 @@ bool construct::check_support( const tripoint_bub_ms &p )
     // floor before you may be able to build a roof above it.
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( ( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ) ||
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ||
             ( !here.ter( p + offset )->has_flag( "EMPTY_SPACE" ) &&
               here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) ) {
             num_supports++;
