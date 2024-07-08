@@ -6698,7 +6698,8 @@ bool game::is_zones_manager_open() const
     return zones_manager_open;
 }
 
-static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction )
+static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                     bool show_all_zones )
 {
     werase( w_info );
 
@@ -6724,8 +6725,20 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green,
-                            _( "<S>how all / hide distant" ) ) + 2;
+    std::string all_zones = "<S>how all";
+    std::string distant_zones = "Hide distant";
+    std::array<nc_color, 2> selection_color = { c_dark_gray, c_dark_gray };
+    selection_color[int( !show_all_zones )] = c_yellow;
+
+    nc_color current_color = selection_color[0];
+    tmpx += shortcut_print( w_info, point( tmpx, 5 ), current_color, c_light_green, all_zones );
+    current_color = c_white;
+    print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, " / " );
+    tmpx += 3;
+    current_color = selection_color[1];
+    print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, distant_zones );
+    tmpx += distant_zones.length() + 2;
+
     shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green, _( "<M>ap" ) );
 
     if( debug_mode ) {
@@ -6994,7 +7007,7 @@ void game::zones_manager()
             return;
         }
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info, zones_faction );
+        zones_manager_shortcuts( w_zones_info, zones_faction, show_all_zones );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
