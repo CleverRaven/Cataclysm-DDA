@@ -1537,7 +1537,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "type", type );
         jo.read( "when", when );
         jo.read( "key", key );
-        point pt;
+        point_sm_ms pt;
         if( jo.has_string( "revert" ) ) {
             revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
         } else {
@@ -1555,9 +1555,9 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
                 }
                 // We didn't always save the point, this is the original logic, it doesn't work right but for older saves at least they won't crash
                 if( !jp.has_member( "point" ) ) {
-                    if( pt.x++ < SEEX ) {
-                        pt.x = 0;
-                        pt.y++;
+                    if( pt.x()++ < SEEX ) {
+                        pt.x() = 0;
+                        pt.y()++;
                     }
                 }
             }
@@ -1636,14 +1636,14 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
         if( elem.revert.is_uniform() ) {
-            jsout.member( "revert", elem.revert.get_ter( point_zero ) );
+            jsout.member( "revert", elem.revert.get_ter( point_sm_ms_zero ) );
         } else {
             jsout.member( "revert" );
             jsout.start_array();
             for( int y = 0; y < SEEY; y++ ) {
                 for( int x = 0; x < SEEX; x++ ) {
                     jsout.start_object();
-                    point pt( x, y );
+                    point_sm_ms pt( x, y );
                     jsout.member( "point", pt );
                     jsout.member( "furn", elem.revert.get_furn( pt ) );
                     jsout.member( "ter", elem.revert.get_ter( pt ) );

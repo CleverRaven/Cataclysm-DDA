@@ -1816,7 +1816,9 @@ class item : public visitable
          * @param pos Position to dump the contents on.
          * @return If the item is now empty.
          */
+        // TODO: Get rid of untyped overload.
         bool spill_contents( const tripoint &pos );
+        bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         // spill items that don't fit in the container
         void overflow( const tripoint &pos, const item_location &loc = item_location::nowhere );

@@ -1859,7 +1859,9 @@ class map
         // TODO: Get rid of untyped overload
         bool has_floor( const tripoint &p ) const;
         bool has_floor( const tripoint_bub_ms &p ) const;
+        // TODO: Get rid of untyped overload
         bool has_floor_or_water( const tripoint &p ) const;
+        bool has_floor_or_water( const tripoint_bub_ms &p ) const;
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
         bool has_floor_or_support( const tripoint &p ) const;
@@ -2075,9 +2077,10 @@ class map
         void rotten_item_spawn( const item &item, const tripoint &p );
     private:
         // Helper #1 - spawns monsters on one submap
-        void spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spawn_nonlocal = false );
+        void spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight,
+                                    bool spawn_nonlocal = false );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
-        void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
+        void spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &group,
                                           bool ignore_sight );
 
     protected:
@@ -2087,11 +2090,11 @@ class map
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
-        void actualize( const tripoint &grid );
+        void actualize( const tripoint_rel_sm &grid );
         /**
          * Hacks in missing roofs. Should be removed when 3D mapgen is done.
          */
-        void add_roofs( const tripoint &grid );
+        void add_roofs( const tripoint_rel_sm &grid );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
@@ -2136,7 +2139,7 @@ class map
          */
         void shift_traps( const tripoint &shift );
 
-        void copy_grid( const tripoint &to, const tripoint &from );
+        void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
 
         void draw_lab( mapgendata &dat );
@@ -2203,7 +2206,7 @@ class map
         // TODO: fix point types (remove the first overload)
         inline submap *unsafe_get_submap_at( const tripoint &p ) {
             cata_assert( inbounds( p ) );
-            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
+            return get_submap_at_grid( tripoint_rel_sm{ p.x / SEEX, p.y / SEEY, p.z } );
         }
         inline submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) {
             return unsafe_get_submap_at( p.raw() );
@@ -2219,7 +2222,7 @@ class map
         // TODO: Get rid of untyped overload
         submap *get_submap_at( const tripoint &p );
         submap *get_submap_at( const tripoint_bub_ms &p );
-        const submap *get_submap_at( const tripoint &p ) const;
+        const submap *get_submap_at( const tripoint_bub_ms &p ) const;
         submap *get_submap_at( const point &p ) {
             return get_submap_at( tripoint( p, abs_sub.z() ) );
         }
@@ -2266,9 +2269,9 @@ class map
             offset_p.y() = p.y() % SEEY;
             return get_submap_at( p );
         }
-        const submap *get_submap_at( const tripoint &p, point &offset_p ) const {
-            offset_p.x = p.x % SEEX;
-            offset_p.y = p.y % SEEY;
+        const submap *get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
+            offset_p.x() = p.x() % SEEX;
+            offset_p.y() = p.y() % SEEY;
             return get_submap_at( p );
         }
         submap *get_submap_at( const point &p, point &offset_p ) {
@@ -2285,17 +2288,17 @@ class map
         const submap *get_submap_at_grid( const point &gridp ) const {
             return getsubmap( get_nonant( gridp ) );
         }
-        submap *get_submap_at_grid( const tripoint &gridp );
-        const submap *get_submap_at_grid( const tripoint &gridp ) const;
+        submap *get_submap_at_grid( const tripoint_rel_sm &gridp );
+        const submap *get_submap_at_grid( const tripoint_rel_sm &gridp ) const;
     protected:
         /**
          * Get the index of a submap pointer in the grid given by grid coordinates. The grid
          * coordinates must be valid: 0 <= x < my_MAPSIZE, same for y.
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        size_t get_nonant( const tripoint &gridp ) const;
+        size_t get_nonant( const tripoint_rel_sm &gridp ) const;
         size_t get_nonant( const point &gridp ) const {
-            return get_nonant( { gridp, abs_sub.z() } );
+            return get_nonant( tripoint_rel_sm{ gridp.x, gridp.y, abs_sub.z() } );
         }
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
@@ -2369,7 +2372,7 @@ class map
         void process_items();
     private:
         // Iterates over every item on the map, passing each item to the provided function.
-        void process_items_in_submap( submap &current_submap, const tripoint &gridp );
+        void process_items_in_submap( submap &current_submap, const tripoint_rel_sm &gridp );
         void process_items_in_vehicles( submap &current_submap );
         void process_items_in_vehicle( vehicle &cur_veh, submap &current_submap );
 
