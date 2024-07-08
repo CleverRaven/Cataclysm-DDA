@@ -65,7 +65,7 @@
     "id": "tr_fae_snare",
     "name": "changeling snare trap",
     "color": "red",
-    "symbol": "§",
+    "symbol": "$",
     "visibility": 1,
     "avoidance": 8,
     "difficulty": 0,
