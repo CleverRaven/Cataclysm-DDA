@@ -1493,8 +1493,8 @@ bool construct::check_support( const tripoint_bub_ms &p )
             num_supports++;
         }
 
-        else if (!here.ter(p+offset)->has_flag("EMPTY_SPACE") &&
-            here.has_flag(ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below)) {
+        else if( !here.ter( p + offset )->has_flag( "EMPTY_SPACE" ) &&
+                 here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) {
             num_supports++;
         }
     }
