@@ -287,7 +287,7 @@
       }
     ],
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "age_grow": 30, "into": "mon_onicophore_giant" },
+    "upgrades": { "age_grow": 42, "into": "mon_onicophore_giant" },
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "CLIMBS" ],
