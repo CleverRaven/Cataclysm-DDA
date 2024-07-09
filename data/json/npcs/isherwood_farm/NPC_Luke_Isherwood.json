@@ -417,7 +417,7 @@
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan",
     "dynamic_line": "OK so I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits I'll pick up the truck later",
     "responses": [
-      { "text": "[heck yeah bro]", "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" }, "topic": "TALK_DONE" },
+      { "text": "I think I can manage two bandits.", "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" }, "topic": "TALK_DONE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "[nah bro]", "topic": "TALK_DONE" }
     ]
