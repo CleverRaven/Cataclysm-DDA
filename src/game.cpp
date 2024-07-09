@@ -6725,8 +6725,8 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
 
     tmpx = 1;
-    std::string all_zones = "<S>how all";
-    std::string distant_zones = "Hide distant";
+    std::string all_zones = _( "<S>how all" );
+    std::string distant_zones = _( "Hide distant" );
     std::array<nc_color, 2> selection_color = { c_dark_gray, c_dark_gray };
     selection_color[int( !show_all_zones )] = c_yellow;
 
@@ -6737,7 +6737,7 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     tmpx += 3;
     current_color = selection_color[1];
     print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, distant_zones );
-    tmpx += distant_zones.length() + 2;
+    tmpx += utf8_width( distant_zones ) + 2;
 
     shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green, _( "<M>ap" ) );
 
