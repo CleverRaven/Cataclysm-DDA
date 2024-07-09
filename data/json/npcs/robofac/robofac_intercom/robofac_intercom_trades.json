@@ -171,7 +171,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "[we got some bro that'll be $400]",
+    "dynamic_line": "There is an infinite supply of the stuff but I guess from us you can get it clean and undamaged.  That'll be $400.",
     "responses": [
       {
         "text": "[8 HGC] Deal!",
