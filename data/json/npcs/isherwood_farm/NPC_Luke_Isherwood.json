@@ -405,7 +405,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy",
-    "dynamic_line": "[that sounds crazy are u sure its a good idea]",
+    "dynamic_line": "Are you serious?  This is your brother we are risking here!",
     "responses": [
       { "text": "[trust me bro i know what im doing]", "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
