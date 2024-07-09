@@ -23,6 +23,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "coordinate_constants.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -212,6 +213,17 @@ std::pair<tripoint, maptile> map::maptile_has_bounds( const tripoint &p, const b
     return {p, maptile_at( p )};
 }
 
+std::pair<tripoint_bub_ms, maptile> map::maptile_has_bounds( const tripoint_bub_ms &p,
+        const bool bounds_checked )
+{
+    if( bounds_checked ) {
+        // We know that the point is in bounds
+        return { p, maptile_at_internal( p ) };
+    }
+
+    return { p, maptile_at( p ) };
+}
+
 std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &p )
 {
     // Find out which edges are in the bubble
@@ -221,6 +233,27 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
     const bool east = p.x < SEEX * my_MAPSIZE - 1;
     const bool south = p.y < SEEY * my_MAPSIZE - 1;
     return std::array< std::pair<tripoint, maptile>, 8 > { {
+            maptile_has_bounds( p + eight_horizontal_neighbors[0], west &&north ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[1], north ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[2], east &&north ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[3], west ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[4], east ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[5], west &&south ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[6], south ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[7], east &&south ),
+        }
+    };
+}
+
+std::array<std::pair<tripoint_bub_ms, maptile>, 8> map::get_neighbors( const tripoint_bub_ms &p )
+{
+    // Find out which edges are in the bubble
+    // Where possible, do just one bounds check for all the neighbors
+    const bool west = p.x() > 0;
+    const bool north = p.y() > 0;
+    const bool east = p.x() < SEEX * my_MAPSIZE - 1;
+    const bool south = p.y() < SEEY * my_MAPSIZE - 1;
+    return std::array< std::pair<tripoint_bub_ms, maptile>, 8 > { {
             maptile_has_bounds( p + eight_horizontal_neighbors[0], west &&north ),
             maptile_has_bounds( p + eight_horizontal_neighbors[1], north ),
             maptile_has_bounds( p + eight_horizontal_neighbors[2], east &&north ),
@@ -246,7 +279,7 @@ bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
     return false;
 }
 
-void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
+void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint_bub_ms &p )
 {
     const field_type_id current_type = cur.get_field_type();
     const time_duration current_age = cur.get_field_age();
@@ -275,11 +308,17 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk, const oter_id &om_ter )
 {
+    map::spread_gas( cur, tripoint_bub_ms( p ), percent_spread, outdoor_age_speedup, sblk, om_ter );
+}
+
+void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_spread,
+                      const time_duration &outdoor_age_speedup, scent_block &sblk, const oter_id &om_ter )
+{
     // TODO: fix point types
     const bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     const int winddirection = weather.winddirection;
-    const int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ),
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, getglobal( p ),
                           winddirection,
                           sheltered );
 
@@ -291,7 +330,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     if( scent_neutralize > 0 ) {
         // modify scents by neutralization value (minus)
-        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &tmp : points_in_radius( p, 1 ) ) {
             sblk.apply_gas( tmp, scent_neutralize );
         }
     }
@@ -309,8 +348,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
-    if( p.z > -OVERMAP_DEPTH ) {
-        const tripoint down{ p.xy(), p.z - 1 };
+    if( p.z() > -OVERMAP_DEPTH ) {
+        const tripoint_bub_ms down = p + tripoint_rel_ms_below;
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile, down );
@@ -337,7 +376,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     if( !spread.empty() && one_in( spread.size() ) ) {
         // Construct the destination from offset and p
         if( sheltered || windpower < 5 ) {
-            std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
+            std::pair<tripoint_bub_ms, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
             std::vector<size_t> neighbour_vec;
@@ -356,12 +395,12 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                 }
             }
             if( !neighbour_vec.empty() ) {
-                std::pair<tripoint, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
+                std::pair<tripoint_bub_ms, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
                 gas_spread_to( cur, n.second, n.first );
             }
         }
-    } else if( p.z < OVERMAP_HEIGHT ) {
-        const tripoint up{ p.xy(), p.z + 1 };
+    } else if( p.z() < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms up = p + tripoint_rel_ms_above;
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile, up );
@@ -373,6 +412,11 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 Helper function that encapsulates the logic involved in creating hot air.
 */
 void map::create_hot_air( const tripoint &p, int intensity )
+{
+    map::create_hot_air( tripoint_bub_ms( p ), intensity );
+}
+
+void map::create_hot_air( const tripoint_bub_ms &p, int intensity )
 {
     field_type_id hot_air;
     switch( intensity ) {
@@ -394,7 +438,7 @@ void map::create_hot_air( const tripoint &p, int intensity )
     }
 
     for( int counter = 0; counter < 5; counter++ ) {
-        tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+        tripoint_bub_ms dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
         add_field( dst, hot_air, 1 );
     }
 }
@@ -2079,23 +2123,30 @@ void map::monster_in_field( monster &z )
 std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
         const tripoint &pos )
 {
-    static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
-            { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },
-            { 301, std::make_tuple( point_south_east, point_east, point_south ) },
-            { 240, std::make_tuple( point_south, point_south_west, point_south_east ) },
-            { 211, std::make_tuple( point_south_west, point_west, point_south ) },
-            { 150, std::make_tuple( point_west, point_north_west, point_south_west ) },
-            { 121, std::make_tuple( point_north_west, point_north, point_west ) },
-            { 60, std::make_tuple( point_north, point_north_west, point_north_east ) },
-            { 31, std::make_tuple( point_north_east, point_east, point_north ) },
-            { 0, std::make_tuple( point_east, point_north_east, point_south_east ) }
+    return map::get_wind_blockers( winddirection, tripoint_bub_ms( pos ) );
+}
+
+std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
+        const tripoint_bub_ms &pos )
+{
+    static const std::array<std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >>, 9>
+    outputs = { {
+            { 330, std::make_tuple( point_rel_ms_east, point_rel_ms_north_east, point_rel_ms_south_east ) },
+            { 301, std::make_tuple( point_rel_ms_south_east, point_rel_ms_east, point_rel_ms_south ) },
+            { 240, std::make_tuple( point_rel_ms_south, point_rel_ms_south_west, point_rel_ms_south_east ) },
+            { 211, std::make_tuple( point_rel_ms_south_west, point_rel_ms_west, point_rel_ms_south ) },
+            { 150, std::make_tuple( point_rel_ms_west, point_rel_ms_north_west, point_rel_ms_south_west ) },
+            { 121, std::make_tuple( point_rel_ms_north_west, point_rel_ms_north, point_rel_ms_west ) },
+            { 60, std::make_tuple( point_rel_ms_north, point_rel_ms_north_west, point_rel_ms_north_east ) },
+            { 31, std::make_tuple( point_rel_ms_north_east, point_rel_ms_east, point_rel_ms_north ) },
+            { 0, std::make_tuple( point_rel_ms_east, point_rel_ms_north_east, point_rel_ms_south_east ) }
         }
     };
 
-    tripoint removepoint;
-    tripoint removepoint2;
-    tripoint removepoint3;
-    for( const std::pair<int, std::tuple< point, point, point >> &val : outputs ) {
+    tripoint_bub_ms removepoint;
+    tripoint_bub_ms removepoint2;
+    tripoint_bub_ms removepoint3;
+    for( const std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >> &val : outputs ) {
         if( winddirection >= val.first ) {
             removepoint = pos + std::get<0>( val.second );
             removepoint2 = pos + std::get<1>( val.second );
@@ -2104,9 +2155,9 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         }
     }
 
-    const maptile remove_tile = maptile_at( removepoint );
-    const maptile remove_tile2 = maptile_at( removepoint2 );
-    const maptile remove_tile3 = maptile_at( removepoint3 );
+    const maptile remove_tile = maptile_at( removepoint.raw() );
+    const maptile remove_tile2 = maptile_at( removepoint2.raw() );
+    const maptile remove_tile3 = maptile_at( removepoint3.raw() );
     return std::make_tuple( remove_tile, remove_tile2, remove_tile3 );
 }
 

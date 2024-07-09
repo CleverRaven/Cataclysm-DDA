@@ -62,7 +62,7 @@ void wipe_map_terrain( map *target )
         ter_id terrain = z == 0 ? ter_t_grass : z < 0 ? ter_t_rock : ter_t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set( { x, y, z}, terrain, furn_str_id::NULL_ID() );
+                here.set( tripoint_bub_ms{ x, y, z}, terrain, furn_str_id::NULL_ID() );
                 here.partial_con_remove( { x, y, z } );
             }
         }

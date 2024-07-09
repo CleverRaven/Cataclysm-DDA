@@ -714,7 +714,7 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
             if( erase ) {
                 memorize_clear_decoration( m.getglobal( pos_bub() + gpoint ) );
             }
-            m.memory_cache_dec_set_dirty( ( pos_bub() + gpoint ).raw(), true );
+            m.memory_cache_dec_set_dirty( pos_bub() + gpoint, true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.

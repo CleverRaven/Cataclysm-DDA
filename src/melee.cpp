@@ -1474,7 +1474,7 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
     }
 
     // skip wall adjacent techniques if not next to a wall
-    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos() ) ) {
+    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos_bub() ) ) {
         add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
         return std::nullopt;
     }

@@ -277,7 +277,7 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
 
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !get_map().clear_path( z->pos(), target->pos(), range, 1, 100 ) ) {
+        !get_map().clear_path( z->pos_bub(), target->pos_bub(), range, 1, 100 ) ) {
         return nullptr;
     }
 
@@ -789,7 +789,7 @@ bool mattack::acid( monster *z )
     map &here = get_map();
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !here.clear_path( z->pos(), target->pos(), 10, 1, 100 ) ) {
+        !here.clear_path( z->pos_bub(), target->pos_bub(), 10, 1, 100 ) ) {
         return false;
     }
     // It takes a while
@@ -1016,7 +1016,7 @@ bool mattack::pull_metal_weapon( monster *z )
     }
 
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) || !get_map().clear_path( z->pos(), target->pos(),
+    if( !z->sees( *target ) || !get_map().clear_path( z->pos_bub(), target->pos_bub(),
             max_distance, 1, 100 ) ) {
         return false;
     }
@@ -1862,8 +1862,8 @@ bool mattack::triffid_heartbeat( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
             false );
-    if( rl_dist( z->pos(), player_character.pos() ) > 5 &&
-        !here.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
+    if( rl_dist( z->pos_bub(), player_character.pos_bub() ) > 5 &&
+        !here.route( player_character.pos_bub(), z->pos_bub(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
         for( const tripoint &dest : here.points_in_radius( z->pos(), 3 ) ) {
             if( g->is_empty( dest ) && one_in( 4 ) ) {
@@ -1874,7 +1874,7 @@ bool mattack::triffid_heartbeat( monster *z )
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while( here.route( player_character.pos(), z->pos(), root_pathfind ).empty() &&
+        while( here.route( player_character.pos_bub(), z->pos_bub(), root_pathfind ).empty() &&
                tries < 20 ) {
             point p( rng( player_character.posx(), z->posx() - 3 ),
                      rng( player_character.posy(), z->posy() - 3 ) );
@@ -3615,7 +3615,7 @@ void mattack::flame( monster *z, Creature *target )
         // friendly
         // It takes a while
         z->mod_moves( -to_moves<int>( 5_seconds ) );
-        if( !here.sees( z->pos(), target->pos(), dist ) ) {
+        if( !here.sees( z->pos_bub(), target->pos_bub(), dist ) ) {
             // shouldn't happen
             debugmsg( "mattack::flame invoked on invisible target" );
         }
@@ -3638,7 +3638,7 @@ void mattack::flame( monster *z, Creature *target )
 
     // It takes a while
     z->mod_moves( -to_moves<int>( 5_seconds ) );
-    if( !here.sees( z->pos(), target->pos(), dist + 1 ) ) {
+    if( !here.sees( z->pos_bub(), target->pos_bub(), dist + 1 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
