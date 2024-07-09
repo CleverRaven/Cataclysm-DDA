@@ -116,7 +116,7 @@
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb"
       },
       {
-        "text": "[okie we got truck now what]",
+        "text": "We've got the truck, what's next?",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
