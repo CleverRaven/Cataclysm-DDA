@@ -425,7 +425,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Part_2",
-    "dynamic_line": "[okie now we need explosives.  i know mines have a lot of dynamite so that should be good.  go get it and i'll rig that up to a kitchen timer and we'll have a bomb on wheels.  i need 50lbs]",
+    "dynamic_line": "So now that we've got the truck we need the boom.  See if you can find some dynamite at the old mines?  Once we got the dynamite I'll rig that up to a kitchen timer and we'll have a bomb on wheels.  I'll need 50lbs to light that truck up like the 4th of July!",
     "responses": [
       {
         "text": "[heck yeah bro]",
