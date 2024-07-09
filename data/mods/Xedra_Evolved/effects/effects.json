@@ -617,6 +617,14 @@
     "rating": "bad"
   },
   {
+    "type": "effect_type",
+    "id": "effect_vampire_bat_form_levitation",
+    "//": "Hidden effect, used to make sure bat form can fly.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
     "id": "eater_lump_pool",
     "type": "effect_type",
     "name": [ "Dream Gorging" ],
