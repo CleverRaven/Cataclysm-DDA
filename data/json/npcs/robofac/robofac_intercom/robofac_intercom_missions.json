@@ -1093,7 +1093,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "[thanks bro]",
+    "dynamic_line": "I appreciate the credit.  I've got your payment now.",
     "responses": [
       {
         "text": "[you're welcome.]",
