@@ -433,7 +433,7 @@
         "topic": "TALK_DONE"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "[nah bro]", "topic": "TALK_DONE" }
+      { "text": "Not doing it.", "topic": "TALK_DONE" }
     ]
   },
   {
