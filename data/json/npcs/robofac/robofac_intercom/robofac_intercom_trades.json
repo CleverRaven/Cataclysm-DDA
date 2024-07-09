@@ -225,7 +225,7 @@
     },
     "responses": [
       {
-        "text": "[thanks bro.]",
+        "text": "Much obliged.",
         "effect": [
           { "u_spawn_item": "armor_riot", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
