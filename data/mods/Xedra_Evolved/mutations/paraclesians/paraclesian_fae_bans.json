@@ -314,10 +314,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP",
     "effect": {
       "u_run_inv_eocs": "all",
-      "search_data": [ { "material": "iron", "worn_only": true } ],
+      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
       "true_eocs": [
         {
           "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_RESULT_TRUE",
@@ -349,7 +361,16 @@
         { "material": "lc_steel_chain", "worn_only": true },
         { "material": "mc_steel_chain", "worn_only": true },
         { "material": "hc_steel_chain", "worn_only": true },
-        { "material": "ch_steel_chain", "worn_only": true }
+        { "material": "ch_steel_chain", "worn_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
       ],
       "true_eocs": [
         {
@@ -383,10 +404,22 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP",
     "effect": {
       "u_run_inv_eocs": "all",
-      "search_data": [ { "material": "iron", "worn_only": true } ],
+      "search_data": [ { "material": "iron", "worn_only": true }, { "material": "iron", "wielded_only": true } ],
       "true_eocs": [
         {
           "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_RESULT_TRUE",
@@ -418,7 +451,16 @@
         { "material": "lc_steel_chain", "worn_only": true },
         { "material": "mc_steel_chain", "worn_only": true },
         { "material": "hc_steel_chain", "worn_only": true },
-        { "material": "ch_steel_chain", "worn_only": true }
+        { "material": "ch_steel_chain", "worn_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
       ],
       "true_eocs": [
         {
