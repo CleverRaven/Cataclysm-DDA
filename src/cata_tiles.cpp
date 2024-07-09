@@ -5354,7 +5354,14 @@ void cata_tiles::do_tile_loading_report()
 
     // TODO: BULLET
     // TODO: HIT_ENTITY
-    // TODO: WEATHER
+    std::vector<std::string> weather_overlays;
+    for( const weather_type &weather : weather_types::get_all() ) {
+        weather_overlays.emplace_back( weather.tiles_animation );
+    }
+    std::sort( weather_overlays.begin(), weather_overlays.end() );
+    weather_overlays.erase( std::unique( weather_overlays.begin(), weather_overlays.end() ),
+                            weather_overlays.end() );
+    tile_loading_report_seq_ids( weather_overlays, TILE_CATEGORY::WEATHER );
 
     std::vector<oter_type_str_id> oter_types;
     for( const oter_t &oter : overmap_terrains::get_all() ) {
