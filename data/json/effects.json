@@ -4993,5 +4993,11 @@
     "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
     "max_duration": "5 m",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "a_winner_is_u",
+    "name": [ "Winning!" ],
+    "//": "Used to display the winning screen upon winning like a winner."
   }
 ]
