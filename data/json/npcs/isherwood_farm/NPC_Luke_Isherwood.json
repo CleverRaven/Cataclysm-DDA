@@ -419,7 +419,7 @@
     "responses": [
       { "text": "I think I can manage two bandits.", "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" }, "topic": "TALK_DONE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
-      { "text": "[nah bro]", "topic": "TALK_DONE" }
+      { "text": "Surely we can think of a better way in.", "topic": "TALK_DONE" }
     ]
   },
   {
