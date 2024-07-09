@@ -1373,7 +1373,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback",
     "type": "talk_topic",
-    "dynamic_line": "[okay bro show me what u got.]",
+    "dynamic_line": "Thanks Rubik, I'll be back with your payment soon.",
     "responses": [
       {
         "text": "[here it is]",
