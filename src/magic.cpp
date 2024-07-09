@@ -2493,7 +2493,8 @@ void spellcasting_callback::display_spell_info( size_t index )
         ImGui::TableSetupColumn( "max level" );
 
         ImGui::TableNextColumn();
-        ImGui::Text( "%s: %d%s%s", is_psi ? _( "Power Level" ) : _( "Spell Level" ), sp.get_effective_level(),
+        ImGui::Text( "%s: %d%s%s", is_psi ? _( "Power Level" ) : _( "Spell Level" ),
+                     sp.get_effective_level(),
                      sp.is_max_level( pc ) ? _( " (MAX)" ) : "", temp_level_adjust_string.c_str() );
         ImGui::TableNextColumn();
         ImGui::Text( "%s: %d", _( "Max Level" ), sp.get_max_level( pc ) );
