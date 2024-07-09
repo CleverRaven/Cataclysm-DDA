@@ -221,7 +221,7 @@
       "context": "intercom",
       "value": "yes",
       "yes": "Well it might be more interesting than straight gear.  Tell us when it's available for inspection.  We expect you back in 20 days or less.",
-      "no": "[okie dokie you got 20 days to pay]"
+      "no": "20 days then for payment."
     },
     "responses": [
       {
