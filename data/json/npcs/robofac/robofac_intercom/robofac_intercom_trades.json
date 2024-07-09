@@ -187,7 +187,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       {
-        "text": "[ayo I aint got that cash can I buy on credit?]",
+        "text": "I'm a little tight on funds right now.  Can we work out a buy now pay later deal?",
         "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 8 } } },
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_NEGOTIATE"
       },
