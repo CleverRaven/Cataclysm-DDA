@@ -204,6 +204,16 @@
         "topic": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR"
       },
       {
+        "text": "I salvaged this combat exoskeleton.  Do you think you could repair it?",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "combat_exoskeleton_light_salvaged", "count": 1 } },
+            { "not": { "u_has_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR"
+      },
+      {
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
@@ -242,6 +252,26 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR_COMPLETE"
+      },
+      {
+        "text": "How are my armor repairs coming?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('3 d')" ] },
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "How are my armor repairs coming?",
+        "condition": {
+          "and": [
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('3 d')" ] },
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR_COMPLETE"
       },
       {
         "text": "I've found this piece of XEDRA tech; it seems to offer some kind of protection.  I'm curious what you all can make of it.",
@@ -813,6 +843,44 @@
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "none" },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
           { "u_spawn_item": "rm13_armor" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR",
+    "type": "talk_topic",
+    "dynamic_line": "'One moment,' the respondant audibly leaves for a moment and after a short period the intercom cracks with life.'  The exoskeleton will require parts that involve hands-on production and machining.  It will cost you two coins, and should be ready within two days.  Please make sure to take off any attachments or batteries before turning it in.",
+    "responses": [
+      {
+        "text": "[2 HGC and the exoskeleton] See you in a couple days then.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_consume_item": "combat_exoskeleton_light_salvaged", "count": 1, "popup": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+      },
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "The repairs are complete.  Calibration will be done automatically when you boot it up",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "none" },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
+          { "u_spawn_item": "combat_exoskeleton_light" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       }
