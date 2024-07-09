@@ -176,7 +176,7 @@
     "flags": [ "SINGLE_USE" ],
     "use_action": {
       "type": "place_trap",
-      "trap": "tr_species_snare",
+      "trap": "tr_fae_snare",
       "moves": 150,
       "practice": 2,
       "done_message": "You place the betweener's maze."
