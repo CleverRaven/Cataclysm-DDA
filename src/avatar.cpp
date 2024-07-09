@@ -696,13 +696,13 @@ bool avatar::read( item_location &book, item_location ereader )
     return true;
 }
 
-void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
+void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_new )
 {
     const auto update_memory =
-    [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
+    [this]( const object_type gtype, const tripoint_rel_ms & gpoint, const bool erase ) {
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
-            if( const optional_vpart_position ovp = m.veh_at( pos() + gpoint ) ) {
+            if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
                 for( const tripoint &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
                         memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
@@ -712,9 +712,9 @@ void avatar::grab( object_type grab_type_new, const tripoint &grab_point_new )
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getglobal( pos() + gpoint ) );
+                memorize_clear_decoration( m.getglobal( pos_bub() + gpoint ) );
             }
-            m.memory_cache_dec_set_dirty( pos() + gpoint, true );
+            m.memory_cache_dec_set_dirty( ( pos_bub() + gpoint ).raw(), true );
         }
     };
     // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.

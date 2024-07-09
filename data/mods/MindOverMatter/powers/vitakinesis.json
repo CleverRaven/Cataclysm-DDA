@@ -420,7 +420,7 @@
     "type": "SPELL",
     "name": "[Ψ]Revitalizing Meditation",
     "description": "Enter a trance state and heal your injuries many times faster than they would heal naturally.",
-    "message": "You exit your trance and your wounds feel less painful.",
+    "message": "You enter a trance and submerge your awareness into your body.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",

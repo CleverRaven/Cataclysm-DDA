@@ -63,7 +63,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_357mag",
-    "items": [ { "group": "nested_sw_619", "prob": 3 }, { "group": "nested_colt_python", "prob": 3 } ]
+    "items": [
+      { "group": "nested_sw_619", "prob": 3 },
+      { "group": "nested_rp63", "prob": 3 },
+      { "group": "nested_colt_python", "prob": 3 }
+    ]
   },
   {
     "type": "item_group",
@@ -145,7 +149,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_357mag",
-    "items": [ { "item": "sw_619", "prob": 5, "charges": [ 0, -1 ] }, { "item": "colt_python", "prob": 5, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "sw_619", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "rp63", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "colt_python", "prob": 5, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -237,7 +245,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_357mag",
-    "items": [ { "item": "sw_619", "prob": 1 }, { "item": "colt_python", "prob": 2 } ]
+    "items": [ { "item": "sw_619", "prob": 1 }, { "item": "rp63", "prob": 1 }, { "item": "colt_python", "prob": 2 } ]
   },
   {
     "type": "item_group",

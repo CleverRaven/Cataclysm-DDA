@@ -192,5 +192,30 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_boomered_apply_conjunctivitis",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "compare_string": [ "boomered", { "context_val": "effect" } ] },
+        { "compare_string": [ "eyes", { "context_val": "bodypart" } ] },
+        { "not": { "u_has_effect": "conjunctivitis" } },
+        { "not": { "u_has_trait": "COMPOUND_EYES" } },
+        { "not": { "u_has_trait": "SEESLEEP" } },
+        { "not": { "u_has_bionics": "armor_bio_eyes" } },
+        { "math": [ "u_coverage('eyes')", "<", "rand(100)" ] },
+        { "x_in_y_chance": { "x": 2, "y": 3 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "conjunctivitis",
+        "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(259200) + 172800" ] },
+        "target_part": "eyes"
+      }
+    ]
   }
 ]

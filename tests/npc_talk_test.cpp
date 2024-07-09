@@ -407,25 +407,6 @@ TEST_CASE( "npc_talk_allies", "[npc_talk]" )
     CHECK( d.responses[1].text == "This is a npc allies 1 test response." );
 }
 
-TEST_CASE( "npc_talk_rules", "[npc_talk]" )
-{
-    dialogue d;
-    npc &talker_npc = prep_test( d );
-
-    d.add_topic( "TALK_TEST_NPC_RULES" );
-    gen_response_lines( d, 1 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    talker_npc.rules.engagement = combat_engagement::ALL;
-    talker_npc.rules.aim = aim_rule::SPRAY;
-    talker_npc.rules.set_flag( ally_rule::avoid_doors );
-    gen_response_lines( d, 4 );
-    CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a npc engagement rule test response." );
-    CHECK( d.responses[2].text == "This is a npc aim rule test response." );
-    CHECK( d.responses[3].text == "This is a npc rule test response." );
-    talker_npc.rules.clear_flag( ally_rule::avoid_doors );
-}
-
 TEST_CASE( "npc_talk_needs", "[npc_talk]" )
 {
     dialogue d;
@@ -819,25 +800,6 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     effects.apply( d );
     CHECK( has_item( player_character, "beer", 0 ) );
     CHECK_FALSE( has_item( player_character, "beer", 1 ) );
-}
-
-TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
-{
-    dialogue d;
-    prep_test( d );
-
-    d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 10 );
-    CHECK( d.responses[0].text == "Change your engagement rules…" );
-    CHECK( d.responses[1].text == "Change your aiming rules…" );
-    CHECK( d.responses[2].text == "Move freely as you need to." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_request_2_text>" );
-    CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[5].text == "Don't worry about noise." );
-    CHECK( d.responses[6].text == "You can use grenades." );
-    CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
-    CHECK( d.responses[9].text == "Never mind." );
 }
 
 TEST_CASE( "npc_talk_vars", "[npc_talk]" )

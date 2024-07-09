@@ -1112,7 +1112,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 6 }
   },
@@ -1256,7 +1256,7 @@
       },
       { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "melee_damage": { "bash": 2, "stab": 6 }
   },
   {

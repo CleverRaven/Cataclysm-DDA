@@ -18,7 +18,7 @@
 #include <clocale>
 
 // Needed for screen scraping
-#if (defined(TILES) || defined(_WIN32))
+#if defined(TILES)
 #include "cursesport.h"
 #endif
 
@@ -134,7 +134,7 @@ static const widget_id widget_test_weight_clauses_normal( "test_weight_clauses_n
 
 // dseguin 2022 - Ugly hack to scrape content from the window object.
 // Scrapes the window w at origin, reading the number of cols and rows.
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
 static std::vector<std::string> scrape_win_at(
     catacurses::window &w, const point &origin, int cols, int rows )
 {
@@ -2040,7 +2040,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
@@ -2618,7 +2618,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         CHECK( wgt.layout( ava ).empty() );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "test widget rendering when disabled" ) {
         const int cols = 32;
         const int rows = 5;

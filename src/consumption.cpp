@@ -98,16 +98,10 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
-static const flag_id json_flag_ALLERGEN_BREAD( "ALLERGEN_BREAD" );
 static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
-static const flag_id json_flag_ALLERGEN_DRIED_VEGETABLE( "ALLERGEN_DRIED_VEGETABLE" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
-static const flag_id json_flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
-static const flag_id json_flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
-static const flag_id json_flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
-static const flag_id json_flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 
 static const item_category_id item_category_chems( "chems" );
@@ -198,18 +192,27 @@ static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_bread_allergen( "bread_allergen" );
+static const vitamin_id vitamin_egg_allergen( "egg_allergen" );
+static const vitamin_id vitamin_fruit_allergen( "fruit_allergen" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+static const vitamin_id vitamin_junk_allergen( "junk_allergen" );
+static const vitamin_id vitamin_meat_allergen( "meat_allergen" );
+static const vitamin_id vitamin_milk_allergen( "milk_allergen" );
+static const vitamin_id vitamin_nut_allergen( "nut_allergen" );
+static const vitamin_id vitamin_veggy_allergen( "veggy_allergen" );
+static const vitamin_id vitamin_wheat_allergen( "wheat_allergen" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
-static const std::array<flag_id, 6> carnivore_blacklist {{
-        json_flag_ALLERGEN_VEGGY, json_flag_ALLERGEN_FRUIT,
-        json_flag_ALLERGEN_WHEAT, json_flag_ALLERGEN_NUT,
-        json_flag_ALLERGEN_BREAD, json_flag_ALLERGEN_DRIED_VEGETABLE
+static const std::array<vitamin_id, 5> carnivore_blacklist {{
+        vitamin_veggy_allergen, vitamin_fruit_allergen,
+        vitamin_wheat_allergen, vitamin_nut_allergen,
+        vitamin_bread_allergen
     }};
 
-static const std::array<flag_id, 2> herbivore_blacklist {{
-        json_flag_ALLERGEN_MEAT, json_flag_ALLERGEN_EGG
+static const std::array<vitamin_id, 2> herbivore_blacklist{ {
+        vitamin_meat_allergen, vitamin_egg_allergen
     }};
 
 // TODO: Move pizza scraping here.
@@ -230,7 +233,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
-        comest.has_any_flag( carnivore_blacklist ) ) {
+        comest.has_any_vitamin( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
     }
@@ -766,20 +769,20 @@ float Character::metabolic_rate() const
 
 morale_type Character::allergy_type( const item &food ) const
 {
-    using allergy_tuple = std::tuple<trait_id, flag_id, morale_type>;
+    using allergy_tuple = std::tuple<trait_id, vitamin_id, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
-            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, morale_antimeat ),
-            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, morale_antiveggy ),
-            std::make_tuple( trait_LACTOSE, flag_ALLERGEN_MILK, morale_lactose ),
-            std::make_tuple( trait_ANTIFRUIT, flag_ALLERGEN_FRUIT, morale_antifruit ),
-            std::make_tuple( trait_ANTIJUNK, flag_ALLERGEN_JUNK, morale_antijunk ),
-            std::make_tuple( trait_ANTIWHEAT, flag_ALLERGEN_WHEAT, morale_antiwheat )
+            std::make_tuple( trait_VEGETARIAN, vitamin_meat_allergen, morale_antimeat ),
+            std::make_tuple( trait_MEATARIAN, vitamin_veggy_allergen, morale_antiveggy ),
+            std::make_tuple( trait_LACTOSE, vitamin_milk_allergen, morale_lactose ),
+            std::make_tuple( trait_ANTIFRUIT, vitamin_fruit_allergen, morale_antifruit ),
+            std::make_tuple( trait_ANTIJUNK, vitamin_junk_allergen, morale_antijunk ),
+            std::make_tuple( trait_ANTIWHEAT, vitamin_wheat_allergen, morale_antiwheat )
         }
     };
 
     for( const auto &tp : allergy_tuples ) {
         if( has_trait( std::get<0>( tp ) ) &&
-            food.has_flag( std::get<1>( tp ) ) ) {
+            food.has_vitamin( std::get<1>( tp ) ) ) {
             return std::get<2>( tp );
         }
     }
@@ -897,13 +900,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     if( has_trait( trait_CARNIVORE ) && nutrition_for( food ) > 0 &&
-        food.has_any_flag( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+        food.has_any_vitamin( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "Eww.  Inedible plant stuff!" ) );
     }
 
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
+        food.has_any_vitamin( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
@@ -1567,7 +1570,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
+        food.has_any_vitamin( herbivore_blacklist ) ) {
         // No good can come of this.
         return false;
     }

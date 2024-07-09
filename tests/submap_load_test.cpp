@@ -46,11 +46,11 @@ static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" )
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-static const point &corner_ne = point_zero;
-static const point corner_nw( SEEX - 1, 0 );
-static const point corner_se( 0, SEEY - 1 );
-static const point corner_sw( SEEX - 1, SEEY - 1 );
-static const point random_pt( 4, 7 );
+static const point_sm_ms &corner_ne = point_sm_ms_zero;
+static const point_sm_ms corner_nw( SEEX - 1, 0 );
+static const point_sm_ms corner_se( 0, SEEY - 1 );
+static const point_sm_ms corner_sw( SEEX - 1, SEEY - 1 );
+static const point_sm_ms random_pt( 4, 7 );
 
 static std::string submap_empty_ss(
     "{\n"
@@ -1044,7 +1044,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     // Also, check we have no other furniture
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1085,7 +1085,7 @@ TEST_CASE( "submap_trap_load", "[submap][load]" )
     // Also, check we have no other traps
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1133,7 +1133,7 @@ TEST_CASE( "submap_rad_load", "[submap][load]" )
             rad = -1;
         }
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 rads[x] = sm.get_radiation( tested );
@@ -1202,7 +1202,7 @@ TEST_CASE( "submap_item_load", "[submap][load]" )
     // Also, check we have no other items
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1275,7 +1275,7 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     // Also, check we have no other fields
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1382,15 +1382,15 @@ TEST_CASE( "submap_spawns_load", "[submap][load]" )
     } );
 
     // We placed a unique spawn in a couple of places. Check that those are correct
-    INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x, nw.pos.y, nw.count, nw.type.str(),
+    INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x(), nw.pos.y(), nw.count, nw.type.str(),
                          nw.friendly ? "friendly" : "hostile", nw.name.value_or( "NONE" ) ) );
-    INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x, ne.pos.y, ne.count, ne.type.str(),
+    INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x(), ne.pos.y(), ne.count, ne.type.str(),
                          ne.friendly ? "friendly" : "hostile", ne.name.value_or( "NONE" ) ) );
-    INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x, sw.pos.y, sw.count, sw.type.str(),
+    INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x(), sw.pos.y(), sw.count, sw.type.str(),
                          sw.friendly ? "friendly" : "hostile", sw.name.value_or( "NONE" ) ) );
-    INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x, se.pos.y, se.count, se.type.str(),
+    INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x(), se.pos.y(), se.count, se.type.str(),
                          se.friendly ? "friendly" : "hostile", se.name.value_or( "NONE" ) ) );
-    INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x, ra.pos.y, ra.count, ra.type.str(),
+    INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x(), ra.pos.y(), ra.count, ra.type.str(),
                          ra.friendly ? "friendly" : "hostile", ra.name.value_or( "NONE" ) ) );
     // Require to prevent the lower CHECK from being spammy
     CHECK( nw.count == 3 );
@@ -1464,7 +1464,7 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     REQUIRE( is_normal_submap( sm, checks ) );
     // Just check there are computers in the right place
     // Checking more is complicated
-    REQUIRE( sm.has_computer( point_south ) );
+    REQUIRE( sm.has_computer( point_sm_ms( point_south ) ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
 }
 

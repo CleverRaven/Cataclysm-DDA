@@ -41,6 +41,7 @@
           "x": 0,
           "y": 0
         },
+        { "chunks": [ { "param": "unique_foe", "fallback": "mnm_more_density" } ], "x": 0, "y": 0 },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
         { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
@@ -59,7 +60,7 @@
           "chance": 80,
           "x": [ 0, 23 ],
           "y": [ 0, 23 ],
-          "repeat": [ 10, 20 ]
+          "repeat": [ 1, 5 ]
         }
       ]
     }
@@ -234,7 +235,7 @@
         " c  6|^ dh=  = hdhB|c   ",
         " c  c||||||  |||||||c   ",
         " c  c|    2  2    F|c   ",
-        "     |    |  |     |    "
+        "     |    |  |    ||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -246,7 +247,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "   |      |  |    |     ",
+        "     |UUUU|  |    |     ",
         "  U||||||||  |tt  2     ",
         "  U|D@D@D@|  |||||||||||",
         "  U| @ @ @|   htth  ^V |",
@@ -269,7 +270,7 @@
         "  U| @ @ @|  |     |U   ",
         "  U|D@D@D@|  |@   h|U   ",
         "  U||||||||  |@D  t|U   ",
-        "   |      |  |||||||    "
+        "     |UUUU|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -316,9 +317,9 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "          |  |     |    ",
-        "   U   h U|  |U   U|U   ",
-        "   U ccc U|  |U   U|U  |",
+        "          |  |          ",
+        "   U   h U|  |U  U|U    ",
+        "   U ccc U|  |U  U|U   |",
         "   ||||||||22|U        |",
         "   2      2  |6h  UU   |",
         "||||(((((((  |||||||((2|",
@@ -338,8 +339,8 @@
         "    Uc  UU(  |    R|U   ",
         " c        2  |yyyyy|U   ",
         " c        (  |     |U   ",
-        " c |c cc c|  |     |U   ",
-        "   |      |  |||||||    "
+        " c   |cc c|  |     |U   ",
+        "     |    |  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -408,8 +409,8 @@
         "  U|       YY|22(((|U   ",
         "  U|       YY|  cc6|U   ",
         "  U|2|||2||22|   h |U   ",
-        "   | c|U U|  |FFFFF|U   ",
-        "   |      |  |||||||    "
+        "     |U  U|  |FFFFF|U   ",
+        "     |U  U|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -442,9 +443,9 @@
         "|2||  |||2|  |    6|((2|",
         "  U|       YY|22(((|6   ",
         "  U|       YY|  666|c   ",
-        "  U|2|||2||22|   h |c   ",
-        "   | c|U U|  |^BBB^|U   ",
-        "   |      |  |||||||    "
+        "  U|||||2||22|   h |c   ",
+        "    i|U  U|  |^BBB^|U   ",
+        "    c|U  U|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -478,8 +479,8 @@
         "  U|       Y^|22(((|6   ",
         "  U|  ^^   Y^|  666|c   ",
         "  U|2|||2||2||   h |c   ",
-        "   U |UU U|  |^BBB^|U   ",
-        "     |    |  |||||||    "
+        "    i|U  U|  |^BBB^|U   ",
+        "    c|U  U|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }

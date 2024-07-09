@@ -520,5 +520,95 @@
     "min": 0,
     "max": 10000,
     "rate": "1 h"
+  },
+  {
+    "id": "meat_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Meat" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "veggy_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Veggy" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "wheat_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Wheat" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "egg_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Egg" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "fruit_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Fruit" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "junk_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Fruit" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "nut_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Nut" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "bread_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Bread" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "milk_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Milk" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
   }
 ]

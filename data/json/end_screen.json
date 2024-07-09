@@ -1,0 +1,64 @@
+[
+  {
+    "type": "end_screen",
+    "id": "death_tombstone",
+    "priority": 0,
+    "picture_id": "ascii_tombstone",
+    "condition": { "not": "u_is_alive" },
+    "added_info": [
+      [ [ 6, 8 ], "In memory of: <u_name>" ],
+      [ [ 13, 9 ], "Survived: <time_survived>" ],
+      [ [ 15, 10 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "death_cross",
+    "priority": 100,
+    "picture_id": "ascii_rip_cross",
+    "condition": {
+      "and": [
+        { "not": "u_is_alive" },
+        {
+          "or": [ { "u_has_item": "holybook_bible1" }, { "u_has_item": "holybook_bible2" }, { "u_has_item": "holybook_bible3" } ]
+        },
+        { "not": { "and": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] } }
+      ]
+    },
+    "added_info": [
+      [ [ 8, 8 ], "In memory of: <color_green><u_name></color>" ],
+      [ [ 15, 9 ], "Survived: <time_survived>" ],
+      [ [ 17, 10 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "death_inverted_cross",
+    "priority": 100,
+    "picture_id": "ascii_rip_inverted_cross",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "or": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] } ] },
+    "added_info": [
+      [ [ 8, 14 ], "In memory of: <color_green><u_name></color>" ],
+      [ [ 15, 15 ], "Survived: <time_survived>" ],
+      [ [ 17, 16 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  },
+  {
+    "type": "end_screen",
+    "id": "portal_storm_win",
+    "priority": 200,
+    "picture_id": "ascii_portal_storm_win",
+    "condition": { "and": [ { "not": "u_is_alive" }, { "u_has_effect": "a_winner_is_u" } ] },
+    "added_info": [
+      [ [ 6, 6 ], "You <color_pink>won</color>" ],
+      [ [ 8, 7 ], "<u_name>..." ],
+      [ [ 4, 10 ], "...<u_name>, who's that?" ],
+      [ [ 15, 11 ], "Not your problem anymore." ],
+      [ [ 9, 15 ], "What a <color_pink>success</color>." ],
+      [ [ 4, 21 ], "Something struggled for: <time_survived>" ]
+    ]
+  }
+]

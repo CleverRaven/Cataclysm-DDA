@@ -6,7 +6,7 @@
     "description": "A candle burns the most brightly at both ends, and yet it burns twice as fast.",
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
@@ -73,6 +73,6 @@
     "max_level": 35,
     "difficulty": 6,
     "spell_class": "SOULFIRE",
-    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true }, { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true }, { "id": "eoc_enhancement_setup", "hit_self": true } ]
   }
 ]

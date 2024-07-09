@@ -11,8 +11,7 @@ import json
 mods_this_time = []
 
 exclusions = [
-    # #74443 - incompatibility between mindovermatter and aftershock due to bug
-    ('mindovermatter', 'aftershock')
+    # Tuple of (mod_id, mod_id) - these two mods will be incompatible
 ]
 
 
