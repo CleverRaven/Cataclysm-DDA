@@ -1320,7 +1320,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear",
     "type": "talk_topic",
-    "dynamic_line": "[yeah i think we got some that'll be $400]",
+    "dynamic_line": "Mayhaps this gear will do you better than it did the scuffers wot trained with it. [$400]",
     "responses": [
       {
         "text": "[deal]",
