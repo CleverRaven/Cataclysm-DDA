@@ -415,7 +415,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan",
-    "dynamic_line": "[okie dokie i got an idea 4 how we can do this.  theres 2 bandits who got a shitmobile, good enough to blow up i need u to go kill em.  i'll pick it up later]",
+    "dynamic_line": "OK so I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits I'll pick up the truck later",
     "responses": [
       { "text": "[heck yeah bro]", "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" }, "topic": "TALK_DONE" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
