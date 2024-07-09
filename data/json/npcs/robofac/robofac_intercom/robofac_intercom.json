@@ -394,7 +394,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP"
       },
       {
-        "text": "[can i buy riot armor?  I need 5 whole sets]",
+        "text": "I need some gear to outfit my crew, I think five sets of police riot armor would do the trick.",
         "condition": {
           "and": [
             { "u_has_faction_trust": 5 },
