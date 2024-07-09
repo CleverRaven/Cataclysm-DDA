@@ -84,7 +84,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
       },
       {
-        "text": "[can i buy riot armor?  I need 5 whole sets]",
+        "text": "Anychance I can buy some riot armor? I need five complete sets.",
         "condition": {
           "and": [
             { "u_has_faction_trust": 2 },
