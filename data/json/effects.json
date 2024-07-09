@@ -2111,6 +2111,7 @@
       "h_mod_chance_bot": [ 120, 360 ],
       "int_mod": [ -1, 0 ]
     },
+    "effect_dur_scaling": [ { "effect_id": "bite", "modifier": 1.5, "same_bp": false } ],
     "max_duration": "15 m"
   },
   {
