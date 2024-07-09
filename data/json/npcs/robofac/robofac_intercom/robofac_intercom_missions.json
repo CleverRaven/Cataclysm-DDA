@@ -1096,7 +1096,7 @@
     "dynamic_line": "I appreciate the credit.  I've got your payment now.",
     "responses": [
       {
-        "text": "[you're welcome.]",
+        "text": "Good thing you came back with the money.  Your mission work out?",
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 8 },
           { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true }
