@@ -397,7 +397,10 @@
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb",
     "dynamic_line": "How does this all come together?",
     "responses": [
-      { "text": "Well, we are going to turn this truck into a bomb that'll give us a big enough opening in the tower to let out some of the heat and gas.  But small enough that it won't kill Luke unless it's right next to him.", "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy" },
+      {
+        "text": "Well, we are going to turn this truck into a bomb that'll give us a big enough opening in the tower to let out some of the heat and gas.  But small enough that it won't kill Luke unless it's right next to him.",
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -407,7 +410,10 @@
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy",
     "dynamic_line": "Are you serious?  This is your brother we are risking here!",
     "responses": [
-      { "text": "Exactly, and I wouldn't do anything to risk him unnecessarily.", "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan" },
+      {
+        "text": "Exactly, and I wouldn't do anything to risk him unnecessarily.",
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -417,7 +423,11 @@
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan",
     "dynamic_line": "OK so I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits I'll pick up the truck later",
     "responses": [
-      { "text": "I think I can manage two bandits.", "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" }, "topic": "TALK_DONE" },
+      {
+        "text": "I think I can manage two bandits.",
+        "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" },
+        "topic": "TALK_DONE"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "Surely we can think of a better way in.", "topic": "TALK_DONE" }
     ]
