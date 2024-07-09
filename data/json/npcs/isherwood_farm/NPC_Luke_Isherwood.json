@@ -439,7 +439,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Done",
-    "dynamic_line": "[sweet now I'll make the bomb thanks bro.]",
+    "dynamic_line": "I've got everything I need to make this breaching truck for us.  Thanks!",
     "responses": [ { "text": "[heck yeah]", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" } ]
   },
   {
