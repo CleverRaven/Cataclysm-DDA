@@ -1376,7 +1376,7 @@
     "dynamic_line": "Thanks Rubik, I'll be back with your payment soon.",
     "responses": [
       {
-        "text": "[here it is]",
+        "text": "Right and done, don't let whatever you are going after turn you into a pork loin well done.  I's expectin, you back.",
         "effect": [
           {
             "u_spend_cash": 40000,
