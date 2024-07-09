@@ -48,6 +48,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "itype.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -60,6 +61,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "npctalk_rules.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -2280,6 +2282,26 @@ void parse_tags( std::string &phrase, const talker &u, const talker &me, const d
                 cityname = c->name;
             }
             phrase.replace( fa, l, cityname );
+        } else if( tag.find( "<time_survived>" ) == 0 ) {
+            std::string time_survived;
+            const time_duration survived = calendar::turn - calendar::start_of_game;
+            const int minutes = to_minutes<int>( survived ) % 60;
+            const int hours = to_hours<int>( survived ) % 24;
+            const int days = to_days<int>( survived );
+            if( days > 0 ) {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
+                time_survived = string_format( "%dd %dh %dm", days, hours, minutes );
+            } else if( hours > 0 ) {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
+                time_survived = string_format( "%dh %dm", hours, minutes );
+            } else {
+                // NOLINTNEXTLINE(cata-translate-string-literal)
+                time_survived = string_format( "%dm", minutes );
+            }
+            phrase.replace( fa, l, time_survived );
+        } else if( tag.find( "<total_kills>" ) == 0 ) {
+            const std::string total_kills = std::to_string( g->get_kill_tracker().monster_kill_count() );
+            phrase.replace( fa, l, total_kills );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -3491,6 +3513,14 @@ talk_effect_fun_t::func f_add_debt( const JsonObject &jo, std::string_view membe
             }
         }
         d.actor( true )->add_debt( debt );
+    };
+}
+
+talk_effect_fun_t::func f_npc_rules_menu()
+{
+    return []( dialogue const & d ) {
+        follower_rules_ui new_ui;
+        new_ui.draw_follower_rules_ui( d.actor( true )->get_npc() );
     };
 }
 
@@ -6725,6 +6755,10 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     }
     if( effect_id == "npc_wants_to_talk" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_wants_to_talk( true ) ) );
+        return;
+    }
+    if( effect_id == "npc_rules_menu" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_npc_rules_menu() ) );
         return;
     }
     jo.throw_error_at( effect_id, "unknown effect string" );

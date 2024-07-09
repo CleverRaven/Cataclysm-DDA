@@ -511,7 +511,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -537,7 +537,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -563,7 +563,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -589,7 +589,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -615,7 +615,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -641,7 +641,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },

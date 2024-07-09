@@ -179,7 +179,8 @@
         { "not": "u_can_drop_weapon" }
       ]
     },
-    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ],
+    "ench_effects": [ { "effect": "quadruped_half", "intensity": 1 } ]
   },
   {
     "id": "combat_exoskeleton_inactive",

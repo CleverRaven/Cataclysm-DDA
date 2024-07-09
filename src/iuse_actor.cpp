@@ -3929,6 +3929,10 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
     p->mod_moves( -move_cost_final );
 
     place_and_add_as_known( *p, pos, data.trap );
+    const trap &placed_trap = here.tr_at( pos );
+    if( !placed_trap.is_null() ) {
+        const_cast<trap &>( placed_trap ).set_trap_data( it.typeId() );
+    }
     for( const tripoint &t : here.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
         if( t != pos ) {
             place_and_add_as_known( *p, t, outer_layer_trap );

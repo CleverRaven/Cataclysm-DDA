@@ -5,7 +5,7 @@
     "dynamic_line": "Any time, what's on your mind?",
     "responses": [
       { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
-      { "text": "(Raise your hand for a high-five)", "topic": "TALK_Liam_HighFive" },
+      { "text": "[Raise your hand for a high-five.]", "topic": "TALK_Liam_HighFive" },
       { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
       {
@@ -38,8 +38,8 @@
       "*pretends to fake you out for a moment, then grins and returns the high five"
     ],
     "responses": [
-      { "text": "(Nod and continue talking)", "topic": "TALK_NONE" },
-      { "text": "(Nod and head on out)", "topic": "TALK_DONE" }
+      { "text": "[Nod and continue talking.]", "topic": "TALK_NONE" },
+      { "text": "[Nod and head on out.]", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -92,7 +92,7 @@
       "no": "Aww, of course.  No matter what happens, you're always you and I'm always me, right?  We've been through worse than this.\"  He pauses, his brow furrowed.  \"Well, okay, maybe we haven't.  But we've stuck through it all for so many years, what's a little apocalypse gonna change?  Or a little mutation, or grievous bodily harm, or zombies, or interdimensional monster attacks and serious life-altering PTSD, or whatever.  Who cares.  You're my family, more than my birth family ever was.",
       "yes": "<talk_snippet_modded_liam_Friends4ever>"
     },
-    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Continue chatting.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -102,7 +102,7 @@
       "Well, I mean, there's the obvious stuff like, uh, video streaming,\" he winks at you, \"but I think lately I'm missing Wikipedia.  I have all these random questions about things, and I can't answer them.  I feel like I'm living in a box.  How did we survive for thousands of years like this?",
       "Online restaurant reviews.\"  He stares at you without a shred of irony.  \"I'm serious, I used to love browsing looking for the funniest or weirdest reviews.  I guess I could broaden it, I miss pointless doom scrolling.  It's harder to find things to keep my mind off things now, and I've got more I wish I could keep my mind off.  What about you?"
     ],
-    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Continue chatting.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -111,7 +111,7 @@
       "*laughs.  \"You know me, I was never high on the ambition front.  Honestly, if you weren't around I'd probably clean up my dad's old cabin, try to learn how to set up a power supply, and scavenge for parts until I'd built the best damn gaming rig the world will ever see.  Then I'd load up whatever games I could find.\"  He pauses.  \"Or maybe it'd be easier to set up a console, I dunno.  Most consoles aren't gonna like the no-internet thing right?  There's probably a way to crack 'em but without the internet where would we even check?\"  He rubs his chin.  \"Still.  I'd have maybe found a way.  How about you, what's the big overarching plan for all this?\"",
       "Oh, well.  I don't really think of life that way, you know?  I guess I'm pretty happy to just hang out with you, doing the shit we're doing, seeing what life brings.  Still, I guess I could see settling down somewhere nice, somewhere quiet, somewhere zombie-free.  I bet it wouldn't take long to get enough food and supplies to live on forever, and then I'd just let myself turn into some kinda wild bush man, with a big crazy long beard.  I'd smell like weed and B.O. and I'd have this giant stack of books to read.  Other survivors would come find me, like a guru on a mountaintop, to ask me questions about Batman.  In time, as the old world was forgotten, I'd convince them that he was a real person.\"  He grins.  \"How 'bout you?"
     ],
-    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Continue chatting.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -120,7 +120,7 @@
       "Oh dude, good question.  The news reports made it sound like this is everywhere, you know?  Still, somewhere out there's gotta be better than this, right?  Maybe like, up in the Yukon or Siberia or something it's all kinda normal?  I think most places are like this though, just one big fucked up mess.  Maybe they've got different monsters though, like, carnivorous rocks or some shit.  How 'bout you, what do you think is out there?",
       "See, I like that about you.  Here we are just trying to keep alive and you're thinking all these big thoughts about the rest of the world.  I got no clue how they're doing out there, so I'm just gonna imagine that things are kinda like here, but maybe a bit better.  There's a few places where folks have settled in and they're figuring stuff out.  Those folks are gonna last a long time, maybe they're how we start rebuilding."
     ],
-    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Continue chatting.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -131,7 +131,7 @@
       "You know, my friend, I could really go for an egg salad sandwich right now.  Nice, fresh eggs, some cheap-ass white bread, bit of pickle on there, hint of mustard.  Egg salad gets a bad rap because it sucks if you get it from the store, but you make a good homemade one?  That's something else, I tell you.  What's your poison?",
       "You know, I'm kinda in the mood for some pub nachos right now.  The whole pub ambience would be good too, but I like how they'd put 'em on wax paper that'd be so soaked with cheese grease you could see right through it.  Those little black olive wheels that tasted like rubber, they were only ever good with pub nachos, you know?  Any other time, garbage.  I'd love to have a big tray of pub nachos, go to a karaoke night, and just sing fuckin' Abba songs until my throat hurt.  You in?"
     ],
-    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Continue chatting.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

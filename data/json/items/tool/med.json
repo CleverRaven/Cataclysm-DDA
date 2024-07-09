@@ -360,7 +360,6 @@
     "symbol": ";",
     "color": "light_cyan",
     "use_action": [ "BLOOD_DRAW" ],
-    "flags": [ "SPEAR" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

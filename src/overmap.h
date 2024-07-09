@@ -568,6 +568,89 @@ class overmap
         oter_id get_or_migrate_oter( const std::string &oterid );
 };
 
+// A small LRU cache: most oter_id's occur in clumps like forests of swamps.
+// This cache helps avoid much more costly lookups in the full hashmap.
+struct oter_display_lru {
+    static constexpr size_t cache_size = 8; // used below to calculate the next index
+    std::array<std::pair<oter_id, oter_t const *>, cache_size> cache;
+    size_t cache_next = 0;
+
+    std::pair<std::string, nc_color> get_symbol_and_color( const oter_id &cur_ter );
+};
+
+// "arguments" to oter_symbol_and_color that do not change between calls in a batch
+struct oter_display_options {
+    struct npc_coloring {
+        nc_color color;
+        size_t count = 0;
+    };
+
+    oter_display_options( tripoint_abs_omt orig, int sight_range ) :
+        center( orig ), sight_points( sight_range ) {}
+
+    // Needs a better name
+    // Whether or not to draw all sorts of overlays that can blink on the overmap
+    bool blink = true;
+    // Show debug scent symbols
+    bool debug_scent = false;
+    // Show mission location by drawing a red background instead of overwriting the tile
+    bool hilite_mission = false;
+    // Draw the PC location with `hilite()` (blue bg-ish) on terrain at loc instead of '@'
+    bool hilite_pc = false;
+    // If false, and there is a mission, draw an an indicator towards the mission target on an edge
+    bool mission_inbounds = true;
+    // Darken explored tiles
+    bool show_explored = true;
+    bool showhordes = true;
+    // Hilight oters revealed by map use
+    bool show_map_revealed = false;
+    // Draw anything for the PC (assumed to be at center)
+    bool show_pc = true;
+    // Draw the weather tiles instead of terrain
+    bool show_weather = false;
+
+    // Where the PC is/the center of the map
+    tripoint_abs_omt center;
+    // How far the PC can see
+    int sight_points;
+
+    std::optional<tripoint_abs_omt> mission_target = std::nullopt;
+    // Locations of NPCs to draw
+    std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
+    // NPC/player paths to draw
+    std::unordered_set<tripoint_abs_omt> npc_path_route;
+    std::unordered_map<point_abs_omt, int> player_path_route;
+
+    // Zone to draw and location
+    std::string sZoneName;
+    tripoint_abs_omt tripointZone = tripoint_abs_omt( -1, -1, -1 );
+
+    // Internal bookkeeping value - only draw edge mission indicator once
+    mutable bool drawn_mission = false;
+};
+
+// arguments for oter_symbol_and_color pertaining to a single point
+struct oter_display_args {
+
+    explicit oter_display_args( bool seen ) : see( seen ) {}
+
+    // Can the/has the PC seen this tile
+    bool see;
+    // If this tile is on the edge of the drawn tiles, we may draw a mission indicator on it
+    bool edge_tile = false;
+    // Check if location is within player line-of-sight
+    // These ints are treated as unassigned booleans. Use get_and_assign_los() to reference
+    // This allows for easy re-use of these variables without the unnecessary lookups if they aren't used
+    int los = -1;
+    int los_sky = -1;
+};
+
+// Symbol and color to display a overmap tile as - depending on notes, overlays, etc...
+// args are updated per call, opts are generated before a batch of calls.
+// A pointer to lru may be provided for possible speed improvements.
+std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &omp,
+        oter_display_args &args, const oter_display_options &opts, oter_display_lru *lru = nullptr );
+
 bool is_river( const oter_id &ter );
 bool is_water_body( const oter_id &ter );
 bool is_lake_or_river( const oter_id &ter );

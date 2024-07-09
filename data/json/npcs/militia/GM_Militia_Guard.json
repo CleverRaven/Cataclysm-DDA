@@ -38,7 +38,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello again.",
-      "no": "I'm busy on watch duty.  Talk to the Boss inside."
+      "no": "I'm busy on watch duty.  Talk to the Boss upstairs."
     },
     "responses": [
       { "text": "What are you doing?", "topic": "TALK_MILITIA_GUARD1_Introduction" },
@@ -48,7 +48,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_GUARD1_Introduction",
-    "dynamic_line": "I'm on watch duty.  Talk to the Boss.  He's inside.",
+    "dynamic_line": "I'm on watch duty.  Talk to the Boss.  He's upstairs.",
     "responses": [ { "text": "…", "topic": "TALK_NONE" } ]
   },
   {

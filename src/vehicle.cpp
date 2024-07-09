@@ -149,7 +149,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
     const vehicle_part &vp = veh.part( part );
-    const tripoint part_pos = veh.global_part_pos3( vp );
+    const tripoint_bub_ms part_pos = veh.bub_part_pos( vp );
 
     // If the player is currently working on the removed part, stop them as it's futile now.
     const player_activity &act = player_character.activity;
@@ -165,7 +165,7 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
     // TODO: maybe do this for all the nearby NPCs as well?
     if( player_character.get_grab_type() == object_type::VEHICLE &&
-        player_character.pos() + player_character.grab_point == part_pos ) {
+        player_character.pos_bub() + player_character.grab_point == part_pos ) {
         if( veh.parts_at_relative( vp.mount, false ).empty() ) {
             add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
             player_character.grab( object_type::NONE );
@@ -173,9 +173,9 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     }
 
     here.dirty_vehicle_list.insert( &veh );
-    here.clear_vehicle_point_from_cache( &veh, part_pos );
+    here.clear_vehicle_point_from_cache( &veh, part_pos.raw() );
     here.add_vehicle_to_cache( &veh );
-    here.memory_cache_dec_set_dirty( part_pos, true );
+    here.memory_cache_dec_set_dirty( part_pos.raw(), true );
     player_character.memorize_clear_decoration(
         here.getglobal( part_pos ), "vp_" + vp.info().id.str() );
 }
@@ -1862,7 +1862,7 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
     }
     // Release grab if player is dragging either appliance
     if( get_avatar().get_grab_type() == object_type::VEHICLE ) {
-        const tripoint grab_point = get_avatar().pos() + get_avatar().grab_point;
+        const tripoint_bub_ms grab_point = get_avatar().pos_bub() + get_avatar().grab_point;
         const optional_vpart_position grabbed_veh = get_map().veh_at( grab_point );
         if( grabbed_veh && ( &grabbed_veh->vehicle() == this || &grabbed_veh->vehicle() == &veh_target ) ) {
             add_msg( _( "You release the %s." ), grabbed_veh->vehicle().name );
@@ -5852,7 +5852,7 @@ void vehicle::make_active( item_location &loc )
     }
     // System insures that there is only one part in this vector.
     vehicle_part *cargo_part = cargo_parts.front();
-    active_items.add( target, cargo_part->mount );
+    active_items.add( target, point_rel_ms( cargo_part->mount ) );
 }
 
 int vehicle::add_charges( vehicle_part &vp, const item &itm )
@@ -5911,7 +5911,7 @@ std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &vp, cons
     }
 
     const vehicle_stack::iterator new_pos = vp.items.insert( itm_copy );
-    active_items.add( *new_pos, vp.mount );
+    active_items.add( *new_pos, point_rel_ms( vp.mount ) );
 
     invalidate_mass();
     return std::optional<vehicle_stack::iterator>( new_pos );
@@ -6188,7 +6188,7 @@ void vehicle::refresh_active_item_cache()
         auto it = vs.begin();
         auto end = vs.end();
         for( ; it != end; ++it ) {
-            active_items.add( *it, vp.mount() );
+            active_items.add( *it, point_rel_ms( vp.mount() ) );
         }
     }
 }
@@ -6729,31 +6729,32 @@ void vehicle::do_towing_move()
     } else {
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
-    if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
-    } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
-        accel_y = 10;
-        towed_veh->selfdrive( point( turn_x, accel_y ) );
-    } else {
-        towed_veh->skidding = true;
-        std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
-                                                here.bub_from_abs( tower_tow_point ).raw() );
-        tripoint nearby_destination;
-        if( lineto.size() >= 2 ) {
-            nearby_destination = lineto[1];
-        } else {
-            nearby_destination = tower_tow_point;
-        }
-        const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
-                                          nearby_destination.xy() +
-                                          tripoint( 0, 0, towed_veh->global_pos3().z ) );
-        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                         clamp( destination_delta.y, -1, 1 ),
-                                         clamp( destination_delta.z, -1, 1 ) );
-        here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-        towed_veh->move = tileray( destination_delta.xy() );
-    }
 
+    switch( towed_veh->tow_data.tow_direction ) {
+        case TOW_FRONT:
+        case TOW_BACK:
+            towed_veh->selfdrive( point( turn_x, accel_y ) );
+            break;
+
+        default:
+            towed_veh->skidding = true;
+            std::vector<tripoint> lineto = line_to( here.bub_from_abs( towed_tow_point ).raw(),
+                                                    here.bub_from_abs( tower_tow_point ).raw() );
+            tripoint nearby_destination;
+            if( lineto.size() >= 2 ) {
+                nearby_destination = lineto[1];
+            } else {
+                nearby_destination = tower_tow_point;
+            }
+            const tripoint destination_delta( here.bub_from_abs( tower_tow_point ).raw().xy() -
+                                              nearby_destination.xy() +
+                                              tripoint( 0, 0, towed_veh->global_pos3().z ) );
+            const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
+                                             clamp( destination_delta.y, -1, 1 ),
+                                             clamp( destination_delta.z, -1, 1 ) );
+            here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
+            towed_veh->move = tileray( destination_delta.xy() );
+    }
 }
 
 bool vehicle::is_external_part( const tripoint &part_pt ) const
@@ -7274,7 +7275,7 @@ void vehicle::damage_all( int dmg1, int dmg2, const damage_type_id &type, const 
 void vehicle::shift_parts( map &here, const point &delta )
 {
     // Don't invalidate the active item cache's location!
-    active_items.subtract_locations( delta );
+    active_items.subtract_locations( point_rel_ms( delta ) );
     for( vehicle_part &elem : parts ) {
         elem.mount -= delta;
     }
@@ -7873,8 +7874,8 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
     }
 
     // TODO: fix point types
-    return ( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
-             sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
+    return ( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) ||
+             sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_CURRENT ) );
 }
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
@@ -7895,8 +7896,8 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
     }
 
     // TODO: fix point types
-    return !( sm->get_ter( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
-              sm->get_furn( p.raw() ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
+    return !( sm->get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) ||
+              sm->get_furn( p ).obj().has_flag( ter_furn_flag::TFLAG_INDOORS ) );
 }
 
 void vehicle::update_time( const time_point &update_to )

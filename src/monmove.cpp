@@ -64,6 +64,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_immobilization( "immobilization" );
 static const efftype_id effect_led_by_leash( "led_by_leash" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
@@ -282,6 +283,11 @@ bool monster::can_reach_to( const tripoint &p ) const
 bool monster::can_move_to( const tripoint &p ) const
 {
     return can_reach_to( p ) && will_move_to( p );
+}
+
+bool monster::can_move_to( const tripoint_bub_ms &p ) const
+{
+    return monster::can_move_to( p.raw() );
 }
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
@@ -892,6 +898,10 @@ void monster::move()
         return;
     }
     if( has_flag( mon_flag_IMMOBILE ) || has_flag( mon_flag_RIDEABLE_MECH ) ) {
+        moves = 0;
+        return;
+    }
+    if( has_effect( effect_immobilization ) ) {
         moves = 0;
         return;
     }

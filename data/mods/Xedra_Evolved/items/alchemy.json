@@ -67,7 +67,8 @@
       "activation_message": "You feel better almost instantly.",
       "effects": [ { "id": "curesome" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "prophets_lsd",
@@ -111,6 +112,30 @@
       "type": "consume_drug",
       "activation_message": "You swallow a couple of the large green pills.",
       "vitamins": [ [ "cheval", 1000 ] ]
+    }
+  },
+  {
+    "id": "nether_snare",
+    "type": "TOOL",
+    "name": "snaring pentagram trap",
+    "category": "traps",
+    "properties": { "capture_species": "NETHER" },
+    "description": "A metallic pentagram full of mystic symbols.  Will trap creatures from other dimensions if they wander into it.",
+    "weight": "1 kg",
+    "volume": "1000 ml",
+    "longest_side": "60 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "lead",
+    "symbol": "*",
+    "color": "dark_gray",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_nether_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You set the pentagram snare."
     }
   },
   {

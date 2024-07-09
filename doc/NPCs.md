@@ -356,6 +356,8 @@ Field | Used for...
 `<current_activity>` | displays npc's current activity
 `<punc>` | displays a random punctuation from: `.`, `…`, `!`
 `<mypronoun>` | displays npc's pronoun
+`<total_kills>` | total kills of the Player
+`<time_survived>` | time since start of the game
 `<topic_item>` | referenced item
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
@@ -1419,9 +1421,9 @@ These can be read or written to with `val()`.
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
-| `power` | ✅ | Bionic power in millijoule. |
-| `power_percentage` | ✅ | Percentage of max bionic power |
-| `power_max` | ❌ | Max bionic power in millijoule. |
+| `power` | ✅ | Bionic or item power in millijoule. |
+| `power_percentage` | ✅ | Percentage of max bionic or item power |
+| `power_max` | ❌ | Max bionic or item power in millijoule. |
 | `rad` | ✅ | Current radiation level. |
 | `size` | ❌ | Size category from 1 (tiny) to 5 (huge). |
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |

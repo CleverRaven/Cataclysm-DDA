@@ -10,7 +10,11 @@
         "Not really a good time for a chat.",
         "I can't believe this is happening."
       ],
-      "yes": [ "Barry!  Oh my god, you found him!", "Barry!  You're okay!", "Oh god, oh thank god.  Let's get Barry out of here." ]
+      "yes": [
+        { "gendered_line": "Barry!  Oh my god, you found him!", "relevant_genders": [ "u" ] },
+        "Barry!  You're okay!",
+        "Oh god, oh thank god.  Let's get Barry out of here."
+      ]
     },
     "responses": [
       {
@@ -45,7 +49,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
-    "dynamic_line": "*eyes you up and down with a nervous smile.  \"I almost didn't expect you to show up.\"  He hesitates, letting out a soft laugh.  \"That sounds bad.  I just mean, I can't really believe we're doing this.  Thank you… for doing this.  You ready to get Uncle Barry?\"",
+    "dynamic_line": {
+      "gendered_line": "*eyes you up and down with a nervous smile.  \"I almost didn't expect you to show up.\"  He hesitates, letting out a soft laugh.  \"That sounds bad.  I just mean, I can't really believe we're doing this.  Thank you… for doing this.  You ready to get Uncle Barry?\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "You got it, let's go!", "effect": "follow_only", "topic": "TALK_DONE" },
       { "text": "Not yet, just give me a minute.", "topic": "TALK_DONE" }
