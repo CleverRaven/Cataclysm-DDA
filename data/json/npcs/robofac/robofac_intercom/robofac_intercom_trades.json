@@ -220,7 +220,7 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "yes": "[yeah that'd be interesting tell us when its clear.  you got 20 days to pay.]",
+      "yes": "Well it might be more interesting than straight gear.  Tell us when it's available for inspection.  We expect you back in 20 days or less.",
       "no": "[okie dokie you got 20 days to pay]"
     },
     "responses": [
