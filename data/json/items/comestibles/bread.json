@@ -487,7 +487,7 @@
     "type": "COMESTIBLE",
     "id": "soggy_hardtack",
     "name": { "str_sp": "soggy hardtack" },
-    "weight": "80 g",
+    "weight": "12 g",
     "color": "white",
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
