@@ -169,6 +169,7 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
     const std::vector<tripoint_bub_ms> temp = map::straight_route( tripoint_bub_ms( f ),
             tripoint_bub_ms( t ) );
     std::vector<tripoint> result;
+    result.reserve( temp.size() );
 
     for( const tripoint_bub_ms pt : temp ) {
         result.push_back( pt.raw() );

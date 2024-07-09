@@ -7931,6 +7931,7 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
     const std::vector<tripoint_bub_ms> temp = map::find_clear_path( tripoint_bub_ms( source ),
             tripoint_bub_ms( destination ) );
     std::vector<tripoint> result;
+    result.reserve( temp.size() );
 
     for( tripoint_bub_ms pt : temp ) {
         result.push_back( pt.raw() );
@@ -8185,6 +8186,7 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     const std::vector<tripoint_bub_ms> temp = map::get_dir_circle( tripoint_bub_ms( f ),
             tripoint_bub_ms( t ) );
     std::vector<tripoint> result;
+    result.reserve( temp.size() );
 
     for( const tripoint_bub_ms pt : temp ) {
         result.push_back( pt.raw() );
