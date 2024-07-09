@@ -285,6 +285,11 @@ bool monster::can_move_to( const tripoint &p ) const
     return can_reach_to( p ) && will_move_to( p );
 }
 
+bool monster::can_move_to( const tripoint_bub_ms &p ) const
+{
+    return monster::can_move_to( p.raw() );
+}
+
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
     const FastDistanceApproximation d = rl_dist_fast( pos(), c.pos() );

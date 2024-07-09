@@ -356,6 +356,8 @@ Field | Used for...
 `<current_activity>` | displays npc's current activity
 `<punc>` | displays a random punctuation from: `.`, `…`, `!`
 `<mypronoun>` | displays npc's pronoun
+`<total_kills>` | total kills of the Player
+`<time_survived>` | time since start of the game
 `<topic_item>` | referenced item
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
