@@ -1374,35 +1374,6 @@ void complete_construction( Character *you )
                     }
                 }
             }
-
-            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
-                const tripoint_bub_ms below = terp + tripoint_below;
-                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
-                    const map_bash_info bash_info = here.ter( below ).obj().bash;
-                    // ter_set_bashed_from_above should default to ter_set
-                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
-                        if( below.z() >= -1 ) {
-                            // Stupid to set soil at above the ground level, but if they haven't defined
-                            // anything for the terrain that's what you'll get.
-                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
-                            ter_id converted_terrain = ter_t_dirt;
-                            regional_settings settings = g->get_cur_om().get_settings();
-                            std::map<std::string, int> soil_map =
-                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
-                            if( !soil_map.empty() ) {
-                                converted_terrain = ter_id(
-                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
-                            }
-                            here.ter_set( below, converted_terrain );
-                        } else {
-                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
-                            here.ter_set( below, ter_t_rock_floor );
-                        }
-                    } else {
-                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
-                    }
-                }
-            }
         }
     }
 

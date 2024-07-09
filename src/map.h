@@ -2092,9 +2092,11 @@ class map
          */
         void actualize( const tripoint_rel_sm &grid );
         /**
-         * Hacks in missing roofs. Should be removed when 3D mapgen is done.
+         * Hacks in missing tree tops. It CAN be done in other ways, but it would be a lot of work
+         * to get regional translation code to deal with chunks instead of terrain, and then use these
+         * chunks everywhere instead of tree terrain tokens. Maybe some day...
          */
-        void add_roofs( const tripoint_rel_sm &grid );
+        void add_tree_tops( const tripoint_rel_sm &grid );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
