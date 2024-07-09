@@ -2102,10 +2102,11 @@
     "resist_effects": [ "wet" ],
     "immune_flags": [ "ACID_IMMUNE", "IRRITANT_IMMUNE" ],
     "base_mods": {
+      "pain_amount": [ 1 ],
       "pain_min": [ 1 ],
-      "pain_max_val": [ 8, 6 ],
+      "pain_max_val": [ 4, 2 ],
       "pain_chance": [ 150, 300 ],
-      "health_min_val": [ -30, -10 ],
+      "health_min_val": [ -30, 0 ],
       "health_min": [ -1 ],
       "health_chance": [ 1 ],
       "health_chance_bot": [ 300, 1200 ],
