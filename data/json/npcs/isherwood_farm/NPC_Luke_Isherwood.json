@@ -132,7 +132,7 @@
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Part_2"
       },
       {
-        "text": "[heres the dynamite]",
+        "text": "I've got the dynamite you requested, I can't wait to see how this works out.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
