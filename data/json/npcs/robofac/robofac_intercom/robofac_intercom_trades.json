@@ -197,7 +197,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_NEGOTIATE",
     "type": "talk_topic",
-    "dynamic_line": "[what have you got to offer?]",
+    "dynamic_line": "So we'd need a sweeter deal than just the money if we did this.",
     "responses": [
       {
         "text": "[i can get you money and stuff]",
