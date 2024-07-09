@@ -154,7 +154,8 @@
           "VAMPIRE_NO_BREATHE",
           "VAMPIRE_NO_ILLNESS",
           "VAMPIRE_BAT_FORM",
-          "VAMPIRE_WOLF_FORM"
+          "VAMPIRE_WOLF_FORM",
+          "VAMPIRE_MIST_FORM"
         ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
