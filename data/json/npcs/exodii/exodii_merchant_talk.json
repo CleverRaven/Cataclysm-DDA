@@ -1342,7 +1342,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
-        "text": "[ayo I aint got that cash can I buy on credit?]",
+        "text": "Any chance I can buy gear this on layaway?",
         "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
