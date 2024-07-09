@@ -407,7 +407,7 @@
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy",
     "dynamic_line": "Are you serious?  This is your brother we are risking here!",
     "responses": [
-      { "text": "[trust me bro i know what im doing]", "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan" },
+      { "text": "Exactly, and I wouldn't do anything to risk him unnecessarily.", "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
