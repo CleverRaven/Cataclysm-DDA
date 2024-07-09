@@ -883,7 +883,10 @@
     "price_postapoc": "2 USD 50 cent",
     "quench": -5,
     "fun": 4,
-    "proportional": { "price": 2.0, "volume": 0.345, "weight": 0.345 },
+    "volume": "50 ml",
+    "proportional": { "price": 2.0, "weight": 0.345 },
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "calories": 130,
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -900,7 +903,7 @@
     "price_postapoc": "2 USD 50 cent",
     "quench": -5,
     "fun": 4,
-    "proportional": { "price": 2.0, "volume": 0.345, "weight": 0.345 },
+    "proportional": { "price": 2.0, "weight": 0.345 },
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -966,14 +969,14 @@
     "looks_like": "offal",
     "name": { "str": "piece of raw lung", "str_pl": "pieces of raw lung" },
     "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavorless connective tissue.",
-    "weight": "56 g",
-    "volume": "62 ml",
+    "weight": "45 g",
+    "volume": "50 ml",
     "color": "pink",
     "spoils_in": "1 day",
     "price_postapoc": "6 cent",
     "quench": 2,
     "fun": -10,
-    "calories": 50,
+    "calories": 40,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ] ],
     "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
@@ -2064,7 +2067,7 @@
     "id": "poultry_cooked",
     "copy-from": "flesh",
     "weight": "94 g",
-    "volume": "90 ml",
+    "volume": "100 ml",
     "spoils_in": "2 days",
     "type": "COMESTIBLE",
     "name": { "str_sp": "cooked poultry" },
