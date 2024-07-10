@@ -29,9 +29,9 @@
         "                        ",
         "                        ",
         "                        ",
-        "                       ,"
+        "                        "
       ],
-      "terrain": { " ": "t_null", "R": "t_metal_flat_roof" }
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {

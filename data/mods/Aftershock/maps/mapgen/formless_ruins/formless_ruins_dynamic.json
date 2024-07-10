@@ -772,7 +772,7 @@
         "RRR RR   RR ",
         "RRRRRRR RRRR"
       ],
-      "terrain": { " ": "t_null", "R": "t_metal_flat_roof" }
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {
@@ -830,7 +830,7 @@
         "RRRRRRRRRRRR",
         "RRRRR  RR   "
       ],
-      "terrain": { " ": "t_null", "R": "t_metal_flat_roof" }
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {
@@ -978,7 +978,7 @@
         "      ",
         "     R"
       ],
-      "terrain": { " ": "t_null", "R": "t_metal_flat_roof" }
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {
@@ -1023,7 +1023,7 @@
         "  R RR",
         "  RRRR"
       ],
-      "terrain": { " ": "t_null", "R": "t_metal_flat_roof" }
+      "terrain": { "R": "t_metal_flat_roof" }
     }
   },
   {
