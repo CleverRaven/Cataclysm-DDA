@@ -237,5 +237,60 @@
         "max_radius": 6
       }
     ]
+  },
+  {
+    "id": "electrokinetic_power_draining",
+    "type": "SPELL",
+    "name": "[Ψ]Electrokinetic Power Draining Spell",
+    "description": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING",
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "min_aoe": 5,
+    "max_aoe": 25
+  },
+  {
+    "id": "electrokinetic_power_draining_electric_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Electrokinetic Power Draining monster attack",
+    "description": "Gremlin's power to damage electric monsters.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "max_level": 1,
+    "min_damage": 10,
+    "max_damage": 35
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [
+          { "flags": [ "RECHARGE" ] },
+          { "flags": [ "ELECTRONIC" ] },
+          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+          { "flags": [ "USE_UPS" ] }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
+            "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_cast_spell": { "id": "electrokinetic_power_draining_electric_monster" } } ]
   }
 ]
