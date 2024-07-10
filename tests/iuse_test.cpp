@@ -74,6 +74,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
                     CHECK_FALSE( dummy.has_effect( effect_boomered ) );
                 }
 
+                REQUIRE( dummy.has_effect( effect_conjunctivitis ) );
                 const time_duration conjunctivitis_clock = dummy.get_effect_dur( effect_conjunctivitis );
                 REQUIRE( conjunctivitis_clock > 48_hours );
                 dummy.process_effects();
