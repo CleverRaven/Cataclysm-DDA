@@ -33,6 +33,26 @@ namespace doors
  * checking if it can be closed, etc.
 */
 void close_door( map &m, Creature &who, const tripoint_bub_ms &closep );
+//Forcefully close a door at p.
+//The function checks for creatures/items/vehicles at that point and
+//might kill/harm/destroy them.
+//If there still remains something that prevents the door from closing
+//(e.g. a very big creatures, a vehicle) the door will not be closed and
+//the function returns false.
+//If the door gets closed the terrain at p is set to door_type and
+//true is returned.
+//bash_dmg controls how much damage the door does to the
+//creatures/items/vehicle.
+//If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
+//at all and they will prevent the door from closing.
+//If bash_dmg is smaller than 0, _every_ item on the door tile will
+//prevent the door from closing. If bash_dmg is 0, only very small items
+//will do so, if bash_dmg is greater than 0, items won't stop the door
+//from closing at all.
+//If the door gets closed the items on the door tile get moved away or destroyed.
+//TODO: Get rid of untyped overload.
+bool forced_door_closing(const tripoint& p, const ter_id& door_type, int bash_dmg);
+bool forced_door_closing(const tripoint_bub_ms& p, const ter_id& door_type, int bash_dmg);
 /**
  * Locks a door at "lockp" as "who."
  *
