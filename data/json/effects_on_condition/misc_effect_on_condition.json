@@ -210,7 +210,10 @@
       ]
     },
     "effect": [
-      { "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" }, "then": { "u_lose_effect": "conjunctivitis" } },
+      {
+        "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
+        "then": { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }
+      },
       {
         "u_add_effect": "conjunctivitis",
         "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(259200) + 172800" ] },
