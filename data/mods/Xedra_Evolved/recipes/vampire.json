@@ -147,7 +147,16 @@
     "effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       {
-        "u_roll_remainder": [ "TRUE_VAMPIRE_POWER", "VAMPIRE_TORPOR", "VAMPIRE_DOMINATE", "VAMPIRE_NO_BREATHE", "VAMPIRE_NO_ILLNESS" ],
+        "u_roll_remainder": [
+          "TRUE_VAMPIRE_POWER",
+          "VAMPIRE_TORPOR",
+          "VAMPIRE_DOMINATE",
+          "VAMPIRE_NO_BREATHE",
+          "VAMPIRE_NO_ILLNESS",
+          "VAMPIRE_BAT_FORM",
+          "VAMPIRE_WOLF_FORM",
+          "VAMPIRE_MIST_FORM"
+        ],
         "type": "mutation",
         "true_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_SUCCESS" ],
         "false_eocs": [ "EOC_XE_VAMPIRE_BLOOD_RESEARCH_RESULTS_03" ]

@@ -993,5 +993,214 @@
       }
     ],
     "false_effect": [ { "npc_message": "You don't have enough blood to activate your dominating gaze.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BAT_FORM_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BAT_FORM_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              { "u_add_trait": "ECHOLOCATION" },
+              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_spell_level('vampire_bat_form_fly_upward')", "=", "0" ] },
+              {
+                "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to transform into a bat.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRE_BAT_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_BAT_FORM_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+            "effect": [
+              { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              { "u_lose_trait": "ECHOLOCATION" },
+              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_spell_level('vampire_bat_form_fly_upward')", "=", "-1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BAT_FORM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_BAT_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BAT_FORM_ASCEND",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_location_variable": { "context_val": "vampire_bat_fly_up_location" }, "z_adjust": 1, "outdoor_only": true },
+      { "u_message": "Your wings carry you upward.", "type": "good" },
+      { "u_teleport": { "context_val": "vampire_bat_fly_up_location" } }
+    ],
+    "false_effect": [ { "u_message": "You cannot fly up with a ceiling above you!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_WOLF_FORM_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_WOLF_FORM_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+              {
+                "u_message": "Your nose pushes out into a muzzle as you fall forward on all fours and let out a snarl.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to transform into a wolf.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRE_WOLF_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_WOLF_FORM_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+            "effect": [
+              { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" },
+              { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_WOLF_FORM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_WOLF_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_MIST_FORM_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_MIST_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_MIST_FORM_activated_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 1.5 },
+              { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
+              { "u_add_trait": "VAMPIRE_MIST_FORM_TRAITS" },
+              { "u_add_effect": "effect_vampire_mist_form", "duration": "PERMANENT" },
+              { "u_add_effect": "incorporeal", "duration": "PERMANENT" },
+              { "math": [ "u_spell_level('vampire_mist_form_pass_through_doors_and_windows')", "=", "0" ] },
+              { "u_message": "Your body falls apart into billowing mist.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough blood to transform into mist.", "type": "bad" },
+              { "queue_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_MIST_FORM_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_MIST_FORM_TRAITS" },
+            "effect": [
+              { "u_message": "You reconstitute yourself from the billowing mists.", "type": "neutral" },
+              { "u_lose_effect": "effect_vampire_mist_form" },
+              { "u_lose_effect": "incorporeal" },
+              { "u_lose_trait": "VAMPIRE_MIST_FORM_TRAITS" },
+              { "math": [ "u_spell_level('vampire_mist_form_pass_through_doors_and_windows')", "=", "-1" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_MIST_FORM_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "VAMPIRE_MIST_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_MIST_FORM_BLOOD_COST",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_trait": "VAMPIRE_MIST_FORM_TRAITS" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_MIST_FORM_BLOOD_COST_2",
+            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "-500" ] },
+            "effect": { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "2" ] },
+            "false_effect": [
+              { "u_message": "You don't have enough blood to maintain your mist form.", "type": "bad" },
+              { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivated" },
+              { "queue_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_MIST_FORM_SEEP_THROUGH_DOOR_WINDOW",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "vampire_mist_door_or_window_seep" },
+          "message": "Select door or window, then target the space beyond it."
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "DOOR", "loc": { "context_val": "vampire_mist_door_or_window_seep" } },
+          "then": { "u_cast_spell": { "id": "vampire_mist_form_pass_through_doors_and_windows_teleport" }, "targeted": true },
+          "else": {
+            "if": { "map_terrain_with_flag": "WINDOW", "loc": { "context_val": "vampire_mist_door_or_window_seep" } },
+            "then": { "u_cast_spell": { "id": "vampire_mist_form_pass_through_doors_and_windows_teleport" }, "targeted": true },
+            "else": { "u_message": "You must be near a door or window to seep through." }
+          }
+        }
+      }
+    ]
   }
 ]

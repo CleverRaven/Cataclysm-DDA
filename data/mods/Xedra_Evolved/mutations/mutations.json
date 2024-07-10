@@ -570,6 +570,127 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_BAT_FORM",
+    "name": { "str": "Shape of the Night Flier" },
+    "points": 0,
+    "description": "You can transform yourself into a bat and take wing on the night air.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_BAT_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_BAT_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BAT_FORM_TRAITS",
+    "name": { "str": "Bat Form" },
+    "points": 0,
+    "description": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MELEE_DAMAGE", "multiply": -0.95 },
+          { "value": "NIGHT_VIS", "add": 6 },
+          { "value": "DEXTERITY", "add": 8 }
+        ],
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
+        "skills": [ { "value": "dodge", "add": 8 } ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      },
+      { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
+    ],
+    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TINY" ],
+    "override_look": { "id": "mon_bat", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WOLF_FORM",
+    "name": { "str": "Shape of the Pack Hunter" },
+    "points": 0,
+    "description": "You can transform yourself into a wolf and stalk your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_WOLF_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_WOLF_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WOLF_FORM_TRAITS",
+    "name": { "str": "Wolf Form" },
+    "points": 0,
+    "description": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.2 }
+        ],
+        "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+      },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN" ],
+    "override_look": { "id": "mon_wolf", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MIST_FORM",
+    "name": { "str": "Shape of the Billowing Mists" },
+    "points": 0,
+    "description": "You can transform yourself into a cloud of mist and flee any dangers.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_MIST_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_MIST_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MIST_FORM_TRAITS",
+    "name": { "str": "Mist form traits" },
+    "points": 1,
+    "description": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.",
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_mist_form", "intensity": 1 } ] } ],
+    "override_look": { "id": "fd_extinguisher", "tile_category": "field" }
+  },
+  {
+    "type": "mutation",
     "id": "BLOOD_DRINKER",
     "name": { "str": "Mortal hungers are replaced with immortal hungers." },
     "points": 0,
