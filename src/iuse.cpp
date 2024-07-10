@@ -676,8 +676,8 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
         p->remove_effect( effect_boomered );
         p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
     }
-    if( p->has_effect( effect_conjunctivitis ) ) {
-        effect &eff = p->get_effect( effect_conjunctivitis );
+    if( p->has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) ) {
+        effect &eff = p->get_effect( effect_conjunctivitis, bodypart_id( "eyes" ) );
         if( eff.get_duration() > 2_days ) {
             p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
             eff.set_duration( 2_days );
