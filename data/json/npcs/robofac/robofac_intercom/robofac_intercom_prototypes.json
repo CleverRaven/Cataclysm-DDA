@@ -257,7 +257,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('3 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
             { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
           ]
         },
@@ -267,7 +267,7 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('3 d')" ] },
+            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
             { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
           ]
         },
@@ -851,10 +851,10 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_EXOSKELETON_REPAIR",
     "type": "talk_topic",
-    "dynamic_line": "'One moment,' the respondant audibly leaves for a moment and after a short period the intercom cracks with life.'  The exoskeleton will require parts that involve hands-on production and machining.  It will cost you two coins, and should be ready within two days.  Please make sure to take off any attachments or batteries before turning it in.",
+    "dynamic_line": "'Yes, it's possible,' answers the respondent after a short pause, sounding almost disappointed.  It will cost you two coins, and should be done by tomorrow.  Please make sure to take off any attachments or batteries before turning it in.",
     "responses": [
       {
-        "text": "[2 HGC and the exoskeleton] See you in a couple days then.",
+        "text": "[2 HGC and the exoskeleton] See you tomorrow.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },

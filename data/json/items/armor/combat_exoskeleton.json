@@ -472,36 +472,29 @@
     },
     "armor": [
       {
-        "layers": [ "NORMAL", "OUTER" ],
-        "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 30,
-        "coverage": 5,
-        "material": [ { "type": "steel", "thickness": 5 }, { "type": "aluminum", "thickness": 5 } ]
-      },
-      {
         "layers": [ "NORMAL" ],
         "covers": [ "eyes" ],
         "encumbrance": 5,
-        "coverage": 100,
-        "material": [ { "type": "lvl4ballisticglass", "thickness": 1, "covered_by_mat": 50 } ]
+        "coverage": 50,
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 1 } ]
       },
       {
         "layers": [ "NORMAL" ],
         "covers": [ "mouth" ],
         "encumbrance": 10,
-        "coverage": 100,
-        "material": [ { "type": "thermo_resin", "thickness": 1, "covered_by_mat": 50 } ]
+        "coverage": 50,
+        "material": [ { "type": "thermo_resin", "thickness": 1 } ]
       },
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
         "encumbrance": 10,
-        "coverage": 100,
+        "coverage": 50,
         "material": [
-          { "type": "lycra", "thickness": 0.2, "covered_by_mat": 50 },
-          { "type": "nylon", "thickness": 1, "covered_by_mat": 50 },
-          { "type": "nomex", "thickness": 1, "covered_by_mat": 50 },
-          { "type": "vinyl", "thickness": 0.1, "covered_by_mat": 50 },
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 },
           { "type": "steel", "thickness": 5, "covered_by_mat": 5 },
           { "type": "aluminum", "thickness": 5, "covered_by_mat": 5 }
         ]
@@ -510,18 +503,18 @@
         "layers": [ "NORMAL" ],
         "covers": [ "hand_l", "hand_r" ],
         "encumbrance": 3,
-        "coverage": 100,
+        "coverage": 50,
         "material": [
-          { "type": "lycra", "thickness": 0.2, "covered_by_mat": 50 },
-          { "type": "nylon", "thickness": 1, "covered_by_mat": 50 },
-          { "type": "nomex", "thickness": 1, "covered_by_mat": 50 },
-          { "type": "vinyl", "thickness": 0.1, "covered_by_mat": 50 }
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 }
         ]
       },
       {
         "layers": [ "NORMAL" ],
         "encumbrance": 3,
-        "coverage": 100,
+        "coverage": 50,
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [
           "foot_toes_r",
@@ -534,19 +527,19 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "lycra", "thickness": 0.2, "covered_by_mat": 50 },
-          { "type": "nylon", "thickness": 1, "covered_by_mat": 50 },
-          { "type": "nomex", "thickness": 1, "covered_by_mat": 50 },
-          { "type": "vinyl", "thickness": 0.1, "covered_by_mat": 50 }
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 }
         ]
       },
       {
         "layers": [ "NORMAL" ],
         "encumbrance": 0,
-        "coverage": 100,
+        "coverage": 50,
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6, "covered_by_mat": 50 } ]
+        "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ]
   }
