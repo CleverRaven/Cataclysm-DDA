@@ -281,21 +281,32 @@
           {
             "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_CHARACTER_CHECK",
             "condition": { "x_in_y_chance": { "x": 1, "y": 3 } },
-            "effect": {
-              "u_run_inv_eocs": "random",
-              "search_data": [
-                { "flags": [ "RECHARGE" ] },
-                { "flags": [ "ELECTRONIC" ] },
-                { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-                { "flags": [ "USE_UPS" ] }
-              ],
-              "true_eocs": [
-                {
-                  "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
-                  "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
-                }
-              ]
-            }
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_ELECTROKINETIC_CHECK",
+                    "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
+                    "effect": {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [
+                        { "flags": [ "RECHARGE" ] },
+                        { "flags": [ "ELECTRONIC" ] },
+                        { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+                        { "flags": [ "USE_UPS" ] }
+                      ],
+                      "true_eocs": [
+                        {
+                          "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
+                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                        }
+                      ]
+                    },
+                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
