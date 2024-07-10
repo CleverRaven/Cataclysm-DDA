@@ -18,6 +18,7 @@ static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_conjunctivitis( "conjunctivitis" );
 static const efftype_id effect_cureall( "cureall" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_fungus( "fungus" );
@@ -71,6 +72,13 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 
                 AND_THEN( "it removes the boomered effect" ) {
                     CHECK_FALSE( dummy.has_effect( effect_boomered ) );
+                }
+
+                const time_duration conjunctivitis_clock = dummy.get_effect_dur( effect_conjunctivitis );
+                REQUIRE( conjunctivitis_clock > 48_hours );
+                dummy.process_effects();
+                THEN( "duration of conjunctivitis shortens" ) {
+                    CHECK( conjunctivitis_clock > dummy.get_effect_dur( effect_conjunctivitis ) );
                 }
             }
         }
