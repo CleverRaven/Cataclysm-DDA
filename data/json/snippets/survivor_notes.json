@@ -717,8 +717,14 @@
         "id": "note_269",
         "text": "\"Every night, I dream of the beach. The sound of waves.  The smell of salt.  Waking up is the worst part.\""
       },
-      { "id": "note_270", "text": "\"There are eyes in the dark.  Watching.  Waiting.  I can't stay here any longer.\"" },
-      { "id": "note_271", "text": "\"All the lights are out.  It's like the world is sleeping.  Or maybe it's dead.\"" },
+      {
+        "id": "note_270",
+        "text": "\"There are eyes in the dark.  Watching.  Waiting.  I can't stay here any longer.\""
+      },
+      {
+        "id": "note_271",
+        "text": "\"All the lights are out.  It's like the world is sleeping.  Or maybe it's dead.\""
+      },
       {
         "id": "note_272",
         "text": "\"I found a stash of old comic books.  For a few moments, I was a kid again.  Then reality set back in.\""
@@ -862,7 +868,10 @@
         "id": "note_315",
         "text": "\"I saw my reflection in the mirror, but it wasn’t me.  It smiled and its eyes were black.\""
       },
-      { "id": "note_316", "text": "\"They don’t just kill you.  They take over your body, use you like a puppet.\"" },
+      {
+        "id": "note_316",
+        "text": "\"They don’t just kill you.  They take over your body, use you like a puppet.\""
+      },
       { "id": "note_317", "text": "\"I woke up covered in blood.  I don’t know whose blood it is.\"" },
       { "id": "note_318", "text": "\"The voices are getting louder.  They tell me to do unspeakable things.\"" },
       { "id": "note_319", "text": "\"I found a tooth embedded in my arm.  It wasn’t mine.\"" },
@@ -890,7 +899,10 @@
         "text": "\"I found a journal. It describes rituals. Dark, horrifying rituals. I think they worked.\""
       },
       { "id": "note_331", "text": "\"The birds are watching us.  They’re not birds anymore.\"" },
-      { "id": "note_332", "text": "\"Heard someone singing today.  Followed the sound, but there was no one there.\"" },
+      {
+        "id": "note_332",
+        "text": "\"Heard someone singing today.  Followed the sound, but there was no one there.\""
+      },
       { "id": "note_333", "text": "\"I saw a man turn inside out.  His screams still echo in my ears.\"" },
       { "id": "note_335", "text": "\"I found a hand nailed to a tree.  It was pointing west.\"" },
       { "id": "note_336", "text": "\"The rain burns.  It’s like acid.  My skin is covered in blisters.\"" },
