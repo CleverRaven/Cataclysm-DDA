@@ -60,6 +60,21 @@
     "volume": "1000 ml",
     "price": "20 USD",
     "material": [ "steel", "gold" ],
-    "category": "spare_parts"
+    "category": "spare_parts",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "melchior",
+        "name": { "str": "supercomputer platter" },
+        "description": "A hefty and expensive-looking golden dish engraved with concentric circuitry.  You felt the urge to rip it from a supercomputer.",
+        "weight": 100
+      },
+      {
+        "id": "display",
+        "name": { "str": "quantum processor" },
+        "description": "A hefty and expensive looking silver dish, any light that hits it is reflected in a dazzling display of colors. A wonder of technology that will never be replicated again.",
+        "weight": 0
+      }
+    ]
   }
 ]
