@@ -300,7 +300,7 @@
     "looks_like": "mon_fox_red",
     "name": { "str": "gremlin" },
     "//": "A Nether-affected fox",
-    "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
+    "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its body distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
     "speed": 170,
     "dodge": 7,
     "special_attacks": [
