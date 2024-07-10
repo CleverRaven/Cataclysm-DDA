@@ -308,10 +308,10 @@
         "id": "psi_gremlin_power_draining_spell",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_power_draining" },
-        "cooldown": { "math": [ "rand(10) + 15" ] },
+        "cooldown": { "math": [ "rand(45) + 5" ] },
         "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "Sparks flicker over %1$'s fur."
+        "monster_message": "Sparks flicker over %1$s's fur."
       }
     ],
     "armor": { "electric": 40 },
