@@ -382,7 +382,17 @@
     ],
     "ammo": [ "battery" ],
     "material_thickness": 0.1,
-    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC", "MUNDANE", "INVENTOR_CRAFTED", "RECHARGE" ],
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "SKINTIGHT",
+      "WATER_BREAK",
+      "CALORIES_INTAKE",
+      "ELECTRONIC",
+      "MUNDANE",
+      "INVENTOR_CRAFTED",
+      "RECHARGE"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

@@ -382,7 +382,16 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED", "RECHARGE" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "INVENTOR_CRAFTED",
+      "RECHARGE"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
