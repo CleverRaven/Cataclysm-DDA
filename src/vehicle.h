@@ -868,6 +868,9 @@ class vehicle
          * @param where Location of the other vehicle's origin tile.
          */
         static vehicle *find_vehicle( const tripoint_abs_ms &where );
+        // find_vehicle, but it compares the provided position to the position of
+        // every vehicle part instead of just the vehicle's position
+        static vehicle *find_vehicle_using_parts( const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )

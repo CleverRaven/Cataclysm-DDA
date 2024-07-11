@@ -5389,6 +5389,38 @@ vehicle *vehicle::find_vehicle( const tripoint_abs_ms &where )
     return nullptr;
 }
 
+vehicle *vehicle::find_vehicle_using_parts( const tripoint_abs_ms &where )
+{
+    map &here = get_map();
+    // Is it in the reality bubble?
+    if( const optional_vpart_position vp = here.veh_at( where ) ) {
+        return &vp->vehicle();
+    }
+    // Nope. Load up its submap...
+    point_sm_ms_ib veh_in_sm;
+    tripoint_abs_sm veh_sm;
+    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( where );
+    const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
+    if( sm == nullptr ) {
+        return nullptr;
+    }
+
+    for( const auto &elem : sm->vehicles ) {
+        vehicle *found_veh = elem.get();
+        // TODO: fix point types
+        for( const vpart_reference &vp : found_veh->get_all_parts() ) {
+            point_sm_ms_ib vp_in_sm;
+            tripoint_bub_sm vp_sm;
+            std::tie( vp_sm, vp_in_sm ) = project_remain<coords::sm>( vp.pos_bub() );
+            if( vp_in_sm == veh_in_sm ) {
+                return found_veh;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 template<typename Vehicle> // Templated to support const and non-const vehicle*
 std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
 {
@@ -5413,7 +5445,7 @@ std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
                 continue;
             }
 
-            Vehicle *const v_next = find_vehicle( tripoint_abs_ms( vp.target.second ) );
+            Vehicle *const v_next = find_vehicle_using_parts( tripoint_abs_ms( vp.target.second ) );
             if( v_next == nullptr ) { // vehicle's rolled away or off-map
                 continue;
             }
