@@ -4406,7 +4406,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "hardtack",
+    "result": "hardtack_cracker",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -4421,10 +4421,22 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "//1": "double usual price of flour to dehydrate it more than usual.",
     "components": [
-      [ [ "flour_any", 6, "LIST" ] ],
-      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "flour_any", 38, "LIST" ] ],
+      [ [ "salt", 6 ], [ "soysauce", 6 ], [ "seasoning_salt", 6 ] ],
       [ [ "water_clean", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hardtack",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "charges": 6,
+    "time": "2 m",
+    "autolearn": true,
+    "components": [ [ [ "hardtack_cracker", 1 ] ] ]
   },
   {
     "type": "recipe",
