@@ -468,7 +468,8 @@
                 "5 + (vampire_total_tier_one_traits() * 1) + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4)"
               ]
             }
-          }
+          },
+          { "value": "OVERMAP_SIGHT", "add": 8 }
         ]
       }
     ]
