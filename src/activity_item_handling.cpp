@@ -3522,7 +3522,7 @@ int get_auto_consume_moves( Character &you, const bool food )
             return VisitResponse::NEXT;
         };
 
-        const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
+        const optional_vpart_position vp = here.veh_at( here.bub_from_abs( loc ) );
         if( vp ) {
             if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
                 for( item &it : vp_cargo->items() ) {

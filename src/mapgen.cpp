@@ -1880,7 +1880,7 @@ class jmapgen_alternatively : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
         }
 };
 
@@ -5046,14 +5046,16 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                m.draw_line_ter( ter_id( val.get() ), point_bub_ms( x_get(), y_get() ), point_bub_ms( x2_get(),
+                                 y2_get() ),
                                  z_level,
                                  dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_LINE_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                m.draw_line_furn( furn_id( val.get() ), point_bub_ms( x_get(), y_get() ), point_bub_ms( x2_get(),
+                                  y2_get() ),
                                   z_level,
                                   dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
@@ -7865,17 +7867,33 @@ void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property p
 
 void line( map *m, const ter_id &type, const point &p1, const point &p2, int z )
 {
+    line( m, type, point_bub_ms( p1 ), point_bub_ms( p2 ), z );
+}
+void line( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
+{
     m->draw_line_ter( type, p1, p2, z );
 }
 void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 )
+{
+    line( m, type, point_omt_ms( p1 ), point_omt_ms( p2 ) );
+}
+void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
 {
     m->draw_line_ter( type, p1, p2 );
 }
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2, int z )
 {
+    line_furn( m, type, point_bub_ms( p1 ), point_bub_ms( p2 ), z );
+}
+void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z )
+{
     m->draw_line_furn( type, p1, p2, z );
 }
 void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    line_furn( m, type, point_omt_ms( p1 ), point_omt_ms( p2 ) );
+}
+void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }

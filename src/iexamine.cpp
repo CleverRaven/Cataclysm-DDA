@@ -2095,7 +2095,7 @@ void iexamine::pedestal_temple( Character &you, const tripoint &examp )
 void iexamine::door_peephole( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    if( here.is_outside( you.pos() ) ) {
+    if( here.is_outside( you.pos_bub() ) ) {
         // if door is a locked type attempt to open
         if( here.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, examp ) ) {
             locked_object( you, examp );
@@ -4914,8 +4914,8 @@ void iexamine::curtains( Character &you, const tripoint &examp )
     const bool closed_window_with_curtains = here.has_flag(
                 ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
                 examp );
-    if( here.is_outside( you.pos() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
-                                          closed_window_with_curtains ) ) {
+    if( here.is_outside( you.pos_bub() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
+            closed_window_with_curtains ) ) {
         locked_object( you, examp );
         return;
     }
