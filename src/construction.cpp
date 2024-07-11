@@ -1519,7 +1519,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
-    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+    if( !( here.passable( p ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
            here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
                 here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||

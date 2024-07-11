@@ -1460,8 +1460,8 @@ conditional_t::func f_follower_present( const JsonObject &jo, std::string_view m
         !npc_to_check->is_following() ) {
             return false;
         }
-        return rl_dist( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw() ) < 5 &&
-               get_map().clear_path( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw(), 5, 0, 100 );
+        return rl_dist( npc_to_check->pos_bub(), d_npc->pos_bub() ) < 5 &&
+               get_map().clear_path( npc_to_check->pos_bub(), d_npc->pos_bub(), 5, 0, 100 );
     };
 }
 

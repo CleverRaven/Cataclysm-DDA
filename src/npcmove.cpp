@@ -801,7 +801,7 @@ void npc::assess_danger()
         if( &guy == this ) {
             continue;
         }
-        if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
+        if( !clairvoyant && !here.has_potential_los( pos_bub(), guy.pos_bub() ) ) {
             continue;
         }
 
@@ -819,7 +819,7 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
-        if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
+        if( !clairvoyant && !here.has_potential_los( pos_bub(), critter.pos_bub() ) ) {
             continue;
         }
         Creature::Attitude att = critter.attitude_to( *this );
@@ -2875,7 +2875,8 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 && here.has_floor_or_water( p ) && !g->is_dangerous_tile( p ) &&
-            ( here.passable( p ) || ( can_open_door( p, !here.is_outside( pos() ) ) && !is_hallucination() ) ||
+            ( here.passable( p ) || ( can_open_door( p, !here.is_outside( pos_bub() ) ) &&
+                                      !is_hallucination() ) ||
               ( !no_bashing && here.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }

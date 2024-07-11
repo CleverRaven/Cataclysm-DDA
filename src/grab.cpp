@@ -197,7 +197,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 
     u.grab_point = next_grab;
 
-    m.displace_vehicle( *grabbed_vehicle, final_dp_veh.raw() );
+    m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
     m.rebuild_vehicle_level_caches();
 
     if( grabbed_vehicle ) {
@@ -206,7 +206,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         if( grabbed_vehicle->is_falling ) {
             add_msg( _( "You let go of the %1$s as it starts to fall." ), grabbed_vehicle->disp_name() );
             u.grab( object_type::NONE );
-            m.set_seen_cache_dirty( grabbed_vehicle->pos_bub().raw() );
+            m.set_seen_cache_dirty( grabbed_vehicle->pos_bub() );
             return true;
         }
     } else {

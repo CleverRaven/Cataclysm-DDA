@@ -1606,7 +1606,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 return false;
             }
             set_queued_points();
-            here.set_seen_cache_dirty( p );
+            here.set_seen_cache_dirty( tripoint_bub_ms( p ) );
             here.set_transparency_cache_dirty( p.z );
             return true;
         }

@@ -1326,7 +1326,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
     const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
-    here.set_seen_cache_dirty( part_location );
+    here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",

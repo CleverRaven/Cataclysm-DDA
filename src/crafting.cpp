@@ -3099,7 +3099,7 @@ std::vector<Character *> Character::get_crafting_helpers() const
                && !guy.in_sleep_state()
                && guy.is_obeying( *this )
                && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
-               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+               && get_map().clear_path( pos_bub(), guy.pos_bub(), PICKUP_RANGE, 1, 100 );
     } );
 }
 
@@ -3108,7 +3108,7 @@ std::vector<Character *> Character::get_crafting_group() const
     return g->get_characters_if( [this]( const Character & guy ) {
         return guy.is_ally( *this )
                && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
-               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+               && get_map().clear_path( pos_bub(), guy.pos_bub(), PICKUP_RANGE, 1, 100 );
     } );
 }
 

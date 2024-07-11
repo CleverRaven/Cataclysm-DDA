@@ -24,6 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "coordinate_constants.h"
 #include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -2429,7 +2430,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );
