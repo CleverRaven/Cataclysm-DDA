@@ -82,14 +82,12 @@ TEST_CASE( "character_at_volume_can_or_cannot_enter_vehicle", "[volume]" )
     // Empty aisle
     dest_loc = dest_loc + tripoint_north_west;
     bool cramped = false;
-    CHECK( you.can_move_to_vehicle_tile( dest_loc, cramped ) );
-    CHECK( !cramped );
+    CHECK( !you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
 
     // Aisle with 10L rock, a tight fit but not impossible
     dest_loc = dest_loc + tripoint_north;
-    CHECK( you.can_move_to_vehicle_tile( dest_loc, cramped ) );
-    CHECK( cramped );
+    CHECK( you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
     cramped = false;
 
@@ -101,8 +99,7 @@ TEST_CASE( "character_at_volume_can_or_cannot_enter_vehicle", "[volume]" )
     CHECK( 75_liter <= you.get_total_volume() );
     CHECK( you.get_total_volume() <= 100_liter );
     dest_loc = dest_loc + tripoint_north_west;
-    CHECK( you.can_move_to_vehicle_tile( dest_loc, cramped ) );
-    CHECK( cramped );
+    CHECK( you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
     cramped = false;
 
@@ -110,18 +107,17 @@ TEST_CASE( "character_at_volume_can_or_cannot_enter_vehicle", "[volume]" )
     CHECK( your_volume_with_trait( trait_SMALL2 ) == 23326_ml );
     you.setpos( test_pos ); // set our position again, clear_avatar() moved us
     dest_loc = dest_loc + tripoint_north;
-    CHECK( you.can_move_to_vehicle_tile( dest_loc, cramped ) );
-    CHECK( !cramped );
+    CHECK( !you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
 
     // Same aisle, but now we have HUGE GUTS. We will never fit.
     CHECK( your_volume_with_trait( trait_HUGE ) == 156228_ml );
     you.setpos( test_pos ); // set our position again, clear_avatar() moved us
     dest_loc = dest_loc + tripoint_north;
-    CHECK( !you.can_move_to_vehicle_tile( dest_loc ) );
+    CHECK( you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
 
     // And finally, check that our HUGE body won't fit even into an empty aisle.
     dest_loc = dest_loc + tripoint_north_west;
-    CHECK( !you.can_move_to_vehicle_tile( dest_loc ) );
+    CHECK( you.will_be_cramped_in_vehicle_tile( dest_loc ) );
 }

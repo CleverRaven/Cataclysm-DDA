@@ -10502,12 +10502,6 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
     u.set_underwater( false );
 
-    bool cramped = false;
-    if( vp_there && !u.can_move_to_vehicle_tile( get_map().getglobal( dest_loc ), cramped ) ) {
-        add_msg( m_warning, _( "There's not enough room for you to fit there." ) );
-        return false;
-    }
-
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
         if( harmful_stuff.size() == 1 && harmful_stuff[0] == "ledge" ) {
@@ -10722,7 +10716,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         start_hauling( oldpos );
     }
 
-    if( cramped ) { // passed by reference, can_move_to_vehicle_tile sets to true if actually cramped
+    if( u.will_be_cramped_in_vehicle_tile( get_map().getglobal( dest_loc ) ) ) {
         if( u.get_size() == creature_size::huge ) {
             add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
         } else if( u.get_total_volume() > u.get_base_volume() )  {
