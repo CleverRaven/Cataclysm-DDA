@@ -476,7 +476,7 @@
         "values": [
           {
             "value": "OVERMAP_SIGHT",
-            "add": { "math": [ "4 + u_has_trait('VAMPIRE2') +  u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') * 2)" ] }
+            "add": { "math": [ "4 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') * 2)" ] }
           }
         ]
       }
