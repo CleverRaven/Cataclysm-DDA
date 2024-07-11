@@ -84,7 +84,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
       },
       {
-        "text": "Anychance I can buy some riot armor? I need five complete sets.",
+        "text": "Any chance I can buy some riot armor?  I need five complete sets.",
         "condition": {
           "and": [
             { "u_has_faction_trust": 2 },
@@ -98,7 +98,7 @@
         "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear"
       },
       {
-        "text": "[i'm here to pay my riot gear off.]",
+        "text": "Remember that riot gear you gave me?",
         "condition": { "u_has_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
         "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback"
       }
@@ -1323,7 +1323,7 @@
     "dynamic_line": "Mayhaps this gear will do you better than it did the scuffers wot trained with it. [$400]",
     "responses": [
       {
-        "text": "[deal]",
+        "text": "I'll buy it.",
         "effect": [
           {
             "u_spend_cash": 40000,
@@ -1352,10 +1352,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
     "type": "talk_topic",
-    "dynamic_line": "If'n you survive, We can give you a fortnight and six odd days to pay us'n back.",
+    "dynamic_line": "If'n you survive, we can give you a fortnight and six odd days to pay us'n back.",
     "responses": [
       {
-        "text": "[thanks bro.]",
+        "text": "Thanks Rubik, I'll be back with your payment soon.",
         "effect": [
           { "u_spawn_item": "armor_riot", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
@@ -1373,10 +1373,10 @@
   {
     "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback",
     "type": "talk_topic",
-    "dynamic_line": "Thanks Rubik, I'll be back with your payment soon.",
+    "dynamic_line": "Right and done, don't let whatever you are going after turn you into a pork loin well done.  I's expectin' you back.",
     "responses": [
       {
-        "text": "Right and done, don't let whatever you are going after turn you into a pork loin well done.  I's expectin, you back.",
+        "text": "Here's the money to pay off that debt.",
         "effect": [
           {
             "u_spend_cash": 40000,
