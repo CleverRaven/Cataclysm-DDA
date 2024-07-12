@@ -3832,7 +3832,8 @@ point_bub_ms map::random_outdoor_tile() const
     std::vector<point_bub_ms> options;
     for( const tripoint &p : points_on_zlevel() ) {
         if( is_outside( tripoint_bub_ms( p.x, p.y, abs_sub.z() ) ) ) {
-            options.emplace_back( point_bub_ms( p.xy() ) );
+            const point_bub_ms temp{ p.xy() };
+            options.emplace_back( temp );
         }
     }
     return random_entry( options, point_bub_ms( point_north_west ) );
