@@ -3617,7 +3617,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         target_types++;
         search_type = "furniture";
     }
-    if ( jo.has_member( "field" ) ) {
+    if( jo.has_member( "field" ) ) {
         target_types++;
         search_type = "field";
     }
@@ -3695,10 +3695,9 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                         found = true;
                         break;
                     }
-                }
-                else if ( search_type.value() == "field" ) {
-                    field& fields_here = get_map().field_at( search_loc );
-                    if ( fields_here.find_field(field_type_id( cur_search_target ) ) || cur_search_target.empty() ) { 
+                } else if( search_type.value() == "field" ) {
+                    field &fields_here = get_map().field_at( search_loc );
+                    if( fields_here.find_field( field_type_id( cur_search_target ) ) || cur_search_target.empty() ) {
                         target_pos = here.getabs( search_loc );
                         found = true;
                         break;

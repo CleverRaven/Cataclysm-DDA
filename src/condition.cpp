@@ -1663,13 +1663,11 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
         tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d, false ) );
         if( member == "map_terrain_id" ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
-        }
-        else if ( member == "map_furniture_id" ) {
+        } else if( member == "map_furniture_id" ) {
             return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
-        }
-        else if ( member == "map_field_id" ) {
-            const field& fields_here = get_map().field_at(loc); 
-            return !!fields_here.find_field(field_type_id(furn_type.evaluate(d))); 
+        } else if( member == "map_field_id" ) {
+            const field &fields_here = get_map().field_at( loc );
+            return !!fields_here.find_field( field_type_id( furn_type.evaluate( d ) ) );
         }
     };
 }
