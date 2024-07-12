@@ -602,7 +602,8 @@
           { "value": "SPEED", "multiply": 0.1 },
           { "value": "MELEE_DAMAGE", "multiply": -0.95 },
           { "value": "NIGHT_VIS", "add": 6 },
-          { "value": "DEXTERITY", "add": 8 }
+          { "value": "DEXTERITY", "add": 8 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 8 } ]
@@ -640,6 +641,7 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -648,9 +650,19 @@
           { "value": "RANGE", "multiply": -1 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "NIGHT_VIS", "add": 8 },
-          { "value": "MELEE_DAMAGE", "multiply": 0.2 }
+          { "value": "MELEE_DAMAGE", "multiply": 0.2 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "HEARING_MULT", "multiply": 0.75 },
+          { "value": "COMBAT_CATCHUP", "multiply": 2 },
+          { "value": "DODGE_CHANCE", "add": 4 }
+        ]
       },
       {
         "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
@@ -665,7 +677,7 @@
     ],
     "flags": [ "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs" ]
+    "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
   },
   {
     "type": "mutation",
