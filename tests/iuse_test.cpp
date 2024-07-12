@@ -76,10 +76,10 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             }
         }
     }
-    
+
     charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
-    
+
     GIVEN( "avatar gets conjunctivitis" ) {
         dummy.add_effect( effect_conjunctivitis, 72_hours );
         REQUIRE( dummy.has_effect( effect_conjunctivitis ) );
@@ -100,7 +100,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 
     charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
-    
+
     GIVEN( "avatar is underwater" ) {
         dummy.set_underwater( true );
 
