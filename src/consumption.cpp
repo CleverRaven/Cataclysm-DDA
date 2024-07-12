@@ -245,7 +245,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     kcal = you.enchantment_cache->modify_value( enchant_vals::mod::KCAL, kcal );
-    kcal = std::max( 0, kcal );
+    kcal = std::max( 0.0f, kcal );
 
     return static_cast<int>( kcal );
 }
