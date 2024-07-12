@@ -53,6 +53,9 @@ static const morale_type morale_wet( "morale_wet" );
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
+    //Give eyes to our dummy
+    dummy.set_body();
+    REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
     dummy.normalize();
 
     item eyedrops( "saline", calendar::turn_zero, item::default_charges_tag{} );
@@ -81,9 +84,9 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar gets conjunctivitis" ) {
-        dummy.add_effect( effect_conjunctivitis, 72_hours );
-        REQUIRE( dummy.has_effect( effect_conjunctivitis ) );
-        REQUIRE( dummy.get_effect_dur( effect_conjunctivitis ) > 48_hours );
+        dummy.add_effect( effect_conjunctivitis, 72_hours, bodypart_id( "eyes" ) );
+        REQUIRE( dummy.has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) );
+        REQUIRE( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) > 48_hours );
 
         WHEN( "they use eye drops" ) {
             dummy.consume( eyedrops );
@@ -92,7 +95,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
                 CHECK( eyedrops.charges == charges_before - 1 );
 
                 AND_THEN( "it shortens the duration of conjunctivitis" ) {
-                    CHECK( dummy.get_effect_dur( effect_conjunctivitis ) <= 48_hours );
+                    CHECK( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) <= 48_hours );
                 }
             }
         }
