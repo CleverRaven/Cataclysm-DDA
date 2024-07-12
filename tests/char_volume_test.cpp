@@ -81,7 +81,6 @@ TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
 
     // Empty aisle
     dest_loc = dest_loc + tripoint_north_west;
-    bool cramped = false;
     CHECK( !you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
 
@@ -89,7 +88,6 @@ TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
     dest_loc = dest_loc + tripoint_north;
     CHECK( you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
-    cramped = false;
 
     // Empty aisle, but we've put on a backpack and a 10L rock in that backpack
     item backpack( itype_backpack_giant );
@@ -101,7 +99,6 @@ TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
     dest_loc = dest_loc + tripoint_north_west;
     CHECK( you.will_be_cramped_in_vehicle_tile( dest_loc ) );
     dest_loc = you.get_location(); //reset
-    cramped = false;
 
     // Try the cramped aisle with a rock again, but now we are tiny, so it is easy.
     CHECK( your_volume_with_trait( trait_SMALL2 ) == 23326_ml );
