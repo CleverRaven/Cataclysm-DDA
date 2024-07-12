@@ -63,10 +63,6 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     GIVEN( "avatar is boomered" ) {
         dummy.add_effect( effect_boomered, 1_hours );
         REQUIRE( dummy.has_effect( effect_boomered ) );
-        dummy.process_effects();
-        REQUIRE( dummy.has_effect( effect_conjunctivitis ) );
-        const time_duration conjunctivitis_clock = dummy.get_effect_dur( effect_conjunctivitis );
-        REQUIRE( conjunctivitis_clock > 48_hours );
 
         WHEN( "they use eye drops" ) {
             dummy.consume( eyedrops );
@@ -77,14 +73,34 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
                 AND_THEN( "it removes the boomered effect" ) {
                     CHECK_FALSE( dummy.has_effect( effect_boomered ) );
                 }
+            }
+        }
+    }
+    
+    charges_before = eyedrops.charges;
+    REQUIRE( charges_before > 0 );
+    
+    GIVEN( "avatar gets conjunctivitis" ) {
+        dummy.add_effect( effect_conjunctivitis, 72_hours );
+        REQUIRE( dummy.has_effect( effect_conjunctivitis ) );
+        REQUIRE( dummy.get_effect_dur( effect_conjunctivitis ) > 48_hours );
 
-                THEN( "duration of conjunctivitis shortens" ) {
-                    CHECK( conjunctivitis_clock > dummy.get_effect_dur( effect_conjunctivitis ) );
+        WHEN( "they use eye drops" ) {
+            dummy.consume( eyedrops );
+
+            THEN( "one dose is depleted" ) {
+                CHECK( eyedrops.charges == charges_before - 1 );
+
+                AND_THEN( "it shortens the duration of conjunctivitis" ) {
+                    CHECK( dummy.get_effect_dur( effect_conjunctivitis ) <= 48_hours );
                 }
             }
         }
     }
 
+    charges_before = eyedrops.charges;
+    REQUIRE( charges_before > 0 );
+    
     GIVEN( "avatar is underwater" ) {
         dummy.set_underwater( true );
 
