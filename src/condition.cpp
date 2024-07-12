@@ -1669,6 +1669,10 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
             const field &fields_here = get_map().field_at( loc );
             return !!fields_here.find_field( field_type_id( furn_type.evaluate( d ) ) );
         }
+        else { 
+            debugmsg("Invalid map id: %s", member );
+            return false; 
+        }
     };
 }
 

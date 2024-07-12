@@ -2896,7 +2896,7 @@ Search the map, that contain `house` in it's id on a range 200-1200 overmap tile
 }
 ```
 
-Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it's coordinates, otherwise prints "no fire"
+Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it's coordinates, otherwise prints "no fire".
 ```json
   {
     "type": "effect_on_condition",
@@ -2905,6 +2905,11 @@ Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it
       { "u_location_variable": { "context_val": "test" }, "field": "fd_fire", "target_max_radius": 26 },
       {
         "if": { "map_field_id": "fd_fire", "loc": { "context_val": "test" } },
+        "then": { "u_message": "Fire is in <context_val:test>" },
+        "else": { "u_message": "No fire nearby" }
+      },
+      {
+        "if": { "math": [ "has_var(_test)" ] },
         "then": { "u_message": "Fire is in <context_val:test>" },
         "else": { "u_message": "No fire nearby" }
       }
