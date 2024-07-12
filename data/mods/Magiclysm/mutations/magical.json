@@ -23,7 +23,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "encumbrance_always": [ [ "arm_l", 200 ], [ "arm_r", 200 ], [ "hand_l", 200 ], [ "hand_r", 200 ] ],
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -41,7 +40,7 @@
       },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "LEVITATION", "MUTE", "TINY" ],
+    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TINY" ],
     "override_look": { "id": "mon_raven", "tile_category": "monster" }
   }
 ]
