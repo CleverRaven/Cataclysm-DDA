@@ -52,7 +52,16 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "PADDED",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL",
+      "MUNDANE",
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
+    ]
   },
   {
     "id": "helmet_inventor_on",

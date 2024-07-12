@@ -263,7 +263,16 @@
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
+    "flags": [
+      "TRADER_AVOID",
+      "PADDED",
+      "BELTED",
+      "OVERSIZE",
+      "WATER_FRIENDLY",
+      "MUNDANE",
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
+    ]
   },
   {
     "id": "bio_warhead",
