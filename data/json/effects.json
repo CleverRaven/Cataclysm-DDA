@@ -2106,7 +2106,6 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "PER_SLIME_OK" ],
     "immune_flags": [ "POISIMMUNE", "SEESLEEP" ],
-    "int_dur_factor": "50 m",
     "base_mods": { "per_mod": [ -1 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
     "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.85, "resist_modifier": 0.925 } ],
     "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
