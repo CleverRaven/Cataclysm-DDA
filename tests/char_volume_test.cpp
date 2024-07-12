@@ -61,7 +61,7 @@ TEST_CASE( "character_baseline_volumes", "[volume]" )
     CHECK( your_volume_with_trait( trait_HUGE ) == 156228_ml );
 }
 
-TEST_CASE( "character_at_volume_can_or_cannot_enter_vehicle", "[volume]" )
+TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
 {
     clear_avatar();
     clear_map();
