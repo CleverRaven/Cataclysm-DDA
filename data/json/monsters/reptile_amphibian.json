@@ -768,7 +768,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 3,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -780,7 +780,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 0,
         "max_range": 10,
         "min_consider_range": 2,
@@ -873,7 +873,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 3,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -885,7 +885,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "move_cost": 0,
         "max_range": 6,
         "min_consider_range": 2,
@@ -916,7 +916,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 3,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -928,7 +928,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "move_cost": 0,
         "max_range": 12,
         "min_consider_range": 2,
@@ -953,7 +953,7 @@
       [ "PARROT", 30 ],
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 3,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -965,7 +965,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "move_cost": 0,
         "max_range": 12,
         "min_consider_range": 2,
@@ -1024,7 +1024,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 4,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -1036,7 +1036,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 0,
         "max_range": 10,
         "min_consider_range": 2,
@@ -1108,7 +1108,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 4,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "damage_max_instance": [ { "damage_type": "electric", "amount": 4 } ],
@@ -1122,7 +1122,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 0,
         "max_range": 8,
         "min_consider_range": 2,
@@ -1152,7 +1152,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 3,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -1164,7 +1164,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "move_cost": 0,
         "max_range": 8,
         "min_consider_range": 2,
@@ -1212,7 +1212,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 5,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -1224,7 +1224,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 0,
         "max_range": 12,
         "min_consider_range": 2,
@@ -1249,7 +1249,7 @@
     "special_attacks": [
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 5,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -1261,7 +1261,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 0,
         "max_range": 12,
         "min_consider_range": 2,
@@ -1309,7 +1309,7 @@
     "special_attacks": [
       {
         "id": "bite_grab",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "accuracy": 5,
         "damage_max_instance": [
           { "damage_type": "cut", "amount": 26, "armor_multiplier": 0.2 },
@@ -1320,7 +1320,7 @@
       },
       {
         "id": "ranged_pull",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "range": 4,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
@@ -1332,7 +1332,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "move_cost": 0,
         "max_range": 8,
         "min_consider_range": 2,
