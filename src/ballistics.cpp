@@ -297,8 +297,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * sin( rad ) );
+        target.x = std::clamp( source.x + roll_remainder( new_range * cos( rad ) ), 0, MAPSIZE_X - 1 );
+        target.y = std::clamp( source.y + roll_remainder( new_range * sin( rad ) ), 0, MAPSIZE_Y - 1 );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );
