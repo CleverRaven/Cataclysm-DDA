@@ -234,8 +234,8 @@
   {
     "id": "mission_best_friend_gamehunt1",
     "type": "mission_definition",
-    "name": { "str": "Help me find my favorite game.  Pandemic" },
-    "description": "Could you help me find my favorite game?  It's a board game called Pandemic.  At least the diseases in this game can be beaten.",
+    "name": { "str": "Help me find my favorite game.  Pathogen" },
+    "description": "Could you help me find my favorite game?  It's a board game called Pathogen.  At least the diseases in this game can be beaten.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "item": "pandemic",
@@ -268,8 +268,8 @@
   {
     "id": "mission_best_friend_gamehunt2",
     "type": "mission_definition",
-    "name": { "str": "Help me find my favorite game.  Scythe" },
-    "description": "Could you help me find my favorite game?  It's a board game called Scythe.  Alternate history is so much better than real history.",
+    "name": { "str": "Help me find my favorite game.  Steam Gears" },
+    "description": "Could you help me find my favorite game?  It's a board game called Steam Gears.  Alternate history is so much better than real history.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "item": "scythe_game",
