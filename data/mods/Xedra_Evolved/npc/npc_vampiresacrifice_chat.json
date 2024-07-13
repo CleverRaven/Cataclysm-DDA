@@ -64,8 +64,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_FOLLOWER_SACRIFICE",
-    "condition": { "u_has_var": "best_friend", "value": "yes" },
-    "dynamic_line": "You're the best person in the world for me.  I wouldn't ever hesitate to trust you with my life.  I feel that no matter what happens, it'll be fine as you'll be there.",
+    "dynamic_line": { "u_has_var": "best_friend", "value": "yes", "You're the best person in the world for me.  I wouldn't ever hesitate to trust you with my life.  I feel that no matter what happens, it'll be fine as you'll be there." },
     "responses": [
       {
         "text": "Thanks for telling me.  Can we talk about something else?",
