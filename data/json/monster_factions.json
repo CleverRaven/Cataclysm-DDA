@@ -287,9 +287,35 @@
   {
     "type": "MONSTER_FACTION",
     "name": "frog",
+    "//": "Mutated frogs.  Large enough to hunt small game but not large enough to include humans in that category.",
     "base_faction": "mutant",
     "by_mood": [ "animal" ],
     "hate": [ "small_animal", "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "frog_megavore",
+    "//": "Dangerous frogs large enough to see human-sized creatures as easy prey.",
+    "base_faction": "frog",
+    "by_mood": [ "frog" ],
+    "hate": [ "animal", "small_animal", "insect", "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "frog_passive",
+    "//": "Large but mostly timid mutant frogs.",
+    "base_faction": "frog",
+    "by_mood": [ "animal", "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "frog_foul",
+    "base_faction": "frog"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "frog_static",
+    "base_faction": "frog"
   },
   {
     "type": "MONSTER_FACTION",
