@@ -37,10 +37,19 @@
         "miss_msg_npc": "",
         "no_dmg_msg_u": "",
         "no_dmg_msg_npc": ""
+      },
+      {
+        "id": "psi_bandersnatch_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        },
+        "monster_message": "The air around %1$s distorts."
       }
     ],
-    "armor": { "bash": 10, "electric": 1, "bullet": 40, "psi_telekinetic_damage": 35 },
-    "extend": { "flags": [ "CLIMBS" ] }
+    "extend": { "flags": [ "CLIMBS" ], "armor": { "psi_telekinetic_damage": 35 } }
   },
   {
     "id": "mon_fear_hawk",
@@ -283,5 +292,29 @@
       "KEEP_DISTANCE",
       "HARDTOSHOOT"
     ]
+  },
+  {
+    "id": "mon_psi_gremlin",
+    "copy-from": "mon_fox_red",
+    "type": "MONSTER",
+    "looks_like": "mon_fox_red",
+    "name": { "str": "gremlin" },
+    "//": "A Nether-affected fox",
+    "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its body distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
+    "speed": 170,
+    "dodge": 7,
+    "special_attacks": [
+      {
+        "id": "psi_gremlin_power_draining_spell",
+        "type": "spell",
+        "spell_data": { "id": "electrokinetic_power_draining" },
+        "cooldown": { "math": [ "rand(45) + 5" ] },
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "Sparks flicker over %1$s's fur."
+      }
+    ],
+    "armor": { "electric": 40 },
+    "special_when_hit": [ "ZAPBACK", 75 ]
   }
 ]
