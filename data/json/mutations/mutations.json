@@ -7080,6 +7080,7 @@
     "description": "You've gotten rid of that terribly imprecise mouth and now imbibe your food like a proper person.  Chewing was tiresome anyway.",
     "purifiable": false,
     "prereqs": [ "MANDIBLES" ],
+    "prereqs2": [ "CHITIN", "CHITIN2", "CHITIN2_MOLTED" ],
     "category": [ "INSECT" ],
     "active": true,
     "restricts_gear": [ "mouth" ]
@@ -9660,7 +9661,8 @@
     "category": [ "BIRD" ],
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "flags": [ "MUTE" ],
-    "changes_to": [ "MUTE_BIRD_OK" ]
+    "valid": false,
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -9681,7 +9683,8 @@
     "description": "Your beak and new lungs have diverged too much from your human form to be capable of human speech.  <color_red>Look for a new practice recipe to lose this setback.</color>",
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "BEAK" ],
-    "changes_to": [ "MUTE_CEPH_OK" ],
+    "valid": false,
+    "purifiable": false,
     "flags": [ "MUTE" ]
   },
   {
@@ -9697,13 +9700,61 @@
   },
   {
     "type": "mutation",
+    "id": "MUTE_GASTROPOD",
+    "name": { "str": "Mute (Snail)" },
+    "points": -2,
+    "description": "Just losing your teeth would have been an adjustment, but with your new tongue human speech is straight-up impossible.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "GASTROPOD" ],
+    "prereqs": [ "GASTROPOD_EXTREMITY2", "GASTROPOD_EXTREMITY3" ],
+    "changes_to": [ "MUTE_GASTROPOD_OK" ],
+    "valid": false,
+    "purifiable": false,
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_GASTROPOD_OK",
+    "name": { "str": "Speech Mimicry (Snail)" },
+    "points": 0,
+    "description": "Fine control of your radula was hard to learn, but now that you mapped out which calcified not-tooth on there makes what pitch you can open your mouth and…speak.  Yes, let's call it speaking.",
+    "category": [ "GASTROPOD" ],
+    "prereqs": [ "MUTE_GASTROPOD" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_INSECT",
+    "name": { "str": "Mute (Insect)" },
+    "points": -2,
+    "description": "Your mandibles already made speech hard, but now that you don't even have a tongue…<color_red>Look for a new practice recipe to lose this setback.</color>",
+    "category": [ "INSECT" ],
+    "prereqs": [ "PROBOSCIS" ],
+    "flags": [ "MUTE" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "MUTE_INSECT_OK",
+    "name": { "str": "Speech Mimicry (Insect)" },
+    "points": 0,
+    "description": "Using all this new anatomy cramps you up, and there's spittle flying everywhere, but you can manage short sentences of whistling almost-words.",
+    "category": [ "INSECT" ],
+    "prereqs": [ "MUTE_INSECT" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "MUTE_SLIME",
     "name": { "str": "Mute (Slime)" },
     "points": -2,
     "description": "Your mouth is gone.  Oh, wait, there's one, isn't there?  If only it stopped moving around you might start to relearn something like human speech.  <color_red>Look for a new practice recipe to lose this setback.</color>",
     "category": [ "SLIME" ],
     "prereqs": [ "AMORPHOUS" ],
-    "changes_to": [ "MUTE_SLIME_OK" ],
+    "valid": false,
+    "purifiable": false,
     "flags": [ "MUTE" ]
   },
   {
