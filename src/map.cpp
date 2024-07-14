@@ -4240,6 +4240,10 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
+    
+    tripoint_bub_ms below = p + tripoint_rel_ms_below;
+    const ter_str_id below_tile_roof = get_roof(below, false);
+    bool roof_of_below_tile = ( terid.id.id() == below_tile_roof.id());
 
     bool success = false;
 
@@ -4261,9 +4265,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         } else if( !bash->ter_set && zlevels ) {
             // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
-            tripoint_bub_ms below = p + tripoint_rel_ms_below;
-            const ter_str_id roof = get_roof( below, false );
-            if( ter( p ) == roof ) {
+            if( roof_of_below_tile ) {
                 smash_ter = false;
                 bash = nullptr;
             }
@@ -4382,6 +4384,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     const bool will_collapse = smash_ter &&
                                has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) && !has_flag( ter_furn_flag::TFLAG_INDOORS, p );
     const bool tent = smash_furn && !bash->tent_centers.empty();
+    bool set_to_air = false;
 
     // Special code to collapse the tent if destroyed
     if( tent ) {
@@ -4454,11 +4457,10 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
         ter_set( p, bash->ter_set_bashed_from_above );
-    } else if( bash->ter_set ) {
+    } else if( bash->ter_set && !roof_of_below_tile) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
     } else {
-        tripoint_bub_ms below = p + tripoint_rel_ms_below;
         const ter_t &ter_below = ter( below ).obj();
         if( bash->bash_below && ter_below.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ) {
             // When bashing the tile below, don't allow bashing the floor
@@ -4467,6 +4469,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
             bash_ter_furn( below, params_below );
         }
 
+        set_to_air = roof_of_below_tile; //do not add a roof for the tile below if it was already removed
         furn_set( p, furn_str_id::NULL_ID() );
         ter_set( p, ter_t_open_air );
     }
@@ -4475,8 +4478,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && zlevels ) {
-        tripoint_bub_ms below = p + tripoint_rel_ms_below;
+    if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && zlevels && !set_to_air ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
