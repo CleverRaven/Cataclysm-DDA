@@ -202,7 +202,6 @@
       "and": [
         { "compare_string": [ "boomered", { "context_val": "effect" } ] },
         { "compare_string": [ "eyes", { "context_val": "bodypart" } ] },
-        { "not": { "u_has_effect": "conjunctivitis" } },
         { "not": { "u_has_trait": "COMPOUND_EYES" } },
         { "not": { "u_has_trait": "SEESLEEP" } },
         { "not": { "u_has_bionics": "armor_bio_eyes" } },
@@ -211,6 +210,10 @@
       ]
     },
     "effect": [
+      {
+        "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
+        "then": { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }
+      },
       {
         "u_add_effect": "conjunctivitis",
         "duration": { "math": [ "( 1 - u_coverage('eyes') / 100 ) * rand(259200) + 172800" ] },

@@ -1350,6 +1350,10 @@
         "text": "A tough pair of military pants with the black, brown, green and tan Battle Dress camouflage pattern.  They look old."
       },
       {
+        "id": "apants_OCP",
+        "text": "A tough and breathable pair of military pants in Operational Camouflage Pattern."
+      },
+      {
         "id": "mil_pants_navy",
         "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the US Navy."
       }
