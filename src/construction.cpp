@@ -1482,10 +1482,16 @@ bool construct::check_support( const tripoint_bub_ms &p )
     if( here.impassable( p ) ) {
         return false;
     }
+
+    // The current collapse logic is based on the level below supporting a "roof" rather
+    // than the orthogonal tiles supporting a roof tile. Thus, the construction logic
+    // uses similar criteria, which means you may have to first change grass into a dirt
+    // floor before you may be able to build a roof above it.
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ||
+            ( !here.ter( p + offset )->has_flag( "EMPTY_SPACE" ) &&
+              here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) ) {
             num_supports++;
         }
     }
@@ -1513,7 +1519,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
-    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+    if( !( here.passable( p ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
            here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
                 here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||

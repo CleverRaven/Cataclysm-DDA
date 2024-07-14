@@ -497,6 +497,23 @@
   },
   {
     "type": "mutation",
+    "id": "perk_blood_drinker",
+    "name": { "str": "Hemophage" },
+    "points": 0,
+    "description": "You do not drink…wine.  You are immune to the negative consequences of drinking blood, such as parasitic infection.",
+    "category": [ "perk" ],
+    "flags": [ "HEMOVORE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_blood_drinking_heal",
+    "name": { "str": "The Blood is the Life" },
+    "points": 0,
+    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_popeye",
     "name": { "str": "Of sailors and spinach" },
     "points": 0,
@@ -699,7 +716,7 @@
     "id": "perk_eating_window",
     "name": { "str": "Compressed Eating Window" },
     "points": 0,
-    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain +150% kcal and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
+    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain 2.5 times as many calories and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
     "category": [ "perk" ],
     "enchantments": [
       {
@@ -718,7 +735,7 @@
             { "math": [ "time_since('midnight', 'unit': 'hours') > 18" ] }
           ]
         },
-        "values": [ { "value": "KCAL", "multiply": -1.0 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -1.0 } ]
+        "values": [ { "value": "KCAL", "multiply": -50 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -50 } ]
       }
     ]
   },

@@ -1326,7 +1326,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
     const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
-    here.set_seen_cache_dirty( part_location );
+    here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
@@ -2440,6 +2440,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
 void vehicle::interact_with( const tripoint &p, bool with_pickup )
 {
+    vehicle::interact_with( tripoint_bub_ms( p ), with_pickup );
+}
+
+void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
+{
     const optional_vpart_position ovp = get_map().veh_at( p );
     if( !ovp ) {
         debugmsg( "interact_with called at %s and no vehicle is found", p.to_string() );
@@ -2449,6 +2454,6 @@ void vehicle::interact_with( const tripoint &p, bool with_pickup )
     veh_menu menu( *this, _( "Select an action" ) );
     do {
         menu.reset();
-        build_interact_menu( menu, p, with_pickup );
+        build_interact_menu( menu, p.raw(), with_pickup );
     } while( menu.query() );
 }

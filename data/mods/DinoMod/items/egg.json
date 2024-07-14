@@ -19,7 +19,8 @@
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_DINO",
-    "rot_spawn_chance": 70
+    "rot_spawn_chance": 70,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -36,7 +37,8 @@
     "description": "Pale, round egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
     "volume": "12 ml",
-    "rot_spawn": "GROUP_EGG_DINO_SMALL"
+    "rot_spawn": "GROUP_EGG_DINO_SMALL",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -51,7 +53,8 @@
     "description": "Pale, round egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": "GROUP_EGG_DINO_LARGE"
+    "rot_spawn": "GROUP_EGG_DINO_LARGE",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +76,8 @@
     "fun": -6,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_THEROPOD",
-    "rot_spawn_chance": 70
+    "rot_spawn_chance": 70,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -84,7 +88,8 @@
     "comestible_type": "FOOD",
     "description": "Pale, football-shaped egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
-    "rot_spawn": "GROUP_EGG_THEROPOD_SMALL"
+    "rot_spawn": "GROUP_EGG_THEROPOD_SMALL",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -98,7 +103,8 @@
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
     "material": [ "egg" ],
     "volume": "3400 ml",
-    "rot_spawn": "GROUP_EGG_THEROPOD_LARGE"
+    "rot_spawn": "GROUP_EGG_THEROPOD_LARGE",
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -780,7 +786,8 @@
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -797,7 +804,8 @@
     "fun": 10,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -814,6 +822,7 @@
     "fun": 20,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   }
 ]

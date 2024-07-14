@@ -531,7 +531,7 @@
     "id": "kilt",
     "type": "ARMOR",
     "name": { "str": "kilt" },
-    "description": "No true Scotsman would leave home without his kilt.",
+    "description": "No true Scotsman would leave home without his kilt.  Kilts lack pockets and thus a belt and sporran are necessary accessories.",
     "weight": "500 g",
     "volume": "1500 ml",
     "price": "65 USD",
@@ -540,6 +540,27 @@
     "symbol": "[",
     "looks_like": "skirt",
     "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 0.3,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 95, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "kilt_utility",
+    "type": "ARMOR",
+    "name": { "str": "utility kilt" },
+    "description": "Common in America, the utility kilt takes the traditional woolen kilt and constructs it out of cotton canvas and then adds a pocket that would never be on a traditional kilt.",
+    "weight": "500 g",
+    "volume": "1500 ml",
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kilt",
+    "color": "brown_yellow",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1327,6 +1348,10 @@
       {
         "id": "apants_BDU",
         "text": "A tough pair of military pants with the black, brown, green and tan Battle Dress camouflage pattern.  They look old."
+      },
+      {
+        "id": "apants_OCP",
+        "text": "A tough and breathable pair of military pants in Operational Camouflage Pattern."
       },
       {
         "id": "mil_pants_navy",

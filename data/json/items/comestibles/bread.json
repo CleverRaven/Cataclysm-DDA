@@ -17,7 +17,8 @@
     "volume": "226 ml",
     "flags": [ "EATEN_HOT" ],
     "looks_like": "bread",
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "sourdough_young_uncovered",
@@ -43,7 +44,8 @@
       "type": "delayed_transform",
       "transform_age": 518400,
       "not_ready_msg": "You've been caring for your starter for a while, but it's going to need longer before you can do anything tasty with it."
-    }
+    },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "sourdough_split_uncovered",
@@ -69,7 +71,8 @@
       "type": "delayed_transform",
       "transform_age": 86400,
       "not_ready_msg": "The starter isn't quite ready to go."
-    }
+    },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "sourdough_starter_uncovered",
@@ -87,7 +90,8 @@
     "color": "yellow",
     "flags": [ "SOFT" ],
     "fun": -1,
-    "calories": 192
+    "calories": 192,
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -107,7 +111,8 @@
     "looks_like": "bread",
     "volume": "75 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -126,7 +131,7 @@
     "material": [ "wheat" ],
     "volume": "60 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -145,7 +150,7 @@
     "material": [ "veggy" ],
     "volume": "60 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -164,7 +169,7 @@
     "material": [ "wheat" ],
     "volume": "60 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -184,7 +189,7 @@
     "calories": 77,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -205,7 +210,7 @@
     "calories": 83,
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -227,7 +232,7 @@
     "volume": "60 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 14 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -257,7 +262,8 @@
     "description": "A slice of toast with butter spread on top to make it taste better.",
     "material": [ "milk", "wheat" ],
     "primary_material": "wheat",
-    "relative": { "calories": 101, "fun": 4 }
+    "relative": { "calories": 101, "fun": 4 },
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -267,7 +273,8 @@
     "description": "A slice of wheat-free toast with butter spread on top to make it taste better.",
     "material": [ "milk", "veggy" ],
     "primary_material": "veggy",
-    "relative": { "calories": 101, "fun": 4 }
+    "relative": { "calories": 101, "fun": 4 },
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -278,7 +285,8 @@
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
     "spoils_in": "7 days",
-    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", "20 mg" ] ] }
+    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", "20 mg" ] ] },
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -289,7 +297,8 @@
     "material": [ "fruit", "veggy" ],
     "primary_material": "veggy",
     "spoils_in": "7 days",
-    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", 20 ] ] }
+    "relative": { "calories": 35, "fun": 3, "quench": 2, "vitamins": [ [ "vitC", 20 ] ] },
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -315,7 +324,8 @@
     "description": "A cooked egg served inside a piece of toast, not to be confused with the English recipe of the same name.",
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "material": [ "wheat", "egg" ],
-    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] },
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -325,7 +335,8 @@
     "description": "A cooked egg served inside a piece of wheat-free toast, not to be confused with the English recipe of the same name.",
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
     "material": [ "veggy", "egg" ],
-    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] }
+    "relative": { "calories": 207, "fun": 4, "vitamins": [ [ "iron", 4 ], [ "calcium", 3 ] ] },
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -335,7 +346,8 @@
     "description": "A slice of toast with peanut butter and jelly on top, with added butter for flavor.",
     "material": [ "fruit", "milk", "wheat" ],
     "primary_material": "wheat",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] },
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -345,7 +357,8 @@
     "description": "A slice of wheat-free toast with peanut butter and jelly on top, with added butter for flavor.",
     "material": [ "fruit", "milk", "veggy" ],
     "primary_material": "veggy",
-    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] }
+    "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "vitC", 2 ] ] },
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -366,7 +379,7 @@
     "volume": "60 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 6 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -386,7 +399,7 @@
     "volume": "41 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -407,7 +420,7 @@
     "volume": "20 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -428,33 +441,53 @@
     "volume": "20 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ], [ "wheat_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hardtack_cracker",
+    "name": { "str_sp": "hardtack cracker" },
+    "weight": "72 g",
+    "color": "white",
+    "spoils_in": "360 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -12,
+    "calories": 1680,
+    "description": "A dry, virtually tasteless bread cracker capable of remaining edible without spoilage for vast lengths of time.  So hard it is inedible by itself.  Usually broken into smaller pieces for consumption.",
+    "price": "6 cent",
+    "price_postapoc": "7 cent",
+    "material": [ "wheat" ],
+    "volume": "73 ml",
+    "flags": [ "INEDIBLE" ],
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 90 ], [ "wheat_allergen", 1 ] ],
+    "fun": -4
   },
   {
     "type": "COMESTIBLE",
     "id": "hardtack",
     "name": { "str_sp": "hardtack" },
-    "weight": "80 g",
+    "weight": "12 g",
     "color": "white",
     "spoils_in": "360 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
     "calories": 280,
-    "description": "A dry, virtually tasteless bread product capable of remaining edible without spoilage for vast lengths of time.  So dry it is almost inedible by itself.",
+    "description": "A dry, virtually tasteless bread product capable of remaining edible without spoilage for vast lengths of time.  So hard it is inedible by itself.",
     "price": "6 cent",
     "price_postapoc": "7 cent",
     "material": [ "wheat" ],
     "volume": "12 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
+    "flags": [ "INEDIBLE" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ] ],
     "fun": -4
   },
   {
     "type": "COMESTIBLE",
     "id": "soggy_hardtack",
     "name": { "str_sp": "soggy hardtack" },
-    "weight": "80 g",
+    "weight": "12 g",
     "color": "white",
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
@@ -466,7 +499,7 @@
     "material": [ "wheat" ],
     "volume": "12 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -487,7 +520,7 @@
     "volume": "25 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 11 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "calcium", 11 ], [ "iron", 9 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -509,7 +542,7 @@
     "volume": "60 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 12 ] ],
+    "vitamins": [ [ "calcium", 12 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
   },
   {
@@ -530,7 +563,7 @@
     "volume": "48 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -550,7 +583,7 @@
     "volume": "48 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -570,6 +603,6 @@
     "volume": "1 ml",
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ] ]
   }
 ]

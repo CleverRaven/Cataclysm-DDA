@@ -477,7 +477,12 @@
       "afs_habblock_2_floor5_a3",
       "afs_habblock_2_floor5_a4",
       "afs_habblock_2_roof_a1",
-      "afs_habblock_2_roof_a2"
+      "afs_habblock_2_roof_a2",
+      "afs_habblock_3_ground",
+      "afs_habblock_3_floor_2",
+      "afs_habblock_3_floor_3",
+      "afs_habblock_3_floor_4",
+      "afs_habblock_3_roof"
     ],
     "sym": "H",
     "color": "light_green",

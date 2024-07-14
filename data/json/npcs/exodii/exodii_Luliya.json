@@ -87,7 +87,7 @@
         }
       },
       {
-        "text": "[You point to your chest]  <u_name>.  [You point at the golden figure]  What is your name?",
+        "text": "[You point to your chest.]  <u_name>.  [You point at the golden figure.]  What is your name?",
         "topic": "TALK_LULIYA_NAME",
         "condition": {
           "and": [

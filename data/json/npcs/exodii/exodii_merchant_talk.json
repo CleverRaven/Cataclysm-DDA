@@ -82,6 +82,25 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
+      },
+      {
+        "text": "Any chance I can buy some riot armor?  I need five complete sets.",
+        "condition": {
+          "and": [
+            { "u_has_faction_trust": 2 },
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            {
+              "not": { "npc_has_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear"
+      },
+      {
+        "text": "Remember that riot gear you gave me?",
+        "condition": { "u_has_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback"
       }
     ]
   },
@@ -387,13 +406,13 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1a",
     "type": "talk_topic",
     "dynamic_line": "'Ow long's it been since the mess happened?",
-    "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
+    "responses": [ { "text": "[Tell them.]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1b",
     "type": "talk_topic",
     "dynamic_line": "Thank ye.  When you an' Rubik first met, how long'd it been since the mess begun?",
-    "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
+    "responses": [ { "text": "[Tell them.]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2",
@@ -1296,6 +1315,81 @@
     "responses": [
       { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
       { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear",
+    "type": "talk_topic",
+    "dynamic_line": "Mayhaps this gear will do you better than it did the scuffers wot trained with it. [$400]",
+    "responses": [
+      {
+        "text": "I'll buy it.",
+        "effect": [
+          {
+            "u_spend_cash": 40000,
+            "true_eocs": {
+              "id": "exodii_buy_riot_gear_success",
+              "effect": [
+                { "u_spawn_item": "armor_riot", "count": 5 },
+                { "u_spawn_item": "helmet_riot", "count": 5 },
+                { "u_spawn_item": "armor_riot_arm", "count": 5 },
+                { "u_spawn_item": "armor_riot_leg", "count": 5 },
+                { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "Any chance I can buy gear this on layaway?",
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
+    "type": "talk_topic",
+    "dynamic_line": "If'n you survive, we can give you a fortnight and six odd days to pay us'n back.",
+    "responses": [
+      {
+        "text": "Thanks Rubik, I'll be back with your payment soon.",
+        "effect": [
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "assign_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback",
+    "type": "talk_topic",
+    "dynamic_line": "Right and done, don't let whatever you are going after turn you into a pork loin well done.  I's expectin' you back.",
+    "responses": [
+      {
+        "text": "Here's the money to pay off that debt.",
+        "effect": [
+          {
+            "u_spend_cash": 40000,
+            "true_eocs": {
+              "id": "exodii_pay_back_riot_gear_success",
+              "effect": [ { "finish_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR", "success": true } ]
+            }
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -1580,7 +1580,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
     Character &player_character = get_player_character();
     sfx::play_variant_sound( "plmove", "clear_obstacle",
-                             sfx::get_heard_volume( player_character.pos() ) );
+                             sfx::get_heard_volume( player_character.pos_bub() ) );
     add_msg_debug( debugmode::DF_IEXAMINE,
                    "Move cost to vault: %d, limb score modifier %.1f", move_cost,
                    you.get_modifier( character_modifier_obstacle_climb_mod ) );
@@ -1589,7 +1589,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
                    "Final move cost %d", move_cost );
     you.mod_moves( -move_cost );
     if( you.in_vehicle ) {
-        here.unboard_vehicle( you.pos() );
+        here.unboard_vehicle( you.pos_bub() );
     }
     you.setpos( examp );
     if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
@@ -4662,11 +4662,20 @@ void trap::examine( const tripoint &examp ) const
     }
 }
 
+void trap::examine( const tripoint_bub_ms &examp ) const
+{
+    trap::examine( examp.raw() );
+}
+
 void iexamine::part_con( Character &you, tripoint const &examp )
 {
+    iexamine::part_con( you, tripoint_bub_ms( examp ) );
+}
+
+void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
+{
     map &here = get_map();
-    // TODO: fix point types
-    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
         if( you.fine_detail_vision_mod() > 4 &&
             !you.has_trait( trait_DEBUG_HS ) ) {
             add_msg( m_info, _( "It is too dark to construct right now." ) );
@@ -4677,10 +4686,9 @@ void iexamine::part_con( Character &you, tripoint const &examp )
                        built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 for( const item &it : pc->components ) {
-                    here.add_item_or_charges( you.pos(), it );
+                    here.add_item_or_charges( you.pos_bub(), it );
                 }
-                // TODO: fix point types
-                here.partial_con_remove( tripoint_bub_ms( examp ) );
+                here.partial_con_remove( examp );
             }
         } else {
             you.assign_activity( ACT_BUILD );

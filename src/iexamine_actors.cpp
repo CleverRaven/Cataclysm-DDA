@@ -16,7 +16,7 @@
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 
-void appliance_convert_examine_actor::load( const JsonObject &jo )
+void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, false, "furn_set", furn_set );
     optional( jo, false, "ter_set", ter_set );
@@ -135,7 +135,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
             debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
         set_queued_points();
-        here.set_seen_cache_dirty( examp );
+        here.set_seen_cache_dirty( tripoint_bub_ms( examp ) );
         here.set_transparency_cache_dirty( examp.z );
     } else {
         open = false;
@@ -193,7 +193,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
     }
 }
 
-void cardreader_examine_actor::load( const JsonObject &jo )
+void cardreader_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, false, "flags", allowed_flags );
     optional( jo, false, "consume_card", consume, true );
@@ -257,10 +257,10 @@ void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
     }
 }
 
-void eoc_examine_actor::load( const JsonObject &jo )
+void eoc_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 }
 

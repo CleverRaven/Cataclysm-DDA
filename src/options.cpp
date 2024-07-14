@@ -3365,7 +3365,7 @@ options_manager::PageItem::fmt_tooltip( const std::string &group_id,
             std::string ret = string_format( "%s #%s",
                                              opt.getTooltip(),
                                              opt.getDefaultText() );
-#if defined(TILES) || defined(_WIN32)
+#if !defined(TUI)
             if( opt_name == "TERMINAL_X" ) {
                 int new_window_width = 0;
                 new_window_width = projected_window_width();
@@ -4001,7 +4001,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
-#if !defined(EMSCRIPTEN) && !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
+#if !defined(EMSCRIPTEN) && !defined(__ANDROID__) && !defined(TUI)
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );

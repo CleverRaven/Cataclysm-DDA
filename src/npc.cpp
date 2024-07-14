@@ -296,7 +296,7 @@ npc &npc::operator=( npc && ) noexcept( list_is_noexcept ) = default;
 
 static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc_template::load( const JsonObject &jsobj )
+void npc_template::load( const JsonObject &jsobj, const std::string_view src )
 {
     npc_template tem;
     npc &guy = tem.guy;
@@ -450,7 +450,7 @@ void npc_template::load( const JsonObject &jsobj )
         tem.personality->altruism = personality.get_int( "altruism" );
     }
     for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
-        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     npc_templates.emplace( guy.idz, std::move( tem ) );
@@ -2845,7 +2845,7 @@ void npc::die( Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        get_map().unboard_vehicle( pos(), true );
+        get_map().unboard_vehicle( pos_bub(), true );
     }
     if( is_mounted() ) {
         monster *critter = mounted_creature.get();
@@ -3162,11 +3162,11 @@ void npc::on_load()
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( here.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
-        here.board_vehicle( pos(), this );
+    if( here.veh_at( pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
+        here.board_vehicle( pos_bub(), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos() ) ) {
+        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_bub() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
             add_msg_debug( debugmode::DF_NPC,
@@ -3356,9 +3356,6 @@ std::function<bool( const tripoint & )> npc::get_path_avoid() const
             return true;
         }
         if( sees_dangerous_field( p ) ) {
-            return true;
-        }
-        if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
             return true;
         }
         return false;
@@ -3751,6 +3748,11 @@ void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
+}
+
+void npc_follower_rules::clear_flags()
+{
+    flags = ally_rule::DEFAULT;
 }
 
 int npc::get_thirst() const

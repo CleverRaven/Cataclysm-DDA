@@ -111,6 +111,8 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
+static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
@@ -215,12 +217,12 @@ void Creature::setpos( const tripoint_bub_ms &p )
     Creature::setpos( p.raw() );
 }
 
-bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
+bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
 {
     map &here = get_map();
     const optional_vpart_position vp_there = here.veh_at( loc );
     if( !vp_there ) {
-        return true;
+        return false;
     }
 
     const monster *mon = as_monster();
@@ -255,12 +257,12 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
         }
 
         if( critter_volume > free_cargo ) {
-            return false;
+            return true;
         }
 
         if( size == creature_size::huge &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
-            return false;
+            return true;
         }
 
         // free_cargo * 0.75 < critter_volume && critter_volume <= free_cargo
@@ -268,23 +270,17 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
             if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
                            mon->type->bodytype == "fish" ||
                            has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
-                cramped = true;
+                return true;
             }
         }
 
         if( size == creature_size::huge && !vp_there.part_with_feature( "AISLE", false ) &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
-            cramped = true;
+            return true;
         }
     }
 
-    return true;
-}
-
-bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const
-{
-    bool dummy = false;
-    return can_move_to_vehicle_tile( loc, dummy );
+    return false;
 }
 
 void Creature::move_to( const tripoint_abs_ms &loc )
@@ -499,7 +495,8 @@ bool Creature::sees( const Creature &critter ) const
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( target_range <= 1 ) {
-        return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
+        return ( posz() == critter.posz() || here.sees( pos_bub(), critter.pos_bub(), 1 ) ) &&
+               visible( ch );
     }
 
     // If we cannot see without any of the penalties below, bail now.
@@ -541,7 +538,7 @@ bool Creature::sees( const Creature &critter ) const
     if( ch != nullptr ) {
         if( ch->is_crouching() || ch->has_effect( effect_all_fours ) || ch->is_prone() ||
             pos().z != critter.pos().z ) {
-            const int coverage = std::max( here.obstacle_coverage( pos(), critter.pos() ),
+            const int coverage = std::max( here.obstacle_coverage( pos_bub(), critter.pos_bub() ),
                                            here.ledge_coverage( *this, critter.pos() ) );
             if( coverage < 30 ) {
                 return visible( ch );
@@ -2831,6 +2828,62 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
         ret = lower_limbs;
     }
     return ret;
+}
+
+std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const
+{
+    std::vector<bodypart_id> arms = get_all_body_parts_of_type( body_part_type::type::arm );
+    std::vector<bodypart_id> legs = get_all_body_parts_of_type( body_part_type::type::leg );
+    std::vector<bodypart_id> hands = get_all_body_parts_of_type( body_part_type::type::hand );
+    std::vector<bodypart_id> feet = get_all_body_parts_of_type( body_part_type::type::foot );
+
+    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
+        if( arms_legs == true ) {
+            std::vector<bodypart_id> bodyparts( arms.size() + legs.size() );
+            std::merge( arms.begin(), arms.end(), legs.begin(), legs.end(), bodyparts.begin() );
+            return bodyparts;
+        } else {
+            std::vector<bodypart_id> bodyparts( hands.size() + feet.size() );
+            std::merge( hands.begin(), hands.end(), feet.begin(), feet.end(), bodyparts.begin() );
+            return bodyparts;
+        }
+    } else {
+        std::vector<bodypart_id> bodyparts;
+        if( arms_legs == true ) {
+            bodyparts = get_all_body_parts_of_type( body_part_type::type::leg );
+        } else {
+            bodyparts = get_all_body_parts_of_type( body_part_type::type::foot );
+        }
+        return bodyparts;
+    }
+}
+
+
+std::string Creature::string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps )
+const
+{
+    //Taken of "body_part_names" function in armor_layers.cpp
+    std::vector<std::string> names;
+    names.reserve( bps.size() );
+    for( bodypart_id part : bps ) {
+        bool can_be_consolidated = false;
+        std::string current_part = body_part_name_accusative( part );
+        std::string opposite_part = body_part_name_accusative( part->opposite_part );
+        std::string part_group = body_part_name_accusative( part, 2 );
+        for( const std::string &already_listed : names ) {
+            if( already_listed == opposite_part ) {
+                can_be_consolidated = true;
+                break;
+            }
+        }
+        if( can_be_consolidated ) {
+            std::replace( names.begin(), names.end(), opposite_part, part_group );
+        } else {
+            names.push_back( current_part );
+        }
+    }
+
+    return enumerate_as_string( names );
 }
 
 int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const

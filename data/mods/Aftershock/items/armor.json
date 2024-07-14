@@ -80,7 +80,24 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "IX-2110 computer" },
-    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  By now more than 400 years old, making it boot successfully would be a small adventure all of its own.",
+    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity has left slightly slower than its modern counterparts.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "old",
+        "name": { "str": "IX-2110 computer" },
+        "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity means its only slightly less capable than its modern counterparts.",
+        "append": true
+      },
+      {
+        "id": "standard",
+        "name": { "str": "IX-2330S computer" },
+        "weight": 0,
+        "description": "A rugged and radiation shielded wirst computer specifically designed to support salvage operations.  It can perform general computing tasks and might be used to interface with most ancient computer systems.",
+        "color": "dark_gray",
+        "append": true
+      }
+    ],
     "weight": "315 g",
     "volume": "1200 ml",
     "price": "20 USD",
@@ -89,10 +106,34 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 14, "covers": [ "arm_l", "arm_r" ] } ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "STURDY", "WATER_FRIENDLY" ]
+    "flags": [ "WATCH", "BELTED", "STURDY", "WATER_FRIENDLY" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "use_action": [
+      "EINKTABLETPC",
+      "EBOOKREAD",
+      "ELECTRICSTORAGE",
+      "PORTABLE_GAME",
+      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ]
   },
   {
     "id": "xl_jeans",

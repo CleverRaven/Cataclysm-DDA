@@ -237,5 +237,90 @@
         "max_radius": 6
       }
     ]
+  },
+  {
+    "id": "electrokinetic_power_draining",
+    "type": "SPELL",
+    "name": "[Ψ]Electrokinetic Power Draining Spell",
+    "description": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE", "IGNORE_WALLS" ],
+    "max_level": 20,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING",
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "min_aoe": 5,
+    "max_aoe": 25
+  },
+  {
+    "id": "electrokinetic_power_draining_electric_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Electrokinetic Power Draining monster attack",
+    "description": "Gremlin's power to damage electric monsters.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "max_level": 1,
+    "min_damage": 10,
+    "max_damage": 55
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING",
+    "//": "x_in_y chance is because the power is an aura, to simulate it only hitting certain people instead of the player and all their followers.  If it becomes targeted, that will not be necessary.",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_CHARACTER_CHECK",
+            "condition": { "x_in_y_chance": { "x": 1, "y": 3 } },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_ELECTROKINETIC_CHECK",
+                    "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
+                    "effect": {
+                      "u_run_inv_eocs": "random",
+                      "search_data": [
+                        { "flags": [ "RECHARGE" ] },
+                        { "flags": [ "ELECTRONIC" ] },
+                        { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+                        { "flags": [ "USE_UPS" ] }
+                      ],
+                      "true_eocs": [
+                        {
+                          "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_INV_RESULT",
+                          "effect": [ { "math": [ "n_val('power')", "-=", "rand(200) + 50" ] } ]
+                        }
+                      ]
+                    },
+                    "false_effect": [ { "math": [ "u_val('stamina')", "-=", "rand(350) + 300" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ELECTRONKINETIC_MONSTER_POWER_DRAINING_MONSTER_CHECK",
+            "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 3 } }, { "u_has_flag": "ELECTRIC" } ] },
+            "effect": { "u_cast_spell": { "id": "electrokinetic_power_draining_electric_monster" } }
+          }
+        ]
+      }
+    ]
   }
 ]

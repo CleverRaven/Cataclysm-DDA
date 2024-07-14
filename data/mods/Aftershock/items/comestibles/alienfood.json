@@ -99,7 +99,7 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -118,7 +118,7 @@
     "price": "0 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
     "fun": -20
   },
@@ -138,7 +138,7 @@
     "description": "A smooth light green block of cleaned and rendered human fat.  While it'll remain edible for a very long time, it won't be the most appetizing.",
     "price": "5 USD",
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
     "fun": -20,
     "material": [ "hflesh" ]
@@ -169,7 +169,7 @@
     "price_postapoc": "20 cent",
     "material": [ "flesh" ],
     "flags": [ "TRADER_AVOID" ],
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "fun": -12
   },
   {
@@ -407,7 +407,7 @@
     "material": [ "bone" ],
     "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -426,7 +426,7 @@
     "price": "0 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
     "fun": -20
   },
@@ -448,7 +448,7 @@
     "//": "*May* have been commercially traded.",
     "material": [ "flesh" ],
     "volume": "62 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "fun": -18
   },
   {
@@ -475,7 +475,7 @@
     "healthy": -25,
     "fun": -25,
     "use_action": [ "POISON" ],
-    "vitamins": [  ]
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -493,7 +493,7 @@
     "description": "Bits of alien fat and skin that have been fried until they are crispy and delicious (at least, you hope they are).",
     "price": "42 cent",
     "volume": "25 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "price_postapoc": "125 cent",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
@@ -515,7 +515,7 @@
     "description": "Green scraps of rancid fat and skin, and while they have been fried to a crisp, they still don't smell any better.",
     "price": "42 cent",
     "volume": "25 ml",
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "price_postapoc": "125 cent",
     "material": [ "hflesh" ],
     "flags": [ "EATEN_HOT" ],
@@ -535,7 +535,7 @@
     "quench": -2,
     "healthy": -1,
     "calories": 350,
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "description": "A carefully folded raw skin harvested from an alien animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "20 cent",
@@ -557,7 +557,7 @@
     "quench": -20,
     "healthy": -5,
     "calories": 350,
-    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "description": "A carefully folded raw skin harvested from a fur-bearing alien animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "price": "3 USD 30 cent",
     "price_postapoc": "1 USD",

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "itype.h"
@@ -30,10 +31,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     // Make sure we're not in the 'easy' case where abs_sub is zero
     if( here.get_abs_sub().x() == 0 ) {
-        here.shift( point_east );
+        here.shift( point_rel_sm_east );
     }
     if( here.get_abs_sub().y() == 0 ) {
-        here.shift( point_south );
+        here.shift( point_rel_sm_south );
     }
     here.vertical_shift( z );
 
@@ -78,13 +79,13 @@ TEST_CASE( "destroy_grabbed_furniture" )
         player_character.setpos( test_origin );
         const tripoint grab_point = test_origin + tripoint_east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
-        player_character.grab( object_type::FURNITURE, tripoint_east );
+        player_character.grab( object_type::FURNITURE, tripoint_rel_ms_east );
         REQUIRE( player_character.get_grab_type() == object_type::FURNITURE );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
             }
         }
     }
@@ -149,7 +150,7 @@ void map::check_submap_active_item_consistency()
     for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < MAPSIZE; ++x ) {
             for( int y = 0; y < MAPSIZE; ++y ) {
-                tripoint p( x, y, z );
+                tripoint_rel_sm p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 REQUIRE( s != nullptr );
                 bool submap_has_active_items = !s->active_items.empty();

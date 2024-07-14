@@ -448,7 +448,7 @@ Creature *melee_actor::find_target( monster &z ) const
 
     if( range > 1 ) {
         if( !z.sees( *target ) ||
-            !get_map().clear_path( z.pos(), target->pos(), range, 1, 200 ) ) {
+            !get_map().clear_path( z.pos_bub(), target->pos_bub(), range, 1, 200 ) ) {
             return nullptr;
         }
 
@@ -537,7 +537,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
             if( foe != nullptr ) {
                 if( foe->in_vehicle ) {
-                    here.unboard_vehicle( foe->pos() );
+                    here.unboard_vehicle( foe->pos_bub() );
                 }
 
                 if( foe->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
@@ -629,7 +629,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
-                        here.unboard_vehicle( foe->pos() );
+                        here.unboard_vehicle( foe->pos_bub() );
                     }
                     foe->setpos( zpt );
                     if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {

@@ -102,7 +102,7 @@
     "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_hair_beads",
@@ -112,7 +112,7 @@
     "description": "An assortment of cowrie shells used to decorate locs or braids.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_necklace",
@@ -122,7 +122,7 @@
     "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -4821,5 +4821,27 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "necklace_teeth",
+    "type": "ARMOR",
+    "name": { "str": "teeth necklace" },
+    "description": "A simple teeth necklace, this is sure to add some bite to an outfit.",
+    "symbol": "u",
+    "color": "white",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "weight": "42 g",
+    "volume": "30 ml",
+    "material": "bone",
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
+    "variants": [
+      {
+        "id": "necklace_teeth_monster",
+        "name": { "str": "monster teeth necklace" },
+        "description": "The teeth hanging from this one look alien, with a hypnotizing, iridescent shine.",
+        "append": true
+      }
+    ]
   }
 ]

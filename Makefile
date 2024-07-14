@@ -855,6 +855,9 @@ else
       endif # OSXCROSS
     endif # HAVE_NCURSES5CONFIG
   endif # HAVE_PKGCONFIG
+  ifeq ($(MSYS),1)
+    CXXFLAGS += -DNCURSES_INTERNALS
+  endif
 endif # TILES
 
 ifeq ($(BSD), 1)

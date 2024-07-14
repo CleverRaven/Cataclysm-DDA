@@ -15,6 +15,7 @@
       "and they knew it was a bad idea from the start",
       "after smoking a cigarette",
       "while dead drunk",
+      "while \"tripping major ballsack\"",
       "down in the river",
       "in a cave full of scrap",
       "because the only other option was death",
@@ -45,7 +46,15 @@
       "after realizing the grandiose beauty of the simultaneous 4-day timecube",
       "back when they were young",
       "back in 1998",
-      "while exploring a ruined library"
+      "while exploring a ruined library",
+      "in a video game",
+      "on live TV",
+      "then everybody clapped",
+      "one day before retirement",
+      "and they haven't slept since",
+      "and they've slept like a baby ever since",
+      "without breaking a sweat",
+      "wearing nothing but a towel"
     ]
   },
   {
@@ -60,6 +69,7 @@
       "stumbling into",
       "being rescued by",
       "being taught a valuable lesson by",
+      "teaching a valuable lesson to",
       "narrowly escaping",
       "falling in love with",
       "holding a violent, one-sided argument with",
@@ -73,7 +83,10 @@
       "narrowly escaping death at the hands of",
       "surviving a fight with",
       "putting a plan together to kill",
-      "spotting"
+      "spotting",
+      "taking a selfie with",
+      "wrestling with",
+      "using a puzzle box to summon"
     ]
   },
   {
@@ -102,7 +115,7 @@
       "a singing potato",
       "Ratatouille",
       "some sort of giant, glowing, radioactive slug",
-      "the zombie men, and the zombie women and children too",
+      "not just the zombie men, but the zombie women, and the zombie children too",
       "an incredibly muscular carp",
       "a fellow survivor",
       "a jeweled tortoise",
@@ -125,7 +138,14 @@
       "a shadow",
       "their own damn shadow",
       "a prowling zombie runner",
-      "a complete set of power armor"
+      "a complete set of power armor",
+      "a mannequin",
+      "a friend from a small planet somewhere in the vicinity of Betelgeuse",
+      "an old house that turned evil",
+      "a zombie dancer",
+      "vampires",
+      "werewolves",
+      "a large, phallic object"
     ]
   },
   {
@@ -134,8 +154,9 @@
     "text": [
       "a plain story about",
       "a bizarre story about",
-      "an probably fake tale that involves",
+      "a probably fake tale that involves",
       "a truly frightening story about",
+      "a boring story about",
       "a story about"
     ]
   }
