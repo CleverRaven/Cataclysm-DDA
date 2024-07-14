@@ -217,39 +217,5 @@
         "target_part": "eyes"
       }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_contaminants_apply_conjunctivitis",
-    "eoc_type": "EVENT",
-    "required_event": "character_loses_effect",
-    "condition": {
-      "and": [
-        {
-          "or": [
-            { "compare_string": [ "smoke_eyes", { "context_val": "effect" } ] },
-            { "compare_string": [ "teargas", { "context_val": "effect" } ] }
-          ]
-        },
-        { "math": [ "u_vitamin('eye_contaminants')", ">", "20" ] }
-      ]
-    },
-    "effect": [
-      { "math": [ "CONJ_DUR_HOURS", "=", "u_vitamin('eye_contaminants') / 20" ] },
-      {
-        "if": { "math": [ "CONJ_DUR_HOURS", ">", "u_effect_duration('conjunctivitis', 'bodypart': 'eyes', 'unit': 'hours')" ] },
-        "then": [
-          {
-            "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
-            "then": { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }
-          },
-          {
-            "u_add_effect": "conjunctivitis",
-            "duration": { "math": [ "CONJ_DUR_HOURS * 3600" ] },
-            "target_part": "eyes"
-          }
-        ]
-      }
-    ]
   }
 ]
