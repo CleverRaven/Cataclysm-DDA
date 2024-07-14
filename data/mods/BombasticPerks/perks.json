@@ -716,7 +716,7 @@
     "id": "perk_eating_window",
     "name": { "str": "Compressed Eating Window" },
     "points": 0,
-    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain +150% kcal and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
+    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain 2.5 times as many calories and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
     "category": [ "perk" ],
     "enchantments": [
       {
@@ -735,7 +735,7 @@
             { "math": [ "time_since('midnight', 'unit': 'hours') > 18" ] }
           ]
         },
-        "values": [ { "value": "KCAL", "multiply": -1.0 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -1.0 } ]
+        "values": [ { "value": "KCAL", "multiply": -50 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -50 } ]
       }
     ]
   },
