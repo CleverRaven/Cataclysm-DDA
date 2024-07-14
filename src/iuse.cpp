@@ -9023,6 +9023,10 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
     item_location ereader = item_location( *p, it );
     const drop_locations to_scan = game_menus::inv::ebooksave( *p, ereader );
     if( to_scan.empty() ) {
