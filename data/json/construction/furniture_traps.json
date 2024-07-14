@@ -1,0 +1,14 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_trap_glass",
+    "group": "build_trap_glass",
+    "category": "OTHER",
+    "time": "2 s",
+    "//": "use place_trap",
+    "components": [ [ [ "glass_shard", 1 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "tr_glass"
+  }
+]
