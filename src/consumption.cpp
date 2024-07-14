@@ -248,6 +248,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     kcal = you.enchantment_cache->modify_value( enchant_vals::mod::KCAL, kcal );
+    kcal = std::max( 0.0f, kcal );
 
     return static_cast<int>( kcal );
 }
@@ -291,6 +292,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     for( std::pair<const vitamin_id, int> &vit : res ) {
         vit.second = you.enchantment_cache->modify_value( enchant_vals::mod::VITAMIN_ABSORB_MOD,
                      vit.second );
+        vit.second = std::max( 0, vit.second );
     }
     return res;
 }

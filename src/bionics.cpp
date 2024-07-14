@@ -2745,7 +2745,8 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid,
 
     bionic_uid bio_uid = generate_bionic_uid();
 
-    my_bionics->emplace_back( b, get_free_invlet( *this ), bio_uid, parent_uid );
+    const char invlet = b->activated ? get_free_invlet( *this ) : ' ';
+    my_bionics->emplace_back( b, invlet, bio_uid, parent_uid );
     bionic &bio = my_bionics->back();
     if( bio.id->activated_on_install ) {
         activate_bionic( bio );

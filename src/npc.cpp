@@ -3358,9 +3358,6 @@ std::function<bool( const tripoint & )> npc::get_path_avoid() const
         if( sees_dangerous_field( p ) ) {
             return true;
         }
-        if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
-            return true;
-        }
         return false;
     };
 }

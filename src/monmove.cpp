@@ -1624,8 +1624,8 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    const bool too_cramped = !can_move_to_vehicle_tile( get_map().getglobal( p ) );
-    bool try_bash = !can_move_to( p ) || one_in( 3 ) || too_cramped;
+    const bool cramped = will_be_cramped_in_vehicle_tile( get_map().getglobal( p ) );
+    bool try_bash = !can_move_to( p ) || one_in( 3 ) || cramped;
     if( !try_bash ) {
         return false;
     }
@@ -1635,7 +1635,7 @@ bool monster::bash_at( const tripoint &p )
     }
 
     map &here = get_map();
-    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() || too_cramped ) ) {
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() || cramped ) ) {
         // if the only thing here is road or flat, rarely bash it
         bool flat_ground = here.has_flag( ter_furn_flag::TFLAG_ROAD, p ) ||
                            here.has_flag( ter_furn_flag::TFLAG_FLAT, p );
@@ -1806,11 +1806,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    bool cramped = false; // applies an effect if monster does end up moving there
-    if( !can_move_to_vehicle_tile( here.getglobal( p ), cramped ) ) {
-        return false;
-    }
-
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, destination ) ) {
@@ -1905,7 +1900,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     optional_vpart_position vp_dest = here.veh_at( destination );
     if( vp_dest ) {
         vp_dest->vehicle().invalidate_mass();
-        if( cramped ) {
+        if( will_be_cramped_in_vehicle_tile( here.getglobal( p ) ) ) {
             add_effect( effect_cramped_space, 2_turns, true );
         }
     }

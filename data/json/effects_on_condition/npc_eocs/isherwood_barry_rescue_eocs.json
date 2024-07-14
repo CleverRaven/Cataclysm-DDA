@@ -379,5 +379,29 @@
         "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "eoc_type": "OM_MOVE",
+    "id": "EOC_HAVE_U_BEEN_TO_MIGOS",
+    "condition": {
+      "or": [
+        { "u_near_om_location": "mi-go_portal", "range": 3 },
+        { "u_near_om_location": "mi-go_camp1", "range": 3 },
+        { "u_near_om_location": "mi-go_camp2", "range": 3 },
+        { "u_near_om_location": "mi-go_camp2-1", "range": 3 },
+        { "u_near_om_location": "mi-go_camp2-2", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_1", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_2", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_3", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_4", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_2", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_3", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_4", "range": 3 }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "u_been_to_migos", "value": "yes" },
+    "effect": [ { "u_add_var": "u_been_to_migos", "value": "yes" } ]
   }
 ]

@@ -404,9 +404,6 @@ bool npc::could_move_onto( const tripoint &p ) const
     if( !here.passable( p ) ) {
         return false;
     }
-    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
-        return false;
-    }
 
     if( !sees_dangerous_field( p ) ) {
         return true;
@@ -2900,20 +2897,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
-    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
-        auto other_points = here.get_dir_circle( pos(), p );
-        for( const tripoint &ot : other_points ) {
-            if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
-                p = ot;
-                break;
-            } else {
-                path.clear();
-                move_pause();
-                return;
-            }
-        }
-    }
-
     recoil = MAX_RECOIL;
 
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
@@ -3144,10 +3127,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         here.creature_on_trap( *this );
         here.creature_in_field( *this );
 
-        bool cramped = false;
-        if( !can_move_to_vehicle_tile( here.getglobal( p ), cramped ) ) {
-            debugmsg( "NPC %s somehow moved to a too-cramped vehicle tile", disp_name() );
-        } else if( cramped ) { //set by above call to Creature::can_move_to_vehicle_tile
+        if( will_be_cramped_in_vehicle_tile( here.getglobal( p ) ) ) {
             if( !has_effect( effect_cramped_space ) ) {
                 add_msg_if_player_sees( *this, m_warning,
                                         string_format( _( "%s has to really cram their huge body to fit." ), disp_name() ) );
