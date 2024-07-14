@@ -42,7 +42,17 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "BIOLOGICALPROOF", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "IR_CAMERA" ],
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "BIOLOGICALPROOF",
+      "COLDPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "DROPS_AMMO",
+      "IR_CAMERA"
+    ],
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
@@ -73,7 +83,17 @@
       "message": "As the final light is destroyed, it erupts in a blinding flare!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "BIOLOGICALPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "IR_CAMERA" ],
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "BIOLOGICALPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "IR_CAMERA"
+    ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
   {
