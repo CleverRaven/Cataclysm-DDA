@@ -9673,7 +9673,18 @@
     "category": [ "BIRD" ],
     "prereqs": [ "MUTE_BIRD" ],
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "//": "Least punishing social malus, but still not nothing",
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -4 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.4 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.4 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.4 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -9696,7 +9707,17 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "MUTE_CEPH" ],
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -6 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.6 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.6 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.6 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -9720,7 +9741,17 @@
     "category": [ "GASTROPOD" ],
     "prereqs": [ "MUTE_GASTROPOD" ],
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -7 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.7 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.7 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.7 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -9743,7 +9774,17 @@
     "category": [ "INSECT" ],
     "prereqs": [ "MUTE_INSECT" ],
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -7 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.7 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.7 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.7 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -9766,7 +9807,17 @@
     "category": [ "SLIME" ],
     "prereqs": [ "MUTE_SLIME" ],
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "enchantments": [
+      {
+        "skills": [ { "value": "speech", "add": -9 } ],
+        "values": [
+          { "value": "SOCIAL_LIE", "multiply": -0.9 },
+          { "value": "SOCIAL_PERSUADE", "multiply": -0.9 },
+          { "value": "SOCIAL_INTIMIDATE", "multiply": -0.9 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
