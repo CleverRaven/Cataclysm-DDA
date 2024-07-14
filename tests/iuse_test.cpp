@@ -468,6 +468,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         dummy.add_effect( effect_slimed, 1_hours );
         dummy.add_effect( effect_boomered, 1_hours );
         dummy.add_effect( effect_glowing, 1_hours );
+        dummy.add_effect( effect_bile_irritant, 1_hours );
         REQUIRE( dummy.has_effect( effect_slimed ) );
         REQUIRE( dummy.has_effect( effect_boomered ) );
         REQUIRE( dummy.has_effect( effect_glowing ) );
