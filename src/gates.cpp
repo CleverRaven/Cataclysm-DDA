@@ -133,6 +133,10 @@ void gate_data::check() const
 bool gate_data::is_suitable_wall( const tripoint_bub_ms &pos ) const
 {
     const ter_id wid = get_map().ter( pos );
+    if( walls.empty() ) {
+        return wid->has_flag( "WALL" );
+    }
+
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
         return wall.id() == wid;
     } );
