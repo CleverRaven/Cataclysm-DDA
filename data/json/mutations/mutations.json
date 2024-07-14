@@ -9657,7 +9657,7 @@
     "id": "MUTE_BIRD",
     "name": { "str": "Mute (Bird)" },
     "points": -2,
-    "description": "Your beak and voicebox have changed irreversibly, rendering you incapable of human speech.  With enough practice you could relearn imitating their weird ape chirps, but it will take time.  <color_red>Look for a new practice recipe to lose this setback.</color>",
+    "description": "Your mouth and larynx have changed dramatically, rendering you incapable of human speech.  With enough practice you could relearn imitating their weird ape chirps, but it will take time.  <color_red>Look for a new practice recipe to lose this setback.</color>",
     "category": [ "BIRD" ],
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "flags": [ "MUTE" ],

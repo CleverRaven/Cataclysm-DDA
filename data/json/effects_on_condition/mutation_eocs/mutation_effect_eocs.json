@@ -144,7 +144,7 @@
       { "u_lose_trait": "MUTE_SLIME" },
       { "u_add_trait": "MUTE_SLIME_OK" },
       {
-        "u_message": "You realize you don't need to grow anything nearly as complicated as your old insides - one vesicle per word will suffice, but you needed a long time to learn the right rhytm."
+        "u_message": "You realize you don't need to grow anything nearly as complicated as your old insides - one vesicle per word will suffice, but you needed a long time to learn the right rhythm."
       },
       { "u_forget_recipe": "prac_unmute_slime" }
     ],
