@@ -1077,6 +1077,7 @@ std::string monster::extended_description() const
         {mon_flag_HEARS, pgettext( "Hearing as sense", "hearing" )},
         {mon_flag_SEES, pgettext( "Sight as sense", "sight" )},
         {mon_flag_SMELLS, pgettext( "Smell as sense", "smell" )},
+        {mon_flag_IR_CAMERA, pgettext( "Infrared as sense", "infrared" )},
     }, _( "It doesn't have senses." ) );
 
     describe_properties( _( "It can %s." ), {
