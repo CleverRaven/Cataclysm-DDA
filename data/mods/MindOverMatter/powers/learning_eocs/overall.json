@@ -29,7 +29,7 @@
       { "u_add_effect": "effect_psi_studying_power", "duration": "24 hours" },
       { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "24 hours" }
     ],
-    "false_effect": [ { "u_message": "You are much too tired to contemplate anything", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You are too exhausted to contemplate anything", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -134,7 +134,7 @@
       { "u_lose_effect": "effect_psi_learning_new_power" },
       { "u_lose_effect": "effect_psi_studying_power" },
       {
-        "u_message": "You're so tired you can barely think straight, and certainly can't concentrate on studying your powers.",
+        "u_message": "You're so exhausted you can barely think straight, and certainly can't concentrate on studying your powers.",
         "popup": true
       }
     ]
