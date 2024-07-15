@@ -4242,8 +4242,13 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     const map_bash_info *bash = nullptr;
 
     tripoint_bub_ms below = p + tripoint_rel_ms_below;
-    const ter_str_id below_tile_roof = get_roof( below, false );
-    bool roof_of_below_tile = ( terid.id.id() == below_tile_roof.id() );
+    ter_str_id below_tile_roof = ter_t_dirt;
+    bool roof_of_below_tile = false;
+
+    if( zlevels ) {
+        below_tile_roof = get_roof( below, false );
+        roof_of_below_tile = ( terid.id.id() == below_tile_roof.id() );
+    }
 
     bool success = false;
 
@@ -4480,8 +4485,8 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
     //regenerates roofs for tiles that should be walkable from above
-    if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && ter( below )->has_flag( "WALL" ) &&
-        zlevels && !set_to_air ) {
+    if( zlevels && smash_ter && !set_to_air  && ter( p )->has_flag( "EMPTY_SPACE" ) &&
+        ter( below )->has_flag( "WALL" ) ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
