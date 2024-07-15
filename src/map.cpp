@@ -8669,7 +8669,7 @@ void map::loadn( const point &grid, bool update_vehicles )
         }
 
         if( zlevels ) {
-            add_roofs( tripoint_rel_sm( grid.x, grid.y, z ) );
+            add_tree_tops( tripoint_rel_sm( grid.x, grid.y, z ) );
         }
     }
 }
@@ -9106,27 +9106,27 @@ void map::actualize( const tripoint_rel_sm &grid )
     tmpsub->last_touched = calendar::turn;
 }
 
-void map::add_roofs( const tripoint_rel_sm &grid )
+void map::add_tree_tops( const tripoint_rel_sm &grid )
 {
     if( !zlevels ) {
-        // No roofs required!
-        // Why not? Because submaps below and above don't exist yet
+        // Can't add things on the level above when the map doesn't contain that level.
         return;
     }
 
     submap *const sub_here = get_submap_at_grid( grid );
     if( sub_here == nullptr ) {
-        debugmsg( "Tried to add roofs/floors on null submap on %d,%d,%d",
+        debugmsg( "Tried to add tree tops on null submap on %d,%d,%d",
                   grid.x(), grid.y(), grid.z() );
         return;
     }
 
-    bool check_roof = grid.z() > -OVERMAP_DEPTH;
+    bool check_tree_tops = grid.z() > -OVERMAP_DEPTH;
 
-    submap *const sub_below = check_roof ? get_submap_at_grid( grid + tripoint_rel_sm_below ) : nullptr;
+    submap *const sub_below = check_tree_tops ? get_submap_at_grid( grid + tripoint_rel_sm_below ) :
+                              nullptr;
 
-    if( check_roof && sub_below == nullptr ) {
-        debugmsg( "Tried to add roofs to sm at %d,%d,%d, but sm below doesn't exist",
+    if( check_tree_tops && sub_below == nullptr ) {
+        debugmsg( "Tried to add tree tops to sm at %d,%d,%d, but sm below doesn't exist",
                   grid.x(), grid.y(), grid.z() );
         return;
     }
@@ -9134,19 +9134,18 @@ void map::add_roofs( const tripoint_rel_sm &grid )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const ter_id ter_here = sub_here->get_ter( { x, y } );
-            if( ter_here.id() != ter_t_open_air ) {
+            if( !ter_here.id()->has_flag( "EMPTY_SPACE" ) ) {
                 continue;
             }
 
-            if( !check_roof ) {
-                // Make sure we don't have open air at lowest z-level
+            if( !check_tree_tops ) {
+                // Make sure we don't have empty space at lowest z-level
                 sub_here->set_ter( { x, y }, ter_t_rock_floor );
                 continue;
             }
 
             const ter_t &ter_below = sub_below->get_ter( { x, y } ).obj();
-            if( ter_below.roof ) {
-                // TODO: Make roof variable a ter_id to speed this up
+            if( ter_below.has_flag( "TREE" ) && ter_below.roof ) {
                 sub_here->set_ter( { x, y }, ter_below.roof.id() );
             }
         }
