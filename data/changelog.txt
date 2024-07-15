@@ -286,6 +286,14 @@ Added multiple new guns
 This adds a Doctor and Pharmacist profession. It also generalizes the "MD" trait description to include more medical professionals.
 Three new skeletal zombie evolutions
 Microlabs will now spawn foes from a series of mutually exclusive lists.
+Add Vegetable Samosas
+Bakery contains flour now, plus overhaul and improvements
+A few new NPC story snippets
+burglar profession has the safecracking proficiency
+Expands the regenerating zombie into it's own line
+Adds a new set of twisted geometry artifacts, found where geometry itself is twisted due to the acts of humans and worse.
+Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
+Add snippet for OCP army pants
 
 
 ## Interface:
@@ -358,6 +366,7 @@ Add selection menu for cosmetic traits in character creation
 Adds message for NPCs completing crafting so it doesn't reference the player incorrectly.
 Add the 12-bit rainbow as color palette option
 NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
+Prevent automatically assigning keys to passive bionics
 
 
 ## Mods:
@@ -542,6 +551,19 @@ Aftershock: New craftable plasma gun.
 [Aftershock] Add Habitat Block 3 Mapgen to Aftershock Exoplanet
 (XE) Tier 4 Vampire implementation
 Aftershock Lore documents
+[Xedra Evolved] Vampire blood gift research
+[Xedra Evolved] Paraclesian morale effects scale
+[Xedra Evolved] Paraclesian fae cannot wear steel or iron without problems (except Homullus)
+[Xedra Evolved] Paraclesian fae cannot wield items made of steel or iron without problems (except Homullus)
+[Magiclysm] Druid's Nature's Communion morale scales
+[Xedra Evolved] Add vampire transformation powers
+Aftershock: Add a tool and gadget trader to Port Augustmoon.
+[MoM] Concentrating on maintenance powers also levels metaphysics
+[Xedra Evolved] Give Vampires nighttime overmap sight
+Add Xedra Inventor compatibility with Electrokinetic Powers
+[Xedra Evolved] Vampire form tweaks
+[MoM] Add gremlin, a Nether-touched fox, plus small monster tweaks
+[MoM] Randomize monster power cooldowns
 
 
 ## Balance:
@@ -621,6 +643,8 @@ Bring volume calculations for player body more in line with realistic examples
 Give pebble ammo type recovery chance
 Display ordered NPC path on map, NPCs refuse to go to dangerous locations
 Reduce Anthill Spawns
+Science item group no longer littered with personal prescriptions
+more monster balance documentation
 
 
 ## Bugfixes:
@@ -817,6 +841,18 @@ Fix rat aggression
 Fix android build
 Clean water in tanks now stays clean
 Webs, sludge, and sap no longer give you superhuman dodge and melee accuracy
+Sealed recipes won't seal #71878
+Readd condom flavours
+New England Community Church also dislikes rabbit and bat mutants
+fixes appliances turning off randomly
+Fixing drawing of fallback tiles for weather on overmap
+[MoM] Pyrokinetics no longer blister when using Flame Immunity
+Fix conjunctivitis duration stacking and eyedrops
+Limit shot targets to the reality bubble
+Add pain_max_val to conjunctivitis
+Remove acid bombs
+gate close displacement bugfix
+Actually removes acid bomb
 
 
 ## Performance:
@@ -909,6 +945,7 @@ Add IRRITANT_IMMUNE flag for describing immunity to skin irritants
 LIXA connect_group
 Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
+Jsonized end screen
 
 
 ## Build:
