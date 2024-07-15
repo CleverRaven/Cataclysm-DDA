@@ -1570,7 +1570,9 @@ void map::player_in_field( Character &you )
         }
         if( ft == fd_fire ) {
             // Heatsink or fire immune suit prevents ALL fire damage.
-            if( !you.has_flag( json_flag_HEATSINK ) && !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
+            if( !you.has_flag( json_flag_HEATSINK ) &&
+                !you.has_flag( json_flag_FIRE_IMMUNE ) &&
+                !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1692,6 +1694,7 @@ void map::player_in_field( Character &you )
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
                 if( !you.has_flag( json_flag_HEATSINK ) &&
+                    !you.has_flag( json_flag_FIRE_IMMUNE ) &&
                     !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
                     you.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                                _( "<npcname> is torched by flames!" ) );
@@ -1744,7 +1747,9 @@ void map::player_in_field( Character &you )
         if( ft == fd_shock_vent || ft == fd_acid_vent ) {
             cur.set_field_intensity( 0 );
         }
-        if( ft == fd_incendiary && !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
+        if( ft == fd_incendiary && 
+            !you.has_flag( json_flag_FIRE_IMMUNE ) && 
+            !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
             // Mysterious incendiary substance melts you horribly.
             if( you.has_trait( trait_M_SKIN2 ) ||
                 you.has_trait( trait_M_SKIN3 ) ||
