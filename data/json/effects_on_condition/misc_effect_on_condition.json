@@ -164,6 +164,7 @@
     "text": "Dislikes being in sewer"
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_TOOK_OVER_CAMP_NOTICE",
     "eoc_type": "EVENT",
     "required_event": "camp_taken_over",
@@ -201,6 +202,7 @@
       "and": [
         { "compare_string": [ "boomered", { "context_val": "effect" } ] },
         { "compare_string": [ "eyes", { "context_val": "bodypart" } ] },
+        { "not": { "u_has_effect": "conjunctivitis" } },
         { "not": { "u_has_trait": "COMPOUND_EYES" } },
         { "not": { "u_has_trait": "SEESLEEP" } },
         { "not": { "u_has_bionics": "armor_bio_eyes" } },
@@ -220,6 +222,7 @@
       }
     ]
   },
+  {
     "type": "effect_on_condition",
     "id": "sunrise_morale_buff",
     "recurrence": { "math": [ "time_until('sunrise')" ] },
@@ -234,8 +237,9 @@
         "duration": "120 minutes",
         "decay_start": "60 minutes"
       }
-      ]},
-{
+    ]
+  },
+  {
     "id": "sunset_morale_buff",
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
@@ -248,5 +252,7 @@
         "max_bonus": 10,
         "duration": "120 minutes",
         "decay_start": "60 minutes"
-      }]}
+      }
+    ]
+  }
 ]
