@@ -38,8 +38,81 @@
     "responses": [
       { "text": "So you're a good faerie?", "topic": "TALK_BOANN_2" },
       { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" },
-      { "text": "Is there anything I can do for you?", "topic": "TALK_QUEST_LIST", "condition": { "math": [ "Boann_Quests_completed", "=", "0" ] } },
-      { "text": "I am ready to leave this world for yours.", "topic": "TALK_OUTWORLD_CONFIRM", "condition": { "math": [ "RC_Shoppers_visiting", "=", "0" ] } },
+      { "text": "Is there anything I can do for you?", "topic": "TALK_QUEST_LIST", "condition": { "math": [ "Boann_Quests_completed", "<", "10" ] } },
+      { "text": "I am ready to leave this world for yours.", "topic": "TALK_OUTWORLD_CONFIRM", "condition": { "math": [ "Boann_Quests_completed", "=>", "10" ] } },
+
+      {
+        "text": "I'd like some advice about the Jabberwock.",
+        "condition": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" },
+        "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the march lords.",
+        "condition": { "u_has_mission": "MISSION_KILL_THREE_MARCH_LORDS_FOR_BOANN" },
+        "topic": "TALK_KILL_THREE_MARCH_LORDS_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about that dog.",
+        "condition": { "u_has_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" },
+        "topic": "TALK_KILL_DOGTHING_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the giant acid queen ant.",
+        "condition": { "u_has_mission": "MISSION_KILL_GIANT_ACID_QUEEN_FOR_BOANN" },
+        "topic": "TALK_KILL_GIANT_ACID_QUEEN_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the armored centipede.",
+        "condition": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" },
+        "topic": "TALK_KILL_ARMORED_CENTIPEDE_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the automaton.",
+        "condition": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" },
+        "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the triffid heart",
+        "condition": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" },
+        "topic": "TALK_GET_TRIFFID_HEART_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the titan stag bettle",
+        "condition": { "u_has_mission": "MISSION_KILL_TITAN_BETTLE_FOR_BOANN" },
+        "topic": "TALK_KILL_TITAN_BETTLE_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the shadow and its piece",
+        "condition": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" },
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_ADVICE"
+      },
+      {
+        "text": "I'd like some advice about the star-crowned hound",
+        "condition": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" },
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_ADVICE"
+      },
+
+
+
+
+        {
+          "text": "I'm back and I killed the Jabberwock.  [Give her the heart]",
+          "condition": { "and": [ { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" }, { "u_has_item": "robofac_hardcase" } ] },
+          "effect": [
+            { "u_consume_item": "jabberwock_heart", "count": 1, "popup": true },
+            { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" },
+            { "u_spawn_item": "horse_tack", "count": 1 },
+            { "math": [ "Boann_Quests_completed", "++" ] },
+            { "u_add_var": "completed_boann_bring_jabberwock_heart", "value": "yes" } ,
+            { "finish_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART", "success": true }
+          ],
+          "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_COMPLETE"
+        },
+
+
+
+
+
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -49,7 +122,7 @@
     "dynamic_line": "Some of my kind might find that word pejorative, but it's what you've called us for so very long.  It had been quite a while since we were last able to come in numbers to this world, until the last few years.",
     "responses": [
       { "text": "Why were you able to return?", "topic": "TALK_BOANN_3" },
-      { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" , "condition": { "math": [ "Boann_Quests_completed", "=", "0" ] } },
+      { "text": "How can I join your court?", "topic": "TALK_BOANN_JOIN" , "condition": { "math": [ "Boann_Quests_completed", "<", "10" ] } },
       { "text": "Well those of us who aren't faeries have other places to be now.", "topic": "TALK_DONE" }
     ]
   },
@@ -59,7 +132,7 @@
     "dynamic_line": "The same thing that is causing the portal storms made travel between our worlds easier again.  We have to engage in fairly strenuous decontamination procedures on our way back but we've had those in place for aeons.",
     "responses": [
       { "text": "Decontamination?  You can leave here and not worry about the risen dead?", "topic": "TALK_BOANN_4" },
-      { "text": "How can I join your court?  I want to leave here when you do!", "topic": "TALK_BOANN_JOIN" , "condition": { "math": [ "Boann_Quests_completed", "=", "0" ] } },
+      { "text": "How can I join your court?  I want to leave here when you do!", "topic": "TALK_BOANN_JOIN" , "condition": { "math": [ "Boann_Quests_completed", "<", "10" ] } },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
   },
@@ -68,7 +141,7 @@
     "id": "TALK_BOANN_4",
     "dynamic_line": "If we die here, we will rise just like you, we are within the belly of the beast, so to speak here.  But yes when we go elsewhere we don't bring this with us, that would be rude.",
     "responses": [
-      { "text": "Please take me away with you.", "topic": "TALK_BOANN_JOIN", "condition": { "math": [ "Boann_Quests_completed", "=", "0" ] } },
+      { "text": "Please take me away with you.", "topic": "TALK_BOANN_JOIN", "condition": { "math": [ "Boann_Quests_completed", "<", "10" ] } },
       { "text": "I haven't decided if I believe you or not but I'll see you around.", "topic": "TALK_DONE" }
     ]
   },
@@ -77,7 +150,7 @@
     "id": "TALK_BOANN_JOIN",
     "dynamic_line": "Well you can't just join by asking, you need to accomplish a series of progressively more difficult quests, bringing me trophies and relics proving your worth to join our ranks.",
     "responses": [
-      { "text": "Do you have a quest for me now?", "topic": "TALK_QUEST_LIST", "condition": { "math": [ "Boann_Quests_completed", "=", "0" ] } },
+      { "text": "Do you have a quest for me now?", "topic": "TALK_QUEST_LIST", "condition": { "math": [ "Boann_Quests_completed", "<", "10" ] } },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
   },
@@ -89,47 +162,109 @@
       { "text": "And when I'll be a knight you'll bring me out of here?", "topic": "TALK_QUEST_KNIGHT_OUTWORLD", "condition": { "not": { "u_has_var": "told_about_knight_not_coming", "value": "yes" } } },
       {
         "text": "[Bring me the heart of a Jabberwock]",
-        "condition": { "not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+            { "not": { "u_has_var": "completed_boann_bring_jabberwock_heart", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_OFFER"
       },
       {
         "text": "[Find and kill three March Lords]",
-        "condition": { "not": { "u_has_mission": "MISSION_KILL_THREE_MARCH_LORDS" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_THREE_MARCH_LORDS_FOR_BOANN" } },
+            { "not": { "u_has_var": "completed_boann_kill_three_march_lords", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_KILL_THREE_MARCH_LORDS_OFFER"
       },
       {
         "text": "[Kill the suspicious dog]",
-        "condition": { "not": { "u_has_mission": "MISSION_KILL_DOGTHING" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_DOGTHING_FOR_BOANN" } },
+            { "not": { "u_has_var": "completed_boann_kill_dogthing", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_KILL_DOGTHING_OFFER"
       },
       {
-        "text": "[Kill a giant acidic ant queen]",
-        "condition": { "not": { "u_has_mission": "MISSION_KILL_GIANT_ACID_QUEEN" } },
+        "text": "[Kill a giant acidic queen ant]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_GIANT_ACID_QUEEN_FOR_BOANN" } },
+            { "not": { "u_has_var": "completed_boann_kill_giant_acid_queen", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_KILL_GIANT_ACID_QUEEN_OFFER"
       },
       {
         "text": "[Kill an armored centipede]",
-        "condition": { "not": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_ARMORED_CENTIPEDE_FOR_BOANN" } },
+            { "not": { "u_has_var": "completed_boann_kill_armored_centipede", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_KILL_ARMORED_CENTIPEDE_OFFER"
       },
       {
         "text": "[Kill the remains of a dreamforged automaton]",
-        "condition": { "not": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON" } },
+
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_DREAMFORGED_AUTOMATON_FOR_BOANN" } },
+            { "not": { "u_has_var": "completed_boann_kill_dreamforged_automaton", "value": "yes" } }
+          ]
+        },
         "topic": "TALK_KILL_DREAMFORGED_AUTOMATON_OFFER"
       },
-
-
-
-
-
-
-
-
-
-
-
-
-      
+      {
+        "text": "[Bring me back a chunk of a triffid heart]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_GET_TRIFFID_HEART_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_completed", "=>", "6" ] },
+            { "not": { "u_has_var": "completed_boann_bring_triffid_heart", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GET_TRIFFID_HEART_OFFER"
+      },
+      {
+        "text": "[Kill a titan stag bettle]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_TITAN_BETTLE_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_completed", "=>", "6" ] },
+            { "not": { "u_has_var": "completed_boann_kill_titan_bettle", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_KILL_TITAN_BETTLE_OFFER"
+      },
+      {
+        "text": "[Bring me back a piece of the darkest shadow]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_completed", "=>", "6" ] },
+            { "not": { "u_has_var": "completed_boann_jabberwock_heart", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GET_SHADOW_SINGULARITY_PIECE_OFFER"
+      },
+      {
+        "text": "[Kill a star-crowned hound]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_KILL_STAR_CROWN_HOUND_FOR_BOANN" } },
+            { "math": [ "Boann_Quests_completed", "=>", "6" ] },
+            { "not": { "u_has_var": "completed_boann_jabberwock_heart", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_KILL_STAR_CROWN_HOUND_OFFER"
+      },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
   },
@@ -142,8 +277,6 @@
       { "text": "I'm going to head on now.", "topic": "TALK_DONE", "effect": [ { "u_add_var": "told_about_knight_not_coming", "value": "yes" } ] }
     ]
   },
-
-
     {
       "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_OFFER" ],
       "type": "talk_topic",
@@ -185,17 +318,12 @@
       ]
     },
     {
-      "id": [ "MISSION_ROBOFAC_INTERCOM_2_COMPLETE", "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase" ],
+      "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_COMPLETE" ],
       "type": "talk_topic",
-      "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
+      "dynamic_line": "I'm pleased to grant you a Melian mount of your own.",
       "responses": [
-        {
-          "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",
-          "condition": { "u_has_perception": 8 },
-          "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase"
-        },
-        { "text": "I'm interested in that map.", "topic": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP" },
-        { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+        { "text": "Can I do more quests?", "topic": "TALK_QUEST_LIST" },
+        { "text": "Thank you.", "topic": "TALK_DONE" }
       ]
     }
 
@@ -207,5 +335,29 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 ]

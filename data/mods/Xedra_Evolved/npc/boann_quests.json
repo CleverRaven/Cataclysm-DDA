@@ -19,13 +19,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": {
-      "opinion": { "trust": 2, "value": 2 },
-      "effect": [
-        { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" },
-        { "u_spawn_item": "horse_tack", "count": 1 }
-      ]
-    },
+    "end": { "opinion": { "trust": 2, "value": 2 } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
