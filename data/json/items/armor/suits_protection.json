@@ -2633,7 +2633,7 @@
     "id": "entry_suit",
     "type": "ARMOR",
     "name": { "str": "entry suit" },
-    "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
+    "description": "A flame-immune whole-body garment worn by firefighters and volcanologists as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
     "weight": "2900 g",
     "volume": "6 L",
     "price": "2 kUSD 405 USD",
