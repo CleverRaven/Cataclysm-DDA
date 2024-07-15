@@ -215,12 +215,7 @@
       },
       {
         "text": "How are my armor repairs coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
-          ]
-        },
+        "condition": { "or": [ { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" } ] },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
       },
       {
@@ -252,16 +247,6 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR_COMPLETE"
-      },
-      {
-        "text": "How are my exoskeleton repairs coming?",
-        "condition": {
-          "and": [
-            { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", ">", "time('now')" ] },
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "combat_exoskeleton_light_salvaged" }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
       },
       {
         "text": "How are my exoskeleton repairs coming?",
@@ -869,7 +854,7 @@
           ]
         },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_sell_item": "RobofacCoin", "count": 10 },
           { "u_consume_item": "combat_exoskeleton_light_salvaged", "count": 1, "popup": true },
           { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('14 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
@@ -886,7 +871,7 @@
           ]
         },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_sell_item": "RobofacCoin", "count": 12 },
           { "u_consume_item": "combat_exoskeleton_light_salvaged", "count": 1, "popup": true },
           { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('44 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
