@@ -4240,10 +4240,10 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
-    
+
     tripoint_bub_ms below = p + tripoint_rel_ms_below;
-    const ter_str_id below_tile_roof = get_roof(below, false);
-    bool roof_of_below_tile = ( terid.id.id() == below_tile_roof.id());
+    const ter_str_id below_tile_roof = get_roof( below, false );
+    bool roof_of_below_tile = ( terid.id.id() == below_tile_roof.id() );
 
     bool success = false;
 
@@ -4457,7 +4457,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
         // If this terrain is being bashed from above and this terrain
         // has a valid post-destroy bashed-from-above terrain, set it
         ter_set( p, bash->ter_set_bashed_from_above );
-    } else if( bash->ter_set && !roof_of_below_tile) {
+    } else if( bash->ter_set && !roof_of_below_tile ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
     } else {
@@ -4466,10 +4466,12 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
             // When bashing the tile below, don't allow bashing the floor
             bash_params params_below = params; // Make a copy
             params_below.bashing_from_above = true;
+            //the roof tile will be destroyed, so the below tile should also be destroyed
+            params_below.destroy = true;
             bash_ter_furn( below, params_below );
         }
 
-        set_to_air = roof_of_below_tile; //do not add a roof for the tile below if it was already removed
+        set_to_air = roof_of_below_tile; //do not add the roof for the tile below if it was already removed
         furn_set( p, furn_str_id::NULL_ID() );
         ter_set( p, ter_t_open_air );
     }
@@ -4477,8 +4479,9 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
     if( !tent ) {
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
-
-    if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && zlevels && !set_to_air ) {
+    //regenerates roofs for tiles that should be walkable from above
+    if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && ter( below )->has_flag( "WALL" ) &&
+        zlevels && !set_to_air ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
     }
