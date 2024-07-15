@@ -18,5 +18,10 @@
     "id": "ARVORE_POLLEN_IMMUNE",
     "type": "json_flag",
     "info": "This character cannot be affected by Arvore pollens."
+  },
+  {
+    "id": "ELECTROKINETIC_CHARGEABLE",
+    "type": "json_flag",
+    "info": "This item can be recharged by an electrokinetic"
   }
 ]
