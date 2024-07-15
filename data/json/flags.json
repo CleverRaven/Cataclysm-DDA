@@ -2501,5 +2501,10 @@
     "id": "IRRITANT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>skin irritants</info>."
+  },
+  {
+    "id": "FIRE_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>flames</info>."
   }
 ]
