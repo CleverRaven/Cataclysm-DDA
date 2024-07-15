@@ -84,11 +84,11 @@ static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const flag_id json_flag_FIRE_IMMUNE( "FIRE_IMMUNE" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const furn_str_id furn_f_ash( "f_ash" );
 
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
@@ -1569,8 +1569,8 @@ void map::player_in_field( Character &you )
             }
         }
         if( ft == fd_fire ) {
-            // Heatsink or suit prevents ALL fire damage.
-            if( !you.has_flag( json_flag_HEATSINK ) && !you.is_wearing( itype_rm13_armor_on ) ) {
+            // Heatsink or fire immune suit prevents ALL fire damage.
+            if( !you.has_flag( json_flag_HEATSINK ) && !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1692,7 +1692,7 @@ void map::player_in_field( Character &you )
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
                 if( !you.has_flag( json_flag_HEATSINK ) &&
-                    !you.is_wearing( itype_rm13_armor_on ) ) {
+                    !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
                     you.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                                _( "<npcname> is torched by flames!" ) );
                     you.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_heat, rng( 2, 6 ) ) );
@@ -1744,7 +1744,7 @@ void map::player_in_field( Character &you )
         if( ft == fd_shock_vent || ft == fd_acid_vent ) {
             cur.set_field_intensity( 0 );
         }
-        if( ft == fd_incendiary ) {
+        if( ft == fd_incendiary && !you.worn_with_flag( json_flag_FIRE_IMMUNE ) ) {
             // Mysterious incendiary substance melts you horribly.
             if( you.has_trait( trait_M_SKIN2 ) ||
                 you.has_trait( trait_M_SKIN3 ) ||
