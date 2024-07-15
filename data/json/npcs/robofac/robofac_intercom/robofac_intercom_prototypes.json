@@ -790,7 +790,7 @@
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "none" },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
-          { "u_add_var": "phase_suit_reverse_engineered", "value": "yes" },
+          { "npc_add_var": "phase_suit_reverse_engineered", "value": "yes" },
           { "u_spawn_item": "phase_immersion_suit" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -814,7 +814,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
-            { "npc_has_var": "combat_exoskeleton_reverse_engineered", "value": "yes" }
+            { "npc_has_var": "rm13_reverse_engineered", "value": "yes" }
           ]
         },
         "effect": [
@@ -832,7 +832,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
-            { "not": { "npc_has_var": "combat_exoskeleton_reverse_engineered", "value": "yes" } }
+            { "not": { "npc_has_var": "rm13_reverse_engineered", "value": "yes" } }
           ]
         },
         "effect": [
@@ -861,7 +861,7 @@
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "none" },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
-          { "u_add_var": "rm13_reverse_engineered", "value": "yes" },
+          { "npc_add_var": "rm13_reverse_engineered", "value": "yes" },
           { "u_spawn_item": "rm13_armor" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
