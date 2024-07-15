@@ -5463,6 +5463,7 @@
     "occurrences": [ 70, 100 ],
     "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
     "flags": [ "MI-GO", "WILDERNESS", "GLOBALLY_UNIQUE" ],
+    "eoc": { "id": "EOC_ISHERWOOD_MIGO_SPAWN_EXCEPTIONS", "condition": { "not": { "mod_is_loaded": "innawood" } } },
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
   },
   {
