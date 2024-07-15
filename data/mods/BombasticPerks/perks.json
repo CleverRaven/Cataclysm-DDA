@@ -9,7 +9,6 @@
     "name": { "str": "Open Perk Menu" },
     "points": 0,
     "purifiable": false,
-    "purifiable": false,
     "description": "Direct access to the perk menu.",
     "category": [ "perk" ],
     "active": true,
