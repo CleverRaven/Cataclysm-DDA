@@ -140,6 +140,7 @@ extern const flag_id flag_FIREWOOD;
 extern const flag_id flag_FIRE_100;
 extern const flag_id flag_FIRE_20;
 extern const flag_id flag_FIRE_50;
+extern const flag_id flag_FIRE_IMMUNE;
 extern const flag_id flag_FIRE_TWOHAND;
 extern const flag_id flag_FIT;
 extern const flag_id flag_FIX_FARSIGHT;
