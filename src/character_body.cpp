@@ -94,6 +94,7 @@ static const json_character_flag json_flag_COLDBLOOD( "COLDBLOOD" );
 static const json_character_flag json_flag_COLDBLOOD2( "COLDBLOOD2" );
 static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
 static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+static const json_character_flag json_flag_FIRE_IMMUNE( "FIRE_IMMUNE" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
@@ -464,7 +465,8 @@ void Character::update_bodytemp()
     const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
+    const bool fire_immune = has_flag( json_flag_FIRE_IMMUNE ) || worn_with_flag( flag_FIRE_IMMUNE );
+    const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE ) || worn_with_flag( flag_HEAT_IMMUNE );
     const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
@@ -624,7 +626,7 @@ void Character::update_bodytemp()
         if( fire_armor_per_bp.empty() && blister_count > 0 ) {
             fire_armor_per_bp = get_all_armor_type( STATIC( damage_type_id( "heat" ) ), clothing_map );
         }
-        if( blister_count - fire_armor_per_bp[bp] > 0 ) {
+        if( blister_count - fire_armor_per_bp[bp] > 0 && !fire_immune ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
                 add_morale( morale_pyromania_nearfire, 10, 10, 1_hours,
