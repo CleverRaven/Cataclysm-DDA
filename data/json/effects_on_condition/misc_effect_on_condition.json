@@ -239,6 +239,7 @@
     ]
   },
   {
+    "type": "effect_on_condition",
     "id": "sunset_morale_buff",
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
