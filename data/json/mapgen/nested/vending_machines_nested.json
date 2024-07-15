@@ -1,0 +1,57 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_glass_shards",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS" ],
+      "item": { " ": [ { "item": "glass_shard", "repeat": [ 1, 25 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine",
+    "object": { "mapgensize": [ 1, 1 ], "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS" ], "furniture": { " ": "f_vending_c" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_off",
+    "object": { "mapgensize": [ 1, 1 ], "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS" ], "furniture": { " ": "f_vending_c_off" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_broken",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_vending_o" },
+      "set": [ { "point": "item_remove", "x": 0, "y": 0 } ],
+      "item": { " ": [ { "item": "glass_shard", "repeat": [ 1, 25 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_looted",
+    "//": "should be `one in (days since cataclysm + 4)` to be unlooted, but maps do not support math weight (yet?)",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "nested": { " ": { "chunks": [ [ "nest_vending_machine_broken", 9 ], [ "nest_vending_machine_off", 1 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_reinforced",
+    "object": { "mapgensize": [ 1, 1 ], "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS" ], "furniture": { " ": "f_vending_reinforced" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_reinforced_off",
+    "object": { "mapgensize": [ 1, 1 ], "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS" ], "furniture": { " ": "f_vending_reinforced_off" } }
+  }
+]
