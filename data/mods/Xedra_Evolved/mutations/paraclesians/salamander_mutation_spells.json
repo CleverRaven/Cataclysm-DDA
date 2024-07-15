@@ -17,17 +17,8 @@
     "condition": {
       "or": [
         { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        {
-          "or": [
-            { "u_is_in_field": "fd_hot_air1" },
-            { "u_is_in_field": "fd_hot_air2" },
-            { "u_is_in_field": "fd_hot_air3" },
-            { "u_is_in_field": "fd_hot_air4" },
-            { "u_is_in_field": "fd_fire" },
-            { "u_is_in_field": "fd_salamander_heat" },
-            { "u_is_in_field": "fd_migo_atmosphere" }
-          ]
-        }
+        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
     "values": [ { "value": "REGEN_HP", "multiply": 0.4 }, { "value": "MENDING_MODIFIER", "multiply": 3 } ]
@@ -38,17 +29,8 @@
     "condition": {
       "or": [
         { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-        {
-          "or": [
-            { "u_is_in_field": "fd_hot_air1" },
-            { "u_is_in_field": "fd_hot_air2" },
-            { "u_is_in_field": "fd_hot_air3" },
-            { "u_is_in_field": "fd_hot_air4" },
-            { "u_is_in_field": "fd_fire" },
-            { "u_is_in_field": "fd_salamander_heat" },
-            { "u_is_in_field": "fd_migo_atmosphere" }
-          ]
-        }
+        { "math": [ "u_salamander_near_fire", "==", "1" ] },
+        { "or": [ { "u_is_in_field": "fd_salamander_heat" }, { "u_is_in_field": "fd_migo_atmosphere" } ] }
       ]
     },
     "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
