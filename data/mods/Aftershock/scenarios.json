@@ -207,5 +207,19 @@
     "flags": [ "LONE_START", "HELI_CRASH" ],
     "start_name": "Crashing Ship",
     "eoc": [ "EOC_CRASHING_SHIP_SETUP" ]
+  },
+  {
+    "type": "scenario",
+    "id": "afs_esper_start",
+    "name": "Esper",
+    "points": 1,
+    "description": "There are stories that before the Discontinuity, scientists had developed treatments to unlock the powers of the human mind.  To read thoughts, move objects at a distance, control computers by the power of will alone, and even stranger things.  Just one more lost secret of the Golden Age.\n\nOr so you thought, but recently you had heard some tantalizing rumors about espers, centered on a backwater planet on the edge of known civilization.  You remember buying passage to the Salus system, arriving at Port Augustmoon and buying supplies, and descending to the surface, and after that…things get hazy.  You're not entirely sure where you are, and you've clearly been through it, but somehow you've rediscovered that lost secret.  Now you just need to make it back alive.",
+    "forced_traits": [ "ESPER" ],
+    "allowed_locs": [ "sloc_afs_glacial_tunnels" ],
+    "professions": [ "afs_esper_electrokinetic", "afs_esper_telepath" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Lost on the Surface",
+    "reveal_locale": false,
+    "eoc": [ "EOC_ESPER_SCENARIO_SETUP" ]
   }
 ]

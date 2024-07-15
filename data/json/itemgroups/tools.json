@@ -17,42 +17,6 @@
     ]
   },
   {
-    "id": "tools_simple_blacksmith",
-    "type": "item_group",
-    "//": "Tools commonly used by amateur blacksmiths. A subset of blacksmiths tools",
-    "items": [ { "group": "basic_metalworking_a", "prob": 40 }, { "group": "basic_metalworking_b", "prob": 60 } ]
-  },
-  {
-    "id": "basic_metalworking_a",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_large",
-    "entries": [
-      { "item": "anvil", "count": 1 },
-      { "item": "chisel", "count": 1 },
-      { "item": "metal_file", "count": 1 },
-      { "item": "hotcut", "count": 1 },
-      { "item": "metalworking_tongs", "count": 1 },
-      { "item": "hammer", "count": 1 },
-      { "item": "sandpaper", "count": 1 }
-    ]
-  },
-  {
-    "id": "basic_metalworking_b",
-    "type": "item_group",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_large",
-    "entries": [
-      { "item": "anvil", "count": 1 },
-      { "item": "metal_file", "count": 1 },
-      { "item": "metalworking_tongs", "count": 1 },
-      { "item": "hammer", "count": 1 },
-      { "item": "sandpaper", "count": 1 }
-    ]
-  },
-  {
     "id": "tools_carpentry",
     "type": "item_group",
     "//": "Portable tools used for carpentry",
@@ -225,7 +189,6 @@
       { "group": "tools_lighting_industrial", "prob": 100 },
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
-      { "group": "tools_simple_blacksmith", "prob": 10 },
       [ "jumper_cable_heavy", 2 ],
       [ "lug_wrench", 20 ],
       [ "jerrycan", 10 ],
@@ -242,7 +205,8 @@
       [ "shovel_snow_plastic", 15 ],
       [ "hose_garden", 20 ],
       [ "big_pliers", 10 ],
-      [ "heavy_crowbar", 10 ]
+      [ "heavy_crowbar", 10 ],
+      [ "bench_vise", 15 ]
     ]
   },
   {
@@ -349,7 +313,8 @@
       { "item": "cordless_drill", "prob": 100, "charges": [ 0, 500 ] },
       [ "pin_reamer", 30 ],
       [ "clamp", 10 ],
-      [ "sandpaper", 90 ]
+      [ "sandpaper", 90 ],
+      [ "bench_vise", 15 ]
     ]
   },
   {
@@ -719,7 +684,7 @@
       { "item": "sewing_kit", "prob": 120, "charges": [ 0, -1 ] },
       { "item": "shed_stick", "prob": 5 },
       { "item": "tailors_kit", "prob": 10, "charges": [ 0, -1 ] },
-      { "item": "electric_spinwheel", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "electric_spinwheel", "prob": 10 },
       [ "knitting_needles", 20 ],
       [ "kevlar_shears", 100 ]
     ]
@@ -776,6 +741,7 @@
       [ "mask_dust", 5 ],
       { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "gasfilter_sm", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "mask_gas_half", "prob": 5, "charges": [ 0, 100 ] },
       [ "glasses_safety", 5 ],
       { "item": "UPS_OFF", "prob": 3, "charges": [ 0, 1000 ] },
       [ "microscope", 5 ],
@@ -896,6 +862,7 @@
       [ "clamp", 10 ],
       [ "wrench", 10 ],
       [ "socket_wrench_set", 10 ],
+      [ "bench_vise", 15 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
   },
@@ -916,7 +883,8 @@
       [ "screwdriver", 35 ],
       [ "pin_reamer", 10 ],
       [ "metal_file", 10 ],
-      [ "clamp", 20 ]
+      [ "clamp", 20 ],
+      [ "bench_vise", 30 ]
     ]
   },
   {
@@ -1065,5 +1033,11 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 75, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dynamite_shipment",
+    "items": [ { "item": "dynamite", "count": [ 2, 3 ] } ]
   }
 ]

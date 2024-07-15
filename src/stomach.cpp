@@ -150,6 +150,18 @@ bool nutrients::operator==( const nutrients &r ) const
     return true;
 }
 
+nutrients nutrients::operator-()
+{
+    nutrients negative_copy = *this;
+    negative_copy.calories *= -1;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         negative_copy.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) * -1;
+    }
+    return negative_copy;
+}
+
 nutrients &nutrients::operator+=( const nutrients &r )
 {
     if( !finalized || !r.finalized ) {
@@ -311,6 +323,20 @@ units::volume stomach_contents::capacity( const Character &owner ) const
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
 {
     return capacity( owner ) - contents - water;
+}
+
+bool stomach_contents::would_be_engorged_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 1.0 ) || ( fullness_ratio >= 5.0 / 6.0 );
+}
+
+bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) || ( fullness_ratio >= 3.0 / 4.0 );
 }
 
 units::volume stomach_contents::contains() const

@@ -120,6 +120,15 @@ void craft_command::execute( const std::optional<tripoint> &new_loc )
     execute();
 }
 
+void craft_command::execute( const std::optional<tripoint_bub_ms> &new_loc )
+{
+    std::optional<tripoint> tmp;
+    if( new_loc.has_value() ) {
+        tmp = new_loc.value().raw();
+    }
+    craft_command::execute( tmp );
+}
+
 void craft_command::execute( bool only_cache_comps )
 {
     if( empty() ) {

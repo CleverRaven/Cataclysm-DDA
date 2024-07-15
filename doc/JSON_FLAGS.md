@@ -334,6 +334,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
+- ```BARKY``` Makes you considered to be made of bark for the purposes of making blistering harder.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story.
@@ -431,7 +432,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
 - ```WINGS_1``` You can slow your fall, effectively reducing the height of it by 1 level.
 - ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
-- ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength. 
+- ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
@@ -523,17 +524,13 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```ALCOHOL``` Increases drunkenness.  Adds disease `drunk`.
 - ```ANTIBIOTIC``` Helps fight infections.  Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
-- ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
 - ```BLECH_BECAUSE_UNCLEAN``` Causes warning.
-- ```CATFOOD``` Makes a cat friendly.
-- ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s.", but otherwise does nothing.
 - ```CIG``` Alleviates nicotine cravings.  Adds disease `cig`.
 - ```COKE``` Decreases hunger.  Adds disease `high`.
 - ```CRACK``` Decreases hunger.  Adds disease `high`.
 - ```DISINFECTANT``` Prevents infections.
-- ```DOGFOOD``` Makes a dog friendly.
 - ```FIRSTAID``` Heals.
 - ```FLUMED``` Adds disease `took_flumed`.
 - ```FLUSLEEP``` Adds disease `took_flumed` and increases sleepiness.
@@ -546,6 +543,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 sleepiness, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 sleepiness.  Only applies to mycus fruit by default.
 - ```METH``` Adds disease `meth`.
 - ```NONE``` "You can't do anything of interest with your [x]."
+- ```PETFOOD``` "Lets you feed the item to animals. Specify in `petfood` i.e. `[ "CATTLEFOOD", "DOGFOOD", "CATFOOD", "BIRDFOOD" ]`."
 - ```PKILL``` Reduces pain.  Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
 - ```PLANTBLECH``` Activates `BLECH` iuse action if player does not have plant mutations.
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
@@ -1142,8 +1140,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PACIFIST``` Monster will never do melee attacks.  Useful for having them use grab without attacking the player.
 - ```PARALYZEVENOM``` This monster can apply `paralyzepoison` effect for 10 minutes.
 - ```PARALYZE``` Attack may paralyze the player with venom.
-- ```PATH_AVOID_DANGER_1``` This monster will path around some dangers instead of through them.
-- ```PATH_AVOID_DANGER_2``` This monster will path around most dangers instead of through them.
+- ```PATH_AVOID_DANGER``` This monster will path around some dangers instead of through them.
 - ```PATH_AVOID_FALL``` This monster will path around cliffs instead of off of them.
 - ```PATH_AVOID_FIRE``` This monster will path around heat-related dangers instead of through them.
 - ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
@@ -1269,7 +1266,7 @@ See [Character](#character)
 - ```FARM```
 - ```FUNGAL``` Location is related to fungi.  Used to classify location.
 - ```GLOBALLY_UNIQUE``` Location will only occur once per world.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
-- ```UNIQUE``` Location is unique and will only occur once per overmap.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
+- ```OVERMAP_UNIQUE``` Location will only occur once per overmap.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
 - ```LAKE``` Location is placed on a lake and will be ignored for placement if the overmap doesn't contain any lake terrain.
 - ```MAN_MADE``` For location, created by human.  Used by the Innawood mod.
 - ```MI-GO``` Location is related to mi-go.
@@ -1277,6 +1274,10 @@ See [Character](#character)
 - ```TRIFFID``` Location is related to triffids.  Used to classify location.
 - ```URBAN```
 - ```WILDERNESS``` Locations that have no road connection.
+
+#### City buildings
+
+- ```CITY_UNIQUE``` Location will only occur once per city.
 
 ### Overmap terrains
 
@@ -1313,8 +1314,9 @@ See [Character](#character)
 - ```SOURCE_MEDICINE``` For NPC AI, this location may contain useful medicines for looting.
 - ```SOURCE_LUXURY``` For NPC AI, this location may contain valuable/feel-good items to sell/keep.
 - ```SOURCE_PEOPLE``` For NPC AI, this location may have other survivors.
-- ```RISK_HIGH``` For NPC AI, this location has a high risk associated with it (e.g. labs, superstores, etc.).
-- ```RISK_LOW``` For NPC AI, this location is secluded and remote, and appears to be safe.
+- ```RISK_EXTREME``` For NPC AI, this location is extremely risky to even approach. Location should almost always contain active portals, huge hordes of zombies, or other very lethal enemies. Some examples would labs, superstores, and mi-go structures.
+- ```RISK_HIGH``` For NPC AI, this location is risky to visit. This is the minimum amount of risk for locations inside of a city.
+- ```RISK_LOW``` For NPC AI, this location is specifically a place of safety. Such locations should be fortified, remote, or be controlled by a neutral faction that provides security. This flag should only be applied to specific areas of nearly-guaranteed safety. Wilderness should not receive this flag unless there is some sort of specific shelter (e.g. an uninhabitated cave).
 - ```GENERIC_LOOT``` This is a place that may contain any of the above, but at a lower frequency, usually a house.
 
 
@@ -1325,7 +1327,7 @@ See [Character](#character)
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
-- ```NO_RESIZE``` This clothes you crafted spawn unfitted 
+- ```NO_RESIZE``` This clothes you crafted spawn unfitted
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```AFFECTED_BY_PAIN``` 1 unit of pain decreases the speed of craft for 1%. Recommended to not use in vanilla recipes
 - ```NO_MANIP``` Manipulation score do not affect crafting this recipe

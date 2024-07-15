@@ -26,7 +26,8 @@
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "synth_blood_perf", "duration": 28800 } ],
       "vitamins": [ [ "blood", 2500, 2500 ], [ "redcells", 2500, 2500 ] ]
-    }
+    },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "afs_painkiller",
@@ -40,7 +41,7 @@
     "price_postapoc": "1 USD",
     "symbol": "!",
     "color": "yellow",
-    "container": "test_tube",
+    "container": "bag_iv",
     "fun": 6,
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
     "addiction_potential": 10,
@@ -61,8 +62,9 @@
     "description": "Mercurial brand medical gel; a thick, translucent substance that can be applied to wounds to seal them and promote rapid healing.  Perhaps the most useful medical invention ever devised, it's a staple of any first aid kit.",
     "price": "200 USD",
     "price_postapoc": "200 USD",
-    "volume": "10ml",
-    "container": "test_tube",
+    "volume": "500ml",
+    "charges": 2,
+    "container": "bag_iv",
     "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",

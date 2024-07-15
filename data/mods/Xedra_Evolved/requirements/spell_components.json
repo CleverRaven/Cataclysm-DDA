@@ -20,11 +20,6 @@
     "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
   },
   {
-    "id": "spell_components_human_blood",
-    "type": "requirement",
-    "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
-  },
-  {
     "id": "spell_components_dreamer_coin",
     "type": "requirement",
     "components": [
@@ -122,6 +117,11 @@
     "type": "requirement",
     "components": [ [ [ "corpse_ash", 50 ] ], [ [ "edible_blood", 1, "LIST" ], [ "blood_tainted", 1 ] ], [ [ "wild_herbs", 20 ] ] ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ]
+  },
+  {
+    "id": "spell_components_hedge_changeling_snare",
+    "type": "requirement",
+    "components": [ [ [ "yarn", 10 ] ], [ [ "splinter", 3 ] ], [ [ "blackberries", 1 ] ], [ [ "wild_herbs", 20 ] ] ]
   },
   {
     "id": "spell_components_hedge_stunning_spell",

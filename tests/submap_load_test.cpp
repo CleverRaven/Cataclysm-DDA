@@ -27,6 +27,8 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const field_type_str_id field_test_fd_migration_new_id( "test_fd_migration_new_id" );
+
 static const furn_str_id furn_f_bookcase( "f_bookcase" );
 static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
@@ -44,11 +46,11 @@ static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" )
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
-static const point &corner_ne = point_zero;
-static const point corner_nw( SEEX - 1, 0 );
-static const point corner_se( 0, SEEY - 1 );
-static const point corner_sw( SEEX - 1, SEEY - 1 );
-static const point random_pt( 4, 7 );
+static const point_sm_ms &corner_ne = point_sm_ms_zero;
+static const point_sm_ms corner_nw( SEEX - 1, 0 );
+static const point_sm_ms corner_se( 0, SEEY - 1 );
+static const point_sm_ms corner_sw( SEEX - 1, SEEY - 1 );
+static const point_sm_ms random_pt( 4, 7 );
 
 static std::string submap_empty_ss(
     "{\n"
@@ -781,7 +783,7 @@ static std::string submap_cosmetic_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::string submap_pre_migration_ss(
+static std::string submap_ter_furn_pre_migration_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -797,6 +799,25 @@ static std::string submap_pre_migration_ss(
     "  \"items\": [ ],\n"
     "  \"traps\": [ ],\n"
     "  \"fields\": [ ],\n"
+    "  \"cosmetics\": [ ],\n"
+    "  \"spawns\": [ ],\n"
+    "  \"vehicles\": [ ],\n"
+    "  \"partial_constructions\": [ ],\n"
+    "  \"computers\": [ ]\n"
+    "}\n"
+);
+static std::string submap_fd_pre_migration_ss(
+    "{\n"
+    "  \"version\": 32,\n"
+    "  \"coordinates\": [ 0, 0, 0 ],\n"
+    "  \"turn_last_touched\": 0,\n"
+    "  \"temperature\": 0,\n"
+    "  \"terrain\": [ [ \"t_dirt\", 144 ] ],\n"
+    "  \"radiation\": [ 0, 144 ],\n"
+    "  \"furniture\": [ ],\n"
+    "  \"items\": [ ],\n"
+    "  \"traps\": [ ],\n"
+    "  \"fields\": [ 0, 0, [ \"test_fd_migration_old_id\", 1, 1997 ] ],\n"
     "  \"cosmetics\": [ ],\n"
     "  \"spawns\": [ ],\n"
     "  \"vehicles\": [ ],\n"
@@ -823,7 +844,9 @@ static JsonValue submap_vehicle = json_loader::from_string( submap_vehicle_ss );
 static JsonValue submap_construction = json_loader::from_string( submap_construction_ss );
 static JsonValue submap_computer = json_loader::from_string( submap_computer_ss );
 static JsonValue submap_cosmetic = json_loader::from_string( submap_cosmetic_ss );
-static JsonValue submap_pre_migration = json_loader::from_string( submap_pre_migration_ss );
+static JsonValue submap_ter_furn_pre_migration = json_loader::from_string(
+            submap_ter_furn_pre_migration_ss );
+static JsonValue submap_fd_pre_migration = json_loader::from_string( submap_fd_pre_migration_ss );
 
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
@@ -1021,7 +1044,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     // Also, check we have no other furniture
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1062,7 +1085,7 @@ TEST_CASE( "submap_trap_load", "[submap][load]" )
     // Also, check we have no other traps
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1110,7 +1133,7 @@ TEST_CASE( "submap_rad_load", "[submap][load]" )
             rad = -1;
         }
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 rads[x] = sm.get_radiation( tested );
@@ -1179,7 +1202,7 @@ TEST_CASE( "submap_item_load", "[submap][load]" )
     // Also, check we have no other items
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1252,7 +1275,7 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     // Also, check we have no other fields
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            point tested{ x, y };
+            point_sm_ms tested{ x, y };
             if( tested == corner_nw || tested == corner_ne || tested == corner_sw || tested == corner_se ||
                 tested == random_pt ) {
                 continue;
@@ -1359,15 +1382,15 @@ TEST_CASE( "submap_spawns_load", "[submap][load]" )
     } );
 
     // We placed a unique spawn in a couple of places. Check that those are correct
-    INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x, nw.pos.y, nw.count, nw.type.str(),
+    INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x(), nw.pos.y(), nw.count, nw.type.str(),
                          nw.friendly ? "friendly" : "hostile", nw.name.value_or( "NONE" ) ) );
-    INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x, ne.pos.y, ne.count, ne.type.str(),
+    INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x(), ne.pos.y(), ne.count, ne.type.str(),
                          ne.friendly ? "friendly" : "hostile", ne.name.value_or( "NONE" ) ) );
-    INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x, sw.pos.y, sw.count, sw.type.str(),
+    INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x(), sw.pos.y(), sw.count, sw.type.str(),
                          sw.friendly ? "friendly" : "hostile", sw.name.value_or( "NONE" ) ) );
-    INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x, se.pos.y, se.count, se.type.str(),
+    INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x(), se.pos.y(), se.count, se.type.str(),
                          se.friendly ? "friendly" : "hostile", se.name.value_or( "NONE" ) ) );
-    INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x, ra.pos.y, ra.count, ra.type.str(),
+    INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x(), ra.pos.y(), ra.count, ra.type.str(),
                          ra.friendly ? "friendly" : "hostile", ra.name.value_or( "NONE" ) ) );
     // Require to prevent the lower CHECK from being spammy
     CHECK( nw.count == 3 );
@@ -1441,14 +1464,14 @@ TEST_CASE( "submap_computer_load", "[submap][load]" )
     REQUIRE( is_normal_submap( sm, checks ) );
     // Just check there are computers in the right place
     // Checking more is complicated
-    REQUIRE( sm.has_computer( point_south ) );
+    REQUIRE( sm.has_computer( point_sm_ms( point_south ) ) );
     REQUIRE( sm.has_computer( {3, 5} ) );
 }
 
 TEST_CASE( "submap_ter_furn_migration", "[submap][load]" )
 {
     submap sm;
-    load_from_jsin( sm, submap_pre_migration );
+    load_from_jsin( sm, submap_ter_furn_pre_migration );
     submap_checks checks;
     checks.terrain = false;
     checks.furniture = false;
@@ -1486,4 +1509,31 @@ TEST_CASE( "submap_ter_furn_migration", "[submap][load]" )
     INFO( string_format( "furn se: %s", furn_se.id().str() ) );
     REQUIRE( furn_sw == furn_test_f_migration_new_id );
     REQUIRE( furn_se == furn_test_f_migration_new_id );
+}
+
+TEST_CASE( "submap_fd_migration", "[submap][load]" )
+{
+    submap sm;
+    load_from_jsin( sm, submap_fd_pre_migration );
+    submap_checks checks;
+    checks.fields = false;
+
+    REQUIRE( is_normal_submap( sm, checks ) );
+
+    const field field_ne = sm.get_field( corner_ne );
+
+    // North east corner should have migrated from test_fd_migration_old_id to test_fd_migration_new_id
+    std::string fields_list;
+    bool found_field_new_id = false;
+    int total_fields = 0;
+    auto it = field_ne.begin();
+    while( it != field_ne.end() ) {
+        const field_type_id &type = it->first;
+        fields_list += type.id().str() + " ";
+        found_field_new_id |= type == field_test_fd_migration_new_id;
+        total_fields++;
+        it++;
+    }
+    INFO( string_format( "%d fields found: %s", total_fields, fields_list ) );
+    REQUIRE( ( found_field_new_id && total_fields == 1 ) );
 }

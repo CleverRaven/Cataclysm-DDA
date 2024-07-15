@@ -20,7 +20,7 @@ class appliance_convert_examine_actor : public iexamine_actor
         explicit appliance_convert_examine_actor( const std::string &type = "appliance_convert" )
             : iexamine_actor( type ) {}
 
-        void load( const JsonObject &jo ) override;
+        void load( const JsonObject &jo, const std::string & ) override;
         void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 
@@ -60,7 +60,7 @@ class cardreader_examine_actor : public iexamine_actor
         explicit cardreader_examine_actor( const std::string &type = "cardreader" )
             : iexamine_actor( type ) {}
 
-        void load( const JsonObject &jo ) override;
+        void load( const JsonObject &jo, const std::string & ) override;
         void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 
@@ -75,7 +75,7 @@ class eoc_examine_actor : public iexamine_actor
         explicit eoc_examine_actor( const std::string &type = "effect_on_condition" )
             : iexamine_actor( type ) {}
 
-        void load( const JsonObject &jo ) override;
+        void load( const JsonObject &jo, const std::string &src ) override;
         void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 

@@ -34,7 +34,14 @@
     "melee_training_cap": 0,
     "//1": "Try to stay this far away from the player with your regular moves, very important",
     "tracking_distance": 10,
-    "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "allow_climb_stairs": true },
+    "path_settings": {
+      "max_dist": 10,
+      "allow_open_doors": true,
+      "avoid_traps": true,
+      "avoid_dangerous_fields": true,
+      "avoid_sharp": true,
+      "allow_climb_stairs": true
+    },
     "//2": "TODO? Upgrade doesn't actually work because amalgamations do not have evolutions. Ideally this would upgrade them one step *and also remove their timed lifespan*. If this is added/resolved the spell cooldowns probably need to be nerfed.",
     "special_attacks": [
       [ "UPGRADE", 20 ],
@@ -94,7 +101,7 @@
       "KEEP_DISTANCE",
       "PHOTOPHOBIC",
       "NOT_HALLUCINATION",
-      "PATH_AVOID_DANGER_2"
+      "PATH_AVOID_DANGER"
     ],
     "//3": "Explicitly resistant to bullets, meant to be lured into a close encounter(if you can see/engage it at all)",
     "armor": { "cut": 25, "stab": 25, "bash": 25, "bullet": 100 }

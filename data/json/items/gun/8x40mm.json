@@ -4,9 +4,17 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM103A automagnum" },
+    "name": { "str": "caseless automagnum" },
     "//": "Rivtech don't come cheap.",
     "description": "Designed for style rather than practicality, the Rivtech RM103A is an impressive-looking pistol with less-than-impressive results.  Too short to properly utilize Rivtech's proprietary 8mm caseless ammunition, this status symbol is still a capable sidearm.  Accepts stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm103a_pistol",
+        "name": { "str": "RM103A automagnum" },
+        "description": "Designed for style rather than practicality, the Rivtech RM103A is an impressive-looking pistol with less-than-impressive results.  Too short to properly utilize Rivtech's proprietary 8mm caseless ammunition, this status symbol is still a capable sidearm.  Accepts stick magazines."
+      }
+    ],
     "weight": "1450 g",
     "volume": "750 ml",
     "longest_side": "295 mm",
@@ -39,8 +47,16 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM11B scout rifle" },
+    "name": { "str": "caseless scout rifle" },
     "description": "Intended to function as a long-range sharpshooter support weapon for the military, the Rivtech RM11B scout rifle was designed for durability and accuracy under less than ideal circumstances.  Its bullpup layout, digital scope, and two round burst mode allow it to deliver precise long-range takedowns, utilizing the proprietary Rivtech 8mm caseless round.  Accepts stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm11b_sniper_rifle",
+        "name": { "str": "RM11B scout rifle" },
+        "description": "Intended to function as a long-range sharpshooter support weapon for the military, the Rivtech RM11B scout rifle was designed for durability and accuracy under less than ideal circumstances.  Its bullpup layout, digital scope, and two round burst mode allow it to deliver precise long-range takedowns, utilizing the proprietary Rivtech 8mm caseless round.  Accepts stick magazines."
+      }
+    ],
     "weight": "3100 g",
     "volume": "2403 ml",
     "longest_side": "760 mm",
@@ -78,8 +94,16 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM2000 submachine gun" },
+    "name": { "str": "caseless submachine gun" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun was designed for durability and ease of carrying under less than ideal circumstances.  Accepts stick magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm2000_smg",
+        "name": { "str": "RM2000 submachine gun" },
+        "description": "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun was designed for durability and ease of carrying under less than ideal circumstances.  Accepts stick magazines."
+      }
+    ],
     "weight": "1900 g",
     "volume": "1750 ml",
     "longest_side": "660 mm",
@@ -113,8 +137,16 @@
     "id": "rm51_assault_rifle",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM51 assault rifle" },
+    "name": { "str": "caseless assault rifle" },
     "description": "Originally produced for military use, the Rivtech RM51 assault rifle was designed for durability and ease of use under less than ideal circumstances, with its considerable bulk minimized by a compact and ergonomic layout.  Accepts box magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm51_assault_rifle",
+        "name": { "str": "RM51 assault rifle" },
+        "description": "Originally produced for military use, the Rivtech RM51 assault rifle was designed for durability and ease of use under less than ideal circumstances, with its considerable bulk minimized by a compact and ergonomic layout.  Accepts box magazines."
+      }
+    ],
     "weight": "2850 g",
     "volume": "2150 ml",
     "longest_side": "905 mm",
@@ -148,8 +180,16 @@
     "id": "rm614_lmg",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM614 LMG" },
+    "name": { "str": "caseless LMG" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm614_lmg",
+        "name": { "str": "RM614 LMG" },
+        "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines."
+      }
+    ],
     "weight": "4600 g",
     "volume": "2750 ml",
     "longest_side": "935 mm",
@@ -185,8 +225,16 @@
     "id": "rm88_battle_rifle",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "RM88 battle rifle" },
+    "name": { "str": "caseless battle rifle" },
     "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rm88_battle_rifle",
+        "name": { "str": "RM88 battle rifle" },
+        "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines."
+      }
+    ],
     "weight": "3200 g",
     "volume": "2500 ml",
     "longest_side": "995 mm",

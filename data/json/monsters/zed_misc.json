@@ -1135,7 +1135,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": false,
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
-    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
@@ -1162,7 +1162,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "upgrades": false,
     "armor": { "electric": 2 },
-    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
+    "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER" ] },
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
@@ -1218,7 +1218,49 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "regenerates": 12,
-    "upgrades": false,
+    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_hunter" },
+    "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
+  },
+  {
+    "id": "mon_zombie_regenerating_hunter",
+    "type": "MONSTER",
+    "name": { "str": "fleshy hunter" },
+    "description": "A zombie prowling around on all fours; its exposed muscles churn and snake, unraveling before restitching themselves elsewhere along its red-raw figure.",
+    "copy-from": "mon_zombie_hunter",
+    "regenerates": 12,
+    "color": "red_cyan",
+    "upgrades": { "half_life": 35, "into": "mon_zombie_regenerating_final" },
+    "extend": { "flags": [ "SMELLS", "CLIMBS", "REVIVES_HEALTHY", "NO_NECRO" ] }
+  },
+  {
+    "id": "mon_zombie_regenerating_final",
+    "type": "MONSTER",
+    "name": { "str": "regenerating abomination" },
+    "description": "This zombie hardly resembles a human anymore - Its skeleton has been repeatedly dismantled and reassembled into a horrid quadrupedal shape, like some sort of mismatched action figure.  Slick, bloodied flesh writhes on its frame with an almost viscous quality, digesting and reconstituting itself in an endless ouroboros of undead flesh.",
+    "copy-from": "mon_zombie_predator",
+    "hp": 100,
+    "regenerates": 12,
+    "color": "red_cyan",
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_multiplier": 0.2 } ]
+      },
+      {
+        "id": "stretch_attack",
+        "cooldown": 10,
+        "move_cost": 50,
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 7 } ]
+      },
+      { "id": "ranged_pull", "cooldown": 30, "grab_data": { "pull_weight_ratio": 1 } },
+      { "id": "grab_drag", "cooldown": 5 },
+      { "id": "drag_followup" },
+      { "id": "longswipe", "cooldown": 15 }
+    ],
+    "armor": { "electric": 1 },
+    "bleed_rate": 0,
     "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
@@ -1350,11 +1392,11 @@
     "copy-from": "mon_zombie_base",
     "hp": 90,
     "speed": 80,
-    "color": "light_gray_white",
+    "color": "dark_gray_white",
     "melee_skill": 7,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 7,
+    "dodge": 3,
     "bleed_rate": 125,
     "vision_day": 1000,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],

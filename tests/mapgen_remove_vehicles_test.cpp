@@ -27,11 +27,11 @@ void check_vehicle_still_works( vehicle &veh )
     veh.engine_on = true;
     veh.velocity = 1000;
     veh.cruise_velocity = veh.velocity;
-    tripoint const startp = veh.global_pos3();
+    tripoint_bub_ms const startp = veh.pos_bub();
     here.vehmove();
-    REQUIRE( veh.global_pos3() != startp );
+    REQUIRE( veh.pos_bub() != startp );
 
-    here.displace_vehicle( veh, startp - veh.global_pos3() );
+    here.displace_vehicle( veh, startp - veh.pos_bub() );
 }
 
 vehicle *add_test_vehicle( map &m, tripoint loc )

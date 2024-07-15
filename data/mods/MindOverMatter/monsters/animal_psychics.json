@@ -26,10 +26,10 @@
     "regenerates": 1,
     "special_attacks": [
       [ "EAT_FOOD", 20 ],
-      { "type": "bite", "cooldown": 15, "infection_chance": 44 },
+      { "type": "bite", "cooldown": { "math": [ "7 + rand(19)" ] }, "infection_chance": 44 },
       {
         "id": "ranged_pull",
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(15)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
         "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
@@ -37,10 +37,19 @@
         "miss_msg_npc": "",
         "no_dmg_msg_u": "",
         "no_dmg_msg_npc": ""
+      },
+      {
+        "id": "psi_bandersnatch_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        },
+        "monster_message": "The air around %1$s distorts."
       }
     ],
-    "armor": { "bash": 10, "electric": 1, "bullet": 40, "psi_telekinetic_damage": 35 },
-    "extend": { "flags": [ "CLIMBS" ] }
+    "extend": { "flags": [ "CLIMBS" ], "armor": { "psi_telekinetic_damage": 35 } }
   },
   {
     "id": "mon_fear_hawk",
@@ -76,12 +85,14 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "psychic_shriek",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "move_cost": 100,
         "range": 3,
+        "dodgeable": false,
+        "blockable": false,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 10 } ],
-        "hit_dmg_u": "%1$s shrieks at your %2$s!",
+        "hit_dmg_u": "%1$s shrieks at you!",
         "hit_dmg_npc": "%1$s shrieks at <npcname>!",
         "no_dmg_msg_u": "%1$s's shriek radiates out at you without doing any damage.",
         "no_dmg_msg_npc": "%1$s's shriek radiates out at <npcname> without doing any damage.",
@@ -90,7 +101,7 @@
       }
     ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "FLIES", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_hodag",
@@ -123,18 +134,18 @@
       {
         "id": "scratch",
         "move_cost": 140,
-        "cooldown": 3,
+        "cooldown": { "math": [ "1 + rand(4)" ] },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_multiplier": 0.75 } ],
         "min_mul": 1.5,
         "max_mul": 3.5
       },
-      { "id": "stag_smash", "cooldown": 20, "min_mul": 0.8, "throw_strength": 70 },
+      { "id": "stag_smash", "cooldown": { "math": [ "10 + rand(15)" ] }, "min_mul": 0.8, "throw_strength": 70 },
       {
         "id": "psi_hodag_speed_boost",
         "type": "spell",
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
-        "cooldown": 18,
+        "cooldown": { "math": [ "9 + rand(22)" ] },
         "monster_message": "%1$s moves too quickly for the eye to follow!"
       },
       {
@@ -162,7 +173,7 @@
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER", "WARM", "CORNERED_FIGHTER" ],
     "armor": { "bash": 4, "cut": 3, "stab": 1, "bullet": 4, "electric": 1 }
   },
   {
@@ -194,7 +205,7 @@
         "id": "psi_cockatrice_telepathic_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
-        "cooldown": 18,
+        "cooldown": { "math": [ "9 + rand(22)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares and lets out a silent cry!"
       }
@@ -207,7 +218,7 @@
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "CORNERED_FIGHTER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "CORNERED_FIGHTER" ]
   },
   {
     "id": "mon_cockatrice_chick",
@@ -257,7 +268,7 @@
         "id": "psi_pigeon_telepathic_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 2 },
-        "cooldown": 18,
+        "cooldown": { "math": [ "9 + rand(22)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$'s third eye opens and it coos!"
       },
@@ -273,7 +284,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "FLIES",
       "SWARMS",
@@ -281,5 +292,29 @@
       "KEEP_DISTANCE",
       "HARDTOSHOOT"
     ]
+  },
+  {
+    "id": "mon_psi_gremlin",
+    "copy-from": "mon_fox_red",
+    "type": "MONSTER",
+    "looks_like": "mon_fox_red",
+    "name": { "str": "gremlin" },
+    "//": "A Nether-affected fox",
+    "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.  Sparks occasionally crackle over its fur and its body distorts oddly as it moves, covering more ground with each stride than the length of its legs would indicate.",
+    "speed": 170,
+    "dodge": 7,
+    "special_attacks": [
+      {
+        "id": "psi_gremlin_power_draining_spell",
+        "type": "spell",
+        "spell_data": { "id": "electrokinetic_power_draining" },
+        "cooldown": { "math": [ "rand(45) + 5" ] },
+        "allow_no_target": true,
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "monster_message": "Sparks flicker over %1$s's fur."
+      }
+    ],
+    "armor": { "electric": 40 },
+    "special_when_hit": [ "ZAPBACK", 75 ]
   }
 ]

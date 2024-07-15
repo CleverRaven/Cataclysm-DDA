@@ -65,7 +65,6 @@
 #include "mondefense.h"
 #include "monfaction.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -93,6 +92,14 @@
 #include "weighted_list.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+
+static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
+static const ammo_effect_str_id ammo_effect_BLINDS_EYES( "BLINDS_EYES" );
+static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
+static const ammo_effect_str_id ammo_effect_JET( "JET" );
+static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
+static const ammo_effect_str_id ammo_effect_NO_OVERSHOOT( "NO_OVERSHOOT" );
 
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
@@ -178,6 +185,10 @@ static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 static const material_id material_water( "water" );
 
+static const morale_type morale_support( "morale_support" );
+
+static const mtype_id mon_amalgamation_breather( "mon_amalgamation_breather" );
+static const mtype_id mon_amalgamation_breather_hub( "mon_amalgamation_breather_hub" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -266,7 +277,7 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
 
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !get_map().clear_path( z->pos(), target->pos(), range, 1, 100 ) ) {
+        !get_map().clear_path( z->pos_bub(), target->pos_bub(), range, 1, 100 ) ) {
         return nullptr;
     }
 
@@ -285,7 +296,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.speed = 10;
     proj.range = range;
     proj.impact.add( dam );
-    proj.proj_effects.insert( "NO_OVERSHOOT" );
+    proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
 
     dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(),
                                   dispersion_sources{ 500 }, z );
@@ -778,7 +789,7 @@ bool mattack::acid( monster *z )
     map &here = get_map();
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !here.clear_path( z->pos(), target->pos(), 10, 1, 100 ) ) {
+        !here.clear_path( z->pos_bub(), target->pos_bub(), 10, 1, 100 ) ) {
         return false;
     }
     // It takes a while
@@ -791,7 +802,7 @@ bool mattack::acid( monster *z )
     // Mostly just for momentum
     proj.impact.add_damage( damage_acid, 5 );
     proj.range = 10;
-    proj.proj_effects.insert( "NO_OVERSHOOT" );
+    proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
     dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 },
                                     z );
     const tripoint &hitp = dealt.end_point;
@@ -903,8 +914,8 @@ bool mattack::acid_accurate( monster *z )
     projectile proj;
     proj.speed = 10;
     proj.range = 10;
-    proj.proj_effects.insert( "BLINDS_EYES" );
-    proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    proj.proj_effects.insert( ammo_effect_BLINDS_EYES );
+    proj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     proj.impact.add_damage( damage_acid, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 8000.0 * range }, z );
@@ -1005,7 +1016,7 @@ bool mattack::pull_metal_weapon( monster *z )
     }
 
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) || !get_map().clear_path( z->pos(), target->pos(),
+    if( !z->sees( *target ) || !get_map().clear_path( z->pos_bub(), target->pos_bub(),
             max_distance, 1, 100 ) ) {
         return false;
     }
@@ -1045,7 +1056,7 @@ bool mattack::pull_metal_weapon( monster *z )
                     proj.impact = damage_instance( damage_bash, pulled_weapon.weight() / 250_gram );
                     // make the projectile stop one tile short to prevent hitting the monster
                     proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
-                    proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
+                    proj.proj_effects = { { ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET } };
 
                     dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources{ 0 },
                                                     z );
@@ -1825,7 +1836,7 @@ bool mattack::spit_sap( monster *z )
     projectile proj;
     proj.speed = 10;
     proj.range = 12;
-    proj.proj_effects.insert( "APPLY_SAP" );
+    proj.proj_effects.insert( ammo_effect_APPLY_SAP );
     proj.impact.add_damage( damage_acid, rng( 5, 10 ) );
     projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
 
@@ -1851,8 +1862,8 @@ bool mattack::triffid_heartbeat( monster *z )
     creature_tracker &creatures = get_creature_tracker();
     static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false,
             false );
-    if( rl_dist( z->pos(), player_character.pos() ) > 5 &&
-        !here.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
+    if( rl_dist( z->pos_bub(), player_character.pos_bub() ) > 5 &&
+        !here.route( player_character.pos_bub(), z->pos_bub(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
         for( const tripoint &dest : here.points_in_radius( z->pos(), 3 ) ) {
             if( g->is_empty( dest ) && one_in( 4 ) ) {
@@ -1863,7 +1874,7 @@ bool mattack::triffid_heartbeat( monster *z )
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while( here.route( player_character.pos(), z->pos(), root_pathfind ).empty() &&
+        while( here.route( player_character.pos_bub(), z->pos_bub(), root_pathfind ).empty() &&
                tries < 20 ) {
             point p( rng( player_character.posx(), z->posx() - 3 ),
                      rng( player_character.posy(), z->posy() - 3 ) );
@@ -2745,27 +2756,6 @@ bool mattack::dogthing( monster *z )
     return false;
 }
 
-bool mattack::gene_sting( monster *z )
-{
-    const float range = 7.0f;
-    Creature *target = sting_get_target( z, range );
-    if( target == nullptr || !( target->is_avatar() || target->is_npc() ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-    damage_instance dam = damage_instance();
-    dam.add_damage( damage_stab, 6, 10, 0.6, 1 );
-    bool hit = sting_shoot( z, target, dam, range );
-    if( hit ) {
-        //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<Character *>( target )->mutate();
-    }
-
-    return true;
-}
-
 bool mattack::para_sting( monster *z )
 {
     const float range = 4.0f;
@@ -3625,7 +3615,7 @@ void mattack::flame( monster *z, Creature *target )
         // friendly
         // It takes a while
         z->mod_moves( -to_moves<int>( 5_seconds ) );
-        if( !here.sees( z->pos(), target->pos(), dist ) ) {
+        if( !here.sees( z->pos_bub(), target->pos_bub(), dist ) ) {
             // shouldn't happen
             debugmsg( "mattack::flame invoked on invisible target" );
         }
@@ -3648,7 +3638,7 @@ void mattack::flame( monster *z, Creature *target )
 
     // It takes a while
     z->mod_moves( -to_moves<int>( 5_seconds ) );
-    if( !here.sees( z->pos(), target->pos(), dist + 1 ) ) {
+    if( !here.sees( z->pos_bub(), target->pos_bub(), dist + 1 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
@@ -3989,13 +3979,17 @@ bool mattack::breathe( monster *z )
 {
     // It takes a while
     z->mod_moves( -to_moves<int>( 1_seconds ) );
+    bool old_breather_type = z->type->id == mon_breather || z->type->id == mon_breather_hub;
+    mtype_id breather_type = old_breather_type ? mon_breather : mon_amalgamation_breather;
+    mtype_id hub_type = old_breather_type ? mon_breather_hub : mon_amalgamation_breather_hub;
+    int spawn_radius = old_breather_type ? 3 : 2;
 
-    bool able = z->type->id == mon_breather_hub;
+    bool able = z->type->id == hub_type;
     creature_tracker &creatures = get_creature_tracker();
     if( !able ) {
-        for( const tripoint &dest : get_map().points_in_radius( z->pos(), 3 ) ) {
+        for( const tripoint &dest : get_map().points_in_radius( z->pos(), spawn_radius ) ) {
             monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->type->id == mon_breather_hub ) {
+            if( mon && mon->type->id == hub_type ) {
                 able = true;
                 break;
             }
@@ -4005,7 +3999,7 @@ bool mattack::breathe( monster *z )
         return true;
     }
 
-    if( monster *const spawned = g->place_critter_around( mon_breather, z->pos(), 1 ) ) {
+    if( monster *const spawned = g->place_critter_around( breather_type, z->pos(), 1 ) ) {
         spawned->reset_special( "BREATHE" );
         spawned->make_ally( *z );
     }
@@ -4345,7 +4339,7 @@ bool mattack::slimespring( monster *z )
     // This morale buff effect could get spammy
     if( player_character.get_morale_level() <= 1 ) {
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
-        player_character.add_morale( MORALE_SUPPORT, 10, 50 );
+        player_character.add_morale( morale_support, 10, 50 );
     }
     // They will stave off loneliness, but aren't a substitute for real friends.
     if( player_character.has_effect( effect_social_dissatisfied ) ) {

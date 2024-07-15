@@ -62,7 +62,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "mission_companion.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -209,6 +208,9 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -296,6 +298,9 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const trap_str_id tr_ledge( "tr_ledge" );
+static const trap_str_id tr_telepad( "tr_telepad" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -1394,7 +1399,7 @@ bool iexamine::can_hack( Character &you )
     return true;
 }
 
-bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
+bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
 {
     if( !can_hack( you ) ) {
         return false;
@@ -1429,7 +1434,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         query_yn( _( "Press mask on the reader?" ) ) ) {
         you.mod_moves( -100 );
         map &here = get_map();
-        for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
+        for( const tripoint_bub_ms &tmp : here.points_in_radius( tripoint_bub_ms( examp ), 3 ) ) {
             if( here.ter( tmp ) == ter_t_door_metal_locked ) {
                 here.ter_set( tmp, ter_t_door_metal_c );
                 open = true;
@@ -1443,9 +1448,9 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         } else {
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
-                for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
+                for( const tripoint_bub_ms &tmp : here.points_in_radius( tripoint_bub_ms( examp ), 3 ) ) {
                     if( here.ter( tmp ) == ter_t_door_metal_o || here.ter( tmp ) == ter_t_door_metal_c ) {
-                        if( you.pos() == tmp ) {
+                        if( you.pos_bub() == tmp ) {
                             you.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
                         } else {
                             here.ter_set( tmp, ter_t_door_metal_locked );
@@ -1464,7 +1469,7 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( can_hack( you ) && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            try_start_hacking( you, examp );
+            try_start_hacking( you, tripoint_bub_ms( examp ) );
         }
     }
 }
@@ -1575,7 +1580,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
     Character &player_character = get_player_character();
     sfx::play_variant_sound( "plmove", "clear_obstacle",
-                             sfx::get_heard_volume( player_character.pos() ) );
+                             sfx::get_heard_volume( player_character.pos_bub() ) );
     add_msg_debug( debugmode::DF_IEXAMINE,
                    "Move cost to vault: %d, limb score modifier %.1f", move_cost,
                    you.get_modifier( character_modifier_obstacle_climb_mod ) );
@@ -1584,7 +1589,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
                    "Final move cost %d", move_cost );
     you.mod_moves( -move_cost );
     if( you.in_vehicle ) {
-        here.unboard_vehicle( you.pos() );
+        here.unboard_vehicle( you.pos_bub() );
     }
     you.setpos( examp );
     if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||
@@ -1706,7 +1711,8 @@ void iexamine::portable_structure( Character &you, const tripoint &examp )
         return;
     }
 
-    tent_deconstruct_activity_actor actor( to_moves<int>( 20_minutes ), radius, examp, dropped );
+    tent_deconstruct_activity_actor actor( to_moves<int>( 20_minutes ), radius,
+                                           tripoint_bub_ms( examp ), dropped );
     you.assign_activity( actor );
 }
 
@@ -1816,7 +1822,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
 void iexamine::gunsafe_el( Character &you, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        try_start_hacking( you, examp );
+        try_start_hacking( you, tripoint_bub_ms( examp ) );
     }
 }
 
@@ -1977,7 +1983,34 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
-        temp_camp->validate_bb_pos( here.getabs( examp ) );
+        if( !temp_camp->allowed_access_by( you ) ) {
+            if( !you.is_avatar() ) {
+                return; // One day, NPCs may be able to use bulletin boards
+            }
+            // Checks the reality bubble for NPCs
+            std::vector<shared_ptr_fast<npc>> nearby_npcs = overmap_buffer.get_npcs_near_player( HALF_MAPSIZE );
+            bool unoccupied_camp = true;
+            for( npc_ptr &some_guy : nearby_npcs ) {
+                if( !some_guy ) {
+                    continue;
+                } else if( some_guy->get_faction()->id == temp_camp->get_owner() ) {
+                    unoccupied_camp = false;
+                }
+            }
+            if( unoccupied_camp &&
+                query_yn( _( "There's nobody here to protect %s.  Do you want to claim ownership?" ),
+                          temp_camp->camp_name() ) ) {
+                bool plunder = query_yn(
+                                   _( "Take whatever you can find from the stores?  This may anger %s and their allies." ),
+                                   temp_camp->get_owner()->name );
+                temp_camp->handle_takeover_by( you.get_faction()->id, plunder );
+                return;
+            }
+            you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
+            return;
+        }
+
+        temp_camp->validate_bb_pos( here.getglobal( examp ) );
         temp_camp->validate_assignees();
         temp_camp->validate_sort_points();
         temp_camp->scan_pseudo_items();
@@ -2965,8 +2998,8 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     here.add_item( examp, result );
 
     if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( morale_pyromania_nofire );
         you.add_msg_if_player( m_good, _( "You happily light a fire in the charcoal kiln." ) );
     } else {
         add_msg( _( "You fire the charcoal kiln." ) );
@@ -4062,10 +4095,12 @@ void iexamine::keg( Character &you, const tripoint &examp )
     const std::string keg_name = here.name( examp );
     const units::volume keg_cap = get_keg_capacity( examp );
 
-    const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
-        return !it.is_container_empty() && it.can_unload_liquid();
+    const bool has_container_with_liquid = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
+    const item & it ) {
+        return !it.is_container_empty() && it.can_unload();
     } );
-    const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
+    const bool liquid_present = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
+    const item & it ) {
         return it.made_of_from_type( phase_id::LIQUID );
     } );
 
@@ -4627,11 +4662,20 @@ void trap::examine( const tripoint &examp ) const
     }
 }
 
+void trap::examine( const tripoint_bub_ms &examp ) const
+{
+    trap::examine( examp.raw() );
+}
+
 void iexamine::part_con( Character &you, tripoint const &examp )
 {
+    iexamine::part_con( you, tripoint_bub_ms( examp ) );
+}
+
+void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
+{
     map &here = get_map();
-    // TODO: fix point types
-    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
         if( you.fine_detail_vision_mod() > 4 &&
             !you.has_trait( trait_DEBUG_HS ) ) {
             add_msg( m_info, _( "It is too dark to construct right now." ) );
@@ -4642,10 +4686,9 @@ void iexamine::part_con( Character &you, tripoint const &examp )
                        built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 for( const item &it : pc->components ) {
-                    here.add_item_or_charges( you.pos(), it );
+                    here.add_item_or_charges( you.pos_bub(), it );
                 }
-                // TODO: fix point types
-                here.partial_con_remove( tripoint_bub_ms( examp ) );
+                here.partial_con_remove( examp );
             }
         } else {
             you.assign_activity( ACT_BUILD );
@@ -4770,8 +4813,8 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
                 for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
                     if( itm->typeId() == ammo_itypeID ) {
                         if( you.can_stash( *itm ) ) {
-                            std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
-                            you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
+                            std::vector<item_location> target_items{ item_location( map_cursor( tripoint_bub_ms( examp ) ), &*itm ) };
+                            you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos_bub(), false ) );
                             return;
                         } else {
                             // get handling cost before the item reference is invalidated
@@ -4800,7 +4843,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     item pseudo( pseudo_type );
     // maybe at some point we need a pseudo item_location or something
     // but for now this should at least work as intended
-    item_location pseudo_loc( map_cursor( examp ), &pseudo );
+    item_location pseudo_loc( map_cursor( tripoint_bub_ms( examp ) ), &pseudo );
 
     // used to only allow one type of ammo, changed with move to inventory_selector
     // todo: use furniture name instead of pseudo item name
@@ -4963,11 +5006,11 @@ void iexamine::sign( Character &you, const tripoint &examp )
     }
 }
 
-static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_type )
+static int getNearPumpCount( const tripoint_bub_ms &p, fuel_station_fuel_type &fuel_type )
 {
     int result = 0;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 12 ) ) {
         const ter_id t = here.ter( tmp );
         if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
             result++;
@@ -4980,15 +5023,16 @@ static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_typ
     return result;
 }
 
-std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
+std::optional<tripoint_bub_ms> iexamine::getNearFilledGasTank( const tripoint_bub_ms &center,
+        int &fuel_units,
         fuel_station_fuel_type &fuel_type )
 {
-    std::optional<tripoint> tank_loc;
+    std::optional<tripoint_bub_ms> tank_loc;
     int distance = INT_MAX;
     fuel_units = 0;
 
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
 
         furn_id check_for_fuel_tank = here.furn( tmp );
 
@@ -5088,11 +5132,11 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
+std::optional<tripoint_bub_ms> iexamine::getGasPumpByNumber( const tripoint_bub_ms &p, int number )
 {
     int k = 0;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 12 ) ) {
         const ter_id t = here.ter( tmp );
         if( ( t == ter_t_gas_pump || t == ter_t_gas_pump_a
               || t == ter_t_diesel_pump || t == ter_t_diesel_pump_a ) && number == k++ ) {
@@ -5102,7 +5146,7 @@ std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int num
     return std::nullopt;
 }
 
-bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
+bool iexamine::toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units )
 {
     map &here = get_map();
     map_stack items = here.i_at( src );
@@ -5129,7 +5173,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
     return false;
 }
 
-static int fromPumpFuel( const tripoint &dst, const tripoint &src )
+static int fromPumpFuel( const tripoint_bub_ms &dst, const tripoint_bub_ms &src )
 {
     map &here = get_map();
     map_stack items = here.i_at( src );
@@ -5156,11 +5200,12 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     return -1;
 }
 
-static void turnOnSelectedPump( const tripoint &p, int number, fuel_station_fuel_type &fuel_type )
+static void turnOnSelectedPump( const tripoint_bub_ms &p, int number,
+                                fuel_station_fuel_type &fuel_type )
 {
     int k = 0;
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( p, 12 ) ) {
         const ter_id t = here.ter( tmp );
         if( fuel_type == FUEL_TYPE_GASOLINE ) {
             if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
@@ -5197,7 +5242,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
     fuel_station_fuel_type fuelType = FUEL_TYPE_NONE;
     std::string fuelTypeStr;
-    int pumpCount = getNearPumpCount( examp, fuelType );
+    int pumpCount = getNearPumpCount( tripoint_bub_ms( examp ), fuelType );
     fuelTypeStr = fuelType == FUEL_TYPE_GASOLINE ? _( "gasoline" ) : fuelType == FUEL_TYPE_DIESEL ?
                   _( "diesel" ) : "";
     if( pumpCount == 0 ) {
@@ -5206,12 +5251,13 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     int tankUnits;
-    const std::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankUnits, fuelType );
+    const std::optional<tripoint_bub_ms> pTank_ = getNearFilledGasTank( tripoint_bub_ms( examp ),
+            tankUnits, fuelType );
     if( !pTank_ ) {
         popup( str_to_illiterate_str( string_format( _( "Failure!  No %s tank found!" ), fuelTypeStr ) ) );
         return;
     }
-    const tripoint pTank = *pTank_;
+    const tripoint_bub_ms pTank = *pTank_;
 
     if( tankUnits == 0 ) {
         popup( str_to_illiterate_str(
@@ -5266,7 +5312,8 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
                             str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
-            pumps.emplace_back( getGasPumpByNumber( examp, i ).value_or( examp ) );
+            pumps.emplace_back( getGasPumpByNumber( tripoint_bub_ms( examp ),
+                                                    i ).value_or( tripoint_bub_ms( examp ) ).raw() );
         }
         pointmenu_cb callback( pumps );
         amenu.callback = &callback;
@@ -5280,7 +5327,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
         uistate.ags_pay_gas_selected_pump = choice;
 
-        turnOnSelectedPump( examp, uistate.ags_pay_gas_selected_pump, fuelType );
+        turnOnSelectedPump( tripoint_bub_ms( examp ), uistate.ags_pay_gas_selected_pump, fuelType );
 
         return;
 
@@ -5312,7 +5359,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( tripoint_bub_ms( examp ),
                 uistate.ags_pay_gas_selected_pump );
         if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
@@ -5331,7 +5378,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        try_start_hacking( you, examp );
+        try_start_hacking( you, tripoint_bub_ms( examp ) );
     }
 
     if( refund == choice ) {
@@ -5341,7 +5388,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
             return;
         }
 
-        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint_bub_ms> pGasPump = getGasPumpByNumber( tripoint_bub_ms( examp ),
                 uistate.ags_pay_gas_selected_pump );
         int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
         if( amount_fuel < 0 ) {
@@ -6367,8 +6414,8 @@ static void smoker_activate( Character &you, const tripoint &examp )
     here.add_item( examp, result );
 
     if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
+        you.rem_morale( morale_pyromania_nofire );
         you.add_msg_if_player( m_good,
                                _( "You happily light a small fire under the rack and it starts to smoke." ) );
     } else {
@@ -7194,7 +7241,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
 
         for( item &it : items_at_furn ) {
             if( it.is_craft() ) {
-                crafts.emplace_back( map_cursor( examp ), &it );
+                crafts.emplace_back( map_cursor( tripoint_bub_ms( examp ) ), &it );
             }
         }
     }

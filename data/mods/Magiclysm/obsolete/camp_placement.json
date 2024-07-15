@@ -1,0 +1,15 @@
+[
+  {
+    "//": "Remove all entries after 0.I",
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Forge of Wonders", "overmap_terrain": "forge_3A", "faction": "forge_lords" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Healer's respite", "overmap_terrain": "magic_shop", "faction": "healers_grey" }
+  },
+  {
+    "type": "camp_migration",
+    "camp_migrations": { "name": "Old Wizard", "overmap_terrain": "lake_retreat_z3", "faction": "wizards_ancient" }
+  }
+]

@@ -48,7 +48,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "BASHES",
       "PUSH_MON",
@@ -88,7 +88,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ],
     "armor": { "cut": 4 }
   },
   {
@@ -121,7 +121,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ]
   },
   {
     "id": "mon_coyote_mutant_shark",
@@ -160,12 +160,13 @@
     "stomach_size": 500,
     "harvest": "mutant_mammal_fur",
     "dissect": "dissect_lupine_sample_single",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "GROUP_MORALE", "EATS" ],
     "armor": { "bash": 1 }
   },
   {
@@ -198,7 +199,8 @@
     "fear_triggers": [ "SOUND" ],
     "harvest": "mutant_mammal_fur",
     "dissect": "dissect_lupine_sample_single",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
     "flags": [
@@ -206,7 +208,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "HIT_AND_RUN",
       "KEENNOSE",
@@ -246,7 +248,8 @@
     "stomach_size": 1500,
     "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_lupine_sample_large",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {
@@ -258,7 +261,7 @@
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {
@@ -297,7 +300,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "EATS" ]
   },
   {
     "id": "mon_deer_mutant_spider_fawn",
@@ -331,7 +334,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 330, "into": "mon_deer_mutant_spider" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "STUMBLES" ]
   },
   {
     "id": "mon_dog_mutant_mongrel",
@@ -346,7 +349,8 @@
     "weight": "30 kg",
     "harvest": "dog_with_skull_fur_mutant",
     "dissect": "dissect_lupine_sample_single",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "hp": 30,
     "speed": 150,
     "material": [ "flesh" ],
@@ -386,7 +390,7 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -407,7 +411,8 @@
     "weight": "60 kg",
     "harvest": "dog_with_skull_fur_mutant",
     "dissect": "dissect_lupine_sample_single",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "hp": 42,
     "speed": 150,
     "material": [ "flesh" ],
@@ -452,7 +457,7 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -499,7 +504,8 @@
     "weight": "55 kg",
     "harvest": "dog_with_skull_fur_mutant",
     "dissect": "dissect_lupine_sample_single",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "hp": 45,
     "speed": 135,
     "material": [ "flesh" ],
@@ -550,7 +556,7 @@
       "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -595,7 +601,8 @@
     "weight": "35 kg",
     "harvest": "dog_with_skull_fur_mutant",
     "dissect": "dissect_lupine_sample_single",
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "weakpoint_sets": [ "wps_animal_quadruped" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "hp": 25,
     "speed": 85,
     "material": [ "flesh" ],
@@ -644,7 +651,7 @@
       "HEARS",
       "HIT_AND_RUN",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "SEES",
       "SMELLS",
       "SWARMS",
@@ -682,7 +689,7 @@
     "id": "mon_raccoon_mutant",
     "type": "MONSTER",
     "name": { "str": "dextrous raccoon" },
-    "description": "Their paws have grown to be longer, also enabling them to briefly stand on their back legs.  You wonder if these sleazy beasts are able to open doors yet.",
+    "description": "Its paws have grown to be longer, and it seems capable of briefly standing on its hindlimbs.  You wonder if this sleazy beast is able to open doors yet.",
     "copy-from": "mon_raccoon",
     "volume": "10 L",
     "weight": "10 kg",

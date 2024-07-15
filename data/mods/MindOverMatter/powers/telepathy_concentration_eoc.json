@@ -182,7 +182,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MORALE_INITIATE",
+    "id": "EOC_TELEPATH_MORALE_INITIATE_SELF",
     "condition": { "not": { "u_has_effect": "effect_telepathic_morale" } },
     "effect": [
       { "u_message": "You begin to edit out your discouraging thoughts.", "type": "good" },
@@ -190,10 +190,22 @@
       { "u_add_effect": "effect_telepathic_morale", "duration": "PERMANENT" },
       {
         "u_add_morale": "morale_telepathy",
-        "bonus": 10,
-        "max_bonus": 25,
-        "duration": "2 hours",
-        "decay_start": "1 hours"
+        "bonus": {
+          "math": [
+            "( (u_spell_level('telepathic_morale') * 1) + 10) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+          ]
+        },
+        "max_bonus": 35,
+        "duration": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) )"
+          ]
+        },
+        "decay_start": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) ) / 2"
+          ]
+        }
       },
       {
         "queue_eocs": "EOC_TELEPATH_MORALE_DRAIN",
@@ -231,10 +243,22 @@
       { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
         "u_add_morale": "morale_telepathy",
-        "bonus": 10,
-        "max_bonus": 25,
-        "duration": "2 hours",
-        "decay_start": "1 hours"
+        "bonus": {
+          "math": [
+            "( (u_spell_level('telepathic_morale') * 1) + 10) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+          ]
+        },
+        "max_bonus": 35,
+        "duration": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) )"
+          ]
+        },
+        "decay_start": {
+          "math": [
+            "rng( ( ( (u_spell_level('telepathic_morale') * 381) + 981) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling), ( ( (u_spell_level('telepathic_morale') * 899) + 2520) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) ) / 2"
+          ]
+        }
       },
       {
         "queue_eocs": "EOC_TELEPATH_MORALE_DRAIN",

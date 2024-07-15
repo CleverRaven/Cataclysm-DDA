@@ -168,6 +168,7 @@ namespace io
             case enchant_vals::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
             case enchant_vals::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
+            case enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE: return "EQUIPMENT_DAMAGE_CHANCE";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::COMBAT_CATCHUP: return "COMBAT_CATCHUP";
@@ -239,13 +240,10 @@ enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
         if( inline_id.empty() ) {
             jv.throw_error( "Inline enchantment cannot be created without an id." );
         }
-        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
-            jv.throw_error( "Inline enchantment " + inline_id +
-                            " cannot be created as an enchantment already has this id." );
-        }
 
         enchantment inline_enchant;
         inline_enchant.load( jv.get_object(), src, inline_id );
+        mod_tracker::assign_src( inline_enchant, src );
         spell_factory.insert( inline_enchant );
         return enchantment_id( inline_id );
     } else {

@@ -10,7 +10,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You feel AMAZING!",
-      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ],
+      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" }, { "id": "afs_cureall" } ],
       "damage_over_time": [
         {
           "damage_type": "pure",
@@ -74,6 +74,7 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   }
 ]

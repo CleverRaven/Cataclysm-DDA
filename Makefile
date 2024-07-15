@@ -597,8 +597,9 @@ ifeq ($(NATIVE), osx)
     endif
   endif
   ifeq ($(LOCALIZE), 1)
-    ifeq ($(MACPORTS), 1)
-      ifneq ($(TILES), 1)
+    ifneq ($(TILES), 1)
+      CXXFLAGS += -D_XOPEN_SOURCE_EXTENDED
+      ifeq ($(MACPORTS), 1)
         CXXFLAGS += -I$(shell ncursesw6-config --includedir)
         LDFLAGS += -L$(shell ncursesw6-config --libdir)
       endif
@@ -854,6 +855,9 @@ else
       endif # OSXCROSS
     endif # HAVE_NCURSES5CONFIG
   endif # HAVE_PKGCONFIG
+  ifeq ($(MSYS),1)
+    CXXFLAGS += -DNCURSES_INTERNALS
+  endif
 endif # TILES
 
 ifeq ($(BSD), 1)

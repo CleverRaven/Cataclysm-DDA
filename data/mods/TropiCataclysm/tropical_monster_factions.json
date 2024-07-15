@@ -2,17 +2,18 @@
   {
     "type": "MONSTER_FACTION",
     "name": "scorpion",
-    "//": "TODO assign base faction and/or attitude"
+    "base_faction": "spider"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "termite",
-    "//": "TODO assign base faction and/or attitude"
+    "base_faction": "acid_ant",
+    "by_mood": [ "acid_ant" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "turtle",
-    "//": "TODO assign base faction and/or attitude"
+    "base_faction": "small_animal"
   },
   {
     "type": "MONSTER_FACTION",

@@ -75,7 +75,7 @@
     "category": "CC_FOOD",
     "id_suffix": "using_water_purifier",
     "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
+    "skill_used": "survival",
     "time": "9 s",
     "//": "https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php?blog=484",
     "//1": "Unclear if this is a RO filter but basing it off that.  0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
@@ -84,6 +84,32 @@
     "autolearn": true,
     "tools": [ [ [ "water_purifier", 14 ], [ "pur_tablets", 1 ], [ "char_purifier", 12 ], [ "char_purifier_clay", 12 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "category": "CC_FOOD",
+    "id_suffix": "using_water_purifier",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "water_murky", 1 ] ], [ [ "pur_tablets", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "charges": 10,
+    "category": "CC_FOOD",
+    "id_suffix": "using_water_filter_sand",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": true,
+    "tools": [ [ "water_filter_sand" ] ],
+    "components": [ [ [ "water_murky", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -3481,6 +3507,7 @@
     "time": "30 m",
     "batch_time_factors": [ 83, 5 ],
     "autolearn": true,
+    "charges": 2,
     "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
     "//": "150g meat + 25%",
     "components": [ [ [ "salt_preservation", 1, "LIST" ] ], [ [ "fish", 1 ] ] ]
@@ -4379,25 +4406,37 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "hardtack",
+    "result": "hardtack_cracker",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
-    "difficulty": 3,
+    "difficulty": 1,
     "charges": 1,
     "//": "Online recipe says prep time 5 min, cook time 1hr. Adjusted batch time to mimic that.",
     "time": "1 h 15 m",
     "batch_time_factors": [ 85, 1 ],
-    "book_learn": [ [ "baking_book", 3 ] ],
+    "autolearn": true,
     "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
     "//1": "double usual price of flour to dehydrate it more than usual.",
     "components": [
-      [ [ "flour_any", 6, "LIST" ] ],
-      [ [ "salt", 1 ], [ "soysauce", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "flour_any", 38, "LIST" ] ],
+      [ [ "salt", 6 ], [ "soysauce", 6 ], [ "seasoning_salt", 6 ] ],
       [ [ "water_clean", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hardtack",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "charges": 6,
+    "time": "2 m",
+    "autolearn": true,
+    "components": [ [ [ "hardtack_cracker", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5849,6 +5888,29 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "samosa_veggy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 12,
+    "time": "30 m",
+    "book_learn": [ [ "cookbook_indian", 2 ] ],
+    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
+    "tools": [ [ [ "surface_heat", 33, "LIST" ] ] ],
+    "//": "15u for flour, 16u for potato, 3u for ghee and oil, 2u for pepper",
+    "components": [
+      [ [ "flour_any", 15, "LIST" ] ],
+      [ [ "veggy_potatolike", 3, "LIST" ] ],
+      [ [ "any_butter_or_oil", 6, "LIST" ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "curry_powder", 12 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pie_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6444,7 +6506,7 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 4,
-    "charges": 5,
+    "charges": 10,
     "time": "5 m",
     "batch_time_factors": [ 10, 3 ],
     "autolearn": true,
@@ -8098,23 +8160,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "meat_tainted",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "1 h 30 m",
-    "book_learn": [ [ "recipe_creepy", 5 ], [ "recipe_serum", 6 ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_meat", 1, "LIST" ], [ "rehydrated_meat", 1 ] ],
-      [ [ "slime_scrap", 2 ] ],
-      [ [ "water", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "royal_beef",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -9126,6 +9171,19 @@
     "components": [ [ [ "corn", 1 ] ] ]
   },
   {
+    "result": "popcorn_raw",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "byproducts": [ [ "empty_corn_cob", 1 ] ],
+    "skill_used": "cooking",
+    "time": "20 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "popcorn_cob", 1 ] ] ]
+  },
+  {
     "result": "cattlefodder",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -9149,6 +9207,7 @@
         [ "dry_lentils", 1 ],
         [ "dry_corn", 1 ],
         [ "corn", 1 ],
+        [ "popcorn_cob", 1 ],
         [ "seed_canola", 1 ],
         [ "corn_kernels", 1 ],
         [ "soybean", 2 ],
@@ -9186,6 +9245,7 @@
         [ "dry_lentils", 7 ],
         [ "dry_corn", 7 ],
         [ "corn", 7 ],
+        [ "popcorn_cob", 7 ],
         [ "seed_canola", 4 ],
         [ "corn_kernels", 4 ],
         [ "soybean", 14 ],
@@ -9223,6 +9283,7 @@
         [ "dry_lentils", 26 ],
         [ "dry_corn", 46 ],
         [ "corn", 46 ],
+        [ "popcorn_cob", 46 ],
         [ "seed_canola", 26 ],
         [ "corn_kernels", 46 ],
         [ "soybean", 107 ],
@@ -9834,7 +9895,6 @@
     "charges": 1,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
-    "//": "153g of corn to be turned into kernels",
     "components": [ [ [ "popcorn_raw", 1 ] ] ]
   },
   {

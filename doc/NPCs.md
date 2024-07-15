@@ -34,7 +34,7 @@ Format:
   "id": "NC_EXAMPLE",                                                      // Mandatory, unique id that refers to this class.
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
-  "common": false,                                                         // Optional. Whether or not this class can appear via random generation.
+  "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
   "bonus_dex": 100,                                                        // Optional. This example always adds exactly 100 to the stat.
@@ -72,6 +72,7 @@ Format:
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
+  "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],         // Optional. Note that prereqs do not need to be defined. NPCs of this class will learn this proficiency *and all pre-requesite proficiencies*.
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]     // Optional
 }
 ```
@@ -355,6 +356,8 @@ Field | Used for...
 `<current_activity>` | displays npc's current activity
 `<punc>` | displays a random punctuation from: `.`, `…`, `!`
 `<mypronoun>` | displays npc's pronoun
+`<total_kills>` | total kills of the Player
+`<time_survived>` | time since start of the game
 `<topic_item>` | referenced item
 `<topic_item_price>` | referenced item unit price
 `<topic_item_my_total_price>` | TODO Add
@@ -960,6 +963,8 @@ Condition | Type | Description
 `"has_available_mission" or "u_has_available_mission" or "npc_has_available_mission"` | simple string | `true` if u or the NPC has one job available for the player character.
 `"has_many_available_missions"` | simple string | `true` if the NPC has several jobs available for the player character.
 `"mission_goal" or "npc_mission_goal" or "u_mission_goal"` | string or [variable object](#variable-object) | `true` if u or the NPC's current mission has the same goal as `mission_goal`.
+`"u_has_activity" or "npc_has_activity" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) is currently performing an [activity](PLAYER_ACTIVITY.md).
+`"u_is_travelling" or "npc_is_travelling" | simple string | `true` if the [selected talker](EFFECT_ON_CONDITION.md#alpha-and-beta-talkers) has a current destination. Note that this just checks the destination exists, not whether u or npc is actively moving to it.
 `"mission_complete" or "npc_mission_complete" or "u_mission_complete"` | simple string | `true` if u or the NPC has completed the other's current mission.
 `"mission_incomplete" or "npc_mission_incomplete" or "u_mission_incomplete"` | simple string | `true` if u or the NPC hasn't completed the other's current mission.
 `"mission_failed" or "npc_mission_failed" or "u_mission_failed"` | simple string | `true` if u or the NPC has failed the other's current mission.
@@ -1330,6 +1335,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | coverage(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total coverage of a body part.<br/>Argument is bodypart ID. <br/>For items, returns typical coverage of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_coverage('torso')", ">", "0"] }`|
 | distance(`s`/`v`,`s`/`v`)    |  ✅   |   ❌  | g  | Return distance between two targets.<br/>Arguments are location variables or special strings (`u`, `npc`). `u` means your location. `npc` means NPC's location.<br/><br/>Example:<br/>`"condition": { "math": [ "distance('u', loc)", "<=", "50"] }`|
 | effect_intensity(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters intensity of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set intensity of effect.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_intensity('bite', 'bodypart': 'torso')", ">", "1"] }`|
+| effect_duration(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return the characters duration of effect.<br/>Argument is effect ID.<br/><br/>Optional kwargs:<br/>`bodypart`: `s`/`v` - Specify the bodypart to get/set duration of effect.<br/>`unit`: `s`/`v` - Specify the unit of the duration. Omitting will use seconds.<br/><br/> Example:<br/>`"condition": { "math": [ "u_effect_duration('bite', 'bodypart': 'torso')", ">", "1"] }`<br/>`{ "math": [ "_thing", "=", "u_effect_duration('yrax_overcharged', 'bodypart': 'torso', 'unit': 'hours')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso')", ">", "0"] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }`|
 | faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)    |   ✅   |   ❌  | N/A<br/>(global)  | Return the like/respect/trust value a faction has for the avatar.<br/>Argument is faction ID.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`|
@@ -1378,6 +1384,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
 | calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
+| get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily()", ">", "1000" ] }`<br/> `{ "math": [ "foo", "=", "get_calories_daily('type':'gained', 'day':'1')" ] }`|
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1414,9 +1421,9 @@ These can be read or written to with `val()`.
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
-| `power` | ✅ | Bionic power in millijoule. |
-| `power_percentage` | ✅ | Percentage of max bionic power |
-| `power_max` | ❌ | Max bionic power in millijoule. |
+| `power` | ✅ | Bionic or item power in millijoule. |
+| `power_percentage` | ✅ | Percentage of max bionic or item power |
+| `power_max` | ❌ | Max bionic or item power in millijoule. |
 | `rad` | ✅ | Current radiation level. |
 | `size` | ❌ | Size category from 1 (tiny) to 5 (huge). |
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |

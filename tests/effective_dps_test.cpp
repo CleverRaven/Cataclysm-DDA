@@ -4,7 +4,9 @@
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "flag.h"
 #include "item.h"
+#include "item_factory.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
@@ -281,9 +283,32 @@ TEST_CASE( "expected_weapon_dps", "[expected][dps]" )
         return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
     };
 
+    std::unordered_set<itype_id> tested;
     for( std::pair<const itype_id, double> &weap : test_data::expected_dps ) {
+        if( weap.first->src.empty() || weap.first->src.back().second.str() != "dda" ) {
+            continue;
+        }
+        tested.emplace( weap.first );
         INFO( string_format( "%s's dps changed, if it's intended replace the value in the respective file in data/mods/TEST_DATA/expected_dps_data.",
                              weap.first.str() ) );
         CHECK( calc_expected_dps( weap.first ) == weap.second );
+    }
+
+    for( const itype *it : item_controller->all() ) {
+        if( it->src.empty() || it->src.back().second.str() != "dda" ) {
+            continue;
+        }
+        if( it->has_flag( flag_PSEUDO ) ) {
+            continue;
+        }
+        if( !item( it ).is_melee() ) {
+            continue;
+        }
+        if( tested.find( it->get_id() ) != tested.end() ) {
+            continue;
+        }
+        INFO( string_format( "'%s' is a weapon, but is not included in DPS tests.  Please place it in the appropriate file in data/mods/TEST_DATA/expected_dps_data.",
+                             it->get_id().str() ) );
+        CHECK( calc_expected_dps( it->get_id() ) <= 5.0 );
     }
 }

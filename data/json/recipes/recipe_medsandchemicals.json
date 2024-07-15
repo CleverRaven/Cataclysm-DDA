@@ -574,7 +574,7 @@
     "skills_required": [ "firstaid", 1 ],
     "difficulty": 4,
     "time": "24 m",
-    "charges": 996,
+    "charges": 9,
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
@@ -585,9 +585,37 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
-      [ [ "iodine_crystal", 218 ] ],
-      [ [ "chem_potassium_hydroxide", 600 ], [ "lye_potassium", 15 ] ],
-      [ [ "ammonia_hydroxide", 1 ] ]
+      [ [ "iodine_crystal", 2 ] ],
+      [ [ "chem_potassium_hydroxide", 5 ] ],
+      [ [ "formic_acid", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iodine_crystal",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "60 m",
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "kombu", 150 ] ],
+      [ [ "ether", 80 ] ],
+      [ [ "chem_washing_soda", 30 ] ],
+      [ [ "chem_muriatic_acid", 1 ] ],
+      [ [ "chem_hydrogen_peroxide", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
   {
@@ -858,6 +886,22 @@
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
     "tools": [ [ "fake_digester_tank" ] ],
     "components": [ [ [ "ruined_chunks", 20 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fermentable_fish_mixture",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "2 m",
+    "charges": 3,
+    "autolearn": true,
+    "batch_time_factors": [ 90, 4 ],
+    "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
+    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "fish", 5 ], [ "lobster", 5 ], [ "fish_scrap", 75 ] ] ],
+    "using": [ [ "sugar_standard", 1 ] ]
   },
   {
     "type": "recipe",
@@ -1450,7 +1494,37 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "red_phosphorous",
-    "charges": 5,
+    "id_suffix": "with_white_phosphorous",
+    "charges": 3,
+    "batch_time_factors": [ 95, 1 ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "difficulty": 3,
+    "skill_used": "chemistry",
+    "time": "1 h",
+    "tools": [ [ [ "vac_oven_small", 1000 ] ] ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
+    "components": [ [ [ "white_phosphorous", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "red_phosphorous",
+    "charges": 1,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "time": "1 s",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [  ],
+    "components": [ [ [ "red_phosphorous_small", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "red_phosphorous_small",
+    "charges": 1,
     "batch_time_factors": [ 60, 5 ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
@@ -1458,7 +1532,24 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SIEVE", "level": 1 } ],
-    "components": [ [ [ "match", 85 ] ] ]
+    "//": "calculation based on https://www.youtube.com/watch?v=5ZrfNAHDjWU; 1 matchbox contains 30 mg phosphorus and 1 unit of phosphor is 100 mg",
+    "components": [ [ [ "survival_match", 1 ], [ "ref_matches", 3 ], [ "matches", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "white_phosphorous",
+    "id_suffix": "with_red_phosphorous",
+    "charges": 4,
+    "batch_time_factors": [ 95, 1 ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "difficulty": 3,
+    "skill_used": "chemistry",
+    "time": "6 m",
+    "tools": [ [ [ "vac_oven_small", 100 ] ] ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_anarch", 3 ] ],
+    "components": [ [ [ "red_phosphorous", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2562,5 +2653,21 @@
     "//4": "460kJ per mole @ 70% energy efficiency",
     "tools": [ [ [ "fake_arc_furnace", 650 ] ] ],
     "components": [ [ [ "cac2powder", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "chem_potassium_chloride",
+    "charges": 1,
+    "batch_time_factors": [ 99, 1 ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "//": "basically burning potassium chlorate to form KCl in the ratio 1.6:1, i.e 20 matches produce 71 mg of KCl.  A survial match burns for 15-20 seconds and have a thicker coating of Potassium Chlorate to make it windproof.",
+    "components": [ [ [ "survival_match", 1 ], [ "match", 28 ] ] ]
   }
 ]

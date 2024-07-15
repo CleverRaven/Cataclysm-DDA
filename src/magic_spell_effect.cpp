@@ -49,7 +49,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
@@ -75,6 +74,10 @@ static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
 static const json_character_flag json_flag_PRED4( "PRED4" );
+
+static const morale_type morale_killed_monster( "morale_killed_monster" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
 
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -521,11 +524,11 @@ static void damage_targets( const spell &sp, Creature &caster,
 
             Character &player_character = get_player_character();
             if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                !player_character.has_morale( morale_pyromania_startfire ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flames burst out!" ) );
-                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( morale_pyromania_nofire );
             }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
@@ -852,15 +855,15 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
     return std::pair<field, tripoint> {field_removed, field_position};
 }
 
-static void handle_remove_fd_reality_tear_field( const std::pair<field, tripoint>
-        &fd_reality_tear_field,
+static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint>
+        &fd_fatigue_field,
         Creature &caster )
 {
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
-         ( fd_reality_tear_field ) ) {
+         ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
-        const tripoint &field_position = std::get<1>( fd_reality_tear_field );
+        const tripoint &field_position = std::get<1>( fd_fatigue_field );
         const bool sees_field = caster.sees( field_position );
 
         switch( intensity ) {
@@ -912,8 +915,8 @@ void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoi
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
             sp.make_sound( caster.pos(), caster );
 
-            if( fd.first.id() == fd_reality_tear ) {
-                handle_remove_fd_reality_tear_field( field_removed, caster );
+            if( fd.first.id() == fd_fatigue ) {
+                handle_remove_fd_fatigue_field( field_removed, caster );
             } else {
                 caster.add_msg_if_player( m_neutral, _( "The %s dissipates." ),
                                           fd.second.get_intensity_level().name );
@@ -1586,7 +1589,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         else if( guy.has_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
-        guy.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
+        guy.add_morale( morale_killed_monster, moraleMalus, maxMalus, duration, decayDelay );
     }
 }
 
@@ -1674,7 +1677,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
-    if( here.getlocal( *walk_point ) == source ) {
+    if( here.bub_from_abs( *walk_point ).raw() == source ) {
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
@@ -1682,14 +1685,14 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
-            if( creatures.creature_at( here.getlocal( *walk_point ) ) ||
-                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
+            if( creatures.creature_at( here.bub_from_abs( *walk_point ) ) ||
+                !g->walk_move( here.bub_from_abs( *walk_point ), false ) ) {
                 if( walk_point != trajectory.begin() ) {
                     --walk_point;
                 }
                 break;
             } else if( walk_point != trajectory.begin() ) {
-                sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
+                sp.create_field( here.bub_from_abs( *( walk_point - 1 ) ).raw(), caster );
                 g->draw_ter();
             }
         }
@@ -1702,7 +1705,8 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     caster.set_moves( cur_moves );
 
     tripoint far_target;
-    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ),
+                  here.bub_from_abs( *walk_point ).raw(),
                   far_target );
 
     spell_effect::override_parameters params( sp, caster );

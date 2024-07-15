@@ -268,7 +268,8 @@ void monmove()
 
     for( monster &critter : g->all_monsters() ) {
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
+        if( !critter.is_dead() && m.impassable( critter.pos_bub() ) &&
+            !critter.can_move_to( critter.pos_bub() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
                            << " can't move to its location!  (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
@@ -486,7 +487,7 @@ bool do_turn()
     u.gravity_check();
 
     // If you're inside a wall or something and haven't been telefragged, let's get you out.
-    if( m.impassable( u.pos() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
+    if( m.impassable( u.pos_bub() ) && !m.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, u.pos() ) ) {
         u.stagger();
     }
 
@@ -566,7 +567,7 @@ bool do_turn()
                 sounds::process_sound_markers( &u );
                 if( !u.activity && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
-                    g->wait_popup.reset();
+                    g->wait_popup_reset();
                     ui_manager::redraw();
                 }
 
@@ -654,7 +655,7 @@ bool do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
     monmove();
-    if( calendar::once_every( 5_minutes ) ) {
+    if( calendar::once_every( time_between_npc_OM_moves ) ) {
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
@@ -721,7 +722,7 @@ bool do_turn()
         }
     } else {
         // Nothing to wait for now
-        g->wait_popup.reset();
+        g->wait_popup_reset();
         g->first_redraw_since_waiting_started = true;
     }
 

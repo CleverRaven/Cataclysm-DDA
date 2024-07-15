@@ -85,7 +85,7 @@
           ]
         },
         "effect": [
-          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] },
           { "npc_add_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" }
         ],
         "switch": true
@@ -147,7 +147,10 @@
         {
           "npc_has_var": "exodii_mission_wh_correct",
           "value": "no",
-          "yes": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+          "yes": {
+            "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
           "no": ", nodding along.  \"Yeah, I remember something like that a while back.  Pretty memorable building, I think it's what you're looking for.\""
         }
       ]
@@ -242,14 +245,6 @@
             "yes": {
               "gendered_line": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
               "relevant_genders": [ "npc" ]
-            },
-            "no": {
-              "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
-              "yes": {
-                "gendered_line": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneath the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
-                "relevant_genders": [ "npc" ]
-              },
-              "no": "ERROR: out of bounds on randomize_directions."
             }
           }
         }
@@ -302,21 +297,6 @@
         "switch": true
       },
       {
-        "text": "Where was the bunker at?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
-        "condition": {
-          "and": [
-            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
-            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "bunker_shop" } }
-          ]
-        },
-        "effect": [
-          { "npc_add_var": "camper_van_traveler_mission_directions", "value": "bunker_shop" },
-          { "assign_mission": "directions_bunker_shop" }
-        ],
-        "switch": true
-      },
-      {
         "text": "Ah, that's nothing new to me.  Thanks anyway though.",
         "topic": "TALK_NPC_CAMPER_VAN_TRAVELER",
         "switch": true,
@@ -343,7 +323,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 }
+      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -390,29 +370,6 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "desolatebarn", "om_special": "desolate barn", "reveal_radius": 5, "search_range": 400 }
-    },
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": ".",
-      "offer": ".",
-      "accepted": ".",
-      "rejected": ".",
-      "advice": "Be careful.  Seems like a rough place to me.",
-      "inquire": "How is the search going?",
-      "success": "Sweet.",
-      "success_lie": "Sweet.",
-      "failure": "That's unfortunate."
-    }
-  },
-  {
-    "id": "directions_bunker_shop",
-    "type": "mission_definition",
-    "name": { "str": "Check out that collapsed house" },
-    "goal": "MGOAL_GO_TO",
-    "difficulty": 2,
-    "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "bunker_shop_g", "om_special": "bunker shop", "reveal_radius": 5, "search_range": 400 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

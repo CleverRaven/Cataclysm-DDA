@@ -57,7 +57,6 @@ bool jackson( monster *z );
 bool dance( monster *z );
 bool dogthing( monster *z );
 bool vortex( monster *z );
-bool gene_sting( monster *z );
 bool para_sting( monster *z );
 bool triffid_growth( monster *z );
 bool stare( monster *z );

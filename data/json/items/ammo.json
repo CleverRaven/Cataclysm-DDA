@@ -539,7 +539,8 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "recovery_chance": 99,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "melee_damage": { "cut": 9 }
   },
   {
@@ -560,7 +561,8 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80", "ALLOWS_BODY_BLOCK" ],
+    "recovery_chance": 99,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
   },
@@ -580,6 +582,7 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
+    "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -601,6 +604,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
+    "recovery_chance": 50,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -622,6 +626,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
+    "recovery_chance": 10,
     "effects": [ "NEVER_MISFIRES" ]
   },
   {
@@ -643,6 +648,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
+    "recovery_chance": 95,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -1176,17 +1182,18 @@
     "type": "AMMO",
     "id": "gasfilter_m",
     "category": "tool_magazine",
-    "material": [ "charcoal" ],
+    "name": { "str_sp": "activated carbon" },
+    "description": "A small amount of coal-derived carbon material with many small pores, used for the adsorption of harmful chemicals.  Most commonly employed within respirator filters, it traps and retains chemical gases and vapour contaminants while allowing filtered air to pass unhindered.  Once all the carbon has been bonded to intruding chemicals, the filter is expired and must be replaced.",
+    "volume": "1 ml",
     "price": "1 cent",
     "price_postapoc": "1 cent",
-    "name": { "str": "gas mask cartridge" },
     "symbol": "=",
+    "material": [ "charcoal" ],
     "color": "light_gray",
-    "description": "A medium-sized, replaceable filter cartridge for an air filtration mask.",
-    "volume": "1 ml",
-    "weight": "200 mg",
     "ammo_type": "gasfilter_m",
-    "count": 1
+    "count": 1,
+    "//": "Obviously, activated carbon isn't magically weightless, but it's used as ammunition within gas mask filters, and the filters shouldn't equally magically grow lighter as the coal binds with chemicals. Considering that this is never found beyond gas mask canisters, having zero weight should make no difference to the player.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "type": "AMMO",
@@ -1198,12 +1205,12 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Liquid made up of propylene glycol, vegetable glycerin, flavorings, and nicotine.  Intended for use in an advanced electronic cigarette.",
-    "container": "bottle_plastic_small",
+    "container": "bottle_plastic_tiny",
     "phase": "liquid",
-    "volume": "250 ml",
-    "weight": "2 g",
+    "volume": "30 ml",
+    "weight": "1 g",
     "ammo_type": "components",
-    "count": 50
+    "count": 30
   },
   {
     "id": "fish_bait",
@@ -1479,6 +1486,7 @@
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
+    "recovery_chance": 80,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },
@@ -1501,6 +1509,7 @@
     "dispersion": 10,
     "loudness": 0,
     "count": 7,
+    "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES" ],
     "use_action": [ "RPGDIE" ]
   },

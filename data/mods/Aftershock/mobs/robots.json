@@ -71,7 +71,7 @@
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "BIOLOGICALPROOF", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
     "armor": { "bash": 18, "cut": 14, "bullet": 11 }
   },
   {
@@ -105,6 +105,7 @@
       "SEES",
       "HEARS",
       "GOODHEARING",
+      "BIOLOGICALPROOF",
       "NOHEAD",
       "BASHES",
       "DESTROYS",
@@ -161,7 +162,18 @@
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "BASHES",
+      "NO_BREATHE",
+      "BIOLOGICALPROOF",
+      "ELECTRONIC",
+      "CLIMBS",
+      "PRIORITIZE_TARGETS",
+      "FIREPROOF"
+    ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6 }
   },
   {
@@ -207,11 +219,12 @@
       "SEES",
       "HEARS",
       "BASHES",
+      "BIOLOGICALPROOF",
       "ELECTRONIC",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "HIT_AND_RUN"
     ],
     "armor": { "bash": 10, "cut": 20, "bullet": 16 }
@@ -262,7 +275,7 @@
     "vision_day": 50,
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "BIOLOGICALPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 8, "cut": 8, "acid": 6, "heat": 4 }
   },
   {
@@ -287,10 +300,14 @@
     "name": "TsKBEM Udarnik",
     "description": "A highly customizable light industrial and agricultural robot.  Its original design dates back to the ancient Soviet Union; the aptly named Udarnik \"shock worker\" was the trigger behind the automation revolution, and with subsequent adaptations, became the workhorse of early human space colonization.  Although outdated by modern standards, the Udarnik is still commonly seen in frontier worlds - thanks to its easily obtainable fabrication schematics.\n\nThis particular version is equipped with a mix of construction and heavy cargo-handling tools and was likely involved in the construction of colony buildings.",
     "color": "yellow",
+    "volume": "680388 ml",
+    "weight": "680388 g",
     "luminance": 10,
     "melee_skill": 2,
     "melee_dice": 4,
     "melee_dice_sides": 6,
+    "hp": 400,
+    "armor": { "bash": 12, "cut": 20, "bullet": 12, "acid": 80, "heat": 20 },
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "starting_ammo": { "nail": 1000 },
     "special_attacks": [
@@ -304,6 +321,24 @@
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] }
+  },
+  {
+    "id": "mon_utilibot_hostile",
+    "type": "MONSTER",
+    "copy-from": "mon_utilibot",
+    "name": "rampant Udarnik",
+    "description": "An erratic and dangerous Udarnik that mistakenly attempts to hammer everything on its sights.  Although this corrupted robot is not built for combat, its sheer size and hydraulic strength make it extremely dangerous up close.",
+    "default_faction": "rampant_machine",
+    "color": "yellow",
+    "luminance": 10,
+    "melee_skill": 4,
+    "morale": 20,
+    "aggression": 50,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "speed": 80,
+    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
+    "extend": { "flags": [ "BASHES", "DESTROYS", "ATTACKMON" ] }
   },
   {
     "id": "mon_utilibot_fire",
@@ -331,6 +366,40 @@
     "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
   },
   {
+    "id": "mon_fumigator",
+    "type": "MONSTER",
+    "copy-from": "base_drone",
+    "name": "Croplord 2SPL",
+    "description": "Twin linked rotors allow this ubiquitous EINAC drone to comfortably hover above fields and deploy pesticides at prodigious rates.  They have no ability to detect humans within their work areas and will readily disperse lethal pesticides near them.",
+    "default_faction": "rampant_machine",
+    "symbol": "y",
+    "diff": 40,
+    "speed": 100,
+    "volume": "1750 ml",
+    "weight": "1 kg",
+    "color": "green",
+    "melee_skill": 8,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "morale": 20,
+    "starting_ammo": { "afs_foamtoxic": 400 },
+    "death_function": { "corpse_type": "BROKEN", "message": "The Croplord crashes into the ground." },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "move_cost": 80,
+        "cooldown": 3,
+        "gun_type": "afs_foamgun",
+        "ammo_type": "afs_foamtoxic",
+        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_dex": 8,
+        "ranges": [ [ 0, 6, "DEFAULT" ] ]
+      }
+    ],
+    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 },
+    "extend": { "flags": [ "DROPS_AMMO" ] }
+  },
+  {
     "id": "mon_medibot",
     "type": "MONSTER",
     "name": "faulty surgical droid",
@@ -356,7 +425,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "BIOLOGICALPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
     "armor": { "bash": 6, "cut": 6, "acid": 6, "heat": 2 }
   },
   {
@@ -680,7 +749,7 @@
     ]
   },
   {
-    "id": "mon_eyebot",
+    "id": "mon_afs_eyebot",
     "type": "MONSTER",
     "name": { "str": "eyebot" },
     "description": "A quadcopter drone largely comprised of a high-resolution camera lens and a speaker, this robot hovers above the ground, documenting the carnage and mayhem around it.  While it is no longer able to report to a central authority, it's likely that some of its automated alert systems are still functional, given that the thing seems to have an operational charging station somewhere.",
@@ -697,7 +766,7 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 3,
-    "revert_to_itype": "bot_eyebot",
+    "revert_to_itype": "afs_bot_eyebot",
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -705,7 +774,7 @@
     "armor": { "bash": 8, "cut": 10, "bullet": 8 }
   },
   {
-    "id": "mon_copbot",
+    "id": "mon_afs_copbot",
     "type": "MONSTER",
     "name": { "str": "police bot" },
     "description": "One of the many models of armored law enforcement robots employed shortly before the collapse of civilization.  Solar powered like many other robots, it maintains its programmed pursuit of law and order, propelled on a trio of omni wheels.",
@@ -728,7 +797,7 @@
     "dodge": 8,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
-    "revert_to_itype": "bot_copbot",
+    "revert_to_itype": "afs_bot_copbot",
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -740,13 +809,13 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6 }
   },
   {
-    "id": "mon_riotbot",
+    "id": "mon_afs_riotbot",
     "type": "MONSTER",
     "name": { "str": "riot control bot" },
     "description": "A nonviolent riot-control bot, designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding spotlight and a low-powered stungun for self-defense--in addition to a supply of electronic handcuffs.",
@@ -766,7 +835,7 @@
     "dodge": 8,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
-    "revert_to_itype": "bot_riotbot",
+    "revert_to_itype": "afs_bot_riotbot",
     "special_attacks": [ [ "RIOTBOT", 1 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
@@ -779,7 +848,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6 }
@@ -809,7 +878,7 @@
     "vision_night": 100,
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
-    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "petfood": {
       "food": [ "STEED_registry" ],
       "feed": "The %s activates as you swipe the registry key.  A nearly inaudible hum is the only indication the STEED is active."
@@ -822,9 +891,10 @@
       "BASHES",
       "PUSH_MON",
       "ELECTRONIC",
+      "BIOLOGICALPROOF",
       "NO_BREATHE",
       "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FALL",
       "PATH_AVOID_FIRE",
       "STUN_IMMUNE"

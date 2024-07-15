@@ -7,6 +7,7 @@
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
@@ -17,6 +18,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
   }
 ]

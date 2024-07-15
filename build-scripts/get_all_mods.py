@@ -10,10 +10,19 @@ import json
 
 mods_this_time = []
 
+exclusions = [
+    # Tuple of (mod_id, mod_id) - these two mods will be incompatible
+]
+
 
 def compatible_with(mod, existing_mods):
     if mod in total_conversions and total_conversions & set(existing_mods):
         return False
+    for entry in exclusions:
+        if entry[0] == mod and entry[1] in existing_mods:
+            return False
+        if entry[1] == mod and entry[0] in existing_mods:
+            return False
     return True
 
 
@@ -23,11 +32,14 @@ def add_mods(mods):
             # Either an invalid mod id, or blacklisted.
             return False
     for mod in mods:
-        if mod not in mods_this_time and compatible_with(mod, mods_this_time):
-            if add_mods(all_mod_dependencies[mod]):
-                mods_this_time.append(mod)
-            else:
-                return False
+        if mod in mods_this_time:
+            continue
+        if not compatible_with(mod, mods_this_time):
+            return False
+        if add_mods(all_mod_dependencies[mod]):
+            mods_this_time.append(mod)
+        else:
+            return False
     return True
 
 

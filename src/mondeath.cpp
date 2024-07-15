@@ -35,7 +35,6 @@
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "point.h"
 #include "rng.h"

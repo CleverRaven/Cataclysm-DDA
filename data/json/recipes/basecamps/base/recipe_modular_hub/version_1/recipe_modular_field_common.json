@@ -71,16 +71,36 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "fbmh_0_cooking_northeast",
+    "result": "fbmh_0_cooking_shack_northeast",
     "description": "Now that we have some cover, we should build basic cooking facilities in the northeast shack.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmh_0_cooking_northeast",
+    "construction_blueprint": "fbmh_0_cooking_shack_northeast",
     "blueprint_name": "northeast cooking",
-    "blueprint_parameter_names": { "fbmh_0_cooking_palette": { "fbmh_0_fireplace_palette": "Fireplace", "fbmh_0_stove_palette": "Woodstove" } },
-    "blueprint_requires": [ { "id": "fbmh_northeast" } ],
+    "blueprint_parameter_names": {
+      "fbmh_0_cooking_shack_palette": { "fbmh_0_fireplace_shack_palette": "Fireplace", "fbmh_0_stove_shack_palette": "Woodstove" }
+    },
+    "blueprint_requires": [ { "id": "fbmh_shack_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_fire_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbmh_fire_northeast" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_0_cooking_tent_northeast",
+    "description": "Now that we have some cover, we should build basic cooking facilities in the northeast tent.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_0_cooking_tent_northeast",
+    "blueprint_name": "northeast cooking",
+    "blueprint_parameter_names": {
+      "fbmh_0_cooking_tent_palette": { "fbmh_0_fireplace_tent_palette": "Fireplace", "fbmh_0_stove_tent_palette": "Woodstove" }
+    },
+    "blueprint_requires": [ { "id": "fbmh_tent_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_fire_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_fire_northeast" } ]
   },

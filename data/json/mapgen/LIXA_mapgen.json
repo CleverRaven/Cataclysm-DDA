@@ -222,6 +222,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "LIXA_road_guard_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ---------             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  ---------             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "LIXA_road",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -543,7 +578,6 @@
           { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
           { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 },
           { "item": "software_math", "chance": 3, "repeat": 1 },
-          { "item": "software_lab_data", "chance": 2, "repeat": 4 },
           { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],

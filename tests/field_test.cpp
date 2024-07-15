@@ -169,7 +169,7 @@ TEST_CASE( "fd_acid_falls_down", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     m.add_field( p, fd_acid, 3 );

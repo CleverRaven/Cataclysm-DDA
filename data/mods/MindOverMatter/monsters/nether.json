@@ -30,7 +30,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "eater_drain_monster", "min_level": 5 },
-        "cooldown": 3,
+        "cooldown": { "math": [ "2 + rand(3)" ] },
         "monster_message": "The eater's fronds lazily drift to and fro."
       }
     ],
@@ -43,11 +43,12 @@
       "NOHEAD",
       "NO_FUNG_DMG",
       "KEEP_DISTANCE",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER",
       "ACIDPROOF",
       "HARDTOSHOOT",
       "NOGIB",
       "TEEP_IMMUNE"
-    ]
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true }
   }
 ]

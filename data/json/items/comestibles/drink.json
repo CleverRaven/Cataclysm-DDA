@@ -20,7 +20,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -43,7 +43,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 11 ] ],
+    "vitamins": [ [ "calcium", 11 ], [ "nut_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -67,7 +67,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -142,7 +142,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", "2300 μg" ], [ "iron", "7500 μg" ], [ "calcium", "40700 μg" ] ],
+    "vitamins": [ [ "vitC", "2300 μg" ], [ "iron", "7500 μg" ], [ "calcium", "40700 μg" ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -169,7 +169,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -213,7 +214,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -273,7 +274,8 @@
     "spoils_in": "14 hours",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "Imitation coffee brewed from Kentucky coffeetree, this drink has no caffeine, no sweetener, and is still unpleasantly bitter even with the added milk.",
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -352,7 +354,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -380,7 +383,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -408,7 +412,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -431,7 +436,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -455,7 +460,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 60 ] ],
+    "vitamins": [ [ "vitC", 60 ], [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 6
   },
   {
@@ -521,7 +526,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 15
   },
   {
@@ -550,7 +555,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 105 ] ],
+    "vitamins": [ [ "vitC", 105 ], [ "junk_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -615,7 +620,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -642,7 +647,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -714,7 +719,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -750,7 +755,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ], [ "fruit_allergen", 1 ] ],
     "fun": 12
   },
   {
@@ -776,7 +781,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -800,7 +805,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 12
+    "fun": 12,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -828,7 +834,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 12
+    "fun": 12,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -894,7 +901,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "fruit_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -918,7 +925,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -957,7 +964,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -997,7 +1005,7 @@
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -1027,7 +1035,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -1053,7 +1061,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10,
     "flags": [ "EATEN_HOT" ]
   },
@@ -1080,7 +1088,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitC", "83700 μg" ], [ "iron", "320 μg" ], [ "calcium", "348600 μg" ] ],
+    "vitamins": [ [ "vitC", "83700 μg" ], [ "iron", "320 μg" ], [ "calcium", "348600 μg" ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1105,7 +1113,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", "124 mg" ], [ "iron", "500 μg" ], [ "calcium", "27300 μg" ] ],
+    "vitamins": [ [ "vitC", "124 mg" ], [ "iron", "500 μg" ], [ "calcium", "27300 μg" ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1130,7 +1138,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1177,7 +1186,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1203,7 +1212,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ], [ "veggy_allergen", 1 ] ],
     "fun": 30
   },
   {
@@ -1228,7 +1237,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1243,7 +1253,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 156,
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "junk_allergen", 1 ] ],
     "description": "Like cola, but without caffeine.  Still not that healthy, but better than the canned stuff.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
@@ -1276,7 +1286,8 @@
     "primary_material": "water",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1303,7 +1314,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1326,7 +1338,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1391,7 +1403,8 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 2,
-    "freezing_point": -5
+    "freezing_point": -5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1400,6 +1413,7 @@
     "name": { "str_sp": "black tea" },
     "weight": "250 g",
     "color": "brown",
+    "addiction_type": "caffeine",
     "sleepiness_mod": 9,
     "stim": 3,
     "container": "bottle_plastic",
@@ -1480,15 +1494,35 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "700 μg" ], [ "calcium", "19200 μg" ] ]
+    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "700 μg" ], [ "calcium", "19200 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "water",
     "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
-    "category": "food",
+    "copy-from": "water_clean",
     "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, necessary for all kinds of crafting, cleaning, and avoiding an agonizing death by dehydration.  You should boil or purify it before using it as drinking water.",
+    "color": "light_blue",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "delete": { "flags": [ "DECAYS_IN_AIR" ] },
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
+  },
+  {
+    "id": "water_murky",
+    "type": "COMESTIBLE",
+    "copy-from": "water",
+    "name": { "str_sp": "murky water" },
+    "description": "Water, the stuff of life.  This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
+    "quench": 30,
+    "parasites": 5,
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ]
+  },
+  {
+    "id": "water_clean",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
     "material": [ "water" ],
     "weight": "250 g",
     "volume": "250 ml",
@@ -1496,38 +1530,35 @@
     "price": "50 cent",
     "price_postapoc": "1 cent",
     "symbol": "~",
-    "color": "light_blue",
     "phase": "liquid",
-    "container": "bottle_plastic",
-    "sealed": false,
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
-    "flags": [ "EATEN_COLD" ],
-    "use_action": [ "BLECH_BECAUSE_UNCLEAN" ]
-  },
-  {
-    "id": "water_clean",
-    "copy-from": "water",
-    "type": "COMESTIBLE",
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
     "sealed": true,
     "color": "light_cyan",
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "use_action": [  ]
+    "//": "Clean water becomes regular water in about 4 weeks if exposed to air (1 week if outdoors).",
+    "properties": { "max_air_exposure_hours": "720" },
+    "revert_to": "water"
+  },
+  {
+    "id": "water_spring",
+    "copy-from": "water_clean",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spring water" },
+    "description": "Natural alpine spring water, bottled at the source.",
+    "relative": { "fun": 1 }
   },
   {
     "id": "water_mineral",
-    "copy-from": "water",
+    "copy-from": "water_clean",
     "type": "COMESTIBLE",
     "name": { "str_sp": "mineral water" },
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
-    "container": "bottle_plastic",
-    "sealed": true,
     "proportional": { "quench": 1.2 },
-    "relative": { "fun": 1 },
-    "use_action": [  ]
+    "relative": { "fun": 1 }
   },
   {
     "type": "COMESTIBLE",
@@ -1633,7 +1664,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", "170300 μg" ], [ "iron", "900 μg" ], [ "calcium", "24300 μg" ] ],
+    "vitamins": [ [ "vitC", "170300 μg" ], [ "iron", "900 μg" ], [ "calcium", "24300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -1678,7 +1709,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1701,7 +1733,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1724,7 +1757,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1752,7 +1786,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1775,7 +1810,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

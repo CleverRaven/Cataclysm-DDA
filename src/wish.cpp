@@ -1136,6 +1136,11 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     } while( wmenu.ret >= 0 );
 }
 
+void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
+{
+    debug_menu::wishitem( you, pos.raw() );
+}
+
 void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;

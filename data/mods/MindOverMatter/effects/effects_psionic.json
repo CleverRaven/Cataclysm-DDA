@@ -307,7 +307,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -661,7 +662,8 @@
     "id": "effect_clair_weak_point",
     "name": [ "Weaknesses Discerned" ],
     "desc": [ "Your vulnerabilities have been laid open." ],
-    "apply_message": "",
+    "apply_message": "You suddenly feel terribly vulnerable.",
+    "remove_message": "You no longer feel so exposed.",
     "rating": "bad",
     "max_duration": "1 minutes",
     "show_in_info": true,
@@ -766,25 +768,25 @@
       {
         "values": [
           {
-            "value": "BONUS_DODGE",
+            "value": "EVASION",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.7)"
               ]
             }
           },
           {
-            "value": "BONUS_BLOCK",
+            "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min((( ( u_spell_level('clair_dodge_power') * 0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 10)"
               ]
             }
           }
         ]
       }
     ],
-    "flags": [ "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT" ]
   },
   {
     "type": "effect_type",
@@ -1320,7 +1322,8 @@
     "max_intensity": 77,
     "dur_add_perc": 10,
     "int_dur_factor": "46 s",
-    "enchantments": [ "enchant_pyrokin_cloak" ]
+    "enchantments": [ "enchant_pyrokin_cloak" ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -1356,6 +1359,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 95,
+    "blocks_effects": [ "blisters" ],
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
@@ -1634,9 +1638,16 @@
       "You are editing out your most negative thoughts.  When you think about it, is the Cataclysm really the worst thing that could have happened?"
     ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You let your thoughts return to their normal flow.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_mood_stabilization_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1772,7 +1783,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
-    "base_mods": { "speed_mod": [ -40 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
   {

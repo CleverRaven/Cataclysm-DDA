@@ -185,7 +185,8 @@
       [ "metal_RPG_die", 1 ],
       [ "balloon", 5 ],
       [ "deck_of_cards", 1 ],
-      [ "milkshake_fastfood", 3 ]
+      [ "milkshake_fastfood", 3 ],
+      { "group": "butterfly_net_any", "prob": 5 }
     ]
   },
   {
@@ -218,7 +219,7 @@
       { "item": "flip_flops", "prob": 35 },
       { "item": "flip_flops_exp", "prob": 5 },
       { "item": "leathersandals", "prob": 40 },
-      { "item": "straw_sandals", "prob": 20 },
+      { "item": "espadrilles", "prob": 20 },
       { "item": "bastsandals", "prob": 20 },
       { "item": "sneakers_steel", "prob": 20 },
       { "item": "knee_high_boots", "prob": 20 },

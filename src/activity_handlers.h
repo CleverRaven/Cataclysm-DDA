@@ -11,7 +11,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "requirements.h"
 #include "type_id.h"
 #include "units_fwd.h"

@@ -23,7 +23,7 @@
       }
     },
     "blueprint_requires": [ { "id": "fbmh_0" } ],
-    "blueprint_provides": [ { "id": "fbmh_northeast" } ],
+    "blueprint_provides": [ { "id": "fbmh_northeast" }, { "id": "fbmh_shack_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast" } ]
   },
   {

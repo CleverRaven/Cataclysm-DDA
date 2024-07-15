@@ -18,7 +18,7 @@
 #include <clocale>
 
 // Needed for screen scraping
-#if (defined(TILES) || defined(_WIN32))
+#if defined(TILES)
 #include "cursesport.h"
 #endif
 
@@ -43,6 +43,9 @@ const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 static const itype_id itype_blindfold( "blindfold" );
 static const itype_id itype_ear_plugs( "ear_plugs" );
 static const itype_id itype_rad_badge( "rad_badge" );
+
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
 
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_prone( "prone" );
@@ -131,7 +134,7 @@ static const widget_id widget_test_weight_clauses_normal( "test_weight_clauses_n
 
 // dseguin 2022 - Ugly hack to scrape content from the window object.
 // Scrapes the window w at origin, reading the number of cols and rows.
-#if defined(TILES) || defined(_WIN32)
+#if defined(TILES)
 static std::vector<std::string> scrape_win_at(
     catacurses::window &w, const point &origin, int cols, int rows )
 {
@@ -697,11 +700,11 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
 
         ava.clear_morale();
         CHECK( morale_w.layout( ava ) == "MORALE: 0" );
-        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        ava.add_morale( morale_food_good, 20 );
         CHECK( morale_w.layout( ava ) == "MORALE: 20" );
 
         ava.clear_morale();
-        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        ava.add_morale( morale_killed_innocent, -100 );
         CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
 
@@ -2037,7 +2040,7 @@ TEST_CASE( "Custom_widget_height_and_multiline_formatting", "[widget]" )
         CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "Multiline drawing splits newlines correctly" ) {
         const int cols = 32;
         const int rows = 5;
@@ -2615,7 +2618,7 @@ TEST_CASE( "widget_disabled_when_empty", "[widget]" )
         CHECK( wgt.layout( ava ).empty() );
     }
 
-#if (defined(TILES) || defined(_WIN32))
+#if (defined(TILES))
     SECTION( "test widget rendering when disabled" ) {
         const int cols = 32;
         const int rows = 5;

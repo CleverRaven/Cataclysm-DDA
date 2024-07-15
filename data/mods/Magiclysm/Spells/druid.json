@@ -30,7 +30,7 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.25,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab"
   },
   {
@@ -67,7 +67,7 @@
     "min_pierce": 10,
     "max_pierce": 20,
     "pierce_increment": 0.5,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab"
   },
   {
@@ -94,7 +94,7 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.5,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "bash"
   },
   {
@@ -104,7 +104,7 @@
     "description": "This spell conjures a magical wooden recurve bow, as well as a quiver and a set of arrows to go with it.",
     "valid_targets": [ "none" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
-    "extra_effects": [ { "id": "druid_naturequiver1" }, { "id": "druid_naturearrows1" }, { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "druid_naturequiver1" }, { "id": "druid_naturearrows1" }, { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -158,7 +158,11 @@
     "description": "This spell conjures a magical wooden recurve bow, as well as a quiver and a set of arrows to go with it.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_FAIL" ],
-    "extra_effects": [ { "id": "druid_naturequiver1_plus" }, { "id": "druid_naturearrows1_plus" }, { "id": "eoc_summon_setup" } ],
+    "extra_effects": [
+      { "id": "druid_naturequiver1_plus" },
+      { "id": "druid_naturearrows1_plus" },
+      { "id": "eoc_summon_setup", "hit_self": true }
+    ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -225,7 +229,7 @@
     "damage_increment": 10.0,
     "max_damage": 300,
     "max_level": 25,
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500, 5)" ] },
     "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(25, 0.04)" ] },
     "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1125, 5)" ] },
@@ -250,7 +254,7 @@
     "base_casting_time": 250,
     "energy_source": "MANA",
     "max_level": 25,
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(6000, 30)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(60000, 30)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1000, 0.018)" ] },
@@ -280,7 +284,7 @@
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(30000, 60)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1000, 0.042)" ] },
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(675, 3)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "final_energy_cost": 475,
     "energy_increment": -5.0,
     "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
@@ -305,7 +309,7 @@
     "energy_source": "MANA",
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(175, 1)" ] },
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(550, 2)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ]
   },
   {
@@ -328,7 +332,7 @@
     "max_level": 0,
     "spell_class": "DRUID",
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -349,7 +353,7 @@
     "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(1000, 3)" ] },
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(6000, 30)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(6000, 30)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 6,
     "max_level": 20,
     "spell_class": "DRUID",
@@ -371,7 +375,7 @@
     "difficulty": 6,
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600, 4)" ] },
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(25, 0.5)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "max_level": 20,
     "min_aoe": 1,
     "max_aoe": 5,
@@ -396,7 +400,7 @@
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(35, 0.5)" ] },
     "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(20, 0.5)" ] },
     "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(-1.5, 0.1)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "max_level": 10,
     "min_damage": -4,
     "max_damage": -12,
@@ -422,7 +426,7 @@
     "min_dot": { "math": [ "evocation_proficiency_bonus_calculate(1, 0.1)" ] },
     "max_dot": { "math": [ "evocation_proficiency_bonus_calculate(4, 0.1)" ] },
     "dot_increment": { "math": [ "evocation_proficiency_bonus_calculate(0.3, 0.1)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "DRUID",
     "base_casting_time": 300,
     "base_energy_cost": 100,
@@ -468,7 +472,7 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(24000, 2240)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 2240)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "learn_spells": { "druid_feralform_plus": 15 }
   },
   {
@@ -497,7 +501,7 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 12000)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000, 12000)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "id": "summon_wolf_druid",
@@ -522,7 +526,7 @@
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000, 300)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000, 0.04)" ] },
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
     "shape": "blast",
     "effect": "summon",
@@ -545,7 +549,7 @@
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(250, 4)" ] },
     "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(400, 4)" ] },
     "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(10, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "max_level": 20,
     "min_duration": 30000,
     "max_duration": 360000,
@@ -582,10 +586,11 @@
         "u_add_effect": "natures_commune",
         "duration": { "math": [ "( 300 + (u_spell_level('druid_natures_commune') * 165)) " ] }
       },
+      { "u_lose_morale": "morale_forest_unity" },
       {
         "u_add_morale": "morale_forest_unity",
-        "bonus": 10,
-        "max_bonus": 15,
+        "bonus": { "math": [ "5 + (u_spell_level('druid_natures_commune') * 3)" ] },
+        "max_bonus": 50,
         "duration": { "math": [ "( 300 + (u_spell_level('druid_natures_commune') * 165) )" ] },
         "decay_start": { "math": [ "(( 300 + (u_spell_level('druid_natures_commune') * 165) ) / 2)" ] }
       }
@@ -606,7 +611,7 @@
     "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(90000, 300)" ] },
     "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-15000, 0.055)" ] },
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(5, 0.1)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "energy_source": "HP",
     "difficulty": 4,
     "max_level": 20,
@@ -622,7 +627,11 @@
     "name": "Cause Rot",
     "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
-    "extra_effects": [ { "id": "druid_cause_rot_terrain" }, { "id": "druid_cause_rot_terrain_bash" }, { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [
+      { "id": "druid_cause_rot_terrain" },
+      { "id": "druid_cause_rot_terrain_bash" },
+      { "id": "eoc_channeling_setup", "hit_self": true }
+    ],
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
@@ -702,7 +711,7 @@
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 5)" ] },
     "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500, 5)" ] },
     "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(-12, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "max_level": 25,
     "//": "each 3000 (30 second) heal 1 hp. 5 hp on level 0 (2.5m), 30 hp on level 25 (15 m)",
     "min_duration": 15000,
@@ -760,7 +769,7 @@
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(400, 2)" ] },
     "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(150, 2)" ] },
     "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(-16.7, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "max_level": 15
   },
   {
@@ -778,7 +787,7 @@
     "shape": "blast",
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(400, 5)" ] },
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(450, 5)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "min_duration": 48000,
     "max_duration": 720000,
     "duration_increment": 44800,
@@ -807,7 +816,7 @@
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 5)" ] },
     "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500, 5)" ] },
     "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(-40, 0.133)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "min_duration": 6000,
     "max_duration": 6000
   },
@@ -857,7 +866,7 @@
     "min_duration": { "math": [ "channeling_proficiency_bonus_calculate(180000, 1000)" ] },
     "max_duration": { "math": [ "channeling_proficiency_bonus_calculate(1440000, 1000)" ] },
     "duration_increment": { "math": [ "channeling_proficiency_bonus_calculate(84000, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ]
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
   {
     "id": "druid_summon_tanglevine",
@@ -885,7 +894,7 @@
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(650, 2)" ] },
     "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
     "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-16.666, 0.066)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "druid_beguile_savage_beast",
@@ -902,7 +911,7 @@
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30, 0.5)" ] },
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(400, 0.5)" ] },
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(25, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "min_range": 5,
     "max_range": 30,
     "range_increment": 1.67,
@@ -939,7 +948,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 200)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.071)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "learn_spells": { "druid_bramble_spear_enhanced": 15 }
   },
   {
@@ -963,7 +972,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 400)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000, 400)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "druid_summon_brambles",
@@ -980,7 +989,7 @@
     "difficulty": 5,
     "base_casting_time": 150,
     "base_energy_cost": 400,
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "max_level": 15
   },
   {
@@ -1060,7 +1069,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 200)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.071)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ]
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
   },
   {
     "id": "druid_renew_forest_spell",
@@ -1078,7 +1087,7 @@
     "energy_source": "MANA",
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1500, 10)" ] },
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000, 10)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ]
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1128,7 +1137,7 @@
     "energy_source": "MANA",
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(180000, 1000)" ] },
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(600, 5)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ]
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1174,7 +1183,7 @@
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(54000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 200,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000, 40)" ] }
   },
   {
@@ -1198,7 +1207,7 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 2160)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 2160)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 0.11)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "id": "druid_disinfectant",
@@ -1218,7 +1227,7 @@
     "energy_source": "MANA",
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(200, 1)" ] },
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ]
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1257,7 +1266,7 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 3000)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000, 3000)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1316,7 +1325,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 150,
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250, 2)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1416,6 +1425,6 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(96000, 8960)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1440000, 8960)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(96000, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
   }
 ]

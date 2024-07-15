@@ -4,9 +4,17 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "Barrett M107A1" },
-    "//": "Price based on unit cost quote for fiscal year 2005 listed at inetres.com, with gunmod modifiers to be added later.",
-    "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle.  Its large size, recoil, and noise is offset by its damage and range.",
+    "name": { "str": "semi-automatic anti-materiel rifle" },
+    "description": "A mahoosive rifle of military pedigree, fitted with a telescopic gun scope peeking over its giant cocking mechanism and resting upon a bipod to control recoil from the equally big .50-calibre munitions it is designed for.  Originally employed for detonating unexploded ordnance in combat conditions and defeating light vehicular and structural targets, in the post-Cataclysm it serves as an admirable conduit of kinetic energy to the biggest and baddest of the new world's critters.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m107a1",
+        "name": { "str_sp": "Barrett M107A1" },
+        "//": "Price based on unit cost quote for fiscal year 2005 listed at inetres.com, with gunmod modifiers to be added later.",
+        "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle.  Its large size, recoil, and noise is offset by its damage and range."
+      }
+    ],
     "weight": "12950 g",
     "volume": "7570 ml",
     "longest_side": "145 cm",
@@ -29,10 +37,18 @@
   {
     "id": "m2browning",
     "copy-from": "rifle_auto",
-    "looks_like": "modular_ar15",
+    "looks_like": "m107a1",
     "type": "GUN",
-    "name": { "str_sp": "M2HB Browning HMG" },
-    "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.  Its massive size and design make it impossible to use unless deployed or mounted to a vehicle.",
+    "name": { "str_sp": ".50-caliber heavy machine gun" },
+    "description": "Essentially a giant steel box with a long barrel peering from one end and dual spade grips mounted upon the other, this venerable machine gun design served the United States military since the First World War, mounted on everything from tanks to patrol boats to aircraft, and even tripod-mounted for stand-alone use.  Part and parcel with its size and munition payload of .50-calibre ammo belts, however, is the fact that, to operate it, one must mount it upon suitable furniture, terrain features, or vehicles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m2browning",
+        "name": { "str_sp": "M2HB Browning HMG" },
+        "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.  Its massive size and design make it impossible to use unless deployed or mounted to a vehicle."
+      }
+    ],
     "weight": "38000 g",
     "volume": "9020 ml",
     "longest_side": "165 cm",
@@ -65,10 +81,18 @@
   {
     "id": "as50",
     "copy-from": "rifle_semi",
-    "looks_like": "modular_ar15",
+    "looks_like": "m107a1",
     "type": "GUN",
-    "name": { "str": "AI AS50" },
-    "description": "Developed by the British firearms producer Accuracy International, the AI AS50 is a semi-automatic .50 caliber anti-materiel rifle produced for the British armed forces and the United States Navy SEALs.  With a free-floated barrel, titanium frame, and an accessory rail integrated into the weapon's machined-steel receiver with two others mounted on each side of the barrel shroud, the rifle features commendable ergonomics and a notable level of modularity.  Providing operators with the capability to engage targets at a maximum estimated range of around 1500 meters, the firearm feeds from detachable 10-round box magazines.",
+    "name": { "str": ".50-caliber precision rifle" },
+    "description": "Pin-point accurate out to one and a half kilometres and cycling its .50-calibre feed from detachable, 10-round magazines, this combat sniper's weapon provides users with a comfortable window to engage targets at a distance.  Its imposing bullets ensure that it is more than capable of delivering an adequate account of itself at such ranges.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "as50",
+        "name": { "str_sp": "AI AS50" },
+        "description": "Developed by Accuracy International, the AI AS50 is a semi-automatic .50 caliber anti-materiel rifle produced for the British armed forces and the United States Navy SEALs.  With a free-floated barrel, titanium frame, and an accessory rail integrated into the weapon's receiver with two others mounted on each side of the barrel shroud, the rifle features commendable ergonomics and a notable level of modularity.  Providing operators with the capability to engage targets at an estimated max range of 1500 meters, the firearm feeds from 10-round box magazines."
+      }
+    ],
     "weight": "12200 g",
     "volume": "8900 ml",
     "longest_side": "137 cm",
@@ -93,10 +117,18 @@
   {
     "id": "tac50",
     "copy-from": "rifle_manual",
-    "looks_like": "modular_ar15",
+    "looks_like": "m107a1",
     "type": "GUN",
-    "name": { "str": "McMillan TAC-50" },
-    "description": "A long-range anti-materiel and anti-personnel sniper rifle made by McMillan Firearms, serving the Canadian Army since 2000 as the C15, and the Navy Seals as the Mk 15 Mod 0.  This .50 caliber bolt-action rifle is capable of defeating light vehicles, radar installations and crew-served weapons at extreme distances.  It notably holds the longest-range confirmed sniper kill, as well as the 4th and 5th longest.",
+    "name": { "str": "bolt-action anti-materiel rifle" },
+    "description": "Serving both anti-materiel and high-priority sniping roles in their service with various militaries, bolt-action rifles, such as this one, were known for their long ranges of engagement, recoil, and armour-defeating ordinance.  Essentially a step below light cannonry, as far as shoulder-arms are concerned, this weapon's mix of power and accuracy meet hands to ensure that, before the cataclysm, one shot was synonymous with one very, very dead target.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tac50",
+        "name": { "str_sp": "McMillan TAC-50" },
+        "description": "A long-range anti-materiel and anti-personnel sniper rifle made by McMillan Firearms, serving the Canadian Army since 2000 as the C15, and the Navy Seals as the Mk 15 Mod 0.  This .50 caliber bolt-action rifle is capable of defeating light vehicles, radar installations and crew-served weapons at extreme distances.  It notably held the longest-range confirmed sniper kill, as well as the 4th and 5th longest."
+      }
+    ],
     "weight": "11790 g",
     "volume": "6500 ml",
     "longest_side": "146 cm",
@@ -121,10 +153,18 @@
   {
     "id": "bfg50",
     "copy-from": "rifle_manual",
-    "looks_like": "modular_ar15",
+    "looks_like": "m107a1",
     "type": "GUN",
-    "name": { "str": "Serbu BFG-50" },
-    "description": "A single-shot, bolt-action rifle made by Serbu Firearms, the BFG-50 is a very affordable firearm for those wishing to shoot .50 BMG.",
+    "name": { "str": "single-shot .50-caliber rifle" },
+    "description": "Relatively trim as far as .50-calibre rifles go, this single-shot firearm was a reasonably affordable entry-level gun for civilians wishing to play with some very large, very punchy toys.  Now, at the world's Armageddon, it would be wise to make that singular round-capacity count on some high-priority craniums.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bfg50",
+        "name": { "str_sp": "Serbu BFG-50" },
+        "description": "A single-shot, bolt-action rifle made by Serbu Firearms, the BFG-50 was a very affordable firearm for those wishing to shoot .50 BMG."
+      }
+    ],
     "weight": "8500 g",
     "volume": "4000 ml",
     "longest_side": "1315 mm",

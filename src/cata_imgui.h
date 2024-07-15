@@ -3,18 +3,24 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class nc_color;
 struct input_event;
 
-#if defined(WIN32) || defined(TILES)
+#if defined(IMTUI) || !(defined(WIN32) || defined(TILES))
+#   define TUI
+#endif
+
+#ifndef TUI
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "color_loader.h"
 #endif
 
 struct point;
-class ImVec2;
+struct ImVec2;
+struct ImVec4;
 class Font;
 class input_context;
 
@@ -45,11 +51,11 @@ enum class dialog_result {
 class client
 {
         std::vector<int> cata_input_trail;
-#if defined(TILES) || defined(WIN32)
+#ifndef TUI
         std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
 #endif
     public:
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
         client();
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
@@ -63,7 +69,7 @@ class client
         void end_frame();
         void process_input( void *input );
         void process_cata_input( const input_event &event );
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
         void upload_color_pair( int p, int f, int b );
         void set_alloced_pair_count( short count );
 #else
@@ -77,6 +83,8 @@ class client
 
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
+
+ImVec4 imvec4_from_color( nc_color &color );
 
 class window
 {
@@ -92,6 +100,9 @@ class window
                                 float wrap_width = 0.0F, bool *is_selected = nullptr,
                                 bool *is_focused = nullptr, bool *is_hovered = nullptr );
         void draw_colored_text( std::string const &text, nc_color &color,
+                                float wrap_width = 0.0F, bool *is_selected = nullptr,
+                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
+        void draw_colored_text( std::string const &text,
                                 float wrap_width = 0.0F, bool *is_selected = nullptr,
                                 bool *is_focused = nullptr, bool *is_hovered = nullptr );
         bool action_button( const std::string &action, const std::string &text );
@@ -121,7 +132,7 @@ class window
         void draw_filter( const input_context &ctxt, bool filtering_active );
 };
 
-#if !(defined(TILES) || defined(WIN32))
+#ifdef TUI
 void init_pair( int p, int f, int b );
 void load_colors();
 #endif

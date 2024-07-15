@@ -459,16 +459,17 @@
   },
   {
     "id": "combat_exoskeleton_light_salvaged",
-    "copy-from": "combat_exoskeleton_light",
+    "copy-from": "combat_exoskeleton_abstract",
     "type": "ARMOR",
     "name": { "str": "salvaged combat exoskeleton" },
-    "description": "This used to be a combat exoskeleton of third generation but it has been rendered non-functional: as one might expect, this makes it a lot harder to wear.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
-    "relative": { "environmental_protection": 0, "warmth": 0 },
+    "description": "This is supposed to be a combat exoskeleton of third generation but it lacks its environmental suit and the mechanical components are non functional.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "looks_like": "power_armor_light",
     "proportional": { "volume": 0.25, "weight": 0.5, "price": 0.1, "price_postapoc": 0.1 },
+    "warmth": 0,
+    "environmental_protection": 0,
     "delete": {
       "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ]
     },
-    "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
     "armor": [
       {
         "layers": [ "NORMAL", "OUTER" ],

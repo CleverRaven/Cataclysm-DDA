@@ -5,7 +5,32 @@
     "info": "This item is an access card for ancient industrial locations."
   },
   {
+    "id": "OLD_ENFORCER_CARD",
+    "type": "json_flag",
+    "info": "This item is an access card for ancient police locations."
+  },
+  {
     "id": "HEAVY_TOOL",
     "type": "json_flag"
+  },
+  {
+    "id": "TEEPSHIELD",
+    "type": "json_flag",
+    "info": "You are immune to telepathy."
+  },
+  {
+    "id": "HIVE_MIND",
+    "type": "monster_flag",
+    "//": "This monster is part of a hive mind"
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage"
+  },
+  {
+    "id": "ELECTROKINETIC_CHARGEABLE",
+    "type": "json_flag",
+    "info": "This item can be recharged by an electrokinetic"
   }
 ]

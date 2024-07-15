@@ -209,6 +209,13 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         return false;
     }
 
+    // Percentage chance that item takes damage divided by 100.
+    double enchant_multiplier = calculate_by_enchantment( 1,
+                                enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE );
+    if( enchant_multiplier <= 0.0f ) {
+        return false;
+    }
+
     // UNBREAKABLE_MELEE and UNBREAKABLE items can't be damaged through melee combat usage.
     if( shield->has_flag( flag_UNBREAKABLE_MELEE ) || shield->has_flag( flag_UNBREAKABLE ) ) {
         return false;
@@ -255,7 +262,8 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     } else {
         material_factor = shield->chip_resistance();
     }
-    int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
+    int damage_chance = static_cast<int>( ( stat_factor * material_factor /
+                                            ( wear_multiplier * enchant_multiplier ) ) );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
     if( shield->has_flag( flag_DURABLE_MELEE ) ) {
@@ -1466,7 +1474,7 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
     }
 
     // skip wall adjacent techniques if not next to a wall
-    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos() ) ) {
+    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos_bub() ) ) {
         add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
         return std::nullopt;
     }
@@ -2076,7 +2084,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
             if( source != nullptr && !source->is_hallucination() ) {
                 for( damage_unit &du : dam.damage_units ) {
-                    shield->damage_armor_durability( du, bp_hit );
+                    shield->damage_armor_durability( du, bp_hit, calculate_by_enchantment( 1,
+                                                     enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
                 }
             }
 
@@ -2566,6 +2575,8 @@ std::string melee_message( const ma_technique &tec, Character &p,
         message = npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type.first == damage_bash ) {
         message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
+    } else {
+        message = npc ? _( "<npcname> hits %s" ) : _( "You hit %s" );
     }
     if( ddi.wp_hit.empty() ) {
         return message;

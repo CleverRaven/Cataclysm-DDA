@@ -68,7 +68,7 @@
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_1",
     "effect": [
-      { "u_location_variable": { "u_val": "eoc_item_transporter_sample_loc" } },
+      { "u_location_variable": { "u_val": "eoc_sample_item_transporter_loc" } },
       { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
       { "u_message": "Set coordinates: <u_val:eoc_sample_item_transporter_loc>" }
     ]
@@ -510,6 +510,17 @@
     "effect": [
       { "u_set_talker": { "global_val": "u_character_id" } },
       { "u_message": "Your character id is <global_val:u_character_id>" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_print_item_charge",
+    "condition": { "math": [ "n_val('power_max')", ">", "0" ] },
+    "effect": [
+      { "math": [ "ITEM_POWER", "=", "n_val('power')" ] },
+      { "math": [ "ITEM_POWER_MAX", "=", "n_val('power_max')" ] },
+      { "math": [ "ITEM_POWER_PERC", "=", "n_val('power_percentage')" ] },
+      { "u_message": "<global_val:ITEM_POWER> / <global_val:ITEM_POWER_MAX> (<global_val:ITEM_POWER_PERC>%)" }
     ]
   }
 ]

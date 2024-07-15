@@ -659,7 +659,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
     bool diagonal = p.x != you.posx() && p.y != you.posy();
     if( you.in_vehicle ) {
-        m.unboard_vehicle( you.pos() );
+        m.unboard_vehicle( you.pos_bub() );
     }
     if( you.is_mounted() && m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
@@ -676,8 +676,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 
     cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
-    if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        m.board_vehicle( you.pos(), &you );
+    if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( you.pos_bub(), &you );
     }
     you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
     you.inv->rust_iron_items();
@@ -920,7 +920,7 @@ bool avatar_action::eat_here( avatar &you )
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
-            here.ter_set( you.pos(), here.get_ter_transforms_into( you.pos() ) );
+            here.ter_set( you.pos_bub(), here.get_ter_transforms_into( you.pos_bub() ) );
             return true;
         }
     }
@@ -1136,10 +1136,10 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
         if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
             loc->deactivate();
-            loc.get_item()->set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            loc.get_item()->set_fault( faults::random_of_type( "wet" ) );
             // An electronic item in water is also shorted.
             if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc.get_item()->set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+                loc.get_item()->set_fault( faults::random_of_type( "shorted" ) );
             }
         } else {
             return;

@@ -32,6 +32,7 @@
 #include "drawing_primitives.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "field.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
@@ -48,6 +49,7 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
@@ -198,6 +200,16 @@ static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
+static const trap_str_id tr_dissector( "tr_dissector" );
+static const trap_str_id tr_drain( "tr_drain" );
+static const trap_str_id tr_glow( "tr_glow" );
+static const trap_str_id tr_goo( "tr_goo" );
+static const trap_str_id tr_hum( "tr_hum" );
+static const trap_str_id tr_portal( "tr_portal" );
+static const trap_str_id tr_shadow( "tr_shadow" );
+static const trap_str_id tr_snake( "tr_snake" );
+static const trap_str_id tr_telepad( "tr_telepad" );
+
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
@@ -206,117 +218,209 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 
-void map::generate( const tripoint_abs_omt &p, const time_point &when )
+// Assumptions:
+// - The map supplied is empty, i.e. no grid entries are in use
+// - The map supports Z levels.
+void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save_results )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
-    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
-    set_abs_sub( p_sm );
+    const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
 
-    // First we have to create new submaps and initialize them to 0 all over
-    // We create all the submaps, even if we're not a tinymap, so that map
-    //  generation which overflows won't cause a crash.  At the bottom of this
-    //  function, we save the upper-left 4 submaps, and delete the rest.
-    // Mapgen is not z-level aware yet. Only actually initialize current z-level
-    //  because other submaps won't be touched.
+    // Prepare the canvas...
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t grid_pos = get_nonant( { gridx, gridy, p_sm.z()} );
-            if( getsubmap( grid_pos ) ) {
-                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p_sm.z() );
-                continue;
-            }
-            setsubmap( grid_pos, new submap() );
-            // TODO: memory leak if the code below throws before the submaps get stored/deleted!
-        }
-    }
-    oter_id terrain_type = overmap_buffer.ter( p );
-
-    // This attempts to scale density of zombies inversely with distance from the nearest city.
-    // In other words, make city centers dense and perimeters sparse.
-    float density = 0.0f;
-    for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
-        for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
-        }
-    }
-    density = density / 100;
-
-    mapgendata dat( p, *this, density, when, nullptr );
-    draw_map( dat );
-
-    // At some point, we should add region information so we can grab the appropriate extras
-    map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
-    map_extras ex = this_ex.filtered_by( dat );
-    if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
-        DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
-                                         " (extra type \"" << terrain_type->get_extras() <<
-                                         "\") zlevel = " << p.z() <<
-                                         " is out of range of all assigned map extras.  Skipping map extra generation.";
-    } else if( ex.chance > 0 && one_in( ex.chance ) ) {
-        map_extra_id *extra = ex.values.pick();
-        if( extra == nullptr ) {
-            debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
-                      terrain_type->get_type_id().str() );
-        } else {
-            MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
-        }
-    }
-
-    const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
-
-    float spawn_density = 1.0f;
-    if( MonsterGroupManager::is_animal( spawns.group ) ) {
-        spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
-    } else {
-        spawn_density = get_option< float >( "SPAWN_DENSITY" );
-    }
-
-    // Apply a multiplier to the number of monsters for really high densities.
-    float odds_after_density = spawns.chance * spawn_density;
-    const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
-    float density_multiplier = 1.0f;
-    if( odds_after_density > max_odds ) {
-        density_multiplier = 1.0f * odds_after_density / max_odds;
-        odds_after_density = max_odds;
-    }
-    const int spawn_count = roll_remainder( density_multiplier );
-
-    if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
-        int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
-        for( ; pop > 0; pop-- ) {
-            std::vector<MonsterGroupResult> spawn_details =
-                MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-            for( const MonsterGroupResult &mgr : spawn_details ) {
-                if( !mgr.name ) {
-                    continue;
-                }
-                if( const std::optional<tripoint> pt =
-                random_point( *this, [this]( const tripoint & n ) {
-                return passable( n );
-                } ) ) {
-                    const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
-                    add_spawn( mgr, pnt );
-                }
-            }
-        }
-    }
-
-    // Okay, we know who our neighbors are.  Let's draw!
-    // And finally save used submaps and delete the rest.
-    for( int i = 0; i < my_MAPSIZE; i++ ) {
-        for( int j = 0; j < my_MAPSIZE; j++ ) {
-            dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
-
-            const tripoint pos( i, j, p_sm.z() );
-            if( i <= 1 && j <= 1 ) {
-                saven( pos );
-            } else {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                delete getsubmap( grid_pos );
-                setsubmap( grid_pos, nullptr );
+                if( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                    setsubmap( grid_pos, new submap() );
+
+                    // Generate uniform submaps immediately and cheaply.
+                    // This causes them to be available for "proper" overlays even if on a lower Z level.
+                    const ter_str_id ter = uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) );
+                    if( ter != t_null.id() ) {
+                        getsubmap( grid_pos )->set_all_ter( ter, true );
+                        getsubmap( grid_pos )->last_touched = calendar::turn;
+                    }
+                } else {
+                    setsubmap( grid_pos, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) );
+                }
             }
+        }
+    }
+
+    std::vector<submap *> saved_overlay;
+    saved_overlay.reserve( 4 );
+    for( size_t index = 0; index <= 3; index++ ) {
+        saved_overlay.emplace_back( nullptr );
+    }
+
+    // We're generating all Z levels in one go to be able to account for dependencies
+    // between levels. We iterate from the top down based on the assumption it is
+    // more common to add overlays on other Z levels upwards than downwards, so
+    // going downwards we can immediately apply overlays onto the already generated
+    // map, while overlays further down will have to be reapplied when the basic
+    // map exists.
+
+    for( int gridz = OVERMAP_HEIGHT; gridz >= -OVERMAP_DEPTH; gridz-- ) {
+        const tripoint_abs_sm p_sm = {p_sm_base.xy(), gridz};
+        set_abs_sub( p_sm );
+
+        for( int gridx = 0; gridx <= 1; gridx++ ) {
+            for( int gridy = 0; gridy <= 1; gridy++ ) {
+                const tripoint_rel_sm pos( gridx, gridy, gridz );
+                const size_t grid_pos = get_nonant( pos );
+                if( ( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) &&
+                    !getsubmap( grid_pos )->is_uniform() &&
+                    uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
+                    saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
+                    setsubmap( grid_pos, new submap() );
+                }
+            }
+        }
+
+        oter_id terrain_type = overmap_buffer.ter( tripoint_abs_omt( p.xy(), gridz ) );
+
+        // This attempts to scale density of zombies inversely with distance from the nearest city.
+        // In other words, make city centers dense and perimeters sparse.
+        float density = 0.0f;
+        for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
+            for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
+                density += overmap_buffer.ter( { p.x() + i, p.y() + j, gridz } )->get_mondensity();
+            }
+        }
+        density = density / 100;
+
+        // Not sure if we actually have to check all submaps.
+        const bool any_missing = MAPBUFFER.lookup_submap( p_sm ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point_east ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point_south_east ) == nullptr ||
+                                 MAPBUFFER.lookup_submap( p_sm + point_south ) == nullptr;
+
+        mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
+        if( ( !save_results || any_missing ) &&
+            uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
+            draw_map( dat );
+        }
+
+        // Merge the overlays generated earlier into the current Z level now we have the base map on it.
+        for( int gridx = 0; gridx <= 1; gridx++ ) {
+            for( int gridy = 0; gridy <= 1; gridy++ ) {
+                const tripoint_rel_sm pos( gridx, gridy, gridz );
+                const size_t index = gridx + gridy * 2;
+                if( saved_overlay.at( index ) != nullptr ) {
+                    const size_t grid_pos = get_nonant( pos );
+                    getsubmap( grid_pos )->merge_submaps( saved_overlay.at( index ), true );
+                    delete saved_overlay.at( index );
+                    saved_overlay[index] = nullptr;
+                }
+            }
+        }
+
+        if( !save_results || any_missing ) {
+
+            // At some point, we should add region information so we can grab the appropriate extras
+            map_extras &this_ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+            map_extras ex = this_ex.filtered_by( dat );
+            if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
+                DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
+                                                 " (extra type \"" << terrain_type->get_extras() <<
+                                                 "\") zlevel = " << p.z() <<
+                                                 " is out of range of all assigned map extras.  Skipping map extra generation.";
+            } else if( ex.chance > 0 && one_in( ex.chance ) ) {
+                map_extra_id *extra = ex.values.pick();
+                if( extra == nullptr ) {
+                    debugmsg( "failed to pick extra for type %s (ter = %s)", terrain_type->get_extras(),
+                              terrain_type->get_type_id().str() );
+                } else {
+                    MapExtras::apply_function( *ex.values.pick(), *this, tripoint_abs_sm( abs_sub ) );
+                }
+            }
+
+            const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
+
+            float spawn_density = 1.0f;
+            if( MonsterGroupManager::is_animal( spawns.group ) ) {
+                spawn_density = get_option< float >( "SPAWN_ANIMAL_DENSITY" );
+            } else {
+                spawn_density = get_option< float >( "SPAWN_DENSITY" );
+            }
+
+            // Apply a multiplier to the number of monsters for really high densities.
+            float odds_after_density = spawns.chance * spawn_density;
+            const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
+            float density_multiplier = 1.0f;
+            if( odds_after_density > max_odds ) {
+                density_multiplier = 1.0f * odds_after_density / max_odds;
+                odds_after_density = max_odds;
+            }
+            const int spawn_count = roll_remainder( density_multiplier );
+
+            if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
+                int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
+                for( ; pop > 0; pop-- ) {
+                    std::vector<MonsterGroupResult> spawn_details =
+                        MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+                    for( const MonsterGroupResult &mgr : spawn_details ) {
+                        if( !mgr.name ) {
+                            continue;
+                        }
+                        if( const std::optional<tripoint_bub_ms> pt =
+                        random_point_on_level( *this, gridz, [this]( const tripoint_bub_ms & n ) {
+                        return passable( n );
+                        } ) ) {
+                            const tripoint_bub_ms pnt = pt.value();
+                            add_spawn( mgr, pnt );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if( save_results ) {
+        for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+            for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                    const tripoint_rel_sm pos( gridx, gridy, gridz );
+                    const size_t grid_pos = get_nonant( pos );
+                    if( gridx <= 1 && gridy <= 1 ) {
+                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                            saven( {gridx, gridy, gridz} );
+                        }
+                    } else {
+                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                            delete getsubmap( grid_pos );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    set_abs_sub( p_sm_base );
+}
+
+void map::delete_unmerged_submaps()
+{
+    tripoint_abs_sm sm_base = get_abs_sub();
+
+    for( size_t index = 0; index < grid.size(); index++ ) {
+        tripoint offset;
+        const int ix = static_cast<int>( index );
+
+        // This is the inverse of get_nonant.
+        if( zlevels ) {
+            offset = { ( ix / OVERMAP_LAYERS ) % my_MAPSIZE, ix / OVERMAP_LAYERS / my_MAPSIZE, ix % OVERMAP_LAYERS - OVERMAP_DEPTH };
+        } else {
+            offset = { ix % my_MAPSIZE, ix / my_MAPSIZE, sm_base.z()};
+        }
+
+        if( grid[index] != nullptr && MAPBUFFER.lookup_submap( sm_base.xy() + offset ) != grid[index] ) {
+            delete grid[index];
+            grid[index] = nullptr;
         }
     }
 }
@@ -1850,9 +1954,9 @@ class jmapgen_field : public jmapgen_piece
                 return;
             }
             if( remove ) {
-                dat.m.remove_field( tripoint( x.get(), y.get(), z.get() ), chosen_id );
+                dat.m.remove_field( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
             } else {
-                dat.m.add_field( tripoint( x.get(), y.get(), z.get() ), chosen_id,
+                dat.m.add_field( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
                                  random_entry( intensities ), age );
             }
         }
@@ -1897,7 +2001,7 @@ class jmapgen_npc : public jmapgen_piece
                 add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
                 return;
             }
-            tripoint const dst( x.get(), y.get(), z.get() );
+            tripoint const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             // TODO: Make place_npc 3D aware.
             character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
             if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
@@ -1978,7 +2082,7 @@ class jmapgen_sign : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            const tripoint_bub_ms r( x.get(), y.get(), z.get() );
+            const tripoint_bub_ms r( x.get(), y.get(), dat.zlevel() + z.get() );
             dat.m.furn_set( r, furn_str_id::NULL_ID() );
             dat.m.furn_set( r, sign_furniture );
 
@@ -3130,7 +3234,7 @@ class jmapgen_make_rubble : public jmapgen_piece
                 debugmsg( "null floor type when making rubble" );
                 chosen_floor_type = ter_t_dirt;
             }
-            dat.m.make_rubble( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ),
+            dat.m.make_rubble( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ),
                                chosen_rubble_type, items, chosen_floor_type, overwrite );
         }
 
@@ -5226,20 +5330,6 @@ void mapgen_function_json::generate( mapgendata &md )
         if( !success ) {
             debugmsg( "predecessor mapgen with key %s failed", function_key );
         }
-
-        // Now we have to do some rotation shenanigans. We need to ensure that
-        // our predecessor is not rotated out of alignment as part of rotating this location,
-        // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
-        // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
-        // we basically have to initially reverse the rotation that we WILL do in the future so that
-        // when we apply that rotation, our predecessor is back in its original state while this
-        // location is rotated as desired.
-
-        m->rotate( ( -rotation.get() + 4 ) % 4 );
-
-        if( ter.is_rotatable() || ter.is_linear() ) {
-            m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
-        }
     };
 
     if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
@@ -5256,12 +5346,30 @@ void mapgen_function_json::generate( mapgendata &md )
         }
     }
 
+    // Now we have to do some rotation shenanigans. We need to ensure that
+    // our predecessor is not rotated out of alignment as part of rotating this location,
+    // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
+    // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
+    // we basically have to initially reverse the rotation that we WILL do in the future so that
+    // when we apply that rotation, our predecessor is back in its original state while this
+    // location is rotated as desired.
+    // Note that we need to perform rotations even if there is no predecessor, as other Z levels
+    // have to be kept aligned regardless.
+
+    // rotation.get can return a random value if val differs from valmax. Use same value in both directions.
+    const int rot = rotation.get() % 4;
+    m->rotate( 4 - rot );
+
+    if( ter.is_rotatable() || ter.is_linear() ) {
+        m->rotate( ( -ter.get_rotation() + 4 ) % 4 );
+    }
+
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
 
     apply_mapgen_in_phases( md_with_params, setmap_points, objects, tripoint_rel_ms( tripoint_zero ),
                             context_ );
 
-    m->rotate( rotation.get() );
+    m->rotate( rot );
 
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ter.get_rotation() );
@@ -5443,6 +5551,19 @@ void map::draw_lab( mapgendata &dat )
             lw = EAST_EDGE + 1;
         }
         if( dat.zlevel() == 0 ) { // We're on ground level
+            int rot = 0;
+
+            if( dat.east()->get_type_id() == oter_type_road ) {
+                rot = 1;
+            } else if( dat.south()->get_type_id() == oter_type_road ) {
+                rot = 2;
+            } else if( dat.west()->get_type_id() == oter_type_road ) {
+                rot = 3;
+            }
+
+            // Rotate the map backwards so contents can be placed in the 'normal' orientation.
+            rotate( 4 - rot );
+
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( i <= 1 || i >= SEEX * 2 - 2 ||
@@ -5471,13 +5592,9 @@ void map::draw_lab( mapgendata &dat )
             place_spawns( GROUP_TURRET, 1, point_bub_ms( SEEX, 5 ), point_bub_ms( SEEX, 5 ), dat.zlevel(), 1,
                           true );
 
-            if( dat.east()->get_type_id() == oter_type_road ) {
-                rotate( 1 );
-            } else if( dat.south()->get_type_id() == oter_type_road ) {
-                rotate( 2 );
-            } else if( dat.west()->get_type_id() == oter_type_road ) {
-                rotate( 3 );
-            }
+            // Rotate everything back to normal, giving rotated addition its proper rotation.
+            rotate( rot );
+
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
@@ -5551,19 +5668,29 @@ void map::draw_lab( mapgendata &dat )
             //A lab area with only one entrance
             if( boarders == 1 ) {
                 // If you remove the usage of "lab_1side" here, remove it from mapgen_factory::get_usages above as well.
-                if( oter_mapgen.generate( dat, "lab_1side" ) ) {
-                    if( tw == 2 ) {
-                        rotate( 2 );
-                    }
-                    if( rw == 2 ) {
-                        rotate( 1 );
-                    }
-                    if( lw == 2 ) {
-                        rotate( 3 );
-                    }
-                } else {
+                int rot = 0;
+
+                if( tw == 2 ) {
+                    rot += 2;
+                }
+                if( rw == 2 ) {
+                    rot += 1;
+                }
+                if( lw == 2 ) {
+                    rot += 3;
+                }
+                rot %= 4;
+
+                // Rotate the map backwards so the new material can be placed in its 'normal' orientation.
+                rotate( 4 - rot );
+
+                if( !oter_mapgen.generate( dat, "lab_1side" ) ) {
                     debugmsg( "Error: Tried to generate 1-sided lab but no lab_1side json exists." );
                 }
+
+                // Rotate the map back to its normal orientation, resulting in the new addition being rotated properly.
+                rotate( rot );
+
                 maybe_insert_stairs( dat.above(), ter_t_stairs_up );
                 maybe_insert_stairs( terrain_type, ter_t_stairs_down );
             } else {
@@ -5830,7 +5957,7 @@ void map::draw_lab( mapgendata &dat )
                                 ( !one_in( 3 ) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
                                 one_in( 4 ) ) {
                                 // bash and usually remove the rubble.
-                                make_rubble( { i, j, abs_sub.z() } );
+                                make_rubble( tripoint_bub_ms( i, j, abs_sub.z() ) );
                                 ter_set( point( i, j ), ter_t_rock_floor );
                                 if( !one_in( 3 ) ) {
                                     furn_set( point( i, j ), furn_str_id::NULL_ID() );
@@ -5840,7 +5967,7 @@ void map::draw_lab( mapgendata &dat )
                         } else if( one_in( 20 ) &&
                                    !has_flag_ter( ter_furn_flag::TFLAG_GOES_DOWN, p2 ) &&
                                    !has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p2 ) ) {
-                            destroy( { i, j, abs_sub.z() } );
+                            destroy( tripoint_bub_ms( i, j, abs_sub.z() ) );
                             // bashed squares can create dirt & floors, but we want rock floors.
                             const ter_id &floor_to_check_ter = ter( point( i, j ) );
                             if( floor_to_check_ter == ter_t_dirt || floor_to_check_ter == ter_t_floor ) {
@@ -5863,7 +5990,7 @@ void map::draw_lab( mapgendata &dat )
                     if( ( ( j <= tw || i >= rw ) && i >= j && ( EAST_EDGE - i ) <= j ) ||
                         ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
                         if( one_in( 5 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z() ), furn_f_rubble_rock, true,
+                            make_rubble( tripoint_bub_ms( i,  j, abs_sub.z() ), furn_f_rubble_rock, true,
                                          ter_t_slime );
                         } else if( !one_in( 5 ) ) {
                             ter_set( point( i, j ), ter_t_slime );
@@ -5923,7 +6050,7 @@ void map::draw_lab( mapgendata &dat )
                                 ter_set( point( i, j ), fluid_type );
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
-                                make_rubble( { i, j, abs_sub.z() } );
+                                make_rubble( tripoint_bub_ms( i, j, abs_sub.z() ) );
                                 ter_set( point( i, j ), fluid_type );
                                 furn_set( point( i, j ), furn_str_id::NULL_ID() );
                             }
@@ -6674,6 +6801,13 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
     return spawn_items( p, items );
 }
 
+std::vector<item *> map::put_items_from_loc( const item_group_id &group_id,
+        const tripoint_bub_ms &p,
+        const time_point &turn )
+{
+    return map::put_items_from_loc( group_id, p.raw(), turn );
+}
+
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p )
 {
     add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
@@ -6694,10 +6828,10 @@ void map::add_spawn(
         debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x(), p.y() );
         return;
     }
-    point offset;
-    submap *place_on_submap = get_submap_at( p.raw(), offset );
+    point_sm_ms offset;
+    submap *place_on_submap = get_submap_at( p, offset );
     if( place_on_submap == nullptr ) {
-        debugmsg( "Tried to add spawn at (%d,%d) but the submap is not loaded", offset.x, offset.y );
+        debugmsg( "Tried to add spawn at (%d,%d) but the submap is not loaded", offset.x(), offset.y() );
         return;
     }
 
@@ -6743,7 +6877,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos );
+        submap *place_on_submap = get_submap_at_grid( tripoint_rel_sm( placed_vehicle->sm_pos ) );
         if( place_on_submap == nullptr ) {
             debugmsg( "Tried to add vehicle at (%d,%d,%d) but the submap is not loaded",
                       placed_vehicle->sm_pos.x, placed_vehicle->sm_pos.y, placed_vehicle->sm_pos.z );
@@ -6762,6 +6896,12 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         placed_vehicle->place_zones( *this );
     }
     return placed_vehicle;
+}
+
+vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
+                           const int veh_fuel, const int veh_status, const bool merge_wrecks )
+{
+    return map::add_vehicle( type, p.raw(), dir, veh_fuel, veh_status, merge_wrecks );
 }
 
 /**
@@ -6932,10 +7072,10 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
 {
     // TODO: Turn this off?
     furn_set( p, furn_f_console );
-    point l;
-    submap *const place_on_submap = get_submap_at( p, l );
+    point_sm_ms l;
+    submap *const place_on_submap = get_submap_at( tripoint_bub_ms( p ), l );
     if( place_on_submap == nullptr ) {
-        debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         static computer null_computer = computer( name, security, p );
         return &null_computer;
     }
@@ -6990,12 +7130,12 @@ void map::rotate( int turns, const bool setpos_safe )
 
         const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
-            const point local_sq = getlocal( sq ).xy();
+            const point local_sq = bub_from_abs( sq ).xy().raw();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( get_map().getlocal( new_global_sq ) );
+            np.setpos( get_map().bub_from_abs( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
@@ -7018,10 +7158,10 @@ void map::rotate( int turns, const bool setpos_safe )
     for( int z_level = bottom_level; z_level <= top_level; z_level++ ) {
         clear_vehicle_list( z_level );
 
-        submap *pz = get_submap_at_grid( tripoint( point_zero, z_level ) );
-        submap *pse = get_submap_at_grid( tripoint( point_south_east, z_level ) );
-        submap *pe = get_submap_at_grid( tripoint( point_east, z_level ) );
-        submap *ps = get_submap_at_grid( tripoint( point_south, z_level ) );
+        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( { point_rel_sm_east, z_level } );
+        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point_zero.x,
                       point_zero.y );
@@ -7041,7 +7181,7 @@ void map::rotate( int turns, const bool setpos_safe )
             for( int k = 0; k < 4; ++k ) {
                 p = p.rotate( turns, { 2, 2 } );
                 point tmpp = point_south_east - p;
-                submap *psep = get_submap_at_grid( tripoint( tmpp, z_level ) );
+                submap *psep = get_submap_at_grid( tripoint_rel_sm( tmpp.x, tmpp.y, z_level ) );
                 if( psep == nullptr ) {
                     debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", tmpp.x, tmpp.y );
                     continue;
@@ -7054,7 +7194,7 @@ void map::rotate( int turns, const bool setpos_safe )
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
                 point p( i, j );
-                submap *sm = get_submap_at_grid( tripoint( p, z_level ) );
+                submap *sm = get_submap_at_grid( tripoint_rel_sm( p.x, p.y, z_level ) );
                 if( sm == nullptr ) {
                     debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", p.x, p.y );
                     continue;
@@ -7090,7 +7230,7 @@ void map::rotate( int turns, const bool setpos_safe )
             }
             const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
             queued_points[queued_point.first] = tripoint_abs_ms( getabs( tripoint( new_pos,
-                                                z_level ) ) );
+                                                queued_point.second.z() ) ) );
         }
     }
 }
@@ -7112,10 +7252,11 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
 
     for( int z_level = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
          z_level <= ( zlevels ? OVERMAP_HEIGHT : abs_sub.z() ); z_level++ ) {
-        submap *pz = get_submap_at_grid( tripoint( point_zero, z_level ) );
-        submap *pse = get_submap_at_grid( tripoint( point_south_east, z_level ) );
-        submap *pe = get_submap_at_grid( tripoint( point_east, z_level ) );
-        submap *ps = get_submap_at_grid( tripoint( point_south, z_level ) );
+        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( {point_rel_sm_east, z_level
+                                         } );
+        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", point_zero.x,
                       point_zero.y, z_level );
@@ -7135,10 +7276,11 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         // Then mirror them.
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
-                point p( i, j );
-                submap *sm = get_submap_at_grid( tripoint( p, z_level ) );
+                point_rel_sm p( i, j );
+                submap *sm = get_submap_at_grid( { p, z_level } );
                 if( sm == nullptr ) {
-                    debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", p.x, p.y, z_level );
+                    debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", p.x(), p.y(),
+                              z_level );
                     continue;
                 }
 
@@ -7997,13 +8139,12 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         rotation_guard rot( md );
 
         if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
-            for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-                const tripoint level_pos = tripoint( pos.xy(), omt_pos.z() );
-                if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( level_pos ) ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
+                if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( pos ) ) {
                     if( apply ) {
-                        update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
+                        update_tmap.add_field( pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
                     } else {
-                        update_tmap.delete_field( level_pos, fd_construction_site );
+                        update_tmap.delete_field( pos, fd_construction_site );
                     }
                 }
             }

@@ -94,6 +94,8 @@ Property                 | Description
 `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 `biosignature`           | (object) Droppings or feces left by the animal or monster
 `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+`dissect`                | (string) (Optional) ID of a "harvest" type describing what is returned when a corpse of this monster is dissected
+`decay`                  | (string) (Optional) ID of a "harvest" type describing what is left when a corpse of this monster rots away
 `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 `shearing`               | (array of objects) Items produced when the monster is sheared
@@ -351,6 +353,7 @@ Field              | Description
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
 `crit_mult`        | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
 `required_effects` | list of effect names applied to the monster required to hit the weakpoint.
+`disabled_by`      | list of effect names applied to the monster which prevent you to hit the weakpoint.
 `effects`          | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
 The `effects` field is a list of objects with the following subfields:

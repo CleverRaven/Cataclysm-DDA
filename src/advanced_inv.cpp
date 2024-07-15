@@ -1163,7 +1163,7 @@ bool advanced_inventory::move_all_items()
             player_character.assign_activity( act );
         }
     } else if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        const tripoint placement = darea.off;
+        const tripoint_rel_ms placement = darea.off;
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
 
@@ -1182,13 +1182,13 @@ bool advanced_inventory::move_all_items()
 
         do_return_entry();
 
-        const pickup_activity_actor act( target_items, quantities, player_character.pos(), false );
+        const pickup_activity_actor act( target_items, quantities, player_character.pos_bub(), false );
         player_character.assign_activity( act );
     } else {
         // Vehicle and map destinations are handled the same.
 
         // Stash the destination
-        const tripoint relative_destination = darea.off;
+        const tripoint_rel_ms relative_destination = darea.off;
 
         std::vector<item_location> target_items;
         std::vector<int> quantities;
@@ -1472,14 +1472,14 @@ void advanced_inventory::start_activity(
             player_character.assign_activity(
                 wield_activity_actor( target_items.front(), quantities.front() ) );
         } else if( destarea == AIM_INVENTORY ) {
-            const std::optional<tripoint> starting_pos = from_vehicle
+            const std::optional<tripoint_bub_ms> starting_pos = from_vehicle
                     ? std::nullopt
-                    : std::optional<tripoint>( player_character.pos() );
+                    : std::optional<tripoint_bub_ms>( player_character.pos_bub() );
             const pickup_activity_actor act( target_items, quantities, starting_pos, false );
             player_character.assign_activity( act );
         } else {
             // Stash the destination
-            const tripoint relative_destination = squares[destarea].off;
+            const tripoint_rel_ms relative_destination = squares[destarea].off;
 
             const move_items_activity_actor act( target_items, quantities, to_vehicle, relative_destination );
             player_character.assign_activity( act );
@@ -1667,7 +1667,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     do_return_entry();
                     start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
                 } else {
-                    const tripoint placement = squares[destarea].off;
+                    const tripoint_rel_ms placement = squares[destarea].off;
                     // incase there is vehicle cargo space at dest but the player wants to drop to ground
                     const bool force_ground = !to_vehicle;
                     std::vector<drop_or_stash_item_info> to_drop;
@@ -1792,7 +1792,7 @@ void advanced_inventory::display()
         player_character.inv->restack( player_character );
 
         recalc = true;
-        g->wait_popup.reset();
+        g->wait_popup_reset();
     }
 
     if( !ui ) {
@@ -2286,7 +2286,7 @@ void advanced_inventory::draw_minimap()
             continue;
         }
         advanced_inv_area sq = squares[panes[s].get_area()];
-        tripoint pt = pc + sq.off;
+        tripoint pt = pc + sq.off.raw();
         // invert the color if pointing to the player's position
         nc_color cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
                       invert_color( c_light_cyan ) : c_light_cyan.blink();

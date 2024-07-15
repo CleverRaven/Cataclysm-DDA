@@ -1277,7 +1277,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "dance_shoes",
@@ -2206,7 +2206,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
-    "weight": "840 g",
+    "weight": "454 g",
     "volume": "1500 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -3384,5 +3384,55 @@
     "name": { "str": "tempered steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "espadrilles",
+    "category": "armor",
+    "type": "ARMOR",
+    "name": { "str_sp": "espadrilles" },
+    "description": "Originating from the Pyrenees and made from a rope sole and cloth, these shoes are perfect for the hot weather, sipping Sangria and dodging tourists.",
+    "looks_like": "leathersandals",
+    "price": "20 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": "cotton",
+    "volume": "600 ml",
+    "weight": "500 g",
+    "flags": [ "VARSIZE" ],
+    "warmth": 2,
+    "armor": [
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [ { "type": "cotton", "thickness": 1 } ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_r", "foot_arch_l", "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "dry_plant", "thickness": 6 } ]
+      }
+    ]
+  },
+  {
+    "id": "xl_espadrilles",
+    "copy-from": "espadrilles",
+    "type": "ARMOR",
+    "name": { "str_sp": "espadrilles" },
+    "extend": { "flags": [ "PREFIX_XL", "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 }
+  },
+  {
+    "id": "xs_espadrilles",
+    "copy-from": "espadrilles",
+    "type": "ARMOR",
+    "name": { "str_sp": "espadrilles" },
+    "extend": { "flags": [ "PREFIX_XS", "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 }
   }
 ]

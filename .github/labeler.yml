@@ -137,8 +137,8 @@
 "Monsters":
   - "**/**monster**"
   - "**/monster**"
-  - "**/**monsters**"
-  - "**/monsters**"
+  - "**/**monster**/**"
+  - "**/monster**/**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
@@ -221,6 +221,9 @@
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
   - data/mods/aftershock_exoplanet/**/*
+
+"Mods: Backrooms":
+  - data/mods/Backrooms/**/*
 
 "Mods: Dark Days of the Dead":
   - data/mods/classic_zombies/**/*

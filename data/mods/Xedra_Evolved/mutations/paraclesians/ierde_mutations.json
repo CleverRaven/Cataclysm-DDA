@@ -36,7 +36,7 @@
       { "part": "torso", "ignored": 6 }
     ],
     "integrated_armor": [ "integrated_pebbled" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "type": "mutation",
@@ -64,7 +64,7 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_granite_skin" ],
-    "flags": [ "TOUGH_FEET" ]
+    "flags": [ "TOUGH_FEET", "BARKY" ]
   },
   {
     "type": "mutation",
@@ -97,11 +97,28 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Your stony skin makes your fists hit like hammers.  Though your attacks are slower, you do more bashing damage with your punches and can use your hands to replace some simple tools.",
+    "description": "The Ierde's stony skin makes their fists hit like hammers.  Though their attacks are slower, the Ierde does more bashing damage with punches and can use their hands to replace some simple tools.",
     "types": [ "CLAWS" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
     "category": [ "IERDE" ],
     "integrated_armor": [ "integrated_ierde_fists" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STRONG_EQUIPMENT",
+    "name": { "str": "Stone-Hardened Panoply" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Just as their body is now one with the stone, the Ierde can infuse the strength of the earth into their equipment, rendering it more resilient.  While on natural earth or stone or underground, the Ierde's equipment is twice as difficult to damage.",
+    "prereqs": [ "IERDE_STONE_FISTS" ],
+    "category": [ "IERDE" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
+        "values": [ { "value": "EQUIPMENT_DAMAGE_CHANCE", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -168,6 +185,18 @@
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SMASHING_PUNCH" ],
     "spells_learned": [ [ "ierde_knockback_punch_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_REVEAL_EARTH_MAP",
+    "name": { "str": "Knowing Every Furrow" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to learn the terrain layout in a large area around themselves.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_PER_BONUS" ],
+    "spells_learned": [ [ "ierde_reveal_earth_map_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -249,7 +278,7 @@
     "ugliness": 0,
     "description": "When gaining this ability, the Ierde gains the ability to infuse the resilience of the earth into one of their allies.",
     "prereqs": [ "IERDE_IRON_ARMOR" ],
-    "prereqs2": [ "IERDE_SLOW_ENEMIES" ],
+    "prereqs2": [ "IERDE_STRONG_EQUIPMENT" ],
     "category": [ "IERDE" ],
     "spells_learned": [ [ "ierde_buff_armor_allies_spell", 1 ] ]
   },

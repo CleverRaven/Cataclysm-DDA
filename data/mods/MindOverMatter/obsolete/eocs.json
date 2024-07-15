@@ -16,5 +16,35 @@
       { "math": [ "global_tier_three_power_learning_time_high", "=", "604800" ] },
       { "math": [ "global_updated_power_learning_variables", "=", "1" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('electrokinetic_personal_battery')" ] },
+      "cases": [
+        { "case": 0, "effect": [ { "u_spawn_item": "electrokinetic_ups_1", "suppress_message": true, "force_equip": true } ] },
+        {
+          "case": 4,
+          "effect": [ { "u_spawn_item": "electrokinetic_ups_2", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 8,
+          "effect": [ { "u_spawn_item": "electrokinetic_ups_3", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_spawn_item": "electrokinetic_ups_4", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 16,
+          "effect": [ { "u_spawn_item": "electrokinetic_ups_5", "suppress_message": true, "force_equip": true } ]
+        },
+        {
+          "case": 20,
+          "effect": [ { "u_spawn_item": "electrokinetic_ups_6", "suppress_message": true, "force_equip": true } ]
+        }
+      ]
+    }
   }
 ]

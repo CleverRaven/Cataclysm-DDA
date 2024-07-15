@@ -48,7 +48,7 @@
     "dispersion": 35,
     "loudness": 5,
     "critical_multiplier": 2,
-    "effects": [ "RECOVER_50" ],
+    "recovery_chance": 98,
     "melee_damage": { "stab": 12 }
   }
 ]
