@@ -286,14 +286,10 @@ Added multiple new guns
 This adds a Doctor and Pharmacist profession. It also generalizes the "MD" trait description to include more medical professionals.
 Three new skeletal zombie evolutions
 Microlabs will now spawn foes from a series of mutually exclusive lists.
-Add Vegetable Samosas
 Bakery contains flour now, plus overhaul and improvements
-A few new NPC story snippets
-burglar profession has the safecracking proficiency
 Expands the regenerating zombie into it's own line
 Adds a new set of twisted geometry artifacts, found where geometry itself is twisted due to the acts of humans and worse.
 Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
-Add snippet for OCP army pants
 
 
 ## Interface:
@@ -551,17 +547,9 @@ Aftershock: New craftable plasma gun.
 [Aftershock] Add Habitat Block 3 Mapgen to Aftershock Exoplanet
 (XE) Tier 4 Vampire implementation
 Aftershock Lore documents
-[Xedra Evolved] Vampire blood gift research
-[Xedra Evolved] Paraclesian morale effects scale
-[Xedra Evolved] Paraclesian fae cannot wear steel or iron without problems (except Homullus)
-[Xedra Evolved] Paraclesian fae cannot wield items made of steel or iron without problems (except Homullus)
-[Magiclysm] Druid's Nature's Communion morale scales
-[Xedra Evolved] Add vampire transformation powers
+[Xedra Evolved] Paraclesian fae cannot wear/wield steel or iron without problems (except Homullus)
+[Xedra Evolved] Lots of Vampire stuff, new powers and power research
 Aftershock: Add a tool and gadget trader to Port Augustmoon.
-[MoM] Concentrating on maintenance powers also levels metaphysics
-[Xedra Evolved] Give Vampires nighttime overmap sight
-Add Xedra Inventor compatibility with Electrokinetic Powers
-[Xedra Evolved] Vampire form tweaks
 [MoM] Add gremlin, a Nether-touched fox, plus small monster tweaks
 [MoM] Randomize monster power cooldowns
 
@@ -846,10 +834,7 @@ Readd condom flavours
 New England Community Church also dislikes rabbit and bat mutants
 fixes appliances turning off randomly
 Fixing drawing of fallback tiles for weather on overmap
-[MoM] Pyrokinetics no longer blister when using Flame Immunity
-Fix conjunctivitis duration stacking and eyedrops
 Limit shot targets to the reality bubble
-Add pain_max_val to conjunctivitis
 Remove acid bombs
 gate close displacement bugfix
 Actually removes acid bomb
