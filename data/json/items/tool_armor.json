@@ -1459,6 +1459,8 @@
       "RAD_PROOF",
       "GAS_PROOF",
       "ELECTRIC_IMMUNE",
+      "HEAT_IMMUNE",
+      "FIRE_IMMUNE",
       "THERMOMETER",
       "TRADER_AVOID",
       "NO_REPAIR",
