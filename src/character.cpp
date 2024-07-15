@@ -306,6 +306,7 @@ static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_FIRE_IMMUNE( "FIRE_IMMUNE" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -5904,7 +5905,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         return is_elec_immune();
     }
     if( ft.has_fire ) {
-        return has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on );
+        return has_flag( json_flag_HEATSINK ) || has_flag( json_flag_FIRE_IMMUNE ) || worn_with_flag( flag_FIRE_IMMUNE );
     }
     if( ft.has_acid ) {
         return !is_on_ground() && get_env_resist( body_part_foot_l ) >= 15 &&
