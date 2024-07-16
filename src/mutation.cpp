@@ -504,7 +504,7 @@ void Character::recalculate_size()
         } else {
             size_class = creature_size::medium;
         }
-    } else { 
+    } else {
         if( has_flag( json_flag_TINY ) ) {
             size_class = creature_size::tiny;
         } else if( has_flag( json_flag_SMALL ) ) {
