@@ -37,7 +37,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 0,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -70,7 +70,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -103,7 +103,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -187,7 +187,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -271,7 +271,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -355,7 +355,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -439,7 +439,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -523,7 +523,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -608,7 +608,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -693,7 +693,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -778,7 +778,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -862,7 +862,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -947,7 +947,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 5,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -1032,7 +1032,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 6,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
@@ -1117,7 +1117,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 7,
-    "time": "30 s",
+    "time": "0 s",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_photokinesis", "required": false } ],
     "tools": [
