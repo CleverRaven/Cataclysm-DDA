@@ -402,9 +402,11 @@
         "P": "f_autodoc",
         "M": "f_autodoc_couch"
       },
-      "vendingmachines": { "Ú": { "item_group": "vending_drink", "lootable": true }, "Ó": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "Ú": { "chunks": [ "nest_vending_machine_looted" ] }, "Ó": { "chunks": [ "nest_vending_machine_looted" ] } },
       "toilets": { "n": {  } },
       "items": {
+        "Ú": { "item": "vending_drink", "chance": 100 },
+        "Ó": { "item": "vending_food", "chance": 100 },
         ".": { "item": "office_mess", "chance": 2 },
         "1": [ { "item": "SUS_silverware", "chance": 100 }, { "item": "SUS_utensils", "chance": 100 } ],
         "2": [ { "item": "SUS_cookware", "chance": 100 }, { "item": "SUS_appliances_cupboard", "chance": 70 } ],

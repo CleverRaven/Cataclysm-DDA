@@ -287,8 +287,8 @@
       "toilets": { "?": {  } },
       "nested": { "V": { "chunks": [ "nest_vending_machine_off" ] }, "F": { "chunks": [ "nest_vending_machine_off" ] } },
       "items": {
-        "V": { "item_group": "vending_drink" },
-        "F": { "item_group": "vending_food" },
+        "V": { "item": "vending_drink", "chance": 100 },
+        "F": { "item": "vending_food", "chance": 100 },
         "S": { "item": "clothing_outdoor_set", "chance": 50 },
         "c": { "item": "repair_storage", "chance": 80 },
         "j": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
