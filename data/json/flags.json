@@ -1175,6 +1175,31 @@
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT",
+    "type": "json_flag",
+    "//": "The character is in a form other than their natural one due to some preternatural effect."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_TINY",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Tiny."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_SMALL",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Small."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_LARGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Large."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_HUGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Huge."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
