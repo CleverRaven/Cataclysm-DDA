@@ -1099,6 +1099,10 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const Character &guy ) const
 {
+    if( has_flag( spell_flag::NON_MAGICAL ) ) {
+        return true;
+    };
+
     if( guy.has_flag( json_flag_NO_SPELLCASTING ) && !has_flag( spell_flag::PSIONIC ) ) {
         return false;
     }

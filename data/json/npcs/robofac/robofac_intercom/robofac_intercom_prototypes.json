@@ -206,28 +206,8 @@
       {
         "text": "How are my armor repairs coming?",
         "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
-      },
-      {
-        "text": "How are my armor repairs coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
-            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
-      },
-      {
-        "text": "How are my armor repairs coming?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
+          "or": [
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" },
             { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
           ]
         },
@@ -237,7 +217,17 @@
         "text": "How are my armor repairs coming?",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
+            { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ] },
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
+      },
+      {
+        "text": "How are my armor repairs coming?",
+        "condition": {
+          "and": [
+            { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "<", "time('now')" ] },
             { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
           ]
         },
@@ -738,18 +728,47 @@
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR",
-    "//": "repairing Phase Immersion Suit",
     "type": "talk_topic",
-    "dynamic_line": "Certainly; for a fee of one coin, repairs and adjustments could be completed by tomorrow.  We'll also pull suit metrics and haptic data to better understand the situation on the ground.  I'd ask you to make sure everything has been removed from the suit before giving it to us.",
+    "dynamic_line": [
+      {
+        "npc_has_var": "phase_suit_reverse_engineered",
+        "value": "yes",
+        "yes": "Certainly; for a fee of ten coins, repairs and adjustments could be completed in two weeks.  We'll also pull suit metrics and haptic data to better understand the situation on the ground.  I'd ask you to make sure everything has been removed from the suit before giving it to us.",
+        "no": "The camera starts scanning the armor, after a moment the intercom cracks back to life, 'this technology is currently not within our database, we can probably repair it but we'll need to reverse-engineer it first.  We estimate the repairs to take around a month and a half, and they'll have an increased fee of 12 coins.  Please make sure everything has been removed from the suit before giving it to us.'"
+      }
+    ],
     "responses": [
       {
-        "text": "[1 HGC, suit] See you tomorrow.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "text": "[10 HGC] Alright.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "npc_has_var": "phase_suit_reverse_engineered", "value": "yes" }
+          ]
+        },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 1 },
+          { "u_sell_item": "RobofacCoin", "count": 10 },
           { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('14 day')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+      },
+      {
+        "text": "[12 HGC] Fine.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
+            { "not": { "npc_has_var": "phase_suit_reverse_engineered", "value": "yes" } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 12 },
+          { "u_consume_item": "phase_immersion_suit", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('44 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
         ],
@@ -771,6 +790,7 @@
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "none" },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
+          { "npc_add_var": "phase_suit_reverse_engineered", "value": "yes" },
           { "u_spawn_item": "phase_immersion_suit" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -779,18 +799,47 @@
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR",
-    "//": "repairing RM13 Armor, same price as phase immersion because they get to do some research on Rivtech armor during repairs",
     "type": "talk_topic",
-    "dynamic_line": "Yes, that is within our capabilities.  For one coin, repairs and adjustments completed by tomorrow; we will recharge the internal battery as well.  Please note that if you have made any modifications to the armor, it will be reverted to factory standard as part of the repairs.",
+    "dynamic_line": [
+      {
+        "npc_has_var": "rm13_reverse_engineered",
+        "value": "yes",
+        "yes": "Yes, that is within our capabilities.  For ten coins, repairs and adjustments can be completed by tomorrow; we will recharge the internal battery as well.  Please note that if you have made any modifications to the armor, it will be reverted to factory standard as part of the repairs.",
+        "no": "The camera starts scanning the armor, after a moment the intercom cracks back to life, 'this technology is currently not within our database, we can probably repair it but we'll need to reverse-engineer it first.  We estimate the repairs to take around a month and a half, and they'll have an increased fee of 12 coins.  Please make sure everything has been removed from the suit before giving it to us.'"
+      }
+    ],
     "responses": [
       {
-        "text": "[1 HGC, armor] See you tomorrow.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
+        "text": "[10 HGC] Alright.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 10 } },
+            { "npc_has_var": "rm13_reverse_engineered", "value": "yes" }
+          ]
+        },
         "effect": [
-          { "u_sell_item": "RobofacCoin", "count": 1 },
+          { "u_sell_item": "RobofacCoin", "count": 10 },
           { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('14 day')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
+      },
+      {
+        "text": "[12 HGC] Fine.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
+            { "not": { "npc_has_var": "rm13_reverse_engineered", "value": "yes" } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 12 },
+          { "u_consume_item": "rm13_armor", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now') + time('44 day')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "rm13_armor" }
         ],
@@ -812,6 +861,7 @@
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "none" },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
+          { "npc_add_var": "rm13_reverse_engineered", "value": "yes" },
           { "u_spawn_item": "rm13_armor" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"

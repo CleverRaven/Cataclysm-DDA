@@ -1251,6 +1251,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_druid_shifter_raven_form_levitation",
+    "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
     "name": [ "" ],
