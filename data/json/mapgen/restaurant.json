@@ -463,6 +463,7 @@
       },
       "item": { "L": { "item": "medium_disposable_cell", "chance": 100, "repeat": [ 1, 2 ] } },
       "items": {
+        "D": { "item": "vending_drink", "chance": 100 },
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "x": { "item": "trash", "chance": 100, "repeat": [ 2, 4 ] },
         "B": { "item": "magazines", "chance": 50, "repeat": [ 3, 5 ] },
@@ -481,7 +482,7 @@
         "i": { "item": "softdrugs", "chance": 70, "repeat": [ 2, 3 ] },
         "c": [ { "item": "kitchen", "chance": 100, "repeat": [ 1, 5 ] }, { "item": "knifeblock", "chance": 75, "repeat": [ 1, 2 ] } ]
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true } },
+      "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] } },
       "place_loot": [ { "item": "television", "x": [ 3, 4 ], "y": 20, "repeat": 1, "chance": 100 } ],
       "place_nested": [ { "chunks": [ [ "foodperson_break_room", 25 ], [ "null", 75 ] ], "x": 15, "y": 10 } ]
     }

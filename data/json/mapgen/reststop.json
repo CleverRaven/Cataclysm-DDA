@@ -97,8 +97,10 @@
         "R": "f_bike_rack"
       },
       "toilets": { "B": {  } },
-      "vendingmachines": { "%": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "%": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
       "items": {
+        "%": { "item": "vending_drink", "chance": 100 },
+        "F": { "item": "vending_food", "chance": 100 },
         "B": { "item": "SUS_toilet", "chance": 30 },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
         "E": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }

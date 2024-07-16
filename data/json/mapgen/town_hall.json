@@ -73,14 +73,16 @@
       "O": { "item": "SUS_oven", "chance": 100 },
       "u": [ { "item": "SUS_coffee_cupboard", "chance": 50 }, { "item": "dining", "chance": 30 } ],
       "R": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-      "I": { "item": "SUS_office_filing_cabinet", "chance": 80 }
+      "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+      "4": { "item": "vending_drink", "chance": 100 },
+      "5": { "item": "vending_food", "chance": 100 }
     },
     "item": {
       "]": { "item": "american_flag" },
       "[": { "item": "american_flag" },
       "I": [ { "item": "subwaymap", "chance": 2 }, { "item": "sewermap", "chance": 2 } ]
     },
-    "vendingmachines": { "4": { "item_group": "vending_drink", "lootable": true }, "5": { "item_group": "vending_food", "lootable": true } },
+    "nested": { "4": { "chunks": [ "nest_vending_machine_looted" ] }, "5": { "chunks": [ "nest_vending_machine_looted" ] } },
     "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 1 } }
   },
   {

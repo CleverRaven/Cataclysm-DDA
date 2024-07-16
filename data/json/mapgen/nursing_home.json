@@ -191,10 +191,12 @@
           { "item": "games", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
-        ]
+        ],
+        "?": { "item": "vending_drink", "chance": 100 },
+        ",": { "item": "vending_food", "chance": 100 }
       },
       "monster": { "3": { "monster": "mon_civilian_icu", "chance": 10 }, "8": { "monster": "mon_civilian_icu", "chance": 10 } },
-      "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "?": { "chunks": [ "nest_vending_machine_looted" ] }, ",": { "chunks": [ "nest_vending_machine_looted" ] } },
       "palettes": [ "nursing_home_palette" ],
       "place_monster": [
         { "group": "GROUP_NURSING_HOME", "x": [ 1, 20 ], "y": [ 6, 23 ], "repeat": [ 5, 8 ] },
@@ -412,9 +414,11 @@
           { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ],
-        ".": [ { "item": "trash", "chance": 2 }, { "item": "office_mess", "chance": 3 } ]
+        ".": [ { "item": "trash", "chance": 2 }, { "item": "office_mess", "chance": 3 } ],
+        "?": { "item": "vending_drink", "chance": 100 },
+        ",": { "item": "vending_food", "chance": 100 }
       },
-      "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "?": { "chunks": [ "nest_vending_machine_looted" ] }, ",": { "chunks": [ "nest_vending_machine_looted" ] } },
       "palettes": [ "nursing_home_sh_palette" ],
       "monster": { "3": { "monster": "mon_civilian_icu", "chance": 10 }, "8": { "monster": "mon_civilian_icu", "chance": 10 } },
       "place_monster": [

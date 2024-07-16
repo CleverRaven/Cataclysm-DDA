@@ -199,9 +199,11 @@
         "x": "f_glass_cabinet"
       },
       "toilets": { "T": {  } },
-      "vendingmachines": { "l": { "item_group": "vending_drink", "lootable": true }, "m": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "l": { "chunks": [ "nest_vending_machine_looted" ] }, "m": { "chunks": [ "nest_vending_machine_looted" ] } },
       "items": {
-        "#": [ { "item": "snacks", "chance": 10 } ],
+        "l": { "item": "vending_drink", "chance": 100 },
+        "m": { "item": "vending_food", "chance": 100 },
+        "#": { "item": "snacks", "chance": 10 },
         "f": { "item": "fridgesnacks", "chance": 60, "repeat": [ 1, 12 ] },
         "1": { "item": "magazines", "chance": 60, "repeat": [ 4, 16 ] },
         "2": { "item": "snacks", "chance": 60, "repeat": [ 1, 12 ] },

@@ -153,7 +153,6 @@
       "palettes": [ "hospital" ],
       "terrain": { "5": "t_floor", "H": "t_floor", "X": [ "t_door_metal_locked", "t_door_metal_elocked" ], "=": "t_pavement" },
       "furniture": { "H": "f_locker" },
-      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "computers": {
         "5": {
           "name": "Medical Supply Access",
@@ -168,8 +167,14 @@
         }
       },
       "vehicles": { "=": { "vehicle": "pickup_corpses", "chance": 10, "rotation": 270, "status": 1 } },
-      "nested": { "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] } },
+      "nested": {
+        "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] },
+        "D": { "chunks": [ "nest_vending_machine_looted" ] },
+        "F": { "chunks": [ "nest_vending_machine_looted" ] }
+      },
       "items": {
+        "D": { "item": "vending_drink", "chance": 100 },
+        "F": { "item": "vending_food", "chance": 100 },
         "b": { "item": "magazines", "chance": 50 },
         "B": { "item": "hospital_bed", "chance": 80 },
         "f": { "item": "SUS_fridge_breakroom", "chance": 90 },

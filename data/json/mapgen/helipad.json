@@ -113,9 +113,11 @@
         "[": { "item": "SUS_fridge", "chance": 50 },
         "O": { "item": "SUS_oven", "chance": 75, "repeat": [ 0, 2 ] },
         "H": { "item": "SUS_spice_collection", "chance": 75 },
-        "&": { "item": "SUS_toilet", "chance": 50 }
+        "&": { "item": "SUS_toilet", "chance": 50 },
+        "1": { "item": "vending_drink", "chance": 100 },
+        "2": { "item": "vending_food", "chance": 100 }
       },
-      "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "1": { "chunks": [ "nest_vending_machine_looted" ] }, "2": { "chunks": [ "nest_vending_machine_looted" ] } },
       "place_monster": [
         { "group": "GROUP_MIL_HELIPAD", "x": [ 3, 21 ], "y": [ 4, 23 ], "chance": 50, "repeat": [ 8, 15 ] },
         { "group": "GROUP_MIL_HELIPAD", "x": [ 24, 40 ], "y": [ 10, 23 ], "chance": 40, "repeat": [ 5, 10 ] },
