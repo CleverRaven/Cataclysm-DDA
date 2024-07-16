@@ -375,11 +375,8 @@
       "x": "f_cardboard_box",
       "X": "f_cardboard_box"
     },
-    "item": {
-      "N": { "item": "movie_poster", "chance": 100 },
-      "$": { "item": "vending_drink", "chance": 100 },
-      "V": { "item": "vending_food", "chance": 100 }
-    },
+    "item": { "N": { "item": "movie_poster", "chance": 100 } },
+    "items": { "$": { "item": "vending_drink", "chance": 100 }, "V": { "item": "vending_food", "chance": 100 } },
     "nested": { "$": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } },
     "toilets": { "T": {  } }
   }

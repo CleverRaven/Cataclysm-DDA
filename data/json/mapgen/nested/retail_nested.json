@@ -1197,7 +1197,7 @@
       },
       "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
       "items": {
-        "D": { "item_group": "vending_drink", "chance": 100 },
+        "D": { "item": "vending_drink", "chance": 100 },
         "F": { "item": "vending_food", "chance": 100 },
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
       }
@@ -1229,7 +1229,7 @@
       },
       "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
       "items": {
-        "D": { "item_group": "vending_drink", "chance": 100 },
+        "D": { "item": "vending_drink", "chance": 100 },
         "F": { "item": "vending_food", "chance": 100 },
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
@@ -1300,7 +1300,7 @@
       },
       "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
       "items": {
-        "D": { "item_group": "vending_drink", "chance": 100 },
+        "D": { "item": "vending_drink", "chance": 100 },
         "F": { "item": "vending_food", "chance": 100 },
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
@@ -1335,7 +1335,7 @@
       },
       "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
       "items": {
-        "D": { "item_group": "vending_drink", "chance": 100 },
+        "D": { "item": "vending_drink", "chance": 100 },
         "F": { "item": "vending_food", "chance": 100 },
         "C": [ { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] } ],
         "G": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]

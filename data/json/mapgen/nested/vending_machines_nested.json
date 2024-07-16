@@ -35,11 +35,29 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_broken_but_not_looted",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": { " ": "f_vending_o" },
+      "item": { " ": [ { "item": "glass_shard", "repeat": [ 1, 25 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "nest_vending_machine_looted",
     "//": "should be `one in (days since cataclysm + 4)` to be unlooted, but maps do not support math weight (yet?)",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "nested": { " ": { "chunks": [ [ "nest_vending_machine_broken", 9 ], [ "nest_vending_machine_off", 1 ] ] } }
+      "nested": {
+        " ": {
+          "chunks": [
+            [ "nest_vending_machine_broken", 85 ],
+            [ "nest_vending_machine_off", 10 ],
+            [ "nest_vending_machine_broken_but_not_looted", 5 ]
+          ]
+        }
+      }
     }
   },
   {

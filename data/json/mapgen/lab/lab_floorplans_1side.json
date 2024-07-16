@@ -78,7 +78,8 @@
         "|----------------------|"
       ],
       "palettes": [ "lab_palette" ],
-      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "nested": { "1": { "chunks": [ "nest_vending_machine_off" ] }, "2": { "chunks": [ "nest_vending_machine_off" ] } },
+      "items": { "1": { "item": "vending_drink", "chance": 100 }, "2": { "item": "vending_food", "chance": 100 } },
       "furniture": {
         "a": [
           "f_stool",

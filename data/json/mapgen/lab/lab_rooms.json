@@ -1023,7 +1023,8 @@
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "C": "f_cupboard", "O": "f_oven" },
-      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "nested": { "1": { "chunks": [ "nest_vending_machine_off" ] }, "2": { "chunks": [ "nest_vending_machine_off" ] } },
+      "items": { "1": { "item": "vending_drink", "chance": 100 }, "2": { "item": "vending_food", "chance": 100 } },
       "mapping": {
         "t": { "items": [ { "item": "vending_food_items", "chance": 10 } ] },
         "f": { "items": [ { "item": "fridge", "chance": 80 } ] },

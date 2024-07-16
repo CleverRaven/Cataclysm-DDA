@@ -1680,7 +1680,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 12,
-    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE", "TRANSPARENT" ],
     "examine_action": "vending",
     "bash": {
       "str_min": 20,
@@ -1704,7 +1704,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 12,
-    "flags": [ "SEALED", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": [ "SEALED", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE", "TRANSPARENT" ],
     "bash": {
       "str_min": 20,
       "str_max": 40,

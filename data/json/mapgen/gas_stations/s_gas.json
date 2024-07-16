@@ -45,7 +45,7 @@
       "furniture": { "9": "f_aut_gas_console" },
       "signs": { "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
       "nested": { "1": { "chunks": [ "nest_vending_machine_looted" ] }, "2": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "1": { "item_group": "vending_drink", "chance": 100 }, "2": { "item": "vending_food", "chance": 100 } },
+      "items": { "1": { "item": "vending_drink", "chance": 100 }, "2": { "item": "vending_food", "chance": 100 } },
       "place_liquids": [
         { "liquid": "gasoline", "x": 2, "y": 3, "repeat": [ 200, 1075 ] },
         { "liquid": "diesel", "x": 4, "y": 3, "repeat": [ 200, 1075 ] }
