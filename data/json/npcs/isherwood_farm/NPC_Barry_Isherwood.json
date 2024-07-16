@@ -443,7 +443,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_farm_directions",
-    "dynamic_line": "Sure, can I please see your map?\"  Barry takes your map, orients himself, and points out a route to the farm.  \"Once we've done that, I'll head on myself so everyone won't be suprised by you coimg.  Sound good?",
+    "dynamic_line": "Sure, can I please see your map?\"  Barry takes your map, orients himself, and points out a route to the farm.  \"Once we've done that, I'll head on myself so everyone won't be surprised by you coming.  Sound good?",
     "responses": [
       {
         "text": "Sounds good to me, let's hit the road.",
