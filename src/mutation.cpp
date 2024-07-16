@@ -492,7 +492,7 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT ) ) { 
+    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT ) ) {
         if( has_flag( json_flag_SHAPESHIFT_SIZE_TINY ) ) {
             size_class = creature_size::tiny;
         } else if( has_flag( json_flag_SHAPESHIFT_SIZE_SMALL ) ) {
@@ -504,7 +504,7 @@ void Character::recalculate_size()
         } else {
             size_class = creature_size::medium;
         }
-    } else { 
+    } else {
         if( has_flag( json_flag_TINY ) ) {
             size_class = creature_size::tiny;
         } else if( has_flag( json_flag_SMALL ) ) {
@@ -516,7 +516,7 @@ void Character::recalculate_size()
         } else {
             size_class = creature_size::medium;
         }
-   }
+    }
 }
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
