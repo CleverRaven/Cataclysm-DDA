@@ -3,7 +3,7 @@
     "id": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
     "type": "mission_definition",
     "name": { "str": "Bring me the heart of a Jabberwock" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 8,
     "value": 0,
     "item": "jabberwock_heart",
@@ -43,7 +43,7 @@
     "value": 0,
     "monster_type": "mon_march_lord",
     "monster_kill_goal": 3,
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_lords_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -79,7 +79,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_dog_thing", "x": 11, "y": 11 } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_dogthing_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -113,7 +113,7 @@
         "z": 0
       }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_acid_queen_ant_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -148,7 +148,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_centipede_mega", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_armored_centipede_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -183,7 +183,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_dreamforged_automaton", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_automaton_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -202,7 +202,7 @@
     "id": "MISSION_GET_TRIFFID_HEART_FOR_BOANN",
     "type": "mission_definition",
     "name": { "str": "Bring me a chunk of a triffid heart" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 8,
     "value": 0,
     "item": "triffid_heart_chunk",
@@ -251,7 +251,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_stag_beetle_mega", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_titan_beetle_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -270,10 +270,10 @@
     "id": "MISSION_GET_SHADOW_SINGULARITY_PIECE_FOR_BOANN",
     "type": "mission_definition",
     "name": { "str": "Bring me a piece of the darkest shadow" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 8,
     "value": 0,
-    "item": "shadow_singularity_chunk",
+    "item": "shadow_singularity_piece",
     "end": { "opinion": { "trust": 2, "value": 2 } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -309,7 +309,7 @@
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_tindalos", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_star_crown_hound_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

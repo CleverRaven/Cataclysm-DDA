@@ -759,5 +759,16 @@
     "valid": false,
     "purifiable": false,
     "enchantments": [ "EATER_SIXTH_SENSE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CALL_DAFFODIL",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Fae Autority" },
+    "description": "Boann bestowed upon you the right to summon a few daffodil warriors once a day.",
+    "spells_learned": [ [ "call_daffodil", 1 ] ]
   }
 ]
