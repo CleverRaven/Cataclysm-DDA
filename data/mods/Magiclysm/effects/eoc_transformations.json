@@ -48,14 +48,14 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_BEAR_FORM_deactivated",
-                    "condition": { "u_has_trait": "EOC_DRUID_SHIFTER_BEAR_FORM_TRAITS" },
+                    "condition": { "u_has_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       {
                         "u_message": "Your body shifts and contracts and you return to your humanoid form.",
                         "type": "neutral"
                       },
-                      { "u_lose_trait": "EOC_DRUID_SHIFTER_BEAR_FORM_TRAITS" },
+                      { "u_lose_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
                       { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
@@ -136,14 +136,14 @@
                 "run_eocs": [
                   {
                     "id": "EOC_DRUID_SHIFTER_DEER_FORM_deactivated",
-                    "condition": { "u_has_trait": "EOC_DRUID_SHIFTER_DEER_FORM_TRAITS" },
+                    "condition": { "u_has_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
                     "effect": [
                       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
                       {
                         "u_message": "Your body shifts and your fingers separate as you return to your humanoid form.",
                         "type": "neutral"
                       },
-                      { "u_lose_trait": "EOC_DRUID_SHIFTER_DEER_FORM_TRAITS" },
+                      { "u_lose_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
                       { "math": [ "u_val('mana')", "=", "u_transformed_mana" ] },
                       {
                         "switch": { "math": [ "u_preshift_size" ] },
