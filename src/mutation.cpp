@@ -516,7 +516,7 @@ void Character::recalculate_size()
         } else {
             size_class = creature_size::medium;
         }
-   }
+    }
 }
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
