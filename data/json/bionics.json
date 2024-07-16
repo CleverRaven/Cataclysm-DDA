@@ -1275,13 +1275,7 @@
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "torso", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-        "emitter": "emit_shadow_field"
-      }
-    ],
+    "enchantments": [ { "condition": "ACTIVE", "emitter": "emit_shadow_field" } ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
     "time": "1 s"

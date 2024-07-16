@@ -322,6 +322,22 @@ In addition to "appliances", there may also be "facilities".  Again, under the h
 
 ### User interface
 
+#### Bring back points pool in chargen: there is a reason we moved away from it
+
+The main reason would be that it was not a fun system. To quote Venera3:
+
+> The point system turning every character into a Heavy Sleeper Truth Teller Wool Allergy Stimulant Psychosis \<and now insert the traits you want to take\> is just shit design
+
+The point system did not encourage players to try new approaches or roleplay but instead supported attempts to 'break' it, find a way to trick the system, and try to find as much profit within existing points as possible. Which brings us to issue number two, which is...
+
+Points are a bad tool for balance. How many points is a bad back trait worth? 3? 2? 2.5? 2.76? π? Numbers have difficulties representing the abstract influence of a single trait on your entire playthrough. 
+
+Luckily for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against a zombie. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
+
+Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Has the pool system been removed completely? No, you can still turn it on when you create the world, and it won't be removed unless it stands in the way of another changes. Is it possible to make a good system out of a pool system? Probably, but no one did.
+
+Nota Bene, having a version of survivor mode with restrictions, a-la "you can't get traits that would make your defense higher than X" is desirable and would cover the niche of players who feel the open pool is too much for them, and want some sort of restriction.
+
 #### The ability to select MP3s to play while listening to music: Too complicated
 
 CDDA runs across a wide variety of platforms, each of which has their own special code for finding files on the local filesystem.  They also each have their own way to play an MP3, and generally they have multiple ways to play an MP3.  Adding support for selecting MP3s to play from inside the game requires that CDDA present a way to browse the local filesystem to find the MP3 files and a way to play them.  This code would be different for each platform and for each MP3 player; supporting it would be a maintenance nightmare full of weird and obscure bugs.

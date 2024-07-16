@@ -613,7 +613,7 @@ Character::Character() :
     oxygen = 0;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = tripoint_zero;
+    grab_point = tripoint_rel_ms_zero;
     hauling = false;
     set_focus( 100 );
     last_item = itype_null;
@@ -2024,21 +2024,21 @@ bool Character::uncanny_dodge()
     }
 
     map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( pos() );
+    const optional_vpart_position veh_part = here.veh_at( pos_bub() );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
         return false;
     }
 
     //uncanny dodge triggered in car and wasn't secured by seatbelt
     if( in_vehicle && veh_part ) {
-        here.unboard_vehicle( pos() );
+        here.unboard_vehicle( pos_bub() );
     }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         set_pos_only( adjacent );
 
         //landed in a vehicle tile
-        if( here.veh_at( pos() ) ) {
-            here.board_vehicle( pos(), this );
+        if( here.veh_at( pos_bub() ) ) {
+            here.board_vehicle( pos_bub(), this );
         }
 
         if( is_u ) {
@@ -10484,7 +10484,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
 
     map &here = get_map();
 
-    return here.sees( pos(), critter.pos(), unimpaired_range(), false );
+    return here.sees( pos_bub(), critter.pos_bub(), unimpaired_range(), false );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -10506,7 +10506,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos(), critter.pos(), 100 ) );
+        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos_bub(), critter.pos_bub(), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint> path = here.find_clear_path( pos(), critter.pos() );
@@ -11126,10 +11126,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    bool cramped = false;
-    // return is intentionally discarded, sets cramped if appropriate
-    can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
-    if( cramped ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );

@@ -177,7 +177,7 @@ void ui_adaptor::record_cursor( const catacurses::window &w )
 
 void ui_adaptor::record_term_cursor()
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     cursor_type = cursor::custom;
     cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
 #else
@@ -188,7 +188,7 @@ void ui_adaptor::record_term_cursor()
 
 void ui_adaptor::default_cursor()
 {
-#if !defined( TILES )
+#if defined( TUI )
     cursor_type = cursor::last;
 #else
     // Unimplemented
@@ -203,7 +203,7 @@ void ui_adaptor::disable_cursor()
 
 static void restore_cursor( const point &p )
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     wmove( catacurses::newscr, p );
 #else
     static_cast<void>( p );

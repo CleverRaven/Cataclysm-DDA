@@ -1327,7 +1327,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         }
     }
     if( comp->in_vehicle ) {
-        get_map().unboard_vehicle( comp->pos() );
+        get_map().unboard_vehicle( comp->pos_bub() );
     }
     popup( "%s %s", comp->get_name(), desc );
     comp->set_companion_mission( omt_pos, role_id, miss_id );

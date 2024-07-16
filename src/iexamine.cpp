@@ -1580,7 +1580,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
     Character &player_character = get_player_character();
     sfx::play_variant_sound( "plmove", "clear_obstacle",
-                             sfx::get_heard_volume( player_character.pos() ) );
+                             sfx::get_heard_volume( player_character.pos_bub() ) );
     add_msg_debug( debugmode::DF_IEXAMINE,
                    "Move cost to vault: %d, limb score modifier %.1f", move_cost,
                    you.get_modifier( character_modifier_obstacle_climb_mod ) );
@@ -1589,7 +1589,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
                    "Final move cost %d", move_cost );
     you.mod_moves( -move_cost );
     if( you.in_vehicle ) {
-        here.unboard_vehicle( you.pos() );
+        here.unboard_vehicle( you.pos_bub() );
     }
     you.setpos( examp );
     if( examp.x < HALF_MAPSIZE_X || examp.y < HALF_MAPSIZE_Y ||

@@ -1308,7 +1308,7 @@
       }
     ],
     "techniques": [ "tec_sojutsu_feint", "tec_sojutsu_shove", "tec_sojutsu_trip", "tec_sojutsu_jab" ],
-    "weapon_category": [ "POLEARMS" ]
+    "weapon_category": [ "POLEARMS", "SPEARS" ]
   },
   {
     "type": "martial_art",

@@ -234,7 +234,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         }
     }
     REQUIRE( faucet.has_value() );
-    get_map().board_vehicle( faucet->pos() + tripoint_east, &character );
+    get_map().board_vehicle( faucet->pos_bub() + tripoint_east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( itype_water_clean ) );

@@ -217,12 +217,12 @@ void Creature::setpos( const tripoint_bub_ms &p )
     Creature::setpos( p.raw() );
 }
 
-bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
+bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
 {
     map &here = get_map();
     const optional_vpart_position vp_there = here.veh_at( loc );
     if( !vp_there ) {
-        return true;
+        return false;
     }
 
     const monster *mon = as_monster();
@@ -257,12 +257,12 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
         }
 
         if( critter_volume > free_cargo ) {
-            return false;
+            return true;
         }
 
         if( size == creature_size::huge &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
-            return false;
+            return true;
         }
 
         // free_cargo * 0.75 < critter_volume && critter_volume <= free_cargo
@@ -270,23 +270,17 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
             if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
                            mon->type->bodytype == "fish" ||
                            has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
-                cramped = true;
+                return true;
             }
         }
 
         if( size == creature_size::huge && !vp_there.part_with_feature( "AISLE", false ) &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
-            cramped = true;
+            return true;
         }
     }
 
-    return true;
-}
-
-bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const
-{
-    bool dummy = false;
-    return can_move_to_vehicle_tile( loc, dummy );
+    return false;
 }
 
 void Creature::move_to( const tripoint_abs_ms &loc )
@@ -501,7 +495,8 @@ bool Creature::sees( const Creature &critter ) const
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( target_range <= 1 ) {
-        return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
+        return ( posz() == critter.posz() || here.sees( pos_bub(), critter.pos_bub(), 1 ) ) &&
+               visible( ch );
     }
 
     // If we cannot see without any of the penalties below, bail now.
@@ -543,7 +538,7 @@ bool Creature::sees( const Creature &critter ) const
     if( ch != nullptr ) {
         if( ch->is_crouching() || ch->has_effect( effect_all_fours ) || ch->is_prone() ||
             pos().z != critter.pos().z ) {
-            const int coverage = std::max( here.obstacle_coverage( pos(), critter.pos() ),
+            const int coverage = std::max( here.obstacle_coverage( pos_bub(), critter.pos_bub() ),
                                            here.ledge_coverage( *this, critter.pos() ) );
             if( coverage < 30 ) {
                 return visible( ch );

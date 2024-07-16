@@ -74,6 +74,16 @@
         "effect": { "u_add_var": "told_about_trueness", "value": "yes" }
       },
       {
+        "text": "Before, you said there was more that I needed to learn?",
+        "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH",
+        "condition": {
+          "and": [
+            { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+            { "u_has_var": "told_about_trueness", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
         "effect": { "u_add_var": "general_meeting_u_met_mentor", "value": "yes" }
@@ -169,8 +179,40 @@
     },
     "responses": [
       { "text": "I want to talk.", "topic": "TALK_VAMPIRE_MENTOR_TALK" },
+      {
+        "text": "Before, you said there was more that I needed to learn?",
+        "condition": { "not": { "u_know_recipe": "xe_vampire_blood_gift_research" } },
+        "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH"
+      },
       { "text": "Can you help me walk that path?", "topic": "TALK_VAMPIRE_MENTOR_BECOME_MORE_STRONGER" },
       { "text": "I just wanted to share the news.  See you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "str": "Yes.  The gifts of the blood are somewhat random, as are its curses.  But now that you have come into your true power, there are ways to expand your talents.  It will require a great deal of blood and time, but I can show you the way."
+    },
+    "responses": [
+      {
+        "text": "Yes.  I want more power.",
+        "effect": [ { "u_learn_recipe": "xe_vampire_blood_gift_research" } ],
+        "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH_LEARNED"
+      },
+      { "text": "Maybe later, but not now.", "topic": "TALK_VAMPIRE_MENTOR_TALK" }
+    ]
+  },
+  {
+    "id": [ "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH_LEARNED" ],
+    "type": "talk_topic",
+    "dynamic_line": { "str": "Concentrate on the blood and watch closely." },
+    "responses": [
+      {
+        "text": "…",
+        "effect": [ { "u_message": "You learn how to expand your blood gifts.", "type": "good" } ],
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -276,7 +318,7 @@
     "type": "talk_topic",
     "//": "Note: the part about the kill being in melee only is due to bug #72281.  Remove it when the bug gets fixed",
     "dynamic_line": {
-      "str": "They need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll become a true vampire.  And I almost forgot: you also need to kill them in melee combat or else it won't work."
+      "str": "They need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll become a true vampire.  And I almost forgot: you also need to kill them in melee combat or else it won't work.\n\nAnd when you are done, return to me.  There is more that you must learn."
     },
     "responses": [ { "text": "Got it.  See you.", "topic": "TALK_DONE" } ]
   },
@@ -285,7 +327,7 @@
     "//": "Note: the part about the kill being in melee only is due to bug #72281.  Remove it when the bug gets fixed",
     "type": "talk_topic",
     "dynamic_line": {
-      "str": "Do not worry about the pain, my friend.  It is always temporary, no matter how much it hurts.  After that, you won't ever be temporary again.  Keep in mind that they need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll be freed from your limited time as you become a true vampire.  And I almost forgot: you also need to kill them in melee combat or else it won't work."
+      "str": "Do not worry about the pain, my friend.  It is always temporary, no matter how much it hurts.  After that, you won't ever be temporary again.  Keep in mind that they need to be completely trusting of you, someone that consider themselves your \"best friend forever\".  They also need to declare how much they love you right before you kill them, then you'll be freed from your limited time as you become a true vampire.  And I almost forgot: you also need to kill them in melee combat or else it won't work.\n\nAnd when you are done, return to me.  There is more that you must learn."
     },
     "responses": [ { "text": "Got it.  See you.", "topic": "TALK_DONE" } ]
   },
