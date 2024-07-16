@@ -165,7 +165,7 @@
         "yes": "(Boann hands you a list) Here is a list of the quests to complete to become part of my court.  They are very difficult, but their rewards will be worth it.",
         "no":{
           "math": [ "Boann_Quests_Accepted", "==", "5" ],
-          "yes": "I have no new quests for now.  Once you'll have completed them, you'll become one of my knights and able to accomplish the quests that will makke you a member of my court.",
+          "yes": "I have no new quests for now.  Once you'll have completed them, you'll become one of my knights and able to accomplish the quests that will make you a member of my court.",
           "no": "(Boann hands you a list) Here is a list of the quests to complete to become one of my knights.  Take your time, they can be accomplished when you want."
         }
       }
@@ -388,15 +388,137 @@
         { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
         { "text": "Thank you.", "topic": "TALK_DONE" }
       ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      "id": [ "MISSION_KILL_THREE_MARCH_LORDS_FOR_BOANN" ],
+      "type": "talk_topic",
+      "dynamic_line": "Kill a great beast in my honor and I'll reward you.  Prove to me that you have the heart of a knight.  Bring me the putrid heart of a Jabberwock.",
+      "responses": [
+        {
+          "text": "I'll do it.  Where's the Jabberwock?",
+          "condition": {"not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+          "effect": { "assign_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART", "math": [ "Boann_Quests_Accepted", "++" ] },
+          "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED"
+        },
+        { "text": "Do you have any advice?", "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE" },
+        { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE",
+      "type": "talk_topic",
+      "dynamic_line": "You will need incredible melee skills to handle this or an impressive gun.  Otherwise it do not have hidden tricks or notable intelligence so it'll be a straightforward fight.",
+      "responses": [
+        {
+          "text": "I'll do it.  Where's the Jabberwock?",
+          "condition": {"not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+          "effect": { "assign_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" },
+          "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED"
+        },
+        { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+        { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED",
+      "type": "talk_topic",
+      "dynamic_line": "I had no doubts in you.",      
+        "responses": [
+        { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+        { "text": "Do you have any advice?", "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE" },
+        { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_COMPLETE" ],
+      "type": "talk_topic",
+      "dynamic_line": "I'm pleased to grant you a Melian mount of your own.",
+      "responses": [
+        { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+        { "text": "Thank you.", "topic": "TALK_DONE" }
+      ]
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_OFFER" ],
+      "type": "talk_topic",
+      "dynamic_line": "Kill a great beast in my honor and I'll reward you.  Prove to me that you have the heart of a knight.  Bring me the putrid heart of a Jabberwock.",
+      "responses": [
+        {
+          "text": "I'll do it.  Where's the Jabberwock?",
+          "condition": {"not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+          "effect": { "assign_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART", "math": [ "Boann_Quests_Accepted", "++" ] },
+          "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED"
+        },
+        { "text": "Do you have any advice?", "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE" },
+        { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE",
+      "type": "talk_topic",
+      "dynamic_line": "You will need incredible melee skills to handle this or an impressive gun.  Otherwise it do not have hidden tricks or notable intelligence so it'll be a straightforward fight.",
+      "responses": [
+        {
+          "text": "I'll do it.  Where's the Jabberwock?",
+          "condition": {"not": { "u_has_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" } },
+          "effect": { "assign_mission": "MISSION_BRING_BOANN_JABBERWOCK_HEART" },
+          "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED"
+        },
+        { "text": "Can I see the other quests first?", "topic": "TALK_QUEST_LIST" },
+        { "text": "I'm not sure if I want to do it.  See you.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ACCEPTED",
+      "type": "talk_topic",
+      "dynamic_line": "I had no doubts in you.",      
+        "responses": [
+        { "text": "Can I see the other quests?", "topic": "TALK_QUEST_LIST" },
+        { "text": "Do you have any advice?", "topic": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE" },
+        { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
+      ]
+    },
+    {
+      "id": [ "TALK_BRING_BOANN_JABBERWOCK_HEART_COMPLETE" ],
+      "type": "talk_topic",
+      "dynamic_line": "I'm pleased to grant you a Melian mount of your own.",
+      "responses": [
+        { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
+        { "text": "Thank you.", "topic": "TALK_DONE" }
+      ]
     }
-
-
-
-
-
-
-
-
 
 
 

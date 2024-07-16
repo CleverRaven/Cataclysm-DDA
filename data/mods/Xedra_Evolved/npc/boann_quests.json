@@ -153,12 +153,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Kill a great beast in my honor and I'll reward you.",
-      "offer": "A knight must know how to triumph despite their foe's armor.  Kill an armored centipede and I'll grant you an insigna, so you might be recognized as one of my knights.",
+      "offer": "A knight must know how to triumph despite their foe's armor.  Kill an armored centipede and I'll grant you an insignia, so you might be recognized as one of my knights.",
       "accepted": "I had no doubts in you.",
       "rejected": "You may change your mind at a later date.",
       "advice": "Study the weak spots of weaker centipedes, it'll give you an advantage.  Its armor isn't as effective against blunt and piercing weapon than it is against slashing weapons and bullets.",
       "inquire": "Have you slain the centipede?",
-      "success": "I'm honored to grant you this insigna.",
+      "success": "I'm honored to grant you this insignia.",
       "success_lie": "I don't think so…",
       "failure": "Quitting already?"
     }
@@ -191,9 +191,9 @@
       "offer": "A rampaging automaton has been spotted.  Destroy it, and you'll be granted a great weapon.",
       "accepted": "I had no doubts in you.",
       "rejected": "You may change your mind at a later date.",
-      "advice": "The reports mentionned that it relies on electricity to attack.  Find a way to shield you against that, and it'll be much easier to kill.  The reports also mentionned how damaged the automaton's exposed insides are, so I wouldn't attempt to use weapons that only damage the insides if I were you.",
+      "advice": "The reports mentioned that it relies on electricity to attack.  Find a way to shield you against that, and it'll be much easier to kill.  The reports also mentioned how damaged the automaton's exposed insides are, so I wouldn't attempt to use weapons that only damage the insides if I were you.",
       "inquire": "Have you slain the automaton as I requested?",
-      "success": "I'm pleased to grant you a frostrimmed estoc.",
+      "success": "I'm pleased to grant you a frostrimed estoc.",
       "success_lie": "I don't think so…",
       "failure": "Quitting already?"
     }
@@ -221,7 +221,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Kill a great beast in my honor and I'll reward you as a new member of my knights.",
-      "offer": "I want you to brave the harshest environnments.  Bring me a chunk of a triffid heart and I'll grant you a powerful set of armor.",
+      "offer": "I want you to brave the harshest environments.  Bring me a chunk of a triffid heart and I'll grant you a powerful set of armor.",
       "accepted": "I had no doubts in you.",
       "rejected": "You may change your mind at a later date.",
       "advice": "Tear gas is deadly to them.  In addition, they don't go along with anything that isn't a triffid.",
