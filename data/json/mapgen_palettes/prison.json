@@ -307,6 +307,8 @@
     "toilets": { "й": {  } },
     "item": { "н": { "item": "cassock", "chance": 95 } },
     "items": {
+      "v": { "item": "vending_drink", "chance": 100 },
+      "V": { "item": "vending_food", "chance": 100 },
       "Ø": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
       "c": { "item": "animalshelter_utility", "chance": 45, "repeat": [ 2, 3 ] },
       "$": [ { "item": "cop_torso", "chance": 33 }, { "item": "cop_pants", "chance": 33 }, { "item": "cop_shoes", "chance": 33 } ],
@@ -348,12 +350,13 @@
       "'": [ { "monster": "mon_dog_zombie_cop", "chance": 1 }, { "monster": "mon_zombie_cop", "chance": 1 } ]
     },
     "nested": {
+      "v": { "chunks": [ "nest_vending_machine_off" ] },
+      "V": { "chunks": [ "nest_vending_machine_off" ] },
       "^": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] },
       ".": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] },
       ",": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] },
       "'": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] },
       "Б": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] }
-    },
-    "vendingmachines": { "v": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+    }
   }
 ]

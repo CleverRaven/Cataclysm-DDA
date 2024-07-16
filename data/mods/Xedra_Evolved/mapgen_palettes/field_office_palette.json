@@ -81,6 +81,8 @@
       "7": "f_small_satelitte_dish"
     },
     "items": {
+      "8": { "item": "vending_drink", "chance": 100 },
+      "9": { "item": "vending_food", "chance": 100 },
       "d": [
         { "item": "xed_office", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "xed_cubical_office", "chance": 40, "repeat": [ 1, 2 ] },
@@ -101,7 +103,7 @@
       "F": { "item": "file_room", "chance": 70, "repeat": [ 1, 10 ] },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "nested": { "8": { "chunks": [ "nest_vending_machine_off" ] }, "9": { "chunks": [ "nest_vending_machine_off" ] } },
     "toilets": { "T": {  } }
   }
 ]

@@ -83,6 +83,8 @@
       "k": [ [ "f_nuclear_fuel_cell", 60 ], [ "f_null", 40 ] ]
     },
     "items": {
+      "d": { "item": "vending_drink", "chance": 100 },
+      "v": { "item": "vending_food", "chance": 100 },
       "7": { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
       "2": { "item": "cleaning", "chance": 5 },
       "3": [
@@ -204,6 +206,6 @@
       "9": { "group": "GROUP_MIL_WEAK", "chance": 98 }
     },
     "toilets": { "t": {  } },
-    "vendingmachines": { "d": { "item_group": "vending_drink" }, "v": { "item_group": "vending_food" } }
+    "nested": { "d": { "chunks": [ "nest_vending_machine_off" ] }, "v": { "chunks": [ "nest_vending_machine_off" ] } }
   }
 ]

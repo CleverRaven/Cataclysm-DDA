@@ -211,8 +211,6 @@ Sample:
 
 5. `"toilets"` and other specially defined furniture: you'll run into some specially defined common furniture which allows for some easier placement.  In our sample map the entry: `"toilets": { ";": {  } },` defines the symbol entry and will also auto-place water in your toilets.  There are a few other specialty furniture entries.
 
-The other most common one is: `"vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }` this assigns two symbols for vending machines and makes one for food & one for drinks. *note: you can put any item_group into the machines, like those bullet ones*.
-
 6. Item spawns:  There are many ways to place items.  This tutorial will only cover explicit symbol placement which is the easiest.  There is documentation all about loot spawns you can read for further information.  See: [doc/ITEM_SPAWN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/ITEM_SPAWN.md).
 
 our sample uses "items": for its tag.  others include: "place_item", "place_items", "place_loot".  Some of these allow for individual item placement and others groups, or both.  This will be covered in another tutorial.

@@ -72,6 +72,8 @@
       "7": "f_filing_cabinet"
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "V": { "item": "vending_food", "chance": 100 },
       "T": { "item": "snacks", "chance": 30 },
       "d": { "item": "office", "chance": 30 },
       "y": { "item": "office", "chance": 30 },
@@ -88,6 +90,6 @@
       "7": { "item": "office_paper", "chance": 30 }
     },
     "toilets": { "t": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+    "nested": { "D": { "chunks": [ "nest_vending_machine_off" ] }, "V": { "chunks": [ "nest_vending_machine_off" ] } }
   }
 ]

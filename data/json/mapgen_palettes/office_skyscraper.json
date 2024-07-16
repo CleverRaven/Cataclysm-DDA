@@ -38,8 +38,12 @@
       "±": "t_ramp_down_low"
     },
     "furniture": { "b": "f_bench", "^": [ "f_indoor_plant", "f_indoor_plant_y" ], "x": "f_console_broken" },
-    "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "items": {
+      "8": { "item": "vending_drink", "chance": 100 },
+      "9": { "item": "vending_food", "chance": 100 },
+      "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+    },
+    "nested": { "8": { "chunks": [ "nest_vending_machine_off" ] }, "9": { "chunks": [ "nest_vending_machine_off" ] } },
     "toilets": { "T": {  } }
   },
   {
@@ -485,6 +489,8 @@
       "Y": "f_rack_coat"
     },
     "items": {
+      "8": { "item": "vending_drink", "chance": 100 },
+      "9": { "item": "vending_food", "chance": 100 },
       "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
       "e": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ],
       "o": { "item": "oven", "chance": 70 },
@@ -496,7 +502,7 @@
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "nested": { "8": { "chunks": [ "nest_vending_machine_off" ] }, "9": { "chunks": [ "nest_vending_machine_off" ] } },
     "toilets": { "T": {  } }
   }
 ]

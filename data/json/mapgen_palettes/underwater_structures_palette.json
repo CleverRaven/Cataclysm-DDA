@@ -48,7 +48,11 @@
     },
     "toilets": { "t": {  } },
     "gaspumps": { "!": {  } },
-    "items": { "I": [ { "item": "saline_bottle_random", "chance": 100 } ] },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+    "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
+      "I": [ { "item": "saline_bottle_random", "chance": 100 } ]
+    },
+    "nested": { "D": { "chunks": [ "nest_vending_machine_off" ] }, "F": { "chunks": [ "nest_vending_machine_off" ] } }
   }
 ]

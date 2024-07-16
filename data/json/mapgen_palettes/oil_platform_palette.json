@@ -144,6 +144,8 @@
     },
     "toilets": { "g": {  } },
     "items": {
+      "D": { "item": "vending_drink_items", "chance": 100 },
+      "F": { "item": "vending_food_items", "chance": 100 },
       "I": [ { "item": "saline_bottle_random", "chance": 100 } ],
       "B": [
         { "item": "book_survival", "chance": 5 },
@@ -270,7 +272,7 @@
       "→": { "vehicle": "helicopters", "chance": 20, "rotation": [ 0, 90, 180, 270 ] },
       "n": { "vehicle": "inflatable_boat", "chance": 80 }
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink_items" }, "F": { "item_group": "vending_food_items" } },
+    "nested": { "D": { "chunks": [ "nest_vending_machine_off" ] }, "F": { "chunks": [ "nest_vending_machine_off" ] } },
     "monster": {
       "i": { "monster": "mon_zombie_swimmer_base", "chance": 30 },
       "↨": { "monster": "mon_gas_zombie", "chance": 5 },

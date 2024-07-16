@@ -72,6 +72,8 @@
       "Ƒ": "f_vending_c"
     },
     "items": {
+      "8": { "item": "vending_drink", "chance": 100 },
+      "9": { "item": "vending_food", "chance": 100 },
       "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
       "e": [ { "item": "SUS_fridge_breakroom", "chance": 70 } ],
       "o": { "item": "oven", "chance": 70 },
@@ -83,7 +85,7 @@
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "nested": { "8": { "chunks": [ "nest_vending_machine_off" ] }, "9": { "chunks": [ "nest_vending_machine_off" ] } },
     "toilets": { "T": {  } }
   },
   {

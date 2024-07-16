@@ -55,7 +55,8 @@
       "x": "f_console_broken"
     },
     "toilets": { "T": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+    "nested": { "D": { "chunks": [ "nest_vending_machine_off" ] }, "F": { "chunks": [ "nest_vending_machine_off" ] } },
+    "items": { "D": { "item": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } }
   },
   {
     "type": "palette",
@@ -115,7 +116,8 @@
       "x": "f_console_broken"
     },
     "toilets": { "T": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+    "nested": { "D": { "chunks": [ "nest_vending_machine_off" ] }, "F": { "chunks": [ "nest_vending_machine_off" ] } },
+    "items": { "D": { "item": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } }
   },
   {
     "type": "palette",

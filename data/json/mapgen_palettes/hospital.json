@@ -110,7 +110,7 @@
       ".": "t_open_air",
       "-": "t_open_air_rooved"
     },
-    "vendingmachines": { "R": { "item_group": "vending_drink" }, "S": { "item_group": "vending_food" } },
+    "nested": { "R": { "chunks": [ "nest_vending_machine_off" ] }, "S": { "chunks": [ "nest_vending_machine_off" ] } },
     "furniture": {
       "A": "f_stool",
       "B": "f_locker",
@@ -172,7 +172,11 @@
       "z": "f_trashcan"
     },
     "toilets": { "T": {  } },
-    "items": { "4": [ { "item": "saline_bottle_random", "chance": 100 } ] },
+    "items": {
+      "R": { "item": "vending_drink", "chance": 100 },
+      "S": { "item": "vending_food", "chance": 100 },
+      "4": [ { "item": "saline_bottle_random", "chance": 100 } ]
+    },
     "vehicles": {
       "ɱ": { "vehicle": "laundry_cart", "chance": 100, "rotation": 90 },
       "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
