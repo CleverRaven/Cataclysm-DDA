@@ -55,7 +55,8 @@
         "F": "t_linoleum_gray"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
-      "vendingmachines": { "(": { "item_group": "vending_drink", "lootable": true }, ")": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "(": { "chunks": [ "nest_vending_machine_looted" ] }, ")": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "items": { "(": { "item": "vending_drink", "chance": 100 }, ")": { "item": "vending_food", "chance": 100 } },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 72, 95 ], "y": [ 8, 23 ], "repeat": [ 8, 12 ] } ]
     }
   },
@@ -166,7 +167,8 @@
         ")": "t_linoleum_gray"
       },
       "furniture": { "{": "f_bench", "}": "f_bench", "Y": "f_trashcan" },
-      "vendingmachines": { "(": { "item_group": "vending_drink", "lootable": true }, ")": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "(": { "chunks": [ "nest_vending_machine_looted" ] }, ")": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "items": { "(": { "item": "vending_drink", "chance": 100 }, ")": { "item": "vending_food", "chance": 100 } },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 10, 23 ], "repeat": [ 4, 8 ] } ]
     }
   }

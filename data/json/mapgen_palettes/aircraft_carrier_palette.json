@@ -120,6 +120,8 @@
       "Ä": "f_cellphone_booster"
     },
     "items": {
+      "J": { "item": "vending_drink", "chance": 100 },
+      "K": { "item": "vending_food", "chance": 100 },
       "M": [
         { "item": "fireman_cabinet", "chance": 100, "repeat": [ 2, 4 ] },
         { "item": "used_1st_aid", "chance": 55, "repeat": [ 1, 2 ] },
@@ -304,6 +306,8 @@
     "toilets": { "&": {  } },
     "traps": { "=": "tr_rollmat" },
     "nested": {
+      "J": { "chunks": [ "nest_vending_machine_looted" ] },
+      "K": { "chunks": [ "nest_vending_machine_looted" ] },
       "δ": { "chunks": [ [ "null", 2 ], [ "crates_supplies_mechanics", 3 ] ] },
       "ε": { "chunks": [ [ "null", 2 ], [ "crates_armament_milspec", 3 ] ] },
       "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] }
@@ -311,7 +315,6 @@
     "vehicles": {
       "n": { "vehicle": "hospital_bed", "chance": 100, "status": 1 },
       "Θ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270, "status": 1 }
-    },
-    "vendingmachines": { "J": { "item_group": "vending_drink", "lootable": true }, "K": { "item_group": "vending_food", "lootable": true } }
+    }
   }
 ]

@@ -62,6 +62,8 @@
       "l": "f_locker"
     },
     "items": {
+      "j": { "item": "vending_drink", "chance": 100 },
+      "V": { "item": "vending_food", "chance": 100 },
       "l": { "item": "clothing_work_set", "chance": 25 },
       "Y": { "item": "clothing_biker", "chance": 20 },
       "r": { "item": "pool_table", "chance": 40 },
@@ -70,6 +72,6 @@
       "x": { "item": "SUS_welding_gear", "chance": 30, "repeat": [ 1, 2 ] }
     },
     "toilets": { "t": {  } },
-    "vendingmachines": { "j": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } }
+    "nested": { "j": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } }
   }
 ]

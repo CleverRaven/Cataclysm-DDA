@@ -45,6 +45,8 @@
       "l": "f_locker"
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "V": { "item": "vending_food", "chance": 100 },
       "l": { "item": "clothing_work_set", "chance": 25 },
       "d": { "item": "office", "chance": 30 },
       "W": { "item": "SUS_tailoring_tool_drawer", "chance": 25 },
@@ -53,6 +55,6 @@
       "c": { "item": "SUS_tailoring_materials", "chance": 25 },
       "7": { "item": "office_paper", "chance": 30 }
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } }
+    "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } }
   }
 ]

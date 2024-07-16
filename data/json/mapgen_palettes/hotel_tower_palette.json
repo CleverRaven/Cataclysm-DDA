@@ -66,9 +66,11 @@
       "4": "t_gutter_downspout",
       "P": "t_sewage_pump"
     },
-    "vendingmachines": { "U": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "nested": { "U": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
     "toilets": { "&": {  } },
     "items": {
+      "U": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "B": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
       "L": { "item": "hotel_luggage", "chance": 66 },
       "c": { "item": "magazines", "chance": 15 },
