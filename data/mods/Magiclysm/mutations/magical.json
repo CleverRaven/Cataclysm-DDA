@@ -53,7 +53,17 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "HUGE", "MUTE", "MYOPIC_IN_LIGHT", "NO_SPELLCASTING", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET" ],
+    "flags": [
+      "MUTE",
+      "MYOPIC_IN_LIGHT",
+      "NO_SPELLCASTING",
+      "PRED3",
+      "QUADRUPED_CROUCH",
+      "QUADRUPED_RUN",
+      "TOUGH_FEET",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_HUGE"
+    ],
     "override_look": { "id": "mon_bear", "tile_category": "monster" },
     "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
   },
@@ -108,7 +118,7 @@
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 3 }
     },
-    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_deer", "tile_category": "monster" },
     "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ]
   },
@@ -170,7 +180,7 @@
       },
       { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
     ],
-    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TINY" ],
+    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
     "override_look": { "id": "mon_raven", "tile_category": "monster" }
   }
 ]
