@@ -458,6 +458,7 @@
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_shelter_kit",
+    "deconstruct": { "items": [ { "item": "large_shelter_kit", "count": 1 } ] },
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -623,6 +624,7 @@
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "tent_kit",
+    "deconstruct": { "items": [ { "item": "tent_kit", "count": 1 } ] },
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -667,6 +669,7 @@
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "large_tent_kit",
+    "deconstruct": { "items": [ { "item": "large_tent_kit", "count": 1 } ] },
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -778,6 +781,7 @@
     "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE", "SUN_ROOF_ABOVE" ],
     "examine_action": "portable_structure",
     "deployed_item": "shelter_kit",
+    "deconstruct": { "items": [ { "item": "shelter_kit", "count": 1 } ] },
     "bash": {
       "str_min": 1,
       "str_max": 8,
