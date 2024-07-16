@@ -2759,6 +2759,10 @@ std::string optional_vpart_position::extended_description() const
 int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken,
                                 bool include_fake ) const
 {
+    if( part < 0 ) {
+        return -1;
+    }
+
     const vehicle_part &vp = this->part( part );
     if( vp.info().has_flag( flag ) && !( unbroken && vp.is_broken() ) ) {
         return part;
