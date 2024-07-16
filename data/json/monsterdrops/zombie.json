@@ -11,11 +11,11 @@
       { "item": "circuit", "count": [ 0, 8 ], "prob": 40 },
       { "item": "small_lcd_screen", "count": [ 0, 2 ], "prob": 25 },
       { "item": "RAM", "count": [ 0, 1 ], "prob": 25 },
-      { "item": "combat_exoskeleton_armor_head_medium", "count": [ 0, 1 ], "prob": 50 },
-      { "item": "combat_exoskeleton_armor_torso_medium", "count": [ 0, 1 ], "prob": 50 },
-      { "item": "combat_exoskeleton_armor_arm_medium", "count": [ 0, 1 ], "prob": 50 },
-      { "item": "combat_exoskeleton_armor_leg_medium", "count": [ 0, 1 ], "prob": 50 },
-      { "item": "combat_exoskeleton_light_salvaged", "count": [ 0, 1 ], "prob": 50 }
+      { "item": "combat_exoskeleton_armor_head_medium", "damage": [ 2, 4 ], "prob": 75 },
+      { "item": "combat_exoskeleton_armor_torso_medium", "damage": [ 2, 4 ], "prob": 75 },
+      { "item": "combat_exoskeleton_armor_arm_medium", "damage": [ 2, 4 ], "prob": 75 },
+      { "item": "combat_exoskeleton_armor_leg_medium", "damage": [ 2, 4 ], "prob": 75 },
+      { "item": "combat_exoskeleton_light_salvaged", "damage": [ 2, 4 ], "prob": 75 }
     ]
   },
   {
