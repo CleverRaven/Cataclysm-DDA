@@ -8,7 +8,6 @@
     },
     "responses": [
       { "text": "[rules] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
-      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
       {
         "text": "I'd like to know a bit more about your abilities.",
         "topic": "TALK_FRIEND_Luo_Abilities",
