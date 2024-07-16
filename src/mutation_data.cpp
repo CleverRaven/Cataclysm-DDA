@@ -77,6 +77,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
     new_category.wip = jsobj.get_bool( "wip", false );
     new_category.skip_test = jsobj.get_bool( "skip_test", false );
+    new_category.unstable = jsobj.get_bool( "unstable", true );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
