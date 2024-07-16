@@ -767,7 +767,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "name": { "str": "Fae Autority" },
+    "name": { "str": "Fae Authority" },
     "description": "Boann bestowed upon you the right to summon a few daffodil warriors once a day.",
     "spells_learned": [ [ "call_daffodil", 1 ] ]
   }

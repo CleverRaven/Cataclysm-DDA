@@ -62,5 +62,14 @@
        { "math": [ "u_school_level_adjustment('DREAMSMITH')", "+=", "5" ] },
        { "math": [ "u_school_level_adjustment('INVENTOR')", "+=", "5" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_CHECK_LOOT",
+    "condition": { "not": { "u_has_effect": "no_shadow_loot" } },
+    "effect": [
+      { "u_message": "As the shadow dissipates, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "shadow_singularity_piece", "count": 1 }
+    ]
   }
 ]
