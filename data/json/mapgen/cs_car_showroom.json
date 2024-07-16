@@ -67,9 +67,11 @@
         "S": "f_sofa",
         "f": "f_filing_cabinet"
       },
-      "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "v": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } },
       "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 8, "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } ],
       "items": {
+        "v": { "item": "vending_drink", "chance": 100 },
+        "V": { "item": "vending_food", "chance": 100 },
         "c": { "item": "oa_custom_trash", "chance": 70 },
         "á": { "item": "oa_custom_trash", "chance": 70 },
         "C": { "item": "oa_custom_trash", "chance": 70 },
