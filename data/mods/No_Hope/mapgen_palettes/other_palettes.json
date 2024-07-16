@@ -1292,6 +1292,8 @@
     },
     "toilets": { "t": {  } },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "x": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] },
       "&": { "item": "trash", "chance": 75, "repeat": [ 2, 3 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },
@@ -1304,7 +1306,7 @@
       "m": [ { "item": "softdrugs", "chance": 20 }, { "item": "harddrugs", "chance": 20 } ]
     },
     "item": { "O": { "item": "2x4", "repeat": [ 2, 20 ] }, ",": { "item": "splinter", "chance": 10, "repeat": [ 1, 5 ] } },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } }
+    "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } }
   },
   {
     "type": "palette",

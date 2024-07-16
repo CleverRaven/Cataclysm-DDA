@@ -47,6 +47,8 @@
       ]
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "&": { "item": "trash", "chance": 60, "repeat": [ 1, 3 ] },
       "r": [
         { "chance": 55, "item": "swimmer_head", "repeat": [ 1, 3 ] },
@@ -67,7 +69,7 @@
         { "chance": 45, "item": "swimmer_gloves", "repeat": [ 1, 4 ] }
       ]
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
     "toilets": { "t": {  } }
   },
   {

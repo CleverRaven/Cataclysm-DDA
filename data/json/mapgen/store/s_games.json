@@ -31,7 +31,8 @@
         ".nn,,,,,######oooo#####.",
         "........................"
       ],
-      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+      "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "items": { "D": { "item_group": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } },
       "terrain": {
         "|": "t_wall_w",
         "#": "t_brick_wall",

@@ -76,6 +76,8 @@
       "a": "f_trashcan"
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
       "é": { "item": "fast_fridge", "chance": 80, "repeat": [ 4, 10 ] },
       "r": { "item": "fast_kitchen", "chance": 80, "repeat": [ 2, 5 ] },
@@ -88,9 +90,10 @@
       "A": { "item": "trash", "chance": 75, "repeat": [ 1, 5 ] }
     },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "toilets": { "t": {  } },
     "nested": {
+      "D": { "chunks": [ "nest_vending_machine_looted" ] },
+      "F": { "chunks": [ "nest_vending_machine_looted" ] },
       "(": {
         "chunks": [
           [ "null", 2 ],

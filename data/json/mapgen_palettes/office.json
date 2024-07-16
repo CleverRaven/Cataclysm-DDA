@@ -71,6 +71,8 @@
       "A": "f_bookcase"
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "d": { "item": "SUS_office_desk", "chance": 40 },
       "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
       "o": { "item": "SUS_oven", "chance": 90 },
@@ -83,7 +85,6 @@
       "A": { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "monster": { "_": { "group": "GROUP_CIVILIAN", "chance": 1 }, ".": { "group": "GROUP_CIVILIAN", "chance": 1 } },
     "toilets": { "T": {  } },
     "vehicles": {
@@ -91,6 +92,8 @@
       "É": { "vehicle": "parking_garage", "chance": 50, "rotation": 90 }
     },
     "nested": {
+      "D": { "chunks": [ "nest_vending_machine_looted" ] },
+      "F": { "chunks": [ "nest_vending_machine_looted" ] },
       "7": { "chunks": [ [ "5x5_corridor_office0_sw", 1 ], [ "5x5_corridor_office1_sw", 1 ], [ "5x5_corridor_sofas_sw", 2 ] ] },
       "8": { "chunks": [ [ "5x5_corridor_office0_se", 1 ], [ "5x5_corridor_office1_se", 1 ], [ "5x5_corridor_sofas_se", 2 ] ] },
       "[": { "chunks": [ [ "3x3_desk_l_1", 1 ], [ "3x3_desk_l_2", 1 ], [ "3x3_desk_l_3", 1 ] ] },

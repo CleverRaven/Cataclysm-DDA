@@ -81,7 +81,7 @@
       "*": { "param": "bush", "fallback": "t_shrub" },
       "^": "t_elevator"
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
     "furniture": {
       "z": "f_water_heater_family",
       "b": "f_metal_bench",
@@ -124,6 +124,8 @@
       "/": "f_flagpole"
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "b": [
         { "item": "beer", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },

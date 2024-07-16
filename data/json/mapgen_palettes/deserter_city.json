@@ -59,6 +59,8 @@
       "y": "f_locker"
     },
     "items": {
+      "D": { "item": "vending_drink", "chance": 100 },
+      "F": { "item": "vending_food", "chance": 100 },
       "d": { "item": "SUS_office_desk", "chance": 40 },
       ";": { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] },
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
@@ -75,7 +77,7 @@
       "M": { "item": "milspec_arsenal_223_pouch_gun&mags&cans", "chance": 100 },
       "O": [ { "item": "SUS_pantry", "chance": 33 }, { "item": "cannedfood", "chance": 80, "repeat": [ 1, 2 ] } ]
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
     "toilets": { "T": {  } }
   }
 ]
