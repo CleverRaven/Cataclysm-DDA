@@ -325,9 +325,8 @@
     "type": "trait_group",
     "id": "trait_group_MANA_ADD",
     "subtype": "distribution",
-    "traits": [ 
-      { "trait": "MANA_ADD1" }, 
-      { "trait": "MANA_ADD1" }, 
+    "traits": [
+      { "trait": "MANA_ADD1" },
       { "trait": "MANA_ADD1" },
       { "trait": "MANA_ADD1" },
       { "trait": "MANA_ADD1" },
