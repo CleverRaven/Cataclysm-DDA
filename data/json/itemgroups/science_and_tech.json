@@ -205,6 +205,7 @@
       { "item": "chem_zinc_oxide", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_chromium_oxide", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_zinc_powder", "prob": 10, "charges": [ 100, -1 ] },
+      { "item": "chem_calcium_phosphate", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges": [ 100, -1 ] },
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
       { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
