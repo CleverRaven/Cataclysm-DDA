@@ -90,7 +90,7 @@
     "dynamic_line": "*gulps.  \"I sure as hell am.  Did my family send you?  Please, we gotta go.  There are more of those things.  They're everywhere.\"",
     "responses": [
       {
-        "text": "Yeah, they did.  let's go.",
+        "text": "Yeah, they did.  Let's go.",
         "effect": [
           "follow_only",
           { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
@@ -363,7 +363,7 @@
     "dynamic_line": "*shivers, though the room is warm, and moves his mouth wordlessly for a few seconds.  \"It's hard to remember details.  The air in that place messes with your brain, makes it all feel like some kind of dream.  Makes it so you can't fight back.  Not that I could have anyway.\"  He stares into space for a moment, then swallows hard.  \"They cut into me, over and over.  I don't think they took anything out.  They just opened me up, poked around.  I was awake for all of it, as awake as for anything else.  Sometimes I felt pain, other times they did something to me so I could feel it but it didn't hurt.  There were big, pale ones that did the cutting.\"  His voice gets increasingly detached as he speaks, and his shaking grows worse.  You're not sure it would be wise for him to go further.",
     "speaker_effect": { "sentinel": "barry_PTSD1", "effect": { "math": [ "barry_PTSD_freakouts", "+=", "1" ] } },
     "responses": [
-      { "text": "(Let him continue)", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh3" },
+      { "text": "[Let him continue.]", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh3" },
       { "text": "That's enough for now, Barry.", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh_stop" },
       { "text": "On second thought, I think you should recover more.", "topic": "TALK_DONE" }
     ]
@@ -372,7 +372,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh3",
     "dynamic_line": "*shudders, looking like he might vomit.  \"What did they want?  Why me?  Every time, they'd put me back together again, seal it up and make it look almost like nothing happened.\"  He yanks up his shirt to show the scars.  \"But I know what happened, it was REAL, goddammit!\"  He drops the shirt, bends forward, and dry heaves for a few seconds.  Wordless, he hides his face in his hands, and stops responding.",
-    "responses": [ { "text": "(Leave)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Leave.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -403,7 +403,7 @@
     "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_family_story", "value": "yes" } },
     "responses": [
       {
-        "text": "[PERCEPTION] Was your choice in partners part of the problem with your father?",
+        "text": "[PER 9] Was your choice in partners part of the problem with your father?",
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_family3",
         "condition": { "u_has_perception": 9 }
       },
