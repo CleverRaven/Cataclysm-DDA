@@ -7683,15 +7683,15 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( tripoint &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
-        if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
+    for( tripoint_bub_ms &points_p_it : closest_points_first( u.pos_bub(), iRadius ) ) {
+        if( points_p_it.y() >= u.posy() - iRadius && points_p_it.y() <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
 
             for( item &elem : m.i_at( points_p_it ) ) {
-                const tripoint relative_pos = points_p_it - u.pos();
+                const tripoint_rel_ms relative_pos = points_p_it - u.pos_bub();
 
-                add_item_recursive( item_order, temp_items, &elem, relative_pos );
+                add_item_recursive( item_order, temp_items, &elem, relative_pos.raw() );
             }
         }
     }
@@ -9388,7 +9388,7 @@ void game::butcher()
     std::vector<map_stack::iterator> corpses;
     std::vector<map_stack::iterator> disassembles;
     std::vector<map_stack::iterator> salvageables;
-    map_stack items = m.i_at( u.pos() );
+    map_stack items = m.i_at( u.pos_bub() );
     const inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
@@ -10818,7 +10818,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             u.max_quality( qual_BUTCHER, PICKUP_RANGE ) > INT_MIN ) {
             std::vector<item *> corpses;
 
-            for( item &it : m.i_at( u.pos() ) ) {
+            for( item &it : m.i_at( u.pos_bub() ) ) {
                 corpses.push_back( &it );
             }
 
@@ -10831,7 +10831,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto pulp = [&]( const tripoint & pos ) {
+            const auto pulp = [&]( const tripoint_bub_ms & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
@@ -10853,10 +10853,10 @@ point game::place_player( const tripoint &dest_loc, bool quick )
 
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos() + displace_XY( elem ) );
+                    pulp( u.pos_bub() + displace_XY( elem ) );
                 }
             } else {
-                pulp( u.pos() );
+                pulp( u.pos_bub() );
             }
         }
     }
@@ -11182,7 +11182,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = ( u.pos_bub() + u.grab_point ).raw();
+    tripoint_bub_ms fpos = ( u.pos_bub() + u.grab_point );
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         // Where did it go? We're grabbing thin air so reset.
@@ -11204,11 +11204,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
+    const tripoint_bub_ms fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
-    const bool canmove = can_move_furniture( fdest, dp );
+    const bool canmove = can_move_furniture( fdest.raw(), dp );
     // @TODO: it should be possible to move over invisible traps. This should probably
     // trigger the trap.
     // The current check (no move if trap) allows a player to detect invisible traps by
@@ -11308,7 +11308,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
         m.set_field_intensity( fdest, fd_fire, fire_intensity );
-        m.set_field_age( fdest, fd_fire, fire_age );
+        m.set_field_age( fdest.raw(), fd_fire, fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.
@@ -11337,10 +11337,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
     }
 
     if( !m.has_floor_or_water( fdest ) && !m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) {
-        std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest ) );
+        std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest.raw() ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
-        m.drop_furniture( fdest );
+        m.drop_furniture( fdest.raw() );
         return true;
     }
 
@@ -11722,7 +11722,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool climbing = false;
     climbing_aid_id climbing_aid = climbing_aid_default;
     int move_cost = 100;
-    tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
+    tripoint_bub_ms stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     bool adjacent_climb = false;
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) &&
@@ -11733,7 +11733,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 adjacent_climb = true;
             }
         }
-        if( here.has_floor_or_support( stairs ) ) {
+        if( here.has_floor_or_support( stairs.raw() ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
             return;
         }
@@ -11743,7 +11743,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( u.pos(), stairs );
+        const int cost = u.climbing_cost( u.pos_bub().raw(), stairs.raw() );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
@@ -11767,15 +11767,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         std::vector<tripoint> pts;
-        for( const tripoint &pt : here.points_in_radius( stairs, 1 ) ) {
+        for( const tripoint_bub_ms &pt : here.points_in_radius( stairs, 1 ) ) {
             if( here.passable( pt ) &&
-                here.has_floor_or_support( pt ) ) {
-                pts.push_back( pt );
+                here.has_floor_or_support( pt.raw() ) ) {
+                pts.push_back( pt.raw() );
             }
         }
 
         if( wall_cling && here.is_wall_adjacent( stairs ) ) {
-            pts.push_back( stairs );
+            pts.push_back( stairs.raw() );
         }
 
         if( pts.empty() ) {
@@ -11793,7 +11793,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             if( !pnt ) {
                 return;
             }
-            stairs = *pnt;
+            stairs = tripoint_bub_ms( *pnt );
         }
     }
 
@@ -11943,7 +11943,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( !pnt ) {
             return;
         }
-        stairs = *pnt;
+        stairs = tripoint_bub_ms( *pnt );
     }
 
     std::vector<monster *> monsters_following;
@@ -11984,7 +11984,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     point submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x, stairs.y, z_level_changed );
+        submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends

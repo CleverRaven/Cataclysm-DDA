@@ -3147,11 +3147,11 @@ talk_effect_fun_t::func f_remove_var( const JsonObject &jo, std::string_view mem
 void map_add_item( item &it, tripoint_abs_ms target_pos )
 {
     if( get_map().inbounds( target_pos ) ) {
-        get_map().add_item_or_charges( get_map().getlocal( target_pos ), it );
+        get_map().add_item_or_charges( get_map().bub_from_abs( target_pos ), it );
     } else {
         tinymap target_bay;
         target_bay.load( project_to<coords::omt>( target_pos ), false );
-        target_bay.add_item_or_charges( target_bay.getlocal( target_pos ), it );
+        target_bay.add_item_or_charges( target_bay.omt_from_abs( target_pos ), it );
     }
 }
 

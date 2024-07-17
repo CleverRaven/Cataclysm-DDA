@@ -71,7 +71,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    const tripoint &pt = attack.end_point;
+    const tripoint_bub_ms &pt = tripoint_bub_ms( attack.end_point );
 
     if( effects.count( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
@@ -173,7 +173,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         const trap &tr = here.tr_at( pt );
         if( tr.triggered_by_item( dropped_item ) ) {
-            tr.trigger( pt, dropped_item );
+            tr.trigger( pt.raw(), dropped_item );
         }
     }
 }

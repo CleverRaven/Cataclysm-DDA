@@ -1822,7 +1822,7 @@ static void unroll_digging( const int numer_of_2x4s )
     // refund components!
     item rope( "rope_30" );
     map &here = get_map();
-    tripoint avatar_pos = get_player_character().pos();
+    tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     here.add_item_or_charges( avatar_pos, rope );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
@@ -1877,13 +1877,11 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
             { mon_zombie, mon_zombie_fat, mon_zombie_rot, mon_skeleton, mon_zombie_crawler }
         };
 
-        // TODO: fix point types
-        g->place_critter_at( random_entry( monids ), p.raw() );
+        g->place_critter_at( random_entry( monids ), p );
         here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
-        // TODO: fix point types
-        here.spawn_item( p.raw(), itype_bone_human, rng( 5, 15 ) );
+        here.spawn_item( p, itype_bone_human, rng( 5, 15 ) );
         here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =
@@ -1958,7 +1956,7 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
 {
     map &here = get_map();
-    tripoint avatar_pos = who.pos();
+    tripoint_bub_ms avatar_pos = who.pos_bub();
     // copied from iexamine::curtains
     here.spawn_item( avatar_pos, itype_nail, 1, 4 );
     here.spawn_item( avatar_pos, itype_sheet, 2 );

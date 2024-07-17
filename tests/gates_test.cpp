@@ -21,7 +21,7 @@ TEST_CASE( "doors_should_be_able_to_open_and_close", "[gates]" )
     map &here = get_map();
     clear_map();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
 
     WHEN( "the door is unlocked" ) {
         // create closed door on tile next to player
@@ -53,7 +53,7 @@ TEST_CASE( "windows_should_be_able_to_open_and_close", "[gates]" )
     map &here = get_map();
     clear_map();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
 
     // create closed window on tile next to player
     REQUIRE( here.ter_set( pos, ter_t_window_no_curtains ) );
@@ -83,7 +83,7 @@ TEST_CASE( "doors_and_windows_should_make_whoosh_sound", "[gates]" )
     clear_avatar();
     sounds::reset_sounds();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
 
     WHEN( "the door is opened" ) {
         REQUIRE( here.ter_set( pos, ter_t_door_c ) );

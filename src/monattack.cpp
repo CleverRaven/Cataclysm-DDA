@@ -506,7 +506,7 @@ bool mattack::absorb_items( monster *z )
         if( it->is_container() && !absorb_material.empty() ) {
             it->spill_contents( z->pos() );
         }
-        here.i_rem( z->pos(), it );
+        here.i_rem( z->pos_bub(), it );
     }
 
     return !consumed_items.empty();
@@ -699,11 +699,11 @@ bool mattack::shriek_stun( monster *z )
     units::angle cone_angle = 20_degrees;
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &cone : here.points_in_radius( z->pos(), 4 ) ) {
-        units::angle tile_angle = coord_to_angle( z->pos(), cone );
+    for( const tripoint_bub_ms &cone : here.points_in_radius( z->pos_bub(), 4 ) ) {
+        units::angle tile_angle = coord_to_angle( z->pos_bub().raw(), cone.raw() );
         units::angle diff = units::fabs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
-        if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos() ) {
+        if( diff + cone_angle > 360_degrees || diff > cone_angle || cone == z->pos_bub() ) {
             continue;
         }
         // Affect the target
@@ -805,7 +805,7 @@ bool mattack::acid( monster *z )
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
     dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 },
                                     z );
-    const tripoint &hitp = dealt.end_point;
+    const tripoint_bub_ms &hitp = tripoint_bub_ms( dealt.end_point );
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && here.hit_with_acid( hitp ) ) {
         add_msg_if_player_sees( hitp,  _( "A glob of acid hits the %s!" ), here.tername( hitp ) );
@@ -817,7 +817,7 @@ bool mattack::acid( monster *z )
 
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
-            tripoint dest = hitp + tripoint( i, j, 0 );
+            tripoint_bub_ms dest = hitp + tripoint_rel_ms( i, j, 0 );
             if( here.passable( dest ) &&
                 here.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ( ( one_in( std::abs( j ) ) && one_in( std::abs( i ) ) ) || ( i == 0 && j == 0 ) ) ) {
@@ -2986,7 +2986,7 @@ bool mattack::check_money_left( monster *z )
                     if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
                         continue;
                     }
-                    get_map().add_item_or_charges( z->pos(), it );
+                    get_map().add_item_or_charges( z->pos_bub(), it );
                 }
                 z->inv.clear();
                 z->remove_effect( effect_has_bag );
@@ -3624,7 +3624,7 @@ void mattack::flame( monster *z, Creature *target )
         for( tripoint &i : traj ) {
             // break out of attack if flame hits a wall
             // TODO: Z
-            if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
+            if( here.hit_with_fire( { i.x, i.y, z->posz() } ) ) {
                 add_msg_if_player_sees( i, _( "The tongue of flame hits the %s!" ),
                                         here.tername( i.xy() ) );
                 return;
@@ -3646,7 +3646,7 @@ void mattack::flame( monster *z, Creature *target )
 
     for( tripoint &i : traj ) {
         // break out of attack if flame hits a wall
-        if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
+        if( here.hit_with_fire( { i.x, i.y, z->posz() } ) ) {
             add_msg_if_player_sees( i,  _( "The tongue of flame hits the %s!" ),
                                     here.tername( i.xy() ) );
             return;
@@ -5085,7 +5085,7 @@ bool mattack::bio_op_disarm( monster *z )
 
     if( my_roll >= their_roll && !it->has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
-        const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        const tripoint_bub_ms tp = foe->pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         get_map().add_item_or_charges( tp, foe->i_rem( &*it ) );
     } else {
         target->add_msg_if_player( m_good, _( "but you break its grip!" ) );

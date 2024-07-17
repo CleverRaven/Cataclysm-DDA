@@ -225,7 +225,7 @@ class mapgendata
         const oter_id &neighbor_at( om_direction::type dir ) const;
         const oter_id &neighbor_at( direction ) const;
         void fill_groundcover() const;
-        void square_groundcover( const point &p1, const point &p2 ) const;
+        void square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const;
         ter_id groundcover() const;
         bool is_groundcover( const ter_id &iid ) const;
 
