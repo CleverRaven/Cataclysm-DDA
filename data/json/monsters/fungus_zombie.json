@@ -181,7 +181,7 @@
     "special_attacks": [ { "id": "smash", "throw_strength": 54 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_hulk_death_drops", 100 ], [ "explode_zed_fungal_bone", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "flags": [ "HEARS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FILTHY" ],
     "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 }
   },

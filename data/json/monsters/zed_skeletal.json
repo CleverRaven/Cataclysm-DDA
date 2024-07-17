@@ -163,7 +163,7 @@
     "special_attacks": [ { "id": "cut_throat", "damage_max_instance": [ { "damage_type": "cut", "amount": 40 } ], "cooldown": 15 } ],
     "upgrades": { "half_life": 32, "into": "mon_skeleton_reaper" },
     "fungalize_into": "mon_skeleton_brute_fungus",
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "armor": { "bash": 10, "cut": 35, "stab": 30, "acid": 4, "bullet": 25, "electric": 5 },
     "extend": { "flags": [ "SMELLS" ] },
     "delete": { "flags": [ "GRABS" ] }
@@ -190,7 +190,7 @@
     ],
     "upgrades": false,
     "fungalize_into": "mon_skeleton_brute_fungus",
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "armor": { "bash": 15, "cut": 35, "stab": 35, "acid": 4, "bullet": 30, "electric": 5 },
     "extend": { "flags": [ "PUSH_VEH" ] },
     "delete": { "flags": [ "GRABS" ] }
