@@ -225,8 +225,6 @@
         "7": "f_speaker_cabinet"
       },
       "items": {
-        "v": { "item": "vending_drink", "chance": 100 },
-        "V": { "item": "vending_food", "chance": 100 },
         "r": { "item": "glass_set", "chance": 90, "repeat": [ 1, 6 ] },
         "L": { "item": "SUS_janitors_closet", "chance": 100 },
         "á": { "item": "bar_table", "chance": 12 },
@@ -242,7 +240,10 @@
         "#": [ { "item": "jackets", "chance": 16 }, { "item": "hats_unisex", "chance": 12 } ],
         "Y": [ { "item": "jackets", "chance": 35, "repeat": [ 1, 4 ] }, { "item": "hats_unisex", "chance": 25, "repeat": [ 1, 2 ] } ]
       },
-      "nested": { "v": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": {
+        "v": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "V": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 4, 5 ], "y": 18 },
         { "item": "amplifier_head", "x": 6, "y": 9 },

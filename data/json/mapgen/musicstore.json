@@ -65,8 +65,7 @@
         "r": "f_rack",
         "d": "f_dumpster"
       },
-      "nested": { "1": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "1": { "item": "vending_drink", "chance": 100 } },
+      "nested": { "1": { "chunks": [ "nest_vending_machine_looted_mix" ] } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 70, "repeat": [ 3, 7 ] },

@@ -34,8 +34,10 @@
       ],
       "palettes": [ "junkyard_palette" ],
       "place_toilets": [ { "x": 12, "y": 13 } ],
-      "nested": { "K": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "K": { "item": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } },
+      "nested": {
+        "K": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "place_loot": [ { "item": "television", "x": 17, "y": 9, "chance": 100 } ],
       "place_items": [
         { "chance": 25, "item": "cubical_office", "x": [ 18, 19 ], "y": 12 },

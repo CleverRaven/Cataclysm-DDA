@@ -73,8 +73,6 @@
       "É": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 }
     },
     "items": {
-      "D": { "item": "vending_drink", "chance": 100 },
-      "F": { "item": "vending_food", "chance": 100 },
       "Y": { "item": "unisex_coat_rack", "chance": 33 },
       "n": { "item": "dining", "chance": 6 },
       "C": [ { "item": "cash_register_random", "chance": 100 }, { "item": "stand_flyer", "chance": 50 } ],
@@ -92,8 +90,8 @@
     "nested": {
       "E": { "chunks": [ "9x9_motel_room_twin_E", "9x9_motel_room_single_E", "9x9_motel_room_single_1_E" ] },
       "N": { "chunks": [ "9x9_motel_room_twin_N", "9x9_motel_room_single_N", "9x9_motel_room_single_1_N" ] },
-      "D": { "chunks": [ "nest_vending_machine_looted" ] },
-      "F": { "chunks": [ "nest_vending_machine_looted" ] }
+      "D": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+      "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
     }
   },
   {
@@ -743,8 +741,10 @@
       "$": { "furniture": "f_shower", "items": { "item": "shower", "chance": 33 } },
       "S": { "furniture": "f_sink", "items": { "item": "public_sink", "chance": 33 } }
     },
-    "items": { "V": { "item": "vending_drink", "chance": 100 }, "v": { "item": "vending_food", "chance": 100 } },
-    "nested": { "V": { "chunks": [ "nest_vending_machine_looted" ] }, "v": { "chunks": [ "nest_vending_machine_looted" ] } },
+    "nested": {
+      "V": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+      "v": { "chunks": [ "nest_vending_machine_looted_food" ] }
+    },
     "toilets": { "L": {  } }
   },
   {

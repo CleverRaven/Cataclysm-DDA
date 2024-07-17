@@ -538,11 +538,8 @@
         "       ,                "
       ],
       "palettes": [ "park_scenic_palette" ],
-      "items": {
-        "N": { "item": "bulletin_public", "chance": 50, "repeat": [ 1, 3 ] },
-        "v": { "item": "vending_drink", "chance": 100 }
-      },
-      "nested": { "v": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "items": { "N": { "item": "bulletin_public", "chance": 50, "repeat": [ 1, 3 ] } },
+      "nested": { "v": { "chunks": [ "nest_vending_machine_looted_mix" ] } },
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 10 ], "chance": 50 } ]
     }
   },

@@ -355,11 +355,12 @@
       "O": [
         { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] }
-      ],
-      "8": { "item": "vending_drink", "chance": 100 },
-      "9": { "item": "vending_food", "chance": 100 }
+      ]
     },
-    "nested": { "8": { "chunks": [ "nest_vending_machine_looted" ] }, "9": { "chunks": [ "nest_vending_machine_looted" ] } },
+    "nested": {
+      "8": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+      "9": { "chunks": [ "nest_vending_machine_looted_food" ] }
+    },
     "vehicles": {
       "Á": { "vehicle": "parkinglotbasic", "chance": 33, "rotation": 270 },
       "É": { "vehicle": "parkinglotbasic", "chance": 33, "rotation": 90 }

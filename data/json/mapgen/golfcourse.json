@@ -84,7 +84,10 @@
         "│4444444444444444444ww4444444&44444444444444444444444444444444444444444444444444444444444444444│",
         "││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││││"
       ],
-      "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": {
+        "D": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 72, 95 ], "y": [ 24, 47 ], "repeat": [ 0, 4 ] } ],
       "terrain": {
         "4": [ [ "t_region_shrub_decorative", 12 ], "t_region_tree_shade", [ "t_region_groundcover_forest", 3 ] ],
@@ -130,8 +133,6 @@
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
       "items": {
-        "D": { "item": "vending_drink", "chance": 100 },
-        "F": { "item": "vending_food", "chance": 100 },
         "&": { "item": "trash", "chance": 25, "repeat": 2 },
         "v": { "item": "golf_green", "chance": 10 },
         "t": { "chance": 75, "item": "office_mess" }

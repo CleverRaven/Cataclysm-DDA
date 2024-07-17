@@ -412,9 +412,7 @@
         "C": [ { "item": "magazines", "chance": 25 }, { "item": "bar_alcohol", "chance": 25 } ],
         "g": { "item": "beer_selection", "chance": 65, "repeat": [ 1, 3 ] },
         "a": { "item": "chair_hat", "chance": 5 },
-        "e": { "item": "stripclub_dirty", "chance": 5 },
-        "V": { "item": "vending_food", "chance": 100 },
-        "v": { "item": "vending_drink", "chance": 100 }
+        "e": { "item": "stripclub_dirty", "chance": 5 }
       },
       "place_fields": [
         { "field": "fd_blood", "x": [ 8, 19 ], "y": [ 3, 20 ], "repeat": [ 1, 8 ] },
@@ -428,7 +426,10 @@
         ]
       },
       "place_loot": [ { "group": "cash_register_random", "x": [ 13, 16 ], "y": 18 } ],
-      "nested": { "V": { "chunks": [ "nest_vending_machine_looted" ] }, "v": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": {
+        "V": { "chunks": [ "nest_vending_machine_looted_food" ] },
+        "v": { "chunks": [ "nest_vending_machine_looted_drink" ] }
+      },
       "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 1, 23 ], "y": [ 0, 22 ], "density": 0.5 } ],
       "toilets": { "e": {  } }
     }

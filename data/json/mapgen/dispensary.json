@@ -38,8 +38,6 @@
       "&": "f_trashcan"
     },
     "items": {
-      "D": { "item": "vending_drink", "chance": 100 },
-      "F": { "item": "vending_food", "chance": 100 },
       "M": { "item": "smoke_shop", "chance": 50, "repeat": [ 1, 2 ] },
       "#": { "item": "misc_smoking", "chance": 20 },
       "I": { "item": "SUS_office_desk", "chance": 33 },
@@ -55,7 +53,10 @@
       "2": [ { "item": "withered", "chance": 75, "repeat": [ 1, 4 ] }, { "item": "seed_weed", "chance": 75, "repeat": [ 1, 4 ] } ]
     },
     "toilets": { "t": {  } },
-    "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } }
+    "nested": {
+      "D": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+      "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
+    }
   },
   {
     "type": "mapgen",

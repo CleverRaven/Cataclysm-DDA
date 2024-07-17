@@ -76,11 +76,12 @@
         "L": "f_locker",
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
-      "nested": { "W": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": {
+        "W": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "V": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "toilets": { "B": {  } },
       "items": {
-        "W": { "item": "vending_drink", "chance": 100 },
-        "V": { "item": "vending_food", "chance": 100 },
         "J": { "item": "office", "chance": 30, "repeat": [ 3, 4 ] },
         "A": { "item": "thrift_misc", "chance": 60, "repeat": [ 1, 6 ] },
         "a": { "item": "thrift_books", "chance": 60, "repeat": [ 1, 6 ] },

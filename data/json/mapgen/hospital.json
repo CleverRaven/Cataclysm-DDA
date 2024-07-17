@@ -169,12 +169,10 @@
       "vehicles": { "=": { "vehicle": "pickup_corpses", "chance": 10, "rotation": 270, "status": 1 } },
       "nested": {
         "=": { "chunks": [ [ "null", 70 ], [ "pile_bodybag_corpses", 30 ] ] },
-        "D": { "chunks": [ "nest_vending_machine_looted" ] },
-        "F": { "chunks": [ "nest_vending_machine_looted" ] }
+        "D": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
       },
       "items": {
-        "D": { "item": "vending_drink", "chance": 100 },
-        "F": { "item": "vending_food", "chance": 100 },
         "b": { "item": "magazines", "chance": 50 },
         "B": { "item": "hospital_bed", "chance": 80 },
         "f": { "item": "SUS_fridge_breakroom", "chance": 90 },

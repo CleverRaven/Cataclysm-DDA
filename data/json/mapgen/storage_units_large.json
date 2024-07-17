@@ -217,8 +217,10 @@
         "I": "f_sofa",
         "M": [ "f_crate_c", "f_cardboard_box" ]
       },
-      "nested": { "U": { "chunks": [ "nest_vending_machine_looted" ] }, "Á": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "U": { "item": "vending_drink", "chance": 100 }, "Á": { "item": "vending_food", "chance": 100 } },
+      "nested": {
+        "U": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "Á": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "place_loot": [ { "item": "stepladder", "x": 14, "y": 12, "chance": 50 }, { "item": "stepladder", "x": 5, "y": 4, "chance": 50 } ],
       "place_items": [
         { "item": "homebooks", "x": [ 0, 5 ], "y": [ 9, 10 ], "chance": 50, "repeat": [ 1, 11 ] },

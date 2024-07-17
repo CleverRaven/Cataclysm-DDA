@@ -97,10 +97,11 @@
         "R": "f_bike_rack"
       },
       "toilets": { "B": {  } },
-      "nested": { "%": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": {
+        "%": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "items": {
-        "%": { "item": "vending_drink", "chance": 100 },
-        "F": { "item": "vending_food", "chance": 100 },
         "B": { "item": "SUS_toilet", "chance": 30 },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
         "E": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }

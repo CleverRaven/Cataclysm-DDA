@@ -61,7 +61,10 @@
         "T": "f_toilet",
         "s": "f_sofa"
       },
-      "nested": { "v": { "chunks": [ "nest_vending_machine_looted" ] }, "V": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": {
+        "v": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "V": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "place_vehicles": [
         { "vehicle": "oa_vg_cd_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
         { "vehicle": "oa_vg_cd_vehicles", "x": 11, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
@@ -69,8 +72,6 @@
         { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 15, "rotation": 270, "chance": 70, "fuel": 0 }
       ],
       "items": {
-        "v": { "item": "vending_drink", "chance": 100 },
-        "V": { "item": "vending_food", "chance": 100 },
         "s": { "item": "oa_discarded_news", "chance": 33 },
         "c": { "item": "oa_custom_trash", "chance": 70 },
         "D": { "item": "oa_custom_trash", "chance": 60 },

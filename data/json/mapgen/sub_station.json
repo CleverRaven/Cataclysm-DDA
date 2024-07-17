@@ -33,8 +33,10 @@
         "SSSSSSSSSSSSSSSSSSSSSSSS"
       ],
       "palettes": [ "subway" ],
-      "nested": { "D": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "D": { "item": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } }
+      "nested": {
+        "D": { "chunks": [ "nest_vending_machine_looted_food" ] },
+        "F": { "chunks": [ "nest_vending_machine_looted_drink" ] }
+      }
     }
   },
   {
@@ -106,8 +108,10 @@
         "########################"
       ],
       "palettes": [ "subway_underground" ],
-      "nested": { "J": { "chunks": [ "nest_vending_machine_looted" ] }, "C": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "J": { "item": "vending_drink", "chance": 100 }, "C": { "item": "vending_food", "chance": 100 } },
+      "nested": {
+        "J": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "C": { "chunks": [ "nest_vending_machine_looted_food" ] }
+      },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ],
       "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ]
     }

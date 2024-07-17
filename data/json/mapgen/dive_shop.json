@@ -57,12 +57,13 @@
       "B": "f_workbench",
       "3": "f_air_compressor"
     },
-    "nested": { "W": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
+    "nested": {
+      "W": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+      "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
+    },
     "vehicles": { "v": { "vehicle": "parking_garage_short", "rotation": 90, "chance": 33 } },
     "toilets": { "t": {  } },
     "items": {
-      "W": { "item": "vending_drink", "chance": 100 },
-      "F": { "item": "vending_food", "chance": 100 },
       "R": { "item": "SUS_scuba_gear", "chance": 10 },
       "D": { "item": "SUS_scuba_gear", "chance": 40 },
       "]": { "item": "swimmer_wetsuit", "chance": 80, "repeat": [ 0, 3 ] }

@@ -76,12 +76,13 @@
       "i": { "item": "SUS_office_filing_cabinet", "chance": 25 },
       "a": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
       "A": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-      "D": { "item": "trash", "chance": 80, "repeat": [ 4, 8 ] },
-      "V": { "item": "vending_drink", "chance": 100 },
-      "F": { "item": "vending_food", "chance": 100 }
+      "D": { "item": "trash", "chance": 80, "repeat": [ 4, 8 ] }
     },
     "toilets": { "T": {  } },
-    "nested": { "V": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
+    "nested": {
+      "V": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+      "F": { "chunks": [ "nest_vending_machine_looted_food" ] }
+    },
     "vehicles": {
       "v": { "vehicle": "cars_only", "chance": 10, "rotation": 90 },
       "^": { "vehicle": "cars_only", "chance": 10, "rotation": 270 },

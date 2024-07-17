@@ -87,8 +87,10 @@
         "g": "f_stool",
         "Y": "f_trashcan"
       },
-      "nested": { "M": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "M": { "item": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } },
+      "nested": {
+        "M": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "F": { "chunks": [ "nest_vending_machine_nest_vending_machine_looted_foodlooted" ] }
+      },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
       "toilets": { "&": {  } }
     },
@@ -234,8 +236,10 @@
         "g": "f_stool",
         "Y": "f_trashcan"
       },
-      "nested": { "M": { "chunks": [ "nest_vending_machine_looted" ] }, "F": { "chunks": [ "nest_vending_machine_looted" ] } },
-      "items": { "M": { "item": "vending_drink", "chance": 100 }, "F": { "item": "vending_food", "chance": 100 } },
+      "nested": {
+        "M": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "F": { "chunks": [ "nest_vending_machine_nest_vending_machine_looted_foodlooted" ] }
+      },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
       "toilets": { "&": {  } }
     },
