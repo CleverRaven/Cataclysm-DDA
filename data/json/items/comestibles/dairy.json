@@ -541,5 +541,22 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 2,
     "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "id": "rennet",
+    "type": "COMESTIBLE",
+    "comestible_type": "INVALID",
+    "category": "chems",
+    "name": { "str_sp": "rennet" },
+    "description": "Rennet.",
+    "symbol": "~",
+    "color": "white",
+    "volume": "250 ml",
+    "weight": "250 g",
+    "charges": 15,
+    "phase": "liquid",
+    "container": "bottle_glass_seasoning_small",
+    "price": "14 USD",
+    "price_postapoc": "1 USD"
   }
 ]
