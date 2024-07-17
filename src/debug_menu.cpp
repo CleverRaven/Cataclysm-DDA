@@ -3498,17 +3498,17 @@ static void spawn_npc()
 
 static void spawn_named_npc()
 {
-    avatar& player_character = get_avatar();
+    avatar &player_character = get_avatar();
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     const npc_class_id npc_class = npc_class_id::from_string( string_input_popup()
-                                       .title( _( "Enter NPC class" ) )
-                                       .width( 20 )
-                                       .query_string() );
+                                   .title( _( "Enter NPC class" ) )
+                                   .width( 20 )
+                                   .query_string() );
     temp->set_npc_class( npc_class );
-    temp->spawn_at_precise(player_character.get_location() + point(-4, -4));
-    overmap_buffer.insert_npc(temp);
-    temp->form_opinion(player_character);
+    temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
+    overmap_buffer.insert_npc( temp );
+    temp->form_opinion( player_character );
 
     g->load_npcs();
 }
