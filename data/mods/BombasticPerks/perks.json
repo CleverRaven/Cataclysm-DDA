@@ -9,7 +9,6 @@
     "name": { "str": "Open Perk Menu" },
     "points": 0,
     "description": "Direct access to the perk menu.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_open_perk_menu" ]
   },
@@ -20,7 +19,6 @@
     "points": 0,
     "description": "Have you been working out?  +1 Strength.",
     "changes_to": [ "perk_STR_UP_2" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
@@ -30,7 +28,6 @@
     "points": 0,
     "description": "You HAVE been working out.  +2 Strength.",
     "prereqs": [ "perk_STR_UP" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
@@ -40,7 +37,6 @@
     "points": 0,
     "description": "Have you been doing cardio?  +1 Dexterity.",
     "changes_to": [ "perk_DEX_UP_2" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
@@ -50,7 +46,6 @@
     "points": 0,
     "description": "You HAVE been doing cardio.  +2 Dexterity.",
     "prereqs": [ "perk_DEX_UP" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
@@ -60,7 +55,6 @@
     "points": 0,
     "description": "Have you been reading?  +1 Intelligence.",
     "changes_to": [ "perk_INT_UP_2" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   },
   {
@@ -70,7 +64,6 @@
     "points": 0,
     "description": "You HAVE been reading.  +2 Intelligence.",
     "prereqs": [ "perk_INT_UP" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
@@ -80,7 +73,6 @@
     "points": 0,
     "description": "Have you been staring out into the middle distance?  +1 Perception.",
     "changes_to": [ "perk_PER_UP_2" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
   },
   {
@@ -90,7 +82,6 @@
     "points": 0,
     "description": "You HAVE been staring out into the middle distance.  +2 Perception.",
     "prereqs": [ "perk_PER_UP" ],
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
@@ -99,7 +90,6 @@
     "name": { "str": "Sight Beyond Sight" },
     "points": 0,
     "description": "You have an instinctive sense for the uncanny and unearthy.  Activate this perk to close your eyes and become aware of nearby Nether creatures.",
-    "valid": false,
     "activated_is_setup": true,
     "active": true,
     "activated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ],
@@ -111,7 +101,6 @@
     "name": { "str": "Holdout Pocket" },
     "points": 0,
     "description": "Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.",
-    "valid": false,
     "integrated_armor": [ "integrated_holdout_pocket" ]
   },
   {
@@ -120,7 +109,6 @@
     "name": { "str": "Built Tough" },
     "points": 0,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
   },
   {
@@ -129,7 +117,6 @@
     "name": { "str": "Hauler" },
     "points": 0,
     "description": "All that hauling has paid off.  You can carry 10kg of additional items.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
   },
   {
@@ -138,7 +125,6 @@
     "name": { "str": "Vacationer" },
     "points": 0,
     "description": "Every day in the apocalypse is just like the beach.  You are more comfortable in cold and warm weather.",
-    "valid": false,
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -152,7 +138,6 @@
     "name": { "str": "Gym Rat" },
     "points": 0,
     "description": "Your time exercising has gotten you used to being drenched in your own sweat.  Being wet doesn't bother you as much anymore.",
-    "valid": false,
     "wet_protection": [
       { "part": "head", "neutral": 6 },
       { "part": "leg_l", "neutral": 8 },
@@ -180,7 +165,6 @@
     "name": { "str": "Thick Skull" },
     "points": 0,
     "description": "You've taken so many blows to the head you've lost count.  You've got additional skull armor.",
-    "valid": false,
     "integrated_armor": [ "integrated_thick_skull" ]
   },
   {
@@ -189,7 +173,6 @@
     "name": { "str": "Way of the Open Palm" },
     "points": 0,
     "description": "You've dealt enough blows that your hands have callused, and your knifehand strikes are sharp enough to draw blood.",
-    "valid": false,
     "integrated_armor": [ "integrated_hand_openpalm" ]
   },
   {
@@ -198,7 +181,6 @@
     "name": { "str": "Way of the Closed Fist" },
     "points": 0,
     "description": "You've dealt enough blows that your hands have callused, and your hammerfist strikes are as strong as a real hammer.",
-    "valid": false,
     "integrated_armor": [ "integrated_hand_closedfist" ]
   },
   {
@@ -207,7 +189,6 @@
     "name": { "str": "Way of the Pinched Fingers" },
     "points": 0,
     "description": "You've dealt enough blows that your hands have callused, your spearhand strikes can pierce armor, and your grip can turn bolts barehanded.",
-    "valid": false,
     "integrated_armor": [ "integrated_hand_pinchedfingers" ]
   },
   {
@@ -216,7 +197,6 @@
     "name": { "str": "Quickdraw" },
     "points": 0,
     "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
-    "valid": false,
     "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ]
   },
   {
@@ -225,7 +205,6 @@
     "name": { "str": "Vengeful" },
     "points": 0,
     "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
-    "valid": false,
     "enchantments": [ "perk_ench_vengeful" ]
   },
   {
@@ -245,7 +224,6 @@
     "name": { "str": "Ghost" },
     "points": 0,
     "description": "You've gotten pretty good at sneaking up on people.  When you have no allies within 20 squares, enemies' vision detection range is reduced by 15%.",
-    "valid": false,
     "enchantments": [
       {
         "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies')", "==", "0" ] },
@@ -259,7 +237,6 @@
     "name": { "str": "Big Eater" },
     "points": 0,
     "description": "You can really put it away.  You eat food 10% faster and can eat 33% more food at a time.",
-    "valid": false,
     "enchantments": [
       {
         "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.1 }, { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.33 } ]
@@ -272,7 +249,6 @@
     "name": { "str": "Tuck and Roll" },
     "points": 0,
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
   },
   {
@@ -281,7 +257,6 @@
     "name": { "str": "Grit Your Teeth" },
     "points": 0,
     "description": "When you have to you can wipe the blood off your chin, grit your teeth, and get it done.  Use to reduce your pain by 30 or half (whichever is greater) for 3 minutes.\n\nThe cooldown on this perk scales based on your pain at the time you used it.",
-    "valid": false,
     "active": true,
     "activated_is_setup": false,
     "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
@@ -292,7 +267,6 @@
     "name": { "str": "Surgical Strikes" },
     "points": 0,
     "description": "Careful aim allows you to take down game with little tissue damage.  Enemies you kill tend to stay intact.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ]
   },
   {
@@ -301,7 +275,6 @@
     "name": { "str": "Bloody Mess" },
     "points": 0,
     "description": "For whatever reason you seem to always make a real mess of things.  Enemies you kill tend to explode into a mess of viscera.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": -1000.0 } ] } ]
   },
   {
@@ -310,7 +283,6 @@
     "name": { "str": "Perfect Timing" },
     "points": 0,
     "description": "You used to annoy your friends before the Cataclysm by always being *exactly* on time and you've maintained that characteristic to this day.  You always know what time it is and can set alarms even without a watch or a phone.",
-    "valid": false,
     "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
@@ -319,7 +291,6 @@
     "name": { "str": "Bedtime Stories" },
     "points": 0,
     "description": "You've always loved reading, especially before you fall asleep, and have gotten very good at tearing through books as a way to wind down.  You read books 50% faster, but only when you read them between 8 p.m. and 1 a.m.",
-    "valid": false,
     "enchantments": [
       {
         "condition": {
@@ -338,7 +309,6 @@
     "name": { "str": "Tingly" },
     "points": 0,
     "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
   },
   {
@@ -347,7 +317,6 @@
     "name": { "str": "Static Stockpile" },
     "points": 0,
     "description": "You can't touch a door without zapping yourself.  Whenever there is a shocker or a robot within 15 squares, or you are outside during a storm, you gain 500J of bionic power per second and your melee attacks will do a small amount of extra electrical damage.",
-    "valid": false,
     "enchantments": [
       {
         "condition": {
@@ -372,7 +341,6 @@
     "name": { "str": "Jumpy" },
     "points": 0,
     "description": "You've not been the same since the apocalypse, almost everything makes you jump.  You are just a bit quicker to act though.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ]
   },
   {
@@ -389,7 +357,6 @@
     "name": { "str": "Easy Sleeper" },
     "points": 0,
     "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
   },
   {
@@ -414,7 +381,6 @@
     "name": { "str": "Hobbyist" },
     "points": 0,
     "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ]
   },
   {
@@ -423,7 +389,6 @@
     "name": { "str": "Non-Combatant" },
     "points": 0,
     "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -25% reduced damage.",
-    "valid": false,
     "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
     "enchantments": [
       {
@@ -473,7 +438,6 @@
     "name": { "str": "Recycler" },
     "points": 0,
     "description": "Even with no one around you feel obligated to clean up the streets.  You find full cans of soda in the weirdest places.",
-    "valid": false,
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_can_finder_on" ],
@@ -487,7 +451,6 @@
     "name": { "str": "Trouble seeker" },
     "points": 0,
     "description": "As if the apocalypse itself wasn't enough, you are constantly looking for some trouble.  Zombies will sometimes appear out of nowhere to attack you.  Fortunately, they always appear at a good distance from you.  Activate to toggle.",
-    "valid": false,
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_troubleseek_on" ],
@@ -501,7 +464,6 @@
     "name": { "str": "Hemophage" },
     "points": 0,
     "description": "You do not drink…wine.  You are immune to the negative consequences of drinking blood, such as parasitic infection.",
-    "valid": false,
     "flags": [ "HEMOVORE" ]
   },
   {
@@ -518,7 +480,6 @@
     "name": { "str": "Of sailors and spinach" },
     "points": 0,
     "description": "You spent several years on the high sea and now your muscles visibly swell and clench when you eat raw spinach.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_spinach_consumption" ]
   },
@@ -528,7 +489,6 @@
     "name": { "str": "Playing God" },
     "points": 0,
     "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.  Activate the perk to gain insight into the nature of life itself!",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_frankenstein_insight" ]
   },
@@ -538,7 +498,6 @@
     "name": { "str": "Safety net" },
     "points": 0,
     "description": "You've always felt like someone was looking out for you upstairs.  When you are attacked there is a 5% chance the attack will deal no damage.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.05 } ] } ]
   },
   {
@@ -547,7 +506,6 @@
     "name": { "str": "Lucky dodge" },
     "points": 0,
     "description": "You have a habit of always ducking at the right time.  You have a 5% chance to dodge any incoming attack.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EVASION", "add": 0.05 } ] } ]
   },
   {
@@ -556,7 +514,6 @@
     "name": { "str": "Long shot" },
     "points": 0,
     "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
-    "valid": false,
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
   },
   {
@@ -565,7 +522,6 @@
     "name": { "str": "Firstest Aid" },
     "points": 0,
     "description": "It's called \"First Aid\", right, so obviously it's better the faster you apply it.  Your bandages are 50% better at stopping bleeding, but only if you apply them within 2 minutes of taking damage.",
-    "valid": false,
     "enchantments": [
       {
         "condition": { "u_has_effect": "effect_perk_firstest_aid" },
@@ -587,7 +543,6 @@
     "name": { "str": "Metamagic: Quicken Spell" },
     "points": 0,
     "description": "You have learned to cast spells in a way that is much quicker, but also more wasteful.  -95% cast time, +100% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_quicken" ]
   },
@@ -597,7 +552,6 @@
     "name": { "str": "Metamagic: Widen Spell" },
     "points": 0,
     "description": "You have learned to cast spells that affects a larger area.  +100% area of effect, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_widen" ]
   },
@@ -607,7 +561,6 @@
     "name": { "str": "Metamagic: Reach Spell" },
     "points": 0,
     "description": "You have learned to cast spells from a longer distance.  +100% reach, +50% cast cost.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_reach" ]
   },
@@ -617,7 +570,6 @@
     "name": { "str": "Metamagic: Silent Spell" },
     "points": 0,
     "description": "You have learned to cast spells quietly.  -100% noise, +20% cast cost, ignores mouth encumbrance.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_silent" ]
   },
@@ -627,7 +579,6 @@
     "name": { "str": "Metamagic: Still Spell" },
     "points": 0,
     "description": "You have learned to cast spells without moving.  +20% cast cost, ignores arm, leg, and hand encumbrance.  Can cast spells while holding items.  Can be toggled on or of by activating this trait.  Does not work on spells that consumes runes.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_still" ]
   },
@@ -637,7 +588,6 @@
     "name": { "str": "Metamagic: Careful Spell" },
     "points": 0,
     "description": "You take your time when casting spells in order to get it right.  +200% cast time, -5 difficulty.  Can be toggled on or of by activating this trait.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_careful" ]
   },
@@ -647,7 +597,6 @@
     "name": { "str": "Metamagic: Intuitive Spell" },
     "points": 0,
     "description": "Casting spells comes more naturally for you.  You don't have to think as much when casting.  Focus no longer affects casting, +20% cast cost.  Can be toggled on or of by activating this trait.  Only affects spells that are affected by focus.  Does not work on spells that consumes runes.",
-    "valid": false,
     "active": true,
     "activated_eocs": [ "EOC_metamagic_toggle_intuitive" ]
   },
@@ -657,7 +606,6 @@
     "name": { "str": "Crafty hands" },
     "points": 0,
     "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
-    "valid": false,
     "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
@@ -666,7 +614,6 @@
     "name": { "str": "Chainsmoker" },
     "points": 0,
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
-    "valid": false,
     "enchantments": [
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
@@ -694,7 +641,6 @@
     "name": { "str": "Iron arm" },
     "points": 0,
     "description": "You've always been a bit of a bull in a china shop; people used to call you heavy handed but now they aren't saying much at all.  You deal extra damage based on how protective your right arm is.",
-    "valid": false,
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -708,7 +654,6 @@
     "name": { "str": "Skin and bones" },
     "points": 0,
     "description": "People always used to tell you that you should eat more.  It seems you needed their reminders because you can see your bones at this point.  You have skeletal armor.",
-    "valid": false,
     "integrated_armor": [ "skeleton_plate" ]
   },
   {
@@ -717,7 +662,6 @@
     "name": { "str": "Compressed Eating Window" },
     "points": 0,
     "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain 2.5 times as many calories and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
-    "valid": false,
     "enchantments": [
       {
         "condition": {
@@ -745,7 +689,6 @@
     "name": { "str": "The Great Communicator" },
     "points": 0,
     "description": "You've always had something to say about ripping apart things with chainsaws.  You can swing powered blades faster.",
-    "valid": false,
     "enchantments": [ { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.2 } ] } ]
   },
   {
@@ -754,7 +697,6 @@
     "name": { "str": "Olde Reliables" },
     "points": 0,
     "description": "You've always had a bit of a fondness for the older firearms.  Post apocalypse, this has translated into a damage boost when using WWII and older weapons.",
-    "valid": false,
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
@@ -773,7 +715,6 @@
     "name": { "str": "Nocturnal" },
     "points": 0,
     "description": "Darkness is your ally.  Others have merely adopted the dark, but you were born in it, molded by it.  You gain +2 Perception and +1 Intelligence at night, and have a much easier time sleeping during the day.  However, you also suffer -2 Perception when outdoors during the day and have a harder time sleeping at night.",
-    "valid": false,
     "enchantments": [
       {
         "condition": { "not": "is_day" },
@@ -789,7 +730,6 @@
     "name": { "str": "Ascetic Empowerment" },
     "points": 0,
     "description": "People talk about getting a high from fasting and for you that's true on a more visceral level.  You gain bonuses to all stats that scale with how hungry, thirsty, and tired you are.",
-    "valid": false,
     "enchantments": [
       {
         "condition": "ALWAYS",
