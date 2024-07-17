@@ -284,7 +284,7 @@
     "type": "trait_group",
     "id": "trait_group_MANA_REGEN",
     "subtype": "distribution",
-    "traits": [ 
+    "traits": [
       { "trait": "MANA_REGEN1" },
       { "trait": "MANA_REGEN1" },
       { "trait": "MANA_REGEN1" },
