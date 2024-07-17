@@ -26,6 +26,7 @@ enum class debug_menu_index : int {
     LONG_TELEPORT,
     REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
