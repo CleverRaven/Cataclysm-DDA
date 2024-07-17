@@ -180,7 +180,6 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
     for( const trait_id &mut : get_mutations() ) {
         // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
         if( mut.obj().points > -1 && !mut.obj().threshold && !mut.obj().category.empty() &&
-            !mut.obj().category.perk() &&
             !has_base_trait( mut ) ) {
             bool in_categ = false;
             // If among all allowed categories the mutation has, the input category is one of them.
