@@ -547,7 +547,8 @@
     "energy_increment": -150,
     "base_casting_time": 200,
     "final_casting_time": 80,
-    "casting_time_increment": -9.5
+    "casting_time_increment": -9.5,
+    "targeted_monster_species": [ "ROBOT", "ROBOT_FLYING", "CYBORG" ]
   },
   {
     "id": "photokinetic_invisibility",
