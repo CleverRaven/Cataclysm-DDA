@@ -784,12 +784,7 @@
         "text": "I could use a nice walk.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [
-          {
-            "assign_mission": "MISSION_FORGE_DIVINER_DRUID_TOWER"
-          },
-          { "u_consume_item": "denarius" }
-        ]
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_DRUID_TOWER" }, { "u_consume_item": "denarius" } ]
       },
       {
         "text": "I can't afford that right now.",
