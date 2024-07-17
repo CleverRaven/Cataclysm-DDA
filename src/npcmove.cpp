@@ -2722,7 +2722,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
         return true;
     }
 
-    if( rl_dist( pos(), tar ) == 1 ) {
+    if( throwing && rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
