@@ -142,7 +142,7 @@
     "//": "50% chance of an NPC to be an elf, dwarf, lizardfolk, etc.  It's a magical world.",
     "subtype": "collection",
     "traits": [
-      { "group": "trait_group_fantasy_species", "prob": 50 }, 
+      { "group": "trait_group_fantasy_species", "prob": 50 },
       { "group": "trait_group_MANA_REGEN", "prob": 15 },
       { "group": "trait_group_MANA_MULT", "prob": 5 },
       { "group": "trait_group_MANA_ADD", "prob": 10 }
