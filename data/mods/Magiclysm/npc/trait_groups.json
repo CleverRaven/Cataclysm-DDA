@@ -333,11 +333,11 @@
       { "trait": "MANA_ADD2" }, 
       { "trait": "MANA_ADD2" }, 
       { "trait": "MANA_ADD3" },
-      { "trait": "MANA_SUB1" }, 
-      { "trait": "MANA_SUB1" }, 
-      { "trait": "MANA_SUB1" }, 
-      { "trait": "MANA_SUB1" }, 
-      { "trait": "MANA_SUB2" }, 
+      { "trait": "MANA_SUB1" },
+      { "trait": "MANA_SUB1" },
+      { "trait": "MANA_SUB1" },
+      { "trait": "MANA_SUB1" },
+      { "trait": "MANA_SUB2" },
       { "trait": "MANA_SUB2" },
       { "trait": "MANA_SUB3" }
     ]
