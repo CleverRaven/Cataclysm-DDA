@@ -190,7 +190,11 @@
       [ "wp22mag", 7 ],
       [ "cp33_mag", 4 ],
       [ "cp33_mag_50", 1 ],
-      [ "ruger_mk4_mag", 11 ]
+      [ "ruger_mk4_mag", 11 ],
+      [ "vp9mag_9x19mm_10rd", 7 ],
+      [ "vp9mag_9x19mm_15rd", 10 ],
+      [ "vp9mag_9x19mm_17rd", 7 ],
+      [ "vp9mag_9x19mm_20rd", 5 ]
     ]
   },
   {

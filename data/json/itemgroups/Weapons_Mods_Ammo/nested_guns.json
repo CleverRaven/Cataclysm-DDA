@@ -2738,5 +2738,17 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "taurus_judge", "charges": [ 0, 5 ] }, { "group": "on_hand_410shot" } ]
+  },
+  {
+    "id": "nested_vp9",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "bren2_762", "charges": [ 0, 15 ] },
+      { "item": "vp9mag_9x19mm_15rd" },
+      { "item": "vp9mag_9x19mm_15rd", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
   }
 ]
