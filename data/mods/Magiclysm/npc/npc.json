@@ -43,7 +43,7 @@
     "class": "NC_DRUID_MASTER_SHIFTER",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER",
+    "chat": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_INTRO",
     "faction": "druid_circle",
     "age": 45,
     "personality": {
