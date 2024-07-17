@@ -648,10 +648,19 @@ enum room_type {
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
 // wrappers for map:: functions
+// TODO: get rid of untyped overload.
 void line( map *m, const ter_id &type, const point &p1, const point &p2, int z );
+void line( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z );
+// TODO: Get rid of untyped overload.
 void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 );
+void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
+// TODO: Get rid of untyped overload.
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2, int z );
+void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                int z );
+// TODO: Get rid of untyped overload.
 void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
+void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
 void square( map *m, const ter_id &type, const point &p1, const point &p2 );

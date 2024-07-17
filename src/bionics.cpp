@@ -1060,7 +1060,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         // Calculate local wind power
         int vehwindspeed = 0;
-        if( optional_vpart_position vp = here.veh_at( pos() ) ) {
+        if( optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
             // vehicle velocity in mph
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
         }
@@ -1481,14 +1481,14 @@ void Character::burn_fuel( bionic &bio )
         // Wind power
         int vehwindspeed = 0;
 
-        const optional_vpart_position vp = here.veh_at( pos() );
+        const optional_vpart_position vp = here.veh_at( pos_bub() );
         if( vp ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
         }
         weather_manager &weather = get_weather();
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                               overmap_buffer.ter( global_omt_location() ), get_location(), weather.winddirection,
-                              g->is_sheltered( pos() ) );
+                              g->is_sheltered( pos_bub() ) );
         energy_gain = 1_kJ * windpower;
     }
 

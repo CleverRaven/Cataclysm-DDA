@@ -314,7 +314,7 @@ void suffer::while_underwater( Character &you )
         }
     }
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
-        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
+        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos_bub() ) &&
         you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
