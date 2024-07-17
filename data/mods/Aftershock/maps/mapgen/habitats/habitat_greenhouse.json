@@ -73,11 +73,12 @@
       },
       "furniture": { "ú": "f_bench", "1": "f_locker", "í": "f_rack", "8": "f_ancient_processor", "t": "f_rack" },
       "items": {
+        "V": { "item": "afs_vending_medicine", "chance": 100 },
         "1": [ { "item": "afs_civilian_hazard_outfit", "chance": 60 }, { "item": "afs_colonist_outfit", "chance": 20 } ],
         "í": { "item": "afs_tools_agricultural_hazardous", "chance": 90 },
         "t": { "item": "farming_tools", "chance": 60, "repeat": [ 2, 3 ] }
       },
-      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+      "nested": { "V": { "chunks": [ "nest_vending_machine_reinforced" ] } }
     }
   },
   {

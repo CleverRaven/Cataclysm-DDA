@@ -140,9 +140,9 @@
         "F": "t_linoleum_gray"
       },
       "furniture": { "%": [ "f_indoor_plant", "f_indoor_plant_y" ], "*": "f_trashcan", "Á": "f_console_broken", "¤": "f_bulletin" },
-      "place_vendingmachines": [
-        { "item_group": "vending_food", "x": 99, "y": 6, "lootable": true },
-        { "item_group": "vending_drink", "x": 100, "y": 6, "lootable": true }
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 99, "y": 6 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 100, "y": 6 }
       ],
       "items": {
         "d": [
@@ -556,9 +556,9 @@
         "A": "t_linoleum_white",
         "!": "t_linoleum_white"
       },
-      "place_vendingmachines": [
-        { "item_group": "vending_drink", "x": 74, "y": 17, "lootable": true },
-        { "item_group": "vending_food", "x": 74, "y": 18, "lootable": true }
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 74, "y": 17 },
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 74, "y": 18 }
       ],
       "sealed_item": {
         "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" },
@@ -1438,9 +1438,9 @@
         { "group": "cash_register_random", "x": 38, "y": 0 },
         { "group": "cash_register_random", "x": 39, "y": [ 17, 19 ] }
       ],
-      "place_vendingmachines": [
-        { "item_group": "vending_drink", "x": 4, "y": 12, "lootable": true },
-        { "item_group": "vending_food", "x": 4, "y": 13, "lootable": true }
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 4, "y": 12 },
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 4, "y": 13 }
       ],
       "items": {
         "d": [

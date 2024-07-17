@@ -1617,7 +1617,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 30,
-    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
+    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
     "examine_action": "vending",
     "bash": {
       "str_min": 150,

@@ -76,6 +76,6 @@
       "O": [ { "item": "tools_robotics", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "schematics", "chance": 2 } ],
       "i": { "item": "cleaning", "chance": 20 }
     },
-    "vendingmachines": { "V": {  } }
+    "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } }
   }
 ]

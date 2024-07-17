@@ -194,9 +194,9 @@
         "                             xx__________xx                             "
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
-      "place_vendingmachines": [
-        { "item_group": "vending_food", "x": 60, "y": 1, "lootable": true },
-        { "item_group": "vending_drink", "x": 60, "y": 2, "lootable": true }
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 60, "y": 1 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 60, "y": 2 }
       ],
       "items": {
         "L": [

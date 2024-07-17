@@ -60,7 +60,7 @@
         "o": "f_bookcase",
         "t": "f_table"
       },
-      "vendingmachines": { "V": { "lootable": true } },
+      "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } },
       "toilets": { "T": {  } },
       "items": {
         "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
@@ -179,7 +179,7 @@
         "+": "t_door_c",
         "s": "t_soil"
       },
-      "vendingmachines": { "V": { "lootable": true } },
+      "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } },
       "toilets": { "T": {  } },
       "furniture": { "9": "f_metal_bench", "S": "f_sink", "J": "f_counter" },
       "place_nested": [

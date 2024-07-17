@@ -59,10 +59,9 @@
         "o": "f_bookcase",
         "t": "f_table"
       },
-      "nested": { "V": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } },
       "toilets": { "T": {  } },
       "items": {
-        "V": { "item": "default_vending_machine", "chance": 100 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
@@ -191,10 +190,9 @@
         "o": "f_bookcase",
         "t": "f_table"
       },
-      "nested": { "V": { "chunks": [ "nest_vending_machine_looted" ] } },
+      "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } },
       "toilets": { "T": {  } },
       "items": {
-        "V": { "item": "default_vending_machine", "chance": 100 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 55, "repeat": [ 2, 3 ] },
         "l": { "item": "SUS_janitors_closet", "chance": 100 },
         "d": { "item": "SUS_office_desk", "chance": 20 },

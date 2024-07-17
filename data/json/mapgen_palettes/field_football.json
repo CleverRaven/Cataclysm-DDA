@@ -22,7 +22,7 @@
       "|": "t_wall_w"
     },
     "items": { "h": { "item": "football_items", "chance": 5 } },
-    "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
+    "nested": { "V": { "chunks": [ "nest_vending_machine_looted_drink" ] } },
     "toilets": { ";": {  } }
   }
 ]

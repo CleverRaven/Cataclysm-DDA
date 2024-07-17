@@ -110,9 +110,9 @@
         { "item": "cash_register_random", "x": 18, "y": [ 8, 10 ], "chance": 100 }
       ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 4 ] } ],
-      "place_vendingmachines": [
-        { "item_group": "vending_food", "x": 4, "y": 6, "lootable": true },
-        { "item_group": "vending_drink", "x": 18, "y": 6, "lootable": true }
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 4, "y": 6 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 18, "y": 6 }
       ]
     }
   },

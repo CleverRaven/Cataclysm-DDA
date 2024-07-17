@@ -119,11 +119,11 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 0.15 },
         { "monster": "GROUP_ZOMBIE", "x": [ 49, 70 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 0.15 }
       ],
-      "vendingmachines": {
-        "6": { "item_group": "vending_drink", "lootable": true },
-        "7": { "item_group": "vending_food", "lootable": true },
-        "8": { "item_group": "vending_drink", "lootable": true },
-        "9": { "item_group": "vending_food", "lootable": true }
+      "nested": {
+        "6": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "7": { "chunks": [ "nest_vending_machine_looted_food" ] },
+        "8": { "chunks": [ "nest_vending_machine_looted_drink" ] },
+        "9": { "chunks": [ "nest_vending_machine_looted_food" ] }
       },
       "place_vehicles": [
         { "vehicle": "train_electrical_loco1300", "x": 5, "y": 90, "chance": 10, "rotation": 90, "status": -1 },

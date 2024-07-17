@@ -230,7 +230,10 @@
         { "item": "55gal_drum", "x": 35, "y": 3, "chance": 75 },
         { "item": "55gal_drum", "x": 26, "y": 12, "chance": 75 }
       ],
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 14, "y": 38 }, { "item_group": "vending_drink", "x": 14, "y": 39 } ],
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 14, "y": 38 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 14, "y": 39 }
+      ],
       "place_items": [
         { "item": "office", "x": [ 29, 29 ], "y": [ 30, 32 ], "chance": 70 },
         { "item": "office", "x": [ 34, 34 ], "y": [ 30, 32 ], "chance": 70 },
@@ -679,7 +682,7 @@
         { "vehicle": "ambulance", "x": 65, "y": 15, "chance": 90, "rotation": 0 },
         { "vehicle": "fire_truck", "x": 32, "y": 28, "chance": 90, "rotation": 270 }
       ],
-      "place_vendingmachines": [ { "item_group": "vending_drink", "x": 64, "y": 47 } ]
+      "place_nested": [ { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 64, "y": 47 } ]
     }
   },
   {
@@ -1001,7 +1004,10 @@
         { "vehicle": "semi_truck", "x": 12, "y": 38, "chance": 100, "rotation": 0 },
         { "vehicle": "policecar", "x": 22, "y": 35, "chance": 90, "rotation": 90 }
       ],
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 64, "y": 0 }, { "item_group": "vending_drink", "x": 68, "y": 17 } ]
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 64, "y": 0 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 68, "y": 17 }
+      ]
     }
   },
   {
@@ -1330,7 +1336,10 @@
       "palettes": [ "necropolis_a" ],
       "terrain": { "z": "t_floor" },
       "toilets": { "t": {  } },
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 3, "y": 5 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 4, "y": 5 }
+      ],
       "place_items": [
         { "item": "mechanics", "x": [ 11, 23 ], "y": [ 18, 18 ], "chance": 80 },
         { "item": "manuals", "x": [ 9, 11 ], "y": [ 20, 20 ], "chance": 80 },

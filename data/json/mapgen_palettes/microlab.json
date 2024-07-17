@@ -114,7 +114,7 @@
       "i": { "item": "cleaning", "chance": 20 },
       "N": { "item": "fireman_cabinet", "chance": 100 }
     },
-    "vendingmachines": { "V": {  } }
+    "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } }
   },
   {
     "type": "palette",
@@ -205,6 +205,6 @@
       "c": { "monster": "mon_zombie_living_wall", "chance": 3 },
       "@": { "monster": "mon_zombie_living_wall", "chance": 80 }
     },
-    "vendingmachines": { "V": {  } }
+    "nested": { "V": { "chunks": [ "nest_vending_machine_looted_mix" ] } }
   }
 ]

@@ -3,7 +3,14 @@
     "type": "item_group",
     "id": "default_vending_machine",
     "subtype": "collection",
-    "entries": [ { "group": "vending_drink", "prob": 50 }, { "group": "vending_drink", "prob": 50 } ]
+    "entries": [
+      { "group": "vending_food_items", "count": [ 2, 10 ] },
+      { "group": "vending_food_items", "prob": 66, "count": [ 2, 12 ] },
+      { "group": "vending_food_items", "prob": 20, "count": [ 2, 12 ] },
+      { "group": "vending_drink_items", "count": [ 2, 10 ] },
+      { "group": "vending_drink_items", "prob": 66, "count": [ 2, 12 ] },
+      { "group": "vending_drink_items", "prob": 20, "count": [ 2, 12 ] }
+    ]
   },
   {
     "type": "item_group",

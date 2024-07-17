@@ -83,7 +83,7 @@
     },
     "furniture": { "b": "f_bench", "&": "f_trashcan" },
     "items": { "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] }, "b": { "item": "trash", "chance": 2 } },
-    "vendingmachines": { "V": { "item_group": "vending_drink" } }
+    "nested": { "V": { "chunks": [ "nest_vending_machine_looted_drink" ] } }
   },
   {
     "type": "palette",

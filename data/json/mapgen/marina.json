@@ -163,9 +163,9 @@
         "T": "f_table"
       },
       "toilets": { "&": {  } },
-      "place_vendingmachines": [
-        { "item_group": "vending_food", "x": 13, "y": 59, "lootable": true },
-        { "item_group": "vending_drink", "x": 13, "y": 60, "lootable": true }
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_food" ], "x": 13, "y": 59 },
+        { "chunks": [ "nest_vending_machine_looted_drink" ], "x": 13, "y": 60 }
       ],
       "items": {
         "f": { "item": "SUS_fridge", "chance": 80 },

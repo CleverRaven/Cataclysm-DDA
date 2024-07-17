@@ -63,6 +63,36 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_looted_food",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "items": { "": { "item": "vending_food", "chance": 100 } },
+      "nested": { " ": { "chunks": [ [ "nest_vending_machine_looted" ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_looted_drink",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "items": { "": { "item": "vending_drink", "chance": 100 } },
+      "nested": { " ": { "chunks": [ [ "nest_vending_machine_looted" ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_vending_machine_looted_mix",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "items": { "": { "item": "default_vending_machine", "chance": 100 } },
+      "nested": { " ": { "chunks": [ [ "nest_vending_machine_looted" ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "nest_vending_machine_reinforced",
     "object": { "mapgensize": [ 1, 1 ], "flags": [ "ALLOW_TERRAIN_UNDER_ITEMS" ], "furniture": { " ": "f_vending_reinforced" } }
   },

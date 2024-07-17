@@ -42,6 +42,7 @@
         "B": "f_monomolecularsaw"
       },
       "items": {
+        "V": { "item": "afs_vending_medicine", "chance": 100 },
         "G": { "item": "afs_mealgrub_precursor", "chance": 80, "repeat": [ 1, 3 ] },
         "d": { "item": "office", "chance": 60 },
         "W": { "item": "oa_ig_sb_water" },
@@ -53,7 +54,7 @@
         ]
       },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
-      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+      "nested": { "V": { "chunks": [ "nest_vending_machine_reinforced" ] } }
     }
   },
   {

@@ -329,7 +329,10 @@
         "u": "f_trashcan",
         "v": "f_counter"
       },
-      "place_vendingmachines": [ { "x": 8, "y": 2, "lootable": true }, { "x": 8, "y": 3, "lootable": true } ],
+      "place_nested": [
+        { "chunks": [ "nest_vending_machine_looted_mix" ], "x": 8, "y": 2 },
+        { "chunks": [ "nest_vending_machine_looted_mix" ], "x": 8, "y": 3 }
+      ],
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "hardware_bulk", "x": 2, "y": [ 2, 7 ], "chance": 90, "repeat": [ 1, 6 ] },
