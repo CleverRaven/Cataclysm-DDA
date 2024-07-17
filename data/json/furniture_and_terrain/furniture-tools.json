@@ -1649,7 +1649,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 30,
-    "flags": [ "SEALED", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
+    "flags": [ "SEALED", "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
     "bash": {
       "str_min": 150,
       "str_max": 520,
