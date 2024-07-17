@@ -981,5 +981,5 @@
         }
       ]
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
-  },
+  }
 ]
