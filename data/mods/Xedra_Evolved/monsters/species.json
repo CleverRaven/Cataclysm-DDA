@@ -54,7 +54,6 @@
     "flags": [ "NO_NECRO", "VAMP_VIRUS", "DRACULIN_IMMUNE" ],
     "fear_triggers": [ "FIRE" ]
   },
-
   {
     "type": "SPECIES",
     "id": "NIGHTMARE",
