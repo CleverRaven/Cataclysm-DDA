@@ -5759,7 +5759,7 @@ item map::water_from( const tripoint &p )
     return map::water_from( tripoint_bub_ms( p ) );
 }
 
-item map::water_from( const tripoint_bub_ms &p )
+item map::water_from( const tripoint_bub_ms &p ) const
 {
     weather_manager &weather = get_weather();
     if( has_flag( ter_furn_flag::TFLAG_SALT_WATER, p ) ) {

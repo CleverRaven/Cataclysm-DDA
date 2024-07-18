@@ -17,7 +17,6 @@
 static const efftype_id effect_blind( "blind" );
 
 static const itype_id fuel_type_battery( "battery" );
-static const itype_id fuel_type_plut_cell( "plut_cell" );
 
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
