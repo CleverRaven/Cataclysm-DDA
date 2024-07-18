@@ -57,6 +57,7 @@ ID_WHITELIST = {
     'ksg-25',
     'raging_judge',
     'american_180',
+    'gene_sting_gun',
     'ppsh',
     'af2011a1_38super',
     # Magazines
