@@ -206,7 +206,7 @@
   {
     "type": "mutation",
     "id": "WATER_SEALED",
-    "name": { "str": "Waves Wash Over Me" },
+    "name": { "str": "Let the Waves Wash Over Me" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
