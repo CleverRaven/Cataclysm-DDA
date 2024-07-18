@@ -6645,7 +6645,7 @@ void map::place_toilet( const tripoint_bub_ms &p, int charges )
 void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bool reinforced,
                          bool lootable, bool powered )
 {
-    if ( !powered ) {
+    if( !powered ) {
         if( reinforced ) {
             furn_set( p, furn_f_vending_reinforced_off );
         } else {
@@ -6668,9 +6668,9 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
                 spawn_item( loc, "glass_shard", rng( 1, 25 ) );
             }
         }
-        } else {
-            place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
-        }
+    } else {
+        place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
+    }
 }
 
 character_id map::place_npc( const point &p, const string_id<npc_template> &type )
