@@ -869,7 +869,10 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { " ": "t_region_groundcover" },
       "furniture": { " ": "f_rubble_rock" },
-      "place_fields": [ { "field": "fd_dream_wound_shadow", "x": [ 0, 2 ], "y": [ 0, 2 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] } ]
+      "place_fields": [
+        { "field": "fd_dream_wound_shadow", "x": [ 0, 2 ], "y": [ 0, 2 ] },
+        { "field": "fd_gibs_flesh", "x": [ 0, 2 ], "y": [ 0, 2 ] }
+      ]
     }
   },
   {
