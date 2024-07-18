@@ -19,7 +19,7 @@
     "id": "mon_zombie_scorched_brute",
     "type": "MONSTER",
     "name": { "str": "scorched zombie brute" },
-    "description": "An oversized charred human form.  The remains of its burnt and blackened musculature clearly visible between the cracks of the shell formed from its melted skin.",
+    "description": "An oversized charred human form.  The remains of its burnt and blackened musculature are clearly visible between the cracks of the shell formed from its melted skin.",
     "copy-from": "mon_zombie_brute",
     "hp": 95,
     "speed": 85,
@@ -87,7 +87,7 @@
   {
     "id": "mon_zombie_fiend_rust",
     "type": "MONSTER",
-    "description": "An oversized charred human form.  The remains of its burnt and blackened musculature clearly visible between the cracks of the shell formed from its melted skin.  This one appears to have metal fragments sticking out of its body.",
+    "description": "An oversized charred human form.  The remains of its burnt and blackened musculature are clearly visible between the cracks of the shell formed from its melted skin.  This one appears to have metal fragments sticking out of its body.",
     "copy-from": "mon_zombie_scorched_brute",
     "harvest": "zombie_rust"
   }
