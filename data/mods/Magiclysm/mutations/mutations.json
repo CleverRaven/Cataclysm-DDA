@@ -865,5 +865,13 @@
       "threshreq": [ "THRESH_DRAGON_BLACK" ],
       "prereqs2": [ "PRED3_DRAGON", "PRED4_DRAGON" ]
     }
+  },
+  {
+    "type": "mutation",
+    "id": "IRON_ALLERGY",
+    "name": { "str": "Iron Intolerance" },
+    "points": -4,
+    "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
+    "starting_trait": true
   }
 ]

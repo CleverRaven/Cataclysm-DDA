@@ -56,6 +56,7 @@
     "crafting_pseudo_item": "fake_fireplace",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "brazier",
+    "deconstruct": { "items": [ { "item": "brazier", "count": 1 } ] },
     "examine_action": "fireplace",
     "bash": {
       "str_min": 8,
@@ -84,6 +85,7 @@
     "crafting_pseudo_item": "fake_fireplace",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "makeshift_brazier",
+    "deconstruct": { "items": [ { "item": "makeshift_brazier", "count": 1 } ] },
     "examine_action": "fireplace",
     "bash": {
       "str_min": 8,
@@ -109,6 +111,7 @@
     "required_str": 4,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "hobo_stove",
+    "deconstruct": { "items": [ { "item": "hobo_stove", "count": 1 } ] },
     "examine_action": "fireplace",
     "max_volume": "680 ml",
     "bash": {
@@ -161,6 +164,7 @@
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "55gal_firebarrel",
+    "deconstruct": { "items": [ { "item": "55gal_firebarrel", "count": 1 } ] },
     "examine_action": "fireplace",
     "bash": {
       "str_min": 8,
@@ -187,6 +191,7 @@
     "required_str": 8,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
     "deployed_item": "30gal_firebarrel",
+    "deconstruct": { "items": [ { "item": "30gal_firebarrel", "count": 1 } ] },
     "examine_action": "fireplace",
     "bash": {
       "str_min": 8,

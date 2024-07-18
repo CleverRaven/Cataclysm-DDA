@@ -395,7 +395,7 @@
     "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] },
+    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
     "effect": [
       {
         "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
@@ -407,7 +407,7 @@
     "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WIELDING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
-    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER" ] },
+    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
     "effect": [
       {
         "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]

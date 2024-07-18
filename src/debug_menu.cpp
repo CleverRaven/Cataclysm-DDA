@@ -2972,7 +2972,7 @@ static void debug_menu_spawn_vehicle()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
-    if( here.veh_at( player_character.pos() ) ) {
+    if( here.veh_at( player_character.pos_bub() ) ) {
         dbg( D_ERROR ) << "game:load: There's already vehicle here";
         debugmsg( "There's already vehicle here" );
     } else {
@@ -3502,7 +3502,7 @@ static void vehicle_battery_charge()
 
 static void vehicle_export()
 {
-    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos() ) ) {
+    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
         cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
         assure_dir_exist( export_dir );
         const std::string text = string_input_popup()

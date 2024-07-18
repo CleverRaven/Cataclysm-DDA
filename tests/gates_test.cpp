@@ -151,7 +151,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
     clear_avatar();
     clear_map();
 
-    tripoint pos = get_avatar().pos() + point_east;
+    tripoint_bub_ms pos = get_avatar().pos_bub() + point_east;
 
     // the movement cost for opening and closing gates
     // remember to update this if changing value in code
@@ -202,7 +202,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
 
         // enclose the player in single tile room surrounded with
         // concrete floor and roof to test opening windows from indoors
-        const std::vector<tripoint> room_walls{
+        const std::vector<tripoint_bub_ms> room_walls{
             pos + point_south_east,
             pos + point_south,
             pos + point_south_west,
@@ -211,7 +211,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             pos + point_north,
             pos + point_north_east
         };
-        for( tripoint point : room_walls ) {
+        for( tripoint_bub_ms point : room_walls ) {
             REQUIRE( here.ter_set( point, ter_concrete_wall ) );
         }
         REQUIRE( here.ter_set( pos, ter_concrete_floor ) );
@@ -219,8 +219,8 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
 
         // mark map cache as dirty and rebuild it so that map starts
         // recognizing that tile player is standing on is indoors
-        here.set_outside_cache_dirty( pos.z );
-        here.build_outside_cache( pos.z );
+        here.set_outside_cache_dirty( pos.z() );
+        here.build_outside_cache( pos.z() );
         REQUIRE_FALSE( here.is_outside( pos ) );
 
         WHEN( "avatar opens window" ) {
