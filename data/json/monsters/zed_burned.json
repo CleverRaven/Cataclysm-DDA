@@ -49,6 +49,35 @@
     "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
+    "id": "mon_zombie_fiend",
+    "type": "MONSTER",
+    "name": { "str": "fiend" },
+    "description": "A monstrous burnt vaguely humanoid creature, walking around on its knuckles like a gorilla.  Tattered and blackened strands of muscle fibers dangle all around its body, with patches of fused melded skin and bone visible inbetween.  Its forelimbs end in lengthy skeletal claws.",
+    "copy-from": "mon_zombie_base",
+    "volume": "875 L",
+    "weight": "200 kg",
+    "hp": 275,
+    "speed": 125,
+    "color": "i_brown",
+    "melee_skill": 5,
+    "grab_strength": 30,
+    "special_attacks": [
+      { "id": "grab" },
+      { "id": "scratch_humanoid", "cooldown": 20, "damage_max_instance": [ { "damage_type": "cut", "amount": 38 } ] },
+      { "id": "stretch_attack", "range": 2, "damage_max_instance": [ { "damage_type": "stab", "amount": 25 } ] }
+    ],
+    "bleed_rate": 0,
+    "vision_day": 15,
+    "harvest": "zombie_hulk",
+    "upgrades": false,
+    "armor": { "bash": 8, "cut": 12, "acid": 6, "heat": 15, "bullet": 10, "electric": 3 },
+    "extend": {
+      "flags": [ "PUSH_VEH", "DESTROYS", "REVIVES_HEALTHY", "NO_NECRO" ],
+      "weakpoint_sets": [ "wps_humanoid_head_small" ],
+      "families": [ "prof_wp_hulk" ]
+    }
+  },
+  {
     "id": "mon_zombie_scorched_rust",
     "type": "MONSTER",
     "description": "A heavily burned zombie that still reeks of charred meat.  Its now leathery flesh has mended into patches, giving it a more armored appearance.  This one appears to have metal fragments sticking out of its body.",
