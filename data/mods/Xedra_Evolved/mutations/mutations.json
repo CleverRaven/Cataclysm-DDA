@@ -767,16 +767,5 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
-  },
-  {
-    "type": "mutation",
-    "id": "CALL_DAFFODIL",
-    "points": 0,
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "name": { "str": "Fae Authority" },
-    "description": "Boann bestowed upon you the right to summon a few daffodil warriors once a day.",
-    "spells_learned": [ [ "call_daffodil", 1 ] ]
   }
 ]
