@@ -2633,7 +2633,7 @@
     "id": "entry_suit",
     "type": "ARMOR",
     "name": { "str": "entry suit" },
-    "description": "A tough flame-resistant, whole-body garment worn by firefighters as protection against extreme heat.  It includes a SCBA to protect from hazardous gasses and temperatures, with a backpack slot for a tank of mixed nitrogen and oxygen.",
+    "description": "A tough flame-resistant, whole-body garment worn by firefighters as protection against extreme heat.  It includes a SCBA to protect from hazardous gasses and temperatures, with a backpack slot for an air tank.",
     "//:": "Roughly based on the Newtex X40.",
     "weight": "11300 g",
     "volume": "13 L",
@@ -2659,10 +2659,10 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "airtight": true,
         "rigid": true,
-        "watertight": true,
-        "ammo_restriction": { "nitrox": 60 }
+        "max_contains_weight": "20 kg",
+        "max_contains_volume": "12 l",
+        "item_restriction": [ "scuba_tank", "small_scuba_tank" ]
       }
     ]
   },
