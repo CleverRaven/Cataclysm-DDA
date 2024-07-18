@@ -109,7 +109,7 @@
     "material": [ "hflesh" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
-      "GENE_STING"
+      "GENE_STING",
       "PSEUDO",
       "NEVER_JAMS",
       "NONCONDUCTIVE",
