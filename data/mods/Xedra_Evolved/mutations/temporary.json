@@ -125,8 +125,8 @@
   },
   {
     "type": "mutation",
-    "id": "HEDGE_TURN_INTO_BEAR_TRAITS",
-    "name": { "str": "Skinwalker Bear Form" },
+    "id": "TURN_INTO_BEAR_TRAITS",
+    "name": { "str": "Bear Form" },
     "points": 99,
     "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
     "valid": false,

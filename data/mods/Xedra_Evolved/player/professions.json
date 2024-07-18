@@ -684,5 +684,39 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "bear_skinchanger",
+    "name": { "male": "Skinchanger (Bear)", "female": "Skinchanger (Bear)" },
+    "description": "Perhaps you were the member of a cult, or a strange family legacy, or maybe you just stumbled on a book that probably shouldn't have been left where you could find it.  Regardless, you have the ability to turn into an animal when you kill it and make a talisman out of its bones and skin.  Every change requires a death, but with so much death already since the Cataclysm, what's a little bit more?",
+    "points": 5,
+    "traits": [ "HEDGE_MAGIC" ],
+    "skills": [
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "deduction" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "proficiencies": [ "prof_leatherworking_basic", "prof_furriery" ],
+    "spells": [ { "id": "hedge_turn_into_bear", "level": 1 } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "item": "item_hedge_turn_into_bear", "container-item": "duffelbag" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
   }
 ]
