@@ -458,7 +458,13 @@
     "description": "The diviner told you that there would be a druid tower here.",
     "destination": "druid_ritual_home_z0",
     "start": {
-      "assign_mission_target": { "om_terrain": "druid_ritual_home_z0", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "druid_ritual_home_z0",
+        "om_special": "druid_tower",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
