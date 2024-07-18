@@ -3072,6 +3072,23 @@
   },
   {
     "type": "material",
+    "id": "zetex",
+    "name": "aluminzed fiberglass",
+	"//:": "A type of aluminzed fabric with steel wire reinforcement, based on vermiculite fiberglass fabrics like Zetex."
+    "density": 1.92,
+    "specific_heat_liquid": 0.84,
+    "specific_heat_solid": 0.84,
+    "latent_heat": 500,
+    "edible": false,
+    "conductive": false,
+    "chip_resist": 5,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "resist": { "bash": 2, "cut": 7, "acid": 10, "heat": 50, "bullet": 2 }
+  },
+  {
+    "type": "material",
     "id": "mut_feather",
     "name": "Mutant Feather",
     "density": 0.8,
