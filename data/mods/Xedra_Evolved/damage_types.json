@@ -99,7 +99,10 @@
         { "not": { "npc_has_flag": "SHADOW_MONSTER_IMMUNE" } }
       ]
     },
-    "effect": [ { "u_message": "A bit of shadowstuff settles over your eyes, blocking your vision!", "type": "bad" }, { "npc_add_effect": "blind", "duration": "10 s" } ]
+    "effect": [
+      { "u_message": "A bit of shadowstuff settles over your eyes, blocking your vision!", "type": "bad" },
+      { "npc_add_effect": "blind", "duration": "10 s" }
+    ]
   },
   {
     "id": "xe_shadow_damage",
