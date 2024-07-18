@@ -45,6 +45,7 @@
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY" ]
+
   },
   {
     "id": "mana_recharge_sphere",
@@ -62,13 +63,14 @@
     "symbol": "o",
     "color": "brown",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
     "use_action": [ { "type": "cast_spell", "spell_id": "potion_recover_mana_xe", "no_fail": true, "level": 15 } ]
   },
   {
-    "type": "GENERIC",
-    "category": "currency",
+    "type": "TOOL",
+    "category": "tools",
     "id": "boann_insignia",
     "name": { "str": "Boann's insignia" },
     "description": "A small silver disk featuring a cow standing next to a river on one of its sides.",
@@ -80,13 +82,14 @@
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
-    "use_action": { "type": "cast_spell", "spell_id": "spawn_milk_and_hazelnuts", "no_fail": true, "level": 0, "need_worn": true }
+    "use_action": { "type": "cast_spell", "spell_id": "spawn_milk_and_hazelnuts", "no_fail": true, "level": 0 }
   },
   {
     "id": "boann_banner",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "Boann's banner", "str_pl": "Boann's banners" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of white cow standing next to a river.",
     "weight": "633 g",
@@ -100,6 +103,7 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
+    "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true } ],
     "use_action": { "type": "cast_spell", "spell_id": "nine_second_time_stop", "no_fail": true, "level": 0, "need_worn": true },

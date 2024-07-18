@@ -47,7 +47,7 @@
       "effect": [ { "u_message": "You can't call more daffodil yet.", "type": "bad" } ],
       "false_effect": [
         { "u_add_effect": "called_daffodil", "duration": "24 hours" },
-        { "u_cast_spell": { "id": "call_daffodil_real", "no_fail": true } }
+        { "u_cast_spell": { "id": "call_daffodil_real" } }
       ]
   },
   {

@@ -77,10 +77,10 @@
     "final_energy_cost": 0,
     "base_casting_time": 0,
     "final_casting_time": 0,
-    "extra_effects": [ { "id": "spawn_the_hazelnuts" } ]
+    "extra_effects": [ { "id": "spawn_hazelnuts" } ]
   },
   {
-    "id": "spawn_milk_and_hazelnuts",
+    "id": "spawn_hazelnuts",
     "type": "SPELL",
     "name": "Here's the Hazelnuts",
     "description": "This extra effect spawns the hazelnuts.",

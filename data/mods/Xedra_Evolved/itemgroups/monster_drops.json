@@ -458,8 +458,8 @@
     "message": "<triffid_harvest>",
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
-      { "drop": "triffid_heart_chunk", "mass_ratio": 0.2 },
-      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+      { "drop": "triffid_heart_chunk", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.3 }
     ]
   }
 ]

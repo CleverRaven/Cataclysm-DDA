@@ -103,16 +103,7 @@
     "value": 0,
     "monster_type": "mon_ant_acid_queen",
     "monster_kill_goal": 1,
-    "start": {
-      "assign_mission_target": {
-        "om_terrain": "acid_anthill",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 900,
-        "min_distance": 5,
-        "z": 0
-      }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "acid_anthill", "reveal_radius": 3, "cant_see": true, "search_range": 800 } },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_acid_queen_ant_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -208,12 +199,11 @@
     "item": "triffid_heart_chunk",
     "start": {
       "assign_mission_target": {
-        "om_terrain": "triffid_grove_north",
-        "reveal_radius": 1,
-        "random": false,
-        "search_range": 900,
-        "min_distance": 5,
-        "z": 0
+        "om_terrain": "triffid_grove",
+        "om_special": "Triffid Grove",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 580
       }
     },
     "end": { "opinion": { "trust": 2, "value": 2 } },

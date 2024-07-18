@@ -61,7 +61,7 @@
     "color": "light_gray",
     "name": { "str": "broken dreamforged automaton" },
     "category": "other",
-    "description": "The automaton is now much more broken than it was before.  It ressembles a pile of random parts and its internals are fried beyond salvage but could be gutted for materials.",
+    "description": "The automaton is now much more broken than it was before.  It resembles a pile of random parts and its internals are fried beyond salvage but could be gutted for materials.",
     "price": "0 USD",
     "material": [ "steel", "dreamstuff" ],
     "volume": "210 L",
