@@ -52,7 +52,7 @@
     "id": "mon_zombie_fiend",
     "type": "MONSTER",
     "name": { "str": "fiend" },
-    "description": "A monstrous burnt vaguely humanoid creature, walking around on its knuckles like a gorilla.  Tattered and blackened strands of muscle fibers dangle all around its body, with patches of fused melded skin and bone visible inbetween.  Its forelimbs end in lengthy skeletal claws.",
+    "description": "A monstrous burnt vaguely humanoid creature, walking around on its knuckles like a gorilla.  Tattered and blackened strands of muscle fibers dangle all around its body, with patches of fused melded skin and bone visible between.  Its forelimbs end in lengthy skeletal claws.",
     "copy-from": "mon_zombie_base",
     "volume": "875 L",
     "weight": "200 kg",
