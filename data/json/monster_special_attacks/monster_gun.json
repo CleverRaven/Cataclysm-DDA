@@ -109,7 +109,6 @@
     "material": [ "hflesh" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
-      "GENE_STING",
       "PSEUDO",
       "NEVER_JAMS",
       "NONCONDUCTIVE",
@@ -120,7 +119,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "pistol",
-    "ammo": [ "gene_sting" ],
+    "ammo": [ "gene_sting_barb" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750 ml",
@@ -131,7 +130,7 @@
     "range": 12,
     "dispersion": 100,
     "durability": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting_barb": 15 } } ],
     "melee_damage": { "bash": 2 }
   },
   {
