@@ -103,7 +103,16 @@
     "value": 0,
     "monster_type": "mon_ant_acid_queen",
     "monster_kill_goal": 1,
-    "start": { "assign_mission_target": { "om_terrain": "acid_anthill", "reveal_radius": 3, "cant_see": true, "search_range": 800 } },
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "acid_anthill",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 190,
+        "min_distance": 50,
+        "z": 0
+      }
+    },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_acid_queen_ant_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
