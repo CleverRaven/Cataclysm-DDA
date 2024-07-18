@@ -365,5 +365,92 @@
     "copy-from": "club_wooden",
     "name": { "str": "ancient club" },
     "description": "A misshapen rod of gnarled, knotted wood.  The knots in the wood exhibit a strange fractal pattern.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_bomorrean",
+    "type": "GENERIC",
+    "copy-from": "art_ring",
+    "name": { "str": "set of oddly interlocked rings", "str_pl": "sets of oddly interlocked rings" },
+    "description": "A set of three rings linked together.  There's something about the way the rings connect to each other that gives you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
+  },
+  {
+    "id": "art_penrose",
+    "type": "GENERIC",
+    "copy-from": "art_pyramid",
+    "name": { "str": "strange triangle" },
+    "description": "A large triangle made out of three thick rectangles that connect to each other in an angle.  No matter how much you turn it around, you can't seem to comprehend how it links together.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "volume": "2 L",
+    "weight": "2 kg"
+  },
+  {
+    "id": "art_trident",
+    "type": "TOOL",
+    "copy-from": "art_spear",
+    "name": { "str": "impossible trident" },
+    "description": "A large trident made entirely out of an indiscernible material.  The prong in the middle seems to fade away into nothingness when looked at from the top, but you can clearly see the shaft connecting the tip of the weapon from the bottom.  It's giving you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "looks_like": "pitchfork",
+    "color": "dark_gray",
+    "material": [ "anomaly" ],
+    "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
+    "volume": "1750 ml",
+    "longest_side": "140 cm",
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
+    "melee_damage": { "bash": 5, "stab": 28 }
+  },
+  {
+    "id": "art_klein",
+    "type": "GENERIC",
+    "copy-from": "art_tube",
+    "name": { "str": "self-crossing flask" },
+    "description": "A transparent flask with a neck that connects directly to its bottom without overlapping itself, even though it clearly does.  You can put things in it, but attempting to follow their path through the neck is impossible.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "25 ml",
+        "max_contains_weight": "1 kg",
+        "weight_multiplier": 0,
+        "//": "The bacteria can't find a way inside!",
+        "spoil_multiplier": 0.5,
+        "moves": 5000
+      }
+    ],
+    "volume": "1500 ml",
+    "flags": [ "TARDIS", "ZERO_WEIGHT" ],
+    "weight": "0 kg"
+  },
+  {
+    "id": "art_tesseract",
+    "type": "GENERIC",
+    "copy-from": "art_lamp",
+    "name": { "str": "four-dimensional cube" },
+    "description": "It's a cube that constantly shrinks and grows in size.  It's two cubes linked by the vertices, with ever-shifting sides folding onto each other, over and over.  It's four cubes in the exact same position.  It's a cube fading to ash then reverting to pristine form repeatedly.  It's all of these at once, and none of them at all.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "volume": "1 L",
+    "weight": "8 kg"
+  },
+  {
+    "id": "art_irrational",
+    "type": "GENERIC",
+    "copy-from": "art_lamp",
+    "name": { "str": "irrational cube" },
+    "description": "A large wire-frame cube.  The interior wires somehow appear to be over the exterior wires, no matter which angle you look at the cube from.  Trying to trace the lines with your finger is probably not a good idea.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "volume": "1 L",
+    "weight": "0 kg",
+    "longest_side": "30 cm",
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "art_duocylinder",
+    "type": "GENERIC",
+    "copy-from": "art_urchin",
+    "name": { "str": "wobbly ring" },
+    "description": "A chunky ring that folds onto itself continuously, preventing its use as an esoteric piece of jewelry.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "volume": "5 ml",
+    "weight": "8 kg",
+    "longest_side": "5 cm"
   }
 ]

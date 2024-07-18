@@ -470,6 +470,15 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "not": "is_day" },
+        "values": [
+          {
+            "value": "OVERMAP_SIGHT",
+            "add": { "math": [ "4 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') * 2)" ] }
+          }
+        ]
       }
     ]
   },
@@ -615,6 +624,23 @@
     ],
     "remove_message": "You're sure you could try to learn a new blood gift now.",
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_bat_form_levitation",
+    "//": "Hidden effect, used to make sure bat form can fly.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_mist_form",
+    "//": "Hidden effect, used to make sure mist form doesn't drop items.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
   },
   {
     "id": "eater_lump_pool",
@@ -1002,7 +1028,7 @@
       "pain_min": [ 1 ],
       "pain_max": [ 3 ],
       "pain_chance": [ 6 ],
-      "pain_max_val": [ 100 ],
+      "pain_max_val": [ 50 ],
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],

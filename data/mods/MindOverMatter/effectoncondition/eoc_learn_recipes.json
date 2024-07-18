@@ -439,6 +439,7 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STUN_ROBOTS",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
@@ -516,6 +517,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_radio')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_radio" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STUN_ROBOTS",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_stun_robots')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_stun_robots" } ]
   },
   {
     "type": "effect_on_condition",

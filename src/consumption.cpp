@@ -248,6 +248,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     kcal = you.enchantment_cache->modify_value( enchant_vals::mod::KCAL, kcal );
+    kcal = std::max( 0.0f, kcal );
 
     return static_cast<int>( kcal );
 }
@@ -291,6 +292,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     for( std::pair<const vitamin_id, int> &vit : res ) {
         vit.second = you.enchantment_cache->modify_value( enchant_vals::mod::VITAMIN_ABSORB_MOD,
                      vit.second );
+        vit.second = std::max( 0, vit.second );
     }
     return res;
 }
@@ -1325,7 +1327,7 @@ void Character::modify_morale( item &food, const int nutr )
         food.get_comestible()->comesttype != "MED" &&
         food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
-        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
+        if( here.has_nearby_chair( pos_bub(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( morale_ate_without_table );
                 if( !food.rotten() ) {

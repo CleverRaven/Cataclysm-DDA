@@ -100,6 +100,52 @@
         "condition": { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
       },
       {
+        "text": "Chris and I have a little project for you that we've cooked up, if you're interested.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+            { "u_has_var": "chris_planned_for_bomb", "value": "yes" },
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } },
+                { "math": [ "isherwood_luke_truck_status", "<", "1" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb"
+      },
+      {
+        "text": "We've got the truck, what's next?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+            {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" } },
+                { "math": [ "isherwood_luke_truck_coming", "<", "1" ] },
+                { "math": [ "isherwood_luke_truck_status", "==", "1" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Part_2"
+      },
+      {
+        "text": "I've got the dynamite you requested, I can't wait to see how this works out.",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
+            { "u_has_items": { "item": "dynamite", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "dynamite", "count": 20 },
+          { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES", "success": true }
+        ],
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Done"
+      },
+      {
         "text": "How are those books doing for you?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
         "condition": {
@@ -347,6 +393,66 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb",
+    "dynamic_line": "How does this all come together?",
+    "responses": [
+      {
+        "text": "Well, we are going to turn this truck into a bomb that'll give us a big enough opening in the tower to let out some of the heat and gas.  But small enough that it won't kill Luke unless it's right next to him.",
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy",
+    "dynamic_line": "Are you serious?  This is your brother we are risking here!",
+    "responses": [
+      {
+        "text": "Exactly, and I wouldn't do anything to risk him unnecessarily.",
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan",
+    "dynamic_line": "OK so I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits I'll pick up the truck later",
+    "responses": [
+      {
+        "text": "I think I can manage two bandits.",
+        "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "Surely we can think of a better way in.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Part_2",
+    "dynamic_line": "So now that we've got the truck we need the boom.  See if you can find some dynamite at the old mines?  Once we got the dynamite I'll rig that up to a kitchen timer and we'll have a bomb on wheels.  I'll need 50lbs to light that truck up like the 4th of July!",
+    "responses": [
+      {
+        "text": "This is gonna rad as heck as long as it works.",
+        "effect": { "assign_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "Not doing it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Done",
+    "dynamic_line": "I've got everything I need to make this breaching truck for us.  Thanks!",
+    "responses": [ { "text": "[heck yeah]", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" } ]
+  },
+  {
     "id": "MISSION_ISHERWOOD_LUKE_1",
     "type": "mission_definition",
     "name": { "str": "Find The Art of Glassblowing book" },
@@ -396,6 +502,67 @@
       "success": "I appreciate it, this will make my life so much easier.",
       "success_lie": "I don't see a book…?",
       "failure": "At least you escaped with your life…"
+    }
+  },
+  {
+    "id": "MISSION_LUKE_RETRIEVE_TRUCK",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve the Truck for Luke Isherwood" },
+    "description": "Kill the two bandits for Luke Isherwood to get their truck.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "trailhead_shack_z0", "om_special": "trailhead_shack", "reveal_radius": 1, "search_range": 100 },
+      "update_mapgen": {
+        "place_npcs": [ { "class": "bandit", "x": 5, "y": 8, "target": true }, { "class": "bandit", "x": 5, "y": 9, "target": true } ],
+        "place_vehicles": [
+          { "vehicle": "pickup", "chance": 100, "fuel": 100, "rotation": 0, "faction": "hells_raiders", "x": [ 5 ], "y": [ 8 ] }
+        ]
+      }
+    },
+    "end": { "effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "//": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve Some Dynamite for Luke" },
+    "description": "Get 50 pounds of dynamite for Luke Isherwood to make a bomb.  There's a known shipment at a mine in the region.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "mine_entrance_loading_zone", "om_special": "Generic mine", "reveal_radius": 1, "search_range": 200 },
+      "update_mapgen": {
+        "place_vehicles": [ { "vehicle": "truck_trailer_explosives", "chance": 100, "rotation": 270, "x": [ 7 ], "y": [ 7 ] } ]
+      }
+    },
+    "end": { "effect": [ { "math": [ "isherwood_luke_truck_coming", "++" ] } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "//2": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
     }
   }
 ]

@@ -3522,7 +3522,7 @@
     "name": "Park Ranger",
     "description": "Your days of patrolling the park and protecting people and wildlife from each other have taught you many useful skills.  After finding a gruesome scene at a campsite and getting no response when you radioed for help, you stockpiled as many supplies as possible and set out in your pickup looking for answers.",
     "points": 5,
-    "proficiencies": [ "prof_driver" ],
+    "proficiencies": [ "prof_driver", "prof_wound_care" ],
     "skills": [
       { "level": 5, "name": "survival" },
       { "level": 5, "name": "firstaid" },

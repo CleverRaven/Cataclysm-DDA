@@ -416,7 +416,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     // GRAB: pre-action checking.
     int dpart = -1;
-    const optional_vpart_position vp0 = m.veh_at( you.pos() );
+    const optional_vpart_position vp0 = m.veh_at( you.pos_bub() );
     vehicle *const veh0 = veh_pointer_or_null( vp0 );
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
     vehicle *const veh1 = veh_pointer_or_null( vp1 );
@@ -446,8 +446,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                        !m.has_flag_furn( "BRIDGE", dest_loc );
     bool toDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) &&
                        !m.has_flag_furn( "BRIDGE", dest_loc );
-    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos() );
-    bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() );
+    bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos_bub() );
+    bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() );
     bool fromBoat = veh0 != nullptr;
     bool toBoat = veh1 != nullptr;
     if( is_riding ) {
@@ -490,7 +490,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.passable_ter_furn( dest_loc )
         && you.is_walking()
         && !veh_closed_door
-        && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
+        && m.open_door( you, dest_loc, !m.is_outside( you.pos_bub() ) ) ) {
         you.mod_moves( -you.get_speed() );
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto move is on, continue moving next turn
@@ -527,7 +527,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( m.furn( dest_loc ) != furn_f_safe_c &&
-        m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
+        m.open_door( you, dest_loc, !m.is_outside( you.pos_bub() ) ) ) {
         you.mod_moves( -you.get_speed() );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
@@ -569,7 +569,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     // We're moving onto a tile with no support, check if it has a ramp below
     if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint below( dest_loc.xy(), dest_loc.z - 1 );
+        tripoint_bub_ms below( point_bub_ms( dest_loc.xy() ), dest_loc.z - 1 );
         if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
@@ -582,7 +582,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         return false;
     }
 
-    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos() ) ||
+    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos_bub() ) ||
         m.passable( dest_loc ) ) {
         return false;
     }
@@ -659,9 +659,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
     bool diagonal = p.x != you.posx() && p.y != you.posy();
     if( you.in_vehicle ) {
-        m.unboard_vehicle( you.pos() );
+        m.unboard_vehicle( you.pos_bub() );
     }
-    if( you.is_mounted() && m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+    if( you.is_mounted() && m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
         return;
     }
@@ -670,14 +670,14 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    tripoint old_abs_pos = m.getabs( you.pos() );
+    tripoint old_abs_pos = m.getabs( you.pos_bub() );
     you.setpos( p );
     g->update_map( you );
 
     cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
 
-    if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        m.board_vehicle( you.pos(), &you );
+    if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( you.pos_bub(), &you );
     }
     you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
     you.inv->rust_iron_items();
@@ -886,10 +886,10 @@ bool avatar_action::eat_here( avatar &you )
 {
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos() ) &&
-          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos_bub() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos_bub() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
-            add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
+            add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
             here.ter_set( you.pos(), ter_t_grass );
@@ -899,28 +899,28 @@ bool avatar_action::eat_here( avatar &you )
         }
     }
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos() ) &&
-          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_FLOWER, you.pos_bub() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, you.pos_bub() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
-            add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos() )->name() );
+            add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
-            here.furn_set( you.pos(), furn_str_id::NULL_ID() );
+            here.furn_set( you.pos_bub(), furn_str_id::NULL_ID() );
             item food( "small_plant", calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) &&
-        ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos() ) &&
-          !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos() ) ) ) {
+        ( here.has_flag( ter_furn_flag::TFLAG_GRAZABLE, you.pos_bub() ) &&
+          !here.has_flag( ter_furn_flag::TFLAG_FUNGUS, you.pos_bub() ) ) ) {
         if( you.has_effect( effect_hunger_engorged ) ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
             item food( item( "grass", calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
-            here.ter_set( you.pos(), here.get_ter_transforms_into( you.pos() ) );
+            here.ter_set( you.pos_bub(), here.get_ter_transforms_into( you.pos_bub() ) );
             return true;
         }
     }
