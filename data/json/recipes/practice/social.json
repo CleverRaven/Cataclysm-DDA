@@ -28,5 +28,70 @@
     "autolearn": [ [ "speech", 5 ] ],
     "book_learn": [ [ "textbook_speech", 4 ] ],
     "tools": [ [ "mirror" ] ]
+  },
+  {
+    "type": "practice",
+    "id": "prac_unmute_bird",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SOCIAL",
+    "name": "relearn ape chirps",
+    "description": "Debase your beautiful new voice with trying to imitate human speech.  Still more enjoyable than trying to make them sing, in any case.",
+    "skill_used": "speech",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "result_eocs": [ "EOC_UNMUTE_BIRD" ]
+  },
+  {
+    "type": "practice",
+    "id": "prac_unmute_ceph",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SOCIAL",
+    "name": "relearn human speech",
+    "description": "Your mantle struggles, and you need to contort your throat in ways that strain even your new, flexible form.  Still, having a shoal is preferable to going it alone.",
+    "skill_used": "speech",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "result_eocs": [ "EOC_UNMUTE_CEPH" ]
+  },
+  {
+    "type": "practice",
+    "id": "prac_unmute_gastropod",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SOCIAL",
+    "name": "relearn human speech",
+    "description": "You don't have any teeth to stop airflow, and with your new tongue even closing your mouth feels unnaturally cramped.  However, rubbing different areas of your radula makes for an interesting cacophony - that might be a solution, if only you get the pitch just right.",
+    "skill_used": "speech",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "result_eocs": [ "EOC_UNMUTE_GASTROPOD" ]
+  },
+  {
+    "type": "practice",
+    "id": "prac_unmute_insect",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SOCIAL",
+    "name": "relearn human speech",
+    "description": "Maybe you could rub your chitin together?  No, the apes need their vowels.",
+    "skill_used": "speech",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "result_eocs": [ "EOC_UNMUTE_INSECT" ]
+  },
+  {
+    "type": "practice",
+    "id": "prac_unmute_slime",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_SOCIAL",
+    "name": "relearn human speech",
+    "description": "Couldn't you use some pheromones?  A packet of injected slime rewiring their brain?  Anything less demeaning than trying to ape the apes.",
+    "skill_used": "speech",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
+    "result_eocs": [ "EOC_UNMUTE_SLIME" ]
   }
 ]

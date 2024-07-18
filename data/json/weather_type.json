@@ -192,7 +192,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
-    "required_weathers": [ "flurries" ],
+    "required_weathers": [ "drizzle" ],
     "priority": 90,
     "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
   },

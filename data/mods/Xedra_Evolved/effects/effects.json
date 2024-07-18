@@ -1028,7 +1028,7 @@
       "pain_min": [ 1 ],
       "pain_max": [ 3 ],
       "pain_chance": [ 6 ],
-      "pain_max_val": [ 100 ],
+      "pain_max_val": [ 50 ],
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],

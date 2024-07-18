@@ -26,8 +26,8 @@ status_t monster_oracle_t::split_possible( const std::string_view ) const
 
 status_t monster_oracle_t::items_available( const std::string_view ) const
 {
-    if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos() ) &&
-        get_map().has_items( subject->pos() ) ) {
+    if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos_bub() ) &&
+        get_map().has_items( subject->pos_bub() ) ) {
         std::vector<material_id> absorb_material = subject->get_absorb_material();
         std::vector<material_id> no_absorb_material = subject->get_no_absorb_material();
 

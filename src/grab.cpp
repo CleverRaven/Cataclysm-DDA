@@ -37,7 +37,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         u.grab( object_type::NONE );
         return false;
     }
-    const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos() ) );
+    const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos_bub() ) );
     if( grabbed_vehicle == veh_under_player ) {
         // TODO: Fix when unary operation available
         u.grab_point = tripoint_rel_ms_zero - dp;

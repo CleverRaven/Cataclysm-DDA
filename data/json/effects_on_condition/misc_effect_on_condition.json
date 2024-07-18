@@ -220,5 +220,41 @@
         "target_part": "eyes"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sunrise_morale_buff",
+    "recurrence": { "math": [ "time_until('sunrise')" ] },
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "effect": [
+      { "u_message": "The sunrise always makes you a feel a little bit better.", "type": "morale" },
+      {
+        "u_add_morale": "morale_sunrise",
+        "bonus": 10,
+        "max_bonus": 10,
+        "duration": "120 minutes",
+        "decay_start": "60 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sunset_morale_buff",
+    "recurrence": { "math": [ "time_until('sunset')" ] },
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
+    "effect": [
+      { "u_message": "The sunset always makes you a feel a little bit better.", "type": "morale" },
+      {
+        "u_add_morale": "morale_sunset",
+        "bonus": 10,
+        "max_bonus": 10,
+        "duration": "120 minutes",
+        "decay_start": "60 minutes"
+      }
+    ]
   }
 ]
