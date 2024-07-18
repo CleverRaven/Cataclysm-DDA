@@ -1482,7 +1482,7 @@
       {
         "type": "gun",
         "cooldown": 2,
-        "gun_type": "gene_sting",
+        "gun_type": "gene_sting_gun",
         "ranges": [ [ 2, 24, "DEFAULT" ] ],
         "description": "The yugg launches a viscous barb!"
       }

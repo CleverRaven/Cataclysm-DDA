@@ -100,7 +100,7 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "gene_sting",
+    "id": "gene_sting_gun",
     "type": "GUN",
     "symbol": "%",
     "color": "red",
