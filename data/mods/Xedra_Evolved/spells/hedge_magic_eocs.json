@@ -229,6 +229,10 @@
     "required_event": "character_wears_item",
     "condition": { "compare_string": [ "item_hedge_turn_into_bear", { "context_val": "itype" } ] },
     "effect": [
+      {
+        "u_message": "As you put the mantle on, your skin writhes, your limbs twist, and thick fur sprouts from your body as you fall onto all fours.",
+        "type": "neutral"
+      },
       { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
       {
         "switch": { "math": [ "u_preshift_size" ] },
@@ -247,6 +251,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM",
     "effect": [
+      { "u_message": "Your nonexistence arms somehow remove the mantle and return to your old shape.", "type": "neutral" },
       { "u_lose_trait": "HEDGE_TURN_INTO_BEAR_TRAITS" },
       {
         "switch": { "math": [ "u_preshift_size" ] },
@@ -257,7 +262,9 @@
           { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
-      }
+      },
+      { "u_consume_item": "item_hedge_turn_into_bear", "count": 1 },
+      { "u_spawn_item": "item_hedge_turn_into_bear_off", "suppress_message": true }
     ]
   }
 ]
