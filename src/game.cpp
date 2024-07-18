@@ -11446,7 +11446,7 @@ void game::water_affect_items( Character &ch ) const
     bool gear_waterproofed = ch.has_flag( json_flag_ITEM_WATERPROOFING );
 
     for( item_location &loc : ch.all_items_loc() ) {
-        if ( gear_waterproofed ) {
+        if( gear_waterproofed ) {
             break;
         }
         // check flag first because its cheaper
