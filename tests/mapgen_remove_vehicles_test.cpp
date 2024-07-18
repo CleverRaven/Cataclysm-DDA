@@ -22,7 +22,7 @@ namespace
 void check_vehicle_still_works( vehicle &veh )
 {
     map &here = get_map();
-    REQUIRE( here.veh_at( get_avatar().pos() ).has_value() );
+    REQUIRE( here.veh_at( get_avatar().pos_bub() ).has_value() );
     REQUIRE( veh.player_in_control( get_avatar() ) );
     veh.engine_on = true;
     veh.velocity = 1000;
@@ -46,7 +46,7 @@ void remote_add_test_vehicle( map &m )
     REQUIRE( m.get_vehicles().empty() );
     add_test_vehicle( m, tripoint_zero );
     REQUIRE( m.get_vehicles().size() == 1 );
-    REQUIRE( m.veh_at( tripoint_zero ).has_value() );
+    REQUIRE( m.veh_at( tripoint_bub_ms_zero ).has_value() );
 }
 
 template<typename F, typename ID>

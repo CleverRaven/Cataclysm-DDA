@@ -1,0 +1,186 @@
+[
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_BEAR_FORM",
+    "name": { "str": "Form of the Forest King" },
+    "points": 0,
+    "description": "You can transform yourself into a bear.  Roar.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_DRUID_SHIFTER_BEAR_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_DRUID_SHIFTER_BEAR_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_BEAR_FORM_TRAITS",
+    "name": { "str": "Bear Form" },
+    "points": 99,
+    "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": 0.5 },
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "STRENGTH", "add": 10 },
+          { "value": "NIGHT_VIS", "add": 5 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.4 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
+          { "value": "MAX_MANA", "multiply": -1000 }
+        ],
+        "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
+      },
+      { "condition": "ALWAYS", "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [
+      "MUTE",
+      "MYOPIC_IN_LIGHT",
+      "NO_SPELLCASTING",
+      "PRED3",
+      "QUADRUPED_CROUCH",
+      "QUADRUPED_RUN",
+      "TOUGH_FEET",
+      "TEMPORARY_SHAPESHIFT",
+      "SHAPESHIFT_SIZE_HUGE"
+    ],
+    "override_look": { "id": "mon_bear", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_DEER_FORM",
+    "name": { "str": "Form of the Swift Runner" },
+    "points": 0,
+    "description": "You can transform yourself into a deer.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_DRUID_SHIFTER_DEER_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_DRUID_SHIFTER_DEER_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_DEER_FORM_TRAITS",
+    "name": { "str": "Deer Form" },
+    "points": 99,
+    "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": 0.1 },
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "MOVE_COST", "multiply": -0.5 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "NIGHT_VIS", "add": 6 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
+          { "value": "MAX_MANA", "multiply": -1000 }
+        ],
+        "skills": [ { "value": "dodge", "add": 2 } ],
+        "mutations": [ "ANTLERS", "HOOVES" ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "attacks": {
+      "attack_text_u": "You kick %s with your hooves!",
+      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
+      "chance": 15,
+      "strength_damage": { "damage_type": "bash", "amount": 3 }
+    },
+    "flags": [ "MUTE", "NO_SPELLCASTING", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_deer", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_antlers", "integrated_feline_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_RAVEN_FORM",
+    "name": { "str": "Form of the Soaring Wings" },
+    "points": 0,
+    "description": "You can transform yourself into a raven and take wing.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_DRUID_SHIFTER_RAVEN_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_DRUID_SHIFTER_RAVEN_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_RAVEN_FORM_TRAITS",
+    "name": { "str": "Raven Form" },
+    "points": 0,
+    "description": "You are a raven.  This provides the actual effects of raven form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "bodytemp_modifiers": [ 300, 800 ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "MAX_HP", "multiply": -0.75 },
+          { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MELEE_DAMAGE", "multiply": -0.95 },
+          { "value": "DEXTERITY", "add": 8 },
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "NIGHT_VIS", "add": 4 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
+          { "value": "MAX_MANA", "multiply": -1000 }
+        ],
+        "ench_effects": [ { "effect": "effect_druid_shifter_raven_form_levitation", "intensity": 1 } ],
+        "skills": [ { "value": "dodge", "add": 6 } ],
+        "mutations": [ "BIRD_EYE", "DOWN", "EAGLEEYED", "LIGHTEATER" ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "PERCEPTION", "add": 4 },
+          { "value": "BODYTEMP_SLEEP", "add": 0.5 },
+          { "value": "OVERMAP_SIGHT", "add": 4 },
+          { "value": "METABOLISM", "multiply": -0.333 }
+        ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      },
+      { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
+    ],
+    "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "override_look": { "id": "mon_raven", "tile_category": "monster" }
+  }
+]

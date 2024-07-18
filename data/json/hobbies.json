@@ -519,6 +519,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "canning_food",
+    "name": "Home canning",
+    "description": "Whether it was something practiced in your family or something you took it up to extend the shelf life of your groceries, you know how to preserve produce and meat in cans or mason jars.  With the electricity down and refrigerators dead, saying your skills could come in handy is an understatement.",
+    "points": 4,
+    "proficiencies": [ "prof_food_prep", "prof_preservation", "prof_food_canning" ],
+    "skills": [ { "level": 4, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "paintball",
     "name": "Paintball",
     "description": "Pretending to shoot at your friends has always been fun.  Now you can do it for real.",

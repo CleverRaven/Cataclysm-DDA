@@ -734,8 +734,7 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "barry_mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 },
-      "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "unique_id": "BARRY_MISSION", "target": true } ] }
+      "assign_mission_target": { "om_terrain": "barry_mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
