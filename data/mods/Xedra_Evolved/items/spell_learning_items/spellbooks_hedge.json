@@ -60,7 +60,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
     "id": "spellbook_hedge_ward_dreams",
