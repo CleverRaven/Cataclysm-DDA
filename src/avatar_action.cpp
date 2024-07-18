@@ -113,8 +113,8 @@ static bool check_water_affect_items( avatar &you )
     std::vector<item_location> wet;
 
     for( item_location &loc : you.all_items_loc() ) {
-        if ( you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
-        break;
+        if( you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+            break;
         } else if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
             dissolved.emplace_back( loc );
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
