@@ -11,27 +11,5 @@
       { "item": "slippers" },
       { "item": "robe" }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_DRUID_MASTER_SHIFTER_worn",
-    "subtype": "collection",
-    "items": [
-      { "item": "leathersandals" },
-      { "item": "boots_fur" },
-      { "item": "gloves_wraps_fur" },
-      { "item": "druid_spellbook" },
-      { "item": "cloak_fur" },
-      { "item": "scarf_fur_loose" },
-      { "item": "leather_pouch", "contents-group": "pouch_wild_druid" },
-      { "item": "primitive_knife", "container-item": "sheath" },
-      { "item": "water_clean", "charges": 3, "container-item": "waterskin" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "NC_DRUID_MASTER_SHIFTER_wielded",
-    "subtype": "distribution",
-    "items": [ { "item": "quarterstaff" } ]
   }
 ]
