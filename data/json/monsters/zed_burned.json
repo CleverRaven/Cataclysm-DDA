@@ -36,7 +36,7 @@
     "id": "mon_zombie_scorched",
     "type": "MONSTER",
     "name": { "str": "scorched zombie" },
-    "description": "A heavily burned zombie that still reeks of charred meat. Its now leathery flesh has mended into patches, giving it a more armored appearance.",
+    "description": "A heavily burned zombie that still reeks of charred meat.  Its now leathery flesh has mended into patches, giving it a more armored appearance.",
     "copy-from": "mon_zombie_base",
     "hp": 60,
     "speed": 55,
