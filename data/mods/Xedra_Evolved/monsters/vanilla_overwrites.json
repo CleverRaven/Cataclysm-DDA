@@ -1,9 +1,0 @@
-[
-    {
-      "id": "mon_lieutenant_shadow",
-      "type": "MONSTER",
-      "name": { "str_sp": "A shadow?" },
-      "copy-from": "mon_lieutenant_shadow",
-      "death_function": { "effect": { "id": "death_shadow_check_for_loot", "hit_self": false }, "corpse_type": "NO_CORPSE" }
-    }
-]
