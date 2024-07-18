@@ -34,23 +34,5 @@
     "mission_offered": "MISSION_PURGE_50_Z",
     "chat": "TALK_HEALER_GREY",
     "faction": "healers_grey"
-  },
-  {
-    "type": "npc",
-    "id": "druid_shifter_questgiver",
-    "//": "druid shifter in the wilderness, teaches druids to shift.",
-    "name_suffix": "druid", 
-    "class": "NC_DRUID_MASTER_SHIFTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_DRUID_MASTER_SHIFTER_QUESTGIVER_INTRO",
-    "faction": "druid_circle",
-    "age": 45,
-    "personality": {
-      "aggression": -2,
-      "bravery":  5,
-      "collector":  -6,
-      "altruism":  5
-    }
   }
 ]
