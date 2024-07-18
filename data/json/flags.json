@@ -2526,5 +2526,10 @@
     "id": "IRRITANT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>skin irritants</info>."
+  },
+  {
+    "id": "ITEM_WATERPROOFING",
+    "type": "json_flag",
+    "info": "Something is preventing your worn and carried items from being effected by water."
   }
 ]
