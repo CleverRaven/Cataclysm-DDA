@@ -1458,7 +1458,7 @@
     "description": "A huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.",
     "default_faction": "nether",
     "bodytype": "snake",
-    "species": [ "NETHER" ],
+    "species": [ "NETHER_BURROWING" ],
     "diff": 10,
     "volume": "600 L",
     "weight": "800 kg",
