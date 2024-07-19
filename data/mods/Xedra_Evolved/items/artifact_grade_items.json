@@ -90,7 +90,7 @@
   {
     "id": "boann_banner",
     "type": "TOOL_ARMOR",
-    "name": { "str": "Boann's banner", "str_pl": "Boann's banners" },
+    "name": { "str": "Boann's banner" },
     "description": "A back mounted flag identifying the loyalties of troops.  The heraldry on this banner is of white cow standing next to a river.",
     "weight": "633 g",
     "volume": "2 L",
