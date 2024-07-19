@@ -1474,6 +1474,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "bleed_rate": 50,
+    "starting_ammo": { "gene_sting_barb": 100 },
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
@@ -1483,7 +1484,7 @@
         "type": "gun",
         "cooldown": 2,
         "gun_type": "gene_sting_gun",
-        "ranges": [ [ 2, 24, "DEFAULT" ] ],
+        "ranges": [ [ 2, 18, "DEFAULT" ] ],
         "description": "The yugg launches a viscous barb!"
       }
     ],

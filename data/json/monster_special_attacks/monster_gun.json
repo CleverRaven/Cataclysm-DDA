@@ -130,7 +130,7 @@
     "range": 12,
     "dispersion": 100,
     "durability": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting": 15 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting": 1 } } ],
     "melee_damage": { "bash": 2 }
   },
   {
