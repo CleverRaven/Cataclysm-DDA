@@ -121,7 +121,10 @@
         "search_range": 200
       }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_five_mi_go_guards_for_boann", "value": "yes" } },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "killed_five_mi_go_guards_for_boann", "value": "yes" }
+    },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -146,17 +149,13 @@
     "monster_type": "mon_centipede_mega",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "field",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 5,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_centipede_mega", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_armored_centipede_for_boann", "value": "yes" } },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "killed_armored_centipede_for_boann", "value": "yes" }
+    },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -181,14 +180,7 @@
     "monster_type": "mon_dreamforged_automaton",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "field",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 5,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_dreamforged_automaton", "x": 11, "y": 11, "target": true } ] }
     },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_automaton_for_boann", "value": "yes" } },
@@ -248,14 +240,7 @@
     "monster_type": "mon_stag_beetle_mega",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "field",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 5,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_stag_beetle_mega", "x": 11, "y": 11, "target": true } ] }
     },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_titan_beetle_for_boann", "value": "yes" } },
@@ -306,17 +291,13 @@
     "monster_type": "mon_tindalos",
     "monster_kill_goal": 1,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "field",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 90,
-        "min_distance": 5,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 90, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_tindalos", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_star_crown_hound_for_boann", "value": "yes" } },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "killed_star_crown_hound_for_boann", "value": "yes" }
+    },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
