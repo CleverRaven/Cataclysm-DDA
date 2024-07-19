@@ -875,5 +875,27 @@
       [ [ "draw_plate", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "noise_emitter_super",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "radio_book", 2 ], [ "textbook_anarch", 3 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "noise_emitter", 1 ], [ "horn_big", 1 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "amplifier_head", 1 ] ]
+    ]
   }
 ]
