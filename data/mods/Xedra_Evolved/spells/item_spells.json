@@ -62,7 +62,7 @@
     "id": "spawn_milk_and_hazelnuts",
     "type": "SPELL",
     "name": "Milk and Hazelnuts",
-    "description": "Spawns milk. The extra effect spawns the hazelnuts.",
+    "description": "Spawns milk.  The extra effect spawns the hazelnuts.",
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
     "flags": [ "PERMANENT", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE" ],
