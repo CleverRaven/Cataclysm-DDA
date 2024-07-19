@@ -164,8 +164,8 @@
     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
     "effect": [
       { "u_message": "The hair on your body stands up on end.", "type": "good" },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_PERSONAL_BATTERY_SWITCHER" ] },
       { "u_add_effect": "effect_electrokin_personal_battery", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER" ] },
       {
         "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
@@ -188,46 +188,53 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
     "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
-    "effect": [
-      { "u_remove_item_with": "electrokinetic_ups_1" },
-      { "u_remove_item_with": "electrokinetic_ups_2" },
-      { "u_remove_item_with": "electrokinetic_ups_3" },
-      { "u_remove_item_with": "electrokinetic_ups_4" },
-      { "u_remove_item_with": "electrokinetic_ups_5" },
-      { "u_remove_item_with": "electrokinetic_ups_6" },
-      { "u_lose_effect": "effect_electrokin_personal_battery" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
-    ]
+    "effect": [ { "u_lose_effect": "effect_electrokin_personal_battery" }, { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_SWITCHER",
-    "effect": {
-      "switch": { "math": [ "u_spell_level('electrokinetic_personal_battery')" ] },
-      "cases": [
-        { "case": 0, "effect": [ { "u_spawn_item": "electrokinetic_ups_1", "suppress_message": true, "force_equip": true } ] },
-        {
-          "case": 4,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_2", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 8,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_3", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 12,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_4", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 16,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_5", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 20,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_6", "suppress_message": true, "force_equip": true } ]
-        }
-      ]
-    }
+    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
+    "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
+    "effect": [
+      {
+        "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
+        "time_in_future": [
+          {
+            "math": [
+              "max( ( 60 - ( ( (u_spell_level('electrokinetic_personal_battery') * 2.5 ) * scaling_factor(u_val('intelligence')  ) * u_nether_attunement_power_scaling ) ) ), 5)"
+            ]
+          },
+          {
+            "math": [
+              "max( ( 240 - ( (  (u_spell_level('electrokinetic_personal_battery') * 5 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling ) ) ), 10)"
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "flags": [ "RECHARGE" ] },
+          { "flags": [ "ELECTRONIC" ] },
+          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+          { "flags": [ "USE_UPS" ] }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",
+            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "effect": [
+              {
+                "math": [
+                  "n_val('power')",
+                  "+=",
+                  "1 + ((u_spell_level('electrokinetic_personal_battery') / 5) * scaling_factor(u_val('intelligence') * u_nether_attunement_power_scaling) )"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

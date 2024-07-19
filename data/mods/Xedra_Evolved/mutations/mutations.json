@@ -152,6 +152,16 @@
   },
   {
     "type": "mutation",
+    "id": "BLOOD_FUN",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Sanguine Ecstasy" },
+    "description": "Your palate adapted to your new condition.  Drinking human blood will make you feel great."
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRIC_STRENGTH",
     "points": 0,
     "starting_trait": false,
@@ -383,7 +393,10 @@
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.8 } ] } ]
+    "enchantments": [
+      { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
+      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.8 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -409,6 +422,17 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BLOODHASTE_activated" ],
     "deactivated_eocs": [ "EOC_BLOODHASTE_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MAGICFORBLOOD",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blood-Fueled Magic" },
+    "description": "Your exhaust some of the blood in your veins to recover some of your spent mana.",
+    "spells_learned": [ [ "vampire_magic_for_blood_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -441,9 +465,244 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE" ],
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
     "anger_relations": [ [ "VAMPIRE", -95 ], [ "RENFIELD", -95 ] ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
+          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "DISINFECTANT_BONUS", "multiply": -1 },
+          { "value": "BANDAGE_BONUS", "multiply": -1 }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "0" ] },
+        "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "1800" ] }
+          ]
+        },
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "5 + (u_vitamin('human_blood_vitamin') / 300)" ] } },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "multiply": 2 }
+        ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<", "4400" ] }
+          ]
+        },
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "11 + ((u_vitamin('human_blood_vitamin') - 1800 ) / 325)" ] } },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "multiply": 6 }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">=", "4400" ] },
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "MENDING_MODIFIER", "multiply": 12 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRUE_VAMPIRE_POWER",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "True Vampire's Potence" },
+    "description": "Your new status as a true vampire has empowered your other abilities."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_TORPOR",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Torpor" },
+    "description": "You can enter a deathlike stake known as torpor, in which your wounds will close faster, your fatigue will fully recover and your blood thirst will be less intense.  Be careful, though, as nothing will be able to wake you up until eight hours have passed.",
+    "spells_learned": [ [ "vampire_torpor", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DOMINATE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Dominating Gaze" },
+    "description": "You can focus your gaze and take control of your target.  Only works against targets that have a mind.",
+    "spells_learned": [ [ "vampire_dominate", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_BREATHE",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Facultative Breathing" },
+    "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
+    "flags": [ "GILLS" ],
+    "integrated_armor": [ "integrated_nobreathe" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_NO_ILLNESS",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Corpse-like Flesh" },
+    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.",
+    "flags": [ "PARAIMMUNE", "NO_DISEASE", "NO_RADIATION", "INFECTION_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BAT_FORM",
+    "name": { "str": "Shape of the Night Flier" },
+    "points": 0,
+    "description": "You can transform yourself into a bat and take wing on the night air.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_BAT_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_BAT_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BAT_FORM_TRAITS",
+    "name": { "str": "Bat Form" },
+    "points": 0,
+    "description": "You are a bat.  This provides the actual effects of bat form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.1 },
+          { "value": "MELEE_DAMAGE", "multiply": -0.95 },
+          { "value": "NIGHT_VIS", "add": 6 },
+          { "value": "DEXTERITY", "add": 8 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ],
+        "skills": [ { "value": "dodge", "add": 8 } ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      },
+      { "condition": { "u_is_on_terrain": "t_open_air" }, "values": [ { "value": "MOVE_COST", "multiply": -0.6 } ] }
+    ],
+    "flags": [ "DRACULIN_VENOM", "LEVITATION", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
+    "override_look": { "id": "mon_bat", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WOLF_FORM",
+    "name": { "str": "Shape of the Pack Hunter" },
+    "points": 0,
+    "description": "You can transform yourself into a wolf and stalk your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_WOLF_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_WOLF_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WOLF_FORM_TRAITS",
+    "name": { "str": "Wolf Form" },
+    "points": 0,
+    "description": "You are a wolf.  This provides the actual effects of wolf form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.2 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "HEARING_MULT", "multiply": 0.75 },
+          { "value": "COMBAT_CATCHUP", "multiply": 2 },
+          { "value": "DODGE_CHANCE", "add": 4 }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_wolf", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MIST_FORM",
+    "name": { "str": "Shape of the Billowing Mists" },
+    "points": 0,
+    "description": "You can transform yourself into a cloud of mist and flee any dangers.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_MIST_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_MIST_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MIST_FORM_TRAITS",
+    "name": { "str": "Mist form traits" },
+    "points": 1,
+    "description": "This mutation carries the traits for mist form.  You shouldn't be able to see it in-game.",
+    "valid": false,
+    "player_display": false,
+    "enchantments": [ { "ench_effects": [ { "effect": "effect_vampire_mist_form", "intensity": 1 } ] } ],
+    "override_look": { "id": "fd_extinguisher", "tile_category": "field" }
   },
   {
     "type": "mutation",
@@ -500,5 +759,13 @@
     "valid": false,
     "purifiable": false,
     "enchantments": [ "EATER_SIXTH_SENSE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IRON_ALLERGY",
+    "name": { "str": "Iron Intolerance" },
+    "points": -4,
+    "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
+    "starting_trait": true
   }
 ]

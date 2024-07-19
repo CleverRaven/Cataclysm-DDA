@@ -1311,7 +1311,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
     for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
         // Don't ask if we're setting a fire on top of a fireplace
         // TODO: fix point types
-        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos ) ) {
             break;
         }
         // Skip the position we're trying to light on fire
@@ -1319,7 +1319,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
             continue;
         }
         // TODO: fix point types
-        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+        if( here.has_flag_furn( "FIRE_CONTAINER", query ) ) {
             if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
                 return false;
             } else {
@@ -3929,6 +3929,10 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, const tripoint
     p->mod_moves( -move_cost_final );
 
     place_and_add_as_known( *p, pos, data.trap );
+    const trap &placed_trap = here.tr_at( pos );
+    if( !placed_trap.is_null() ) {
+        const_cast<trap &>( placed_trap ).set_trap_data( it.typeId() );
+    }
     for( const tripoint &t : here.points_in_radius( pos, data.trap.obj().get_trap_radius(), 0 ) ) {
         if( t != pos ) {
             place_and_add_as_known( *p, t, outer_layer_trap );

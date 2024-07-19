@@ -127,6 +127,10 @@ Automatic turrets will not fire guns if they are going to overheat
 Deconstructing now prompts with potential items, can be toggled off in settings
 NPC @ menu: Show morale, medical; Change name, gender, armor sprite
 (Currently player only) Factions can take over and loot camps they don't own
+Food can inherit the allergens of materials it was cooked from
+Add conjunctivitis from boomer bile
+Event Bus for Radiation
+Species Based Snare traps
 
 
 ## Content:
@@ -279,6 +283,13 @@ Remove the 'Shockstorm' attack from monsters that have it
 Adds new endings which are impacted by the strength of other factions
 Add white phosphorus and related recipes
 Added multiple new guns
+This adds a Doctor and Pharmacist profession. It also generalizes the "MD" trait description to include more medical professionals.
+Three new skeletal zombie evolutions
+Microlabs will now spawn foes from a series of mutually exclusive lists.
+Bakery contains flour now, plus overhaul and improvements
+Expands the regenerating zombie into it's own line
+Adds a new set of twisted geometry artifacts, found where geometry itself is twisted due to the acts of humans and worse.
+Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
 
 
 ## Interface:
@@ -348,6 +359,10 @@ support selecting all npcs
 Change: Container for X -> Pour X into
 Show actual real-world distance to mission objective
 Add selection menu for cosmetic traits in character creation
+Adds message for NPCs completing crafting so it doesn't reference the player incorrectly.
+Add the 12-bit rainbow as color palette option
+NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
+Prevent automatically assigning keys to passive bionics
 
 
 ## Mods:
@@ -525,6 +540,18 @@ Give some map extras CLASSIC tag
 [Aftershock] Add two versions of the Exosuit Garage,  travel to Port Augustmoon, 6 variants of Enclosed Parks to the Exoplanet, and Enforcer station for Aftershock
 [Xedra Evolved] Vampires can just drink blood.  They can just drink it
 [TropiCata] Audit and balance pass on termites and termite accessories
+[Magiclysm] Add Hy-Brasilean ambassadorial honor guard profession
+[Bombastic Perks] Add blood-themed perks
+Aftershock: New craftable plasma gun.
+(XE) Allow vampires to reach the fourth tier and add vampiric mentors
+[Aftershock] Add Habitat Block 3 Mapgen to Aftershock Exoplanet
+(XE) Tier 4 Vampire implementation
+Aftershock Lore documents
+[Xedra Evolved] Paraclesian fae cannot wear/wield steel or iron without problems (except Homullus)
+[Xedra Evolved] Lots of Vampire stuff, new powers and power research
+Aftershock: Add a tool and gadget trader to Port Augustmoon.
+[MoM] Add gremlin, a Nether-touched fox, plus small monster tweaks
+[MoM] Randomize monster power cooldowns
 
 
 ## Balance:
@@ -602,6 +629,10 @@ Lower the warmth values of some undergarments and thin clothes.
 Switched Reload Speeds for Plasma Rifle and PPA
 Bring volume calculations for player body more in line with realistic examples
 Give pebble ammo type recovery chance
+Display ordered NPC path on map, NPCs refuse to go to dangerous locations
+Reduce Anthill Spawns
+Science item group no longer littered with personal prescriptions
+more monster balance documentation
 
 
 ## Bugfixes:
@@ -789,6 +820,24 @@ Make farm plots re-tillable in farming extension version 2
 Break fake vehicle parts when the real part breaks
 Fixes OM Terrains triggering their exit_eoc on entry instead of correctly triggering their entry_eoc
 Raw copper wire (weighing 4.747 g) can no longer be disassembled into copper (5 g). New recipe to turn raw copper wire into copper.
+Stop birdshot from firing 20 projectiles, each of which has the power of 100 projectiles
+Travel to no longer cancels on moving up/down on a ramp
+Offspring inherit friendly value from parents to prevent conflict with tamed parents
+LIXA teleport death bugfix
+[Magiclysm] Dust Reborn clears rads
+Fix rat aggression
+Fix android build
+Clean water in tanks now stays clean
+Webs, sludge, and sap no longer give you superhuman dodge and melee accuracy
+Sealed recipes won't seal #71878
+Readd condom flavours
+New England Community Church also dislikes rabbit and bat mutants
+fixes appliances turning off randomly
+Fixing drawing of fallback tiles for weather on overmap
+Limit shot targets to the reality bubble
+Remove acid bombs
+gate close displacement bugfix
+Actually removes acid bomb
 
 
 ## Performance:
@@ -878,6 +927,10 @@ refactor cataimgui::draw_colored_text
 Create header for forward declarations of point types
 Check DPS of all items with sufficient DPS
 Add IRRITANT_IMMUNE flag for describing immunity to skin irritants
+LIXA connect_group
+Allow EOCs to check and modify battery charge in items
+clean up overmap drawing code and consolidate to one function
+Jsonized end screen
 
 
 ## Build:
@@ -899,6 +952,7 @@ Fix crash with imgui and CMake
 Update Flatpak manifest to use clang and include the default soundpack
 stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
+Add PDCurses to Windows
 
 
 ## I18N and A11Y:

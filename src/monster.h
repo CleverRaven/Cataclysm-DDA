@@ -209,7 +209,9 @@ class monster : public Creature
          * can_move_to() is a wrapper for both of them.
          * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
+        // TODO: Get rid of untyped overload
         bool can_move_to( const tripoint &p ) const;
+        bool can_move_to( const tripoint_bub_ms &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;

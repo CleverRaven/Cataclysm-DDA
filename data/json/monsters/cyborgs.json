@@ -50,7 +50,7 @@
     "description": "A human fused with a mess of metal parts and wires.  While their eyes are empty, the flashes of pain that occasionally cross their face remind you that, deep down, there is a person just like you trapped in this grotesque body.  Someone with enough surgical skills might be able to restore some of their humanity.  If only anyone cared…",
     "default_faction": "science",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "CYBORG" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 60,

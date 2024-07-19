@@ -56,7 +56,7 @@
   {
     "type": "AMMO",
     "id": "chunk_sulfur",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "name": { "str": "chunk of sulfur", "str_pl": "chunks of sulfur" },
@@ -123,7 +123,7 @@
   {
     "type": "AMMO",
     "id": "material_limestone",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "limestone" },
@@ -140,7 +140,7 @@
   {
     "type": "AMMO",
     "id": "material_quicklime",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "quicklime" },
@@ -207,7 +207,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "limestone shard" },
-    "category": "spare_parts",
+    "category": "chems",
     "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but its alkaline properties may yet find some use.",
     "price": "5 USD",
     "price_postapoc": "10 cent",
@@ -234,7 +234,7 @@
   {
     "type": "GENERIC",
     "id": "material_rhodonite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "rhodonite" },
@@ -250,7 +250,7 @@
   {
     "type": "GENERIC",
     "id": "material_zincite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD 50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "zincite" },

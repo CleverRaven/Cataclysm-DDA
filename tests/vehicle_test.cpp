@@ -4,6 +4,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"
@@ -64,15 +65,15 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
                                              0, 0 );
         REQUIRE( veh_ptr != nullptr );
         tripoint grab_point = test_origin + tripoint_east;
-        player_character.grab( object_type::VEHICLE, tripoint_east );
+        player_character.grab( object_type::VEHICLE, tripoint_rel_ms_east );
         REQUIRE( player_character.get_grab_type() == object_type::VEHICLE );
-        REQUIRE( player_character.grab_point == tripoint_east );
+        REQUIRE( player_character.grab_point == tripoint_rel_ms_east );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
             }
         }
     }
@@ -476,7 +477,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_west );
+                m.displace_vehicle( app1, tripoint_rel_ms_west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -491,7 +492,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_east );
+                m.displace_vehicle( app2, tripoint_rel_ms_east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -517,7 +518,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_west );
+                m.displace_vehicle( app1, tripoint_rel_ms_west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -532,7 +533,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_east );
+                m.displace_vehicle( app2, tripoint_rel_ms_east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }

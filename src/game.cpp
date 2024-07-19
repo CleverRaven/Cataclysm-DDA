@@ -41,6 +41,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "ascii_art.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -52,6 +53,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
+#include "cata_imgui.h"
 #include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -86,6 +88,7 @@
 #include "editmap.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "end_screen.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -105,6 +108,7 @@
 #include "get_version.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "imgui/imgui.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
@@ -226,6 +230,8 @@ static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
+static const ascii_art_id ascii_art_ascii_tombstone( "ascii_tombstone" );
+
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -285,9 +291,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
-static const itype_id itype_holybook_bible1( "holybook_bible1" );
-static const itype_id itype_holybook_bible2( "holybook_bible2" );
-static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rope_30( "rope_30" );
@@ -302,8 +305,6 @@ static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" 
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
-
-static const material_id material_glass( "glass" );
 
 static const mod_id MOD_INFORMATION_Graphical_Overmap( "Graphical_Overmap" );
 static const mod_id MOD_INFORMATION_dda( "dda" );
@@ -342,7 +343,6 @@ static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -355,7 +355,6 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
@@ -598,7 +597,7 @@ void game::load_data_from_dir( const cata_path &path, const std::string &src, lo
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
 
-#if !(defined(_WIN32) || defined(TILES))
+#if defined(TUI)
 // in ncurses_def.cpp
 extern void check_encoding(); // NOLINT
 extern void ensure_term_size(); // NOLINT
@@ -610,7 +609,7 @@ void game_ui::init_ui()
     static bool first_init = true;
 
     if( first_init ) {
-#if !(defined(_WIN32) || defined(TILES))
+#if defined(TUI)
         check_encoding();
 #endif
 
@@ -636,7 +635,7 @@ void game_ui::init_ui()
     }
 
     // First get TERMX, TERMY
-#if defined(TILES) || defined(_WIN32)
+#if !defined(TUI)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
@@ -997,8 +996,8 @@ bool game::start_game()
     // This can happen in lab starts
     if( !spawn_near ) {
         for( monster &critter : all_monsters() ) {
-            if( rl_dist( critter.pos(), u.pos() ) <= 5 ||
-                m.clear_path( critter.pos(), u.pos(), 40, 1, 100 ) ) {
+            if( rl_dist( critter.pos_bub(), u.pos_bub() ) <= 5 ||
+                m.clear_path( critter.pos_bub(), u.pos_bub(), 40, 1, 100 ) ) {
                 remove_zombie( critter );
             }
         }
@@ -2401,7 +2400,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
     ( void ) ctxt;
     ( void ) speed;
     ( void ) iso;
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(TUI)
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
         return ret;
@@ -2724,7 +2723,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
         act = ACTION_FIRE;
     } else if( is_adjacent &&
                m.close_door( tripoint_bub_ms( mouse_target.xy(), u.posz() ),
-                             !m.is_outside( u.pos() ), true ) ) {
+                             !m.is_outside( u.pos_bub() ), true ) ) {
         act = ACTION_CLOSE;
     } else if( is_self ) {
         act = ACTION_PICKUP;
@@ -2754,7 +2753,7 @@ bool game::is_game_over()
     }
     if( uquit == QUIT_DIED ) {
         if( u.in_vehicle ) {
-            m.unboard_vehicle( u.pos() );
+            m.unboard_vehicle( u.pos_bub() );
         }
         u.place_corpse();
         return true;
@@ -2762,7 +2761,7 @@ bool game::is_game_over()
     if( uquit == QUIT_SUICIDE ) {
         bury_screen();
         if( u.in_vehicle ) {
-            m.unboard_vehicle( u.pos() );
+            m.unboard_vehicle( u.pos_bub() );
         }
         return true;
     }
@@ -2798,192 +2797,112 @@ bool game::is_game_over()
     return false;
 }
 
-void game::bury_screen() const
+class end_screen_data;
+
+class end_screen_data
 {
-    avatar &u = get_avatar();
+        friend class end_screen_ui_impl;
+    public:
+        void draw_end_screen_ui();
+};
 
-    std::vector<std::string> vRip;
-
-    int iMaxWidth = 0;
-    int iNameLine = 0;
-    int iInfoLine = 0;
-
-    if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
-        u.has_amount( itype_holybook_bible3, 1 ) ) {
-        if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
-            vRip.emplace_back( "               _______  ___" );
-            vRip.emplace_back( "              <       `/   |" );
-            vRip.emplace_back( "               >  _     _ (" );
-            vRip.emplace_back( "              |  |_) | |_) |" );
-            vRip.emplace_back( "              |  | \\ | |   |" );
-            vRip.emplace_back( "   ______.__%_|            |_________  __" );
-            vRip.emplace_back( " _/                                  \\|  |" );
-            iNameLine = vRip.size();
-            vRip.emplace_back( "|                                        <" );
-            vRip.emplace_back( "|                                        |" );
-            iMaxWidth = utf8_width( vRip.back() );
-            vRip.emplace_back( "|                                        |" );
-            vRip.emplace_back( "|_____.-._____              __/|_________|" );
-            vRip.emplace_back( "              |            |" );
-            iInfoLine = vRip.size();
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |           <" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |   _        |" );
-            vRip.emplace_back( "              |__/         |" );
-            vRip.emplace_back( "             % / `--.      |%" );
-            vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
-            vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
-            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
-            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
-
-        } else {
-            vRip.emplace_back( "               _______  ___" );
-            vRip.emplace_back( "              |       \\/   |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            iInfoLine = vRip.size();
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |           <" );
-            vRip.emplace_back( "              |   _        |" );
-            vRip.emplace_back( "              |__/         |" );
-            vRip.emplace_back( "   ______.__%_|            |__________  _" );
-            vRip.emplace_back( " _/                                   \\| \\" );
-            iNameLine = vRip.size();
-            vRip.emplace_back( "|                                         <" );
-            vRip.emplace_back( "|                                         |" );
-            iMaxWidth = utf8_width( vRip.back() );
-            vRip.emplace_back( "|                                         |" );
-            vRip.emplace_back( "|_____.-._______            __/|__________|" );
-            vRip.emplace_back( "             % / `_-.   _  |%" );
-            vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
-            vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
-            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
-            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+class end_screen_ui_impl : public cataimgui::window
+{
+    public:
+        std::array<char, 255> text;
+        explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
         }
-    } else {
-        vRip.emplace_back( R"(           _________  ____           )" );
-        vRip.emplace_back( R"(         _/         `/    \_         )" );
-        vRip.emplace_back( R"(       _/      _     _      \_.      )" );
-        vRip.emplace_back( R"(     _%\      |_) | |_)       \_     )" );
-        vRip.emplace_back( R"(   _/ \/      | \ | |           \_   )" );
-        vRip.emplace_back( R"( _/                               \_ )" );
-        vRip.emplace_back( R"(|                                   |)" );
-        iNameLine = vRip.size();
-        vRip.emplace_back( R"( )                                 < )" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|   _                               |)" );
-        vRip.emplace_back( R"(|__/                                |)" );
-        iMaxWidth = utf8_width( vRip.back() );
-        vRip.emplace_back( R"( / `--.                             |)" );
-        vRip.emplace_back( R"(|                                  ( )" );
-        iInfoLine = vRip.size();
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|     %                         .   |)" );
-        vRip.emplace_back( R"(|  @`                            %% |)" );
-        vRip.emplace_back( R"(| %@%@%\                *      %`%@%|)" );
-        vRip.emplace_back( R"(%%@@@.%@%\%%            `\  %%.%%@@%@)" );
-        vRip.emplace_back( R"(@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@)" );
+    protected:
+        void draw_controls() override;
+};
+
+void end_screen_data::draw_end_screen_ui()
+{
+    input_context ctxt;
+    ctxt.register_action( "TEXT.CONFIRM" );
+#if defined(WIN32) || defined(TILES)
+    ctxt.set_timeout( 50 );
+#endif
+    end_screen_ui_impl p_impl;
+
+    while( true ) {
+        ui_manager::redraw_invalidated();
+        std::string action = ctxt.handle_input();
+        if( action == "TEXT.CONFIRM" || !p_impl.get_is_open() ) {
+            break;
+        }
+    }
+    avatar &u = get_avatar();
+    const bool is_suicide = g->uquit == QUIT_SUICIDE;
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
+            std::string( p_impl.text.data() ) );
+}
+
+void end_screen_ui_impl::draw_controls()
+{
+    text[0] = '\0';
+    avatar &u = get_avatar();
+    ascii_art_id art = ascii_art_ascii_tombstone;
+    dialogue d( get_talker_for( u ), nullptr );
+    std::string input_label;
+    std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
+
+    //Sort end_screens in order of decreasing priority
+    std::vector<end_screen> sorted_screens = end_screen::get_all();
+    std::sort( sorted_screens.begin(), sorted_screens.end(), []( end_screen const & a,
+    end_screen const & b ) {
+        return a.priority > b.priority;
+    } );
+
+    for( const end_screen &e_screen : sorted_screens ) {
+        if( e_screen.condition( d ) ) {
+            art = e_screen.picture_id;
+            if( !e_screen.added_info.empty() ) {
+                added_info = e_screen.added_info;
+            }
+            if( !e_screen.last_words_label.empty() ) {
+                input_label = e_screen.last_words_label;
+            }
+            break;
+        }
     }
 
-    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+    if( art.is_valid() ) {
+        int row = 1;
+        for( const std::string &line : art->picture ) {
+            draw_colored_text( line );
 
-    catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               iOffset );
-    draw_border( w_rip );
+            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
+                if( row ==  info.first.second ) {
+                    parse_tags( info.second, u, u );
+                    ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
+                    draw_colored_text( info.second );
+                }
+            }
+            row++;
+        }
+    }
+
+    if( !input_label.empty() ) {
+        ImGui::NewLine();
+        draw_colored_text( input_label );
+        ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
+        ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
+        ImGui::SetKeyboardFocusHere( -1 );
+    }
+
+}
+
+void game::bury_screen() const
+{
+    end_screen_data new_instance;
+    new_instance.draw_end_screen_ui();
 
     sfx::do_player_death_hurt( get_player_character(), true );
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
     sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
-
-    for( size_t iY = 0; iY < vRip.size(); ++iY ) {
-        size_t iX = 0;
-        const char *str = vRip[iY].data();
-        for( int slen = vRip[iY].size(); slen > 0; ) {
-            const uint32_t cTemp = UTF8_getch( &str, &slen );
-            if( cTemp != U' ' ) {
-                nc_color ncColor = c_light_gray;
-
-                if( cTemp == U'%' ) {
-                    ncColor = c_green;
-
-                } else if( cTemp == U'_' || cTemp == U'|' ) {
-                    ncColor = c_white;
-
-                } else if( cTemp == U'@' ) {
-                    ncColor = c_brown;
-
-                } else if( cTemp == U'*' ) {
-                    ncColor = c_red;
-                }
-
-                mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
-                          cTemp );
-            }
-            iX += mk_wcwidth( cTemp );
-        }
-    }
-
-    std::string sTemp;
-
-    center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
-
-    const time_duration survived = calendar::turn - calendar::start_of_game;
-    const int minutes = to_minutes<int>( survived ) % 60;
-    const int hours = to_hours<int>( survived ) % 24;
-    const int days = to_days<int>( survived );
-
-    if( days > 0 ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
-    } else if( hours > 0 ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dh %dm", hours, minutes );
-    } else {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dm", minutes );
-    }
-
-    center_print( w_rip, iInfoLine++, c_white, sTemp );
-
-    const int iTotalKills = g->get_kill_tracker().monster_kill_count();
-
-    sTemp = _( "Kills:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
-               ( sTemp + " " ) );
-    wprintz( w_rip, c_magenta, "%d", iTotalKills );
-
-    sTemp = _( "In memory of:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
-               c_light_gray,
-               sTemp );
-
-    sTemp = u.get_name();
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
-               sTemp );
-
-    sTemp = _( "Last Words:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
-               c_light_gray,
-               sTemp );
-
-    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
-    std::string sLastWords = string_input_popup()
-                             .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
-                             .max_length( iMaxWidth - 4 - 1 )
-                             .query_string();
-
-    const bool is_suicide = uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            sLastWords );
 }
 
 void game::death_screen()
@@ -3182,7 +3101,7 @@ bool game::load( const save_t &name )
                         // The vehicle stores the IDs of the boarded players, so update it, too.
                         if( u.in_vehicle ) {
                             if( const std::optional<vpart_reference> vp = m.veh_at(
-                                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+                                        u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
                                 vp->part().passenger_id = u.getID();
                             }
                         }
@@ -4131,7 +4050,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         static constexpr tripoint up_tripoint( tripoint_above );
         if( critter.posz() == center.z - 1 &&
             ( debug_mode || u.sees( critter ) ) &&
-            m.valid_move( critter.pos(), critter.pos() + up_tripoint, false, true ) ) {
+            m.valid_move( critter.pos_bub(), critter.pos_bub() + up_tripoint, false, true ) ) {
             // Monster is below
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
@@ -4139,7 +4058,7 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         }
         if( critter.posz() == center.z + 1 &&
             ( debug_mode || u.sees( critter ) ) &&
-            m.valid_move( critter.pos(), critter.pos() + tripoint_below, false, true ) ) {
+            m.valid_move( critter.pos_bub(), critter.pos_bub() + tripoint_below, false, true ) ) {
             // Monster is above
             init_draw_blink_curses( tripoint( critter.pos().xy(), center.z ), "^", c_green_cyan );
         }
@@ -4205,7 +4124,7 @@ std::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
     if( !get_option<bool>( "VEHICLE_DIR_INDICATOR" ) ) {
         return std::nullopt;
     }
-    const optional_vpart_position vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos_bub() );
     if( !vp ) {
         return std::nullopt;
     }
@@ -4323,7 +4242,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
 
                 const pathfinding_settings pf_settings = pathfinding_settings{ 8, distance, distance * 2, 4, true, true, false, true, false, false };
 
-                if( !get_map().route( u.pos(), critter->pos(), pf_settings ).empty() ) {
+                if( !get_map().route( u.pos_bub(), critter->pos_bub(), pf_settings ).empty() ) {
                     return critter;
                 }
                 continue;
@@ -4751,14 +4670,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 break;
             }
             targ->setpos( traj[i] );
-            if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos() ) && !targ->can_drown() &&
+            if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos_bub() ) && !targ->can_drown() &&
                 !targ->is_dead() ) {
                 targ->die( nullptr );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
             }
-            if( !m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos() ) && targ->has_flag( mon_flag_AQUATIC ) &&
+            if( !m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos_bub() ) &&
+                targ->has_flag( mon_flag_AQUATIC ) &&
                 !targ->is_dead() ) {
                 targ->die( nullptr );
                 if( u.sees( *targ ) ) {
@@ -4901,7 +4821,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 knockback( traj, stun, dam_mult );
                 break;
             }
-            if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, u.pos() ) && force_remaining == 0 ) {
+            if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, u.pos_bub() ) && force_remaining == 0 ) {
                 avatar_action::swim( m, u, u.pos() );
             } else {
                 u.setpos( traj[i] );
@@ -5040,9 +4960,19 @@ monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
     return place_critter_around( id, p, 0 );
 }
 
+monster *game::place_critter_at( const mtype_id &id, const tripoint_bub_ms &p )
+{
+    return place_critter_around( id, p.raw(), 0 );
+}
+
 monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p )
 {
     return place_critter_around( mon, p, 0 );
+}
+
+monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &p )
+{
+    return place_critter_around( mon, p.raw(), 0 );
 }
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
@@ -5307,11 +5237,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     Character *other_npc = dynamic_cast< Character * >( &second );
 
     if( u_or_npc->in_vehicle ) {
-        m.unboard_vehicle( u_or_npc->pos() );
+        m.unboard_vehicle( u_or_npc->pos_bub() );
     }
 
     if( other_npc && other_npc->in_vehicle ) {
-        m.unboard_vehicle( other_npc->pos() );
+        m.unboard_vehicle( other_npc->pos_bub() );
     }
 
     tripoint temp = second.pos();
@@ -5321,13 +5251,13 @@ bool game::swap_critters( Creature &a, Creature &b )
         walk_move( temp );
     } else {
         first.setpos( temp );
-        if( m.veh_at( u_or_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-            m.board_vehicle( u_or_npc->pos(), u_or_npc );
+        if( m.veh_at( u_or_npc->pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+            m.board_vehicle( u_or_npc->pos_bub(), u_or_npc );
         }
     }
 
-    if( other_npc && m.veh_at( other_npc->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        m.board_vehicle( other_npc->pos(), other_npc );
+    if( other_npc && m.veh_at( other_npc->pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( other_npc->pos_bub(), other_npc );
     }
     return true;
 }
@@ -5351,11 +5281,16 @@ bool game::is_in_sunlight( const tripoint &p )
 
 bool game::is_sheltered( const tripoint &p )
 {
+    return game::is_sheltered( tripoint_bub_ms( p ) );
+}
+
+bool game::is_sheltered( const tripoint_bub_ms &p )
+{
     const optional_vpart_position vp = m.veh_at( p );
     bool is_inside = vp && vp->is_inside();
 
     return !m.is_outside( p ) ||
-           p.z < 0 ||
+           p.z() < 0 ||
            is_inside;
 }
 
@@ -5497,136 +5432,6 @@ void game::exam_vehicle( vehicle &veh, const point &c )
     }
 }
 
-bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg )
-{
-    // TODO: Z
-    const int &x = p.x;
-    const int &y = p.y;
-    const std::string &door_name = door_type.obj().name();
-    point kb( x, y ); // and when moving items out of the way
-    const auto valid_location = [&]( const tripoint & p ) {
-        return g->is_empty( p );
-    };
-    if( const std::optional<tripoint> pos = random_point( m.points_in_radius( p, 2 ),
-                                            valid_location ) ) {
-        kb.x = -pos->x + x + x;
-        kb.y = -pos->y + y + y;
-    }
-    const tripoint kbp( kb, p.z );
-    if( kbp == p ) {
-        // can't pushback any creatures anywhere, that means the door can't close.
-        return false;
-    }
-    const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    creature_tracker &creatures = get_creature_tracker();
-    Character *npc_or_player = creatures.creature_at<Character>( tripoint( x, y, p.z ), false );
-    if( npc_or_player != nullptr ) {
-        if( bash_dmg <= 0 ) {
-            return false;
-        }
-        if( npc_or_player->is_npc() && can_see ) {
-            add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->get_name() );
-        } else if( npc_or_player->is_avatar() ) {
-            add_msg( m_bad, _( "The %s hits you." ), door_name );
-        }
-        if( npc_or_player->activity ) {
-            npc_or_player->cancel_activity();
-        }
-        // TODO: make the npc angry?
-        npc_or_player->hitall( bash_dmg, 0, nullptr );
-        knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
-        // TODO: perhaps damage/destroy the gate
-        // if the npc was really big?
-    }
-    if( monster *const mon_ptr = creatures.creature_at<monster>( p ) ) {
-        monster &critter = *mon_ptr;
-        if( bash_dmg <= 0 ) {
-            return false;
-        }
-        if( can_see ) {
-            add_msg( _( "The %1$s hits the %2$s." ), door_name, critter.name() );
-        }
-        if( critter.type->size <= creature_size::small ) {
-            critter.die_in_explosion( nullptr );
-        } else {
-            critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
-            critter.check_dead_state();
-        }
-        if( !critter.is_dead() && critter.type->size >= creature_size::huge ) {
-            // big critters simply prevent the gate from closing
-            // TODO: perhaps damage/destroy the gate
-            // if the critter was really big?
-            return false;
-        }
-        if( !critter.is_dead() ) {
-            // Still alive? Move the critter away so the door can close
-            knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
-            if( creatures.creature_at( p ) ) {
-                return false;
-            }
-        }
-    }
-    if( const optional_vpart_position vp = m.veh_at( p ) ) {
-        if( bash_dmg <= 0 ) {
-            return false;
-        }
-        vp->vehicle().damage( m, vp->part_index(), bash_dmg );
-        if( m.veh_at( p ) ) {
-            // Check again in case all parts at the door tile
-            // have been destroyed, if there is still a vehicle
-            // there, the door can not be closed
-            return false;
-        }
-    }
-    if( bash_dmg < 0 && !m.i_at( point( x, y ) ).empty() ) {
-        return false;
-    }
-    if( bash_dmg == 0 ) {
-        for( item &elem : m.i_at( point( x, y ) ) ) {
-            if( elem.made_of( phase_id::LIQUID ) ) {
-                // Liquids are OK, will be destroyed later
-                continue;
-            }
-            if( elem.volume() < 250_ml ) {
-                // Dito for small items, will be moved away
-                continue;
-            }
-            // Everything else prevents the door from closing
-            return false;
-        }
-    }
-
-    m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point( x, y ) ) ) {
-        map_stack items = m.i_at( point( x, y ) );
-        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-            if( it->made_of( phase_id::LIQUID ) ) {
-                it = items.erase( it );
-                continue;
-            }
-            const int glass_portion = it->made_of( material_glass );
-            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
-            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
-                if( can_see ) {
-                    add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
-                } else {
-                    add_msg( m_warning, _( "Something shatters!" ) );
-                }
-                it = items.erase( it );
-                continue;
-            }
-            m.add_item_or_charges( kbp, *it );
-            it = items.erase( it );
-        }
-    }
-    return true;
-}
-
-bool game::forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg )
-{
-    return forced_door_closing( p.raw(), door_type, bash_dmg );
-}
-
 void game::open_gate( const tripoint &p )
 {
     open_gate( tripoint_bub_ms( p ) );
@@ -5639,7 +5444,7 @@ void game::open_gate( const tripoint_bub_ms &p )
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )
 {
-    const optional_vpart_position vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos_bub() );
     if( !vp ) {
         debugmsg( "Tried to exit non-existent vehicle." );
         return;
@@ -5653,12 +5458,12 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     // TODO:: make dir() const correct!
     const units::angle d = ray.dir();
     add_msg( _( "You dive from the %s." ), veh->name );
-    m.unboard_vehicle( u.pos() );
+    m.unboard_vehicle( u.pos_bub() );
     u.mod_moves( -to_moves<int>( 2_seconds ) );
     // Dive three tiles in the direction of tox and toy
     fling_creature( &u, d, 30, true, true );
     // Hit the ground according to vehicle speed
-    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) ) {
+    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) ) {
         if( veh->velocity > 0 ) {
             fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ), false, true );
         } else {
@@ -5677,7 +5482,7 @@ void game::control_vehicle()
         }
     }
     vehicle *veh = nullptr;
-    if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
+    if( const optional_vpart_position vp = m.veh_at( u.pos_bub() ) ) {
         veh = &vp->vehicle();
         const int controls_idx = veh->avail_part_with_feature( vp->mount(), "CONTROLS" );
         const int reins_idx = veh->avail_part_with_feature( vp->mount(), "CONTROL_ANIMAL" );
@@ -5688,7 +5493,7 @@ void game::control_vehicle()
         if( veh->player_in_control( u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
-                veh->interact_with( u.pos() );
+                veh->interact_with( u.pos_bub() );
             } else if( reins_idx >= 0 ) {
                 u.controlling_vehicle = false;
                 add_msg( m_info, _( "You let go of the reins." ) );
@@ -5696,7 +5501,7 @@ void game::control_vehicle()
         } else if( u.in_vehicle && ( controls_ok || reins_ok ) ) {
             // player not driving but has controls or reins on tile
             if( veh->is_locked ) {
-                veh->interact_with( u.pos() );
+                veh->interact_with( u.pos_bub() );
                 return; // interact_with offers to hotwire
             }
             if( !veh->handle_potential_theft( u ) ) {
@@ -5920,9 +5725,9 @@ void game::examine( bool with_pickup )
 {
     // if we are driving a vehicle, examine the
     // current tile without asking.
-    const optional_vpart_position vp = m.veh_at( u.pos() );
+    const optional_vpart_position vp = m.veh_at( u.pos_bub() );
     if( vp && vp->vehicle().player_in_control( u ) ) {
-        examine( u.pos(), with_pickup );
+        examine( u.pos_bub(), with_pickup );
         return;
     }
 
@@ -9567,8 +9372,8 @@ void game::butcher()
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
-    if( m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos() ) ) {
-        if( m.sees_some_items( u.pos(), u ) ) {
+    if( m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos_bub() ) ) {
+        if( m.sees_some_items( u.pos_bub(), u ) ) {
             add_msg( m_info, _( "You can't access the items here." ) );
         } else if( factor > INT_MIN || factorD > INT_MIN ) {
             add_msg( m_info, no_corpse_msg );
@@ -10006,7 +9811,7 @@ void game::reload_weapon( bool try_everything )
         return;
     }
     // If we make it here and haven't found anything to reload, start looking elsewhere.
-    const optional_vpart_position ovp = m.veh_at( u.pos() );
+    const optional_vpart_position ovp = m.veh_at( u.pos_bub() );
     if( ovp ) {
         const turret_data turret = ovp->vehicle().turret_query( ovp->pos() );
         if( turret.can_reload() ) {
@@ -10357,8 +10162,8 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     }
 
     std::vector<std::string> harmful_stuff;
-    const field fields_here = m.field_at( u.pos() );
-    const auto veh_here = m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true );
+    const field fields_here = m.field_at( u.pos_bub() );
+    const auto veh_here = m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true );
     const auto veh_dest = m.veh_at( dest_loc ).part_with_feature( "BOARDABLE", true );
     const bool veh_here_inside = veh_here && veh_here->is_inside();
     const bool veh_dest_inside = veh_dest && veh_dest->is_inside();
@@ -10432,13 +10237,13 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     };
 
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
-        !m.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos() ) &&
+        !m.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos_bub() ) &&
         !veh_dest &&
         ( u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < 5 ||
           u.get_armor_type( damage_bash, bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     } else if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) &&
-               !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos() ) &&
+               !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
                !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
                u.dex_cur < 78 &&
                !( u.is_mounted() &&
@@ -10495,36 +10300,36 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             return false;
         }
     }
-    const optional_vpart_position vp_here = m.veh_at( u.pos() );
+    const optional_vpart_position vp_here = m.veh_at( u.pos_bub() );
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
 
     bool pushing = false; // moving -into- grabbed tile; skip check for move_cost > 0
     bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
-    const tripoint furn_pos = u.pos() + u.grab_point;
-    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy(), 0 );
+    const tripoint_bub_ms furn_pos = u.pos_bub() + u.grab_point;
+    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy().raw(), 0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
-        pushing = dp.xy() ==  u.grab_point.xy();
-        pulling = dp.xy() == -u.grab_point.xy();
+        pushing = dp.xy() ==  u.grab_point.xy().raw();
+        pulling = dp.xy() == -u.grab_point.xy().raw();
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
-    const optional_vpart_position vp_grabbed = m.veh_at( u.pos() + u.grab_point );
+    const optional_vpart_position vp_grabbed = m.veh_at( u.pos_bub() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
-        if( m.has_furn( u.pos() + u.grab_point ) ) {
+        if( m.has_furn( u.pos_bub() + u.grab_point ) ) {
             shifting_furniture = !pushing && !pulling;
         } else {
             // We were grabbing a furniture that isn't there
             grabbed = false;
         }
     } else if( grabbed && u.get_grab_type() == object_type::VEHICLE ) {
-        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos() + u.grab_point ) );
+        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos_bub() + u.grab_point ) );
         if( grabbed_vehicle == nullptr ) {
             // We were grabbing a vehicle that isn't there anymore
             grabbed = false;
@@ -10533,7 +10338,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
-    if( u.grab_point != tripoint_zero && !grabbed && !furniture_move ) {
+    if( u.grab_point != tripoint_rel_ms_zero && !grabbed && !furniture_move ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( object_type::NONE );
     }
@@ -10565,12 +10370,6 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         return false;
     }
     u.set_underwater( false );
-
-    bool cramped = false;
-    if( vp_there && !u.can_move_to_vehicle_tile( get_map().getglobal( dest_loc ), cramped ) ) {
-        add_msg( m_warning, _( "There's not enough room for you to fit there." ) );
-        return false;
-    }
 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
@@ -10604,7 +10403,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
-    if( grabbed && u.get_grab_type() == object_type::FURNITURE && u.pos() + u.grab_point == dest_loc ) {
+    if( grabbed && u.get_grab_type() == object_type::FURNITURE &&
+        ( u.pos_bub() + u.grab_point ).raw() == dest_loc ) {
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
@@ -10655,7 +10455,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
-    const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ||
+    const bool fungus = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos_bub() ) ||
                         m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS,
                                 dest_loc ); //fungal furniture has no slowing effect on Mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
@@ -10683,11 +10483,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                          displayed_part->part().name() );
                 sfx::do_obstacle( displayed_part->part().info().id.str() );
             } else {
-                add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
-                if( m.has_furn( u.pos() ) ) {
-                    sfx::do_obstacle( m.furn( u.pos() ).id().str() );
+                add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos_bub() ) );
+                if( m.has_furn( u.pos_bub() ) ) {
+                    sfx::do_obstacle( m.furn( u.pos_bub() ).id().str() );
                 } else {
-                    sfx::do_obstacle( m.ter( u.pos() ).id().str() );
+                    sfx::do_obstacle( m.ter( u.pos_bub() ).id().str() );
                 }
             }
         }
@@ -10763,16 +10563,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( furniture_move ) {
         // Adjust the grab_point if player has changed z level.
-        u.grab_point.z -= u.posz() - oldpos.z;
+        u.grab_point.z() -= u.posz() - oldpos.z;
     }
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z = vp_grabbed->pos().z - u.posz();
+        u.grab_point.z() = vp_grabbed->pos().z - u.posz();
     }
 
     if( pulling ) {
-        const tripoint shifted_furn_pos = furn_pos - ms_shift;
+        const tripoint shifted_furn_pos = furn_pos.raw() - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
         const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
@@ -10785,7 +10585,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         start_hauling( oldpos );
     }
 
-    if( cramped ) { // passed by reference, can_move_to_vehicle_tile sets to true if actually cramped
+    if( u.will_be_cramped_in_vehicle_tile( get_map().getglobal( dest_loc ) ) ) {
         if( u.get_size() == creature_size::huge ) {
             add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
         } else if( u.get_total_volume() > u.get_base_volume() )  {
@@ -10945,7 +10745,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         if( u.pos() == dest_loc ) {
             was_in_control_same_pos = true;
         } else {
-            m.unboard_vehicle( u.pos() );
+            m.unboard_vehicle( u.pos_bub() );
         }
     }
     // Move the player
@@ -11065,13 +10865,13 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     if( !quick && !u.is_mounted() && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) ||
           !u.get_mon_visible().has_dangerous_creature_in_proximity ) &&
-        ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
+        ( m.has_items( u.pos_bub() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::autopickup( u.pos() );
     }
 
     // If the new tile is a boardable part, board it
     if( !was_in_control_same_pos && vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
-        m.board_vehicle( u.pos(), &u );
+        m.board_vehicle( u.pos_bub(), &u );
     }
 
     // Traps!
@@ -11083,24 +10883,24 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         m.creature_on_trap( u );
     }
     // Drench the player if swimmable
-    if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) &&
-        !m.has_flag_furn( "BRIDGE", u.pos() ) &&
+    if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) &&
+        !m.has_flag_furn( "BRIDGE", u.pos_bub() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
     }
 
     // List items here
-    if( !quick && !m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos() ) ) {
+    if( !quick && !m.has_flag( ter_furn_flag::TFLAG_SEALED, u.pos_bub() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
             !check_zone( zone_type_NO_AUTO_PICKUP, u.pos() ) ) {
-            if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
+            if( u.is_blind() && !m.i_at( u.pos_bub() ).empty() ) {
                 add_msg( _( "There's something here, but you can't see what it is." ) );
-            } else if( m.has_items( u.pos() ) ) {
+            } else if( m.has_items( u.pos_bub() ) ) {
                 std::vector<std::string> names;
                 std::vector<size_t> counts;
                 std::vector<item> items;
-                for( item &tmpitem : m.i_at( u.pos() ) ) {
+                for( item &tmpitem : m.i_at( u.pos_bub() ) ) {
 
                     std::string next_tname = tmpitem.tname();
                     std::string next_dname = tmpitem.display_name();
@@ -11197,7 +10997,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
         despawn_monster( critter );
     }
     if( u.in_vehicle ) {
-        m.unboard_vehicle( u.pos() );
+        m.unboard_vehicle( u.pos_bub() );
     }
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         m.clear_vehicle_list( z );
@@ -11270,7 +11070,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
     if( tunneldist != 0 ) {
         if( u.in_vehicle ) {
-            m.unboard_vehicle( u.pos() );
+            m.unboard_vehicle( u.pos_bub() );
         }
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
@@ -11279,8 +11079,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         u.mod_moves( -to_moves<int>( 1_seconds ) ); //tunneling takes exactly one second
         u.setpos( dest );
 
-        if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
-            m.board_vehicle( u.pos(), &u );
+        if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
+            m.board_vehicle( u.pos_bub(), &u );
         }
 
         u.grab( object_type::NONE );
@@ -11294,7 +11094,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
+    // TODO: Fix when unary operation available
+    const bool pulling_furniture = dp.xy() == ( point_rel_ms_zero - u.grab_point.xy() ).raw();
     const bool has_floor = m.has_floor_or_water( fdest );
     creature_tracker &creatures = get_creature_tracker();
     bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
@@ -11315,15 +11116,15 @@ int game::grabbed_furn_move_time( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = u.pos() + u.grab_point;
+    tripoint_bub_ms fpos = u.pos_bub() + u.grab_point;
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         return 0;
     }
 
-    tripoint fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
+    tripoint_bub_ms fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
 
-    const bool canmove = can_move_furniture( fdest, dp );
+    const bool canmove = can_move_furniture( fdest.raw(), dp );
     const furn_t &furntype = m.furn( fpos ).obj();
     const int dst_items = m.i_at( fdest ).size();
 
@@ -11381,7 +11182,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = u.pos() + u.grab_point;
+    tripoint fpos = ( u.pos_bub() + u.grab_point ).raw();
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         // Where did it go? We're grabbing thin air so reset.
@@ -11398,8 +11199,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
         ramp_z_offset = -1;
     }
 
-    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
-    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
+    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy().raw();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy().raw();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
@@ -11543,13 +11344,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
-    u.grab_point.z += ramp_z_offset;
+    u.grab_point.z() += ramp_z_offset;
 
     if( shifting_furniture ) {
         // We didn't move
-        tripoint d_sum = u.grab_point + dp;
+        tripoint d_sum = u.grab_point.raw() + dp;
         if( std::abs( d_sum.x ) < 2 && std::abs( d_sum.y ) < 2 ) {
-            u.grab_point = d_sum; // furniture moved relative to us
+            u.grab_point.raw() = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
             add_msg( _( "You let go of the %s." ), furntype.name() );
             u.grab( object_type::NONE );
@@ -11576,7 +11377,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
 
     // vehicle: pulling, pushing, or moving around the grabbed object.
     if( u.get_grab_type() == object_type::VEHICLE ) {
-        return grabbed_veh_move( dp );
+        return grabbed_veh_move( tripoint_rel_ms( dp ) );
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
@@ -11585,7 +11386,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
     }
 
     add_msg( m_info, _( "Nothing at grabbed point %d,%d,%d or bad grabbed object type." ),
-             u.grab_point.x, u.grab_point.y, u.grab_point.z );
+             u.grab_point.x(), u.grab_point.y(), u.grab_point.z() );
     u.grab( object_type::NONE );
     return false;
 }
@@ -11783,7 +11584,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         if( thru ) {
             if( you != nullptr ) {
                 if( you->in_vehicle ) {
-                    m.unboard_vehicle( you->pos() );
+                    m.unboard_vehicle( you->pos_bub() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
                 if( is_u ) {
@@ -11812,8 +11613,8 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     }
 
     // Fall down to the ground - always on the last reached tile
-    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, c->pos() ) ) {
-        const trap &trap_under_creature = m.tr_at( c->pos() );
+    if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, c->pos_bub() ) ) {
+        const trap &trap_under_creature = m.tr_at( c->pos_bub() );
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && trap_under_creature == tr_ledge ) {
             m.creature_on_trap( *c, false );
@@ -11826,7 +11627,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             if( force > 0 ) {
                 int dmg = c->impact( force, c->pos() );
                 // TODO: Make landing damage the floor
-                m.bash( c->pos(), dmg / 4, false, false, false );
+                m.bash( c->pos_bub(), dmg / 4, false, false, false );
             }
             // Always apply traps to creature i.e. bear traps, tele traps etc.
             m.creature_on_trap( *c, false );
@@ -11924,10 +11725,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     bool adjacent_climb = false;
-    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
+    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) &&
         !u.is_underwater() ) {
         // Climbing
-        for( const tripoint &p : here.points_in_radius( u.pos(), 2 ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( u.pos_bub(), 2 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_ADJACENT, p ) ) {
                 adjacent_climb = true;
             }
@@ -11937,7 +11738,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) ) {
+        if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) ) {
             add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
             return;
         }
@@ -11952,7 +11753,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const item_location weapon = u.get_wielded_item();
-        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon &&
+        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos_bub() ) && weapon &&
             weapon->is_two_handed( u ) ) {
             if( query_yn(
                     _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
@@ -11996,8 +11797,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos_bub() ) &&
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos_bub() ) &&
         !u.has_effect( effect_gliding ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
@@ -12010,7 +11811,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
     } else if( !climbing && !force && movez == 1 &&
-               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
+               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) && !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -12018,7 +11819,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( force ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
-    } else if( u.grab_point != tripoint_zero ) {
+    } else if( u.grab_point != tripoint_rel_ms_zero ) {
         add_msg( m_info, _( "You can't drag things up and down stairs." ) );
         return;
     }
@@ -12048,13 +11849,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool surfacing = false;
     bool submerging = false;
     // > and < are used for diving underwater.
-    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) ) {
         swimming = true;
-        const ter_id &target_ter = here.ter( u.pos() + tripoint( 0, 0, movez ) );
+        const ter_id &target_ter = here.ter( u.pos_bub() + tripoint( 0, 0, movez ) );
 
         // If we're in a water tile that has both air above and deep enough water to submerge in...
-        if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, u.pos() ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, u.pos_bub() ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos_bub() ) ) {
             // ...and we're trying to swim down
             if( movez == -1 ) {
                 // ...and we're already submerged
@@ -12100,7 +11901,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
         // If we're in a water tile that is entirely water
-        else if( here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos() ) ) {
+        else if( here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos_bub() ) ) {
             // If you're at this point, you should already be underwater, but force that to be the case.
             if( !u.is_underwater() ) {
                 u.set_underwater( true );
@@ -12147,7 +11948,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     std::vector<monster *> monsters_following;
     if( std::abs( movez ) == 1 ) {
-        bool ladder = here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, u.pos() );
+        bool ladder = here.has_flag( ter_furn_flag::TFLAG_DIFFICULT_Z, u.pos_bub() );
         for( monster &critter : all_monsters() ) {
             if( ladder && !critter.climbs() ) {
                 continue;
@@ -12234,7 +12035,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // Now that we know the player's destination position, we can move their mount as well
     if( u.is_mounted() ) {
-        u.mounted_creature->setpos( u.pos() );
+        u.mounted_creature->setpos( u.pos_bub() );
     }
 
     // This ugly check is here because of stair teleport bullshit
@@ -12247,9 +12048,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     if( rope_ladder ) {
         if( u.has_flag( json_flag_WEB_RAPPEL ) ) {
-            here.furn_set( u.pos(), furn_f_web_up );
+            here.furn_set( u.pos_bub(), furn_f_web_up );
         } else {
-            here.furn_set( u.pos(), furn_f_rope_up );
+            here.furn_set( u.pos_bub(), furn_f_rope_up );
         }
     }
 
@@ -12315,7 +12116,7 @@ void game::start_hauling( const tripoint &pos )
     // Whether the destination is inside a vehicle (not supported)
     const bool to_vehicle = false;
     // Destination relative to the player
-    const tripoint relative_destination{};
+    const tripoint_rel_ms relative_destination{};
 
     const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
                                            true );
@@ -12596,7 +12397,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
     point remaining_shift = shift;
     while( remaining_shift != point_zero ) {
         point this_shift = clamp( remaining_shift, size_1 );
-        m.shift( this_shift );
+        m.shift( point_rel_sm( this_shift ) );
         remaining_shift -= this_shift;
     }
 
@@ -13690,7 +13491,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     // vertical_move with force=true triggers traps (ie, fall) at the end of the move.
     g->vertical_move( -descended_levels, true );
 
-    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() ) ) {
         you.set_underwater( true );
         g->water_affect_items( you );
         you.add_msg_if_player( _( "You climb down and dive underwater." ) );

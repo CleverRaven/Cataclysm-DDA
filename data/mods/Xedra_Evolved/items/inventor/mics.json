@@ -56,7 +56,7 @@
     "weight": "2000 g",
     "volume": "2500 ml",
     "material": [ "steel", "plastic" ],
-    "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
+    "extend": { "flags": [ "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -84,7 +84,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ] ],

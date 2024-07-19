@@ -471,8 +471,13 @@ const
 VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    map &here = get_map();
-    tripoint p = pos().raw();
+    smallmap here;  // tinymap would work as well, as we're only looking at a single position.
+    // pos returns the pos_bub location of the target relative to the reality bubble
+    // even if the location isn't actually inside of it. Thus, we're loading a map
+    // around that location to do our work.
+    tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
+    here.load( project_to<coords::omt>( abs_pos ), false );
+    tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
 
     // check furniture pseudo items
     if( here.furn( p ) != furn_str_id::NULL_ID() ) {
@@ -486,12 +491,12 @@ VisitResponse map_cursor::visit_items(
     }
 
     // skip inaccessible items
-    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p.raw() ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p.raw() ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( p ) ) {
+    for( item &e : here.i_at( p.raw() ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -699,12 +704,12 @@ std::list<item> map_cursor::remove_items_with( const
     // fetch the appropriate item stack
     point_sm_ms offset;
     submap *sub = here.get_submap_at( pos(), offset );
-    cata::colony<item> &stack = sub->get_items( offset.raw() );
+    cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
         if( filter( *iter ) ) {
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( offset.raw(), *iter );
+            sub->update_lum_rem( offset, *iter );
 
             // finally remove the item
             res.push_back( *iter );

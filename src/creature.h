@@ -321,10 +321,8 @@ class Creature : public viewer
         void setpos( const tripoint &p );
         void setpos( const tripoint_bub_ms &p );
 
-        /** Checks if the creature fits into a given tile. Set the boolean argument to true if the creature would barely fit. */
-        bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const;
-        /** Helper overload for when the boolean is discardable */
-        bool can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const;
+        /** Checks if the creature fits confortably into a given tile. */
+        bool will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const;
         /** Moves the creature to the given location and calls the on_move() handler. */
         void move_to( const tripoint_abs_ms &loc );
 
@@ -813,6 +811,11 @@ class Creature : public viewer
         /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
+
+        /* Returns the which limbs are being used for movement of a given type*/
+        std::vector<bodypart_id> get_ground_contact_bodyparts( bool arms_legs = false ) const;
+
+        std::string string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps ) const;
 
         /* Returns the number of bodyparts of a given type*/
         int get_num_body_parts_of_type( body_part_type::type part_type ) const;

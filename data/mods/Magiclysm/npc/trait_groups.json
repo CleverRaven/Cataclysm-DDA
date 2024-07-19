@@ -173,7 +173,8 @@
       { "trait": "ANTIJUNK" },
       { "trait": "WEAKSTOMACH" },
       { "trait": "DISIMMUNE" },
-      { "trait": "PICKYEATER" }
+      { "trait": "PICKYEATER" },
+      { "trait": "IRON_ALLERGY", "prob": 15 }
     ]
   },
   {
@@ -221,7 +222,8 @@
       { "trait": "TUNNEL_FIGHTER" },
       { "trait": "NOCTURNAL" },
       { "trait": "TROGLO2" },
-      { "trait": "MOODSWINGS" }
+      { "trait": "MOODSWINGS" },
+      { "trait": "IRON_ALLERGY", "prob": 5 }
     ]
   },
   {

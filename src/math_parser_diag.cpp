@@ -1202,11 +1202,17 @@ std::function<double( dialogue & )> time_until_eval( char /* scope */,
         } else if( val_str == "sunrise" ) {
             ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
         } else if( val_str == "noon" ) {
-            ret = to_turns<double>( noon( calendar::turn ) - calendar::turn );
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) ) ;
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
             ret = val.dbl( d ) - to_turn<double>( calendar::turn );
+        }
+        if( val_str == "night_time" || val_str == "daylight_time" || val_str == "sunset" ||
+            val_str == "sunrise" ) {
+            if( ret < 0 ) {
+                ret += to_turns<double>( 1_days );
+            }
         }
         return _time_in_unit( ret, unit_val.str( d ) );
     };
@@ -1397,11 +1403,11 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->unimpaired_range();
+        talker const *const actor = d.actor( beta );
+        if( Character const *const chr = actor->get_character(); chr != nullptr ) {
+            return chr->unimpaired_range();
         }
+        debugmsg( "Tried to access vision range of a non-Character talker" );
         return 0;
     };
 }
@@ -1464,11 +1470,11 @@ std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->vitamin_get( vitamin_id( id.str( d ) ) );
+        talker const *const actor = d.actor( beta );
+        if( Character const *const chr = actor->get_character(); chr != nullptr ) {
+            return chr->vitamin_get( vitamin_id( id.str( d ) ) );
         }
+        debugmsg( "Tried to access vitamins of a non-Character talker" );
         return 0;
     };
 }

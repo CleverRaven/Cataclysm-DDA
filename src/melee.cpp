@@ -1474,7 +1474,7 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
     }
 
     // skip wall adjacent techniques if not next to a wall
-    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos() ) ) {
+    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos_bub() ) ) {
         add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
         return std::nullopt;
     }
@@ -1848,7 +1848,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
-            const optional_vpart_position vp0 = here.veh_at( pos() );
+            const optional_vpart_position vp0 = here.veh_at( pos_bub() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
             bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
             bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );

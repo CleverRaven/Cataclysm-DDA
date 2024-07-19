@@ -3771,21 +3771,6 @@
         "ascii_picture": "condom_flavored_orange",
         "weight": 40,
         "append": true
-      },
-      {
-        "id": "condom_flavored_foodplace",
-        "name": { "str": "food™ flavored condom" },
-        "description": "A condom with Foodplace's delicious food™ flavored lube, in purple packaging to match.",
-        "ascii_picture": "condom_flavored_foodplace",
-        "weight": 2,
-        "append": true
-      },
-      {
-        "id": "condom_flavored_jalapeno",
-        "name": { "str": "jalapeno flavored condom" },
-        "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "ascii_picture": "condom_flavored_jalapeno",
-        "append": true
       }
     ],
     "pocket_data": [

@@ -56,7 +56,12 @@ static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
 static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
 static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_HUGE( "SHAPESHIFT_SIZE_HUGE" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_LARGE( "SHAPESHIFT_SIZE_LARGE" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_SMALL( "SHAPESHIFT_SIZE_SMALL" );
+static const json_character_flag json_flag_SHAPESHIFT_SIZE_TINY( "SHAPESHIFT_SIZE_TINY" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
+static const json_character_flag json_flag_TEMPORARY_SHAPESHIFT( "TEMPORARY_SHAPESHIFT" );
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
@@ -487,16 +492,30 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
 
 void Character::recalculate_size()
 {
-    if( has_flag( json_flag_TINY ) ) {
-        size_class = creature_size::tiny;
-    } else if( has_flag( json_flag_SMALL ) ) {
-        size_class = creature_size::small;
-    } else if( has_flag( json_flag_LARGE ) ) {
-        size_class = creature_size::large;
-    } else if( has_flag( json_flag_HUGE ) ) {
-        size_class = creature_size::huge;
+    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT ) ) {
+        if( has_flag( json_flag_SHAPESHIFT_SIZE_TINY ) ) {
+            size_class = creature_size::tiny;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_SMALL ) ) {
+            size_class = creature_size::small;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_LARGE ) ) {
+            size_class = creature_size::large;
+        } else if( has_flag( json_flag_SHAPESHIFT_SIZE_HUGE ) ) {
+            size_class = creature_size::huge;
+        } else {
+            size_class = creature_size::medium;
+        }
     } else {
-        size_class = creature_size::medium;
+        if( has_flag( json_flag_TINY ) ) {
+            size_class = creature_size::tiny;
+        } else if( has_flag( json_flag_SMALL ) ) {
+            size_class = creature_size::small;
+        } else if( has_flag( json_flag_LARGE ) ) {
+            size_class = creature_size::large;
+        } else if( has_flag( json_flag_HUGE ) ) {
+            size_class = creature_size::huge;
+        } else {
+            size_class = creature_size::medium;
+        }
     }
 }
 

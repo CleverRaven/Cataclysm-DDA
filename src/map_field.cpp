@@ -23,6 +23,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "coordinate_constants.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -79,6 +80,7 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_quadruped_full( "quadruped_full" );
+static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
@@ -211,6 +213,17 @@ std::pair<tripoint, maptile> map::maptile_has_bounds( const tripoint &p, const b
     return {p, maptile_at( p )};
 }
 
+std::pair<tripoint_bub_ms, maptile> map::maptile_has_bounds( const tripoint_bub_ms &p,
+        const bool bounds_checked )
+{
+    if( bounds_checked ) {
+        // We know that the point is in bounds
+        return { p, maptile_at_internal( p ) };
+    }
+
+    return { p, maptile_at( p ) };
+}
+
 std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &p )
 {
     // Find out which edges are in the bubble
@@ -220,6 +233,27 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
     const bool east = p.x < SEEX * my_MAPSIZE - 1;
     const bool south = p.y < SEEY * my_MAPSIZE - 1;
     return std::array< std::pair<tripoint, maptile>, 8 > { {
+            maptile_has_bounds( p + eight_horizontal_neighbors[0], west &&north ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[1], north ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[2], east &&north ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[3], west ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[4], east ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[5], west &&south ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[6], south ),
+            maptile_has_bounds( p + eight_horizontal_neighbors[7], east &&south ),
+        }
+    };
+}
+
+std::array<std::pair<tripoint_bub_ms, maptile>, 8> map::get_neighbors( const tripoint_bub_ms &p )
+{
+    // Find out which edges are in the bubble
+    // Where possible, do just one bounds check for all the neighbors
+    const bool west = p.x() > 0;
+    const bool north = p.y() > 0;
+    const bool east = p.x() < SEEX * my_MAPSIZE - 1;
+    const bool south = p.y() < SEEY * my_MAPSIZE - 1;
+    return std::array< std::pair<tripoint_bub_ms, maptile>, 8 > { {
             maptile_has_bounds( p + eight_horizontal_neighbors[0], west &&north ),
             maptile_has_bounds( p + eight_horizontal_neighbors[1], north ),
             maptile_has_bounds( p + eight_horizontal_neighbors[2], east &&north ),
@@ -245,7 +279,7 @@ bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
     return false;
 }
 
-void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
+void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint_bub_ms &p )
 {
     const field_type_id current_type = cur.get_field_type();
     const time_duration current_age = cur.get_field_age();
@@ -274,11 +308,17 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk, const oter_id &om_ter )
 {
+    map::spread_gas( cur, tripoint_bub_ms( p ), percent_spread, outdoor_age_speedup, sblk, om_ter );
+}
+
+void map::spread_gas( field_entry &cur, const tripoint_bub_ms &p, int percent_spread,
+                      const time_duration &outdoor_age_speedup, scent_block &sblk, const oter_id &om_ter )
+{
     // TODO: fix point types
     const bool sheltered = g->is_sheltered( p );
     weather_manager &weather = get_weather();
     const int winddirection = weather.winddirection;
-    const int windpower = get_local_windpower( weather.windspeed, om_ter, tripoint_abs_ms( p ),
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, getglobal( p ),
                           winddirection,
                           sheltered );
 
@@ -290,7 +330,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     if( scent_neutralize > 0 ) {
         // modify scents by neutralization value (minus)
-        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &tmp : points_in_radius( p, 1 ) ) {
             sblk.apply_gas( tmp, scent_neutralize );
         }
     }
@@ -308,8 +348,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
-    if( p.z > -OVERMAP_DEPTH ) {
-        const tripoint down{ p.xy(), p.z - 1 };
+    if( p.z() > -OVERMAP_DEPTH ) {
+        const tripoint_bub_ms down = p + tripoint_rel_ms_below;
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
             gas_spread_to( cur, down_tile, down );
@@ -336,7 +376,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     if( !spread.empty() && one_in( spread.size() ) ) {
         // Construct the destination from offset and p
         if( sheltered || windpower < 5 ) {
-            std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
+            std::pair<tripoint_bub_ms, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
             std::vector<size_t> neighbour_vec;
@@ -355,12 +395,12 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                 }
             }
             if( !neighbour_vec.empty() ) {
-                std::pair<tripoint, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
+                std::pair<tripoint_bub_ms, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
                 gas_spread_to( cur, n.second, n.first );
             }
         }
-    } else if( p.z < OVERMAP_HEIGHT ) {
-        const tripoint up{ p.xy(), p.z + 1 };
+    } else if( p.z() < OVERMAP_HEIGHT ) {
+        const tripoint_bub_ms up = p + tripoint_rel_ms_above;
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
             gas_spread_to( cur, up_tile, up );
@@ -372,6 +412,11 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 Helper function that encapsulates the logic involved in creating hot air.
 */
 void map::create_hot_air( const tripoint &p, int intensity )
+{
+    map::create_hot_air( tripoint_bub_ms( p ), intensity );
+}
+
+void map::create_hot_air( const tripoint_bub_ms &p, int intensity )
 {
     field_type_id hot_air;
     switch( intensity ) {
@@ -393,7 +438,7 @@ void map::create_hot_air( const tripoint &p, int intensity )
     }
 
     for( int counter = 0; counter < 5; counter++ ) {
-        tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+        tripoint_bub_ms dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
         add_field( dst, hot_air, 1 );
     }
 }
@@ -426,9 +471,9 @@ void map::process_fields_in_submap( submap *const current_submap,
     scent_block sblk( submap, get_scent() );
 
     // Initialize the map tile wrapper
-    maptile map_tile( current_submap, point_zero );
-    int &locx = map_tile.pos_.x;
-    int &locy = map_tile.pos_.y;
+    maptile map_tile( current_submap, point_sm_ms_zero );
+    int &locx = map_tile.pos_.x();
+    int &locy = map_tile.pos_.y();
     const point sm_offset = sm_to_ms_copy( submap.xy() );
 
     field_proc_data pd{
@@ -455,7 +500,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             // This is a translation from local coordinates to submap coordinates.
-            const tripoint p = tripoint( map_tile.pos() + sm_offset, submap.z );
+            const tripoint_sm_ms p = tripoint_sm_ms( map_tile.pos() + sm_offset, submap.z );
 
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
@@ -467,7 +512,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                 // The field might have been killed by processing a neighbor field
                 if( prev_intensity == 0 ) {
-                    on_field_modified( p, *pd.cur_fd_type );
+                    on_field_modified( p.raw(), *pd.cur_fd_type );
                     --current_submap->field_count;
                     curfield.remove_field( it++ );
                     continue;
@@ -477,19 +522,19 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur.get_field_age() == 0_turns ) {
                     cur.do_decay();
                     if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
-                        on_field_modified( p, *pd.cur_fd_type );
+                        on_field_modified( p.raw(), *pd.cur_fd_type );
                     }
                     it++;
                     continue;
                 }
 
                 for( const FieldProcessorPtr &proc : pd.cur_fd_type->get_processors() ) {
-                    proc( p, cur, pd );
+                    proc( p.raw(), cur, pd );
                 }
 
                 cur.do_decay();
                 if( !cur.is_field_alive() || cur.get_field_intensity() != prev_intensity ) {
-                    on_field_modified( p, *pd.cur_fd_type );
+                    on_field_modified( p.raw(), *pd.cur_fd_type );
                 }
                 it++;
             }
@@ -1023,7 +1068,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
     int part;
     // Get the part of the vehicle in the fire (_internal skips the boundary check)
-    vehicle *veh = here.veh_at_internal( p, part );
+    vehicle *veh = here.veh_at_internal( tripoint_bub_ms( p ), part );
     if( veh != nullptr ) {
         veh->damage( here, part, cur.get_field_intensity() * 10, damage_heat, true );
         // Damage the vehicle in the fire.
@@ -1042,7 +1087,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
@@ -1053,7 +1098,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
@@ -1145,9 +1190,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const maptile &neigh = neighs[i].second;
-        if( ( neigh.pos().x != remove_tile.pos().x && neigh.pos().y != remove_tile.pos().y ) ||
-            ( neigh.pos().x != remove_tile2.pos().x && neigh.pos().y != remove_tile2.pos().y ) ||
-            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ||
+        if( ( neigh.pos().x() != remove_tile.pos().x() && neigh.pos().y() != remove_tile.pos().y() ) ||
+            ( neigh.pos().x() != remove_tile2.pos().x() && neigh.pos().y() != remove_tile2.pos().y() ) ||
+            ( neigh.pos().x() != remove_tile3.pos().x() && neigh.pos().y() != remove_tile3.pos().y() ) ||
             x_in_y( 1, std::max( 2, windpower ) ) ) {
             neighbour_vec.push_back( i );
         }
@@ -1450,7 +1495,7 @@ void map::player_in_field( Character &you )
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if( you.in_vehicle ) {
-        if( const optional_vpart_position vp = veh_at( you.pos() ) ) {
+        if( const optional_vpart_position vp = veh_at( you.pos_bub() ) ) {
             inside = vp->is_inside();
         }
     }
@@ -1471,20 +1516,15 @@ void map::player_in_field( Character &you )
             // you're certainly not standing in it.
             if( !you.in_vehicle && !you.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                total_damage += burn_body_part( you, cur, bodypart_id( "foot_l" ), 2 );
-                total_damage += burn_body_part( you, cur, bodypart_id( "foot_r" ), 2 );
-                if( you.has_effect( effect_quadruped_full ) ) {
-                    total_damage += burn_body_part( you, cur, bodypart_id( "hand_l" ), 2 );
-                    total_damage += burn_body_part( you, cur, bodypart_id( "hand_r" ), 2 );
-                }
                 const bool on_ground = you.is_on_ground();
-                if( on_ground ) {
+                if( !on_ground ) {
+                    for( const bodypart_id &bp : you.get_ground_contact_bodyparts() ) {
+                        total_damage += burn_body_part( you, cur, bp, 2 );
+                    }
+                } else {
                     // Apply the effect to the remaining body parts
-                    total_damage += burn_body_part( you, cur, bodypart_id( "leg_l" ), 2 );
-                    total_damage += burn_body_part( you, cur, bodypart_id( "leg_r" ), 2 );
-                    if( !you.has_effect( effect_quadruped_full ) ) {
-                        total_damage += burn_body_part( you, cur, bodypart_id( "hand_l" ), 2 );
-                        total_damage += burn_body_part( you, cur, bodypart_id( "hand_r" ), 2 );
+                    for( const bodypart_id &bp : you.get_ground_contact_bodyparts( true ) ) {
+                        total_damage += burn_body_part( you, cur, bp, 2 );
                     }
                     total_damage += burn_body_part( you, cur, bodypart_id( "torso" ), 2 );
                     // Less arms = less ability to keep upright
@@ -1499,8 +1539,11 @@ void map::player_in_field( Character &you )
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
                                                _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
-                    you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                               _( "The acid burns <npcname>'s legs and feet!" ) );
+                    std::vector<bodypart_id> bps = you.get_ground_contact_bodyparts();
+                    you.add_msg_player_or_npc( m_bad,
+                                               string_format( _( "The acid burns your %s!" ), you.string_for_ground_contact_bodyparts( bps ) ),
+                                               string_format( _( "The acid burns <npcname>'s %s!" ),
+                                                       you.string_for_ground_contact_bodyparts( bps ) ) );
                 } else if( on_ground ) {
                     you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
                 } else if( !you.is_immune_field( fd_acid ) ) {
@@ -1585,7 +1628,7 @@ void map::player_in_field( Character &you )
                                 parts_burned.emplace_back( "leg_l" );
                                 parts_burned.emplace_back( "leg_r" );
                         }
-                    } else if( you.has_effect( effect_quadruped_full ) ) {
+                    } else if( you.has_effect( effect_quadruped_full ) ||  you.has_effect( effect_quadruped_half ) ) {
                         // Moving on all-fours through a fire is a bad idea, hits every body part.
                         msg_num = 3;
                         const std::vector<bodypart_id> all_parts = you.get_all_body_parts();
@@ -1767,7 +1810,7 @@ void map::creature_in_field( Creature &critter )
             // If we are in a vehicle figure out if we are inside (reduces effects usually)
             // and what part of the vehicle we need to deal with.
             if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( you->pos() ) ) {
+                if( const optional_vpart_position vp = veh_at( you->pos_bub() ) ) {
                     if( vp->is_inside() ) {
                         inside_vehicle = true;
                     }
@@ -1777,7 +1820,7 @@ void map::creature_in_field( Creature &critter )
         }
     }
 
-    field &curfield = get_field( critter.pos() );
+    field &curfield = get_field( critter.pos_bub() );
     for( auto &field_entry_it : curfield ) {
         field_entry &cur_field_entry = field_entry_it.second;
         if( !cur_field_entry.is_field_alive() ) {
@@ -1822,7 +1865,7 @@ void map::creature_in_field( Creature &critter )
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
             if( cur_field_id->decrease_intensity_on_contact ) {
-                mod_field_intensity( critter.pos(), cur_field_id, -1 );
+                mod_field_intensity( critter.pos_bub(), cur_field_id, -1 );
             }
         }
     }
@@ -1834,11 +1877,11 @@ void map::monster_in_field( monster &z )
         // Digging monsters are immune to fields
         return;
     }
-    if( veh_at( z.pos() ) ) {
+    if( veh_at( z.pos_bub() ) ) {
         // FIXME: Immune when in a vehicle for now.
         return;
     }
-    field &curfield = get_field( z.pos() );
+    field &curfield = get_field( z.pos_bub() );
 
     int dam = 0;
     // Iterate through all field effects on this tile.
@@ -2080,23 +2123,30 @@ void map::monster_in_field( monster &z )
 std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
         const tripoint &pos )
 {
-    static const std::array<std::pair<int, std::tuple< point, point, point >>, 9> outputs = {{
-            { 330, std::make_tuple( point_east, point_north_east, point_south_east ) },
-            { 301, std::make_tuple( point_south_east, point_east, point_south ) },
-            { 240, std::make_tuple( point_south, point_south_west, point_south_east ) },
-            { 211, std::make_tuple( point_south_west, point_west, point_south ) },
-            { 150, std::make_tuple( point_west, point_north_west, point_south_west ) },
-            { 121, std::make_tuple( point_north_west, point_north, point_west ) },
-            { 60, std::make_tuple( point_north, point_north_west, point_north_east ) },
-            { 31, std::make_tuple( point_north_east, point_east, point_north ) },
-            { 0, std::make_tuple( point_east, point_north_east, point_south_east ) }
+    return map::get_wind_blockers( winddirection, tripoint_bub_ms( pos ) );
+}
+
+std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddirection,
+        const tripoint_bub_ms &pos )
+{
+    static const std::array<std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >>, 9>
+    outputs = { {
+            { 330, std::make_tuple( point_rel_ms_east, point_rel_ms_north_east, point_rel_ms_south_east ) },
+            { 301, std::make_tuple( point_rel_ms_south_east, point_rel_ms_east, point_rel_ms_south ) },
+            { 240, std::make_tuple( point_rel_ms_south, point_rel_ms_south_west, point_rel_ms_south_east ) },
+            { 211, std::make_tuple( point_rel_ms_south_west, point_rel_ms_west, point_rel_ms_south ) },
+            { 150, std::make_tuple( point_rel_ms_west, point_rel_ms_north_west, point_rel_ms_south_west ) },
+            { 121, std::make_tuple( point_rel_ms_north_west, point_rel_ms_north, point_rel_ms_west ) },
+            { 60, std::make_tuple( point_rel_ms_north, point_rel_ms_north_west, point_rel_ms_north_east ) },
+            { 31, std::make_tuple( point_rel_ms_north_east, point_rel_ms_east, point_rel_ms_north ) },
+            { 0, std::make_tuple( point_rel_ms_east, point_rel_ms_north_east, point_rel_ms_south_east ) }
         }
     };
 
-    tripoint removepoint;
-    tripoint removepoint2;
-    tripoint removepoint3;
-    for( const std::pair<int, std::tuple< point, point, point >> &val : outputs ) {
+    tripoint_bub_ms removepoint;
+    tripoint_bub_ms removepoint2;
+    tripoint_bub_ms removepoint3;
+    for( const std::pair<int, std::tuple< point_rel_ms, point_rel_ms, point_rel_ms >> &val : outputs ) {
         if( winddirection >= val.first ) {
             removepoint = pos + std::get<0>( val.second );
             removepoint2 = pos + std::get<1>( val.second );
@@ -2105,9 +2155,9 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         }
     }
 
-    const maptile remove_tile = maptile_at( removepoint );
-    const maptile remove_tile2 = maptile_at( removepoint2 );
-    const maptile remove_tile3 = maptile_at( removepoint3 );
+    const maptile remove_tile = maptile_at( removepoint.raw() );
+    const maptile remove_tile2 = maptile_at( removepoint2.raw() );
+    const maptile remove_tile3 = maptile_at( removepoint3.raw() );
     return std::make_tuple( remove_tile, remove_tile2, remove_tile3 );
 }
 

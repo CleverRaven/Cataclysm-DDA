@@ -20,8 +20,8 @@
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
               { "u_lose_trait": "EYEGLEAM" },
+              { "u_lose_trait": "BLOOD_FUN" },
               { "u_lose_trait": "STAMINAFORBLOOD" },
-              { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "COMMUNE_NIGHT" },
               { "u_lose_trait": "VAMPIRIC_STRENGTH" },
               { "u_lose_trait": "VAMPIRIC_RESILIENCE" },
@@ -62,8 +62,10 @@
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
               { "u_lose_trait": "BLOODHASTE" },
+              { "u_lose_trait": "MAGICFORBLOOD" },
               { "u_lose_trait": "VAMPIRE_COMMAND_BEAST" },
               { "u_lose_trait": "VAMPIRE_EARTH_SLUMBER" },
+              { "math": [ "u_spell_level('vampire_magic_for_blood_spell')", "=", "-1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze')", "=", "-1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell')", "=", "-1" ] },
               {
@@ -116,8 +118,22 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE3",
+    "condition": { "not": { "u_has_trait": "VAMPIRE4" } },
+    "effect": { "run_eocs": "EOC_COMPLETED_VAMPIRE3_REAL" },
+    "false_effect": [ { "run_eocs": "EOC_VAMPVIRUS3" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_VAMPIRE3_REAL",
     "effect": {
       "u_message": "You can advance no further without access to a mentor.  Maybe you could find one where you've found the other vampires?"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COMPLETED_VAMPIRE4",
+    "effect": {
+      "u_message": "You can advance no further without more guidance from your mentor [fourth wall tier 5 and its content do not exist yet]"
     }
   },
   {
@@ -153,6 +169,7 @@
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_escalation",
     "//": "This EOC controls the speed at which vampires mutate and evolve.",
+    "//2": "When adding new learnable traits below, make sure to also add them to the blood gift research recipe EoCs",
     "recurrence": [ "48 hours", "72 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
     "effect": {
@@ -178,6 +195,7 @@
                       {
                         "u_roll_remainder": [
                           "EYEGLEAM",
+                          "BLOOD_FUN",
                           "STAMINAFORBLOOD",
                           "COMMUNE_NIGHT",
                           "VAMPIRIC_STRENGTH",
@@ -265,7 +283,7 @@
                   "condition": { "u_has_trait": "VAMPIRE3" },
                   "effect": [
                     {
-                      "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
+                      "u_roll_remainder": [ "BLOODHASTE", "MAGICFORBLOOD", "HYPNOTIC_GAZE", "BLOODBANK", "VAMPIRE_COMMAND_BEAST", "VAMPIRE_EARTH_SLUMBER" ],
                       "type": "mutation",
                       "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                       "false_eocs": [ "EOC_COMPLETED_VAMPIRE3" ]
@@ -284,6 +302,41 @@
           }
         }
       ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPVIRUS3",
+    "condition": { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+    "effect": {
+      "run_eocs": {
+        "id": "eoc_vampvirus_4_math_checker",
+        "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
+        "effect": {
+          "run_eocs": {
+            "id": "eoc_vampvirus_4_trait",
+            "condition": { "u_has_trait": "VAMPIRE4" },
+            "effect": [
+              {
+                "u_roll_remainder": [
+                  "TRUE_VAMPIRE_POWER",
+                  "VAMPIRE_TORPOR",
+                  "VAMPIRE_DOMINATE",
+                  "VAMPIRE_NO_BREATHE",
+                  "VAMPIRE_NO_ILLNESS",
+                  "VAMPIRE_BAT_FORM",
+                  "VAMPIRE_WOLF_FORM",
+                  "VAMPIRE_MIST_FORM"
+                ],
+                "type": "mutation",
+                "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                "false_eocs": [ "EOC_COMPLETED_VAMPIRE4" ]
+              }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_COMPLETED_VAMPIRE4" } ]
+          }
+        }
+      }
     }
   },
   {

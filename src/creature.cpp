@@ -111,6 +111,8 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
+static const efftype_id effect_quadruped_half( "quadruped_half" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
@@ -215,12 +217,12 @@ void Creature::setpos( const tripoint_bub_ms &p )
     Creature::setpos( p.raw() );
 }
 
-bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
+bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
 {
     map &here = get_map();
     const optional_vpart_position vp_there = here.veh_at( loc );
     if( !vp_there ) {
-        return true;
+        return false;
     }
 
     const monster *mon = as_monster();
@@ -255,12 +257,12 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
         }
 
         if( critter_volume > free_cargo ) {
-            return false;
+            return true;
         }
 
         if( size == creature_size::huge &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
-            return false;
+            return true;
         }
 
         // free_cargo * 0.75 < critter_volume && critter_volume <= free_cargo
@@ -268,23 +270,17 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
             if( !mon || !( mon->type->bodytype == "snake" || mon->type->bodytype == "blob" ||
                            mon->type->bodytype == "fish" ||
                            has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
-                cramped = true;
+                return true;
             }
         }
 
         if( size == creature_size::huge && !vp_there.part_with_feature( "AISLE", false ) &&
             !vp_there.part_with_feature( "HUGE_OK", false ) ) {
-            cramped = true;
+            return true;
         }
     }
 
-    return true;
-}
-
-bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const
-{
-    bool dummy = false;
-    return can_move_to_vehicle_tile( loc, dummy );
+    return false;
 }
 
 void Creature::move_to( const tripoint_abs_ms &loc )
@@ -392,7 +388,7 @@ bool Creature::is_underwater() const
 bool Creature::is_likely_underwater() const
 {
     return is_underwater() ||
-           ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
+           ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) );
 }
 
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
@@ -499,11 +495,12 @@ bool Creature::sees( const Creature &critter ) const
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( target_range <= 1 ) {
-        return ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) && visible( ch );
+        return ( posz() == critter.posz() || here.sees( pos_bub(), critter.pos_bub(), 1 ) ) &&
+               visible( ch );
     }
 
     // If we cannot see without any of the penalties below, bail now.
-    if( !sees( critter.pos(), critter.is_avatar() ) ) {
+    if( !sees( critter.pos_bub(), critter.is_avatar() ) ) {
         return false;
     }
 
@@ -514,25 +511,25 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     if( ( target_range > 2 && critter.digging() &&
-          here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
+          here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos_bub() ) ) ||
         ( critter.has_flag( mon_flag_CAMOUFLAGE ) && target_range > this->get_eff_per() ) ||
         ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
           target_range > this->get_eff_per() &&
           ( critter.is_likely_underwater() ||
-            here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
-            ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos() ) &&
+            here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos_bub() ) ||
+            ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos_bub() ) &&
               critter.get_size() < creature_size::medium ) ) ) ||
         ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter.pos() ) <= lit_level::LOW ) ||
         critter.has_effect( effect_invisibility ) ||
         ( !is_likely_underwater() && critter.is_likely_underwater() &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
-                         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
+                         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos_bub() ),
                          posz() != critter.posz() ) ) ||
-        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
+        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos_bub() ) &&
           !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
              std::abs( posz() - critter.posz() ) <= 1 ) ) ||
-        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos() ) &&
+        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos_bub() ) &&
           critter.has_flag( mon_flag_SMALL_HIDER ) &&
           !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
              std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
@@ -540,9 +537,9 @@ bool Creature::sees( const Creature &critter ) const
     }
     if( ch != nullptr ) {
         if( ch->is_crouching() || ch->has_effect( effect_all_fours ) || ch->is_prone() ||
-            pos().z != critter.pos().z ) {
-            const int coverage = std::max( here.obstacle_coverage( pos(), critter.pos() ),
-                                           here.ledge_coverage( *this, critter.pos() ) );
+            pos_bub().z() != critter.pos_bub().z() ) {
+            const int coverage = std::max( here.obstacle_coverage( pos_bub(), critter.pos_bub() ),
+                                           here.ledge_coverage( *this, critter.pos_bub() ) );
             if( coverage < 30 ) {
                 return visible( ch );
             }
@@ -650,7 +647,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
 {
     Creature *target = nullptr;
     Character &player_character = get_player_character();
-    tripoint player_pos = player_character.pos();
+    tripoint_bub_ms player_pos = player_character.pos_bub();
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     // iff safety margin (degrees). less accuracy, more paranoia
@@ -661,9 +658,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = sees( player_character ); // Need to check if player is in cone to target
-    int pldist = rl_dist( pos(), player_pos );
+    int pldist = rl_dist( pos_bub(), player_pos );
     map &here = get_map();
-    vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
+    vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos_bub() ) ) : nullptr;
     if( pldist < iff_dist && angle_iff ) {
         area_iff = area > 0;
         // Player inside vehicle won't be hit by shots from the roof,
@@ -675,7 +672,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // granularity increases with proximity
             iff_hangle = ( pldist == 2 ? 30_degrees : 60_degrees );
         }
-        u_angle = coord_to_angle( pos(), player_pos );
+        u_angle = coord_to_angle( pos(), player_pos.raw() );
     }
 
     if( area > 0 && in_veh != nullptr ) {
@@ -741,11 +738,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( m->pos() ) ) == in_veh ) {
+        if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( m->pos_bub() ) ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff && rl_dist( player_pos, m->pos() ) <= area ) {
+        if( area_iff && rl_dist( player_pos, m->pos_bub() ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;
@@ -829,7 +826,7 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
         return
             /* either target or attacker are underwater and separated by vehicle tiles */
             !( underwater != target->underwater &&
-               here.veh_at( pos() ) && here.veh_at( target->pos() ) );
+               here.veh_at( pos_bub() ) && here.veh_at( target->pos_bub() ) );
     }
 
     if( !allow_z_levels ) {
@@ -2831,6 +2828,62 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
         ret = lower_limbs;
     }
     return ret;
+}
+
+std::vector<bodypart_id> Creature::get_ground_contact_bodyparts( bool arms_legs ) const
+{
+    std::vector<bodypart_id> arms = get_all_body_parts_of_type( body_part_type::type::arm );
+    std::vector<bodypart_id> legs = get_all_body_parts_of_type( body_part_type::type::leg );
+    std::vector<bodypart_id> hands = get_all_body_parts_of_type( body_part_type::type::hand );
+    std::vector<bodypart_id> feet = get_all_body_parts_of_type( body_part_type::type::foot );
+
+    if( has_effect( effect_quadruped_full ) || has_effect( effect_quadruped_half ) ) {
+        if( arms_legs == true ) {
+            std::vector<bodypart_id> bodyparts( arms.size() + legs.size() );
+            std::merge( arms.begin(), arms.end(), legs.begin(), legs.end(), bodyparts.begin() );
+            return bodyparts;
+        } else {
+            std::vector<bodypart_id> bodyparts( hands.size() + feet.size() );
+            std::merge( hands.begin(), hands.end(), feet.begin(), feet.end(), bodyparts.begin() );
+            return bodyparts;
+        }
+    } else {
+        std::vector<bodypart_id> bodyparts;
+        if( arms_legs == true ) {
+            bodyparts = get_all_body_parts_of_type( body_part_type::type::leg );
+        } else {
+            bodyparts = get_all_body_parts_of_type( body_part_type::type::foot );
+        }
+        return bodyparts;
+    }
+}
+
+
+std::string Creature::string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps )
+const
+{
+    //Taken of "body_part_names" function in armor_layers.cpp
+    std::vector<std::string> names;
+    names.reserve( bps.size() );
+    for( bodypart_id part : bps ) {
+        bool can_be_consolidated = false;
+        std::string current_part = body_part_name_accusative( part );
+        std::string opposite_part = body_part_name_accusative( part->opposite_part );
+        std::string part_group = body_part_name_accusative( part, 2 );
+        for( const std::string &already_listed : names ) {
+            if( already_listed == opposite_part ) {
+                can_be_consolidated = true;
+                break;
+            }
+        }
+        if( can_be_consolidated ) {
+            std::replace( names.begin(), names.end(), opposite_part, part_group );
+        } else {
+            names.push_back( current_part );
+        }
+    }
+
+    return enumerate_as_string( names );
 }
 
 int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const

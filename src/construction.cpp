@@ -1374,35 +1374,6 @@ void complete_construction( Character *you )
                     }
                 }
             }
-
-            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
-                const tripoint_bub_ms below = terp + tripoint_below;
-                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
-                    const map_bash_info bash_info = here.ter( below ).obj().bash;
-                    // ter_set_bashed_from_above should default to ter_set
-                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
-                        if( below.z() >= -1 ) {
-                            // Stupid to set soil at above the ground level, but if they haven't defined
-                            // anything for the terrain that's what you'll get.
-                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
-                            ter_id converted_terrain = ter_t_dirt;
-                            regional_settings settings = g->get_cur_om().get_settings();
-                            std::map<std::string, int> soil_map =
-                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
-                            if( !soil_map.empty() ) {
-                                converted_terrain = ter_id(
-                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
-                            }
-                            here.ter_set( below, converted_terrain );
-                        } else {
-                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
-                            here.ter_set( below, ter_t_rock_floor );
-                        }
-                    } else {
-                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
-                    }
-                }
-            }
         }
     }
 
@@ -1482,10 +1453,16 @@ bool construct::check_support( const tripoint_bub_ms &p )
     if( here.impassable( p ) ) {
         return false;
     }
+
+    // The current collapse logic is based on the level below supporting a "roof" rather
+    // than the orthogonal tiles supporting a roof tile. Thus, the construction logic
+    // uses similar criteria, which means you may have to first change grass into a dirt
+    // floor before you may be able to build a roof above it.
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ||
+            ( !here.ter( p + offset )->has_flag( "EMPTY_SPACE" ) &&
+              here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) ) {
             num_supports++;
         }
     }
@@ -1513,7 +1490,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
-    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+    if( !( here.passable( p ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
            here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
                 here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
@@ -1951,8 +1928,8 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
         return;
     }
 
-    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above.raw() ) ||
-        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above.raw() ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above ) ) {
         here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );

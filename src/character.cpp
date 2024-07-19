@@ -613,7 +613,7 @@ Character::Character() :
     oxygen = 0;
     in_vehicle = false;
     controlling_vehicle = false;
-    grab_point = tripoint_zero;
+    grab_point = tripoint_rel_ms_zero;
     hauling = false;
     set_focus( 100 );
     last_item = itype_null;
@@ -1319,7 +1319,7 @@ int Character::overmap_sight_range( float light_level ) const
         const bool has_optic = cache_has_item_with( flag_ZOOM ) ||
                                has_flag( json_flag_ENHANCED_VISION ) ||
                                ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
-                               get_map().veh_at( pos() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
+                               get_map().veh_at( pos_bub() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
         if( has_optic ) {
             multiplier += 1;
@@ -1371,8 +1371,8 @@ bool Character::has_alarm_clock() const
 {
     map &here = get_map();
     return cache_has_item_with_flag( flag_ALARMCLOCK, true ) ||
-           ( here.veh_at( pos() ) &&
-             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
+           ( here.veh_at( pos_bub() ) &&
+             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
            has_flag( json_flag_ALARMCLOCK );
 }
 
@@ -1381,7 +1381,7 @@ bool Character::has_watch() const
     map &here = get_map();
     return cache_has_item_with_flag( flag_WATCH, true ) ||
            ( here.veh_at( pos() ) &&
-             !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
+             !empty( here.veh_at( pos_bub() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
            has_flag( json_flag_WATCH );
 }
 
@@ -2024,21 +2024,21 @@ bool Character::uncanny_dodge()
     }
 
     map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( pos() );
+    const optional_vpart_position veh_part = here.veh_at( pos_bub() );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
         return false;
     }
 
     //uncanny dodge triggered in car and wasn't secured by seatbelt
     if( in_vehicle && veh_part ) {
-        here.unboard_vehicle( pos() );
+        here.unboard_vehicle( pos_bub() );
     }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         set_pos_only( adjacent );
 
         //landed in a vehicle tile
-        if( here.veh_at( pos() ) ) {
-            here.board_vehicle( pos(), this );
+        if( here.veh_at( pos_bub() ) ) {
+            here.board_vehicle( pos_bub(), this );
         }
 
         if( is_u ) {
@@ -3959,7 +3959,8 @@ std::pair<int, int> Character::climate_control_strength() const
     int power_chill = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_CHILL );
 
     map &here = get_map();
-    if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) &&
+    if( has_trait( trait_M_SKIN3 ) &&
+        here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() ) &&
         in_sleep_state() ) {
         power_heat += DEFAULT_STRENGTH;
         power_chill += DEFAULT_STRENGTH;
@@ -3969,7 +3970,7 @@ std::pair<int, int> Character::climate_control_strength() const
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
-        if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
             // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
                                  (
@@ -4666,7 +4667,8 @@ bool Character::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
            has_flag( json_flag_DEAF ) || has_effect( effect_narcosis ) ||
-           ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() )
+           ( has_trait( trait_M_SKIN3 ) &&
+             get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() )
              && in_sleep_state() );
 }
 
@@ -5717,8 +5719,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
                 }
             }
         }
-        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, p.raw() ) ) ||
-            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p.raw() ) ) ) {
+        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
+            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -6212,7 +6214,7 @@ bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 float Character::rest_quality() const
 {
     map &here = get_map();
-    const tripoint your_pos = pos();
+    const tripoint_bub_ms your_pos = pos_bub();
     float rest = 0.0f;
     const float ur_act_level = instantaneous_activity_level();
     // Negative morales are penalties
@@ -6227,7 +6229,8 @@ float Character::rest_quality() const
     if( has_effect( effect_sleep ) ) {
         // Beds should normally have a maximum of 2C warmth, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
         // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
-        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos ) ), 0.f ) / 2.0f ) ;
+        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos.raw() ) ),
+                            0.f ) / 2.0f ) ;
         return std::max( rest, 0.0f );
     }
     const optional_vpart_position veh_part = here.veh_at( your_pos );
@@ -6237,9 +6240,9 @@ float Character::rest_quality() const
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
             rest += 0.2f;
-        } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
+        } else if( floor_bedding_warmth( your_pos.raw() ) > 0_C_delta ) {
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
-            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
+            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos.raw() ) ) / 2.0f );
         }
         if( ur_act_level <= NO_EXERCISE ) {
             rest += 0.2f;
@@ -7048,11 +7051,11 @@ void Character::burn_move_stamina( int moves )
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     //Appropriate traits let you walk along the bottom without getting as tired
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) &&
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
-          get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos() ) ) &&
-        !get_map().has_flag_furn( "BRIDGE", pos() ) &&
-        !( in_vehicle && get_map().veh_at( pos() )->vehicle().can_float() ) ) {
+          get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) &&
+        !get_map().has_flag_furn( "BRIDGE", pos_bub() ) &&
+        !( in_vehicle && get_map().veh_at( pos_bub() )->vehicle().can_float() ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }
 
@@ -8164,7 +8167,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     }
 
     map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( pos() );
+    const optional_vpart_position veh_part = here.veh_at( pos_bub() );
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
     if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
@@ -8625,7 +8628,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 void Character::rooted_message() const
 {
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos_bub() ) &&
         is_barefoot() ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
     }
@@ -8824,7 +8827,7 @@ void Character::toggle_hauling()
     if( hauling ) {
         stop_hauling();
     } else {
-        std::vector<item_location> items = here.get_haulable_items( pos() );
+        std::vector<item_location> items = here.get_haulable_items( pos_bub() );
         if( items.empty() ) {
             add_msg( m_info, _( "There are no items to haul here." ) );
             return;
@@ -8838,13 +8841,13 @@ void Character::start_hauling( const std::vector<item_location> &items_to_haul =
 {
     map &here = get_map();
 
-    if( here.veh_at( pos() ) ) {
+    if( here.veh_at( pos_bub() ) ) {
         add_msg( m_info, _( "You cannot haul inside vehicles." ) );
         return;
-    } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+    } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ) {
         add_msg( m_info, _( "You cannot haul while in deep water." ) );
         return;
-    } else if( !here.can_put_items( pos() ) ) {
+    } else if( !here.can_put_items( pos_bub() ) ) {
         add_msg( m_info, _( "You cannot haul items here." ) );
         return;
     }
@@ -9102,12 +9105,12 @@ void Character::migrate_items_to_storage( bool disintegrate )
 std::string Character::is_snuggling() const
 {
     map &here = get_map();
-    map_stack items_here = here.i_at( pos() );
+    map_stack items_here = here.i_at( pos_bub() );
     item_stack::const_iterator begin = items_here.begin();
     item_stack::const_iterator end = items_here.end();
 
     if( in_vehicle ) {
-        if( const std::optional<vpart_reference> ovp = here.veh_at( pos() ).cargo() ) {
+        if( const std::optional<vpart_reference> ovp = here.veh_at( pos_bub() ).cargo() ) {
             const vehicle_stack vs = ovp->items();
             begin = vs.begin();
             end = vs.end();
@@ -9799,7 +9802,7 @@ bool Character::has_fire( const int quantity ) const
 {
     // TODO: Replace this with a "tool produces fire" flag.
 
-    if( get_map().has_nearby_fire( pos() ) ) {
+    if( get_map().has_nearby_fire( pos_bub() ) ) {
         return true;
     }
     if( cache_has_item_with( flag_FIRE ) ) {
@@ -9890,7 +9893,7 @@ void Character::use_fire( const int quantity )
     // (home made, military), hotplate, welder in that order.
     // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
-    if( get_map().has_nearby_fire( pos() ) ) {
+    if( get_map().has_nearby_fire( pos_bub() ) ) {
         return;
     }
     if( cache_has_item_with( flag_FIRE ) ) {
@@ -10273,8 +10276,8 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     const bool flatground = movecost < 105;
     map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() );
-    const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() );
+    const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos_bub() );
+    const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() );
 
     if( is_mounted() ) {
         return effects;
@@ -10381,7 +10384,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     }
 
     if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-        here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) && is_barefoot() ) {
+        here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos_bub() ) && is_barefoot() ) {
         run_cost_effect_add( 10, _( "Roots" ) );
     }
 
@@ -10484,7 +10487,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
 
     map &here = get_map();
 
-    return here.sees( pos(), critter.pos(), unimpaired_range(), false );
+    return here.sees( pos_bub(), critter.pos_bub(), unimpaired_range(), false );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -10506,7 +10509,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos(), critter.pos(), 100 ) );
+        bool can_see = ( ( sees( critter ) || sees_with_infrared( critter ) ) && here.sees( pos_bub(), critter.pos_bub(), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint> path = here.find_clear_path( pos(), critter.pos() );
@@ -11126,10 +11129,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    bool cramped = false;
-    // return is intentionally discarded, sets cramped if appropriate
-    can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
-    if( cramped ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11154,20 +11154,20 @@ void Character::stagger()
     map &here = get_map();
     std::vector<tripoint> valid_stumbles;
     valid_stumbles.reserve( 11 );
-    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
+                valid_stumbles.emplace_back( dest.xy().raw(), dest.z() - 1 );
             } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
+                valid_stumbles.emplace_back( dest.xy().raw(), dest.z() + 1 );
             } else {
-                valid_stumbles.push_back( dest );
+                valid_stumbles.push_back( dest.raw() );
             }
         }
     }
-    const tripoint below( posx(), posy(), posz() - 1 );
-    if( here.valid_move( pos(), below, false, true ) ) {
-        valid_stumbles.push_back( below );
+    const tripoint_bub_ms below( posx(), posy(), posz() - 1 );
+    if( here.valid_move( pos_bub(), below, false, true ) ) {
+        valid_stumbles.push_back( below.raw() );
     }
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() ) {
@@ -11227,7 +11227,7 @@ int Character::sleep_spot( const tripoint_bub_ms &p ) const
 
     sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
 
-    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p.raw() ) ) {
+    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         sleepy += 10; //comfy water!
     }
 
@@ -11954,7 +11954,7 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::is_driving() const
 {
-    const optional_vpart_position vp = get_map().veh_at( pos() );
+    const optional_vpart_position vp = get_map().veh_at( pos_bub() );
     return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
 }
 
@@ -12057,7 +12057,7 @@ read_condition_result Character::check_read_condition( const item &book ) const
     if( !book.is_book() ) {
         result |= read_condition_result::NOT_BOOK;
     } else {
-        const optional_vpart_position vp = get_map().veh_at( pos() );
+        const optional_vpart_position vp = get_map().veh_at( pos_bub() );
         if( vp && vp->vehicle().player_in_control( *this ) ) {
             result |= read_condition_result::DRIVING;
         }
@@ -12318,7 +12318,7 @@ double Character::recoil_vehicle() const
     // TODO: vary penalty dependent upon vehicle part on which player is boarded
 
     if( in_vehicle ) {
-        if( const optional_vpart_position vp = get_map().veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = get_map().veh_at( pos_bub() ) ) {
             return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
@@ -13205,15 +13205,15 @@ void Character::pause()
     map &here = get_map();
 
     // effects of being partially/fully underwater
-    if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos( ) ) ) {
+    if( !in_vehicle && !get_map().has_flag_furn( "BRIDGE", pos_bub( ) ) ) {
         if( underwater ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
             // Same as above, except no head/eyes/mouth
             drench( 100, get_drenching_body_parts( false ), false );
-        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) {
             drench( 80, get_drenching_body_parts( false, false ),
                     false );
         }

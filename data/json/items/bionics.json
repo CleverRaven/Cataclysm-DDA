@@ -692,7 +692,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Artificial Night Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "When active, this bionic eliminates all light within a 15-tile radius of the user through destructive interference.",
+    "description": "When active, this bionic eliminates all light within a 2 tile radius of the user through destructive interference.",
     "price": "8 kUSD 500 USD",
     "price_postapoc": "80 USD",
     "difficulty": 5

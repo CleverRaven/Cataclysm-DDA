@@ -3266,7 +3266,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 }
 
 // In non-SDL mode, width/height is just what's specified in the menu
-#if !defined(TILES)
+#if defined( TUI )
 // We need to override these for Windows console resizing
 #   if !defined(_WIN32)
 int get_terminal_width()
