@@ -509,7 +509,7 @@ VisitResponse map_cursor::visit_items(
         tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
         here.load( project_to<coords::omt>( abs_pos ), false );
         tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
-        visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
+        return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
     }
 }
 
