@@ -4,11 +4,10 @@
     "//": "typical value around 30",
     "expected_dps": {
       "javelin": 6.11,
-      "bronze_atlatl_spear": 6.23,
       "aztec_spear_glass": 6.78,
       "pointed_rebar": 7.23,
       "aztec_spear_scrap": 7.62,
-      "steel_atlatl_spear": 7.7,
+      "steel_atlatl_spear": 6.12,
       "aztec_spear_stone": 7.91,
       "lajatang": 8.46,
       "spear_rebar": 10.46,
