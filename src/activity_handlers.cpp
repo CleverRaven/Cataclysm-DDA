@@ -1476,7 +1476,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
     try {
         // 1. Gather the source item.
         vehicle *source_veh = nullptr;
-        const tripoint source_pos = act_ref.coords.at( 0 );
+        const tripoint_bub_ms source_pos = tripoint_bub_ms( act_ref.coords.at( 0 ) );
         map &here = get_map();
         map_stack source_stack = here.i_at( source_pos );
         map_stack::iterator on_ground;
@@ -3789,7 +3789,8 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
-        return ter.obj().is_wooded() || ter.obj().get_name() == "field";
+        // FIXME: this is terrible and should be a property instead of a name check...
+        return ter.obj().is_wooded() || ter.obj().get_name() == _( "field" );
     };
     while( !q.empty() ) {
         tripoint_abs_omt tpt = q.front();

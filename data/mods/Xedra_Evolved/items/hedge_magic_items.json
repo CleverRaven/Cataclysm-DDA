@@ -159,6 +159,30 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
+    "id": "item_hedge_changeling_snare",
+    "type": "TOOL",
+    "name": "betweener's maze",
+    "category": "traps",
+    "properties": { "capture_species": "CHANGELING" },
+    "description": "A yarn contraption similar to a cat's cradle that looks like a three dimensional maze.  When placed properly, it can fascinate the changeling blooded.",
+    "weight": "20 g",
+    "volume": "100 ml",
+    "longest_side": "20 cm",
+    "price": "250 USD",
+    "price_postapoc": "5 USD",
+    "material": "wool",
+    "symbol": "*",
+    "color": "green_green",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_fae_snare",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You place the betweener's maze."
+    }
+  },
+  {
     "id": "item_hedge_nether_eye_paste",
     "name": { "str_sp": "Blood-and-Ash Paste" },
     "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherworldly creatures even through walls or in darkness.",

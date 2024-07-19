@@ -65,6 +65,7 @@ enum class TILE_CATEGORY {
     HIT_ENTITY,
     WEATHER,
     OVERMAP_TERRAIN,
+    OVERMAP_WEATHER,
     MAP_EXTRA,
     OVERMAP_NOTE,
     last
@@ -84,6 +85,7 @@ const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"hit_entity", TILE_CATEGORY::HIT_ENTITY},
     {"weather", TILE_CATEGORY::WEATHER},
     {"overmap_terrain", TILE_CATEGORY::OVERMAP_TERRAIN},
+    {"overmap_weather", TILE_CATEGORY::OVERMAP_WEATHER},
     {"map_extra", TILE_CATEGORY::MAP_EXTRA},
     {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
 };

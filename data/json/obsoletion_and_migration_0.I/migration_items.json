@@ -1546,5 +1546,10 @@
     "id": "mr73",
     "type": "MIGRATION",
     "replace": "sw_619"
+  },
+  {
+    "id": "acidbomb",
+    "type": "MIGRATION",
+    "replace": "sling-ready_molotov"
   }
 ]

@@ -23,7 +23,6 @@ static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
 
 static const vproto_id vehicle_prototype_none( "none" );
-static const vproto_id vehicle_prototype_reactor_test( "reactor_test" );
 static const vproto_id vehicle_prototype_scooter_electric_test( "scooter_electric_test" );
 static const vproto_id vehicle_prototype_scooter_test( "scooter_test" );
 static const vproto_id vehicle_prototype_solar_panel_test( "solar_panel_test" );
@@ -37,43 +36,6 @@ static void reset_player()
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
-}
-
-TEST_CASE( "vehicle_power_with_reactor", "[vehicle][power]" )
-{
-    clear_vehicles();
-    reset_player();
-    build_test_map( ter_id( "t_pavement" ) );
-    map &here = get_map();
-
-    SECTION( "vehicle with reactor" ) {
-        const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_reactor_test, reactor_origin,
-                                             0_degrees, 0, 0 );
-        REQUIRE( veh_ptr != nullptr );
-
-        REQUIRE( !veh_ptr->reactors.empty() );
-        vehicle_part &reactor = veh_ptr->part( veh_ptr->reactors.front() );
-
-        GIVEN( "the reactor is empty" ) {
-            reactor.ammo_unset();
-            veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
-            REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
-
-            WHEN( "the reactor is loaded with plutonium fuel" ) {
-                reactor.ammo_set( fuel_type_plut_cell, 1 );
-                REQUIRE( reactor.ammo_remaining() == 1 );
-
-                AND_WHEN( "the reactor is used to power and charge the battery" ) {
-                    veh_ptr->power_parts();
-                    THEN( "the reactor should be empty, and the battery should be charged" ) {
-                        CHECK( reactor.ammo_remaining() == 0 );
-                        CHECK( veh_ptr->fuel_left( fuel_type_battery ) == 100 );
-                    }
-                }
-            }
-        }
-    }
 }
 
 TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )

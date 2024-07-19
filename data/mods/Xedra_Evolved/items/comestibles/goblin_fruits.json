@@ -17,7 +17,7 @@
     "material": [ "fruit" ],
     "fun": 1,
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,7 +38,8 @@
       "type": "effect_on_conditions",
       "description": "Peel open the mysterious fruit.",
       "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GACHA" ]
-    }
+    },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "effect_on_condition",
@@ -451,8 +452,18 @@
     "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
+      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
       { "u_add_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "math": [ "u_calories()", "+=", "100000" ] },
       { "queue_eocs": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE", "time_in_future": { "math": [ "3000 + rand(10000)" ] } }
     ],
     "false_effect": [ { "u_message": "You eat the goblin fruit but nothing happens.  Oh well." } ]
@@ -462,8 +473,17 @@
     "id": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE",
     "effect": [
       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "mixed" },
-      { "u_lose_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "math": [ "u_calories()", "-=", "100000" ] }
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_lose_trait": "GOBLIN_FRUIT_GIANT_GROWTH" }
     ]
   }
 ]

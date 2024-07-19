@@ -162,6 +162,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_conjunctivitis( "conjunctivitis" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
@@ -674,6 +675,13 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
     if( p->has_effect( effect_boomered ) ) {
         p->remove_effect( effect_boomered );
         p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
+    }
+    if( p->has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) ) {
+        effect &eff = p->get_effect( effect_conjunctivitis, bodypart_id( "eyes" ) );
+        if( eff.get_duration() > 2_days ) {
+            p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
+            eff.set_duration( 2_days );
+        }
     }
     return 1;
 }
@@ -4890,7 +4898,7 @@ std::optional<int> iuse::heatpack( Character *p, item *it, const tripoint & )
 
 std::optional<int> iuse::heat_food( Character *p, item *it, const tripoint & )
 {
-    if( get_map().has_nearby_fire( p->pos() ) ) {
+    if( get_map().has_nearby_fire( p->pos_bub() ) ) {
         heat_item( *p );
         return 0;
     } else if( p->has_active_bionic( bio_tools ) && p->get_power_level() > 10_kJ &&
@@ -7783,8 +7791,8 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
         std::string temperature_str;
-        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos() ) ||
-            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos() ) ) {
+        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos_bub() ) ||
+            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos_bub() ) ) {
             temperature_str = print_temperature( get_weather().get_cur_weather_gen().get_water_temperature() );
         } else {
             temperature_str = print_temperature( player_local_temp );
@@ -7797,12 +7805,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
                 print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p->pos() ) ) ) );
+                                                    g->is_sheltered( p->pos_bub() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
                 print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p->pos() ) ) ) );
+                                                    g->is_sheltered( p->pos_bub() ) ) ) );
         }
     }
     if( it->has_flag( flag_BAROMETER ) ) {
@@ -7818,12 +7826,12 @@ std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & 
 
     if( it->typeId() == itype_weather_reader ) {
         int vehwindspeed = 0;
-        if( optional_vpart_position vp = get_map().veh_at( p->pos() ) ) {
+        if( optional_vpart_position vp = get_map().veh_at( p->pos_bub() ) ) {
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos() ) );
+                              p->get_location(), weather.winddirection, g->is_sheltered( p->pos_bub() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower * 100, VU_WIND ),
@@ -8150,7 +8158,7 @@ heater find_heater( Character *p, item *it )
     if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
         pseudo_flag = true;
     }
-    if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
+    if( get_map().has_nearby_fire( p->pos_bub() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
@@ -9015,6 +9023,10 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
     item_location ereader = item_location( *p, it );
     const drop_locations to_scan = game_menus::inv::ebooksave( *p, ereader );
     if( to_scan.empty() ) {

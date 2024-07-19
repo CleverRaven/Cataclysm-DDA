@@ -14,7 +14,8 @@
     "material": [ "wheat", "fruit" ],
     "fun": 10,
     "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ],
-    "volume": "12 ml"
+    "volume": "12 ml",
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "recipe",

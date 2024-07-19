@@ -1359,6 +1359,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 95,
+    "blocks_effects": [ "blisters" ],
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
@@ -1637,7 +1638,7 @@
       "You are editing out your most negative thoughts.  When you think about it, is the Cataclysm really the worst thing that could have happened?"
     ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You let your thoughts return to their normal flow.",
     "rating": "good",
     "max_duration": "7 days"
   },

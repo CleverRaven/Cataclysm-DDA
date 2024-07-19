@@ -3356,7 +3356,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Save these values now so they aren't lost when parts or vehicles are destroyed.
             const point part_mount = vp->mount;
-            const tripoint part_pos = veh.global_part_pos3( *vp );
+            const tripoint_bub_ms part_pos = veh.bub_part_pos( *vp );
 
             veh.unlink_cables( part_mount, you,
                                false, /* unneeded as items will be unlinked if the connected part is removed */

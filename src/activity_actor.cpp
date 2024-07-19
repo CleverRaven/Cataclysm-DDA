@@ -34,6 +34,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "contents_change_handler.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
@@ -1575,7 +1576,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos.raw() ) );
+                                   get_map().tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -2403,7 +2404,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_zero );
+    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms_zero );
 
     JsonObject data = jsin.get_object();
 

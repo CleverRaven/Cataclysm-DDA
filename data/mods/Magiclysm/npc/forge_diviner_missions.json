@@ -449,6 +449,25 @@
     }
   },
   {
+    "id": "MISSION_FORGE_DIVINER_DRUID_TOWER",
+    "type": "mission_definition",
+    "name": { "str": "Visit the druid tower" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 0,
+    "value": 0,
+    "description": "The diviner told you that there would be a druid tower here.",
+    "destination": "druid_ritual_home_z0",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "druid_ritual_home_z0",
+        "om_special": "druid_tower",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
+  },
+  {
     "id": "MISSION_FORGE_DIVINER_RIVER",
     "type": "mission_definition",
     "name": { "str": "Visit the river" },

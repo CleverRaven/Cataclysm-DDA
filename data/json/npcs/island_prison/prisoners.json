@@ -432,7 +432,7 @@
     },
     "responses": [
       {
-        "text": "[Show the military ID card] You mean this stuff?",
+        "text": "[Show the military ID card.] You mean this stuff?",
         "topic": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
         "condition": {
           "and": [

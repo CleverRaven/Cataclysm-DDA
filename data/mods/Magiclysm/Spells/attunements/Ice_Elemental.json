@@ -6,7 +6,7 @@
     "description": "Your fingers stiffen as condensation freezes into claws, intensifying your naturally cold touch and protecting your hands from damage.",
     "valid_targets": [ "none" ],
     "flags": [ "NO_LEGS", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -50,7 +50,7 @@
     "base_energy_cost": 160,
     "energy_increment": -2.3,
     "final_energy_cost": 80,
-    "extra_effects": [ { "id": "cold_heart_slow" }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "cold_heart_slow" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "id": "cold_heart_slow",
@@ -75,7 +75,7 @@
     "valid_targets": [ "ground" ],
     "effect": "ter_transform",
     "effect_str": "icelemental_crystal",
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
     "flags": [ "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "ICE_ELEMENTAL",

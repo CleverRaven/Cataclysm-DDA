@@ -571,6 +571,11 @@ bool map_data_common_t::can_examine( const tripoint &examp ) const
     return examine_actor || examine_func.can_examine( examp );
 }
 
+bool map_data_common_t::can_examine( const tripoint_bub_ms &examp ) const
+{
+    return map_data_common_t::can_examine( examp.raw() );
+}
+
 bool map_data_common_t::has_examine( iexamine_examine_function func ) const
 {
     return examine_func.examine == func;
@@ -593,6 +598,11 @@ void map_data_common_t::examine( Character &you, const tripoint &examp ) const
         return;
     }
     examine_actor->call( you, examp );
+}
+
+void map_data_common_t::examine( Character &you, const tripoint_bub_ms &examp ) const
+{
+    map_data_common_t::examine( you, examp.raw() );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &context )

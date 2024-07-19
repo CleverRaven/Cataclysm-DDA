@@ -3522,7 +3522,7 @@
     "name": "Park Ranger",
     "description": "Your days of patrolling the park and protecting people and wildlife from each other have taught you many useful skills.  After finding a gruesome scene at a campsite and getting no response when you radioed for help, you stockpiled as many supplies as possible and set out in your pickup looking for answers.",
     "points": 5,
-    "proficiencies": [ "prof_driver" ],
+    "proficiencies": [ "prof_driver", "prof_wound_care" ],
     "skills": [
       { "level": 5, "name": "survival" },
       { "level": 5, "name": "firstaid" },
@@ -4387,7 +4387,7 @@
     "name": "Burglar",
     "description": "This could be your lucky break.  Plenty of loot to be pilfered, and no cops to be seen.  Does it count as breaking and entering if everyone in town is undead?",
     "points": 2,
-    "proficiencies": [ "prof_lockpicking" ],
+    "proficiencies": [ "prof_lockpicking", "prof_safecracking" ],
     "skills": [ { "level": 6, "name": "traps" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": {

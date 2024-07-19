@@ -16,7 +16,7 @@
     "shape": "blast",
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(300, 3)" ] },
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
@@ -32,7 +32,7 @@
     "shape": "blast",
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(100, 1)" ] },
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "energy_source": "MANA",
     "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
@@ -55,7 +55,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 300)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 300)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.071)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 6,
     "max_level": 15,
     "flags": [ "SOMATIC", "LOUD" ],
@@ -83,7 +83,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 2500)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000, 2500)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 7,
     "max_level": 25,
     "flags": [ "LOUD", "NO_FAIL" ],
@@ -102,7 +102,7 @@
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 0.33)" ] },
     "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5, 0.05)" ] },
     "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50, 0.33)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
@@ -134,7 +134,7 @@
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(8, 0.5)" ] },
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(65, 0.5)" ] },
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.0, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
@@ -160,7 +160,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 3000)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(9000000, 3000)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(360000, 0.045)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 4,
     "max_level": 20,
     "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
@@ -183,7 +183,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 300)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 300)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 8,
     "max_level": 15,
     "flags": [ "LOUD", "SOMATIC" ],
@@ -211,7 +211,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 3000)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(21600000, 3000)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 9,
     "max_level": 25,
     "flags": [ "LOUD", "NO_FAIL" ],
@@ -230,7 +230,7 @@
     "effect_str": "rune_biomancer",
     "shape": "blast",
     "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000, 15)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -260,7 +260,7 @@
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(4, 0.2)" ] },
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(28, 0.2)" ] },
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.6, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "poison",
     "min_range": 3,
     "max_range": 9,
@@ -281,7 +281,7 @@
     "extra_effects": [
       { "id": "biomancer_visceral_paralyze" },
       { "id": "biomancer_visceral_backlash", "hit_self": true },
-      { "id": "eoc_evocation_setup" }
+      { "id": "eoc_evocation_setup", "hit_self": true }
     ],
     "flags": [ "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
@@ -320,7 +320,7 @@
     "min_duration": { "math": [ "evocation_proficiency_bonus_calculate(6000, 1.5)" ] },
     "max_duration": { "math": [ "evocation_proficiency_bonus_calculate(18000, 1.5)" ] },
     "duration_increment": { "math": [ "evocation_proficiency_bonus_calculate(450, 0.0375)" ] },
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "field_id": "fd_gibs_flesh",
     "field_chance": 1,
     "min_field_intensity": 1,
@@ -354,7 +354,7 @@
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(200, 2)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_energy_cost": 100,
     "max_level": 20,
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000, 560)" ] },
@@ -406,7 +406,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 300)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 300)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "learn_spells": { "biomancer_caustic_aura_plus": 15 }
   },
   {
@@ -431,7 +431,7 @@
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(350, 2)" ] },
     "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(150, 2)" ] },
     "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-8, 0.04)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "max_level": 25,
     "min_range": 1,
     "max_range": 1,
@@ -455,7 +455,7 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(120000, 1600)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 1600)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000, 0.1)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1000, 6.7)" ] }
@@ -478,7 +478,7 @@
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 500,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 1)" ] }
   },
   {
@@ -487,8 +487,18 @@
     "condition": { "and": [ { "not": { "u_has_trait": "HUGE" } }, { "not": { "u_has_trait": "HUGE_OK" } } ] },
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
+      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
       { "u_add_trait": "BIO_GIANT_GROWTH" },
-      { "math": [ "u_calories()", "+=", "100000" ] },
       {
         "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
         "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 )" ] }
@@ -501,8 +511,17 @@
     "id": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
     "effect": [
       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "bad" },
-      { "u_lose_trait": "BIO_GIANT_GROWTH" },
-      { "math": [ "u_calories()", "-=", "100000" ] }
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_lose_trait": "BIO_GIANT_GROWTH" }
     ]
   },
   {
@@ -525,7 +544,7 @@
     "base_casting_time": { "math": [ "channeling_proficiency_bonus_calculate(180000, 1000)" ] },
     "min_duration": { "math": [ "channeling_proficiency_bonus_calculate(4500000, 10000)" ] },
     "max_duration": { "math": [ "channeling_proficiency_bonus_calculate(45000000, 10000)" ] },
-    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "duration_increment": { "math": [ "channeling_proficiency_bonus_calculate(2700000, 10000)" ] }
   },
   {
@@ -545,7 +564,7 @@
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000, 200)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 200)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2800, 0.093)" ] },
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_energy_cost": 250,
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] }
   },
@@ -565,7 +584,7 @@
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(7000, 60)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(30000, 60)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1533, 0.07)" ] },
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "energy_source": "MANA",
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 3)" ] },
     "base_casting_time": 500
@@ -611,7 +630,7 @@
     "max_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 500,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(90000, 400)" ] },
     "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(30000, 400)" ] },
     "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-6000, 0.1)" ] }
@@ -633,7 +652,7 @@
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(13000, 66.7)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(500, 0.05)" ] },
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_energy_cost": { "math": [ "enhancement_proficiency_negate_calculate(900, 6)" ] },
     "base_casting_time": 150
   },
@@ -655,7 +674,7 @@
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 250,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(350, 2)" ] }
   },
   {
@@ -705,7 +724,7 @@
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 300)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.07)" ] },
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 2)" ] },
     "base_casting_time": 500
   },
@@ -727,7 +746,7 @@
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 0.05)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 450,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(600, 4)" ] }
   },
   {
@@ -772,7 +791,7 @@
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000, 0.0625)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 200,
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] }
   }
 ]

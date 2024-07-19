@@ -499,7 +499,7 @@ static void pldrive( const tripoint &p )
     Character &player_character = get_player_character();
     map &here = get_map();
     if( !veh ) {
-        if( const optional_vpart_position vp = here.veh_at( player_character.pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( player_character.pos_bub() ) ) {
             veh = &vp->vehicle();
             part = vp->part_index();
         }
@@ -600,7 +600,7 @@ static void open()
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
             // If player is inside vehicle, open the door/window/curtain
-            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
+            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos_bub() ) );
             const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
@@ -638,7 +638,8 @@ static void open()
         return;
     }
     // Not a vehicle part, just a regular door
-    bool didit = here.open_door( player_character, openp, !here.is_outside( player_character.pos() ) );
+    bool didit = here.open_door( player_character, openp,
+                                 !here.is_outside( player_character.pos_bub() ) );
     if( didit ) {
         player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
     } else {
@@ -697,10 +698,10 @@ static void grab()
     map &here = get_map();
 
     if( you.get_grab_type() != object_type::NONE ) {
-        if( const optional_vpart_position vp = here.veh_at( you.pos() + you.grab_point ) ) {
+        if( const optional_vpart_position vp = here.veh_at( you.pos_bub() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
-        } else if( here.has_furn( you.pos() + you.grab_point ) ) {
-            add_msg( _( "You release the %s." ), here.furnname( you.pos() + you.grab_point ) );
+        } else if( here.has_furn( you.pos_bub() + you.grab_point ) ) {
+            add_msg( _( "You release the %s." ), here.furnname( you.pos_bub() + you.grab_point ) );
         }
 
         you.grab( object_type::NONE );
@@ -712,9 +713,9 @@ static void grab()
         add_msg( _( "Never mind." ) );
         return;
     }
-    tripoint grabp = *grabp_;
+    tripoint_bub_ms grabp = tripoint_bub_ms( *grabp_ );
 
-    if( grabp == you.pos() ) {
+    if( grabp == you.pos_bub() ) {
         add_msg( _( "You get a hold of yourself." ) );
         you.grab( object_type::NONE );
         return;
@@ -723,11 +724,11 @@ static void grab()
     // Object might not be on the same z level if on a ramp.
     if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
-            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos() ) ) {
-            grabp.z += 1;
+            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos_bub() ) ) {
+            grabp.z() += 1;
         } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, grabp ) ||
-                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos() ) ) {
-            grabp.z -= 1;
+                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos_bub() ) ) {
+            grabp.z() -= 1;
         }
     }
 
@@ -756,14 +757,14 @@ static void grab()
                 return;
             }
         }
-        you.grab( object_type::VEHICLE, grabp - you.pos() );
+        you.grab( object_type::VEHICLE, grabp - you.pos_bub() );
         add_msg( _( "You grab the %s." ), veh_name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !here.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
-        you.grab( object_type::FURNITURE, grabp - you.pos() );
+        you.grab( object_type::FURNITURE, grabp - you.pos_bub() );
         if( !here.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), here.furnname( grabp ) );
         } else {
@@ -1107,7 +1108,7 @@ static void wait()
     map &here = get_map();
 
     if( player_character.controlling_vehicle ) {
-        const vehicle &veh = here.veh_at( player_character.pos() )->vehicle();
+        const vehicle &veh = here.veh_at( player_character.pos_bub() )->vehicle();
         if( !veh.can_use_rails() && (   // control optional if on rails
                 veh.is_flying_in_air() ||   // control required: fuel is consumed even at hover
                 veh.is_falling ||           // *not* vertical_velocity, which is only used for collisions
@@ -1256,8 +1257,8 @@ static void sleep()
         return;
     }
 
-    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
+    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos_bub() ) );
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos_bub() ) &&
         !player_character.has_trait( trait_WATERSLEEPER ) &&
         !player_character.has_trait( trait_WATERSLEEP ) &&
         !player_character.has_trait( trait_UNDINE_SLEEP_WATER ) &&
@@ -1686,7 +1687,7 @@ static void fire()
         return;
     }
     // try firing turrets
-    if( const optional_vpart_position ovp = here.veh_at( you.pos() ) ) {
+    if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
         if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
             if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
                 return;
@@ -1909,12 +1910,12 @@ static void handle_debug_mode()
     auto debugmode_entry_setup = []( uilist_entry & entry, bool active ) -> void {
         if( active )
         {
-            entry.extratxt.txt = _( "A" );
+            entry.extratxt.txt = entry.hotkey->short_description() + " " + _( "A" );
             entry.extratxt.color = c_white_green;
             entry.text_color = c_green;
         } else
         {
-            entry.extratxt.txt = " ";
+            entry.extratxt.txt = entry.hotkey->short_description() + " ";
             entry.extratxt.color = c_unset;
             entry.text_color = c_light_gray;
         }
@@ -1945,10 +1946,20 @@ static void handle_debug_mode()
 
     dbmenu.addentry( 1, true, 't', _( "Toggle all filters" ) );
     bool toggle_value = true;
+    const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
+    input_event assigned_hotkey = ctxt.first_unassigned_hotkey( hotkeys );
+    int reserved_character_d = 'd';
+    int reserved_character_t = 't';
 
     for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-        uilist_entry entry( i + 2, true, 0,
-                            debugmode::filter_name( static_cast<debugmode::debug_filter>( i ) ) );
+        uilist_entry entry( i + 2, true, assigned_hotkey,
+                            "  " + debugmode::filter_name( static_cast<debugmode::debug_filter>( i ) ) );
+        assigned_hotkey = ctxt.next_unassigned_hotkey( hotkeys, assigned_hotkey );
+        // Skip d and t, special cased
+        if( assigned_hotkey.sequence.front() == reserved_character_d ||
+            assigned_hotkey.sequence.front() == reserved_character_t ) {
+            assigned_hotkey = hotkeys.next( assigned_hotkey );
+        }
 
         entry.extratxt.left = 1;
 
@@ -2017,7 +2028,7 @@ static bool has_vehicle_control( avatar &player_character )
     if( player_character.is_dead_state() ) {
         return false;
     }
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( vp && vp->vehicle().player_in_control( player_character ) ) {
         return true;
     }
@@ -2288,7 +2299,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
 
             if( has_vehicle_control( player_character ) ) {
-                const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+                const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_below );
                     break;
@@ -2297,13 +2308,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
-                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos() ) ) {
+                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint> pts;
 
                     // Check tiles around player character for open air
-                    for( const tripoint &p : m.points_in_radius( player_character.pos(), 1 ) ) {
+                    for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p );
+                            pts.push_back( p .raw() );
                         }
                     }
 
@@ -2338,7 +2349,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 vertical_move( 1, false );
             } else if( has_vehicle_control( player_character ) ) {
-                const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+                const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_above );
                 }
@@ -2740,7 +2751,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MAP:
-            if( !m.is_outside( player_character.pos() ) ) {
+            if( !m.is_outside( player_character.pos_bub() ) ) {
                 uistate.overmap_visible_weather = false;
             }
             if( !get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -2751,7 +2762,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SKY:
-            if( m.is_outside( player_character.pos() ) ) {
+            if( m.is_outside( player_character.pos_bub() ) ) {
                 ui::omap::display_visible_weather();
             } else {
                 add_msg( m_info, _( "You can't see the sky from here." ) );

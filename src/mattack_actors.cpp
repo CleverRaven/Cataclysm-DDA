@@ -448,7 +448,7 @@ Creature *melee_actor::find_target( monster &z ) const
 
     if( range > 1 ) {
         if( !z.sees( *target ) ||
-            !get_map().clear_path( z.pos(), target->pos(), range, 1, 200 ) ) {
+            !get_map().clear_path( z.pos_bub(), target->pos_bub(), range, 1, 200 ) ) {
             return nullptr;
         }
 
@@ -467,7 +467,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     }
     // Handle some messaging in-grab
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     Character *foe = target->as_character();
     map &here = get_map();
@@ -489,7 +489,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         }
         add_msg_debug( debugmode::DF_MATTACK, "Target weight %d g under weight limit  %.1f g, ",
                        to_gram( target->get_weight() ), to_gram( z.get_weight() ) * grab_data.pull_weight_ratio );
-        const optional_vpart_position veh_part = here.veh_at( target->pos() );
+        const optional_vpart_position veh_part = here.veh_at( target->pos_bub() );
         if( foe && foe->in_vehicle && veh_part ) {
             const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
             if( vp_seatbelt ) {
@@ -537,7 +537,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
             if( foe != nullptr ) {
                 if( foe->in_vehicle ) {
-                    here.unboard_vehicle( foe->pos() );
+                    here.unboard_vehicle( foe->pos_bub() );
                 }
 
                 if( foe->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
@@ -629,7 +629,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
-                        here.unboard_vehicle( foe->pos() );
+                        here.unboard_vehicle( foe->pos_bub() );
                     }
                     foe->setpos( zpt );
                     if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {

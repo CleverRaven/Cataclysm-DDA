@@ -148,10 +148,15 @@
           ]
         }
       },
+      { "u_lose_morale": "morale_forest_unity" },
       {
         "u_add_morale": "morale_forest_unity",
-        "bonus": 10,
-        "max_bonus": 15,
+        "bonus": {
+          "math": [
+            "(5 + u_spell_level('arvore_commune_with_nature') ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+          ]
+        },
+        "max_bonus": 40,
         "duration": {
           "math": [
             "( 600 + (u_spell_level('arvore_commune_with_nature') * 240) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
