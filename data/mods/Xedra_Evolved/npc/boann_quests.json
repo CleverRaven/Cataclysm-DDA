@@ -44,7 +44,13 @@
     "monster_type": "mon_march_lord",
     "monster_kill_goal": 2,
     "start": {
-      "assign_mission_target": { "om_terrain": "field_office_5", "om_special": "border patrol office", "cant_see": true, "reveal_radius": 3, "search_range": 280 }
+      "assign_mission_target": {
+        "om_terrain": "field_office_5",
+        "om_special": "border patrol office",
+        "cant_see": true,
+        "reveal_radius": 3,
+        "search_range": 280
+      }
     },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_lords_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
