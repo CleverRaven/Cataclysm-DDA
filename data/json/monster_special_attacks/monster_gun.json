@@ -104,7 +104,7 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": { "str": "barb launching organ" },
+    "name": { "str": "viscous barb launcher" },
     "description": "A mutated organ capable of launching bony barbs at great speed.",
     "material": [ "hflesh" ],
     "flags": [
@@ -130,7 +130,7 @@
     "range": 12,
     "dispersion": 100,
     "durability": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting": 100 } } ],
     "melee_damage": { "bash": 2 }
   },
   {

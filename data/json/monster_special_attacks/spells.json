@@ -598,8 +598,7 @@
     "max_range": 24,
     "sound_description": "ssszziiipp",
     "damage_type": "biological",
-    "min_damage": 5,
-    "max_damage": 17,
+    "min_damage": 0,
     "extra_effects": [ { "id": "spell_gene_sting_selector" } ]
   },
   {

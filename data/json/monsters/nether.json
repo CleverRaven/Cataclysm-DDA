@@ -1482,8 +1482,11 @@
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 2,
+        "cooldown": 5,
         "gun_type": "gene_sting_gun",
+        "ammo_type": "gene_sting_barb",
+        "no_ammo_sound": "SCREEE!!!!",
+        "require_targeting_player": false,
         "ranges": [ [ 2, 18, "DEFAULT" ] ],
         "description": "The yugg launches a viscous barb!"
       }
