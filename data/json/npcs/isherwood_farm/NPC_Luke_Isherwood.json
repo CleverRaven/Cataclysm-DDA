@@ -398,7 +398,7 @@
     "dynamic_line": "How does this all come together?",
     "responses": [
       {
-        "text": "Well, we are going to turn this truck into a bomb that'll give us a big enough opening in the tower to let out some of the heat and gas.  But small enough that it won't kill Luke unless it's right next to him.",
+        "text": "Well, we are going to turn this truck into a bomb that'll give us a big enough opening in the tower to let out some of the heat and gas.  But small enough that it won't kill Barry unless it's right next to him.",
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
