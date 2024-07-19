@@ -210,5 +210,57 @@
     "copy-from": "tea",
     "name": { "str": "Curative tea" },
     "description": "Tea with herbs, iron, and a bit of magick.  If you're sick, there's nothing better for your body than this."
+  },
+  {
+    "id": "item_hedge_turn_into_bear_off",
+    "type": "ARMOR",
+    "name": { "str": "drained bearskin talisman" },
+    "description": "A heavy fur mantle attached to the skull of a bear.  The charm worked into it has been expended.",
+    "weight": "2368 g",
+    "volume": "4 L",
+    "price": "245 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "to_hit": -1,
+    "material": [ "fur", "bone" ],
+    "symbol": "[",
+    "looks_like": "cloak_leather",
+    "color": "brown",
+    "warmth": 60,
+    "material_thickness": 2,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "TRADER_AVOID", "BELTED", "RAINPROOF" ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "coverage": 65,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_upper", "torso_neck", "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      },
+      {
+        "encumbrance_modifiers": [ "IMBALANCED" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      },
+      {
+        "encumbrance_modifiers": [ "IMBALANCED" ],
+        "coverage": 60,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ]
+      }
+    ]
+  },
+  {
+    "id": "item_hedge_turn_into_bear",
+    "type": "ARMOR",
+    "name": { "str": "bearskin talisman" },
+    "copy-from": "item_hedge_turn_into_bear_off",
+    "description": "A heavy fur mantle attached to the skull of a bear.  When you put it on, the charm will take effect and grant you the bear's power.",
+    "extend": { "flags": [ "NO_TAKEOFF", "SKINCHANGED" ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Activate to remove the mantle and end the magic.",
+      "effect_on_conditions": [ "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM" ]
+    }
   }
 ]
