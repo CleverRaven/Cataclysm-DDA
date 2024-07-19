@@ -32,6 +32,7 @@ enum advanced_inv_sortby {
     SORTBY_SPOILAGE,
     SORTBY_PRICE,
     SORTBY_PRICEPERVOLUME,
+    SORTBY_STACKS
 };
 
 /**

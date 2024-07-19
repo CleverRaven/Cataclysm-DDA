@@ -237,7 +237,9 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
         case SORTBY_PRICE:
             return _( "barter value" );
         case SORTBY_PRICEPERVOLUME:
-            return _( "price / weight" );
+            return _( "price / volume" );
+        case SORTBY_STACKS:
+            return _( "amount" );
     }
     return "!BUG!";
 }
@@ -665,6 +667,11 @@ struct advanced_inv_sorter {
                 }
                 break;
             }
+            case SORTBY_STACKS:
+                if( d1.stacks != d2.stacks ) {
+                    return d1.stacks > d2.stacks;
+                }
+                break;
         }
         // secondary sort by name and link length
         auto const sort_key = []( advanced_inv_listitem const & d ) {
@@ -1236,6 +1243,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_SPOILAGE,       true, 's', get_sortname( SORTBY_SPOILAGE ) );
     sm.addentry( SORTBY_PRICE,          true, 'b', get_sortname( SORTBY_PRICE ) );
     sm.addentry( SORTBY_PRICEPERVOLUME, true, 'r', get_sortname( SORTBY_PRICEPERVOLUME ) );
+    sm.addentry( SORTBY_STACKS,         true, 't', get_sortname( SORTBY_STACKS ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
     // Calculate key and window variables, generate window,
