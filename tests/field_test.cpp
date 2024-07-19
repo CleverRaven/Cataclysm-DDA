@@ -169,7 +169,7 @@ TEST_CASE( "fd_acid_falls_down", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     m.add_field( p, fd_acid, 3 );
@@ -355,7 +355,7 @@ TEST_CASE( "radioactive_field", "[field]" )
     fields_test_setup();
     clear_radiation();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE( fd_nuke_gas->get_intensity_level().extra_radiation_max > 0 );

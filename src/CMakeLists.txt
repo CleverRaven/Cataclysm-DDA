@@ -171,6 +171,12 @@ if (CURSES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        if(NOT MINGW)
+            # Use only our RT_MANIFEST from resource.rc
+            target_link_options(cataclysm PRIVATE
+                "LINKER:/MANIFEST:NO"
+            )
+        endif()
     else ()
         add_executable(cataclysm
                 ${MAIN_CPP}
@@ -189,7 +195,9 @@ if (CURSES)
                 ${ICONV_LIBRARIES})
     endif ()
 
-    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR} ${ZLIB_INCLUDE_DIRS})
+    target_include_directories(cataclysm-common PUBLIC
+        ${CURSES_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS}
+    )
     target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
@@ -202,6 +210,9 @@ if (CURSES)
 
     if (WIN32)
         # Global settings for Windows targets (at end)
+        if(USE_PDCURSES)
+            target_compile_definitions(cataclysm-common PUBLIC USE_PDCURSES)
+        endif()
         target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
         target_link_libraries(cataclysm-common PUBLIC winmm.lib)
         target_link_libraries(cataclysm-common PUBLIC imm32.lib)

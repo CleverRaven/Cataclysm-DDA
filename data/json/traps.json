@@ -204,17 +204,6 @@
   },
   {
     "type": "trap",
-    "id": "tr_species_snare",
-    "name": "species snare trap",
-    "color": "red",
-    "symbol": "~",
-    "visibility": 1,
-    "avoidance": 8,
-    "difficulty": 0,
-    "action": "snare_species"
-  },
-  {
-    "type": "trap",
     "id": "tr_beartrap",
     "trigger_weight": "200 g",
     "name": "bear trap",

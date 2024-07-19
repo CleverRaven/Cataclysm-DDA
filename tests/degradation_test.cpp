@@ -30,7 +30,7 @@ static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_tailor( "tailor" );
 
 static constexpr int max_iters = 4000;
-static constexpr tripoint spawn_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms spawn_pos( HALF_MAPSIZE_X - 1, HALF_MAPSIZE_Y, 0 );
 
 static float get_avg_degradation( const itype_id &it, int count, int damage )
 {
@@ -258,7 +258,7 @@ TEST_CASE( "Repairing_degraded_items", "[item][degradation]" )
     // Setup map
     clear_map();
     set_time_to_day();
-    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos.raw() ) ) > 2 );
 
     GIVEN( "Item with normal degradation" ) {
         Character &u = get_player_character();

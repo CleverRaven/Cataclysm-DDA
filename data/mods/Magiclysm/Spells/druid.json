@@ -586,10 +586,11 @@
         "u_add_effect": "natures_commune",
         "duration": { "math": [ "( 300 + (u_spell_level('druid_natures_commune') * 165)) " ] }
       },
+      { "u_lose_morale": "morale_forest_unity" },
       {
         "u_add_morale": "morale_forest_unity",
-        "bonus": 10,
-        "max_bonus": 15,
+        "bonus": { "math": [ "5 + (u_spell_level('druid_natures_commune') * 3)" ] },
+        "max_bonus": 50,
         "duration": { "math": [ "( 300 + (u_spell_level('druid_natures_commune') * 165) )" ] },
         "decay_start": { "math": [ "(( 300 + (u_spell_level('druid_natures_commune') * 165) ) / 2)" ] }
       }

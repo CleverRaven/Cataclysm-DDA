@@ -1327,7 +1327,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         }
     }
     if( comp->in_vehicle ) {
-        get_map().unboard_vehicle( comp->pos() );
+        get_map().unboard_vehicle( comp->pos_bub() );
     }
     popup( "%s %s", comp->get_name(), desc );
     comp->set_companion_mission( omt_pos, role_id, miss_id );
@@ -1630,7 +1630,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     player_character.use_amount( itype_FMCNote, limiting_number );
 
     //Plant the actual seeds
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.omt_points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
@@ -2480,7 +2480,7 @@ void talk_function::companion_return( npc &comp )
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
-                here.add_item_or_charges( player_character.pos(), it );
+                here.add_item_or_charges( player_character.pos_bub(), it );
             }
         }
     }
@@ -2807,7 +2807,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     bay.load( site, false );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
-    for( const tripoint &p : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &p : bay.omt_points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
         const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };
@@ -2849,7 +2849,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
         }
         //Kill zombies!  Only works against pre-spawned enemies at the moment...
-        Creature *critter = creatures.creature_at( p );
+        Creature *critter = creatures.creature_at( rebase_bub( p ) );
         if( critter != nullptr ) {
             critter->die( nullptr );
         }

@@ -2119,6 +2119,42 @@
   },
   {
     "type": "ascii_art",
+    "id": "condom_flavored_cherry",
+    "picture": [
+      "<color_red>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_banana",
+    "picture": [
+      "<color_yellow>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_strawberry",
+    "picture": [
+      "<color_red>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_flavored_orange",
+    "picture": [
+      "<color_yellow>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "balloon",
     "picture": [
       " <color_red>,.",

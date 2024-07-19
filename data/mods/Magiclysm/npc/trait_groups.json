@@ -141,7 +141,12 @@
     "id": "NPC_starting_traits",
     "//": "50% chance of an NPC to be an elf, dwarf, lizardfolk, etc.  It's a magical world.",
     "subtype": "collection",
-    "traits": [ { "group": "trait_group_fantasy_species", "prob": 50 } ]
+    "traits": [
+      { "group": "trait_group_fantasy_species", "prob": 50 },
+      { "group": "trait_group_MANA_REGEN", "prob": 15 },
+      { "group": "trait_group_MANA_MULT", "prob": 5 },
+      { "group": "trait_group_MANA_ADD", "prob": 10 }
+    ]
   },
   {
     "type": "trait_group",
@@ -173,7 +178,8 @@
       { "trait": "ANTIJUNK" },
       { "trait": "WEAKSTOMACH" },
       { "trait": "DISIMMUNE" },
-      { "trait": "PICKYEATER" }
+      { "trait": "PICKYEATER" },
+      { "trait": "IRON_ALLERGY", "prob": 15 }
     ]
   },
   {
@@ -221,7 +227,8 @@
       { "trait": "TUNNEL_FIGHTER" },
       { "trait": "NOCTURNAL" },
       { "trait": "TROGLO2" },
-      { "trait": "MOODSWINGS" }
+      { "trait": "MOODSWINGS" },
+      { "trait": "IRON_ALLERGY", "prob": 5 }
     ]
   },
   {
@@ -271,6 +278,44 @@
       { "trait": "RAVEN_BONES" },
       { "trait": "NOMAD" },
       { "trait": "HOARDER" }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_MANA_REGEN",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "MANA_REGEN1", "prob": 100 },
+      { "trait": "MANA_REGEN2", "prob": 15 },
+      { "trait": "BAD_MANA_REGEN1", "prob": 100 },
+      { "trait": "BAD_MANA_REGEN2", "prob": 15 },
+      { "trait": "BAD_MANA_REGEN3", "prob": 1 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_MANA_MULT",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "MANA_MULT1", "prob": 100 },
+      { "trait": "MANA_MULT2", "prob": 15 },
+      { "trait": "MANA_MULT3", "prob": 1 },
+      { "trait": "BAD_MANA_MULT1", "prob": 100 },
+      { "trait": "BAD_MANA_MULT2", "prob": 15 },
+      { "trait": "BAD_MANA_MULT3", "prob": 1 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_MANA_ADD",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "MANA_ADD1", "prob": 100 },
+      { "trait": "MANA_ADD2", "prob": 15 },
+      { "trait": "MANA_ADD3", "prob": 1 },
+      { "trait": "MANA_SUB1", "prob": 100 },
+      { "trait": "MANA_SUB2", "prob": 15 },
+      { "trait": "MANA_SUB3", "prob": 1 }
     ]
   }
 ]

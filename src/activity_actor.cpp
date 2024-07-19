@@ -1576,7 +1576,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos.raw() ) );
+                                   get_map().tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -4867,7 +4867,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
             loc.carrier()->add_msg_if_player( m_neutral,
                                               _( "The %s no longer fits in your inventory so you drop it instead." ),
                                               reloadable_name );
-            get_map().add_item_or_charges( loc.position(), reloadable );
+            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
             loc.remove_item();
             break;
     }

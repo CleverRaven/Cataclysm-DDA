@@ -72,7 +72,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         return false;
     }
     if( p && p->in_vehicle ) {
-        here.unboard_vehicle( p->pos() );
+        here.unboard_vehicle( p->pos_bub() );
     }
     map tm;
     map *dest = &here;

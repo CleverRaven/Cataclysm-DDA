@@ -511,7 +511,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -537,7 +537,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -563,7 +563,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -589,7 +589,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -615,7 +615,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -641,7 +641,7 @@
           { "item": "ragpouch" },
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
-          { "item": "knife_baselard", "container-item": "sheath" },
+          { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
           { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -679,6 +679,40 @@
           { "item": "cotton_patchwork", "count": 4 },
           { "item": "ash", "count": 48 },
           { "item": "soybean_seed", "count": 4 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bear_skinchanger",
+    "name": { "male": "Skinchanger (Bear)", "female": "Skinchanger (Bear)" },
+    "description": "Perhaps you were the member of a cult, or a strange family legacy, or maybe you just stumbled on a book that probably shouldn't have been left where you could find it.  Regardless, you have the ability to turn into an animal when you kill it and make a talisman out of its bones and skin.  Every change requires a death, but with so much death already since the Cataclysm, what's a little bit more?",
+    "points": 5,
+    "traits": [ "HEDGE_MAGIC" ],
+    "skills": [
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "deduction" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "proficiencies": [ "prof_leatherworking_basic", "prof_furriery" ],
+    "spells": [ { "id": "hedge_turn_into_bear", "level": 1 } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "item": "item_hedge_turn_into_bear", "container-item": "duffelbag" },
+          { "group": "charged_smart_phone" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
