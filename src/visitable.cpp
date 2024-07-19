@@ -503,7 +503,7 @@ VisitResponse map_cursor::visit_items(
     if( get_map().inbounds( pos() ) ) {
         return visit_items_internal( &get_map(), this, pos(), func );
     } else {
-        tinymap here;
+        tinymap here; // Tinymap is sufficient. Only looking at single location, so no Z level need.
         // pos returns the pos_bub location of the target relative to the reality bubble
         // even though the location isn't actually inside of it. Thus, we're loading a map
         // around that location to do our work.
