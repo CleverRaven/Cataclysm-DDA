@@ -87,5 +87,30 @@
       { "run_eoc_with": "EOC_KILL_SHADOW", "beta_loc": { "global_val": "Shadow_monster" } },
       { "u_message": "…but it grows more distant for now.", "type": "good" }
     ]
+  },
+  {
+    "id": "MISSION_KILL_SHADOW",
+    "type": "mission_definition",
+    "name": { "str": "Survive the night" },
+    "description": "You don't know what you're facing.  You only know that it's very dangerous.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_lieutenant_shadow",
+    "monster_kill_goal": 1,
+    "difficulty": 10,
+    "value": 0,
+    "end": { "effect": { "run_eocs": "EOC_SHADOW_LOOT" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   }
 ]

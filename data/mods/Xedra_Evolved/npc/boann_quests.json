@@ -35,20 +35,29 @@
     }
   },
   {
-    "id": "MISSION_KILL_THREE_MARCH_LORDS_FOR_BOANN",
+    "id": "MISSION_KILL_TWO_MARCH_LORDS_FOR_BOANN",
     "type": "mission_definition",
-    "name": { "str": "Kill three March lords in my name" },
+    "name": { "str": "Kill two March lords in my name" },
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 8,
     "value": 0,
     "monster_type": "mon_march_lord",
-    "monster_kill_goal": 3,
+    "monster_kill_goal": 2,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "field_office_5",
+        "om_special": "border patrol office",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 280
+      }
+    },
     "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_lords_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Kill some of my opponents and I'll reward you handsomely.",
-      "offer": "Prove your allegiance to me.  Kill three March Lords so all will know which side you fight.",
+      "offer": "Prove your allegiance to me.  Kill two March Lords so all will know which side you fight.",
       "accepted": "I had no doubts in you.",
       "rejected": "You may change your mind at a later date.",
       "advice": "They are fearsome opponents but lack long-range attacks.  You can find them in the border patrol offices.",
@@ -95,34 +104,33 @@
     }
   },
   {
-    "id": "MISSION_KILL_GIANT_ACID_QUEEN_FOR_BOANN",
+    "id": "MISSION_KILL_FIVE_MI_GO_GUARDS_FOR_BOANN",
     "type": "mission_definition",
-    "name": { "str": "Kill a giant acidic queen ant for me" },
+    "name": { "str": "Kill five Mi-Go guards for me" },
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 8,
     "value": 0,
-    "monster_type": "mon_ant_acid_queen",
-    "monster_kill_goal": 1,
+    "monster_type": "mon_mi_go_guard",
+    "monster_kill_goal": 5,
     "start": {
       "assign_mission_target": {
-        "om_terrain": "acid_anthill",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 190,
-        "min_distance": 50,
-        "z": 0
+        "om_terrain": "mi-go_camp1",
+        "om_special": "Mi-Go Encampment",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 200
       }
     },
-    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_acid_queen_ant_for_boann", "value": "yes" } },
+    "end": { "opinion": { "trust": 2, "value": 2 }, "effect": { "u_add_var": "killed_five_mi_go_guards_for_boann", "value": "yes" } },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Kill a great beast in my honor and I'll grant you a reward.",
-      "offer": "A knight must be able to face harsh conditions.  Kill a giant acidic queen ant and you'll receive an object able to refuel your magical energy.",
+      "offer": "A knight must be able to face harsh conditions.  Kill five Mi-Go guards and you'll receive an object able to refuel your magical energy.",
       "accepted": "I had no doubts in you.",
       "rejected": "You may change your mind at a later date.",
-      "advice": "Something to protect you from acid is a must.  They do not see far so engaging a small amount at a time is a good strategy.",
-      "inquire": "Have you killed the queen?",
+      "advice": "Something to protect yourself from the fumes and heat is a must.  They are smart enough to feel fear, so if they're injured enough they'll stop attacking and try to flee.",
+      "inquire": "Have you killed the guards?",
       "success": "Here is the object.  As promised, using it will recharge your mana.",
       "success_lie": "I don't think so…",
       "failure": "Quitting already?"
@@ -191,7 +199,7 @@
       "offer": "A rampaging automaton has been spotted.  Destroy it, and you'll be granted a great weapon.",
       "accepted": "I had no doubts in you.",
       "rejected": "You may change your mind at a later date.",
-      "advice": "The reports mentioned that it relies on electricity to attack.  Find a way to shield you against that, and it'll be much easier to kill.  The reports also mentioned how damaged the automaton's exposed insides are, so I wouldn't attempt to use weapons that only damage the insides if I were you.",
+      "advice": "The reports mentioned that it relies on electricity to attack.  Find a way to shield yourself against that, and it'll be much easier to kill.  The reports also mentioned how damaged the automaton's exposed insides are, so I wouldn't attempt to use weapons that only damage the insides if I were you.",
       "inquire": "Have you slain the automaton as I requested?",
       "success": "I'm pleased to grant you a frostrimed estoc.",
       "success_lie": "I don't think so…",
