@@ -285,19 +285,11 @@
     "id": "trait_group_MANA_REGEN",
     "subtype": "distribution",
     "traits": [
-      { "trait": "MANA_REGEN1" },
-      { "trait": "MANA_REGEN1" },
-      { "trait": "MANA_REGEN1" },
-      { "trait": "MANA_REGEN1" },
-      { "trait": "MANA_REGEN2" },
-      { "trait": "MANA_REGEN2" },
-      { "trait": "BAD_MANA_REGEN1" },
-      { "trait": "BAD_MANA_REGEN1" },
-      { "trait": "BAD_MANA_REGEN1" },
-      { "trait": "BAD_MANA_REGEN1" },
-      { "trait": "BAD_MANA_REGEN2" },
-      { "trait": "BAD_MANA_REGEN2" },
-      { "trait": "BAD_MANA_REGEN3" }
+      { "trait": "MANA_REGEN1", "prob": 100 },
+      { "trait": "MANA_REGEN2", "prob": 15 },
+      { "trait": "BAD_MANA_REGEN1", "prob": 100 },
+      { "trait": "BAD_MANA_REGEN2", "prob": 15 },
+      { "trait": "BAD_MANA_REGEN3", "prob": 1 }
     ]
   },
   {
@@ -305,20 +297,12 @@
     "id": "trait_group_MANA_MULT",
     "subtype": "distribution",
     "traits": [
-      { "trait": "MANA_MULT1" },
-      { "trait": "MANA_MULT1" },
-      { "trait": "MANA_MULT1" },
-      { "trait": "MANA_MULT1" },
-      { "trait": "MANA_MULT2" },
-      { "trait": "MANA_MULT2" },
-      { "trait": "MANA_MULT3" },
-      { "trait": "BAD_MANA_MULT1" },
-      { "trait": "BAD_MANA_MULT1" },
-      { "trait": "BAD_MANA_MULT1" },
-      { "trait": "BAD_MANA_MULT1" },
-      { "trait": "BAD_MANA_MULT2" },
-      { "trait": "BAD_MANA_MULT2" },
-      { "trait": "BAD_MANA_MULT3" }
+      { "trait": "MANA_MULT1", "prob": 100 },
+      { "trait": "MANA_MULT2", "prob": 15 },
+      { "trait": "MANA_MULT3", "prob": 1 },
+      { "trait": "BAD_MANA_MULT1", "prob": 100 },
+      { "trait": "BAD_MANA_MULT2", "prob": 15 },
+      { "trait": "BAD_MANA_MULT3", "prob": 1 }
     ]
   },
   {
@@ -326,20 +310,12 @@
     "id": "trait_group_MANA_ADD",
     "subtype": "distribution",
     "traits": [
-      { "trait": "MANA_ADD1" },
-      { "trait": "MANA_ADD1" },
-      { "trait": "MANA_ADD1" },
-      { "trait": "MANA_ADD1" },
-      { "trait": "MANA_ADD2" },
-      { "trait": "MANA_ADD2" },
-      { "trait": "MANA_ADD3" },
-      { "trait": "MANA_SUB1" },
-      { "trait": "MANA_SUB1" },
-      { "trait": "MANA_SUB1" },
-      { "trait": "MANA_SUB1" },
-      { "trait": "MANA_SUB2" },
-      { "trait": "MANA_SUB2" },
-      { "trait": "MANA_SUB3" }
+      { "trait": "MANA_ADD1", "prob": 100 },
+      { "trait": "MANA_ADD2", "prob": 15 },
+      { "trait": "MANA_ADD3", "prob": 1 },
+      { "trait": "MANA_SUB1", "prob": 100 },
+      { "trait": "MANA_SUB2", "prob": 15 },
+      { "trait": "MANA_SUB3", "prob": 1 }
     ]
   }
 ]
