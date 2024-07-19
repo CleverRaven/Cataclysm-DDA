@@ -64,7 +64,7 @@
     "type": "SPECIES",
     "id": "NETHER_BURROWING",
     "description": "a nether creature",
-    "footsteps": "slithering",
+    "footsteps": "rustling",
     "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
