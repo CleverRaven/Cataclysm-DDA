@@ -467,10 +467,9 @@ const
     return inv->visit_items( func );
 }
 
-static VisitResponse visit_items_internal( map *here, const map_cursor *cur,
+static VisitResponse visit_items_internal( map *here,
         const tripoint_bub_ms p, const std::function<VisitResponse( item *, item * )> &func )
 {
-
     // check furniture pseudo items
     if( here->furn( p ) != furn_str_id::NULL_ID() ) {
         itype_id it_id = here->furn( p )->crafting_pseudo_item;
@@ -501,7 +500,7 @@ VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     if( get_map().inbounds( pos() ) ) {
-        return visit_items_internal( &get_map(), this, pos(), func );
+        return visit_items_internal( &get_map(), pos(), func );
     } else {
         tinymap here; // Tinymap is sufficient. Only looking at single location, so no Z level need.
         // pos returns the pos_bub location of the target relative to the reality bubble
@@ -510,7 +509,7 @@ VisitResponse map_cursor::visit_items(
         tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
         here.load( project_to<coords::omt>( abs_pos ), false );
         tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
-        visit_items_internal( here.cast_to_map(), this, rebase_bub( p ), func );
+        visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
     }
 }
 
