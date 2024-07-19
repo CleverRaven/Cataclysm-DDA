@@ -65,6 +65,7 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 8 } ],
     "vision_day": 15,
     "vision_night": 5,
+    "upgrades": false,
     "//2": "Can't bite because it doesn't exactly have a mouth anymore. Instead, it's effectively a one-hit, one-trick wonder. It tries to drive its extremely sharp beak into you. If it succeeds, you're thoroughly damaged. If it fails, it's screwed.",
     "special_attacks": [ { "id": "wicked_impale", "attack_upper": false } ],
     "//3": "Minor amounts of protection due to the boney jaw.",
