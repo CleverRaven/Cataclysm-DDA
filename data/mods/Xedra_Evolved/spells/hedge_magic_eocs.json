@@ -246,9 +246,9 @@
       },
       { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
       {
-        "u_run_inv_eocs": "manual",
+        "u_run_inv_eocs": "random",
         "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
-        "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_unset_flag": "SEMITANGIBLE" } ] } ]
+        "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_set_flag": "SEMITANGIBLE" } ] } ]
       },
       { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
     ]
