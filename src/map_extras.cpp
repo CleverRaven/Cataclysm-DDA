@@ -533,7 +533,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             item body = item::make_corpse();
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 17, 5, abs_sub.z } );
-            m.add_item_or_charges( tripoint{ 17, 5, abs_sub.z }, body );
+            m.add_item_or_charges( tripoint_omt_ms{ 17, 5, abs_sub.z }, body );
         }
 
         //33% chance to spawn empty magazines used by soldiers
@@ -547,8 +547,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Horizontal line of barbed wire fence
         line( &m, ter_t_fence_barbed, point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
 
-        std::vector<point> barbed_wire = line_to( point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
-        for( point &i : barbed_wire ) {
+        std::vector<point_omt_ms> barbed_wire = line_to( point_omt_ms( 3, 9 ), point_omt_ms( SEEX * 2 - 4,
+                                                9 ) );
+        for( point_omt_ms &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i, abs_sub.z } );
@@ -569,13 +570,13 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const point p2( rng( 3, SEEX * 2 - 4 ), rng( SEEY, SEEY * 2 - 2 ) );
+            const point_omt_ms p2( rng( 3, SEEX * 2 - 4 ), rng( SEEY, SEEY * 2 - 2 ) );
             if( m.tr_at( { p2, abs_sub.z } ).is_null() ) {
                 m.add_field( { p2, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p2, abs_sub.z } );
-                    for( const tripoint &loc : m.points_in_radius( { p2, abs_sub.z }, 1 ) ) {
+                    for( const tripoint_omt_ms &loc : m.points_in_radius( { p2, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -589,9 +590,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         const int x = rng( 3, SEEX );
         const int x1 = rng( SEEX + 1, SEEX * 2 - 4 );
         m.furn_set( point( x, SEEY * 2 - 1 ), furn_f_sign_warning );
-        m.set_signage( tripoint( x, SEEY * 2 - 1, abs_sub.z ), text );
+        m.set_signage( { x, SEEY * 2 - 1, abs_sub.z }, text );
         m.furn_set( point( x1, SEEY * 2 - 1 ), furn_f_sign_warning );
-        m.set_signage( tripoint( x1, SEEY * 2 - 1, abs_sub.z ), text );
+        m.set_signage( { x1, SEEY * 2 - 1, abs_sub.z }, text );
 
         did_something = true;
     }
@@ -605,8 +606,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Section of barbed wire fence
         line( &m, ter_t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
 
-        std::vector<point> barbed_wire = line_to( point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
-        for( point &i : barbed_wire ) {
+        std::vector<point_omt_ms> barbed_wire = line_to( point_omt_ms( 3, 13 ), point_omt_ms( SEEX * 2 - 4,
+                                                13 ) );
+        for( point_omt_ms &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i, abs_sub.z } );
@@ -628,7 +630,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             item body = item::make_corpse();
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 11, 21, abs_sub.z } );
-            m.add_item_or_charges( tripoint{ 11, 21, abs_sub.z }, body );
+            m.add_item_or_charges( tripoint_omt_ms{ 11, 21, abs_sub.z }, body );
         }
 
         //5.56x45mm casings left from a soldier
@@ -672,13 +674,13 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const point p4( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ) );
+            const point_omt_ms p4( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ) );
             if( m.tr_at( { p4, abs_sub.z } ).is_null() ) {
                 m.add_field( { p4, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p4, abs_sub.z } );
-                    for( const tripoint &loc : m.points_in_radius( { p4, abs_sub.z }, 1 ) ) {
+                    for( const tripoint_omt_ms &loc : m.points_in_radius( { p4, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -692,9 +694,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         const int x = rng( 3, SEEX );
         const int x1 = rng( SEEX + 1, SEEX * 2 - 4 );
         m.furn_set( point( x, 0 ), furn_f_sign_warning );
-        m.set_signage( tripoint( x, 0, abs_sub.z ), text );
+        m.set_signage( { x, 0, abs_sub.z }, text );
         m.furn_set( point( x1, 0 ), furn_f_sign_warning );
-        m.set_signage( tripoint( x1, 0, abs_sub.z ), text );
+        m.set_signage( { x1, 0, abs_sub.z }, text );
 
         did_something = true;
     }
@@ -702,14 +704,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     if( bridge_at_west && road_at_east ) {
         m.load( abs_omt + point_east, false );
         //Draw walls of first tent
-        square_furn( &m, furn_f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
+        square_furn( &m, furn_f_canvas_wall, point_omt_ms( 0, 3 ), point_omt_ms( 4, 13 ) );
 
         //Add first tent doors
         m.furn_set( tripoint{ 4, 5, abs_sub.z }, furn_f_canvas_door );
         m.furn_set( tripoint{ 4, 11, abs_sub.z }, furn_f_canvas_door );
 
         //Fill empty space with groundsheets
-        square_furn( &m, furn_f_fema_groundsheet, point( 1, 4 ), point( 3, 12 ) );
+        square_furn( &m, furn_f_fema_groundsheet, point_omt_ms( 1, 4 ), point_omt_ms( 3, 12 ) );
 
         //Place makeshift beds in the first tent and place loot
         m.furn_set( tripoint{ 1, 4, abs_sub.z }, furn_f_makeshift_bed );
@@ -734,7 +736,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.add_vehicle( vehicle_prototype_car_fbi, tripoint( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
 
             //Remove tent parts after drive-through
-            square_furn( &m, furn_str_id::NULL_ID(), point( 0, 6 ), point( 8, 9 ) );
+            square_furn( &m, furn_str_id::NULL_ID(), point_omt_ms( 0, 6 ), point_omt_ms( 8, 9 ) );
 
             //Add sandbag barricade and then destroy few sections where car smashed it
             line_furn( &m, furn_f_sandbag_half, point( 10, 3 ), point( 10, 13 ) );
@@ -774,8 +776,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line( &m, ter_t_fence_barbed, point( 12, 16 ), point( 12, 20 ) );
 
         //Place second tent
-        square_furn( &m, furn_f_canvas_wall, point( 0, 16 ), point( 4, 20 ) );
-        square_furn( &m, furn_f_fema_groundsheet, point( 1, 17 ), point( 3, 19 ) );
+        square_furn( &m, furn_f_canvas_wall, point_omt_ms( 0, 16 ), point_omt_ms( 4, 20 ) );
+        square_furn( &m, furn_f_fema_groundsheet, point_omt_ms( 1, 17 ), point_omt_ms( 3, 19 ) );
         m.furn_set( tripoint{ 4, 18, abs_sub.z }, furn_f_canvas_door );
 
         //Place desk and chair in the second tent
@@ -797,8 +799,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             }
         }
 
-        std::vector<point> barbed_wire = line_to( point( 12, 3 ), point( 12, 20 ) );
-        for( point &i : barbed_wire ) {
+        std::vector<point_omt_ms> barbed_wire = line_to( point_omt_ms( 12, 3 ), point_omt_ms( 12, 20 ) );
+        for( point_omt_ms &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i, abs_sub.z } );
@@ -819,13 +821,13 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const point p6( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ) );
+            const point_omt_ms p6( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ) );
             if( m.tr_at( { p6, abs_sub.z } ).is_null() ) {
                 m.add_field( { p6, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p6, abs_sub.z } );
-                    for( const tripoint &loc : m.points_in_radius( { p6, abs_sub.z }, 1 ) ) {
+                    for( const tripoint_omt_ms &loc : m.points_in_radius( { p6, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -839,9 +841,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         const int y = rng( 3, SEEY );
         const int y1 = rng( SEEY + 1, SEEY * 2 - 4 );
         m.furn_set( point( SEEX * 2 - 1, y ), furn_f_sign_warning );
-        m.set_signage( tripoint( SEEX * 2 - 1, y, abs_sub.z ), text );
+        m.set_signage( { SEEX * 2 - 1, y, abs_sub.z }, text );
         m.furn_set( point( SEEX * 2 - 1, y1 ), furn_f_sign_warning );
-        m.set_signage( tripoint( SEEX * 2 - 1, y1, abs_sub.z ), text );
+        m.set_signage( { SEEX * 2 - 1, y1, abs_sub.z }, text );
 
         did_something = true;
     }
@@ -862,7 +864,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             item body = item::make_corpse();
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 15, 5, abs_sub.z } );
-            m.add_item_or_charges( tripoint{ 15, 5, abs_sub.z }, body );
+            m.add_item_or_charges( tripoint_omt_ms{ 15, 5, abs_sub.z }, body );
         }
 
         //5.56x45mm casings left from soldiers
@@ -886,8 +888,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         m.furn_set( tripoint{ 17, 18, abs_sub.z }, furn_f_crate_o );
 
         //...and fill them with mines
-        m.spawn_item( { 16, 18, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
-        m.spawn_item( { 16, 19, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
+        m.spawn_item( tripoint_omt_ms{ 16, 18, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
+        m.spawn_item( tripoint_omt_ms{ 16, 19, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
 
         // Set some resting place with fire ring, camp chairs, folding table, and benches.
         m.furn_set( tripoint{ 20, 12, abs_sub.z }, furn_f_crate_o );
@@ -896,26 +898,27 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line_furn( &m, furn_f_bench, point( 23, 11 ), point( 23, 13 ) );
         line_furn( &m, furn_f_camp_chair, point( 20, 14 ), point( 21, 14 ) );
 
-        m.spawn_item( { 21, 12, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
+        m.spawn_item( tripoint_omt_ms{ 21, 12, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
 
         //33% chance for an argument between drunk soldiers gone terribly wrong
         if( one_in( 3 ) ) {
-            m.spawn_item( { 22, 12, abs_sub.z }, itype_bottle_glass );
-            m.spawn_item( { 23, 11, abs_sub.z }, itype_hatchet );
+            m.spawn_item( tripoint_omt_ms{ 22, 12, abs_sub.z }, itype_bottle_glass );
+            m.spawn_item( tripoint_omt_ms{ 23, 11, abs_sub.z }, itype_hatchet );
 
             //Spawn chopped soldier corpse
             item body = item::make_corpse();
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 23, 12, abs_sub.z } );
-            m.add_item_or_charges( tripoint{ 23, 12, abs_sub.z }, body );
+            m.add_item_or_charges( tripoint_omt_ms{ 23, 12, abs_sub.z }, body );
             m.add_field( tripoint{ 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
             //Spawn broken bench and splintered wood
             m.furn_set( tripoint{ 23, 13, abs_sub.z }, furn_str_id::NULL_ID() );
-            m.spawn_item( { 23, 13, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
+            m.spawn_item( tripoint_omt_ms{ 23, 13, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
 
             //Spawn blood
-            for( const tripoint &loc : m.points_in_radius( tripoint{ 23, 12, abs_sub.z }, 1, 0 ) ) {
+            for( const tripoint_omt_ms &loc : m.points_in_radius( tripoint_omt_ms{ 23, 12, abs_sub.z }, 1,
+                    0 ) ) {
                 if( one_in( 2 ) ) {
                     m.add_field( { loc.xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 }
@@ -924,9 +927,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.place_items( Item_spawn_data_trash_cart, 80, tripoint{ 19, 11, abs_sub.z },
             { 21, 13, abs_sub.z }, false, calendar::start_of_cataclysm );
         } else {
-            m.spawn_item( { 20, 11, abs_sub.z }, itype_hatchet );
-            m.spawn_item( { 22, 12, abs_sub.z }, itype_vodka );
-            m.spawn_item( { 20, 14, abs_sub.z }, itype_acoustic_guitar );
+            m.spawn_item( tripoint_omt_ms{ 20, 11, abs_sub.z }, itype_hatchet );
+            m.spawn_item( tripoint_omt_ms{ 22, 12, abs_sub.z }, itype_vodka );
+            m.spawn_item( tripoint_omt_ms{ 20, 14, abs_sub.z }, itype_acoustic_guitar );
 
             //Spawn trash in a crate
             m.place_items( Item_spawn_data_trash_cart, 80, tripoint{ 20, 12, abs_sub.z },
@@ -934,8 +937,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Place a tent
-        square_furn( &m, furn_f_canvas_wall, point( 20, 4 ), point( 23, 7 ) );
-        square_furn( &m, furn_f_fema_groundsheet, point( 21, 5 ), point( 22, 6 ) );
+        square_furn( &m, furn_f_canvas_wall, point_omt_ms( 20, 4 ), point_omt_ms( 23, 7 ) );
+        square_furn( &m, furn_f_fema_groundsheet, point_omt_ms( 21, 5 ), point_omt_ms( 22, 6 ) );
         m.furn_set( tripoint{ 21, 7, abs_sub.z }, furn_f_canvas_door );
 
         //Place beds in a tent
@@ -959,13 +962,13 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
-            const point p8( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ) );
+            const point_omt_ms p8( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ) );
             if( m.tr_at( { p8, abs_sub.z } ).is_null() ) {
                 m.add_field( { p8, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p8, abs_sub.z } );
-                    for( const tripoint &loc : m.points_in_radius( { p8, abs_sub.z }, 1 ) ) {
+                    for( const tripoint_omt_ms &loc : m.points_in_radius( { p8, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -979,9 +982,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         const int y = rng( 3, SEEY );
         const int y1 = rng( SEEY + 1, SEEY * 2 - 4 );
         m.furn_set( point( 0, y ), furn_f_sign_warning );
-        m.set_signage( tripoint( 0, y, abs_sub.z ), text );
+        m.set_signage( { 0, y, abs_sub.z }, text );
         m.furn_set( point( 0, y1 ), furn_f_sign_warning );
-        m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
+        m.set_signage( { 0, y1, abs_sub.z }, text );
 
         did_something = true;
     }
@@ -994,20 +997,20 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
 
-    std::vector<point> fumarole = line_to( p1, p2, 0 );
-    for( point &i : fumarole ) {
+    std::vector<point_bub_ms> fumarole = line_to( point_bub_ms( p1 ), point_bub_ms( p2 ), 0 );
+    for( point_bub_ms &i : fumarole ) {
         m.ter_set( i, ter_t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
-        ignited.insert( i + point_north_west );
-        ignited.insert( i + point_north );
-        ignited.insert( i + point_north_east );
-        ignited.insert( i + point_west );
-        ignited.insert( i + point_east );
-        ignited.insert( i + point_south_west );
-        ignited.insert( i + point_south );
-        ignited.insert( i + point_south_east );
+        ignited.insert( ( i + point_north_west ).raw() );
+        ignited.insert( ( i + point_north ).raw() );
+        ignited.insert( ( i + point_north_east ).raw() );
+        ignited.insert( ( i + point_west ).raw() );
+        ignited.insert( ( i + point_east ).raw() );
+        ignited.insert( ( i + point_south_west ).raw() );
+        ignited.insert( ( i + point_south ).raw() );
+        ignited.insert( ( i + point_south_east ).raw() );
 
         if( one_in( 6 ) ) {
             m.spawn_item( i + point_north_west, itype_chunk_sulfur );
@@ -1071,8 +1074,8 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             for( int i = p.x() - rad; i <= p.x() + rad; i++ ) {
                 for( int j = p.y() - rad; j <= p.y() + rad; j++ ) {
                     if( trig_dist( p.raw(), point( i, j ) ) + rng( 0, 3 ) <= rad ) {
-                        const tripoint loc( i, j, abs_sub.z );
-                        dead_vegetation_parser( m, loc );
+                        const tripoint_bub_ms loc( i, j, abs_sub.z );
+                        dead_vegetation_parser( m, loc.raw() );
                         m.adjust_radiation( loc.xy(), rng( 20, 40 ) );
                     }
                 }
@@ -1580,9 +1583,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     const weighted_int_list<ter_id> defects = road_defects;
 
     // location holders
-    point defects_from; // road defects square start
-    point defects_to; // road defects square end
-    point defects_centered; //  road defects centered
+    point_bub_ms defects_from; // road defects square start
+    point_bub_ms defects_to; // road defects square end
+    point_bub_ms defects_centered; //  road defects centered
     tripoint veh( 0, 0, abs_sub.z ); // vehicle
     point equipment; // equipment
 
@@ -1830,8 +1833,8 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     }
     // soil generator
     for( int i = 1; i <= 10; i++ ) {
-        m.spawn_item( point( rng( defects_from.x, defects_to.x ),
-                             rng( defects_from.y, defects_to.y ) ), itype_material_soil );
+        m.spawn_item( point_bub_ms( rng( defects_from.x(), defects_to.x() ),
+                                    rng( defects_from.y(), defects_to.y() ) ), itype_material_soil );
     }
     // vehicle placer
     switch( rng( 1, 6 ) ) {
@@ -2018,7 +2021,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
 
 static bool mx_looters( map &m, const tripoint &abs_sub )
 {
-    const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
+    const tripoint_bub_ms center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
     if( one_in( 4 ) && m.passable( center ) ) {
         m.add_corpse( center );
@@ -2030,11 +2033,12 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
     //Spawn up to 5 hostile bandits with equal chance to be ranged or melee type
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
-        if( const std::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
-        4 ) ), [&]( const tripoint & p ) {
+        if( const std::optional<tripoint_bub_ms> pos_ = random_point( m.points_in_radius( center, rng( 1,
+        4 ) ), [&]( const tripoint_bub_ms & p ) {
         return m.passable( p );
         } ) ) {
-            m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
+            m.place_npc( pos_->xy().raw(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
+            m.place_npc( pos_->xy().raw(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
         }
     }
 

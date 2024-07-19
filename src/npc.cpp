@@ -1343,7 +1343,7 @@ void npc::stow_item( item &it )
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
         }
-        get_map().add_item_or_charges( pos(), remove_item( it ) );
+        get_map().add_item_or_charges( pos_bub(), remove_item( it ) );
     }
 }
 
@@ -3351,8 +3351,9 @@ std::function<bool( const tripoint & )> npc::get_path_avoid() const
             doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
             return true;
         }
-        if( rules.has_flag( ally_rule::hold_the_line ) && ( here.close_door( p, true, true ) ||
-                here.move_cost( p ) > 2 ) ) {
+        if( rules.has_flag( ally_rule::hold_the_line ) &&
+            ( here.close_door( tripoint_bub_ms( p ), true, true ) ||
+              here.move_cost( p ) > 2 ) ) {
             return true;
         }
         if( sees_dangerous_field( p ) ) {

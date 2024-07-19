@@ -2692,7 +2692,7 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id, float exertion_
     }
 }
 
-static const tripoint relay_site_stash = tripoint( 11, 10, 0 );
+static const tripoint_omt_ms relay_site_stash{ 11, 10, 0 };
 
 void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_level )
 {
@@ -2721,7 +2721,7 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
         units::volume total_import_volume;
         units::mass total_import_mass;
 
-        drop_locations gaining_equipment = get_equipment( &target_bay, relay_site_stash, pc, preset,
+        drop_locations gaining_equipment = get_equipment( &target_bay, relay_site_stash.raw(), pc, preset,
                                            _( "These are the items you've selected so far." ), _( "Select items to bring back" ),
                                            total_import_volume, total_import_mass );
 
@@ -3583,12 +3583,12 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
     farm_map.load( omt_tgt, false );
     // farm_json is what the area should look like according to jsons (loaded on demand)
     std::unique_ptr<small_fake_map> farm_json;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
+    tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
+    tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() };
     bool done_planting = false;
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( const tripoint &pos : farm_map.points_in_rectangle( mapmin, mapmax ) ) {
+    for( const tripoint_omt_ms &pos : farm_map.points_in_rectangle( mapmin, mapmax ) ) {
         if( done_planting ) {
             break;
         }
@@ -3635,7 +3635,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                     }
                 }
                 // Needs to be plowed to match json
-                if( is_dirtmound( pos, *farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
+                if( is_dirtmound( pos.raw(), *farm_json, farm_map ) && is_unplowed( pos.raw(), farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         farm_map.ter_set( pos, ter_t_dirtmound );
@@ -3644,7 +3644,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                 break;
             }
             case farm_ops::plant:
-                if( is_dirtmound( pos, farm_map, farm_map ) ) {
+                if( is_dirtmound( pos.raw(), farm_map, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         if( seed_inv.empty() ) {
@@ -3688,7 +3688,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                             int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
                             for( item &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
-                                here.add_item_or_charges( player_character.pos(), i );
+                                here.add_item_or_charges( player_character.pos_bub(), i );
                             }
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, furn_str_id::NULL_ID() );
@@ -4870,9 +4870,9 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() + 1 );
-    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+    tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
+    tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() + 1 };
+    for( const tripoint_omt_ms &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) && rng( 0, 100 ) < chance ) {
             total++;
             if( estimate ) {
@@ -4894,7 +4894,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
         return harvested;
     }
     // having cut down the trees, cut the trunks into logs
-    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+    for( const tripoint_omt_ms &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == ter_t_trunk || target_bay.ter( p ) == ter_t_stump ) {
             target_bay.ter_set( p, ter_t_dirt );
             target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
@@ -4916,9 +4916,10 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
     units::volume total_v = 0_ml;
     int total_num = 0;
     int harvested_num = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
-    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+    tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
+    tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() };
+    tripoint_range<tripoint_omt_ms> xxx = target_bay.points_in_rectangle( mapmin, mapmax );
+    for( const tripoint_omt_ms &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
             if( !i.made_of_from_type( phase_id::LIQUID ) ) {
                 total_m += i.weight( true );
@@ -5823,7 +5824,7 @@ bool basecamp::distribute_food()
     };
     for( const tripoint_abs_ms &p_food_stock_abs : z_food ) {
         // @FIXME: this will not handle zones in vehicle
-        const tripoint p_food_stock = here.getlocal( p_food_stock_abs );
+        const tripoint_bub_ms p_food_stock = here.bub_from_abs( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
             if( consume( *iter, nullptr ) ) {
@@ -6018,7 +6019,7 @@ void basecamp::place_results( const item &result )
 {
     map &target_bay = get_camp_map();
     form_storage_zones( target_bay, bb_pos );
-    tripoint new_spot = target_bay.getlocal( get_dumping_spot() );
+    tripoint_bub_ms new_spot = target_bay.bub_from_abs( get_dumping_spot() );
     // Special handling for liquids
     // find any storage-zoned LIQUIDCONT we can dump them in, set that as the item's destination instead
     if( result.made_of( phase_id::LIQUID ) ) {
@@ -6026,8 +6027,8 @@ void basecamp::place_results( const item &result )
             // No items at a potential spot? Set the destination there and stop checking.
             // We could check if the item at the tile are the same as the item we're placing, but liquids of the same typeid
             // don't always mix depending on their components...
-            if( target_bay.i_at( target_bay.getlocal( potential_spot ) ).empty() ) {
-                new_spot = target_bay.getlocal( potential_spot );
+            if( target_bay.i_at( target_bay.bub_from_abs( potential_spot ) ).empty() ) {
+                new_spot = target_bay.bub_from_abs( potential_spot );
                 break;
             }
             // We've processed the last spot and haven't found anywhere to put it, we'll end up using dumping_spot.
@@ -6038,14 +6039,15 @@ void basecamp::place_results( const item &result )
         }
     }
     target_bay.add_item_or_charges( new_spot, result, true );
-    apply_camp_ownership( target_bay, new_spot, 10 );
+    apply_camp_ownership( target_bay, new_spot.raw(), 10 );
     target_bay.save();
 }
 
 void apply_camp_ownership( map &here, const tripoint &camp_pos, int radius )
 {
-    for( const tripoint &p : here.points_in_rectangle( camp_pos + point( -radius, -radius ),
-            camp_pos + point( radius, radius ) ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_rectangle( tripoint_bub_ms( camp_pos ) + point(
+                -radius, -radius ),
+            tripoint_bub_ms( camp_pos ) + point( radius, radius ) ) ) {
         map_stack items = here.i_at( p.xy() );
         for( item &elem : items ) {
             elem.set_owner( get_player_character() );

@@ -964,7 +964,7 @@ void monster::move()
     }
 
     bool moved = false;
-    tripoint destination;
+    tripoint_bub_ms destination;
 
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
@@ -980,15 +980,15 @@ void monster::move()
 
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
-    tripoint local_dest = here.getlocal( get_dest() );
+    tripoint_bub_ms local_dest = here.bub_from_abs( get_dest() );
     if( try_to_move ) {
         // Move using vision by follow smells and sounds
         bool move_without_target = false;
         if( is_wandering() && has_intelligence() && can_see() ) {
             if( has_flag( mon_flag_SMELLS ) ) {
                 unset_dest();
-                tripoint tmp = scent_move();
-                if( tmp.x != -1 ) {
+                tripoint_bub_ms tmp = tripoint_bub_ms( scent_move() );
+                if( tmp.x() != -1 ) {
                     local_dest = tmp;
                     move_without_target = true;
                     add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell using vision", name() );
@@ -997,7 +997,7 @@ void monster::move()
             if( !move_without_target && wandf > 0 && friendly == 0 ) {
                 unset_dest();
                 if( wander_pos != get_location() ) {
-                    local_dest = here.getlocal( wander_pos );
+                    local_dest = here.bub_from_abs( wander_pos );
                     move_without_target = true;
                     add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound using vision", name() );
                 }
@@ -1011,15 +1011,15 @@ void monster::move()
 
             const pathfinding_settings &pf_settings = get_pathfinding_settings();
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
+                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest.raw() ) ) {
                 // We need a new path
                 if( can_pathfind() ) {
-                    path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                    path = here.route( pos(), local_dest.raw(), pf_settings, get_path_avoid() );
                     if( path.empty() ) {
                         increment_pathfinding_cd();
                     }
                 } else {
-                    path = here.straight_route( pos(), local_dest );
+                    path = here.straight_route( pos(), local_dest.raw() );
                     if( !path.empty() ) {
                         if( std::any_of( path.begin(), path.end(), get_path_avoid() ) ) {
                             path.clear();
@@ -1032,8 +1032,8 @@ void monster::move()
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
-            if( !path.empty() && path.back() == local_dest ) {
-                destination = path.front();
+            if( !path.empty() && path.back() == local_dest.raw() ) {
+                destination = tripoint_bub_ms( path.front() );
                 moved = true;
                 pathed = true;
             } else {
@@ -1047,8 +1047,8 @@ void monster::move()
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
         unset_dest();
-        tripoint tmp = scent_move();
-        if( tmp.x != -1 ) {
+        tripoint_bub_ms tmp = tripoint_bub_ms( scent_move() );
+        if( tmp.x() != -1 ) {
             destination = tmp;
             moved = true;
             add_msg_debug( debugmode::DF_MONMOVE, "%s follows smell to not use vision", name() );
@@ -1057,26 +1057,26 @@ void monster::move()
     if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
         if( wander_pos != get_location() ) {
-            destination = here.getlocal( wander_pos );
+            destination = here.bub_from_abs( wander_pos );
             moved = true;
             add_msg_debug( debugmode::DF_MONMOVE, "%s follows sound to not use vision", name() );
         }
     }
 
-    point new_d( destination.xy() - pos().xy() );
+    point_rel_ms new_d( destination.xy() - pos_bub().xy() );
 
     // toggle facing direction for sdl flip
     if( !g->is_tileset_isometric() ) {
-        if( new_d.x < 0 ) {
+        if( new_d.x() < 0 ) {
             facing = FacingDirection::LEFT;
-        } else if( new_d.x > 0 ) {
+        } else if( new_d.x() > 0 ) {
             facing = FacingDirection::RIGHT;
         }
     } else {
-        if( new_d.y <= 0 && new_d.x <= 0 ) {
+        if( new_d.y() <= 0 && new_d.x() <= 0 ) {
             facing = FacingDirection::LEFT;
         }
-        if( new_d.x >= 0 && new_d.y >= 0 ) {
+        if( new_d.x() >= 0 && new_d.y() >= 0 ) {
             facing = FacingDirection::RIGHT;
         }
     }
@@ -1091,8 +1091,8 @@ void monster::move()
         const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
-        const float distance_to_target = trig_dist( pos(), destination );
-        for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+        const float distance_to_target = trig_dist( pos_bub(), destination );
+        for( tripoint &candidate : squares_closer_to( pos_bub().raw(), destination.raw() ) ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1187,14 +1187,14 @@ void monster::move()
             }
 
             // Try to shove vehicle out of the way
-            shove_vehicle( destination, candidate );
+            shove_vehicle( destination.raw(), candidate );
             // Bail out if we can't move there and we can't bash.
             if( !pathed && !can_move_to( candidate ) ) {
                 if( !can_bash ) {
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
-                if( !provocative_sound && is_wandering() && destination == here.getlocal( wander_pos ) ) {
+                if( !provocative_sound && is_wandering() && destination == here.bub_from_abs( wander_pos ) ) {
                     continue;
                 }
                 const int estimate = here.bash_rating( bash_estimate(), candidate );
@@ -1208,7 +1208,7 @@ void monster::move()
             }
 
             const float progress = distance_to_target - trig_dist( tripoint( candidate.xy(),
-                                   candidate.z + rampPos ), destination );
+                                   candidate.z + rampPos ), destination.raw() );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
@@ -1236,7 +1236,8 @@ void monster::move()
               here.open_door( *this, local_next_step, !here.is_outside( pos_bub() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
+            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination.raw(),
+                     local_next_step ) );
 
         if( !did_something ) {
             mod_moves( -get_speed() ); // If we don't do this, we'll get infinite loops.
@@ -1996,7 +1997,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     if( has_flag( mon_flag_SMALLSLUDGETRAIL ) ) {
         if( one_in( 2 ) ) {
-            here.add_field( pos(), fd_sludge, 1 );
+            here.add_field( pos_bub(), fd_sludge, 1 );
         }
     }
 
@@ -2006,7 +2007,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( one_in( 10 ) ) {
                 // if it has more napalm, drop some and reduce ammo in tank
                 if( ammo[itype_pressurized_tank] > 0 ) {
-                    here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                    here.add_item_or_charges( pos_bub(), item( "napalm", calendar::turn, 50 ) );
                     ammo[itype_pressurized_tank] -= 50;
                 } else {
                     // TODO: remove mon_flag_DRIPS_NAPALM flag since no more napalm in tank
@@ -2017,7 +2018,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         if( has_flag( mon_flag_DRIPS_GASOLINE ) ) {
             if( one_in( 5 ) ) {
                 // TODO: use same idea that limits napalm dripping
-                here.add_item_or_charges( pos(), item( "gasoline" ) );
+                here.add_item_or_charges( pos_bub(), item( "gasoline" ) );
             }
         }
     }

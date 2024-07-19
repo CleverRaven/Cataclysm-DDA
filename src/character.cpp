@@ -7328,7 +7328,7 @@ bool Character::consume_charges( item &used, int qty )
         if( has_item( used ) ) {
             i_rem( &used );
         } else {
-            map_stack items = get_map().i_at( pos() );
+            map_stack items = get_map().i_at( pos_bub() );
             for( item_stack::iterator iter = items.begin(); iter != items.end(); iter++ ) {
                 if( &( *iter ) == &used ) {
                     iter = items.erase( iter );
@@ -7339,7 +7339,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    used.ammo_consume( qty, pos(), this );
+    used.ammo_consume( qty, pos_bub(), this );
     return false;
 }
 
@@ -10156,7 +10156,7 @@ bool Character::crush_frozen_liquid( item_location loc )
                                        hammering_item.tname() );
                     // FIXME: Hardcoded damage type
                     const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_bash );
-                    get_map().bash( loc.position(), smashskill );
+                    get_map().bash( loc.pos_bub(), smashskill );
                 }
             } else {
                 done_crush = false;
@@ -10439,14 +10439,14 @@ void Character::place_corpse()
         }
     }
 
-    here.add_item_or_charges( pos(), body );
+    here.add_item_or_charges( pos_bub(), body );
 }
 
 void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
     bay.load( om_target, false );
-    point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
+    point_omt_ms fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
@@ -10456,8 +10456,8 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     if( bay.furn( fin ) != furn_str_id::NULL_ID() ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id::NULL_ID() ) {
-                fin.x = p.x;
-                fin.y = p.y;
+                fin.x() = p.x;
+                fin.y() = p.y;
             }
         }
     }
@@ -12794,7 +12794,7 @@ void Character::leak_items()
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
         if( weapon.leak( get_map(), this, pos() ) ) {
-            get_map().add_item_or_charges( pos(), weapon );
+            get_map().add_item_or_charges( pos_bub(), weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
         }

@@ -759,7 +759,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     // find available fuel
 
     for( const tripoint_abs_ms &abs_ms_pt : src_set ) {
-        const tripoint &pt = target_map.getlocal( abs_ms_pt );
+        const tripoint_bub_ms &pt = target_map.bub_from_abs( abs_ms_pt );
         if( target_map.accessible_items( pt ) ) {
             for( const item &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
