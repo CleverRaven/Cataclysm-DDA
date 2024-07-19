@@ -467,21 +467,12 @@ const
     return inv->visit_items( func );
 }
 
-/** @relates visitable */
-VisitResponse map_cursor::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
+static VisitResponse visit_items_internal( map *here,
+        const tripoint_bub_ms p, const std::function<VisitResponse( item *, item * )> &func )
 {
-    smallmap here;  // tinymap would work as well, as we're only looking at a single position.
-    // pos returns the pos_bub location of the target relative to the reality bubble
-    // even if the location isn't actually inside of it. Thus, we're loading a map
-    // around that location to do our work.
-    tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
-    here.load( project_to<coords::omt>( abs_pos ), false );
-    tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
-
     // check furniture pseudo items
-    if( here.furn( p ) != furn_str_id::NULL_ID() ) {
-        itype_id it_id = here.furn( p )->crafting_pseudo_item;
+    if( here->furn( p ) != furn_str_id::NULL_ID() ) {
+        itype_id it_id = here->furn( p )->crafting_pseudo_item;
         if( it_id.is_valid() ) {
             item it( it_id );
             if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
@@ -491,17 +482,35 @@ VisitResponse map_cursor::visit_items(
     }
 
     // skip inaccessible items
-    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p.raw() ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p.raw() ) ) {
+    if( here->has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+        !here->has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( p.raw() ) ) {
+    for( item &e : here->i_at( p ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
     return VisitResponse::NEXT;
+}
+
+/** @relates visitable */
+VisitResponse map_cursor::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    if( get_map().inbounds( pos() ) ) {
+        return visit_items_internal( &get_map(), pos(), func );
+    } else {
+        tinymap here; // Tinymap is sufficient. Only looking at single location, so no Z level need.
+        // pos returns the pos_bub location of the target relative to the reality bubble
+        // even though the location isn't actually inside of it. Thus, we're loading a map
+        // around that location to do our work.
+        tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
+        here.load( project_to<coords::omt>( abs_pos ), false );
+        tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
+        return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
+    }
 }
 
 /** @relates visitable */

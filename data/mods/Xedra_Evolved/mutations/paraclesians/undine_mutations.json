@@ -142,7 +142,7 @@
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You've gained the ability to breathe underwater.",
+    "description": "The Undine has gained the ability to breathe underwater.",
     "category": [ "UNDINE" ],
     "flags": [ "GILLS" ]
   },
@@ -206,13 +206,13 @@
   {
     "type": "mutation",
     "id": "WATER_SEALED",
-    "name": { "str": "Water Sealed" },
+    "name": { "str": "Let the Waves Wash Over Me" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Allows the Undine to create a special pocket that protects things inside of it from water damage.",
+    "description": "As the Undine is one with the waters, so too is anything they carry.  Their gear is immune to being dissolved or broken by water.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "water_pocket", 1 ] ]
+    "flags": [ "ITEM_WATERPROOFING" ]
   },
   {
     "type": "mutation",

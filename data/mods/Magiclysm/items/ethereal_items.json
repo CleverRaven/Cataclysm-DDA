@@ -1561,7 +1561,16 @@
       "WATERPROOF",
       "SWIM_GOGGLES"
     ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "MAX_MANA", "add": 0 } ],
+          "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
+        }
+      ]
+    },
     "armor": [
       {
         "encumbrance": 0,
@@ -1596,7 +1605,16 @@
       "NONCONDUCTIVE",
       "FLOTATION"
     ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "MAX_MANA", "add": 0 } ],
+          "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
+        }
+      ]
+    }
   },
   {
     "id": "item_earthshaper_map_01",

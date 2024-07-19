@@ -1093,10 +1093,10 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR",
     "type": "talk_topic",
-    "dynamic_line": "I appreciate the credit.  I've got your payment now.",
+    "dynamic_line": { "gendered_line": "Good thing you came back with the money.  Your mission work out?", "relevant_genders": [ "u" ] },
     "responses": [
       {
-        "text": "Good thing you came back with the money.  Your mission work out?",
+        "text": "I appreciate the credit.  I've got your payment now.",
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 8 },
           { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true }
