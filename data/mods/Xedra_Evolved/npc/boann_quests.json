@@ -48,7 +48,6 @@
         "om_terrain": "field_office_5",
         "om_special": "border patrol office",
         "reveal_radius": 3,
-        "cant_see": true,
         "search_range": 280
       }
     },
