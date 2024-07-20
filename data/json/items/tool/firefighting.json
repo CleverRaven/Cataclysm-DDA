@@ -95,6 +95,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],

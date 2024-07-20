@@ -770,6 +770,7 @@
     "volume": "1250 ml",
     "longest_side": "76 cm",
     "price": "75 USD",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",

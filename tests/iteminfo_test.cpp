@@ -556,7 +556,7 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
 
         CHECK( item_info_str( arrow, to_hit ) ==
                "--\n"
-               "  To-hit bonus: <color_c_yellow>+0</color>\n" );
+               "  To-hit bonus: <color_c_yellow>-2</color>\n" );
     }
 
     SECTION( "base moves" ) {
