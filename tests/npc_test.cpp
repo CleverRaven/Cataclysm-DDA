@@ -445,7 +445,7 @@ TEST_CASE( "npc-movement" )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
-            const tripoint p = player_character.pos() + point( x, y );
+            const tripoint_bub_ms p = player_character.pos_bub() + point( x, y );
             // create walls
             if( type == '#' ) {
                 here.ter_set( p, t_wall_metal );
@@ -503,7 +503,7 @@ TEST_CASE( "npc-movement" )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
-            const tripoint p = player_character.pos() + point( x, y );
+            const tripoint_bub_ms p = player_character.pos_bub() + point( x, y );
             if( type == '#' ) {
                 REQUIRE( !here.passable( p ) );
             } else {

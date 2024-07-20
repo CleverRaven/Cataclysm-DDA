@@ -30,7 +30,7 @@ static int count_fields( const field_type_str_id &field_type )
 {
     map &m = get_map();
     int live_fields = 0;
-    for( const tripoint &cursor : m.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &cursor : m.bub_points_on_zlevel() ) {
         field_entry *entry = m.get_field( cursor, field_type );
         if( entry && entry->is_field_alive() ) {
             live_fields++;
@@ -47,7 +47,7 @@ TEST_CASE( "acid_field_expiry_on_map", "[field]" )
     clear_map();
     map &m = get_map();
     // place a smoke field
-    for( const tripoint &cursor : m.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &cursor : m.bub_points_on_zlevel() ) {
         m.add_field( cursor, field_fd_acid, 1 );
     }
     REQUIRE( count_fields( field_fd_acid ) == 17424 );
@@ -105,7 +105,7 @@ static void fire_duration( const std::string &terrain_type, const time_duration 
     CAPTURE( to_string( maximum ) );
 
     clear_map();
-    const tripoint fire_loc{ 33, 33, 0 };
+    const tripoint_bub_ms fire_loc{ 33, 33, 0 };
     map &m = get_map();
     m.ter_set( fire_loc, ter_id( terrain_type ) );
     m.add_field( fire_loc, fd_fire, 1, 10_minutes );
@@ -209,8 +209,8 @@ TEST_CASE( "fire_spreading", "[field][!mayfail]" )
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     weather_clear.with_windspeed( 0 );
 
-    const tripoint p{ 33, 33, 0 };
-    const tripoint far_p = p + tripoint_east * 3;
+    const tripoint_bub_ms p{ 33, 33, 0 };
+    const tripoint_bub_ms far_p = p + tripoint_east * 3;
 
     map &m = get_map();
 
@@ -232,21 +232,21 @@ TEST_CASE( "fire_spreading", "[field][!mayfail]" )
     };
 
     SECTION( "fire spreads on fd_web" ) {
-        for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
+        for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             m.add_field( p0, fd_web, 1 );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 5_minutes );
     }
     SECTION( "fire spreads on flammable items" ) {
-        for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
+        for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             m.add_item( p0, item( "test_2x4" ) );
         }
         // note: time limit here was chosen arbitrarily. It could be too low or too high.
         check_spreading( 30_minutes );
     }
     SECTION( "fire spreads on flammable terrain" ) {
-        for( tripoint p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
+        for( tripoint_bub_ms p0 = p; p0 != far_p + tripoint_east; p0 += tripoint_east ) {
             REQUIRE( ter_t_tree_walnut->has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) );
             m.ter_set( p0, ter_t_tree_walnut );
         }
@@ -262,7 +262,7 @@ TEST_CASE( "fd_fire_and_fd_fire_vent_test", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     m.add_field( p, fd_fire_vent, 3 );
@@ -324,7 +324,7 @@ TEST_CASE( "wandering_field_test", "[field]" )
 {
     fields_test_setup();
 
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE( fd_smoke_vent->wandering_field == fd_smoke );
@@ -343,7 +343,7 @@ TEST_CASE( "wandering_field_test", "[field]" )
         CHECK( count_fields( fd_smoke ) == 25 );
     }
 
-    for( const tripoint &pnt : points_in_radius( p, 2 ) ) {
+    for( const tripoint_bub_ms &pnt : points_in_radius( p, 2 ) ) {
         CHECK( m.get_field( pnt, fd_smoke ) );
     }
 
@@ -382,7 +382,7 @@ TEST_CASE( "radioactive_field", "[field]" )
 TEST_CASE( "fungal_haze_test", "[field]" )
 {
     fields_test_setup();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
 
     REQUIRE_FALSE( m.has_flag( "FUNGUS", p ) );
@@ -412,10 +412,10 @@ TEST_CASE( "player_in_field_test", "[field][player]" )
 {
     fields_test_setup();
     clear_avatar();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
-    const tripoint prev_char_pos = dummy.pos();
+    const tripoint_bub_ms prev_char_pos = dummy.pos_bub();
     dummy.setpos( p );
 
     map &m = get_map();
@@ -450,7 +450,7 @@ TEST_CASE( "player_in_field_test", "[field][player]" )
 TEST_CASE( "field_API_test", "[field]" )
 {
     fields_test_setup();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
     map &m = get_map();
     field &f = m.field_at( p );
 
@@ -483,7 +483,7 @@ TEST_CASE( "player_double_effect_field_test", "[field][player]" )
 {
     fields_test_setup();
     clear_avatar();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
     map &m = get_map();
@@ -504,7 +504,7 @@ TEST_CASE( "player_single_effect_field_test_head", "[field][player]" )
 {
     fields_test_setup();
     clear_avatar();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
     map &m = get_map();
@@ -528,7 +528,7 @@ TEST_CASE( "player_single_effect_field_test_torso", "[field][player]" )
 {
     fields_test_setup();
     clear_avatar();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
     map &m = get_map();
@@ -552,7 +552,7 @@ TEST_CASE( "player_single_effect_field_test_all", "[field][player]" )
 {
     fields_test_setup();
     clear_avatar();
-    const tripoint p{ 33, 33, 0 };
+    const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
     map &m = get_map();

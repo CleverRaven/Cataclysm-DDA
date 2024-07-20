@@ -783,7 +783,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     avatar dummy;
     clear_map();
     clear_character( dummy );
-    tripoint const test_loc = dummy.pos();
+    tripoint_bub_ms const test_loc = dummy.pos_bub();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
@@ -2298,10 +2298,10 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     clear_vehicles();
     clear_avatar();
     avatar &player = get_avatar();
-    player.setpos( tripoint( 60, 58, 0 ) );
-    const tripoint veh_pos( 60, 60, 0 );
-    const tripoint furn1_pos( 60, 57, 0 );
-    const tripoint furn2_pos( 60, 56, 0 );
+    player.setpos( tripoint_bub_ms( 60, 58, 0 ) );
+    const tripoint_bub_ms veh_pos( 60, 60, 0 );
+    const tripoint_bub_ms furn1_pos( 60, 57, 0 );
+    const tripoint_bub_ms furn2_pos( 60, 56, 0 );
 
     const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
 
