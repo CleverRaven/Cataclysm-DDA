@@ -87,7 +87,6 @@
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",

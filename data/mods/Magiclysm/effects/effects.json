@@ -1303,6 +1303,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_item_protection_water",
+    "//": "Hidden effect, used for multiple druid spells",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ITEM_WATERPROOFING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
     "name": [ "" ],

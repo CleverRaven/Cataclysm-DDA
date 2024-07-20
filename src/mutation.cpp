@@ -543,7 +543,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos_bub(), armor );
             return true;
         }
         if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
@@ -583,7 +583,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            get_map().add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos_bub(), armor );
         }
         return true;
     } );

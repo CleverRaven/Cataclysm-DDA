@@ -518,7 +518,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, const tripoint & )
             content.set_flag( flag_FILTHY );
         }
 
-        here.add_item_or_charges( p->pos(), content );
+        here.add_item_or_charges( p->pos_bub(), content );
     }
 
     p->i_rem( &it );
@@ -1746,7 +1746,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
              cut.get_item()->tname() );
 
     const item_location::type cut_type = cut.where();
-    const tripoint pos = cut.position();
+    const tripoint_bub_ms pos = cut.pos_bub();
     const bool filthy = cut.get_item()->is_filthy();
 
     // Clean up before removing the item.

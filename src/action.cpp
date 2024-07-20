@@ -733,7 +733,7 @@ bool can_interact_at( action_id action, const tripoint_bub_ms &p )
     tripoint_bub_ms player_pos = get_player_character().pos_bub();
     switch( action ) {
         case ACTION_OPEN:
-            return here.open_door( get_avatar(), p.raw(), !here.is_outside( player_pos ), true );
+            return here.open_door( get_avatar(), p, !here.is_outside( player_pos ), true );
         case ACTION_CLOSE: {
             const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&

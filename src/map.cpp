@@ -3006,18 +3006,18 @@ void map::drop_furniture( const tripoint &p )
         return SS_NO_SUPPORT;
     };
 
-    tripoint current( p.xy(), p.z + 1 );
+    tripoint_bub_ms current( point_bub_ms( p.xy() ), p.z + 1 );
     support_state last_state = SS_NO_SUPPORT;
     while( last_state == SS_NO_SUPPORT ) {
-        current.z--;
+        current.z()--;
         // Check current tile
-        last_state = check_tile( current );
+        last_state = check_tile( current.raw() );
     }
 
-    if( current == p ) {
+    if( current.raw() == p ) {
         // Nothing happened
         if( last_state != SS_FLOOR ) {
-            support_dirty( current );
+            support_dirty( current.raw() );
         }
 
         return;
@@ -3053,7 +3053,7 @@ void map::drop_furniture( const tripoint &p )
     }
 
     // TODO: Balance this.
-    int dmg = weight * ( p.z - current.z );
+    int dmg = weight * ( p.z - current.z() );
 
     if( last_state == SS_FLOOR ) {
         // Bash the same tile twice - once for furniture, once for the floor
@@ -3061,16 +3061,16 @@ void map::drop_furniture( const tripoint &p )
         bash( current, dmg, false, false, true );
     } else if( last_state == SS_BAD_SUPPORT || last_state == SS_GOOD_SUPPORT ) {
         bash( current, dmg, false, false, false );
-        tripoint below( current.xy(), current.z - 1 );
+        tripoint_bub_ms below{ current + tripoint_rel_ms_below };
         bash( below, dmg, false, false, false );
     } else if( last_state == SS_CREATURE ) {
         const std::string &furn_name = frn_obj.name();
         bash( current, dmg, false, false, false );
-        tripoint below( current.xy(), current.z - 1 );
+        tripoint_bub_ms below{ current + tripoint_rel_ms_below };
         Creature *critter = get_creature_tracker().creature_at( below );
         if( critter == nullptr ) {
             debugmsg( "drop_furniture couldn't find creature at %d,%d,%d",
-                      below.x, below.y, below.z );
+                      below.x(), below.y(), below.z() );
             return;
         }
 
@@ -3101,7 +3101,7 @@ void map::drop_furniture( const tripoint &p )
     }
 
     // Re-queue for another check, in case bash destroyed something
-    support_dirty( current );
+    support_dirty( current.raw() );
 }
 
 void map::drop_items( const tripoint &p )
@@ -3114,14 +3114,14 @@ void map::drop_items( const tripoint &p )
     // TODO: Make items check the volume tile below can accept
     // rather than disappearing if it would be overloaded
 
-    tripoint below( p );
+    tripoint_bub_ms below( p );
     int max_height_fallen = 0;
     while( !has_floor_or_water( below ) ) {
-        below.z--;
+        below.z()--;
         max_height_fallen++;
     }
 
-    if( below == p ) {
+    if( below.raw() == p ) {
         return;
     }
 
@@ -3839,10 +3839,10 @@ point_bub_ms map::random_outdoor_tile() const
     return random_entry( options, point_bub_ms( point_north_west ) );
 }
 
-bool map::has_adjacent_furniture_with( const tripoint &p,
+bool map::has_adjacent_furniture_with( const tripoint_bub_ms &p,
                                        const std::function<bool( const furn_t & )> &filter ) const
 {
-    for( const tripoint &adj : points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &adj : points_in_radius( p, 1 ) ) {
         if( has_furn( adj ) && filter( furn( adj ).obj() ) ) {
             return true;
         }
@@ -4699,6 +4699,11 @@ void map::bash_field( const tripoint_bub_ms &p, bash_params &params )
 
 void map::destroy( const tripoint &p, const bool silent )
 {
+    map::destroy( tripoint_bub_ms( p ), silent );
+}
+
+void map::destroy( const tripoint_bub_ms &p, const bool silent )
+{
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
@@ -4707,12 +4712,7 @@ void map::destroy( const tripoint &p, const bool silent )
     }
 }
 
-void map::destroy( const tripoint_bub_ms &p, const bool silent )
-{
-    map::destroy( p.raw(), silent );
-}
-
-void map::destroy_furn( const tripoint &p, const bool silent )
+void map::destroy_furn( const tripoint_bub_ms &p, const bool silent )
 {
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
@@ -4723,12 +4723,7 @@ void map::destroy_furn( const tripoint &p, const bool silent )
     }
 }
 
-void map::destroy_furn( const tripoint_bub_ms &p, const bool silent )
-{
-    destroy_furn( p.raw(), silent );
-}
-
-void map::batter( const tripoint &p, int power, int tries, const bool silent )
+void map::batter( const tripoint_bub_ms &p, int power, int tries, const bool silent )
 {
     int count = 0;
     while( count < tries && bash( p, power, silent ).success ) {
@@ -4791,8 +4786,12 @@ void map::crush( const tripoint_bub_ms &p )
         vp->vehicle().damage( *this, vp->part_index(), rng( 100, 1000 ), damage_bash, false );
     }
 }
-
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
+{
+    map::shoot( tripoint_bub_ms( p ), proj, hit_items );
+}
+
+void map::shoot( const tripoint_bub_ms &p, projectile &proj, const bool hit_items )
 {
     // TODO: make bashing better a destroying, worse at penetrating
     std::map<damage_type_id, float> dmg_by_type {};
@@ -4884,7 +4883,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( terrain->shoot ) { // Shoot data is optional, most terrain will never trigger this
         hit_something |= shoot_furn_ter( terrain.obj() );
         // fall back to just bashing when shoot data is not defined
-    } else if( impassable( p ) && !is_transparent( p ) ) {
+    } else if( impassable( p ) && !is_transparent( p.raw() ) ) {
         bash( p, dam, false );
         dam = 0;
     }
@@ -4946,7 +4945,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     smash_items( p, dam / 3, damage_message );
 }
 
-bool map::hit_with_acid( const tripoint &p )
+bool map::hit_with_acid( const tripoint_bub_ms &p )
 {
     if( passable( p ) ) {
         return false;    // Didn't hit the tile!
@@ -4964,7 +4963,7 @@ bool map::hit_with_acid( const tripoint &p )
                t == ter_t_bars ||
                t == ter_t_reb_cage ) {
         ter_set( p, ter_t_floor );
-        add_msg_if_player_sees( p, m_warning, _( "The metal bars melt!" ) );
+        add_msg_if_player_sees( p.raw(), m_warning, _( "The metal bars melt!" ) );
     } else if( t == ter_t_door_b ) {
         if( one_in( 4 ) ) {
             ter_set( p, ter_t_door_frame );
@@ -4984,7 +4983,7 @@ bool map::hit_with_acid( const tripoint &p )
 }
 
 // returns true if terrain stops fire
-bool map::hit_with_fire( const tripoint &p )
+bool map::hit_with_fire( const tripoint_bub_ms &p )
 {
     if( passable( p ) ) {
         return false;    // Didn't hit the tile!
@@ -4997,7 +4996,14 @@ bool map::hit_with_fire( const tripoint &p )
     }
     return true;
 }
+
 bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
+                     const bool check_only )
+{
+    return map::open_door( u, tripoint_bub_ms( p ), inside, check_only );
+}
+
+bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool inside,
                      const bool check_only )
 {
     if( u.has_effect( effect_incorporeal ) ) {
@@ -5017,8 +5023,8 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
 
             if( u.has_trait( trait_SCHIZOPHRENIC ) && u.is_avatar() &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
-                tripoint mp = p + -2 * u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
-                g->spawn_hallucination( mp );
+                tripoint_bub_ms mp = p + point_rel_ms( -2 * u.pos_bub().xy().raw() ) + tripoint_rel_ms{ 2 * p.x(), 2 * p.y(), p.z() };
+                g->spawn_hallucination( mp.raw() );
             }
         }
 
@@ -5075,7 +5081,8 @@ void map::translate( const ter_id &from, const ter_id &to )
 }
 
 //This function performs the translate function within a given radius of the player.
-void map::translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
+void map::translate_radius( const ter_id &from, const ter_id &to, float radi,
+                            const tripoint_bub_ms &p,
                             const bool same_submap, const bool toggle_between )
 {
     if( from == to ) {
@@ -5083,10 +5090,10 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
         return;
     }
 
-    const tripoint abs_omt_p = ms_to_omt_copy( getabs( p ) );
+    const tripoint_abs_omt abs_omt_p = tripoint_abs_omt( ms_to_omt_copy( getglobal( p ).raw() ) );
     for( const tripoint &t : points_on_zlevel() ) {
-        const tripoint abs_omt_t = ms_to_omt_copy( getabs( t ) );
-        const float radiX = trig_dist( p, t );
+        const tripoint_abs_omt abs_omt_t = tripoint_abs_omt( ms_to_omt_copy( getabs( t ) ) );
+        const float radiX = trig_dist( p.raw(), t );
         if( ter( t ) == from ) {
             // within distance, and either no submap limitation or same overmap coords.
             if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
@@ -5126,7 +5133,7 @@ void map::transform_line( const ter_furn_transform_id &transform, const tripoint
     }
 }
 
-bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
+bool map::close_door( const tripoint_bub_ms &p, const bool inside, const bool check_only )
 {
     if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
         return false;
@@ -5152,19 +5159,19 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     return false;
 }
 
-bool map::close_door( const tripoint_bub_ms &p, const bool inside, const bool check_only )
+std::string map::get_signage( const tripoint &p ) const
 {
-    return close_door( p.raw(), inside, check_only );
+    return map::get_signage( tripoint_bub_ms( p ) );
 }
 
-std::string map::get_signage( const tripoint &p ) const
+std::string map::get_signage( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
         return "";
     }
 
     point_sm_ms l;
-    const submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    const submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to get signage at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return std::string();
@@ -5172,14 +5179,20 @@ std::string map::get_signage( const tripoint &p ) const
 
     return current_submap->get_signage( l );
 }
+
 void map::set_signage( const tripoint &p, const std::string &message )
+{
+    map::set_signage( tripoint_bub_ms( p ), message );
+}
+
+void map::set_signage( const tripoint_bub_ms &p, const std::string &message )
 {
     if( !inbounds( p ) ) {
         return;
     }
 
     point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried set signage at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return;
@@ -5187,10 +5200,7 @@ void map::set_signage( const tripoint &p, const std::string &message )
 
     current_submap->set_signage( l, message );
 }
-void map::delete_signage( const tripoint &p )
-{
-    delete_signage( tripoint_bub_ms( p ) );
-}
+
 void map::delete_signage( const tripoint_bub_ms &p )
 {
     if( !inbounds( p ) ) {
@@ -5230,12 +5240,17 @@ int map::get_radiation( const tripoint_bub_ms &p ) const
 
 void map::set_radiation( const tripoint &p, const int value )
 {
+    map::set_radiation( tripoint_bub_ms( p ), value );
+}
+
+void map::set_radiation( const tripoint_bub_ms &p, const int value )
+{
     if( !inbounds( p ) ) {
         return;
     }
 
     point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to set radiation at (%d,%d,%d) but the submap is not loaded", l.x(), l.y() );
         return;
@@ -5244,14 +5259,14 @@ void map::set_radiation( const tripoint &p, const int value )
     current_submap->set_radiation( l, value );
 }
 
-void map::adjust_radiation( const tripoint &p, const int delta )
+void map::adjust_radiation( const tripoint_bub_ms &p, const int delta )
 {
     if( !inbounds( p ) ) {
         return;
     }
 
     point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to adjust radiation at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return;
@@ -5263,27 +5278,35 @@ void map::adjust_radiation( const tripoint &p, const int delta )
 
 units::temperature_delta map::get_temperature_mod( const tripoint &p ) const
 {
+    return map::get_temperature_mod( tripoint_bub_ms( p ) );
+}
+
+units::temperature_delta map::get_temperature_mod( const tripoint_bub_ms &p ) const
+{
     if( !inbounds( p ) ) {
         return units::from_kelvin_delta( 0 );
     }
 
     const submap *const current_submap = unsafe_get_submap_at( p );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
+        debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x(), p.y(),
+                  p.z() );
         return units::from_kelvin_delta( 0 );
     }
 
     return current_submap->get_temperature_mod();
 }
 
-void map::set_temperature_mod( const tripoint &p, units::temperature_delta new_temperature_mod )
+void map::set_temperature_mod( const tripoint_bub_ms &p,
+                               units::temperature_delta new_temperature_mod )
 {
     if( !inbounds( p ) ) {
         return;
     }
     submap *const current_submap = unsafe_get_submap_at( p );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to set temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
+        debugmsg( "Tried to set temperature at (%d,%d,%d) but the submap is not loaded", p.x(), p.y(),
+                  p.z() );
         return;
     }
 
@@ -5337,16 +5360,16 @@ map_stack::iterator map::i_rem( const tripoint_bub_ms &p, const map_stack::const
 
 void map::i_rem( const tripoint &p, item *it )
 {
+    return i_rem( tripoint_bub_ms( p ), it );
+}
+
+void map::i_rem( const tripoint_bub_ms &p, item *it )
+{
     map_stack map_items = i_at( p );
     map_stack::const_iterator iter = map_items.get_iterator_from_pointer( it );
     if( iter != map_items.end() ) {
         i_rem( p, iter );
     }
-}
-
-void map::i_rem( const tripoint_bub_ms &p, item *it )
-{
-    return i_rem( p.raw(), it );
 }
 
 void map::i_clear( const tripoint &p )
@@ -5393,19 +5416,6 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
     return spawn_items( p.raw(), new_items );
 }
 
-void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
-                          const int max_attributes,
-                          const int power_level, const int max_negative_power, const bool is_resonant )
-{
-    relic_procgen_data::generation_rules rules;
-    rules.max_attributes = max_attributes;
-    rules.power_level = power_level;
-    rules.max_negative_power = max_negative_power;
-    rules.resonant = is_resonant;
-
-    add_item_or_charges( p, id->create_item( rules ) );
-}
-
 void map::spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id,
                           const int max_attributes,
                           const int power_level, const int max_negative_power, const bool is_resonant )
@@ -5420,6 +5430,14 @@ void map::spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id,
 }
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned quantity,
+                      const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
+                      const std::string &variant, const std::string &faction )
+{
+    map::spawn_item( tripoint_bub_ms( p ), type_id, quantity, charges, birthday, damlevel, flags,
+                     variant, faction );
+}
+
+void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const unsigned quantity,
                       const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
                       const std::string &variant, const std::string &faction )
 {
@@ -5463,20 +5481,13 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
     add_item_or_charges( p, new_item );
 }
 
-void map::spawn_item( const tripoint_bub_ms &p, const itype_id &type_id, const unsigned quantity,
-                      const int charges, const time_point &birthday, const int damlevel, const std::set<flag_id> &flags,
-                      const std::string &variant, const std::string &faction )
-{
-    map::spawn_item( p.raw(), type_id, quantity, charges, birthday, damlevel, flags, variant, faction );
-}
-
 units::volume map::max_volume( const tripoint_bub_ms &p )
 {
     return i_at( p ).max_volume();
 }
 
 // total volume of all the things
-units::volume map::stored_volume( const tripoint &p )
+units::volume map::stored_volume( const tripoint_bub_ms &p )
 {
     return i_at( p ).stored_volume();
 }
@@ -5484,17 +5495,12 @@ units::volume map::stored_volume( const tripoint &p )
 // free space
 units::volume map::free_volume( const tripoint &p )
 {
-    return i_at( p ).free_volume();
+    return free_volume( tripoint_bub_ms( p ) );
 }
 
 units::volume map::free_volume( const tripoint_bub_ms &p )
 {
-    return free_volume( p.raw() );
-}
-
-item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflow )
-{
-    return map::add_item_ret_loc( tripoint_bub_ms( pos ), std::move( obj ), overflow );
+    return i_at( p ).free_volume();
 }
 
 item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow )
@@ -5760,17 +5766,22 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
 // NOLINTNEXTLINE(readability-make-member-function-const)
 item map::water_from( const tripoint &p )
 {
+    return map::water_from( tripoint_bub_ms( p ) );
+}
+
+item map::water_from( const tripoint_bub_ms &p ) const
+{
     weather_manager &weather = get_weather();
     if( has_flag( ter_furn_flag::TFLAG_SALT_WATER, p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
                                             temperatures::cold ) );
         return ret;
     }
 
     if( has_flag( ter_furn_flag::TFLAG_CHOCOLATE, p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
                                             temperatures::cold ) );
         return ret;
     }
@@ -5778,7 +5789,7 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == ter_t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
                                             temperatures::cold ) );
         return ret;
     }
@@ -5788,7 +5799,7 @@ item map::water_from( const tripoint &p )
         furn( p )->has_examine( iexamine::water_source ) ) {
         itype_id liquid_id = has_flag( ter_furn_flag::TFLAG_MURKY, p ) ? itype_water_murky : itype_water;
         item ret( liquid_id, calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
                                             temperatures::cold ) );
         return ret;
     }
@@ -9051,8 +9062,8 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
     tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
 
     // TODO: make line_to type aware.
-    std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
-    for( tripoint &elem : tree ) {
+    std::vector<tripoint_bub_ms> tree = line_to( p, to, rng( 1, 8 ) );
+    for( tripoint_bub_ms &elem : tree ) {
         batter( elem, 300, 5 );
         ter_set( elem, ter_t_trunk );
     }
@@ -9582,6 +9593,13 @@ bool map::inbounds( const tripoint_abs_omt &p ) const
 tripoint_range<tripoint> tinymap::points_on_zlevel() const
 {
     return map::points_on_zlevel();
+}
+
+tripoint_range<tripoint_omt_ms> tinymap::omt_points_on_zlevel() const
+{
+
+    const tripoint_range <tripoint_bub_ms> temp = map::bub_points_on_zlevel();
+    return tripoint_range <tripoint_omt_ms>( rebase_omt( temp.min() ), rebase_omt( temp.max() ) );
 }
 
 tripoint_range<tripoint> tinymap::points_on_zlevel( int z ) const
@@ -10316,59 +10334,64 @@ void map::draw_fill_background( const ter_id &type )
 
 void map::draw_fill_background( ter_id( *f )() )
 {
-    draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
+    draw_square_ter( f, point_bub_ms_zero, point_bub_ms( SEEX * my_MAPSIZE - 1,
+                     SEEY * my_MAPSIZE - 1 ) );
 }
 void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 {
-    draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
+    draw_square_ter( f, point_bub_ms_zero, point_bub_ms( SEEX * my_MAPSIZE - 1,
+                     SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2, const int z,
+void map::draw_square_ter( const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                           const int z,
                            bool avoid_creatures )
 {
     draw_square( [this, type, avoid_creatures, z]( const point & p ) {
         this->ter_set( tripoint_bub_ms( p.x, p.y, z ), type, avoid_creatures );
-    }, p1, p2 );
+    }, p1.raw(), p2.raw() );
 }
 
-void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2, const int z,
+void map::draw_square_furn( const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                            const int z,
                             bool avoid_creatures )
 {
     draw_square( [this, type, avoid_creatures, z]( const point & p ) {
         this->furn_set( tripoint_bub_ms( p.x, p.y, z ), type, avoid_creatures );
-    }, p1, p2 );
+    }, p1.raw(), p2.raw() );
 }
 
-void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2, bool avoid_creatures )
+void map::draw_square_ter( ter_id( *f )(), const point_bub_ms &p1, const point_bub_ms &p2,
+                           bool avoid_creatures )
 {
     draw_square( [this, f, avoid_creatures]( const point & p ) {
         this->ter_set( p, f(), avoid_creatures );
-    }, p1, p2 );
+    }, p1.raw(), p2.raw() );
 }
 
-void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                           const point &p2, bool avoid_creatures )
+void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point_bub_ms &p1,
+                           const point_bub_ms &p2, bool avoid_creatures )
 {
     draw_square( [this, f, avoid_creatures]( const point & p ) {
         const ter_id *tid = f.pick();
         this->ter_set( p, tid != nullptr ? *tid : ter_str_id::NULL_ID(), avoid_creatures );
-    }, p1, p2 );
+    }, p1.raw(), p2.raw() );
 }
 
-void map::draw_rough_circle_ter( const ter_id &type, const point &p, int rad )
+void map::draw_rough_circle_ter( const ter_id &type, const point_bub_ms &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
-    }, p, rad );
+    }, p.raw(), rad );
 }
 
-void map::draw_rough_circle_furn( const furn_id &type, const point &p, int rad )
+void map::draw_rough_circle_furn( const furn_id &type, const point_bub_ms &p, int rad )
 {
     draw_rough_circle( [this, type]( const point & q ) {
         if( !is_open_air( tripoint( q, abs_sub.z() ) ) ) {
             this->furn_set( q, type );
         }
-    }, p, rad );
+    }, p.raw(), rad );
 }
 
 void map::draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad )
@@ -10378,21 +10401,21 @@ void map::draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad )
     }, p, rad );
 }
 
-void map::draw_circle_ter( const ter_id &type, const point &p, int rad )
+void map::draw_circle_ter( const ter_id &type, const point_bub_ms &p, int rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->ter_set( q, type );
-    }, p, rad );
+    }, p.raw(), rad );
 }
 
-void map::draw_circle_furn( const furn_id &type, const point &p, int rad )
+void map::draw_circle_furn( const furn_id &type, const point_bub_ms &p, int rad )
 {
     draw_circle( [this, type]( const point & q ) {
         this->furn_set( q, type );
-    }, p, rad );
+    }, p.raw(), rad );
 }
 
-void map::add_corpse( const tripoint &p )
+void map::add_corpse( const tripoint_bub_ms &p )
 {
     item body;
 
@@ -10683,17 +10706,30 @@ tripoint_range<tripoint_bub_ms> map::points_in_radius(
 
 tripoint_range<tripoint> map::points_on_zlevel( const int z ) const
 {
+    const tripoint_range<tripoint_bub_ms> temp = map::bub_points_on_zlevel( z );
+    return tripoint_range<tripoint>( temp.min().raw(), temp.max().raw() );
+}
+
+tripoint_range<tripoint_bub_ms> map::bub_points_on_zlevel( const int z ) const
+{
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         // TODO: need a default constructor that creates an empty range.
-        return tripoint_range<tripoint>( tripoint_zero, tripoint_zero - tripoint_above );
+        return tripoint_range<tripoint_bub_ms>( tripoint_bub_ms_zero,
+                                                tripoint_bub_ms_zero - tripoint_rel_ms_above );
     }
-    return tripoint_range<tripoint>(
-               tripoint( 0, 0, z ), tripoint( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1, z ) );
+    return tripoint_range<tripoint_bub_ms>(
+    { 0, 0, z }, { SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1, z } );
 }
 
 tripoint_range<tripoint> map::points_on_zlevel() const
 {
     return points_on_zlevel( abs_sub.z() );
+}
+
+tripoint_range<tripoint_bub_ms> map::bub_points_on_zlevel() const
+{
+    return bub_points_on_zlevel( abs_sub.z() );
+
 }
 
 std::list<item_location> map::get_active_items_in_radius(

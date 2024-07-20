@@ -2104,7 +2104,7 @@ class jmapgen_sign : public jmapgen_piece
                 }
                 signtext = apply_all_tags( signtext, cityname );
             }
-            dat.m.set_signage( r.raw(), signtext );
+            dat.m.set_signage( r, signtext );
         }
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
             signtext = SNIPPET.expand( signtext );
@@ -2325,7 +2325,7 @@ class jmapgen_liquid_item : public jmapgen_piece
                 }
                 if( newliquid.charges > 0 ) {
                     dat.m.add_item_or_charges(
-                        tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), newliquid );
+                        tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), newliquid );
                 }
             }
         }
@@ -2359,7 +2359,7 @@ class jmapgen_corpse : public jmapgen_piece
             const mtype_id &corpse_type = random_entry_ref( monster_group );
             item corpse = item::make_corpse( corpse_type,
                                              std::max( calendar::turn - age, calendar::start_of_cataclysm ) );
-            dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ),
+            dat.m.add_item_or_charges( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ),
                                        corpse );
         }
 };
@@ -2906,7 +2906,8 @@ class jmapgen_spawn_item : public jmapgen_piece
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id, amount.get(),
+                dat.m.spawn_item( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
+                                  amount.get(),
                                   0, calendar::start_of_cataclysm, 0, flags, variant, faction );
             }
         }
@@ -3033,7 +3034,7 @@ class jmapgen_terrain : public jmapgen_piece
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            tripoint p( x.get(), y.get(), dat.zlevel() + z.get() );
+            tripoint_bub_ms p( x.get(), y.get(), dat.zlevel() + z.get() );
 
             ter_id terrain_here = dat.m.ter( p );
             const ter_t &chosen_ter = *chosen_id;
@@ -3128,7 +3129,7 @@ class jmapgen_terrain : public jmapgen_piece
             if( is_boring_wall || act_trap == apply_action::act_erase ) {
                 dat.m.remove_trap( p );
             } else if( act_trap == apply_action::act_dismantle ) {
-                dat.m.tr_at( p ).on_disarmed( dat.m, p );
+                dat.m.tr_at( p ).on_disarmed( dat.m, p.raw() );
             }
 
             if( is_boring_wall || act_item == apply_action::act_erase ) {
@@ -5013,7 +5014,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_RADIATION: {
-                m.set_radiation( target_pos.raw(), val.get() );
+                m.set_radiation( target_pos, val.get() );
             }
             break;
             case JMAPGEN_SETMAP_TRAP_REMOVE: {
@@ -5037,7 +5038,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_BASH: {
-                m.bash( target_pos.raw(), 9999 );
+                m.bash( target_pos, 9999 );
             }
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
@@ -5111,20 +5112,22 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
                 for( const point &i : line ) {
-                    m.set_radiation( tripoint( i, z_level ), static_cast<int>( val.get() ) );
+                    m.set_radiation( tripoint_bub_ms( i.x, i.y, z_level ), static_cast<int>( val.get() ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                m.draw_square_ter( ter_id( val.get() ), point_bub_ms( x_get(), y_get() ), point_bub_ms( x2_get(),
+                                   y2_get() ),
                                    z_level,
                                    dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                m.draw_square_furn( furn_id( val.get() ), point_bub_ms( x_get(), y_get() ), point_bub_ms( x2_get(),
+                                    y2_get() ),
                                     z_level,
                                     dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
@@ -5197,7 +5200,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
                 const int cy2 = y2_get();
                 for( int tx = c2.x; tx <= cx2; tx++ ) {
                     for( int ty = c2.y; ty <= cy2; ty++ ) {
-                        m.set_radiation( tripoint( tx, ty, z_level ), static_cast<int>( val.get() ) );
+                        m.set_radiation( tripoint_bub_ms( tx, ty, z_level ), static_cast<int>( val.get() ) );
                     }
                 }
             }
@@ -5504,7 +5507,7 @@ void map::draw_lab( mapgendata &dat )
     bool central_lab = false;
     bool tower_lab = false;
 
-    point p2;
+    point_bub_ms p2;
 
     int lw = 0;
     int rw = 0;
@@ -6292,7 +6295,7 @@ void map::draw_lab( mapgendata &dat )
                                   point_bub_ms( 6, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), abs_sub.z(), 1, true );
-                    spawn_item( point( SEEX - 4, SEEY - 2 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 2 ), "id_science" );
                     if( loot_variant <= 96 ) {
                         mtrap_set( this, tripoint_bub_ms( SEEX - 3, SEEY - 3, dat.zlevel() ), tr_dissector );
                         mtrap_set( this, tripoint_bub_ms( SEEX + 2, SEEY - 3, dat.zlevel() ), tr_dissector );
@@ -6311,22 +6314,22 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point( SEEX - 1, SEEY ), furn_f_table );
                         furn_set( point( SEEX, SEEY ), furn_f_table );
                         if( loot_variant <= 67 ) {
-                            spawn_item( point( SEEX, SEEY - 1 ), "UPS_off" );
-                            spawn_item( point( SEEX, SEEY - 1 ), "heavy_battery_cell" );
-                            spawn_item( point( SEEX - 1, SEEY ), "v29" );
-                            spawn_item( point( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
-                            spawn_item( point( SEEX, SEEY ), "plasma_gun" );
-                            spawn_item( point( SEEX, SEEY ), "plasma" );
-                            spawn_item( point( SEEX - 1, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "UPS_off" );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "heavy_battery_cell" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "v29" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), "plasma_gun" );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), "plasma" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "recipe_atomic_battery" );
+                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         } else if( loot_variant < 89 ) {
-                            spawn_item( point( SEEX, SEEY ), "recipe_atomic_battery" );
-                            spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), "recipe_atomic_battery" );
+                            spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 8, 20 ) );
                         }  else { // loot_variant between 90 and 96.
-                            spawn_item( point( SEEX - 1, SEEY - 1 ), "rm13_armor" );
-                            spawn_item( point( SEEX, SEEY - 1 ), "plut_cell" );
-                            spawn_item( point( SEEX - 1, SEEY ), "plut_cell" );
-                            spawn_item( point( SEEX, SEEY ), "recipe_caseless" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY - 1 ), "rm13_armor" );
+                            spawn_item( point_bub_ms( SEEX, SEEY - 1 ), "plut_cell" );
+                            spawn_item( point_bub_ms( SEEX - 1, SEEY ), "plut_cell" );
+                            spawn_item( point_bub_ms( SEEX, SEEY ), "recipe_caseless" );
                         }
                     } else { // 4% of the lab ends will be this weapons testing end.
                         mtrap_set( this, tripoint_bub_ms( SEEX - 4, SEEY - 3, dat.zlevel() ), tr_dissector );
@@ -6357,7 +6360,7 @@ void map::draw_lab( mapgendata &dat )
                         place_items( Item_spawn_data_guns_rare, 96, point( SEEX - 2, SEEY ),
                                      point( SEEX + 1, SEEY ), abs_sub.z(), false,
                                      calendar::start_of_cataclysm );
-                        spawn_item( point( SEEX + 1, SEEY ), "plut_cell", rng( 1, 10 ) );
+                        spawn_item( point_bub_ms( SEEX + 1, SEEY ), "plut_cell", rng( 1, 10 ) );
                     }
                     break;
                 // Netherworld access
@@ -6386,7 +6389,7 @@ void map::draw_lab( mapgendata &dat )
                         }
                     }
 
-                    spawn_item( point( SEEX - 1, 8 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX - 1, 8 ), "id_science" );
                     tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z() ),
                                             _( "Sub-prime contact console" ), 7 );
                     if( monsters_end ) { //only add these options when there are monsters.
@@ -6420,7 +6423,7 @@ void map::draw_lab( mapgendata &dat )
                     mtrap_set( this, tripoint_bub_ms( SEEX + 1, SEEY - 2, dat.zlevel() ), tr_dissector );
                     mtrap_set( this, tripoint_bub_ms( SEEX - 2, SEEY + 1, dat.zlevel() ), tr_dissector );
                     mtrap_set( this, tripoint_bub_ms( SEEX + 1, SEEY + 1, dat.zlevel() ), tr_dissector );
-                    square_furn( this, furn_f_counter, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
+                    square_furn( this, furn_f_counter, point_bub_ms( SEEX - 1, SEEY - 1 ), point_bub_ms( SEEX, SEEY ) );
                     int item_count = 0;
                     while( item_count < 5 ) {
                         item_count +=
@@ -6436,8 +6439,8 @@ void map::draw_lab( mapgendata &dat )
                           dat.zlevel() );
                     line( this, ter_t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ),
                           dat.zlevel() );
-                    spawn_item( point( SEEX - 4, SEEY - 3 ), "id_science" );
-                    furn_set( point( SEEX - 3, SEEY - 3 ), furn_f_console );
+                    spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), "id_science" );
+                    furn_set( point_bub_ms( SEEX - 3, SEEY - 3 ), furn_f_console );
                     tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z() ),
                                             _( "Bionic access" ), 3 );
                     tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
@@ -6464,7 +6467,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, ter_t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ), dat.zlevel() );
                     line( this, ter_t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ), dat.zlevel() );
                     ter_set( point( SEEX, SEEY - 2 ), ter_t_cvdmachine );
-                    spawn_item( point( SEEX, SEEY - 3 ), "id_science" );
+                    spawn_item( point_bub_ms( SEEX, SEEY - 3 ), "id_science" );
                     break;
             }
         } // end use_hardcoded_lab_finale
@@ -6645,7 +6648,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
         if( lootable &&
             !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, furn_f_vending_o );
-            for( const tripoint &loc : points_in_radius( p.raw(), 1 ) ) {
+            for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
                 if( one_in( 4 ) ) {
                     spawn_item( loc, "glass_shard", rng( 1, 25 ) );
                 }
@@ -6672,7 +6675,7 @@ void map::apply_faction_ownership( const point &p1, const point &p2, const facti
 {
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z() ), tripoint( p2,
             abs_sub.z() ) ) ) {
-        map_stack items = i_at( p.xy() );
+        map_stack items = i_at( point_bub_ms( p.xy() ) );
         for( item &elem : items ) {
             elem.set_owner( id );
         }
@@ -6720,13 +6723,13 @@ std::vector<item *> map::place_items(
                    !terrain.has_flag( ter_furn_flag::TFLAG_FLAT );
         };
 
-        tripoint p;
+        tripoint_bub_ms p;
         do {
-            p.x = rng( p1.x, p2.x );
-            p.y = rng( p1.y, p2.y );
-            p.z = rng( p1.z, p2.z );
+            p.x() = rng( p1.x, p2.x );
+            p.y() = rng( p1.y, p2.y );
+            p.z() = rng( p1.z, p2.z );
             tries++;
-        } while( is_valid_terrain( p ) && tries < 20 );
+        } while( is_valid_terrain( p.raw() ) && tries < 20 );
         if( tries < 20 ) {
             auto add_res_itm = [this, &p, &res]( const item & itm ) {
                 item &it = add_item_or_charges( p, itm );
@@ -7718,7 +7721,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 {
     // TODO: Z
     const int z = cp.z;
-    point c( cp.xy() );
+    point_bub_ms c( cp.xy() );
     if( create_rubble ) {
         rough_circle( this, ter_t_dirt, c, 11 );
         rough_circle_furn( this, furn_f_rubble, c, 5 );
@@ -7727,12 +7730,12 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
     switch( prop ) {
         case ARTPROP_WRIGGLING:
         case ARTPROP_MOVING:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
                         add_field( tripoint_bub_ms{i, j, z}, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
-                            spawn_item( point( i, j ), "rock" );
+                            spawn_item( point_bub_ms( i, j ), "rock" );
                         }
                     }
                 }
@@ -7741,9 +7744,9 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_GLOWING:
         case ARTPROP_GLITTERING:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble && one_in( 2 ) ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble && one_in( 2 ) ) {
                         mtrap_set( this, tripoint_bub_ms( i, j, z ), tr_glow );
                     }
                 }
@@ -7752,9 +7755,9 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_HUMMING:
         case ARTPROP_RATTLING:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble && one_in( 2 ) ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble && one_in( 2 ) ) {
                         mtrap_set( this, tripoint_bub_ms( i, j, z ), tr_hum );
                     }
                 }
@@ -7763,9 +7766,9 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_WHISPERING:
         case ARTPROP_ENGRAVED:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble && one_in( 3 ) ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble && one_in( 3 ) ) {
                         mtrap_set( this, tripoint_bub_ms( i, j, z ), tr_shadow );
                     }
                 }
@@ -7773,9 +7776,9 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             break;
 
         case ARTPROP_BREATHING:
-            for( int i = c.x - 1; i <= c.x + 1; i++ ) {
-                for( int j = c.y - 1; j <= c.y + 1; j++ ) {
-                    if( i == c.x && j == c.y ) {
+            for( int i = c.x() - 1; i <= c.x() + 1; i++ ) {
+                for( int j = c.y() - 1; j <= c.y() + 1; j++ ) {
+                    if( i == c.x() && j == c.y() ) {
                         place_spawns( GROUP_BREATHER_HUB, 1, point_bub_ms( i, j ), point_bub_ms( i, j ), z, 1,
                                       true );
                     } else {
@@ -7786,9 +7789,9 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             break;
 
         case ARTPROP_DEAD:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
                         mtrap_set( this, tripoint_bub_ms( i, j, z ), tr_drain );
                     }
                 }
@@ -7796,10 +7799,10 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             break;
 
         case ARTPROP_ITCHY:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble ) {
-                        set_radiation( point( i, j ), rng( 0, 10 ) );
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
+                        set_radiation( point_bub_ms( i, j ), rng( 0, 10 ) );
                     }
                 }
             }
@@ -7815,20 +7818,20 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             break;
 
         case ARTPROP_WARM:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
                         add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_fire_vent,
-                                   1 + ( rl_dist( c, point( i, j ) ) % 3 ) );
+                                   1 + ( rl_dist( c, point_bub_ms( i, j ) ) % 3 ) );
                     }
                 }
             }
             break;
 
         case ARTPROP_SCALED:
-            for( int i = c.x - 5; i <= c.x + 5; i++ ) {
-                for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == furn_f_rubble ) {
+            for( int i = c.x() - 5; i <= c.x() + 5; i++ ) {
+                for( int j = c.y() - 5; j <= c.y() + 5; j++ ) {
+                    if( furn( point_bub_ms( i, j ) ) == furn_f_rubble ) {
                         mtrap_set( this, tripoint_bub_ms( i, j, z ), tr_snake );
                     }
                 }
@@ -7848,10 +7851,10 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
                 return static_cast<artifact_natural_property>(
                            rng( ARTPROP_NULL + 1, ARTPROP_FRACTAL - 1 ) );
             };
-            create_anomaly( c + point( -4, -4 ), random_type() );
-            create_anomaly( c + point( 4, -4 ), random_type() );
-            create_anomaly( c + point( -4, 4 ), random_type() );
-            create_anomaly( c + point( 4, 4 ), random_type() );
+            create_anomaly( c.raw() + point( -4, -4 ), random_type() );
+            create_anomaly( c.raw() + point( 4, -4 ), random_type() );
+            create_anomaly( c.raw() + point( -4, 4 ), random_type() );
+            create_anomaly( c.raw() + point( 4, 4 ), random_type() );
             break;
         }
         default:
@@ -7905,31 +7908,32 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void square( map *m, const ter_id &type, const point &p1, const point &p2 )
+void square( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     m->draw_square_ter( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+void square_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2, m->get_abs_sub().z() );
 }
-void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
+void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }
-void square( map *m, ter_id( *f )(), const point &p1, const point &p2 )
+void square( map *m, ter_id( *f )(), const point_bub_ms &p1, const point_bub_ms &p2 )
 {
     m->draw_square_ter( f, p1, p2 );
 }
-void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 )
+void square( map *m, const weighted_int_list<ter_id> &f, const point_bub_ms &p1,
+             const point_bub_ms &p2 )
 {
     m->draw_square_ter( f, p1, p2 );
 }
-void rough_circle( map *m, const ter_id &type, const point &p, int rad )
+void rough_circle( map *m, const ter_id &type, const point_bub_ms &p, int rad )
 {
     m->draw_rough_circle_ter( type, p, rad );
 }
-void rough_circle_furn( map *m, const furn_id &type, const point &p, int rad )
+void rough_circle_furn( map *m, const furn_id &type, const point_bub_ms &p, int rad )
 {
     m->draw_rough_circle_furn( type, p, rad );
 }
@@ -7937,17 +7941,17 @@ void circle( map *m, const ter_id &type, double x, double y, double rad )
 {
     m->draw_circle_ter( type, rl_vec2d( x, y ), rad );
 }
-void circle( map *m, const ter_id &type, const point &p, int rad )
+void circle( map *m, const ter_id &type, const point_bub_ms &p, int rad )
 {
     m->draw_circle_ter( type, p, rad );
 }
-void circle_furn( map *m, const furn_id &type, const point &p, int rad )
+void circle_furn( map *m, const furn_id &type, const point_bub_ms &p, int rad )
 {
     m->draw_circle_furn( type, p, rad );
 }
-void add_corpse( map *m, const point &p )
+void add_corpse( map *m, const point_bub_ms &p )
 {
-    m->add_corpse( tripoint( p, m->get_abs_sub().z() ) );
+    m->add_corpse( { p, m->get_abs_sub().z() } );
 }
 
 //////////////////// mapgen update
