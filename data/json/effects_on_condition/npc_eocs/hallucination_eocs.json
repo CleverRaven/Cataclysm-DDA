@@ -176,7 +176,8 @@
     "id": "creature_hallucinations",
     "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
     "//": "If monsters are nearby, 3/4 chance to spawn some hallucinations of random monsters nearby and run again half the time, 1/4 chance to spawn some of YOUR_FEARS. If not, spawns some of YOUR_FEARS",
-    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] } ] },
+    "//2": "avatar check to prevent NPCs from spawning hallucinations, that player can see",
+    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] }, "u_is_avatar" ] },
     "effect": [
       {
         "u_spawn_monster": "",
@@ -192,6 +193,7 @@
     "type": "effect_on_condition",
     "id": "creature_hallucinations_fears",
     "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
+    "condition": "u_is_avatar",
     "effect": {
       "u_spawn_monster": "GROUP_YOUR_FEARS",
       "group": true,
