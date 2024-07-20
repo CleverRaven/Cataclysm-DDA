@@ -3260,7 +3260,8 @@ std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint & )
             found = here.passable( goop ) && here.tr_at( goop ).is_null();
         } while( !found && tries < 10 );
         if( found ) {
-            add_msg_if_player_sees( goop, m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
+            add_msg_if_player_sees( goop.raw(), m_warning,
+                                    _( "A nearby splatter of goo forms into a goo pit." ) );
             here.trap_set( goop, tr_goo );
         } else {
             return 0;
