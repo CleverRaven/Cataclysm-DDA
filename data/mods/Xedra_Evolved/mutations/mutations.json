@@ -762,6 +762,17 @@
   },
   {
     "type": "mutation",
+    "id": "CALL_DAFFODIL",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Fae Authority" },
+    "description": "Boann bestowed upon you the right to summon a few daffodil warriors once a day.",
+    "spells_learned": [ [ "call_daffodil", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IRON_ALLERGY",
     "name": { "str": "Iron Intolerance" },
     "points": -4,

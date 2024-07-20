@@ -243,5 +243,14 @@
     "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
     "color": "black",
     "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work."
+  },
+  {
+    "type": "GENERIC",
+    "id": "shadow_singularity_piece",
+    "copy-from": "rock",
+    "name": { "str": "piece of the darkest shadow", "str_pl": "pieces of the darkest shadow" },
+    "color": "black",
+    "material": [ "monolith" ],
+    "description": "A chunk of darkness, torn from a powerful shadow.  It is so dark that no light reflect from it."
   }
 ]
