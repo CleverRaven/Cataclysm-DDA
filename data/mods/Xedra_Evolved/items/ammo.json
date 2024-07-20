@@ -13,7 +13,6 @@
     "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
     "volume": "100 ml",
     "weight": "460 g",
-    "to_hit": -2,
     "damage": { "damage_type": "stab", "amount": 7 },
     "range": 10,
     "dispersion": 14,

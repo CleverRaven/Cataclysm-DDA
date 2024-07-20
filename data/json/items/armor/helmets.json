@@ -760,7 +760,6 @@
     "volume": "2500 ml",
     "price": "380 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "helmet_larmor",
