@@ -92,6 +92,7 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
+            mods: --mods=magiclysm
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
             # ~190MB in a clean build
             # ~30MB compressed
@@ -141,7 +142,6 @@ jobs:
             pch: 1
             sanitize: address
             cxxflags: --gcc-toolchain=/opt/mock-gcc-11
-            mods: --mods=magiclysm
             dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
             # ~390MB in a clean build
