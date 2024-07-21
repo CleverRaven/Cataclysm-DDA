@@ -6306,7 +6306,8 @@ std::list<item> map::use_amount( const std::vector<tripoint> &reachable_pts, con
     temp.reserve( reachable_pts.size() );
 
     for( const tripoint p : reachable_pts ) {
-        temp.emplace_back( tripoint_bub_ms{ p } );
+        const tripoint_bub_ms pt( p );
+        temp.emplace_back( pt );
     }
 
     return map::use_amount( temp, type, quantity, filter, select_ind );
@@ -6436,7 +6437,8 @@ std::list<item> map::use_charges( const std::vector<tripoint> &reachable_pts,
     temp.reserve( reachable_pts.size() );
 
     for( tripoint p : reachable_pts ) {
-        temp.emplace_back( tripoint_bub_ms{ p } );
+        const tripoint_bub_ms pt( p );
+        temp.emplace_back( pt );
     }
 
     return map::use_charges( temp, type, quantity, filter, bcp, in_tools );
@@ -6523,7 +6525,8 @@ units::energy map::consume_ups( const std::vector<tripoint> &reachable_pts, unit
     temp.reserve( reachable_pts.size() );
 
     for( const tripoint p : reachable_pts ) {
-        temp.emplace_back( tripoint_bub_ms{ p } );
+        const tripoint_bub_ms pt( p );
+        temp.emplace_back( pt );
     }
 
     return map::consume_ups( temp, qty );
