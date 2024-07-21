@@ -185,7 +185,6 @@
     "skill_used": "metaphysics",
     "difficulty": 3,
     "time": "6 h",
-    "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }
@@ -225,7 +224,6 @@
     "skill_used": "metaphysics",
     "difficulty": 6,
     "time": "14 h",
-    "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }

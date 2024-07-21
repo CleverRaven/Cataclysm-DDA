@@ -1140,6 +1140,7 @@
     ],
     "condition": {
       "and": [
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         {
           "u_has_any_trait": [
             "BIOKINETIC",
@@ -1186,5 +1187,108 @@
       }
     ],
     "false_effect": [ { "u_message": "Without a laptop, you can't access the data on the USB", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING",
+    "recurrence": [ "6 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_skill('metaphysics')", ">=", "4" ] },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        {
+          "not": {
+            "u_has_any_trait": [
+              "BIOKINETIC",
+              "CLAIRSENTIENT",
+              "ELECTROKINETIC",
+              "PHOTOKINETIC",
+              "PYROKINETIC",
+              "TELEKINETIC",
+              "TELEPATH",
+              "TELEPORTER",
+              "VITAKINETIC"
+            ]
+          }
+        },
+        { "u_has_trait": "PSI_EXTENDED_CHANNELING" }
+      ]
+    },
+    "effect": [
+      { "u_learn_recipe": "psi_research_extended_channeling" },
+      {
+        "u_message": "Sometimes the power comes slower and sometimes it comes more quickly, but there has to be a way to have more control over it.  Maybe if you didn't draw on as much, there would be fewer side effects?  With some experimentation, maybe you can discover a way.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING",
+    "recurrence": [ "6 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        { "math": [ "u_skill('metaphysics')", ">=", "6" ] },
+        { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        {
+          "not": {
+            "u_has_any_trait": [
+              "BIOKINETIC",
+              "CLAIRSENTIENT",
+              "ELECTROKINETIC",
+              "PHOTOKINETIC",
+              "PYROKINETIC",
+              "TELEKINETIC",
+              "TELEPATH",
+              "TELEPORTER",
+              "VITAKINETIC"
+            ]
+          }
+        },
+        { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" }
+      ]
+    },
+    "effect": [
+      { "u_learn_recipe": "psi_research_torrential_channeling" },
+      {
+        "u_message": "Safety is all well and good, but sometimes you need power.  The ebb and flow of Nether energy…if you deliberately drew on it more deeply, could you charge your powers up more quickly?  Maybe you can figure out a way with some more experimentation.",
+        "popup": true
+      }
+    ]
   }
 ]
