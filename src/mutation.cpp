@@ -1050,23 +1050,23 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
 bool Character::roll_bad_mutation() const
 {
     bool ret = false;
-    //Instability value at which bad mutations become possible
-    const float I0 = 900.0;
-    //Instability value at which good and bad mutations are equally likely
-    const float I50 = 2800.0;
+    //Health value at which bad mutations become possible
+    const float I0 = 75.0;
+    //Health value at which good and bad mutations are equally likely
+    const float I50 = 0.0;
 
     //Static to avoid recalculating this every time - std::log is not constexpr
     static const float exp = std::log( 2 ) / std::log( I50 / I0 );
 
-    if( vitamin_get( vitamin_instability ) == 0 ) {
-        add_msg_debug( debugmode::DF_MUTATION, "No instability, no bad mutations allowed" );
+    if( get_lifestyle() == 100 ) {
+        add_msg_debug( debugmode::DF_MUTATION, "Perfect health, no bad mutations allowed" );
         return ret;
     } else {
         //A curve that is 0 until I0, crosses 0.5 at I50, then slowly approaches 1
-        float chance = std::max( 0.0f, 1 - std::pow( I0 / vitamin_get( vitamin_instability ), exp ) );
+        float chance = std::max( 0.0f, 1 - std::pow( I0 / get_lifestyle() ), exp ) );
         ret = rng_float( 0, 1 ) < chance;
         add_msg_debug( debugmode::DF_MUTATION,
-                       "Bad mutation chance caused by instability %.1f, roll_bad_mutation returned %s", chance,
+                       "Bad mutation chance caused by health. %.1f, roll_bad_mutation returned %s", chance,
                        ret ? "true" : "false" );
         return ret;
     }
