@@ -1200,7 +1200,9 @@
         { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
         { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
         { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
-        { "x_in_y_chance": { "x": 1, "y": 250 } }
+        {
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+        }
       ]
     },
     "effect": [ { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
@@ -1228,7 +1230,9 @@
         { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } },
         { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
-        { "x_in_y_chance": { "x": 1, "y": 100 } }
+        {
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+        }
       ]
     },
     "effect": [
