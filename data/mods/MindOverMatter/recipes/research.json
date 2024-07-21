@@ -183,7 +183,7 @@
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
-    "difficulty": 3,
+    "difficulty": 1,
     "time": "6 h",
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": false },
@@ -222,7 +222,7 @@
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
-    "difficulty": 6,
+    "difficulty": 3,
     "time": "14 h",
     "proficiencies": [
       { "proficiency": "prof_psionic_basic", "required": false },
