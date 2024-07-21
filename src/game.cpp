@@ -11900,8 +11900,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
                     if( u.worn_with_flag( flag_FLOTATION ) ) {
                         add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
                         return;
-                    } 
-                    if ( u.has_flag( json_flag_WATERWALKING ) ) {
+                    }
+                    if( u.has_flag( json_flag_WATERWALKING ) ) {
                         add_msg( m_info, _( "You can't dive while walking on water." ) );
                         return;
                     }
