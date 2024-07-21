@@ -648,7 +648,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
-    if( (movecost >= 500 || you.has_effect( effect_winded) ) && !you.has_flag( json_flag_WATERWALKING ) ) {
+    if( ( movecost >= 500 || you.has_effect( effect_winded ) ) &&
+        !you.has_flag( json_flag_WATERWALKING ) ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
