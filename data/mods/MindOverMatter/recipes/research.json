@@ -189,7 +189,7 @@
       { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_UNLOCK_EXTENDED_CHANNELING",
@@ -237,7 +237,7 @@
       { "proficiency": "prof_psionic_basic", "required": false },
       { "proficiency": "prof_psionic_ritual", "required": false }
     ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_UNLOCK_TORRENTIAL_CHANNELING",
