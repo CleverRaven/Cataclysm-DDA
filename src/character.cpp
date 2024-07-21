@@ -10287,8 +10287,8 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         return effects;
     }
 
-    if ( water_walking ) {
-         movecost = 100;
+    if( water_walking ) {
+        movecost = 100;
     }
 
     if( movecost > 105 ) {
