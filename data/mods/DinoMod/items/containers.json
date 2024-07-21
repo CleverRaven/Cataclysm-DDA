@@ -9,7 +9,6 @@
     "volume": "1 L",
     "price": "90 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",

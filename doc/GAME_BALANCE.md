@@ -238,11 +238,11 @@ Grip is a measure of how well you can control the weapon to quickly respond to s
 ### Length
 Length allows more surface area for potential contact, and reduces the need to control the positioning of the body to guarantee a hit. It also allows the player to strike from a safer distance, allowing them to worry more about trying to hit without being hit in return, and allows for swings with larger arcs, making dodging such a strike more difficult.
 
-+0 - "hand" - Any object without a length bonus.
++0 - "hand" - Objects that, from where they're held, extend less than 31 cm (or 1').
 
-+1 - "short" - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand, but less than about 3 feet. A normal American 12-inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
++1 - "short" - Objects that, from where they're held, extend between a 31 cm and 91 cm (or 1' to 3').
 
-+2 - "long" An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaffs, poles, and a lot of other stuff.
++2 - "long" - Objects that, from where they're held, extend further than 91 cm (or 3').
 
 ### Striking Surface
 Some weapons need to strike in a certain way to be effective. Others are more difficult to use "incorrectly".
