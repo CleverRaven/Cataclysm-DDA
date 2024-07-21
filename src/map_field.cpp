@@ -643,7 +643,7 @@ static void field_processor_extra_radiation( const tripoint &p, field_entry &cur
     const field_intensity_level &ilevel = cur.get_intensity_level();
     if( ilevel.extra_radiation_max > 0 ) {
         int extra_radiation = rng( ilevel.extra_radiation_min, ilevel.extra_radiation_max );
-        pd.here.adjust_radiation( p, extra_radiation );
+        pd.here.adjust_radiation( tripoint_bub_ms( p ), extra_radiation );
     }
 }
 

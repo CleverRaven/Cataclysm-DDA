@@ -449,11 +449,11 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
             return false;
         }
     }
-    if( bash_dmg < 0 && !m.i_at( point( x, y ) ).empty() ) {
+    if( bash_dmg < 0 && !m.i_at( point_bub_ms( x, y ) ).empty() ) {
         return false;
     }
     if( bash_dmg == 0 ) {
-        for( item &elem : m.i_at( point( x, y ) ) ) {
+        for( item &elem : m.i_at( point_bub_ms( x, y ) ) ) {
             if( elem.made_of( phase_id::LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
@@ -469,7 +469,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
 
     m.ter_set( point( x, y ), door_type );
     if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point( x, y ) ) ) {
-        map_stack items = m.i_at( point( x, y ) );
+        map_stack items = m.i_at( point_bub_ms( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( phase_id::LIQUID ) ) {
                 it = items.erase( it );

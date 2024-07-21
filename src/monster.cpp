@@ -608,7 +608,7 @@ void monster::try_reproduce()
             } else {
                 const item egg( type->baby_egg, *baby_timer );
                 for( int i = 0; i < spawn_cnt; i++ ) {
-                    here.add_item_or_charges( pos(), egg, true );
+                    here.add_item_or_charges( pos_bub(), egg, true );
                 }
             }
         }
@@ -702,7 +702,7 @@ void monster::try_biosignature()
         if( *biosig_timer > calendar::turn || counter > 50 ) {
             return;
         }
-        here.add_item_or_charges( pos(), item( type->biosig_item, *biosig_timer, 1 ), true );
+        here.add_item_or_charges( pos_bub(), item( type->biosig_item, *biosig_timer, 1 ), true );
         *biosig_timer += *type->biosig_timer;
         counter += 1;
     }
@@ -2237,7 +2237,7 @@ bool monster::move_effects( bool )
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s easily slips out of its bonds." ), name() );
                 }
-                here.add_item_or_charges( pos(), *tied_item );
+                here.add_item_or_charges( pos_bub(), *tied_item );
                 tied_item.reset();
             }
         } else {
@@ -2245,7 +2245,7 @@ bool monster::move_effects( bool )
                 const bool broken = rng( type->melee_dice * type->melee_sides, std::min( 10000,
                                          type->melee_dice * type->melee_sides * 250 ) ) > 800;
                 if( !broken ) {
-                    here.add_item_or_charges( pos(), *tied_item );
+                    here.add_item_or_charges( pos_bub(), *tied_item );
                 }
                 tied_item.reset();
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
@@ -2295,8 +2295,8 @@ bool monster::move_effects( bool )
         if( type->melee_dice * type->melee_sides >= 7 ) {
             if( x_in_y( type->melee_dice * type->melee_sides, 32 ) ) {
                 remove_effect( effect_heavysnare );
-                here.spawn_item( pos(), "rope_6" );
-                here.spawn_item( pos(), "snare_trigger" );
+                here.spawn_item( pos_bub(), "rope_6" );
+                here.spawn_item( pos_bub(), "snare_trigger" );
                 if( u_see_me && get_option<bool>( "LOG_MONSTER_MOVE_EFFECTS" ) ) {
                     add_msg( _( "The %s escapes the heavy snare!" ), name() );
                 }
@@ -2913,7 +2913,7 @@ void monster::die( Creature *nkiller )
             if( corpse ) {
                 corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
-                get_map().add_item_or_charges( pos(), it );
+                get_map().add_item_or_charges( pos_bub(), it );
             }
         }
         for( const item &it : dissectable_inv ) {
@@ -3041,7 +3041,7 @@ void monster::drop_items_on_death( item *corpse )
     // for non corpses this is much simpler
     if( !corpse ) {
         for( item &it : new_items ) {
-            get_map().add_item_or_charges( pos(), it );
+            get_map().add_item_or_charges( pos_bub(), it );
         }
         return;
     }

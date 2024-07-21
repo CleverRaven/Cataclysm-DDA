@@ -899,7 +899,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
                        static_cast<std::string>( bio_resonator ) );
-        for( const tripoint &bashpoint : here.points_in_radius( pos(), 1 ) ) {
+        for( const tripoint_bub_ms &bashpoint : here.points_in_radius( pos_bub(), 1 ) ) {
             here.bash( bashpoint, 110 );
             // Multibash effect, so that doors &c will fall
             here.bash( bashpoint, 110 );
@@ -964,7 +964,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_water_extractor ) {
         bool no_target = true;
         bool extracted = false;
-        for( item &it : here.i_at( pos() ) ) {
+        for( item &it : here.i_at( pos_bub() ) ) {
             static const units::volume volume_per_water_charge = 500_ml;
             if( it.is_corpse() ) {
                 const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
@@ -999,8 +999,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         // Don't "snowball" by affecting some items multiple times
         std::vector<std::pair<item, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
-        for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
-            if( p == pos() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 10 ) ) {
+            if( p == pos_bub() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
                 continue;
             }
 
@@ -1008,7 +1008,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             for( auto it = stack.begin(); it != stack.end(); it++ ) {
                 if( it->weight() < weight_cap &&
                     it->made_of_any( affected_materials ) ) {
-                    affected.emplace_back( *it, p );
+                    affected.emplace_back( *it, p.raw() );
                     stack.erase( it );
                     break;
                 }
