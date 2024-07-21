@@ -164,7 +164,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Okay, me too. I'll go get your family.",
+        "text": "Okay, me too.  I'll go get your family.",
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "effect": [
           { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
