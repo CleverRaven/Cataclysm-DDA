@@ -2696,6 +2696,7 @@
     "chip_resist": 10,
     "breathability": "AVERAGE",
     "repaired_with": "2x4",
+    "salvaged_into": "splinter",
     "dmg_adj": [ "scratched", "chipped", "cracked", "splintered" ],
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
