@@ -11870,7 +11870,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool surfacing = false;
     bool submerging = false;
     // > and < are used for diving underwater.
-    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() )  ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) ) {
         if( !u.has_flag( json_flag_WATERWALKING ) ) {
             swimming = true;
         }
