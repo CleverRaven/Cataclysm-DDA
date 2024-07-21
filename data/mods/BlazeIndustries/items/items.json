@@ -12,7 +12,6 @@
     "looks_like": "scrap",
     "weight": "450 g",
     "volume": "100 ml",
-    "to_hit": -2,
     "melee_damage": { "bash": 1 }
   },
   {
