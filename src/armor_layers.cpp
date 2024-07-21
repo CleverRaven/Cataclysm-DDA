@@ -1116,7 +1116,7 @@ void outfit::sort_armor( Character &guy )
                             // reorder `worn` vector to place new item at cursor
                             worn.splice( cursor_it, worn, *new_equip_it );
                         }
-                    } else if( guy.is_npc() && !tmp_worn.empty()) {
+                    } else if( guy.is_npc() && !tmp_worn.empty() ) {
                         // TODO: Pass the reason here
                         popup( _( "Can't put this on!" ) );
                     }
