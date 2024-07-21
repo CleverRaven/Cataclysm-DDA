@@ -1031,12 +1031,12 @@ void monster::print_info_imgui() const
 
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
-        ImGui::Text( _( "Rider: %s" ), mounted_player->disp_name() );
+        ImGui::Text( _( "Rider: %s" ), mounted_player->disp_name().c_str() );
     }
 
     // Show monster size on the last line
     if( size_bonus > 0 ) {
-        ImGui::Text( _( " It is %s." ), size_names.at( get_size() ) );
+        ImGui::Text( _( " It is %s." ), size_names.at( get_size() ).translated().c_str() );
     }
 
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {

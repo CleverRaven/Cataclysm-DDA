@@ -225,9 +225,9 @@ class wish_mutate_callback: public uilist_callback
                          ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
             if( only_active ) {
-                ImGui::TextColored( c_green, _( "[a] show active traits (active)" ) );
+                ImGui::TextColored( c_green, "%s", _( "[a] show active traits (active)" ) );
             } else {
-                ImGui::TextColored( c_white, _( "[a] show active traits" ) );
+                ImGui::TextColored( c_white, "%s", _( "[a] show active traits" ) );
             }
         }
 
@@ -689,7 +689,7 @@ class wish_monster_callback: public uilist_callback
                                                  hallucination ? _( " (hallucination)" ) : "" );
                     ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
                                                 header.c_str() ).x ) * 0.5 );
-                    ImGui::TextColored( c_cyan, header.c_str() );
+                    ImGui::TextColored( c_cyan, "%s", header.c_str() );
 
                     tmp.print_info_imgui();
                 }
@@ -954,7 +954,7 @@ class wish_item_callback: public uilist_callback
                                                flags.empty() ? "" : _( " (flagged)" ) );
                     ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
                                                 header.c_str() ).x ) * 0.5 );
-                    ImGui::TextColored( c_cyan, header.c_str() );
+                    ImGui::TextColored( c_cyan, "%s", header.c_str() );
 
                     display_item_info( tmp.get_info( true ), {} );
                 }

@@ -287,14 +287,14 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
             if( show_hordes && horde_size >= HORDE_VISIBILITY_SIZE &&
                 seen && you.overmap_los( omp, sight_points ) ) {
                 auto horde = horde_size > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
-                ImGui::TextColored( c_green, horde );
+                ImGui::TextColored( c_green, "%s", horde );
                 ImGui::SameLine( 0, 0 );
             } else {
                 if( i == 0 && j == 0 ) {
                     // Highlight player character position in center of minimap
                     ter_color = hilite( ter_color );
                 }
-                ImGui::TextColored( ter_color, ter_sym.c_str() );
+                ImGui::TextColored( ter_color, "%s", ter_sym.c_str() );
                 ImGui::SameLine( 0, 0 );
             }
         }

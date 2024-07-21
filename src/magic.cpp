@@ -2393,7 +2393,7 @@ class spellcasting_callback : public uilist_callback
             auto w = ImGui::CalcTextSize( assign_letter.c_str() ).x;
             auto x = ImGui::GetContentRegionAvail().x - w;
             ImGui::SameLine( x, 0 );
-            ImGui::TextColored( c_yellow, assign_letter.c_str() );
+            ImGui::TextColored( c_yellow, "%s", assign_letter.c_str() );
             ImGui::NewLine();
             if( ImGui::BeginChild( "spell info", { info_width, 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
@@ -2471,7 +2471,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     const spell &sp = *known_spells[ index ];
     Character &pc = get_player_character();
 
-    ImGui::TextColored( c_yellow, sp.spell_class() == trait_NONE ? _( "Classless" ) :
+    ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
     ImGui::TextWrapped( "%s", sp.description().c_str() );
     ImGui::NewLine();
@@ -2554,7 +2554,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     std::string target_ids;
     target_ids = sp.list_targeted_monster_names();
     if( !target_ids.empty() ) {
-        ImGui::TextWrapped( _( "Only affects the monsters: %s" ), target_ids );
+        ImGui::TextWrapped( _( "Only affects the monsters: %s" ), target_ids.c_str() );
         ImGui::NewLine();
     }
 

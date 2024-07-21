@@ -144,8 +144,8 @@ void follower_rules_ui_impl::print_hotkey( input_event &hotkey )
     // Padding spaces intentional, so it's obvious that the fake "Hotkey:" header refers to these.
     // TODO: Just reimplement everything as a table...? Would avoid this sort of thing.
     // But surely not *everything* needs to be a table...
-    draw_colored_text( string_format( "  %s  ", static_cast<char>( hotkey.sequence.front() ) ),
-                       c_green );
+    cataimgui::draw_colored_text( string_format( "  %s  ", static_cast<char>( hotkey.sequence.front() ) ),
+                                  c_green );
     ImGui::SameLine();
 }
 
@@ -153,13 +153,13 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
 {
     std::string toggle_label;
     if( exporting_rules ) {
-        draw_colored_text( string_format( _( "Exporting rules from <color_white>%s</color>" ),
-                                          guy->disp_name() ), c_blue );
+        cataimgui::draw_colored_text( string_format( _( "Exporting rules from <color_white>%s</color>" ),
+                                                     guy->disp_name() ), c_blue );
         //~Label for a button used to copy NPC follower rules to another NPC
         toggle_label = _( "Export" );
     } else {
-        draw_colored_text( string_format( _( "Importing rules to <color_white>%s</color>" ),
-                                          guy->disp_name() ), c_yellow );
+        cataimgui::draw_colored_text( string_format( _( "Importing rules to <color_white>%s</color>" ),
+                                                     guy->disp_name() ), c_yellow );
         //~Label for a button used to copy NPC follower rules from another NPC
         toggle_label = _( "Import" );
     }
@@ -170,17 +170,17 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
         return;
     }
     if( g->get_follower_list().size() < 2 ) {
-        draw_colored_text( string_format( _( "Functions unavailable.  %s is your only follower." ),
-                                          guy->disp_name() ), c_red );
+        cataimgui::draw_colored_text( string_format( _( "Functions unavailable.  %s is your only follower." ),
+                                                     guy->disp_name() ), c_red );
         return;
     }
     if( ImGui::Button( _( "Toggle export/import" ) ) ) {
         exporting_rules = !exporting_rules;
     }
     ImGui::NewLine();
-    draw_colored_text( string_format(
-                           _( "Individual settings are colored if they already match to %s." ),
-                           guy->disp_name() ) );
+    cataimgui::draw_colored_text( string_format(
+                                                _( "Individual settings are colored if they already match to %s." ),
+                                                guy->disp_name() ) );
     if( ImGui::BeginTable( "##SETTINGS_SWAP_TABLE", 8, ImGuiTableFlags_None,
                            ImVec2( window_width, window_height ) ) ) {
         ImGui::TableSetupColumn( _( "Name" ), ImGuiTableColumnFlags_WidthStretch,
@@ -215,7 +215,7 @@ void follower_rules_ui_impl::rules_transfer_popup( bool &exporting_rules, bool &
                 bool do_all = false;
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
-                draw_colored_text( role_model.disp_name() );
+                cataimgui::draw_colored_text( role_model.disp_name() );
                 /*Flags and overrides*/
                 do_flags_overrides = setup_table_button( button_number, toggle_label,
                                      role_model.rules.flags == guy->rules.flags );
@@ -323,7 +323,7 @@ void follower_rules_ui_impl::radio_group( const std::string header_id, const cha
     print_hotkey( assigned_hotkey );
     ImGui::SameLine();
     float x = ImGui::GetCursorPosX();
-    draw_colored_text( title, c_white );
+    cataimgui::draw_colored_text( title, c_white );
     for( const std::pair<const T, std::string> &value : values ) {
         std::string rule_text = get_parsed( value.second );
         ImGui::SetCursorPosX( x );
@@ -375,7 +375,7 @@ void follower_rules_ui_impl::draw_controls()
     input_event assigned_hotkey = input_ptr->first_unassigned_hotkey( hotkeys );
     input_event pressed_key = input_ptr->get_raw_input();
 
-    draw_colored_text( string_format( _( "Rules for your follower, %s" ), guy->disp_name() ) );
+    cataimgui::draw_colored_text( string_format( _( "Rules for your follower, %s" ), guy->disp_name() ) );
     ImGui::Separator();
 
     if( ImGui::Button( _( "Import settings from follower" ) ) ) {
@@ -389,7 +389,7 @@ void follower_rules_ui_impl::draw_controls()
         return;
     }
 
-    draw_colored_text( _( "Hotkey:" ) );
+    cataimgui::draw_colored_text( _( "Hotkey:" ) );
     ImGui::NewLine();
 
 
