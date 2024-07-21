@@ -914,7 +914,7 @@ static void smash()
         }
     }
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
-        const map_fd_bash_info &bash_info = fd_to_smsh.first->bash_info;
+        const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
         if( bash_info.str_min == -1 ) {
             continue;
         }

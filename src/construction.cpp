@@ -1374,7 +1374,7 @@ void complete_construction( Character *you )
             if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
                 const tripoint_bub_ms below = terp + tripoint_below;
                 if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
-                    const map_ter_bash_info bash_info = here.ter( below ).obj().bash;
+                    const map_bash_info bash_info = here.ter( below ).obj().bash;
                     // ter_set_bashed_from_above should default to ter_set
                     if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
                         if( below.z() >= -1 ) {
@@ -1560,10 +1560,10 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
         if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
             return false;
         }
-        return !!here.furn( p ).obj().deconstruct;
+        return here.furn( p ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return !!here.ter( p ).obj().deconstruct;
+    return here.ter( p ).obj().deconstruct.can_do;
 }
 
 bool construct::check_up_OK( const tripoint_bub_ms & )
@@ -1778,21 +1778,21 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
-        if( !f.deconstruct ) {
+        if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
-        if( f.deconstruct->furn_set.str().empty() ) {
+        if( f.deconstruct.furn_set.str().empty() ) {
             here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
-            here.furn_set( p, f.deconstruct->furn_set );
+            here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         const std::vector<item *> drop = here.spawn_items( p,
-                                         item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
-        if( f.deconstruct->skill.has_value() ) {
-            deconstruction_practice_skill( f.deconstruct->skill.value() );
+                                         item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        if( f.deconstruct.skill.has_value() ) {
+            deconstruction_practice_skill( f.deconstruct.skill.value() );
         }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
         if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
@@ -1815,11 +1815,11 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         here.delete_signage( p );
     } else {
         const ter_t &t = here.ter( p ).obj();
-        if( !t.deconstruct ) {
+        if( !t.deconstruct.can_do ) {
             add_msg( _( "That %s can not be disassembled!" ), t.name() );
             return;
         }
-        if( t.deconstruct->deconstruct_above ) {
+        if( t.deconstruct.deconstruct_above ) {
             const tripoint_bub_ms top = p + tripoint_above;
             if( here.has_furn( top ) ) {
                 add_msg( _( "That %s can not be disassembled, since there is furniture above it." ), t.name() );
@@ -1827,11 +1827,11 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             }
             done_deconstruct( top, player_character );
         }
-        here.ter_set( p, t.deconstruct->ter_set );
+        here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
-        here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
-        if( t.deconstruct->skill.has_value() ) {
-            deconstruction_practice_skill( t.deconstruct->skill.value() );
+        here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
+        if( t.deconstruct.skill.has_value() ) {
+            deconstruction_practice_skill( t.deconstruct.skill.value() );
         }
     }
 }

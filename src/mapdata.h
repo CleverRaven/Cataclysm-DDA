@@ -38,47 +38,37 @@ connect_group get_connect_group( const std::string &name );
 
 template <typename E> struct enum_traits;
 
-struct map_common_bash_info { //TODO: Half of this shouldn't be common
-        int str_min;            // min str(*) required to bash
-        int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
-        int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
-        int str_max_blocked;
-        int str_min_supported;  // Alternative values for floor supported by something from below
-        int str_max_supported;
-        int explosive;          // Explosion on destruction
-        int sound_vol;          // sound volume of breaking terrain/furniture
-        int sound_fail_vol;     // sound volume on fail
-        int collapse_radius;    // Radius of the tent supported by this tile
-        bool destroy_only;      // Only used for destroying, not normally bashable
-        bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
-        item_group_id drop_group; // item group of items that are dropped when the object is bashed
-        translation sound;      // sound made on success ('You hear a "smash!"')
-        translation sound_fail; // sound  made on fail
-        std::vector<furn_str_id> tent_centers;
-        virtual void load( const JsonObject &jo, const bool was_loaded, const std::string &context );
-        virtual void check( const std::string &id ) const;
-    public:
-        virtual ~map_common_bash_info() = default;
-};
-struct map_ter_bash_info : map_common_bash_info {
-    ter_str_id ter_set;    // terrain to set
-    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
-    map_ter_bash_info() {};
-    void load( const JsonObject &jo, const bool was_loaded, const std::string &context ) override;
-    void check( const std::string &id ) const override;
-};
-struct map_furn_bash_info : map_common_bash_info {
-    furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
-    map_furn_bash_info() {};
-    void load( const JsonObject &jo, const bool was_loaded, const std::string &context ) override;
-    void check( const std::string &id ) const override;
-};
-struct map_fd_bash_info : map_common_bash_info {
-    int fd_bash_move_cost; // cost to bash a field
+struct map_bash_info {
+    int str_min;            // min str(*) required to bash
+    int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
+    int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
+    int str_max_blocked;
+    int str_min_supported;  // Alternative values for floor supported by something from below
+    int str_max_supported;
+    int explosive;          // Explosion on destruction
+    int sound_vol;          // sound volume of breaking terrain/furniture
+    int sound_fail_vol;     // sound volume on fail
+    int collapse_radius;    // Radius of the tent supported by this tile
+    int fd_bash_move_cost = 100; // cost to bash a field
+    bool destroy_only;      // Only used for destroying, not normally bashable
+    bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
+    item_group_id drop_group; // item group of items that are dropped when the object is bashed
+    translation sound;      // sound made on success ('You hear a "smash!"')
+    translation sound_fail; // sound  made on fail
     translation field_bash_msg_success; // message upon successfully bashing a field
-    map_fd_bash_info() {};
-    void load( const JsonObject &jo, const bool was_loaded, const std::string &context ) override;
-    void check( const std::string &id ) const override;
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
+    furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
+    // ids used for the special handling of tents
+    std::vector<furn_str_id> tent_centers;
+    map_bash_info();
+    enum map_object_type {
+        furniture = 0,
+        terrain,
+        field
+    };
+    bool load( const JsonObject &jsobj, std::string_view member, map_object_type obj_type,
+               const std::string &context );
 };
 struct map_deconstruct_skill {
     skill_id id; // Id of skill to increase on successful deconstruction
@@ -86,28 +76,19 @@ struct map_deconstruct_skill {
     int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
     double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
 };
-struct map_common_deconstruct_info {
-        // This terrain provided a roof, we need to tear it down now
-        bool deconstruct_above = false;
-        // items you get when deconstructing.
-        item_group_id drop_group;
-        std::optional<map_deconstruct_skill> skill;
-        virtual void load( const JsonObject &jo, const bool was_loaded, const std::string &context );
-        virtual void check( const std::string &id ) const;
-    public:
-        virtual ~map_common_deconstruct_info() = default;
-};
-struct map_ter_deconstruct_info : map_common_deconstruct_info {
-    ter_str_id ter_set = ter_str_id::NULL_ID();
-    void load( const JsonObject &jo, const bool was_loaded, const std::string &context ) override;
-    void check( const std::string &id ) const override;
-    map_ter_deconstruct_info() {};
-};
-struct map_furn_deconstruct_info : map_common_deconstruct_info {
-    furn_str_id furn_set = furn_str_id::NULL_ID();
-    void load( const JsonObject &jo, const bool was_loaded, const std::string &context ) override;
-    void check( const std::string &id ) const override;
-    map_furn_deconstruct_info() {};
+struct map_deconstruct_info {
+    // Only if true, the terrain/furniture can be deconstructed
+    bool can_do;
+    // This terrain provided a roof, we need to tear it down now
+    bool deconstruct_above;
+    // items you get when deconstructing.
+    item_group_id drop_group;
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
+    furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
+    map_deconstruct_info();
+    std::optional<map_deconstruct_skill> skill;
+    bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
+               const std::string &context );
 };
 struct map_shoot_info {
     // Base chance to hit the object at all (defaults to 100%)
@@ -408,6 +389,8 @@ class activity_data_furn : public activity_data_common
 void init_mapdata();
 
 struct map_data_common_t {
+        map_bash_info bash;
+        map_deconstruct_info deconstruct;
         std::set<emit_id> emissions;
         translation lockpick_message; // Lockpick action: message when successfully lockpicked
         cata::value_ptr<map_shoot_info> shoot;
@@ -563,9 +546,6 @@ struct ter_t : map_data_common_t {
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
 
-    map_ter_bash_info bash;
-    std::optional<map_ter_deconstruct_info> deconstruct;
-
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
@@ -607,8 +587,6 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
-    map_furn_bash_info bash;
-    std::optional<map_furn_deconstruct_info> deconstruct;
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
 

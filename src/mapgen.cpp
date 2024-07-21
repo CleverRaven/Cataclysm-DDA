@@ -2995,13 +2995,13 @@ class jmapgen_terrain : public jmapgen_piece
                                                p ).id().str() : "";
                 while( dat.m.has_furn( p ) && max_recurse-- > 0 ) {
                     const furn_t &f = dat.m.furn( p ).obj();
-                    if( f.deconstruct ) {
-                        if( f.deconstruct->furn_set.str().empty() ) {
+                    if( f.deconstruct.can_do ) {
+                        if( f.deconstruct.furn_set.str().empty() ) {
                             dat.m.furn_clear( p );
                         } else {
-                            dat.m.furn_set( p, f.deconstruct->furn_set );
+                            dat.m.furn_set( p, f.deconstruct.furn_set );
                         }
-                        dat.m.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
+                        dat.m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
                     } else {
                         if( f.bash.furn_set.str().empty() ) {
                             dat.m.furn_clear( p );
