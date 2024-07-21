@@ -802,6 +802,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                       you.has_trait( trait_DEBUG_CLAIRVOYANCE ) );
             // the full string from the ter_id including _north etc.
             std::string id;
+            TILE_CATEGORY category = TILE_CATEGORY::OVERMAP_TERRAIN;
             int rotation = 0;
             int subtile = -1;
             map_extra_id mx;
@@ -811,6 +812,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 if( uistate.overmap_debug_weather ||
                     you.overmap_los( omp_sky, sight_points * 2 ) ) {
                     id = overmap_ui::get_weather_at_point( omp_sky ).c_str();
+                    category = TILE_CATEGORY::OVERMAP_WEATHER;
                 } else {
                     id = "unexplored_terrain";
                 }
@@ -823,8 +825,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-                                 subtile, rotation, ll, false, height_3d );
+            draw_from_id_string( id, category,
+                                 category == TILE_CATEGORY::OVERMAP_TERRAIN ? "overmap_terrain" : "",
+                                 omp.raw(), subtile, rotation, ll, false, height_3d );
             if( !mx.is_empty() && mx->autonote ) {
                 draw_from_id_string( mx.str(), TILE_CATEGORY::MAP_EXTRA, "map_extra", omp.raw(),
                                      0, 0, ll, false );

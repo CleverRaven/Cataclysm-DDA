@@ -146,8 +146,8 @@ void Character::try_remove_heavysnare()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                 mon->remove_effect( effect_heavysnare );
                 remove_effect( effect_heavysnare );
-                here.spawn_item( pos(), itype_rope_6 );
-                here.spawn_item( pos(), itype_snare_trigger );
+                here.spawn_item( pos_bub(), itype_rope_6 );
+                here.spawn_item( pos_bub(), itype_snare_trigger );
                 add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
             }
         }
@@ -158,8 +158,8 @@ void Character::try_remove_heavysnare()
                                    _( "<npcname> frees themselves from the heavy snare!" ) );
             item rope( "rope_6", calendar::turn );
             item snare( "snare_trigger", calendar::turn );
-            here.add_item_or_charges( pos(), rope );
-            here.add_item_or_charges( pos(), snare );
+            here.add_item_or_charges( pos_bub(), rope );
+            here.add_item_or_charges( pos_bub(), snare );
         } else {
             add_msg_if_player( m_bad,
                                _( "You try to free yourself from the heavy snare, but can't get loose!" ) );

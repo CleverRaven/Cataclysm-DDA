@@ -1033,9 +1033,9 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
 },
 ```
 
-### `map_terrain_id`, `map_furniture_id`
+### `map_terrain_id`, `map_furniture_id`, `map_field_id`
 - type: string or [variable object](##variable-object)
-- return true if the terrain or furniture has specific id
+- return true if the terrain, furniture or field has specific id
 - `loc` will specify location of terrain or furniture (**mandatory**)
 
 #### Valid talkers:
@@ -2854,7 +2854,7 @@ Search a specific coordinates of map around `u_`, `npc_` or `target_params` and 
 | "target_params" | optional | assign_mission_target | if used, the search would be performed not from `u_` or `npc_` location, but from `mission_target`. it uses an [assign_mission_target](MISSIONS_JSON.md) syntax | 
 | "x_adjust", "y_adjust", "z_adjust" | optional | int, float or [variable object](##variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
 | "z_override" | optional | boolean | default is false; if true, instead of adding up to `z` level, override it with absolute value; `"z_adjust": 3` with `"z_override": true` turn the value of `z` to `3` | 
-| "terrain" / "furniture" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](##variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
+| "terrain" / "furniture" / "field" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](##variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
 | "target_min_radius", "target_max_radius" | optional | int, float or [variable object](##variable-object) | default 0, min and max radius for search, if previous field was used | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if the location was found, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
@@ -2896,6 +2896,26 @@ Search the map, that contain `house` in it's id on a range 200-1200 overmap tile
 }
 ```
 
+Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it's coordinates, otherwise prints "no fire".
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIRE_IS_NEARBY",
+    "effect": [
+      { "u_location_variable": { "context_val": "test" }, "field": "fd_fire", "target_max_radius": 26 },
+      {
+        "if": { "map_field_id": "fd_fire", "loc": { "context_val": "test" } },
+        "then": { "u_message": "Fire is in <context_val:test>" },
+        "else": { "u_message": "No fire nearby" }
+      },
+      {
+        "if": { "math": [ "has_var(_test)" ] },
+        "then": { "u_message": "Fire is in <context_val:test>" },
+        "else": { "u_message": "No fire nearby" }
+      }
+    ]
+  },
+```
 
 #### `location_variable_adjust`
 Allow adjust location value, obtained by `u_location_variable`, and share the same syntax and rules

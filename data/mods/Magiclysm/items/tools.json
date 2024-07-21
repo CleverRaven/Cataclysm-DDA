@@ -46,7 +46,6 @@
     "weight": "10 kg",
     "volume": "8 L",
     "price": "2 kUSD",
-    "to_hit": -2,
     "material": [ "demon_chitin" ],
     "symbol": ";",
     "color": "red",

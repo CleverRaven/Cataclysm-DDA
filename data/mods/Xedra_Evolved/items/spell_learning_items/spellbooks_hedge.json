@@ -60,7 +60,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
   },
   {
     "id": "spellbook_hedge_ward_dreams",
@@ -94,5 +94,20 @@
     "symbol": "?",
     "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
+  },
+  {
+    "id": "spellbook_hedge_clairvoyance_cone",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Parchment of sight beyond sight", "str_pl": "Parchments of sight beyond sight" },
+    "description": "A short parchment that will supposedly teach you how to see through walls.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] }
   }
 ]

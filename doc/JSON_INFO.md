@@ -3449,13 +3449,13 @@ Weakpoints only match if they share the same id, so it's important to define the
   "bash": 0,
   "cut": 0
 },
-"to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
-"to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
+"to_hit" {                                   // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           // the item's grip value
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
   "balance": "neutral"                       // the item's balance value
 },
+"to_hit": 1,                                 // (Optional, legacy, default = -2) To-hit bonus if using it as a melee weapon.
 "variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
 "variants": [              // Cosmetic variants this item can have
   {
@@ -3510,7 +3510,7 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
-See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteria for selecting each value.
+See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
@@ -4098,7 +4098,12 @@ Any Item can be a container. To add the ability to contain things to an item, yo
   "cut": 12
 },
 "flags" : ["CHOP"],    // Indicates special effects
-"to_hit": 1            // To-hit bonus if using it as a melee weapon
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+  "grip": "solid",                           
+  "length": "long",                          
+  "surface": "point",                        
+  "balance": "neutral"                       
+}
 ```
 ### Memory Cards
 
@@ -4267,7 +4272,12 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
   "bash": 12,
   "cut": 0
 },
-"to_hit": 3,          // To-hit bonus if using it as a melee weapon
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+  "grip": "solid",                           
+  "length": "long",                          
+  "surface": "point",                        
+  "balance": "neutral"                       
+}
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
 "fuel_efficiency": 0.2, // When combined with being a UPS this item will burn fuel for its given energy value to produce energy with the efficiency provided. Needs to be > 0 for this to work
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below

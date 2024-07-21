@@ -41,7 +41,6 @@
     "weight": "15768 g",
     "volume": "6 L",
     "longest_side": "30 cm",
-    "to_hit": -2,
     "qualities": [ [ "ANVIL", 1 ] ],
     "melee_damage": { "bash": 28 }
   },

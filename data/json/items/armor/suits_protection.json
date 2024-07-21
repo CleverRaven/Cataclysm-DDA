@@ -23,7 +23,7 @@
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 6.5 } ]
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 18 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 18 }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 18 }
     ],
     "warmth": 20,
     "material_thickness": 6,
@@ -249,7 +249,7 @@
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 14 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 14 }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 14 }
     ],
     "warmth": 25,
     "material_thickness": 4,
@@ -998,7 +998,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
+        "coverage": 95,
         "encumbrance": 22,
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
@@ -1008,7 +1008,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
+        "coverage": 95,
         "encumbrance": 0,
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ]

@@ -138,37 +138,81 @@
     "required_event": "avatar_enters_omt",
     "condition": {
       "and": [
-        { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        { "not": { "math": [ "isherwood_barry_rescued", "==", "1" ] } },
         { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
-        { "u_near_om_location": "horse_farm_isherwood_13", "range": 17 }
+        { "u_near_om_location": "horse_farm_isherwood_13", "range": 30 }
       ]
     },
     "effect": [
-      { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
       {
         "u_message": "Barry raises a hand to signal you to stop.  \"This is it.  Thank you so much.  I can't believe I'm here, alive.  It almost feels like I'm dreaming, like it can't be real.\"  He stares at you, his eyes glistening.  \"Whoever you are, thank you.  I'm going to head the rest of the way now and catch up to my family.  Come by and talk to me later when I've had a moment to rest.\"",
         "type": "good",
         "popup": true
       },
       {
-        "u_run_npc_eocs": [
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        "then": [
           {
-            "id": "EOC_BARRY_LEAVE",
-            "effect": [
+            "u_run_npc_eocs": [
               {
-                "u_location_variable": { "global_val": "invasion_map" },
-                "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
-              },
-              { "u_teleport": { "global_val": "invasion_map" }, "force": true },
-              {
-                "mapgen_update": "remove_barry_and_company",
-                "om_terrain": "barry_mi-go_scout_tower_1",
-                "om_special": "Barry's Mi-Go Scout Tower"
+                "id": "EOC_BARRY_LEAVE",
+                "effect": [
+                  {
+                    "u_location_variable": { "global_val": "invasion_map" },
+                    "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 }
+                  },
+                  { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+                  {
+                    "mapgen_update": "remove_barry_and_company",
+                    "om_terrain": "horse_farm_isherwood_13",
+                    "om_special": "Isherwood Farm Mutable"
+                  }
+                ]
               }
-            ]
+            ],
+            "unique_ids": [ "BARRY_MISSION", "CHRIS_MISSION", "LISA_MISSION" ]
           }
         ],
-        "unique_ids": [ "BARRY_MISSION", "CHRIS_MISSION", "LISA_MISSION" ]
+        "else": {
+          "u_run_npc_eocs": [
+            {
+              "id": "EOC_BARRY_ONLY_LEAVE",
+              "effect": [
+                {
+                  "u_location_variable": { "global_val": "invasion_map" },
+                  "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 }
+                },
+                { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+                {
+                  "mapgen_update": "remove_barry_and_company",
+                  "om_terrain": "horse_farm_isherwood_13",
+                  "om_special": "Isherwood Farm Mutable"
+                }
+              ]
+            }
+          ],
+          "unique_ids": [ "BARRY_MISSION" ]
+        }
+      },
+      {
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true } ],
+        "else": {
+          "if": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
+          "then": [ { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true } ],
+          "else": {
+            "if": {
+              "and": [
+                { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
+                { "not": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" } }
+              ]
+            },
+            "then": [
+              { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
+              { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true }
+            ]
+          }
+        }
       }
     ]
   },
@@ -379,5 +423,29 @@
         "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "eoc_type": "OM_MOVE",
+    "id": "EOC_HAVE_U_BEEN_TO_MIGOS",
+    "condition": {
+      "or": [
+        { "u_near_om_location": "mi-go_portal", "range": 3 },
+        { "u_near_om_location": "mi-go_camp1", "range": 3 },
+        { "u_near_om_location": "mi-go_camp2", "range": 3 },
+        { "u_near_om_location": "mi-go_camp2-1", "range": 3 },
+        { "u_near_om_location": "mi-go_camp2-2", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_1", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_2", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_3", "range": 3 },
+        { "u_near_om_location": "mi-go_scout_tower_4", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_2", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_3", "range": 3 },
+        { "u_near_om_location": "barry_mi-go_scout_tower_4", "range": 3 }
+      ]
+    },
+    "deactivate_condition": { "u_has_var": "u_been_to_migos", "value": "yes" },
+    "effect": [ { "u_add_var": "u_been_to_migos", "value": "yes" } ]
   }
 ]

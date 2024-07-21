@@ -287,7 +287,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         };
 
         const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
-        std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<std::pair<const tripoint_bub_ms, item>> map_items;
         std::vector<std::pair<const vpart_reference, item>> veh_items;
         std::vector<item> inv_items;
 

@@ -280,7 +280,7 @@ Flag                       | Description
 `NO_HANDS`                 | Hands do not affect spell energy cost.
 `NO_LEGS`                  | Legs do not affect casting time.
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
-`NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation.
+`NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
 `PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.

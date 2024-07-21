@@ -213,7 +213,7 @@ void dump_items( monster &z )
         if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
             continue;
         }
-        here.add_item_or_charges( player_character.pos(), it );
+        here.add_item_or_charges( player_character.pos_bub(), it );
     }
     z.inv.clear();
     add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
@@ -228,7 +228,7 @@ void remove_bag_from( monster &z )
             dump_items( z );
         }
         Character &player_character = get_player_character();
-        get_map().add_item_or_charges( player_character.pos(), *z.storage_item );
+        get_map().add_item_or_charges( player_character.pos_bub(), *z.storage_item );
         add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
         z.storage_item.reset();
         player_character.mod_moves( -to_moves<int>( 2_seconds ) );
@@ -345,7 +345,7 @@ void remove_armor( monster &z )
     std::string pet_name = z.get_name();
     if( z.armor_item ) {
         z.armor_item->erase_var( "pet_armor" );
-        get_map().add_item_or_charges( z.pos(), *z.armor_item );
+        get_map().add_item_or_charges( z.pos_bub(), *z.armor_item );
         add_msg( pgettext( "pet armor", "You remove the %1$s from %2$s." ), z.armor_item->display_name(),
                  pet_name );
         z.armor_item.reset();
@@ -523,7 +523,7 @@ void shear_animal( monster &z )
 
 void remove_battery( monster &z )
 {
-    get_map().add_item_or_charges( get_player_character().pos(), *z.battery_item );
+    get_map().add_item_or_charges( get_player_character().pos_bub(), *z.battery_item );
     z.battery_item.reset();
 }
 
@@ -563,7 +563,7 @@ void insert_battery( monster &z )
 bool Character::can_mount( const monster &critter ) const
 {
     const auto &avoid = get_path_avoid();
-    auto route = get_map().route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
+    auto route = get_map().route( pos_bub(), critter.pos_bub(), get_pathfinding_settings(), avoid );
 
     if( route.empty() ) {
         return false;

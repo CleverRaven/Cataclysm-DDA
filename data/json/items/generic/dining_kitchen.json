@@ -41,7 +41,6 @@
     "weight": "28 g",
     "volume": "25 ml",
     "material": [ "plastic" ],
-    "to_hit": -2,
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
@@ -1054,7 +1053,6 @@
     "weight": "750 g",
     "volume": "3500 ml",
     "longest_side": "23 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -1157,7 +1155,6 @@
     "longest_side": "35 cm",
     "price": "100 USD",
     "price_postapoc": "3 USD",
-    "to_hit": -2,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1216,7 +1213,6 @@
     "weight": "660 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -1242,7 +1238,6 @@
     "weight": "628 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
