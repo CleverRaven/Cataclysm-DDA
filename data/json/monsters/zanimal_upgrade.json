@@ -136,7 +136,7 @@
   {
     "id": "mon_dog_scorched_hulk",
     "type": "MONSTER",
-    "name": { "str": "scorched dog" },
+    "name": { "str": "scorched hulking dog" },
     "description": "A charred and damaged corpse of what you can only assume was once a horribly mutated dog.  Covering its entire body is a layer of fused and melted hide, giving it an armored appearance.",
     "copy-from": "mon_dog_zombie_hulk",
     "proportional": { "hp": 0.75, "speed": 0.6875 },
