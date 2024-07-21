@@ -1251,11 +1251,11 @@
     "id": "druid_water_walking",
     "type": "SPELL",
     "name": "Water Strider's Walk",
-    "description": "While standing in water, enchant yourself so that the water will buoy you up and prevent you from sinking.",
+    "description": "Enchant yourself so that the water will buoy you up and prevent you from sinking, allowing you to walk on its surface.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_DRUID_WATER_WALKING",
+    "effect": "attack",
+    "effect_str": "effect_druid_water_walking",
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "DRUID",
@@ -1267,44 +1267,6 @@
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000, 3000)" ] },
     "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 0.07)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_WATER_WALKING",
-    "condition": { "u_is_on_terrain_with_flag": "LIQUID" },
-    "effect": { "u_cast_spell": { "id": "druid_water_walking_real", "hit_self": true } },
-    "false_effect": { "u_message": "You must be standing on water to cast Water Strider's Walk", "type": "bad" }
-  },
-  {
-    "id": "druid_water_walking_real",
-    "type": "SPELL",
-    "name": "Water Strider's Walk Real",
-    "description": "The actual spell that lets you walk on water.  It's a bug if you have it.",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "spawn_item",
-    "effect_str": "aura_druid_waterwalk",
-    "shape": "blast",
-    "difficulty": 4,
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": {
-      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
-    },
-    "max_duration": {
-      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_DRUID_WATERWALKING_REMOVERE",
-    "eoc_type": "EVENT",
-    "required_event": "avatar_moves",
-    "condition": { "and": [ { "u_has_item": "aura_druid_waterwalk" }, { "not": { "u_is_on_terrain_with_flag": "LIQUID" } } ] },
-    "effect": [
-      { "u_remove_item_with": "aura_druid_waterwalk" },
-      { "u_message": "As you leave the water, your spell fades.", "type": "bad" }
-    ]
   },
   {
     "id": "druid_traverse_the_wilds",

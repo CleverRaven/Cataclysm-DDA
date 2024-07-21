@@ -1295,6 +1295,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_druid_water_walking",
+    "name": [ "Water Strider's Walk" ],
+    "desc": [ "You can walk on the surface of the water" ],
+    "rating": "good",
+    "remove_message": "You can no longer walk on the water.",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_shifter_raven_form_levitation",
     "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
     "name": [ "" ],
