@@ -13519,7 +13519,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     g->vertical_move( -descended_levels, true );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() ) ) {
-        if( you.has_flag(json_flag_WATERWALKING) ) {
+        if( you.has_flag( json_flag_WATERWALKING ) ) {
             you.add_msg_if_player( _( "You climb down and stand on the water's surface." ) );
         } else {
             you.set_underwater( true );
