@@ -5248,7 +5248,7 @@ vehicle *vehicle::find_vehicle( const tripoint_abs_ms &where )
         return &vp->vehicle();
     }
     // Nope. Load up its submap...
-    point_sm_ms veh_in_sm;
+    point_sm_ms_ib veh_in_sm;
     tripoint_abs_sm veh_sm;
     std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( where );
     const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
@@ -5261,6 +5261,38 @@ vehicle *vehicle::find_vehicle( const tripoint_abs_ms &where )
         // TODO: fix point types
         if( veh_in_sm.raw() == found_veh->pos ) {
             return found_veh;
+        }
+    }
+
+    return nullptr;
+}
+
+vehicle *vehicle::find_vehicle_using_parts( const tripoint_abs_ms &where )
+{
+    map &here = get_map();
+    // Is it in the reality bubble?
+    if( const optional_vpart_position vp = here.veh_at( where ) ) {
+        return &vp->vehicle();
+    }
+    // Nope. Load up its submap...
+    point_sm_ms_ib veh_in_sm;
+    tripoint_abs_sm veh_sm;
+    std::tie( veh_sm, veh_in_sm ) = project_remain<coords::sm>( where );
+    const submap *sm = MAPBUFFER.lookup_submap( veh_sm );
+    if( sm == nullptr ) {
+        return nullptr;
+    }
+
+    for( const auto &elem : sm->vehicles ) {
+        vehicle *found_veh = elem.get();
+        // TODO: fix point types
+        for( const vpart_reference &vp : found_veh->get_all_parts() ) {
+            point_sm_ms_ib vp_in_sm;
+            tripoint_bub_sm vp_sm;
+            std::tie( vp_sm, vp_in_sm ) = project_remain<coords::sm>( tripoint_bub_ms( vp.pos() ) );
+            if( vp_in_sm == veh_in_sm ) {
+                return found_veh;
+            }
         }
     }
 
@@ -5291,7 +5323,7 @@ std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
                 continue;
             }
 
-            Vehicle *const v_next = find_vehicle( tripoint_abs_ms( vp.target.second ) );
+            Vehicle *const v_next = find_vehicle_using_parts( tripoint_abs_ms( vp.target.second ) );
             if( v_next == nullptr ) { // vehicle's rolled away or off-map
                 continue;
             }
@@ -7731,7 +7763,7 @@ bool vpart_reference::has_feature( const vpart_bitflags f ) const
 static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
     tripoint_abs_sm smp;
-    point_sm_ms p;
+    point_sm_ms_ib p;
     // TODO: fix point types
     std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
@@ -7753,7 +7785,7 @@ static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
     tripoint_abs_sm smp;
-    point_sm_ms p;
+    point_sm_ms_ib p;
     // TODO: fix point types
     std::tie( smp, p ) = project_remain<coords::sm>( tripoint_abs_ms( real_global_pos ) );
     const submap *sm = MAPBUFFER.lookup_submap( smp );
