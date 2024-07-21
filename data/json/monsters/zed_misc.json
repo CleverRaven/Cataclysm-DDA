@@ -948,6 +948,7 @@
     "harvest": "zombie_grabber",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
     "extend": { "flags": [ "SMELLS" ] }
   },
@@ -976,6 +977,7 @@
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 }
     ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": false,
     "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER" ] }
   },

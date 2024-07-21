@@ -49,6 +49,36 @@
     "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
+    "id": "mon_zombie_scorched_lasher",
+    "type": "MONSTER",
+    "name": { "str": "scorched lasher" },
+    "description": "A heavily burned corpse with unnaturally long arms dragging behind it as it moves.  The burnt scar tissue covering it gives it a mildly armored appearance.",
+    "copy-from": "mon_zombie_base",
+    "hp": 60,
+    "speed": 50,
+    "color": "i_brown",
+    "melee_skill": 2,
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "stretch_attack",
+        "range": 2,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+        "hit_dmg_u": "%1$s lashes its arms at you, hitting your %2$s!",
+        "hit_dmg_npc": "%1$s lashes its arms at <npcname>!",
+        "no_dmg_msg_u": "%1$s's arms hit your %2$s, but they glance off your armor.",
+        "no_dmg_msg_npc": "%1$s's arms hit <npcname>, but they glance off their armor.",
+        "miss_msg_u": "%s lashes its arms at you, but you evade them!",
+        "miss_msg_npc": "%s's lashes its arms at <npcname>, but they dodge!"
+      }
+    ],
+    "bleed_rate": 25,
+    "vision_day": 10,
+    "armor": { "bash": 2, "cut": 4, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
+    "delete": { "flags": [ "GRABS" ] },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
+  },
+  {
     "id": "mon_zombie_fiend",
     "type": "MONSTER",
     "name": { "str": "fiend" },
