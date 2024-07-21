@@ -1105,7 +1105,7 @@ void outfit::sort_armor( Character &guy )
                     // wear the item
                     std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
-                    if( new_equip_it ) {
+                    if( new_equip_it && !tmp_worn.empty() ) {
                         // save iterator to cursor's position
                         std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                         item &item_to_check = *cursor_it;
