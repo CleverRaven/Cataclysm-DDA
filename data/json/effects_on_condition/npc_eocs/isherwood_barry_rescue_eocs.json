@@ -42,12 +42,16 @@
         "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
         "then": {
           "mapgen_update": "nest_Isherwood_chris_swat_add",
-          "om_terrain": "rural_road",
+          "om_terrain": "isherwood_barry_rescue_field",
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
           "if": { "math": [ "isherwood_gear_status", "!=", "1" ] },
-          "then": { "mapgen_update": "nest_Isherwood_chris_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+          "then": {
+            "mapgen_update": "nest_Isherwood_chris_add",
+            "om_terrain": "isherwood_barry_rescue_field",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
         }
       }
     ]
@@ -60,12 +64,16 @@
         "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "==", "1" ] } ] },
         "then": {
           "mapgen_update": "nest_Isherwood_lisa_swat_add",
-          "om_terrain": "rural_road",
+          "om_terrain": "isherwood_barry_rescue_field",
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
           "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "!=", "1" ] } ] },
-          "then": { "mapgen_update": "nest_Isherwood_lisa_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+          "then": {
+            "mapgen_update": "nest_Isherwood_lisa_add",
+            "om_terrain": "isherwood_barry_rescue_field",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
         }
       }
     ]
@@ -84,7 +92,7 @@
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_line_add",
-            "om_terrain": "rural_road",
+            "om_terrain": "isherwood_barry_rescue_field",
             "om_special": "Barry's Mi-Go Scout Tower"
           }
         ],
@@ -93,7 +101,7 @@
           "then": [
             {
               "mapgen_update": "nest_Isherwood_firing_line_swat_add",
-              "om_terrain": "rural_road",
+              "om_terrain": "isherwood_barry_rescue_field",
               "om_special": "Barry's Mi-Go Scout Tower"
             }
           ]
@@ -104,7 +112,7 @@
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_wall_add",
-            "om_terrain": "rural_road",
+            "om_terrain": "isherwood_barry_rescue_field",
             "om_special": "Barry's Mi-Go Scout Tower"
           }
         ]
@@ -276,7 +284,7 @@
                 { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
                 {
                   "mapgen_update": "isherwood_rescue_remove_npcs",
-                  "om_terrain": "rural_road",
+                  "om_terrain": "isherwood_barry_rescue_field",
                   "om_special": "Barry's Mi-Go Scout Tower"
                 },
                 { "math": [ "currently_invading_map", "=", "0" ] },
@@ -299,6 +307,7 @@
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        { "not": { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } },
         {
           "and": [
             { "not": { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 } },
@@ -324,7 +333,7 @@
               { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
               {
                 "mapgen_update": "isherwood_rescue_remove_npcs",
-                "om_terrain": "rural_road",
+                "om_terrain": "isherwood_barry_rescue_field",
                 "om_special": "Barry's Mi-Go Scout Tower"
               }
             ]
@@ -372,7 +381,7 @@
       },
       {
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
-        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
+        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" }
       },
       {
         "mapgen_update": "isherwood_rescue_remove_npcs",
@@ -449,7 +458,7 @@
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
         "then": [
           { "set_string_var": "blames_themselves", "target_var": { "global_val": "isherwood_barry_death_opinion" } },
-          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
           {
             "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
             "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },

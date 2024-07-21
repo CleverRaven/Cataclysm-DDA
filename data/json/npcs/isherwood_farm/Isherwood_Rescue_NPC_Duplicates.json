@@ -40,7 +40,7 @@
           { "u_lose_var": "barry_following", "type": "general", "context": "meeting" },
           { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
           { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
-          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
           { "math": [ "barry_travelling_home", "=", "1" ] },
           {
             "u_run_npc_eocs": [
