@@ -92,7 +92,7 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
-            mods: --mods=magiclysm
+            mods: --mods=magiclysm,
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
             # ~190MB in a clean build
             # ~30MB compressed
