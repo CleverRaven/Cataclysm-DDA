@@ -61,6 +61,7 @@
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "lash_bash_attack" } ],
     "bleed_rate": 25,
     "vision_day": 10,
+    "harvest": "zombie_grabber",
     "armor": { "bash": 2, "cut": 4, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
     "delete": { "flags": [ "GRABS" ] },
     "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
