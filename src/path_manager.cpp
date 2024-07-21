@@ -455,6 +455,8 @@ void path_manager_ui::draw_controls()
                 draw_colored_text( _( "It's under your feet." ), c_light_green );
             } else {
                 std::string dist = direction_suffix( get_avatar().get_location(), curr_path.recorded_path.front() );
+                //std::string dist = string_format( "%d %s", dist, direction_name_short( direction_from(
+                //                                      get_avatar().get_location(), curr_path.recorded_path.front() ) ) );
                 draw_colored_text( dist, c_white );
             }
 
