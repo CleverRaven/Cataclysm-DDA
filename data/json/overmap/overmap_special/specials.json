@@ -5455,13 +5455,20 @@
       { "point": [ 0, 0, 1 ], "overmap": "barry_mi-go_scout_tower_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "barry_mi-go_scout_tower_3_north" },
       { "point": [ 0, 0, 3 ], "overmap": "barry_mi-go_scout_tower_4_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "rural_road_ns" }
+      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field" },
+      { "point": [ 1, 1, 0 ], "overmap": "field" },
+      { "point": [ -1, 1, 0 ], "overmap": "field" },
+      { "point": [ 1, 0, 0 ], "overmap": "field" },
+      { "point": [ -1, 0, 0 ], "overmap": "field" },
+      { "point": [ 0, -1, 0 ], "overmap": "field" },
+      { "point": [ 1, -1, 0 ], "overmap": "field" },
+      { "point": [ -1, -1, 0 ], "overmap": "field" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 70, 100 ],
-    "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
+    "connections": [ { "point": [ -2, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
     "flags": [ "MI-GO", "WILDERNESS", "GLOBALLY_UNIQUE" ],
     "eoc": { "id": "EOC_ISHERWOOD_MIGO_SPAWN_EXCEPTIONS", "condition": { "not": { "mod_is_loaded": "innawood" } } },
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
