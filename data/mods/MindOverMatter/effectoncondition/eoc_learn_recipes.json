@@ -1196,13 +1196,13 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_skill('metaphysics')", ">=", "3" ] },
         { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
         { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
         { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
         {
           "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
-        }
+        },
+        { "math": [ "_success", "!=", "false" ] }
       ]
     },
     "effect": [ { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
@@ -1210,10 +1210,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER",
+    "condition": { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
     "effect": [
       { "u_learn_recipe": "psi_research_extended_channeling" },
       {
-        "u_message": "Sometimes the power comes slower and sometimes it comes more quickly, but there has to be a way to have more control over it.  Maybe if you didn't draw on as much, there would be fewer side effects?  With some experimentation, maybe you can discover a way.",
+        "u_message": "The state of mind necessary to channel while maintaining other powers has you thinking.  It requires fine control to maintain your concentration on multiple things at once, but what if you applied that level of control to a single power at a time?  If you slowly and carefully drew on just as much energy as you needed, maybe there would be fewer side effects?  With some experimentation, perhaps you can discover a way.",
         "popup": true
       }
     ]
@@ -1226,13 +1227,13 @@
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-        { "math": [ "u_skill('metaphysics')", ">=", "6" ] },
         { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } },
         { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
-        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
         {
           "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
-        }
+        },
+        { "math": [ "_success", "!=", "false" ] }
       ]
     },
     "effect": [
@@ -1242,6 +1243,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER",
+    "condition": { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
     "effect": [
       { "u_learn_recipe": "psi_research_torrential_channeling" },
       {
