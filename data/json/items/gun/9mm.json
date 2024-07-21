@@ -481,7 +481,7 @@
   },
   {
     "id": "mp40semi",
-    "copy-from": "mp40",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "Semi Automatic MP 40 submachine gun" },
     "description": "A modern semi-automatic replica of the MP 40 submachine gun, which lacks a butt stock to make it legally be considered a pistol.  It actually bears only a visual resemblance to the original, differing substantially from originally manufactured MP 40 submachine guns in its internal operations.",
@@ -491,18 +491,19 @@
     "barrel_length": "274 mm",
     "price": "900 USD",
     "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "range": 4,
+    "dispersion": 360,
+    "durability": 6,
+    "min_cycle_recoil": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ]
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "stock mount", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mp40mag_32rd" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "ksub2000",
