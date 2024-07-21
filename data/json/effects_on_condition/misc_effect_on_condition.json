@@ -229,7 +229,7 @@
     "run_for_npcs": true,
     "condition": { "and": [ "u_is_outside", "u_can_see" ] },
     "effect": [
-      { "u_message": "The sunrise always makes you a feel a little bit better.", "type": "morale" },
+      { "u_message": "The sunrise always makes you a feel a little bit better." },
       {
         "u_add_morale": "morale_sunrise",
         "bonus": 10,
@@ -247,7 +247,7 @@
     "run_for_npcs": true,
     "condition": { "and": [ "u_is_outside", "u_can_see" ] },
     "effect": [
-      { "u_message": "The sunset always makes you a feel a little bit better.", "type": "morale" },
+      { "u_message": "The sunset always makes you a feel a little bit better." },
       {
         "u_add_morale": "morale_sunset",
         "bonus": 10,
