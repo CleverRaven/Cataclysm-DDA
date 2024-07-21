@@ -214,7 +214,6 @@
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "plastic", "steel" ],
     "symbol": ",",
     "color": "red",
