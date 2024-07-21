@@ -1188,7 +1188,7 @@ void Character::consume_dodge_attempts()
     }
 }
 
-ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
+ret_val<void> Character::can_try_dodge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -1198,7 +1198,7 @@ ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
     }
     //If stamina is too low we can't dodge
     if( get_stamina_dodge_modifier() <= 0.11 ) {
-        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge.  Stamina: %d", get_stamina() );
+        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to dodge.  Stamina: %d", get_stamina() );
         add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
         return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
                                             :
@@ -1934,7 +1934,7 @@ void Character::mod_part_hp_cur( const bodypart_id &id, int set )
 
 void Character::on_try_dodge()
 {
-    ret_val<void> can_dodge = can_try_doge();
+    ret_val<void> can_dodge = can_try_dodge();
     if( !can_dodge.success() ) {
         add_msg( m_bad, can_dodge.c_str() );
         return;
@@ -1954,7 +1954,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
     // We can ignore dodges_left because it was already checked in get_dodge()
-    if( !can_try_doge( true ).success() ) {
+    if( !can_try_dodge( true ).success() ) {
         return;
     }
 

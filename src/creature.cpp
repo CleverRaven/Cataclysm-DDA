@@ -1238,7 +1238,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const bool u_see_this = player_view.sees( *this );
 
     const double goodhit = accuracy_projectile_attack( attack );
-    on_try_dodge(); // There's a doge roll in accuracy_projectile_attack()
+    // We only trigger a dodge attempt if it's a relatively slow projectile.
+    if( attack.proj.speed < 20 ) {
+        on_try_dodge(); // There's a dodge roll in accuracy_projectile_attack()
+    }
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
