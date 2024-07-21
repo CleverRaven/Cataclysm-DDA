@@ -31,7 +31,7 @@
     "volume": "250 ml",
     "weight": "37 g",
     "ammo_type": "gene_sting",
-    "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
+    "damage": { "damage_type": "genetic_damage_ballistic", "amount": 5, "armor_penetration": 5 },
     "dispersion": 120,
     "loudness": 0,
     "count": 10,
