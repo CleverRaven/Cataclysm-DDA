@@ -635,13 +635,13 @@
     "type": "item_group",
     "id": "guns_rifle_rare_223",
     "items": [
-      { "group": "nested_hk_g36", "prob": 30 },
       { "group": "nested_m249_semi", "prob": 5 },
       { "group": "nested_m4_carbine", "prob": 45 },
       { "group": "nested_m16_auto_rifle", "prob": 25 },
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_zpap85", "prob": 1 },
       { "group": "nested_mdrx", "prob": 30 },
+      { "group": "nested_sl8", "prob": 35 },
       { "group": "nested_sig_assault_rifle", "prob": 25 }
     ]
   },
@@ -725,7 +725,8 @@
       { "group": "mdrx", "prob": 10 },
       { "group": "nested_ar15_with_kits", "prob": 19 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_sig_assault_rifle", "prob": 3 }
+      { "group": "nested_sig_assault_rifle", "prob": 3 },
+      { "group": "nested_sl8", "prob": 4 }
     ]
   },
   {

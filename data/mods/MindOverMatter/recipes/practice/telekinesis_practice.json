@@ -123,6 +123,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_noise", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -140,6 +141,7 @@
     "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_noise", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -161,11 +163,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_noise')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -203,6 +207,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_slam_down", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -220,6 +225,7 @@
     "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_slam_down", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -241,11 +247,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_slam_down')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -283,6 +291,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -300,6 +309,7 @@
     "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_momentum", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -321,11 +331,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_momentum')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -364,6 +376,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_slowfall", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -381,6 +394,7 @@
     "id": "EOC_PRACTICE_TELEKIN_SLOWFALL_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_slowfall", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -402,11 +416,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_slowfall')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -445,6 +461,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -462,6 +479,7 @@
     "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_wave", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -483,11 +501,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_wave')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -526,6 +546,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_strength", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -543,6 +564,7 @@
     "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_strength", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -564,11 +586,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_strength')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -607,6 +631,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -624,6 +649,7 @@
     "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_hammer", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -645,11 +671,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_hammer')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -688,6 +716,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_vehicle_lift", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -705,6 +734,7 @@
     "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_vehicle_lift", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -726,11 +756,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_vehicle_lift')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -769,6 +801,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -786,6 +819,7 @@
     "id": "EOC_PRACTICE_TELEKIN_BARRIER_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_shield", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -807,11 +841,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_shield')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -850,6 +886,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_explosion", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -867,6 +904,7 @@
     "id": "EOC_PRACTICE_TELEKIN_BLAST_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_explosion", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -888,11 +926,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_explosion')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -931,6 +971,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_levitation", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -948,6 +989,7 @@
     "id": "EOC_PRACTICE_LEVITATION_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_levitation", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -969,11 +1011,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_levitation')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -1010,6 +1054,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_move_large_weight", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -1027,6 +1072,7 @@
     "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_move_large_weight", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1048,11 +1094,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_move_large_weight')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -1091,6 +1139,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_aegis", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -1108,6 +1157,7 @@
     "id": "EOC_PRACTICE_TELEKIN_AEGIS_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_aegis", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1129,11 +1179,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_aegis')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]
@@ -1172,6 +1224,7 @@
           { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ],
         "false_effect": [
+          { "set_string_var": "telekinetic_earthshaker", "target_var": { "u_val": "latest_studied_power_name" } },
           { "u_message": "You attempt to unlock new capabilities within your mind." },
           { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
           { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
@@ -1189,6 +1242,7 @@
     "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_LEARNING",
     "condition": {
       "and": [
+        { "compare_string": [ "telekinetic_earthshaker", { "u_val": "latest_studied_power_name" } ] },
         { "u_has_effect": "effect_psi_learning_new_power" },
         {
           "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
@@ -1210,11 +1264,13 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_earthshaker')", "=", "1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
             ]
           }
         ]

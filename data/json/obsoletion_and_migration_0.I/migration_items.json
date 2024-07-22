@@ -1566,5 +1566,20 @@
     "id": "pipe_launcher40mm",
     "type": "MIGRATION",
     "replace": "m203"
+  },
+  {
+    "id": "hk_g36",
+    "type": "MIGRATION",
+    "replace": "sig_assault_rifle"
+  },
+  {
+    "id": "g36mag_30rd",
+    "type": "MIGRATION",
+    "replace": "stanag30"
+  },
+  {
+    "id": "g36mag_100rd",
+    "type": "MIGRATION",
+    "replace": "stanag100drum"
   }
 ]

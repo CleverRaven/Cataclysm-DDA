@@ -73,7 +73,7 @@
       { "monster": "mon_zpig_brute", "weight": 5 },
       { "monster": "mon_zombie_biter", "weight": 15 },
       { "monster": "mon_zombie_soldier", "weight": 50 },
-      { "monster": "mon_zombie_fiend", "weight": 20 },
+      { "monster": "mon_zombie_scorched_brute", "weight": 20 },
       { "monster": "mon_zombie_marine", "weight": 10 },
       { "monster": "mon_zoose", "weight": 5 },
       { "monster": "mon_zombie_shell", "weight": 5 },

@@ -477,24 +477,23 @@
     ]
   },
   {
-    "id": "g36mag_30rd",
-    "copy-from": "stanag30",
-    "looks_like": "stanag30",
+    "id": "sl8mag",
+    "looks_like": "stanag10",
     "type": "MAGAZINE",
-    "name": { "str": "G36 30-round magazine" },
-    "description": "A standard capacity box magazine for use with the G36 assault rifle.",
+    "name": { "str": "10 round SL8 magazine" },
+    "description": "A single stack magazine for the SL8 rifle, holding 10 rounds.",
+    "weight": "70 g",
+    "volume": "132 ml",
+    "longest_side": "58 mm",
+    "price": "60 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
     "ammo_type": [ "223" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30 } } ]
-  },
-  {
-    "id": "g36mag_100rd",
-    "copy-from": "stanag100drum",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "G36 100-round double drum magazine" },
-    "description": "A bulky 100-round double drum magazine for use with the G36 assault rifle.",
-    "ammo_type": [ "223" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
+    "reload_time": 120,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 10 } } ]
   },
   {
     "id": "augmag_10rd",

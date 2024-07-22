@@ -51,7 +51,6 @@
     "price_postapoc": "5 cent",
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_1_4" },
     "fun": -10,
-    "extend": { "flags": [ "NO_SALVAGE" ] },
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal."
   },
   {
@@ -108,7 +107,7 @@
     "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
     "category": "other",
     "material": [ "bone" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },

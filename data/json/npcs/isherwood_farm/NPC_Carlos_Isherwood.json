@@ -354,7 +354,7 @@
         "reveal_radius": 1,
         "random": true,
         "search_range": 20,
-        "min_distance": 8
+        "min_distance": 2
       },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_chris", "x": 8, "y": 17, "target": true } ] }
     },
