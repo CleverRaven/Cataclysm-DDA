@@ -617,7 +617,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
-    "condition": { "u_is_npc" },
+    "condition": "u_is_npc",
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
       { "u_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
