@@ -40,7 +40,7 @@
     "grip": "bad",
     "length": "hand",
     "surface": "pierce",
-    "balance": "good"
+    "balance": "good",
     "melee_damage": { "bash": 6, "cut": 2 }
   }
 ]
