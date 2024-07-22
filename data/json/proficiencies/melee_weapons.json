@@ -181,7 +181,7 @@
     "id": "prof_batons_pro",
     "category": "prof_combat",
     "name": { "str": "Baton Proficiency" },
-    "description": "You know how strike with your baton so you get the most out of every blow.",
+    "description": "You know how to strike with your baton so you get the most out of every blow.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
