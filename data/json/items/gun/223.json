@@ -225,7 +225,7 @@
       {
         "id": "sl8",
         "name": { "str": "SL8-6" },
-        "description": "The SL8 is an imporation-legal gun similar to the German G36, made to be semi-auto only, and to feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, and a top rail for mounting optics."
+        "description": "The SL8 is an importation-legal gun similar to the German G36, made to be semi-auto only. It's also specially designed to only feed from 10 round single stack magazines, while Canadian and European versions did have double stack magazines.  It also features a distinctive thumbhole stock, a polymer handguard, and a top rail for mounting optics."
       }
     ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
