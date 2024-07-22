@@ -222,8 +222,11 @@ class uilist_callback
             return false;
         }
         virtual void refresh( uilist * ) {}
-        virtual ImVec2 desired_extra_space( ) {
-            return { 0.0, 0.0 };
+        virtual float desired_extra_space_left( ) {
+            return 0.0;
+        }
+        virtual float desired_extra_space_right( ) {
+            return 0.0;
         }
         virtual ~uilist_callback() = default;
 };
@@ -421,21 +424,6 @@ class uilist // NOLINT(cata-xy)
         uilist_callback *callback;
 
         std::optional<cataimgui::bounds> desired_bounds;
-        // pos_scalar w_x_setup;
-        // pos_scalar w_y_setup;
-        // size_scalar w_width_setup;
-        // size_scalar w_height_setup;
-
-        // int textwidth = 0;
-
-        // size_scalar pad_left_setup;
-        // size_scalar pad_right_setup;
-
-        // Maximum number of lines to be allocated for displaying descriptions.
-        // This only serves as a hint, not a hard limit, so the number of lines
-        // may still exceed this value when for example the description text is
-        // long enough.
-        // int desc_lines_hint = 0;
         bool desc_enabled = false;
 
         bool filtering = false;
@@ -465,21 +453,15 @@ class uilist // NOLINT(cata-xy)
         std::vector<std::string> textformatted;
 
         catacurses::window window;
-        // int w_x = 0;
-        // int w_y = 0;
-        // int w_width = 0;
-        // int w_height = 0;
-
-        // int pad_left = 0;
-        // int pad_right = 0;
 
         int vshift = 0;
-
         int fselected = 0; // -1 as sentinel value for no filtered entries to select from
 
     private:
         ImVec2 calculated_menu_size;
         cataimgui::bounds calculated_bounds;
+        float extra_space_left;
+        float extra_space_right;
         std::vector<int> fentries;
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };

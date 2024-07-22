@@ -64,11 +64,9 @@ class pocket_favorite_callback : public uilist_callback
                                            const std::vector<item *> &to_organize,
                                            uilist &pocket_selector );
         void refresh( uilist *menu ) override;
-        ImVec2 desired_extra_space( ) override {
-            return { std::max( ImGui::GetMainViewport()->Size.x / 2,
-                               ImGui::GetMainViewport()->Size.x - ( 50 * ImGui::CalcTextSize( "X" ).x ) ),
-                     0.0
-                   };
+        float desired_extra_space_right( ) override {
+            return std::max( ImGui::GetMainViewport()->Size.x / 2,
+                             ImGui::GetMainViewport()->Size.x - ( 50 * ImGui::CalcTextSize( "X" ).x ) );
         }
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };

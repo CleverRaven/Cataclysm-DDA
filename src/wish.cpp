@@ -158,8 +158,8 @@ class wish_mutate_callback: public uilist_callback
             return false;
         }
 
-        ImVec2 desired_extra_space( ) override {
-            return { 40 * ImGui::CalcTextSize( "X" ).x, 0.0 };
+        float desired_extra_space_right( ) override {
+            return 40 * ImGui::CalcTextSize( "X" ).x;
         }
 
         void refresh( uilist *menu ) override {
@@ -663,13 +663,13 @@ class wish_monster_callback: public uilist_callback
             return false;
         }
 
-        ImVec2 desired_extra_space( ) override {
-            return { 30 * ImGui::CalcTextSize( "X" ).x, 0.0 };
+        float desired_extra_space_right( ) override {
+            return 30 * ImGui::CalcTextSize( "X" ).x;
         }
 
         void refresh( uilist *menu ) override {
-            auto info_size = ImGui::GetContentRegionAvail();
-            info_size.x *= 3.0;
+            auto info_size = ImGui::GetContentRegionAvail( );
+            info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
                 const int entnum = menu->selected;
@@ -912,15 +912,13 @@ class wish_item_callback: public uilist_callback
             return false;
         }
 
-        ImVec2 desired_extra_space( ) override {
-            return { std::max( TERMX / 2, TERMX - 50 ) *ImGui::CalcTextSize( "X" ).x,
-                     0.0
-                   };
+        float desired_extra_space_right( ) override {
+            return std::max( TERMX / 2, TERMX - 50 ) * ImGui::CalcTextSize( "X" ).x;
         }
 
         void refresh( uilist *menu ) override {
             auto info_size = ImGui::GetContentRegionAvail();
-            info_size.x = ImGui::GetWindowWidth() - info_size.x;
+            info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
                 const int entnum = menu->selected;

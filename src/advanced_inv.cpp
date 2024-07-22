@@ -2074,8 +2074,8 @@ class query_destination_callback : public uilist_callback
         void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
-        ImVec2 desired_extra_space( ) override {
-            return { ImGui::CalcTextSize( "[1] [2] [3]" ).x, 0.0 };
+        float desired_extra_space_left( ) override {
+            return ImGui::CalcTextSize( "[1] [2] [3]" ).x;
         }
 };
 

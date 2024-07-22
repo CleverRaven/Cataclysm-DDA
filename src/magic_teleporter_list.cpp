@@ -164,8 +164,8 @@ class teleporter_callback : public uilist_callback
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
         explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
-        ImVec2 desired_extra_space( ) override {
-            return { 33 * ImGui::CalcTextSize( "X" ).x, 0.0 };
+        float desired_extra_space_right( ) override {
+            return 33 * ImGui::CalcTextSize( "X" ).x;
         }
         void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
@@ -200,7 +200,7 @@ std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.title = _( "Choose Translocator Gate" );
+    teleport_selector.text = _( "Choose Translocator Gate" );
 
     teleport_selector.query();
 

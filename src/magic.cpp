@@ -2383,8 +2383,11 @@ class spellcasting_callback : public uilist_callback
             return false;
         }
 
+        float desired_extra_space_right( ) override {
+            return ( std::max( 80, TERMX * 3 / 8 ) * ImGui::CalcTextSize( "X" ).x ) * 2.0 / 3.0;
+        }
+
         void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
-            __attribute__( ( unused ) ) auto info_width = ImGui::GetContentRegionAvail().x * 3.0f;
             ImGui::TableSetColumnIndex( 2 );
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
@@ -2395,7 +2398,7 @@ class spellcasting_callback : public uilist_callback
             ImGui::SameLine( x, 0 );
             ImGui::TextColored( c_yellow, "%s", assign_letter.c_str() );
             ImGui::NewLine();
-            if( ImGui::BeginChild( "spell info", { info_width, 0 }, false,
+            if( ImGui::BeginChild( "spell info", { desired_extra_space_right( ), 0 }, false,
                                    ImGuiWindowFlags_AlwaysAutoResize ) ) {
                 if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
                     display_spell_info( menu->selected );
@@ -2488,9 +2491,10 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
     const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
+    auto column_width = desired_extra_space_right( ) / 2.0;
     if( ImGui::BeginTable( "data", 2 ) ) {
-        ImGui::TableSetupColumn( "current level" );
-        ImGui::TableSetupColumn( "max level" );
+        ImGui::TableSetupColumn( "current level", ImGuiTableColumnFlags_WidthFixed, column_width );
+        ImGui::TableSetupColumn( "max level", ImGuiTableColumnFlags_WidthFixed, column_width );
 
         ImGui::TableNextColumn();
         ImGui::Text( "%s: %d%s%s", is_psi ? _( "Power Level" ) : _( "Spell Level" ),
@@ -2972,15 +2976,16 @@ static void draw_spellbook_info( const spell_type &sp )
     }
 }
 
-ImVec2 spellbook_callback::desired_extra_space( )
+float spellbook_callback::desired_extra_space_right( )
 {
-    return { 38 * ImGui::CalcTextSize( "X" ).x, 0.0 };
+    return 38 * ImGui::CalcTextSize( "X" ).x;
 }
 
 void spellbook_callback::refresh( uilist *menu )
 {
-    auto info_size = desired_extra_space( );
-    info_size.y = info_size.x * 3.0f * 1.62f;
+    ImVec2 info_size = { desired_extra_space_right( ),
+                         desired_extra_space_right( ) * 3.0f * 1.62f
+                       };
     ImGui::TableSetColumnIndex( 2 );
     if( ImGui::BeginChild( "spellbook info", info_size, false,
                            ImGuiWindowFlags_AlwaysAutoResize ) ) {

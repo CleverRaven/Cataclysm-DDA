@@ -74,9 +74,9 @@ void uilist_impl::draw_controls()
     // window. There should only ever be one row.
     if( ImGui::BeginTable( "table", 3,
                            ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_NoPadOuterX ) ) {
-        ImGui::TableSetupColumn( "left" );
-        ImGui::TableSetupColumn( "menu" );
-        ImGui::TableSetupColumn( "right" );
+        ImGui::TableSetupColumn( "left", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_left );
+        ImGui::TableSetupColumn( "menu", ImGuiTableColumnFlags_WidthFixed, parent.calculated_menu_size.x );
+        ImGui::TableSetupColumn( "right", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_right );
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 1 );
 
@@ -362,6 +362,8 @@ void uilist::init()
     desired_bounds = std::nullopt;
     calculated_bounds = { -1.f, -1.f, -1.f, -1.f };
     calculated_menu_size = { 0.0, 0.0 };
+    extra_space_left = 0.0;
+    extra_space_right = 0.0;
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
@@ -809,14 +811,15 @@ void uilist::calc_data()
     calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y,
                                        vmax * ImGui::GetTextLineHeightWithSpacing() );
 
-    ImVec2 extra_space = { 0.0, 0.0 };
+    extra_space_left = 0.0;
+    extra_space_right = 0.0;
     if( callback != nullptr ) {
-        extra_space = callback->desired_extra_space( );
-        extra_space.x += ImGui::GetStyle().FramePadding.x;
+        extra_space_left = callback->desired_extra_space_left( ) + ImGui::GetStyle().FramePadding.x;
+        extra_space_right = callback->desired_extra_space_right( ) + ImGui::GetStyle().FramePadding.x;
     }
 
-    calculated_bounds.w = extra_space.x + calculated_menu_size.x;
-    calculated_bounds.h = extra_space.y + ImGui::GetFrameHeightWithSpacing() + calculated_menu_size.y
+    calculated_bounds.w = extra_space_left + extra_space_right + calculated_menu_size.x;
+    calculated_bounds.h = ImGui::GetFrameHeightWithSpacing() + calculated_menu_size.y
                           + ( additional_lines * ImGui::GetTextLineHeightWithSpacing() );
 }
 
