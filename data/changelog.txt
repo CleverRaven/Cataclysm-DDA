@@ -295,10 +295,7 @@ Expands the regenerating zombie into it's own line
 Adds a new set of twisted geometry artifacts, found where geometry itself is twisted due to the acts of humans and worse.
 Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
 Adds a home canning hobby/background to character creation
-Add two new earlygame polehammers
 Mute very divergent mouth mutations
-Further flesh out Barry Isherwood's rescue.
-super duper loud noise emitter for the reckless
 Added apiary overmap tile to farm generation
 
 
@@ -565,17 +562,13 @@ Aftershock: Add a tool and gadget trader to Port Augustmoon.
 [MoM] Randomize monster power cooldowns
 [Xedra Evolved] Add check for Salamander being near fire, not just in it
 [MoM] You can't contemplate powers if you're too weary
-[Magiclysm] Allow Ethereal Grasp and Blinding Flash to ground target
-[MoM] Reduce start-up time for contemplation recipes to 0 seconds, add EoC to provide metaphysics XP
 [Magiclysm] Add Shifter druid profession + wildshifts
-XE Missions for best friend quest
 [Magiclysm] Add Iron Intolerance starting trait
 [MoM] Add Sensor Jamming Photokinetic power
 [Xedra Evolved] Add Iron Intolerance starting trait
 [XE/Magiclysm] Update Giant Growth with new `TEMPORARY_SHAPESHIFT` flag
 [Magiclysm] Diviner can send you to druid tower
 [Isolation Protocol] Autodoc safe room variant
-[Xedra Evolved] Add Aelfen Tailoring to gossamer recipes
 [Magiclysm] Add mana trait NPC trait groups
 [Xedra Evolved] Add Skinchanger profession + hedge magic spell
 Add more quests to Boann and the possibility to leave the world
@@ -870,11 +863,7 @@ Actually removes acid bomb
 Prevent the unique Isherwood Migo Tower from Spawning in Innawoods.
 [Bombastic Perks] Make perks unpurifiable
 bugfixes related to burning buildings
-[MoM] Null line cleanup hits all possible targets
-Adjust the leg coverage of the leather suits to be in line with its components
-[MoM] Correct Wave of Force learning message
 Civilianize Semi Auto MP40
-fixes appliances turning off randomly
 
 
 ## Performance:
