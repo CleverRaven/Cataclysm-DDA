@@ -1839,7 +1839,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "age_grow": 30, "into": "mon_wasp" },
+    "upgrades": { "half_life": 15, "into_group": "GROUP_WASP_UPGRADE" },
     "zombify_into": "mon_meat_cocoon_tiny",
     "fungalize_into": "mon_wasp_small_fungus",
     "flags": [
@@ -2009,6 +2009,138 @@
     "fungalize_into": "mon_wasp_mega_fungus",
     "delete": { "flags": [ "HARDTOSHOOT", "FLIES" ] },
     "armor": { "bash": 8, "cut": 30, "stab": 18, "bullet": 22, "electric": 4 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_small_kamikaze",
+    "copy-from": "mon_wasp_small",
+    "looks_like": "",
+    "name": "kamikaze wasp",
+    "description": "A huge wasp, almost half your size, with bright yellow markings on her jet-black carapace. Bloated and with problems flying. Deformed and pity, something is off with this wasp.",
+    "dodge": 2,
+    "proportional": { "hp": 0.3, "speed": 0.6, "volume": 1.3, "weight": 1.5 },
+    "death_function": { "effect": { "id": "death_sludge_mega", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s explodes!" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_gunner",
+    "copy-from": "mon_wasp_small",
+    "name": "gunner wasp",
+    "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace. Where the string should be, there's a weird looking hole, with a black sustance dropping",
+    "proportional": { "hp": 1.1, "volume": 1.1, "speed": 0.9, "weight": 1.1 },
+    "relative": { "dodge": -1, "diff": 2, "vision_day": 1, "vision_night": 1 },
+    "extend": { "flags": [ "HIT_AND_RUN" ] },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "gun_type": "wasp_shoot",
+        "description": "The wasp launch a dense liquid from the abdomen",
+        "ranges": [ [ 2, 9, "DEFAULT" ] ]
+      }
+    ],
+    "upgrades": { "half_life": 40, "into": "mon_wasp_sniper" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_sniper",
+    "copy-from": "mon_wasp",
+    "name": "sniper wasp",
+    "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace. Where the string should be, there's a weird-looking hole with a black substance dropping.",
+    "proportional": { "hp": 1.2, "speed": 0.8, "volume": 1.2, "weight": 1.2 },
+    "relative": { "dodge": -1, "vision_day": 2, "vision_night": 2, "diff": 3 },
+    "extend": { "flags": [ "HIT_AND_RUN" ] },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "gun_type": "wasp_shoot",
+        "description": "The wasp launch a dense liquid from the abdomen",
+        "ranges": [ [ 2, 12, "DEFAULT" ] ]
+      }
+    ],
+    "upgrades": { "half_life": 45, "into": "mon_wasp_torret" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_torret",
+    "copy-from": "mon_wasp",
+    "name": "torret wasp",
+    "looks_like": "",
+    "description": "A deformed and gigant wasp-like mass with the capacity to shoot at large distances some sort of liquid",
+    "dodge": 0,
+    "diff": 20,
+    "proportional": { "hp": 1.5, "speed": 0.8, "volume": 1.8, "weight": 1.8 },
+    "relative": { "vision_day": 4, "vision_night": 4 },
+    "extend": { "flags": [ "IMMOBILE" ] },
+    "delete": { "weakpoint_sets": [ "wps_arthropod_flying" ], "flags": [ "FLIES" ], "families": [ "prof_wp_flying" ] },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "gun_type": "wasp_power_shoot",
+        "description": "The wasp launch a solidified and black piece of matter from the abdomen",
+        "ranges": [ [ 1, 15, "DEFAULT" ] ]
+      }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_reforced",
+    "copy-from": "mon_wasp",
+    "name": "reforced wasp",
+    "looks_like": "",
+    "description": "A gigantic wasp worker. Wings fused to the back and an extremely hard body. Have no ability to fly and crawl, defending the other wasps like a guardian dog.",
+    "dodge": 3,
+    "melee_skill": 8,
+    "melee_dice": 3,
+    "melee_dice_sides": 8,
+    "proportional": { "hp": 1.4, "speed": 0.8, "volume": 1.1, "weight": 1.6 },
+    "relative": { "armor": { "bash": 3, "cut": 3, "stab": 3, "bullet": 3 } },
+    "special_attacks": [ { "id": "grab" }, { "id": "bite_grab" } ],
+    "delete": { "weakpoint_sets": [ "wps_arthropod_flying" ], "flags": [ "FLIES" ], "families": [ "prof_wp_flying" ] },
+    "extend": { "weakpoint_sets": [ "wps_arthropod_beetle" ] },
+    "upgrades": { "half_life": 45, "into": "mon_wasp_juggernaut" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_juggernaut",
+    "copy-from": "mon_wasp_reforced",
+    "name": "juggernaut wasp",
+    "looks_like": "",
+    "species": [ "INSECT" ],
+    "description": "A gigantic wasp worker. Wings fused to the back and an extremely hard body. It's even difficult to imagine this being moving, but it does. And fast",
+    "melee_dice_sides": 10,
+    "proportional": { "hp": 1.5, "volume": 1.3, "weight": 1.8 },
+    "relative": { "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 5 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_pitiful",
+    "copy-from": "mon_wasp",
+    "name": "pitiful wasp",
+    "looks_like": "",
+    "species": [ "INSECT" ],
+    "description": "A gigantic wasp worker. Something was wrong with his evolution, converting this wasp into a parody of himself. Lame, without any agility, moves on the ground. Mandibles deformed, wings without mobility, and a deformed body without the capacity to move enough, this wasp has been descarted and damned to die alone.",
+    "delete": { "weakpoint_sets": [ "wps_arthropod_flying" ], "families": [ "prof_wp_flying" ] },
+    "proportional": { "hp": 0.7, "volume": 1.2, "weight": 1.15 },
+    "relative": { "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 5 } },
+    "speed": 30,
+    "aggression": -10,
+    "morale": 25,
+    "aggro_character": false,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "special_attacks": [ [ "EAT_CARRION", 100 ], [ "EAT_FOOD", 100 ] ],
+    "dodge": 0,
+    "bleed_rate": 120,
+    "vision_day": 10,
+    "vision_night": 4,
+    "stomach_size": 350,
+    "flags": [ "SEES", "HEARS", "CANPLAY", "PATH_AVOID_FIRE", "EATS", "SMALL_HIDER", "STUMBLES" ],
+    "petfood": {
+      "food": [ "CATFOOD", "CATTLEFOOD", "DOGFOOD" ],
+      "feed": "Your wasp, it's eating paintfully, but...happy?",
+      "pet": "You pet your wasp. The touch is something between sticky and hard."
+    }
   },
   {
     "id": "mon_dermatik_larva",

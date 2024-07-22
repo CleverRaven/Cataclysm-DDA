@@ -307,5 +307,35 @@
     "range": 100,
     "dispersion": 1000,
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "wasp_shoot",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "organic shoot" },
+    "description": "Fake gun that shoot organic and almost solidified matter",
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_TURRET" ],
+    "ammo_effects": [ "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
+    "material": [ "flesh" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 35,
+    "dispersion": 4800,
+    "ranged_damage": { "damage_type": "bash", "amount": 6 }
+  },
+  {
+    "id": "wasp_power_shoot",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "organic shoot" },
+    "description": "Fake gun that shoot organic and solidified matter",
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_TURRET" ],
+    "ammo_effects": [ "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
+    "material": [ "flesh" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 45,
+    "dispersion": 4800,
+    "ranged_damage": { "damage_type": "bash", "amount": 20 }
   }
 ]
