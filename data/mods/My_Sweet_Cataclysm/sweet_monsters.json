@@ -242,7 +242,7 @@
     "type": "MONSTER",
     "name": "gummy gator",
     "description": "Slowly moving through the chocolate like a gummy log along the surface.  You notice it's eye's following your movement as you approach.",
-    "default_faction": "gator",
+    "default_faction": "gummy_bears",
     "bodytype": "gator",
     "categories": [ "WILDLIFE" ],
     "species": [ "GUMMY" ],
