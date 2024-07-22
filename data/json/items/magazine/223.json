@@ -477,26 +477,6 @@
     ]
   },
   {
-    "id": "g36mag_30rd",
-    "copy-from": "stanag30",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "G36 30-round magazine" },
-    "description": "A standard capacity box magazine for use with the G36 assault rifle.",
-    "ammo_type": [ "223" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30 } } ]
-  },
-  {
-    "id": "g36mag_100rd",
-    "copy-from": "stanag100drum",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "G36 100-round double drum magazine" },
-    "description": "A bulky 100-round double drum magazine for use with the G36 assault rifle.",
-    "ammo_type": [ "223" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
-  },
-  {
     "id": "sl8mag",
     "looks_like": "stanag10",
     "type": "MAGAZINE",
