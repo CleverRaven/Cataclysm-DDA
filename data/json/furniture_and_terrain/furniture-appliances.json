@@ -670,8 +670,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-	      { "item": "scrap", "count": [ 4, 16 ] }, 
-	      { "item": "steel_chunk", "count": [ 1, 6 ] }
+	      { "item": "scrap", "count": [ 4, 16 ] }, { "item": "steel_chunk", "count": [ 1, 6 ] }
       ]
     }
   }
