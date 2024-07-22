@@ -223,7 +223,7 @@
     "variant_type": "gun",
     "variants": [
       {
-        "id": "hk_g36",
+        "id": "sl8",
         "name": { "str": "SL8-6" },
         "description": "The SL8 is an imporation-legal gun similar to the German G36, made to be semi-auto only, and to feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, and a top rail for mounting optics."
       }
