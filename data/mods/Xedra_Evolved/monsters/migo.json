@@ -21,7 +21,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 5,
     "vision_night": 14,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "leap", "cooldown": 5, "max_range": 5 }, , { "type": "inject_warping_poison", "cooldown": 7 } ],
+    "special_attacks": [ [ "scratch", 10 ], { "type": "leap", "cooldown": 5, "max_range": 5 }, { "type": "inject_warping_poison", "cooldown": 7 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "harvest": "mi-go",
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
