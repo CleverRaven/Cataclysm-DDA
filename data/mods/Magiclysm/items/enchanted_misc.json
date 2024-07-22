@@ -193,7 +193,6 @@
     "volume": "100 ml",
     "price": "1 kUSD",
     "price_postapoc": "1150 USD",
-    "to_hit": -2,
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",

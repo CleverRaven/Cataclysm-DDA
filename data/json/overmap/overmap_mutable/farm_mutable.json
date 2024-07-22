@@ -77,6 +77,8 @@
       "farm_1_coop_roof": { "overmap": "farm_1_coop_roof_north" },
       "farm_1_greenhouse": { "overmap": "farm_1_greenhouse_north", "south": "house_to_extension" },
       "farm_1_greenhouse_roof": { "overmap": "farm_1_greenhouse_roof_north" },
+      "farm_1_apiary": { "overmap": "farm_1_apiary_north", "south": "house_to_extension" },
+      "farm_1_apiary_roof": { "overmap": "farm_1_apiary_roof_north" },
       "farm_2": { "overmap": "farm_2_north", "connections": { "north": { "connection": "local_road" } } },
       "farm_2_roof": { "overmap": "farm_2_roof_north" },
       "farm_3": { "overmap": "farm_3_north" },
@@ -361,6 +363,11 @@
         {
           "name": "ext_greenhouse",
           "chunk": [ { "overmap": "farm_1_greenhouse", "pos": [ 0, 0, 0 ] }, { "overmap": "farm_1_greenhouse_roof", "pos": [ 0, 0, 1 ] } ],
+          "weight": 1
+        },
+        {
+          "name": "ext_apiary",
+          "chunk": [ { "overmap": "farm_1_apiary", "pos": [ 0, 0, 0 ] }, { "overmap": "farm_1_apiary_roof", "pos": [ 0, 0, 1 ] } ],
           "weight": 1
         }
       ],

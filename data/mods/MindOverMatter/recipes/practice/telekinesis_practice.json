@@ -479,7 +479,7 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Slowfall power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Wave of Force power.",
                 "popup": true
               },
               { "math": [ "u_spell_level('telekinetic_wave')", "=", "1" ] },

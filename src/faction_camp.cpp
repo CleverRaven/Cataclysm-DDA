@@ -4789,10 +4789,15 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
         }
     }
 
-    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
-                            &results_from_base_group ) );
-    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( mission_specific_group,
-                            &results_from_mission_group ) );
+    while( results_from_base_group > 0 ) {
+        make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
+                                &results_from_base_group ) );
+    }
+
+    while( results_from_mission_group > 0 ) {
+        make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( mission_specific_group,
+                                &results_from_mission_group ) );
+    }
 }
 
 void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
