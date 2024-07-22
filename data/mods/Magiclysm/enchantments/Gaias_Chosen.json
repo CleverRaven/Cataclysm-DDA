@@ -8,7 +8,7 @@
     "shape": "blast",
     "flags": [ "SILENT", "RANDOM_DAMAGE" ],
     "min_damage": 3,
-    "max_damage": 15,
+    "max_damage": 12,
     "valid_targets": [ "hostile" ],
     "damage_type": "cut",
     "min_range": 1,
