@@ -380,7 +380,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "effect_hedge_walk_on_water" },
-        { "compare_string": [ "walk", { "context_val": "movement_mode" } ] }
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
       ]
     },
     "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
