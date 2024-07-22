@@ -124,7 +124,6 @@
     "weight": "540 g",
     "volume": "750 ml",
     "longest_side": "25 cm",
-    "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
     "range": 12,
