@@ -10,7 +10,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "field",
+    "id": [ "field", "isherwood_barry_rescue_field" ],
     "copy-from": "generic_open_land",
     "name": "field",
     "sym": ".",
