@@ -94,6 +94,7 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
     optional( jo, was_loaded, "spell_data", spell_data );
+    optional( jo, was_loaded, "always_cast_spell", always_cast_spell, false );
 
 
 }
