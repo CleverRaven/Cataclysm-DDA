@@ -371,5 +371,18 @@
       { "u_message": "As you step on solid ground again, the charm fades.", "type": "neutral" },
       { "u_lose_effect": "effect_hedge_walk_on_water" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_RUNNING_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_walk_on_water" },
+        { "compare_string": [ "walk", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
   }
 ]
