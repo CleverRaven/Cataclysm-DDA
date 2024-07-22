@@ -25,7 +25,6 @@
       { "group": "police_armory_mini14", "prob": 5 },
       { "group": "police_armory_m1a", "prob": 5 },
       { "group": "police_armory_aug", "prob": 1 },
-      { "group": "police_armory_g36", "prob": 1 },
       { "group": "police_armory_hk417", "prob": 1 }
     ]
   },
@@ -1340,22 +1339,6 @@
   },
   {
     "type": "item_group",
-    "id": "police_armory_g36",
-    "//": "One or more G36 rifles, empty mags, full mags, 223 remington training ammo and mk318-type duty ammo.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "hk_g36", "contents-item": "holo_sight" },
-      { "item": "hk_g36", "contents-item": "holo_sight", "prob": 50 },
-      { "item": "hk_g36", "contents-item": "holo_sight", "prob": 25 },
-      { "item": "g36mag_30rd", "count": [ 1, 7 ] },
-      { "group": "police_armory_full_g36mag_223", "count": [ 1, 3 ] },
-      { "group": "police_armory_full_g36mag_556_mk318", "count": [ 1, 2 ] },
-      { "group": "police_armory_boxes_223" },
-      { "group": "police_armory_boxes_556_mk318" }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "police_armory_hk417",
     "//": "One or more HK417 rifles, empty mags, full mags, 308 ammo and 7.62x51 ammo.",
     "subtype": "collection",
@@ -1426,20 +1409,6 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "augmag_30rd",
-    "entries": [ { "item": "556_mk318", "charges": 30 } ]
-  },
-  {
-    "id": "police_armory_full_g36mag_223",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "g36mag_30rd",
-    "entries": [ { "item": "223", "charges": 30 } ]
-  },
-  {
-    "id": "police_armory_full_g36mag_556_mk318",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "g36mag_30rd",
     "entries": [ { "item": "556_mk318", "charges": 30 } ]
   },
   {

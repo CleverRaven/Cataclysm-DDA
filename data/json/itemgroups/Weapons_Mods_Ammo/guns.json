@@ -433,6 +433,7 @@
       { "group": "nested_rifle_flintlock", "prob": 180 },
       { "group": "nested_steyr_aug", "prob": 40 },
       { "group": "nested_win70_458", "prob": 60 },
+      { "group": "nested_sl8", "prob": 10 },
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_psl", "prob": 10 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
@@ -457,9 +458,9 @@
       { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 2, "charges": 0 },
       { "item": "m60_semi", "prob": 5 },
       { "item": "steyr_aug", "prob": 5 },
+      { "group": "nested_sl8", "prob": 2 },
       { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
       { "item": "hk_g3", "prob": 40 },
-      { "item": "hk_g36", "prob": 30 },
       { "item": "m1918", "prob": 30 },
       { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 45 },
       { "item": "m14ebr", "prob": 15 },
@@ -882,13 +883,6 @@
         "prob": 1
       },
       {
-        "item": "hk_g36",
-        "ammo-item": "556_mk318",
-        "charges": [ 0, 30 ],
-        "contents-item": "shoulder_strap",
-        "prob": 1
-      },
-      {
         "item": "benelli_tsa",
         "variant": "mossberg_500_security",
         "charges": [ 0, 6 ],
@@ -956,7 +950,6 @@
       },
       { "item": "ruger_mini", "ammo-item": "223", "charges": 20, "contents-item": "shoulder_strap", "prob": 5 },
       { "item": "steyr_aug", "ammo-item": "556_mk318", "charges": 30, "contents-item": "shoulder_strap", "prob": 1 },
-      { "item": "hk_g36", "ammo-item": "556_mk318", "charges": 30, "contents-item": "shoulder_strap", "prob": 1 },
       {
         "item": "benelli_tsa",
         "variant": "mossberg_500_security",
@@ -1124,20 +1117,6 @@
       {
         "collection": [
           {
-            "item": "hk_g36",
-            "ammo-item": "556_mk318",
-            "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
-            "damage": [ 0, 3 ],
-            "dirt": [ 0, 7050 ]
-          },
-          { "group": "field_g36" }
-        ],
-        "prob": 1
-      },
-      {
-        "collection": [
-          {
             "item": "benelli_tsa",
             "variant": "mossberg_500_security",
             "charges": [ 0, 6 ],
@@ -1236,7 +1215,6 @@
       { "group": "field_ar15_mk318", "prob": 80 },
       { "group": "field_mini14", "prob": 5 },
       { "group": "field_steyraug", "prob": 1 },
-      { "group": "field_g36", "prob": 1 },
       { "group": "field_shotgun", "prob": 10 },
       { "group": "field_308", "prob": 10 },
       { "group": "field_3006", "prob": 5 }

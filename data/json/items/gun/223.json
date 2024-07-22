@@ -208,27 +208,27 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "hk_g36",
-    "copy-from": "rifle_auto",
+    "id": "sl8",
+    "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "G36 assault rifle" },
-    "description": "An assault rifle chambered in 5.56x45mm and accepting G36 magazines.",
-    "weight": "3630 g",
-    "volume": "4640 ml",
-    "longest_side": "1004 mm",
-    "barrel_length": "480 mm",
-    "price": "2 kUSD 100 USD",
-    "price_postapoc": "60 USD",
+    "name": { "str": "SL8 civilian rifle" },
+    "description": "A semi-automatic clone of an older German assault rifle.  Due to importation bans, it is semi-auto and can only feed from 10 round magazines.",
+    "weight": "3901 g",
+    "volume": "3919 ml",
+    "longest_side": "987 mm",
+    "barrel_length": "635 mm",
+    "price": "1 kUSD 789 USD",
+    "price_postapoc": "5 USD",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "hk_g36",
-        "name": { "str": "H&K G36 rifle" },
-        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much lighter .223 round, allowing for a higher ammo capacity."
+        "id": "sl8",
+        "name": { "str": "SL8-6" },
+        "description": "The SL8 is an importation-legal gun similar to the German G36, made to be semi-auto only, and to only feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, a polymer handguard, and a top rail for mounting optics."
       }
     ],
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -236,8 +236,16 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ] } ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sl8mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
