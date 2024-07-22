@@ -186,5 +186,10 @@
     "type": "requirement",
     "qualities": [ { "id": "SEW", "level": 2 } ],
     "components": [ [ [ "skull_bear", 1 ] ], [ [ "animal_blood", 5 ] ], [ [ "raw_fur", 20 ] ], [ [ "sinew", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_walk_on_water",
+    "type": "requirement",
+    "components": [ [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ] ]
   }
 ]

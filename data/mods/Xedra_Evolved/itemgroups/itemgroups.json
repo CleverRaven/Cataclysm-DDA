@@ -397,11 +397,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "spellbook_hedge_farm", "prob": 1 },
+      { "item": "spellbook_hedge_farm", "prob": 4 },
       { "item": "spellbook_hedge_ward_demons", "prob": 1 },
-      { "item": "spellbook_hedge_doctor_book", "prob": 1 },
-      { "item": "spellbook_hedge_blood_book", "prob": 1 },
-      { "item": "spellbook_hedge_ward_dreams", "prob": 1 }
+      { "item": "spellbook_hedge_doctor_book", "prob": 3 },
+      { "item": "spellbook_hedge_blood_book", "prob": 2 },
+      { "item": "spellbook_hedge_ward_dreams", "prob": 3 },
+      { "item": "spellbook_hedge_snare_changelings", "prob": 1 },
+      { "item": "spellbook_hedge_bathhouse_midnight", "prob": 1 }
     ]
   },
   {
