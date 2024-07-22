@@ -16,7 +16,6 @@ bool eat_food( monster *z );
 bool shriek( monster *z );
 bool shriek_alert( monster *z );
 bool shriek_stun( monster *z );
-bool howl( monster *z );
 bool rattle( monster *z );
 bool acid( monster *z );
 bool acid_accurate( monster *z );
