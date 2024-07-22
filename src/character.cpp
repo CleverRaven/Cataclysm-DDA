@@ -338,6 +338,7 @@ static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
+static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
@@ -7052,6 +7053,7 @@ void Character::burn_move_stamina( int moves )
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     //Appropriate traits let you walk along the bottom without getting as tired
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) &&
+        !has_flag( json_flag_WATERWALKING ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
           get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) &&
         !get_map().has_flag_furn( "BRIDGE", pos_bub() ) &&
@@ -10278,9 +10280,15 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos_bub() );
     const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() );
+    const bool water_walking = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
+                               has_flag( json_flag_WATERWALKING );
 
     if( is_mounted() ) {
         return effects;
+    }
+
+    if( water_walking ) {
+        movecost = 100;
     }
 
     if( movecost > 105 ) {
@@ -10291,6 +10299,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         if( has_proficiency( proficiency_prof_parkour ) ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
+
 
         if( movecost < 100 ) {
             run_cost_effect effect { _( "Bonuses Capped" ) };

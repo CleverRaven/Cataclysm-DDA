@@ -1580,43 +1580,6 @@
     ]
   },
   {
-    "id": "aura_druid_waterwalk",
-    "type": "ARMOR",
-    "name": "Waterstrider's Walk",
-    "description": "You can easily walk on the surface of the water.",
-    "weight": "0 g",
-    "volume": "0 ml",
-    "price": "0 cent",
-    "material": [ "concentrated_mana" ],
-    "symbol": "O",
-    "color": "blue",
-    "flags": [
-      "AURA",
-      "SEMITANGIBLE",
-      "ONLY_ONE",
-      "PADDED",
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRADER_AVOID",
-      "WATER_FRIENDLY",
-      "NO_REPAIR",
-      "NO_TAKEOFF",
-      "ZERO_WEIGHT",
-      "NONCONDUCTIVE",
-      "FLOTATION"
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "MAX_MANA", "add": 0 } ],
-          "ench_effects": [ { "effect": "effect_item_protection_water", "intensity": 1 } ]
-        }
-      ]
-    }
-  },
-  {
     "id": "item_earthshaper_map_01",
     "copy-from": "abstractmap",
     "type": "GENERIC",

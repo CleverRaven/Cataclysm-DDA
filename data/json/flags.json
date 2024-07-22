@@ -2531,5 +2531,10 @@
     "id": "ITEM_WATERPROOFING",
     "type": "json_flag",
     "info": "Something is preventing your worn and carried items from being effected by water."
+  },
+  {
+    "id": "WATERWALKING",
+    "type": "json_flag",
+    "info": "You can walk across the surface of water."
   }
 ]
