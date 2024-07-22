@@ -725,7 +725,8 @@
       { "group": "mdrx", "prob": 10 },
       { "group": "nested_ar15_with_kits", "prob": 19 },
       { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_sig_assault_rifle", "prob": 3 }
+      { "group": "nested_sig_assault_rifle", "prob": 3 },
+      { "group": "nested_sl8", "prob": 4 }
     ]
   },
   {
