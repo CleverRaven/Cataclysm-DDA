@@ -30,7 +30,6 @@
     "weight": "400 g",
     "volume": "250 ml",
     "price": "0 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "cyan",

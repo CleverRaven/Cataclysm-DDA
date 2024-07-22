@@ -32,7 +32,7 @@
       "1895sbl": 6.24,
       "rm103a_pistol": 6.48,
       "tokarev": 6.51,
-      "walther_ppq_45": 7.15,
+      "walther_ppq_45": 5.41,
       "taurus_spectrum": 6.59,
       "modular_deagle": 6.65,
       "raging_bull": 6.65,
@@ -43,12 +43,12 @@
       "m1911a1_38super": 7.19,
       "m1911": 7.19,
       "STI_DS_10": 7.19,
-      "walther_ppq_9mm": 7.26,
-      "walther_ppq_40": 7.26,
-      "sw629": 7.31,
+      "walther_ppq_9mm": 5.49,
+      "walther_ppq_40": 5.49,
+      "sw629": 5.51,
       "m1911_10": 7.4,
       "pressin": 9.67,
-      "winchester_1897": 10.33,
+      "winchester_1897": 7.92,
       "obrez": 10.98
     }
   }

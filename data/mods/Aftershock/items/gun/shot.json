@@ -78,7 +78,6 @@
     "volume": "1450 ml",
     "longest_side": "475 mm",
     "min_strength": 14,
-    "to_hit": -2,
     "material": [ "qt_steel", "plastic", "carbide" ],
     "symbol": "r",
     "color": "light_gray",

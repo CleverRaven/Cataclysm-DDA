@@ -78,6 +78,7 @@ static const furn_str_id furn_f_safe_c( "f_safe_c" );
 static const itype_id itype_swim_fins( "swim_fins" );
 
 static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
+static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
 static const move_mode_id move_mode_prone( "prone" );
 
@@ -452,6 +453,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                        !m.has_flag_furn( "BRIDGE", dest_loc );
     bool fromSwimmable = m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, you.pos_bub() );
     bool fromDeepWater = m.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() );
+    bool waterWalking = you.has_flag( json_flag_WATERWALKING );
     bool fromBoat = veh0 != nullptr;
     bool toBoat = veh1 != nullptr;
     if( is_riding ) {
@@ -464,7 +466,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
     }
     // Dive into water!
-    if( toSwimmable && toDeepWater && !toBoat ) {
+    if( toSwimmable && toDeepWater && !toBoat && !waterWalking ) {
         // Requires confirmation if we were on dry land previously
         if( is_riding ) {
             auto *mon = you.mounted_creature.get();
@@ -646,7 +648,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
-    if( movecost >= 500 || you.has_effect( effect_winded ) ) {
+    if( ( movecost >= 500 || you.has_effect( effect_winded ) ) &&
+        !you.has_flag( json_flag_WATERWALKING ) ) {
         if( !you.is_underwater() &&
             !( you.shoe_type_count( itype_swim_fins ) == 2 ||
                ( you.shoe_type_count( itype_swim_fins ) == 1 && one_in( 2 ) ) ) ) {
