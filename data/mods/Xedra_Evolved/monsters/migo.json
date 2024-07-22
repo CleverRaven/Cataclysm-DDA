@@ -24,7 +24,7 @@
     "special_attacks": [
       [ "scratch", 10 ],
       { "type": "leap", "cooldown": 5, "max_range": 5 },
-      { "type": "inject_warping_poison", "cooldown": 7 }
+      { "type": "inject_warping_poison" }
     ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "harvest": "mi-go",
