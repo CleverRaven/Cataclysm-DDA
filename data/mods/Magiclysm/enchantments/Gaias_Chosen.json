@@ -6,9 +6,9 @@
     "description": "The thorns effect from the Gaia's Chosen Attunement.",
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "SILENT" ],
-    "min_damage": 22,
-    "max_damage": 22,
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "min_damage": 3,
+    "max_damage": 15,
     "valid_targets": [ "hostile" ],
     "damage_type": "cut",
     "min_range": 1,
@@ -19,11 +19,12 @@
     "id": "GAIAS_CHOSEN",
     "condition": "ALWAYS",
     "name": { "str": "Gaia's Champion" },
-    "description": "Your Gaia's Chosen abilities grant you bigger HP pool, and your enemies impale themselves upon your thorns when they attack you.",
-    "values": [ { "value": "MAX_HP", "multiply": 0.3 } ],
+    "description": "Your Gaia's Chosen abilities grant you a larger HP pool, and enemies have a chance to impale themselves upon your thorns when they attack you.",
+    "values": [ { "value": "MAX_HP", "multiply": 0.3 }, { "value": "PAIN", "multiply": 0.25 } ],
     "hit_me_effect": [
       {
         "id": "GAIAS_CHOSEN_THORNS",
+        "once_in": 2,
         "message": "Thorns tear at your opponent as they strike you.",
         "npc_message": "%1$s's thorny brambles bite into their attacker."
       }
