@@ -2083,9 +2083,9 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_wasp_reforced",
+    "id": "mon_wasp_reinforced",
     "copy-from": "mon_wasp",
-    "name": "reforced wasp",
+    "name": "reinforced wasp",
     "looks_like": "",
     "description": "A gigantic wasp worker. Wings fused to the back and an extremely hard body. Have no ability to fly and crawl, defending the other wasps like a guardian dog.",
     "dodge": 3,
@@ -2102,7 +2102,7 @@
   {
     "type": "MONSTER",
     "id": "mon_wasp_juggernaut",
-    "copy-from": "mon_wasp_reforced",
+    "copy-from": "mon_wasp_reinforced",
     "name": "juggernaut wasp",
     "looks_like": "",
     "species": [ "INSECT" ],

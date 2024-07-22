@@ -179,7 +179,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_wasp_reforced",
+        "monster": "mon_wasp_reinforced",
         "weight": 100,
         "starts": "180 hours",
         "pack_size": [ 2, 6 ],
@@ -421,7 +421,7 @@
     "monsters": [
       { "monster": "mon_wasp_small_kamikaze", "weight": 15 },
       { "monster": "mon_wasp_gunner", "weight": 100 },
-      { "monster": "mon_wasp_reforced", "weight": 100 },
+      { "monster": "mon_wasp_reinforced", "weight": 100 },
       { "monster": "mon_wasp", "weight": 20 },
       { "monster": "mon_wasp_pitiful", "weight": 5 }
     ]
