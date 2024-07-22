@@ -64,6 +64,12 @@ class pocket_favorite_callback : public uilist_callback
                                            const std::vector<item *> &to_organize,
                                            uilist &pocket_selector );
         void refresh( uilist *menu ) override;
+        ImVec2 desired_extra_space( ) override {
+            return { std::max( ImGui::GetMainViewport()->Size.x / 2,
+                               ImGui::GetMainViewport()->Size.x - ( 50 * ImGui::CalcTextSize( "X" ).x ) ),
+                     0.0
+                   };
+        }
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
 
@@ -2730,17 +2736,7 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
     pocket_selector.title = title;
     pocket_selector.text = uilist_text;
     pocket_selector.callback = &cb;
-    pocket_selector.w_x_setup = 0;
-    pocket_selector.w_width_setup = []() {
-        return TERMX;
-    };
-    pocket_selector.pad_right_setup = []() {
-        return std::max( TERMX / 2, TERMX - 50 );
-    };
-    pocket_selector.w_y_setup = 0;
-    pocket_selector.w_height_setup = []() {
-        return TERMY;
-    };
+    pocket_selector.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
     pocket_selector.input_category = input_category;
     pocket_selector.additional_actions = {
         { "FAV_PRIORITY", translation() },

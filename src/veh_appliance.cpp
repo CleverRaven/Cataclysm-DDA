@@ -173,7 +173,6 @@ void veh_app_interact::init_ui_windows()
     }
     const int width_info = win_width - 2;
     const int height_input = app_actions.size();
-    const int width_input = win_width;
     const int height = height_info + height_input + 2;
 
     // Center the UI
@@ -182,10 +181,6 @@ void veh_app_interact::init_ui_windows()
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_info = catacurses::newwin( height_info, width_info, topleft + point( 1, 1 ) );
 
-    // Setup modifications to the uilist to integrate it into the UI
-    imenu.w_width_setup = width_input;
-    imenu.w_x_setup = topleft.x;
-    imenu.w_y_setup = topleft.y + height_info;
     imenu.allow_cancel = true;
     imenu.border_color = c_white;
     imenu.setup();

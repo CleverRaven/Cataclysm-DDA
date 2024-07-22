@@ -36,11 +36,11 @@ class uilist_impl : cataimgui::window
         uilist &parent;
     public:
         uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize ), parent( parent ) {
+                    ImGuiWindowFlags_NoTitleBar ), parent( parent ) {
         }
 
         uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
-                    ImGuiWindowFlags_AlwaysAutoResize ), parent( parent ) {
+                    ImGuiWindowFlags_None ), parent( parent ) {
         }
 
         cataimgui::bounds get_bounds() override {
@@ -48,11 +48,7 @@ class uilist_impl : cataimgui::window
                 parent.setup();
             }
 
-            return { static_cast<float>( parent.w_x * fontwidth ),
-                     static_cast<float>( parent.w_y * fontheight ),
-                     static_cast<float>( clamp( parent.w_width * fontwidth, 0, get_window_width() ) ),
-                     -1.f
-                   };
+            return parent.desired_bounds.value_or( parent.calculated_bounds );
         }
         void draw_controls() override;
         void on_resized() override;
@@ -66,35 +62,25 @@ void uilist_impl::on_resized()
 void uilist_impl::draw_controls()
 {
     if( !parent.text.empty() ) {
-        ImGui::PushTextWrapPos( float( parent.w_width * fontwidth ) );
+        // ImGui::PushTextWrapPos( float( parent.w_width * fontwidth ) );
         ImGui::TextWrapped( "%s", parent.text.c_str() );
-        ImGui::PopTextWrapPos();
+        // ImGui::PopTextWrapPos();
         ImGui::Separator();
     }
-
-    // First, measure the menu items to see how wide the menu will be
-    ImVec2 menu_size = { 0.0f, 0.0f };
-    for( size_t i = 0; i < parent.fentries.size(); i++ ) {
-        auto entry = parent.entries[parent.fentries[i]];
-        // this will overestimate if there are any color tags, but that never happens. probably.
-        menu_size.x = std::max( menu_size.x, ImGui::CalcTextSize( entry.txt.c_str() ).x );
-    }
-    menu_size.x += ImGui::CalcTextSize( " [X] " ).x;
-    menu_size.y = std::min( ImGui::GetIO().DisplaySize.y,
-                            parent.fentries.size() * ImGui::GetTextLineHeightWithSpacing() );
 
     // An invisible table with three columns. Center column is for the
     // menu, left and right are usually invisible. Caller may use
     // left/right column to add additional content to the
     // window. There should only ever be one row.
-    if( ImGui::BeginTable( "table", 3 ) ) {
+    if( ImGui::BeginTable( "table", 3,
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_NoPadOuterX ) ) {
         ImGui::TableSetupColumn( "left" );
         ImGui::TableSetupColumn( "menu" );
         ImGui::TableSetupColumn( "right" );
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 1 );
 
-        if( ImGui::BeginChild( "scroll", menu_size ) ) {
+        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false ) ) {
             // It would be natural to make the entries into buttons, or
             // combos, or other pre-built ui elements. For now I am mostly
             // going to copy the style of the original textual ui elements.
@@ -365,31 +351,34 @@ uilist::operator int() const
 void uilist::init()
 {
     cata_assert( !test_mode ); // uilist should not be used in tests where there's no place for it
-    w_x_setup = pos_scalar::auto_assign {};
-    w_y_setup = pos_scalar::auto_assign {};
-    w_width_setup = size_scalar::auto_assign {};
-    w_height_setup = size_scalar::auto_assign {};
-    w_x = 0;
-    w_y = 0;
-    w_width = 0;
-    w_height = 0;
+    // w_x_setup = pos_scalar::auto_assign {};
+    // w_y_setup = pos_scalar::auto_assign {};
+    // w_width_setup = size_scalar::auto_assign {};
+    // w_height_setup = size_scalar::auto_assign {};
+    // w_x = 0;
+    // w_y = 0;
+    // w_width = 0;
+    // w_height = 0;
+    desired_bounds = std::nullopt;
+    calculated_bounds = { -1.f, -1.f, -1.f, -1.f };
+    calculated_menu_size = { 0.0, 0.0 };
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
-    textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
+    // textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
-    pad_left_setup = 0;
-    pad_right_setup = 0;
-    pad_left = 0;          // make a blank space to the left
-    pad_right = 0;         // or right
+    // pad_left_setup = 0;
+    // pad_right_setup = 0;
+    // pad_left = 0;          // make a blank space to the left
+    // pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
-    desc_lines_hint = 6;   // default number of lines for description
-    desc_lines = 6;
+    // desc_lines_hint = 6;   // default number of lines for description
+    // desc_lines = 6;
     footer_text.clear();   // takes precedence over per-entry descriptions.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
@@ -417,7 +406,7 @@ void uilist::init()
 
     categories.clear();
     current_category = 0;
-    category_lines = 0;
+    // category_lines = 0;
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -577,80 +566,80 @@ void uilist::inputfilter()
  * or no more than the minimum number of lines possible, assuming that
  * foldstring( width ).size() decreases monotonously with width.
  **/
-static int find_minimum_fold_width( const std::string &str, int max_lines,
-                                    int min_width, int max_width )
-{
-    if( str.empty() ) {
-        return std::max( min_width, 1 );
-    }
-    min_width = std::max( min_width, 1 );
-    // max_width could be further limited by the string width, but utf8_width is
-    // not handling linebreaks properly.
+// static int find_minimum_fold_width( const std::string &str, int max_lines,
+//                                     int min_width, int max_width )
+// {
+//     if( str.empty() ) {
+//         return std::max( min_width, 1 );
+//     }
+//     min_width = std::max( min_width, 1 );
+//     // max_width could be further limited by the string width, but utf8_width is
+//     // not handling linebreaks properly.
 
-    if( min_width < max_width ) {
-        // If with max_width the string still folds to more than max_lines, find the
-        // minimum width that folds the string to such number of lines instead.
-        max_lines = std::max<int>( max_lines, foldstring( str, max_width ).size() );
-        while( min_width < max_width ) {
-            int width = ( min_width + max_width ) / 2;
-            // width may equal min_width, but will always be less than max_width.
-            int lines = foldstring( str, width ).size();
-            // If the current width folds the string to no more than max_lines
-            if( lines <= max_lines ) {
-                // The minimum width is between min_width and width.
-                max_width = width;
-            } else {
-                // The minimum width is between width + 1 and max_width.
-                min_width = width + 1;
-            }
-            // The new interval will always be smaller than the previous one,
-            // so the loop is guaranteed to end.
-        }
-    }
-    return min_width;
-}
+//     if( min_width < max_width ) {
+//         // If with max_width the string still folds to more than max_lines, find the
+//         // minimum width that folds the string to such number of lines instead.
+//         max_lines = std::max<int>( max_lines, foldstring( str, max_width ).size() );
+//         while( min_width < max_width ) {
+//             int width = ( min_width + max_width ) / 2;
+//             // width may equal min_width, but will always be less than max_width.
+//             int lines = foldstring( str, width ).size();
+//             // If the current width folds the string to no more than max_lines
+//             if( lines <= max_lines ) {
+//                 // The minimum width is between min_width and width.
+//                 max_width = width;
+//             } else {
+//                 // The minimum width is between width + 1 and max_width.
+//                 min_width = width + 1;
+//             }
+//             // The new interval will always be smaller than the previous one,
+//             // so the loop is guaranteed to end.
+//         }
+//     }
+//     return min_width;
+// }
 
 void uilist::calc_data()
 {
-    bool w_auto = !w_width_setup.fun;
+    // bool w_auto = !w_width_setup.fun;
 
-    // Space for a line between text and entries. Only needed if there is actually text.
-    const int text_separator_line = text.empty() ? 0 : 1;
-    if( w_auto ) {
-        w_width = 4;
-        if( !title.empty() ) {
-            w_width = utf8_width( title ) + 5;
-        }
-    } else {
-        w_width = w_width_setup.fun();
-    }
-    const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
+    // // Space for a line between text and entries. Only needed if there is actually text.
+    // const int text_separator_line = text.empty() ? 0 : 1;
+    // if( w_auto ) {
+    //     w_width = 4;
+    //     if( !title.empty() ) {
+    //         w_width = utf8_width( title ) + 5;
+    //     }
+    // } else {
+    //     w_width = w_width_setup.fun();
+    // }
+    // const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
 
-    bool h_auto = !w_height_setup.fun;
-    if( h_auto ) {
-        w_height = 4;
-    } else {
-        w_height = w_height_setup.fun();
-    }
+    // bool h_auto = !w_height_setup.fun;
+    // if( h_auto ) {
+    //     w_height = 4;
+    // } else {
+    //     w_height = w_height_setup.fun();
+    // }
 
-    max_entry_len = 0;
-    max_column_len = 0;
-    desc_lines = desc_lines_hint;
+    // max_entry_len = 0;
+    // max_column_len = 0;
+    // desc_lines = desc_lines_hint;
     std::vector<int> autoassign;
-    pad_left = pad_left_setup.fun ? pad_left_setup.fun() : 0;
-    pad_right = pad_right_setup.fun ? pad_right_setup.fun() : 0;
-    int pad = pad_left + pad_right + 2;
-    int descwidth_final = 0; // for description width guard
+    // pad_left = pad_left_setup.fun ? pad_left_setup.fun() : 0;
+    // pad_right = pad_right_setup.fun ? pad_right_setup.fun() : 0;
+    // int pad = pad_left + pad_right + 2;
+    // int descwidth_final = 0; // for description width guard
     for( size_t i = 0; i < entries.size(); i++ ) {
-        int txtwidth = utf8_width( remove_color_tags( entries[i].txt ) );
-        int ctxtwidth = utf8_width( remove_color_tags( entries[i].ctxt ) );
-        if( txtwidth > max_entry_len ) {
-            max_entry_len = txtwidth;
-        }
-        if( ctxtwidth > max_column_len ) {
-            max_column_len = ctxtwidth;
-        }
-        int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
+        //     int txtwidth = utf8_width( remove_color_tags( entries[i].txt ) );
+        //     int ctxtwidth = utf8_width( remove_color_tags( entries[i].ctxt ) );
+        //     if( txtwidth > max_entry_len ) {
+        //         max_entry_len = txtwidth;
+        //     }
+        //     if( ctxtwidth > max_column_len ) {
+        //         max_column_len = ctxtwidth;
+        //     }
+        //     int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( !entries[i].hotkey.has_value() ) {
                 autoassign.emplace_back( static_cast<int>( i ) );
@@ -660,24 +649,24 @@ void uilist::calc_data()
             if( entries[ i ].retval == -1 ) {
                 entries[ i ].retval = i;
             }
-            if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
-                w_width = txtwidth + pad + 4 + clen;
-            }
-        } else {
-            if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
-                // TODO: or +5 if header
-                w_width = txtwidth + pad + 4 + clen;
-            }
+            //         if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
+            //             w_width = txtwidth + pad + 4 + clen;
+            //         }
+            //     } else {
+            //         if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
+            //             // TODO: or +5 if header
+            //             w_width = txtwidth + pad + 4 + clen;
+            //         }
         }
-        if( desc_enabled ) {
-            const int min_desc_width = std::min( max_desc_width, std::max( w_width, descwidth_final ) - 4 );
-            int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
-                            desc_lines, min_desc_width, max_desc_width );
-            descwidth += 4; // 2x border + 2x ' ' pad
-            if( descwidth_final < descwidth ) {
-                descwidth_final = descwidth;
-            }
-        }
+        //     if( desc_enabled ) {
+        //         const int min_desc_width = std::min( max_desc_width, std::max( w_width, descwidth_final ) - 4 );
+        //         int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
+        //                         desc_lines, min_desc_width, max_desc_width );
+        //         descwidth += 4; // 2x border + 2x ' ' pad
+        //         if( descwidth_final < descwidth ) {
+        //             descwidth_final = descwidth;
+        //         }
+        //     }
         if( entries[ i ].text_color == c_red_red ) {
             entries[ i ].text_color = text_color;
         }
@@ -698,118 +687,146 @@ void uilist::calc_data()
         } while( !assigned && hotkey != input_event() );
     }
 
-    if( desc_enabled ) {
-        if( descwidth_final > TERMX ) {
-            desc_enabled = false; // give up
-        } else if( descwidth_final > w_width ) {
-            w_width = descwidth_final;
-        }
+    // if( desc_enabled ) {
+    //     if( descwidth_final > TERMX ) {
+    //         desc_enabled = false; // give up
+    //     } else if( descwidth_final > w_width ) {
+    //         w_width = descwidth_final;
+    //     }
 
-    }
+    // }
 
-    if( !text.empty() ) {
-        int twidth = utf8_width( remove_color_tags( text ) );
-        bool formattxt = true;
-        int realtextwidth = 0;
-        if( textwidth == -1 ) {
-            if( !w_auto ) {
-                realtextwidth = w_width - 4;
-            } else {
-                realtextwidth = twidth;
-                if( twidth + 4 > w_width ) {
-                    if( realtextwidth + 4 > TERMX ) {
-                        realtextwidth = TERMX - 4;
-                    }
-                    textformatted = foldstring( text, realtextwidth );
-                    formattxt = false;
-                    realtextwidth = 10;
-                    for( auto &l : textformatted ) {
-                        const int w = utf8_width( remove_color_tags( l ) );
-                        if( w > realtextwidth ) {
-                            realtextwidth = w;
-                        }
-                    }
-                    if( realtextwidth + 4 > w_width ) {
-                        w_width = realtextwidth + 4;
-                    }
-                }
-            }
-        } else if( textwidth != -1 ) {
-            realtextwidth = textwidth;
-            if( realtextwidth + 4 > w_width ) {
-                w_width = realtextwidth + 4;
-            }
-        }
-        if( formattxt ) {
-            textformatted = foldstring( text, realtextwidth );
-        }
-    }
+    // if( !text.empty() ) {
+    //     int twidth = utf8_width( remove_color_tags( text ) );
+    //     bool formattxt = true;
+    //     int realtextwidth = 0;
+    //     if( textwidth == -1 ) {
+    //         if( !w_auto ) {
+    //             realtextwidth = w_width - 4;
+    //         } else {
+    //             realtextwidth = twidth;
+    //             if( twidth + 4 > w_width ) {
+    //                 if( realtextwidth + 4 > TERMX ) {
+    //                     realtextwidth = TERMX - 4;
+    //                 }
+    //                 textformatted = foldstring( text, realtextwidth );
+    //                 formattxt = false;
+    //                 realtextwidth = 10;
+    //                 for( auto &l : textformatted ) {
+    //                     const int w = utf8_width( remove_color_tags( l ) );
+    //                     if( w > realtextwidth ) {
+    //                         realtextwidth = w;
+    //                     }
+    //                 }
+    //                 if( realtextwidth + 4 > w_width ) {
+    //                     w_width = realtextwidth + 4;
+    //                 }
+    //             }
+    //         }
+    //     } else if( textwidth != -1 ) {
+    //         realtextwidth = textwidth;
+    //         if( realtextwidth + 4 > w_width ) {
+    //             w_width = realtextwidth + 4;
+    //         }
+    //     }
+    //     if( formattxt ) {
+    //         textformatted = foldstring( text, realtextwidth );
+    //     }
+    // }
 
     // shrink-to-fit
+    // if( !categories.empty() ) {
+    //     category_lines = 0;
+    //     for( const std::pair<std::string, std::string> &pair : categories ) {
+    //         // -2 for borders, -2 for padding
+    //         category_lines = std::max<int>( category_lines, foldstring( pair.second, w_width - 4 ).size() );
+    //     }
+    // }
+
+    // if( w_auto && w_width > TERMX ) {
+    //     w_width = TERMX;
+    // }
+
+    vmax = entries.size();
+    uint additional_lines = 0;
+    // if( !categories.empty() ) {
+    //     additional_lines += category_lines;
+    // }
+
+    // if( h_auto ) {
+    //     w_height = vmax + additional_lines;
+    // }
+
+    // if( w_height > TERMY ) {
+    //     w_height = TERMY;
+    // }
+
+    // if( !w_x_setup.fun ) {
+    //     w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
+    // } else {
+    //     w_x = w_x_setup.fun( w_width );
+    // }
+    // if( !w_y_setup.fun ) {
+    //     w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
+    // } else {
+    //     w_y  = w_y_setup.fun( w_height );
+    // }
+
+    bool has_titlebar = title[0] != '#';
+    if( has_titlebar ) {
+        additional_lines += 1;
+    }
+
     if( desc_enabled ) {
         desc_lines = 0;
         for( const uilist_entry &ent : entries ) {
-            // -2 for borders, -2 for padding
-            desc_lines = std::max<int>( desc_lines, foldstring( footer_text.empty() ? ent.desc : footer_text,
-                                        w_width - 4 ).size() );
+            // this is a bad estimate because it wraps by character count, and we don’t even know how many characters will fit
+            desc_lines = std::max<int>( desc_lines,
+                                        foldstring( footer_text.empty() ? ent.desc : footer_text, 0 ).size() );
         }
         if( desc_lines <= 0 ) {
             desc_enabled = false;
         }
     }
-    if( !categories.empty() ) {
-        category_lines = 0;
-        for( const std::pair<std::string, std::string> &pair : categories ) {
-            // -2 for borders, -2 for padding
-            category_lines = std::max<int>( category_lines, foldstring( pair.second, w_width - 4 ).size() );
-        }
-    }
-
-    if( w_auto && w_width > TERMX ) {
-        w_width = TERMX;
-    }
-
-    vmax = entries.size();
-    int additional_lines = 2 + text_separator_line + // add two for top & bottom borders
-                           static_cast<int>( textformatted.size() );
-    if( !categories.empty() ) {
-        additional_lines += category_lines + 1;
-    }
     if( desc_enabled ) {
-        additional_lines += desc_lines + 1; // add one for description separator line
+        additional_lines += desc_lines;
     }
 
-    if( h_auto ) {
-        w_height = vmax + additional_lines;
+    if( ( vmax + additional_lines ) * ImGui::GetTextLineHeightWithSpacing() >
+        ImGui::GetMainViewport()->Size.y ) {
+        vmax = ( ImGui::GetMainViewport()->Size.y - additional_lines *
+                 ImGui::GetTextLineHeightWithSpacing() ) / ImGui::GetTextLineHeightWithSpacing();
     }
 
-    if( w_height > TERMY ) {
-        w_height = TERMY;
+    calculated_menu_size = { 0.0, 0.0 };
+    for( size_t i = 0; i < fentries.size(); i++ ) {
+        auto entry = entries[fentries[i]];
+        // this will overestimate if there are any color tags, but that never happens. probably.
+        calculated_menu_size.x = std::max( calculated_menu_size.x,
+                                           ImGui::CalcTextSize( entry.txt.c_str() ).x );
+    }
+    calculated_menu_size.x += ImGui::CalcTextSize( " [X] " ).x;
+    calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y,
+                                       vmax * ImGui::GetTextLineHeightWithSpacing() );
+
+    ImVec2 extra_space = { 0.0, 0.0 };
+    if( callback != nullptr ) {
+        extra_space = callback->desired_extra_space( );
+        extra_space.x += ImGui::GetStyle().FramePadding.x;
     }
 
-    if( vmax + additional_lines > w_height ) {
-        vmax = w_height - additional_lines;
-    }
-
-    if( !w_x_setup.fun ) {
-        w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
-    } else {
-        w_x = w_x_setup.fun( w_width );
-    }
-    if( !w_y_setup.fun ) {
-        w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
-    } else {
-        w_y  = w_y_setup.fun( w_height );
-    }
+    calculated_bounds.w = extra_space.x + calculated_menu_size.x;
+    calculated_bounds.h = extra_space.y + ImGui::GetFrameHeightWithSpacing() + calculated_menu_size.y
+                          + ( additional_lines * ImGui::GetTextLineHeightWithSpacing() );
 }
 
 void uilist::setup()
 {
-    calc_data();
-
     if( !started ) {
         filterlist();
     }
+
+    calc_data();
 
     started = true;
     recalc_start = true;

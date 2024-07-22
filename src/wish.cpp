@@ -158,6 +158,10 @@ class wish_mutate_callback: public uilist_callback
             return false;
         }
 
+        ImVec2 desired_extra_space( ) override {
+            return { 40 * ImGui::GetTextSize( "X" ).x, 0.0 };
+        }
+
         void refresh( uilist *menu ) override {
             if( !started ) {
                 started = true;
@@ -255,13 +259,7 @@ void debug_menu::wishmutate( Character *you )
         }
         c++;
     }
-    wmenu.w_x_setup = 0;
-    wmenu.w_width_setup = []() -> int {
-        return TERMX;
-    };
-    wmenu.pad_right_setup = []() -> int {
-        return TERMX - 40;
-    };
+    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
     cb.you = you;
@@ -665,6 +663,10 @@ class wish_monster_callback: public uilist_callback
             return false;
         }
 
+        ImVec2 desired_extra_space( ) override {
+            return { 30 * ImGui::GetTextSize( "X" ).x, 0.0 };
+        }
+
         void refresh( uilist *menu ) override {
             auto info_size = ImGui::GetContentRegionAvail();
             info_size.x *= 3.0;
@@ -716,13 +718,7 @@ void debug_menu::wishmonster( const std::optional<tripoint> &p )
     std::vector<const mtype *> mtypes;
 
     uilist wmenu;
-    wmenu.w_x_setup = 0;
-    wmenu.w_width_setup = []() -> int {
-        return TERMX;
-    };
-    wmenu.pad_right_setup = []() -> int {
-        return TERMX - 30;
-    };
+    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
@@ -882,7 +878,6 @@ class wish_item_callback: public uilist_callback
                         if( !snippes.empty() ) {
                             uilist snipp_query;
                             snipp_query.text = _( "Choose snippet type." );
-                            snipp_query.desc_lines_hint = 2;
                             snipp_query.desc_enabled = true;
                             int cnt = 0;
                             for( const std::pair<snippet_id, std::string> &elem : snippes ) {
@@ -915,6 +910,12 @@ class wish_item_callback: public uilist_callback
                 return true;
             }
             return false;
+        }
+
+        ImVec2 desired_extra_space( ) override {
+            return { std::max( TERMX / 2, TERMX - 50 ) *ImGui::GetTextSize( "X" ).x,
+                     0.0
+                   };
         }
 
         void refresh( uilist *menu ) override {
@@ -1029,13 +1030,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         { "SCROLL_DESC_UP", translation() },
         { "SCROLL_DESC_DOWN", translation() },
     };
-    wmenu.w_x_setup = 0;
-    wmenu.w_width_setup = []() -> int {
-        return TERMX;
-    };
-    wmenu.pad_right_setup = []() -> int {
-        return std::max( TERMX / 2, TERMX - 50 );
-    };
+    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( itypes, ivariants, snipped_id_str );
     wmenu.callback = &cb;
@@ -1172,13 +1167,8 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             skill_id = sksel;
             const Skill &skill = *sorted_skills[skill_id];
             uilist sksetmenu;
-            sksetmenu.w_height_setup = MAX_SKILL + 5;
-            sksetmenu.w_x_setup = [&]( int ) -> int {
-                return skmenu.w_x + skmenu.w_width + 1;
-            };
-            sksetmenu.w_y_setup = [&]( const int height ) {
-                return std::max( 0, skmenu.w_y + ( skmenu.w_height - height ) / 2 );
-            };
+            // auto skmenu_bounds = skmenu.get_bounds();
+            // sksetmenu.desired_bounds = { skmenu_bounds.x + skmenu_bounds.w, skmenu_bounds.y + (skmenu_bounds.h) / 2
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = get_level( skill );
             sksetmenu.selected = skcur;
@@ -1198,7 +1188,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             }
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
                                       skill.name(),
-                                      get_level( skill ) ).substr( 0, skmenu.w_width - 4 );
+                                      get_level( skill ) );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                     get_level( skill ),
                     skill.name() );

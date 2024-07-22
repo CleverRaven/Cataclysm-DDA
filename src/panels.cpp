@@ -20,7 +20,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "json.h"

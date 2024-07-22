@@ -164,6 +164,9 @@ class teleporter_callback : public uilist_callback
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
         explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
+        ImVec2 desired_extra_space( ) override {
+            return { 33 * ImGui::CalcTextSize( "X" ).x, 0.0 };
+        }
         void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
             const int entnum = menu->selected;
@@ -181,21 +184,22 @@ std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
     std::optional<tripoint_abs_omt> ret = std::nullopt;
 
     uilist teleport_selector;
-    teleport_selector.w_height_setup = 24;
+    teleport_selector.desired_bounds = {
+        -1.0,
+            -1.0,
+            std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
+            clamp( static_cast<int>( known_teleporters.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
+        };
 
     int index = 0;
-    int column_width = 25;
     std::map<int, tripoint_abs_omt> index_pairs;
     for( const std::pair<const tripoint_abs_omt, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
-        column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );
         index++;
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.w_width_setup = 38 + column_width;
-    teleport_selector.pad_right_setup = 33;
     teleport_selector.title = _( "Choose Translocator Gate" );
 
     teleport_selector.query();

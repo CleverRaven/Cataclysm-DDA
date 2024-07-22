@@ -2074,6 +2074,9 @@ class query_destination_callback : public uilist_callback
         void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
+        ImVec2 desired_extra_space( ) override {
+            return { ImGui::CalcTextSize( "[1] [2] [3]" ).x, 0.0 };
+        }
 };
 
 void query_destination_callback::draw_squares( const uilist *menu )
@@ -2126,8 +2129,6 @@ bool advanced_inventory::query_destination( aim_location &def )
 
     uilist menu;
     menu.text = _( "Select destination" );
-    /* free space for the squares */
-    menu.pad_left_setup = 9;
     query_destination_callback cb( *this );
     menu.callback = &cb;
 

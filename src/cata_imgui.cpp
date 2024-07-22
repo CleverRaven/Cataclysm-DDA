@@ -3,8 +3,10 @@
 #include <stack>
 #include <type_traits>
 
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
+#undef IMGUI_DEFINE_MATH_OPERATORS
 
 #include "color.h"
 #include "input.h"
@@ -619,8 +621,11 @@ void cataimgui::window::draw()
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
-    if( cached_bounds.h > 0 || cached_bounds.w > 0 ) {
+    if( cached_bounds.h > 1.0 || cached_bounds.w > 1.0 ) {
         ImGui::SetNextWindowSize( { cached_bounds.w, cached_bounds.h } );
+    } else if( cached_bounds.h > 0.0 && cached_bounds.w > 0.0 && cached_bounds.h <= 1.0 &&
+               cached_bounds.w <= 1.0 ) {
+        ImGui::SetNextWindowSize( ImGui::GetMainViewport()->Size * ImVec2 { cached_bounds.w, cached_bounds.h } );
     }
     if( ImGui::Begin( id.c_str(), &is_open, window_flags ) ) {
         draw_controls();

@@ -13,9 +13,13 @@
 #include <vector>
 
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include "imgui/imgui.h"
+#undef IMGUI_DEFINE_MATH_OPERATORS
 #include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -218,6 +222,9 @@ class uilist_callback
             return false;
         }
         virtual void refresh( uilist * ) {}
+        virtual ImVec2 desired_extra_space( ) {
+            return { 0.0, 0.0 };
+        }
         virtual ~uilist_callback() = default;
 };
 /*@}*/
@@ -413,21 +420,22 @@ class uilist // NOLINT(cata-xy)
 
         uilist_callback *callback;
 
-        pos_scalar w_x_setup;
-        pos_scalar w_y_setup;
-        size_scalar w_width_setup;
-        size_scalar w_height_setup;
+        std::optional<cataimgui::bounds> desired_bounds;
+        // pos_scalar w_x_setup;
+        // pos_scalar w_y_setup;
+        // size_scalar w_width_setup;
+        // size_scalar w_height_setup;
 
-        int textwidth = 0;
+        // int textwidth = 0;
 
-        size_scalar pad_left_setup;
-        size_scalar pad_right_setup;
+        // size_scalar pad_left_setup;
+        // size_scalar pad_right_setup;
 
         // Maximum number of lines to be allocated for displaying descriptions.
         // This only serves as a hint, not a hard limit, so the number of lines
         // may still exceed this value when for example the description text is
         // long enough.
-        int desc_lines_hint = 0;
+        // int desc_lines_hint = 0;
         bool desc_enabled = false;
 
         bool filtering = false;
@@ -457,19 +465,21 @@ class uilist // NOLINT(cata-xy)
         std::vector<std::string> textformatted;
 
         catacurses::window window;
-        int w_x = 0;
-        int w_y = 0;
-        int w_width = 0;
-        int w_height = 0;
+        // int w_x = 0;
+        // int w_y = 0;
+        // int w_width = 0;
+        // int w_height = 0;
 
-        int pad_left = 0;
-        int pad_right = 0;
+        // int pad_left = 0;
+        // int pad_right = 0;
 
         int vshift = 0;
 
         int fselected = 0; // -1 as sentinel value for no filtered entries to select from
 
     private:
+        ImVec2 calculated_menu_size;
+        cataimgui::bounds calculated_bounds;
         std::vector<int> fentries;
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };
@@ -485,7 +495,7 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         int desc_lines = 0;
-        int category_lines = 0;
+        // int category_lines = 0;
 
         bool started = false;
 

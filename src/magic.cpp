@@ -2744,21 +2744,15 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 
 int known_magic::select_spell( Character &guy )
 {
-    // max width of spell names
-    const int max_spell_name_length = get_spellname_max_width();
     std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
-    spell_menu.w_height_setup = [&]() -> int {
-        return clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
-    };
-    const auto calc_width = []() -> int {
-        return std::max( 80, TERMX * 3 / 8 );
-    };
-    spell_menu.w_width_setup = calc_width;
-    spell_menu.pad_right_setup = [&]() -> int {
-        return calc_width() - max_spell_name_length - 5;
-    };
+    spell_menu.desired_bounds = {
+        -1.0,
+            -1.0,
+            std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
+            clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
+        };
     spell_menu.title = _( "Choose a Spell" );
     spell_menu.input_category = "SPELL_MENU";
     spell_menu.additional_actions.emplace_back( "CHOOSE_INVLET", translation() );
@@ -2978,12 +2972,17 @@ static void draw_spellbook_info( const spell_type &sp )
     }
 }
 
+ImVec2 spellbook_callback::desired_extra_space( )
+{
+    return { 38 * ImGui::CalcTextSize( "X" ).x, 0.0 };
+}
+
 void spellbook_callback::refresh( uilist *menu )
 {
-    auto info_width = ImGui::GetContentRegionAvail().x * 3.0f;
-    auto info_height = info_width * 3.0f * 1.62f;
+    auto info_size = desired_extra_space( );
+    info_size.y = info_size.x * 3.0f * 1.62f;
     ImGui::TableSetColumnIndex( 2 );
-    if( ImGui::BeginChild( "spellbook info", { info_width, info_height }, false,
+    if( ImGui::BeginChild( "spellbook info", info_size, false,
                            ImGuiWindowFlags_AlwaysAutoResize ) ) {
         if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
             draw_spellbook_info( spells[menu->selected] );
