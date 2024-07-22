@@ -497,6 +497,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   },
   {
+    "id": "sl8mag",
+    "looks_like": "stanag10",
+    "type": "MAGAZINE",
+    "name": { "str": "10 round SL8 magazine" },
+    "description": "A single stack magazine for the SL8 rifle, holding 10 rounds.",
+    "weight": "70 g",
+    "volume": "132 ml",
+    "longest_side": "58 mm",
+    "price": "60 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223" ],
+    "reload_time": 120,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 10 } } ]
+  },
+  {
     "id": "augmag_10rd",
     "copy-from": "stanag10",
     "looks_like": "stanag30",
