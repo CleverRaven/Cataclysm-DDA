@@ -15,7 +15,7 @@
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "brogyaga", "launcher_simple", "m79" ],
+    "id": [ "brogyaga", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "sapra", "robofac_gun_40mm", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },

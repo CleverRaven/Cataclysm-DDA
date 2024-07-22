@@ -607,7 +607,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 {
     SECTION( "empty gun and gunmod" ) {
         item gun( "modular_m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item mod( "m203" );
         gun.force_insert_item( mod, pocket_type::MOD );
 
         SECTION( "wrong ammo" ) {
@@ -631,7 +631,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 
     SECTION( "partially empty gun and empty gunmod" ) {
         item gun( "modular_m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item mod( "m203" );
         item mag1( "stanag30" );
         mag1.put_in( item( "556", calendar::turn, 10 ), pocket_type::MAGAZINE );
 
@@ -665,7 +665,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 
     SECTION( "partially empty gun and full gunmod" ) {
         item gun( "modular_m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item mod( "m203" );
         item mag1( "stanag30" );
         mag1.put_in( item( "556", calendar::turn, 10 ), pocket_type::MAGAZINE );
         mod.put_in( item( "40x46mm_m433", calendar::turn, 1 ), pocket_type::MAGAZINE );
@@ -700,7 +700,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 
     SECTION( "partially empty gun and gunmod with casing" ) {
         item gun( "modular_m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item mod( "m203" );
         item mag1( "stanag30" );
         mag1.put_in( item( "556", calendar::turn, 10 ), pocket_type::MAGAZINE );
         mod.force_insert_item( item( "40x46mm_m118_casing" ).set_flag( json_flag_CASING ),
@@ -736,7 +736,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 
     SECTION( "full gun and empty gunmod" ) {
         item gun( "modular_m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item mod( "m203" );
         item mag1( "stanag30" );
         mag1.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 

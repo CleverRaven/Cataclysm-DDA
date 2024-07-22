@@ -797,21 +797,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "pipe_launcher40mm",
-    "//": "underbarrel mount",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "launcher", 3 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "book_learn": [ [ "manual_launcher", 3 ], [ "mag_launcher", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "nail", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "u_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
