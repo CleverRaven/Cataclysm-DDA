@@ -2016,7 +2016,7 @@
     "id": "doggy_bones",
     "//": "spooky scary dog skeletons",
     "type": "harvest",
-    "message": "<zombie_animal_bone_harvest>",
+    "message": "<zombie_bone_dog_harvest>",
     "entries": [
       { "drop": "bone_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },

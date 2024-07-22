@@ -279,6 +279,7 @@ static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_WATERWALKING( "WATERWALKING" );
 
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
@@ -10899,7 +10900,8 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) &&
         !m.has_flag_furn( "BRIDGE", u.pos_bub() ) &&
-        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
+        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) &&
+        !u.has_flag( json_flag_WATERWALKING ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
     }
@@ -11869,7 +11871,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool submerging = false;
     // > and < are used for diving underwater.
     if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) ) {
-        swimming = true;
+        if( !u.has_flag( json_flag_WATERWALKING ) ) {
+            swimming = true;
+        }
         const ter_id &target_ter = here.ter( u.pos_bub() + tripoint( 0, 0, movez ) );
 
         // If we're in a water tile that has both air above and deep enough water to submerge in...
@@ -11892,9 +11896,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 }
                 // ...and we're not already submerged.
                 else {
-                    // Check for a flotation device first before allowing us to submerge.
+                    // Check for a flotation device or the WATERWALKING flag first before allowing us to submerge.
                     if( u.worn_with_flag( flag_FLOTATION ) ) {
                         add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
+                        return;
+                    }
+                    if( u.has_flag( json_flag_WATERWALKING ) ) {
+                        add_msg( m_info, _( "You can't dive while walking on water." ) );
                         return;
                     }
 
@@ -13511,9 +13519,13 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     g->vertical_move( -descended_levels, true );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() ) ) {
-        you.set_underwater( true );
-        g->water_affect_items( you );
-        you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+        if( you.has_flag( json_flag_WATERWALKING ) ) {
+            you.add_msg_if_player( _( "You climb down and stand on the water's surface." ) );
+        } else {
+            you.set_underwater( true );
+            g->water_affect_items( you );
+            you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+        }
     }
 }
 
