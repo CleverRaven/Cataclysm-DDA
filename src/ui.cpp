@@ -320,13 +320,7 @@ uilist::uilist( const std::string &msg, std::initializer_list<const char *const>
     query();
 }
 
-uilist::~uilist()
-{
-    //shared_ptr_fast<uilist_impl> current_ui = ui.lock();
-    //if( current_ui ) {
-    //    current_ui->reset();
-    //}
-}
+uilist::~uilist() =default;
 
 void uilist::color_error( const bool report )
 {
@@ -588,7 +582,7 @@ void uilist::calc_data()
         additional_lines += 1;
     }
 
-    auto desc_lines = 0;
+    int desc_lines = 0;
     if( desc_enabled ) {
         for( const uilist_entry &ent : entries ) {
             // this is a bad estimate because it wraps by character count, and we don’t even know how many characters will fit
