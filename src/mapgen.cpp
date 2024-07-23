@@ -237,7 +237,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
                 const std::vector<bool>::iterator iter = generated.begin() + grid_pos;
-                generated.emplace( iter, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) != nullptr );
+                generated.emplace( iter, MAPBUFFER.submap_exists( p_sm_base.xy() + pos ) );
 
                 if( !generated.at( grid_pos ) || save_results ) {
                     setsubmap( grid_pos, new submap() );
