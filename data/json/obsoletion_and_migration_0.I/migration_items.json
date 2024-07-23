@@ -1553,6 +1553,21 @@
     "replace": "sling-ready_molotov"
   },
   {
+    "id": "triple_launcher_simple",
+    "type": "MIGRATION",
+    "replace": "mgl"
+  },
+  {
+    "id": "launcher_simple",
+    "type": "MIGRATION",
+    "replace": "m79"
+  },
+  {
+    "id": "pipe_launcher40mm",
+    "type": "MIGRATION",
+    "replace": "m203"
+  },
+  {
     "id": "hk_g36",
     "type": "MIGRATION",
     "replace": "sig_assault_rifle"
