@@ -351,14 +351,6 @@ uilist::operator int() const
 void uilist::init()
 {
     cata_assert( !test_mode ); // uilist should not be used in tests where there's no place for it
-    // w_x_setup = pos_scalar::auto_assign {};
-    // w_y_setup = pos_scalar::auto_assign {};
-    // w_width_setup = size_scalar::auto_assign {};
-    // w_height_setup = size_scalar::auto_assign {};
-    // w_x = 0;
-    // w_y = 0;
-    // w_width = 0;
-    // w_height = 0;
     desired_bounds = std::nullopt;
     calculated_bounds = { -1.f, -1.f, -1.f, -1.f };
     calculated_menu_size = { 0.0, 0.0 };
@@ -367,20 +359,13 @@ void uilist::init()
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
-    // textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     ret_evt = input_event(); // last input event
     keymap.clear();        // keymap[input_event] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uilist_entry(int returnval, bool enabled, int keycode, std::string text, ... TODO: submenu stuff)
     started = false;       // set to true when width and key calculations are done, and window is generated.
-    // pad_left_setup = 0;
-    // pad_right_setup = 0;
-    // pad_left = 0;          // make a blank space to the left
-    // pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
-    // desc_lines_hint = 6;   // default number of lines for description
-    // desc_lines = 6;
     footer_text.clear();   // takes precedence over per-entry descriptions.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
@@ -408,7 +393,6 @@ void uilist::init()
 
     categories.clear();
     current_category = 0;
-    // category_lines = 0;
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -562,86 +546,10 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
-/**
- * Find the minimum width between max( min_width, 1 ) and
- * max( max_width, min_width, 1 ) to fold the string to no more than max_lines,
- * or no more than the minimum number of lines possible, assuming that
- * foldstring( width ).size() decreases monotonously with width.
- **/
-// static int find_minimum_fold_width( const std::string &str, int max_lines,
-//                                     int min_width, int max_width )
-// {
-//     if( str.empty() ) {
-//         return std::max( min_width, 1 );
-//     }
-//     min_width = std::max( min_width, 1 );
-//     // max_width could be further limited by the string width, but utf8_width is
-//     // not handling linebreaks properly.
-
-//     if( min_width < max_width ) {
-//         // If with max_width the string still folds to more than max_lines, find the
-//         // minimum width that folds the string to such number of lines instead.
-//         max_lines = std::max<int>( max_lines, foldstring( str, max_width ).size() );
-//         while( min_width < max_width ) {
-//             int width = ( min_width + max_width ) / 2;
-//             // width may equal min_width, but will always be less than max_width.
-//             int lines = foldstring( str, width ).size();
-//             // If the current width folds the string to no more than max_lines
-//             if( lines <= max_lines ) {
-//                 // The minimum width is between min_width and width.
-//                 max_width = width;
-//             } else {
-//                 // The minimum width is between width + 1 and max_width.
-//                 min_width = width + 1;
-//             }
-//             // The new interval will always be smaller than the previous one,
-//             // so the loop is guaranteed to end.
-//         }
-//     }
-//     return min_width;
-// }
-
 void uilist::calc_data()
 {
-    // bool w_auto = !w_width_setup.fun;
-
-    // // Space for a line between text and entries. Only needed if there is actually text.
-    // const int text_separator_line = text.empty() ? 0 : 1;
-    // if( w_auto ) {
-    //     w_width = 4;
-    //     if( !title.empty() ) {
-    //         w_width = utf8_width( title ) + 5;
-    //     }
-    // } else {
-    //     w_width = w_width_setup.fun();
-    // }
-    // const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
-
-    // bool h_auto = !w_height_setup.fun;
-    // if( h_auto ) {
-    //     w_height = 4;
-    // } else {
-    //     w_height = w_height_setup.fun();
-    // }
-
-    // max_entry_len = 0;
-    // max_column_len = 0;
-    // desc_lines = desc_lines_hint;
     std::vector<int> autoassign;
-    // pad_left = pad_left_setup.fun ? pad_left_setup.fun() : 0;
-    // pad_right = pad_right_setup.fun ? pad_right_setup.fun() : 0;
-    // int pad = pad_left + pad_right + 2;
-    // int descwidth_final = 0; // for description width guard
     for( size_t i = 0; i < entries.size(); i++ ) {
-        //     int txtwidth = utf8_width( remove_color_tags( entries[i].txt ) );
-        //     int ctxtwidth = utf8_width( remove_color_tags( entries[i].ctxt ) );
-        //     if( txtwidth > max_entry_len ) {
-        //         max_entry_len = txtwidth;
-        //     }
-        //     if( ctxtwidth > max_column_len ) {
-        //         max_column_len = ctxtwidth;
-        //     }
-        //     int clen = ( ctxtwidth > 0 ) ? ctxtwidth + 2 : 0;
         if( entries[ i ].enabled ) {
             if( !entries[i].hotkey.has_value() ) {
                 autoassign.emplace_back( static_cast<int>( i ) );
@@ -651,24 +559,7 @@ void uilist::calc_data()
             if( entries[ i ].retval == -1 ) {
                 entries[ i ].retval = i;
             }
-            //         if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
-            //             w_width = txtwidth + pad + 4 + clen;
-            //         }
-            //     } else {
-            //         if( w_auto && w_width < txtwidth + pad + 4 + clen ) {
-            //             // TODO: or +5 if header
-            //             w_width = txtwidth + pad + 4 + clen;
-            //         }
         }
-        //     if( desc_enabled ) {
-        //         const int min_desc_width = std::min( max_desc_width, std::max( w_width, descwidth_final ) - 4 );
-        //         int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
-        //                         desc_lines, min_desc_width, max_desc_width );
-        //         descwidth += 4; // 2x border + 2x ' ' pad
-        //         if( descwidth_final < descwidth ) {
-        //             descwidth_final = descwidth;
-        //         }
-        //     }
         if( entries[ i ].text_color == c_red_red ) {
             entries[ i ].text_color = text_color;
         }
@@ -689,98 +580,16 @@ void uilist::calc_data()
         } while( !assigned && hotkey != input_event() );
     }
 
-    // if( desc_enabled ) {
-    //     if( descwidth_final > TERMX ) {
-    //         desc_enabled = false; // give up
-    //     } else if( descwidth_final > w_width ) {
-    //         w_width = descwidth_final;
-    //     }
-
-    // }
-
-    // if( !text.empty() ) {
-    //     int twidth = utf8_width( remove_color_tags( text ) );
-    //     bool formattxt = true;
-    //     int realtextwidth = 0;
-    //     if( textwidth == -1 ) {
-    //         if( !w_auto ) {
-    //             realtextwidth = w_width - 4;
-    //         } else {
-    //             realtextwidth = twidth;
-    //             if( twidth + 4 > w_width ) {
-    //                 if( realtextwidth + 4 > TERMX ) {
-    //                     realtextwidth = TERMX - 4;
-    //                 }
-    //                 textformatted = foldstring( text, realtextwidth );
-    //                 formattxt = false;
-    //                 realtextwidth = 10;
-    //                 for( auto &l : textformatted ) {
-    //                     const int w = utf8_width( remove_color_tags( l ) );
-    //                     if( w > realtextwidth ) {
-    //                         realtextwidth = w;
-    //                     }
-    //                 }
-    //                 if( realtextwidth + 4 > w_width ) {
-    //                     w_width = realtextwidth + 4;
-    //                 }
-    //             }
-    //         }
-    //     } else if( textwidth != -1 ) {
-    //         realtextwidth = textwidth;
-    //         if( realtextwidth + 4 > w_width ) {
-    //             w_width = realtextwidth + 4;
-    //         }
-    //     }
-    //     if( formattxt ) {
-    //         textformatted = foldstring( text, realtextwidth );
-    //     }
-    // }
-
-    // shrink-to-fit
-    // if( !categories.empty() ) {
-    //     category_lines = 0;
-    //     for( const std::pair<std::string, std::string> &pair : categories ) {
-    //         // -2 for borders, -2 for padding
-    //         category_lines = std::max<int>( category_lines, foldstring( pair.second, w_width - 4 ).size() );
-    //     }
-    // }
-
-    // if( w_auto && w_width > TERMX ) {
-    //     w_width = TERMX;
-    // }
-
     vmax = entries.size();
     uint additional_lines = 0;
-    // if( !categories.empty() ) {
-    //     additional_lines += category_lines;
-    // }
-
-    // if( h_auto ) {
-    //     w_height = vmax + additional_lines;
-    // }
-
-    // if( w_height > TERMY ) {
-    //     w_height = TERMY;
-    // }
-
-    // if( !w_x_setup.fun ) {
-    //     w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
-    // } else {
-    //     w_x = w_x_setup.fun( w_width );
-    // }
-    // if( !w_y_setup.fun ) {
-    //     w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
-    // } else {
-    //     w_y  = w_y_setup.fun( w_height );
-    // }
 
     bool has_titlebar = title[0] != '#';
     if( has_titlebar ) {
         additional_lines += 1;
     }
 
+    auto desc_lines = 0;
     if( desc_enabled ) {
-        desc_lines = 0;
         for( const uilist_entry &ent : entries ) {
             // this is a bad estimate because it wraps by character count, and we don’t even know how many characters will fit
             desc_lines = std::max<int>( desc_lines,
