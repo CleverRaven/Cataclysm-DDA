@@ -22,14 +22,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "stock mount", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [  ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
@@ -54,7 +47,7 @@
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "energy_drain": "1 kJ",
     "reload": 200,
-    "valid_mod_locations": [ [ "sights", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [ [ "sights mount", 1 ], [ "sling", 1 ] ],
     "flags": [ "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ],
     "melee_damage": { "bash": 9 }
@@ -285,15 +278,7 @@
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "relative": { "weight": "625 g", "volume": "360 ml", "price": "50 USD" },
     "barrel_volume": "720 ml",
-    "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   },
@@ -318,16 +303,7 @@
     "reload": 200,
     "barrel_volume": "360 ml",
     "barrel_length": "600 mm",
-    "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "barrel", 1 ],
-      [ "muzzle", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 12 }
@@ -472,15 +448,7 @@
     "clip_size": 6,
     "reload": 200,
     "barrel_volume": "360 ml",
-    "valid_mod_locations": [
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "barrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 12 }
@@ -911,7 +879,7 @@
     "clip_size": 1,
     "reload": 600,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
-    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ] ],
     "flags": [ "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 8 }
