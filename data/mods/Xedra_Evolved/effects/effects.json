@@ -1700,6 +1700,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_walk_on_water",
+    "name": [ "Walk Across the Flowing Waters" ],
+    "desc": [ "The waters are bearing you up." ],
+    "rating": "good",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_skinchanged_penalties",
     "name": [ "Skinchanged Mind" ],
     "desc": [ "You're starting to get used to being an animal.  Even enjoy it." ],

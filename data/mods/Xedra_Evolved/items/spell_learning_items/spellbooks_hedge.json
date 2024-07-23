@@ -109,5 +109,26 @@
     "symbol": "?",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] }
+  },
+  {
+    "id": "spellbook_hedge_bathhouse_midnight",
+    "//": "divination spells are appropriate here too",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
+      "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
+    },
+    "description": "This encyclopediac tome by W. F. Ryan concerns a wide variety of folk magic practices in pre-modern Russia, including their social context, the way that the Church had to work against folk practices like leaving items on the altar for six weeks so they would gain protective powers, the dangers of being alone in the bathhouse, ways to find and keep a husband or wife, when to throw an axe handle over your shoulder when walking into the forest, and how the government mostly suppressed magic because magical power (real or imagined) would have been a threat to secular power.  The description of some of these rituals are extremely detailed.",
+    "weight": "771 g",
+    "volume": "1357 ml",
+    "material": [ "paper" ],
+    "looks_like": "paper",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
+    }
   }
 ]

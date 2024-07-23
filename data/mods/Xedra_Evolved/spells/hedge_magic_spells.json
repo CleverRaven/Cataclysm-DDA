@@ -393,8 +393,24 @@
     "shape": "blast",
     "components": "spell_components_hedge_turn_into_bear",
     "max_level": 1,
-    "min_damage": 1,
-    "max_damage": 1,
     "base_casting_time": 720000
+  },
+  {
+    "id": "hedge_walk_on_water",
+    "type": "SPELL",
+    "name": "To Walk Across the Flowing Waters",
+    "description": "While standing with your feet in the water, recite this charm to have the water bear you up.  You must keep moving at a steady pace, without running or stopping for more than a few moments, or the charm will fade.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HEDGE_WALK_ON_WATER",
+    "shape": "blast",
+    "components": "spell_components_hedge_walk_on_water",
+    "max_level": 1,
+    "base_casting_time": 1000
   }
 ]
