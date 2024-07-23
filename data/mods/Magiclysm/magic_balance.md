@@ -79,8 +79,17 @@ Mana Blast: This spell is like fireball, but its damage is even higher, and in a
 ## Spellcasting Proficiencies
 Spellcasting proficiencies allow mages to specialize in various kinds of magic, across magic classes, based on what those particular spells do. There are currently five proficieny classes; those being Evocation, Channeling, Conjuration, Enhancement, and Conveyance. 
 
+### Evocation
 Evocation covers powerful, short-casting spells that are meant to release large bursts of energy quickly. This covers most offensive spells, such as Magic Missile, Fireball, or Necrotic Gaze. Evocation can also cover non-offensive spells too, so long as they require the caster to pool mana and release it in fast fashion, and their effects aren't covered by one of the other proficiencies. Proficiency in Evocation allows the caster to use mana more efficiently, raising the damage or power of the spell's effect.
+
+### Channeling
 Channeling covers spells that require the caster to focus for long periods of time, slowly building or channeling mana over the course of the spell. This includes most rituals, such as Wash the Wounds Clean, Crystalize Mana, or the assorted rune creation spells. The effects of these spells can be most anything. Proficiency in Channeling will reduce the mana cost of the spell and its casting time.
+
+### Conjuration
 Conjuration encompasses spells that summon something or someone, usually for a set period of time. Most Golemancy is covered by this, along with the Animist's Summon Undead, Ignus Fattus, or the Druid's Nature's Bow. Conjuration specializes in spells that temporarily summon something, rather than permanently creating something, which would be a bit more suited to Channeling. Proficiency in Conjuration will lower the mana cost of spells and improve the duration times of summoned creatures/objects.
+
+### Enhancement
 Enhancement covers spells that improve the target in some way, mentally, physically, or emotionally. While there are many spells in this class, some of them are Cat's Grace, Ogre's Strength, Eagle's Sight, or Feral Form. Note that spells which exclusively heal are not included, as they are fixing something which is damaged, while Enhancement covers spells which improve on the whole. However, if a spell both heals and buffs something, then it should be included in this. Any spells which exclusively debuff or hinder something should also not be included. Proficiency in Enhancement will lower the casting time of spells and improve the duration of enhancement.
+
+### Conveyance
 Conveyance encompasses spells which involve translocating, teleporting, or moving the caster/target. Some spells covered are Phase Door, Magus's Mark, Shocking Dash, or Translocate Self. Proficiency in Conveyance will extend the range of the spell (if applicable), or lower the casting time if not, and lower the mana cost of the incantation.
