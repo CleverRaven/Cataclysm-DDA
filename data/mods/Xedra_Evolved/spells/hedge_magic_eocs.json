@@ -349,27 +349,27 @@
     "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
-    "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+    "condition": { "u_has_effect": "effect_hedge_walk_on_water" },
     "effect": [
       {
         "run_eocs": [
           {
             "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE_2",
-            "condition": { "u_has_effect": "effect_hedge_walk_on_water" },
+            "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
             "effect": [
               {
                 "if": { "math": [ "u_effect_duration('effect_hedge_walk_on_water')", "<=", "2" ] },
                 "then": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 2 } ],
                 "else": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 } ]
               }
+            ],
+            "false_effect": [
+              { "u_message": "As you step on solid ground again, the charm fades.", "type": "neutral" },
+              { "u_lose_effect": "effect_hedge_walk_on_water" }
             ]
           }
         ]
       }
-    ],
-    "false_effect": [
-      { "u_message": "As you step on solid ground again, the charm fades.", "type": "neutral" },
-      { "u_lose_effect": "effect_hedge_walk_on_water" }
     ]
   },
   {
