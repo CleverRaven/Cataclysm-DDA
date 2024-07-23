@@ -2087,6 +2087,7 @@
     "rating": "bad",
     "resist_traits": [ "SAPROVORE", "EATDEAD" ],
     "base_mods": { "vomit_chance": [ 500, 2000 ] },
+    "enchantments": [ { "values": [ { "value": "SCENT_MASK", "add": 500 } ] } ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95, "resist_modifier": 1 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "max_duration": "60 m",
