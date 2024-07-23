@@ -62,6 +62,7 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -642,6 +643,10 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.has_effect( effect_glowing ) ) {
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
+    }
+    if( you.has_effect( effect_bile_irritant ) ) {
+        add_msg( _( "The water washes off the acidic bile!" ) );
+        you.remove_effect( effect_bile_irritant );
     }
 
     g->water_affect_items( you );
