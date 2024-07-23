@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: '30 * * * *'
 permissions:
+  context: write
   issues: write
   pull-requests: write
 jobs:
