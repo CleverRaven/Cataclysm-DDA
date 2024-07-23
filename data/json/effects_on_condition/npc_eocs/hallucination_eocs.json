@@ -138,7 +138,7 @@
   {
     "type": "effect_on_condition",
     "id": "self_shout",
-    "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true, "type": "speech" }
+    "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true }
   },
   {
     "type": "effect_on_condition",
