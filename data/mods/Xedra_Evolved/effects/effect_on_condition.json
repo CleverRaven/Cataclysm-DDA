@@ -35,7 +35,7 @@
   {
     "type": "effect_on_condition",
     "id": "faeblood_hallu_light",
-    "recurrence": [ "30 minutes", "30 minutes" ],
+    "recurrence": [ "29 minutes", "29 minutes" ],
     "global": true,
     "condition": { "u_has_effect": "drank_fae_blood_hallucination", "intensity": 3 },
     "effect": [
@@ -45,7 +45,7 @@
   {
     "type": "effect_on_condition",
     "id": "faeblood_hallu_hard",
-    "recurrence": [ "30 minutes", "30 minutes" ],
+    "recurrence": [ "29 minutes", "29 minutes" ],
     "condition": { "u_has_effect": "drank_fae_blood_hallucination", "intensity": 4 },
     "effect": [
       { "u_add_effect": "hallu", "intensity": 1, "duration": "30 minutes" },
