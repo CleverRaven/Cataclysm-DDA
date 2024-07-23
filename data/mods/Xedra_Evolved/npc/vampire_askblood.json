@@ -14,6 +14,8 @@
             { "not": { "npc_has_trait": "THRESH_INSECT" } },
             { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "npc_has_trait": "VAMPIRE" } },
             { "math": [ "n_val('npc_trust')", ">=", "10" ] },
             { "math": [ "n_val('npc_value')", ">=", "10" ] },
             { "u_has_trait": "VAMPIRE" }
@@ -37,6 +39,8 @@
             { "not": { "npc_has_trait": "THRESH_INSECT" } },
             { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "npc_has_trait": "VAMPIRE" } },
             { "math": [ "n_val('npc_trust')", "<=", "9" ] },
             { "math": [ "n_val('npc_value')", "<=", "9" ] },
             { "math": [ "n_val('npc_trust')", ">", "0" ] },
@@ -64,7 +68,9 @@
                 { "npc_has_trait": "THRESH_CRUSTACEAN" },
                 { "npc_has_trait": "THRESH_INSECT" },
                 { "npc_has_trait": "THRESH_CEPHALOPOD" },
-                { "npc_has_trait": "THRESH_GASTROPOD" }
+                { "npc_has_trait": "THRESH_GASTROPOD" },
+                { "npc_has_trait": "BLOOD_OF_SAINTS" },
+                { "npc_has_trait": "VAMPIRE" }
               ]
             }
           ]
@@ -89,6 +95,8 @@
             { "not": { "npc_has_trait": "THRESH_INSECT" } },
             { "not": { "npc_has_trait": "THRESH_CEPHALOPOD" } },
             { "not": { "npc_has_trait": "THRESH_GASTROPOD" } },
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "npc_has_trait": "VAMPIRE" } },
             { "u_has_trait": "VAMPIRE" }
           ]
         }
