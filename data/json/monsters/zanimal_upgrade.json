@@ -88,6 +88,20 @@
     "extend": { "special_attacks": [ [ "PARROT_AT_DANGER", 2 ], [ "SHRIEK", 2 ] ], "flags": [ "KEEP_DISTANCE" ] }
   },
   {
+    "id": "mon_dog_scorched",
+    "type": "MONSTER",
+    "name": { "str": "scorched dog" },
+    "description": "A charred and damaged corpse of a canid, covered in fused patches of burnt hide and flesh.",
+    "copy-from": "mon_zombie_dog",
+    "hp": 27,
+    "speed": 72,
+    "color": "i_brown",
+    "melee_skill": 3,
+    "bleed_rate": 25,
+    "armor": { "bash": 2, "cut": 4, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
+  },
+  {
     "id": "mon_dog_zombie_hulk",
     "type": "MONSTER",
     "name": { "str": "hulking horror" },
@@ -115,8 +129,21 @@
       },
       { "id": "scratch_grab_required" }
     ],
+    "burn_into": "mon_dog_scorched_hulk",
     "extend": { "flags": [ "DESTROYS" ] },
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 4 }
+  },
+  {
+    "id": "mon_dog_scorched_hulk",
+    "type": "MONSTER",
+    "name": { "str": "scorched hulking dog" },
+    "description": "A charred and damaged corpse of what you can only assume was once a horribly mutated dog.  Covering its entire body is a layer of fused and melted hide, giving it an armored appearance.",
+    "copy-from": "mon_dog_zombie_hulk",
+    "proportional": { "hp": 0.75, "speed": 0.6875 },
+    "relative": { "melee_skill": -1 },
+    "color": "i_brown",
+    "armor": { "bash": 9, "cut": 13, "acid": 6, "heat": 15, "bullet": 11, "electric": 3 },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
     "id": "mon_dog_skeleton_brute",
@@ -193,6 +220,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "burn_into": "mon_dog_scorched",
     "dodge": 4,
     "bleed_rate": 50,
     "vision_night": 3,

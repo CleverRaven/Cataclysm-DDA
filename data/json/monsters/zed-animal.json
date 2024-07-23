@@ -113,6 +113,7 @@
     "harvest": "zombie_dog",
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "death_drops": "mon_dog_death_drops",
+    "burn_into": "mon_dog_scorched",
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "fungalize_into": "mon_zombie_dog_fungus",
     "flags": [

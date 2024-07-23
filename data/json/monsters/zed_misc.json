@@ -765,7 +765,7 @@
     "bleed_rate": 50,
     "vision_night": 4,
     "grab_strength": 30,
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
@@ -948,6 +948,7 @@
     "harvest": "zombie_grabber",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
     "extend": { "flags": [ "SMELLS" ] }
   },
@@ -976,6 +977,7 @@
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 }
     ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": false,
     "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER" ] }
   },
@@ -1029,6 +1031,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
+    "burn_into": "mon_zombie_fiend",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {

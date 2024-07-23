@@ -42,12 +42,16 @@
         "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
         "then": {
           "mapgen_update": "nest_Isherwood_chris_swat_add",
-          "om_terrain": "rural_road",
+          "om_terrain": "isherwood_barry_rescue_field",
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
           "if": { "math": [ "isherwood_gear_status", "!=", "1" ] },
-          "then": { "mapgen_update": "nest_Isherwood_chris_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+          "then": {
+            "mapgen_update": "nest_Isherwood_chris_add",
+            "om_terrain": "isherwood_barry_rescue_field",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
         }
       }
     ]
@@ -60,12 +64,16 @@
         "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "==", "1" ] } ] },
         "then": {
           "mapgen_update": "nest_Isherwood_lisa_swat_add",
-          "om_terrain": "rural_road",
+          "om_terrain": "isherwood_barry_rescue_field",
           "om_special": "Barry's Mi-Go Scout Tower"
         },
         "else": {
           "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "!=", "1" ] } ] },
-          "then": { "mapgen_update": "nest_Isherwood_lisa_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+          "then": {
+            "mapgen_update": "nest_Isherwood_lisa_add",
+            "om_terrain": "isherwood_barry_rescue_field",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
         }
       }
     ]
@@ -84,7 +92,7 @@
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_line_add",
-            "om_terrain": "rural_road",
+            "om_terrain": "isherwood_barry_rescue_field",
             "om_special": "Barry's Mi-Go Scout Tower"
           }
         ],
@@ -93,7 +101,7 @@
           "then": [
             {
               "mapgen_update": "nest_Isherwood_firing_line_swat_add",
-              "om_terrain": "rural_road",
+              "om_terrain": "isherwood_barry_rescue_field",
               "om_special": "Barry's Mi-Go Scout Tower"
             }
           ]
@@ -104,7 +112,7 @@
         "then": [
           {
             "mapgen_update": "nest_Isherwood_firing_wall_add",
-            "om_terrain": "rural_road",
+            "om_terrain": "isherwood_barry_rescue_field",
             "om_special": "Barry's Mi-Go Scout Tower"
           }
         ]
@@ -138,17 +146,20 @@
     "required_event": "avatar_enters_omt",
     "condition": {
       "and": [
-        { "not": { "math": [ "isherwood_barry_rescued", "==", "1" ] } },
+        { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
+        { "math": [ "isherwood_family_coming", "!=", "1" ] },
         { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
         { "u_near_om_location": "horse_farm_isherwood_13", "range": 30 }
       ]
     },
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
     "effect": [
       {
         "u_message": "Barry raises a hand to signal you to stop.  \"This is it.  Thank you so much.  I can't believe I'm here, alive.  It almost feels like I'm dreaming, like it can't be real.\"  He stares at you, his eyes glistening.  \"Whoever you are, thank you.  I'm going to head the rest of the way now and catch up to my family.  Come by and talk to me later when I've had a moment to rest.\"",
         "type": "good",
         "popup": true
       },
+      { "u_lose_var": "u_dont_know_about_farm", "type": "general", "context": "knowledge" },
       {
         "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "then": [
@@ -170,49 +181,83 @@
                 ]
               }
             ],
-            "unique_ids": [ "BARRY_MISSION", "CHRIS_MISSION", "LISA_MISSION" ]
+            "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION" ]
           }
-        ],
-        "else": {
-          "u_run_npc_eocs": [
-            {
-              "id": "EOC_BARRY_ONLY_LEAVE",
-              "effect": [
-                {
-                  "u_location_variable": { "global_val": "invasion_map" },
-                  "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 }
-                },
-                { "u_teleport": { "global_val": "invasion_map" }, "force": true },
-                {
-                  "mapgen_update": "remove_barry_and_company",
-                  "om_terrain": "horse_farm_isherwood_13",
-                  "om_special": "Isherwood Farm Mutable"
-                }
-              ]
-            }
-          ],
-          "unique_ids": [ "BARRY_MISSION" ]
-        }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
+            { "not": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" } }
+          ]
+        },
+        "then": [
+          { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
+          { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true }
+        ]
       },
       {
         "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true } ],
-        "else": {
-          "if": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
-          "then": [ { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true } ],
-          "else": {
-            "if": {
-              "and": [
-                { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
-                { "not": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" } }
-              ]
-            },
-            "then": [
-              { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
-              { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true }
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true } ]
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_BARRY_TRAVEL_HOME",
+            "effect": [
+              {
+                "u_set_goal": {
+                  "om_terrain": "horse_farm_isherwood_14",
+                  "om_special": "Isherwood Farm Mutable",
+                  "reveal_radius": 0,
+                  "search_range": 500
+                }
+              }
             ]
           }
-        }
+        ],
+        "unique_ids": [ "BARRY_MISSION" ]
+      },
+      { "math": [ "barry_travelling_home", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARRY_CHECK_IF_HOME",
+    "recurrence": 100,
+    "condition": { "math": [ "barry_travelling_home", "==", "1" ] },
+    "deactivate_condition": { "math": [ "barry_travelling_home", "==", "2" ] },
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_BARRY_CHECK_IF_HOME_TRUE_EFFECT",
+            "condition": { "u_near_om_location": "horse_farm_isherwood_14", "range": 0 },
+            "effect": [
+              {
+                "u_location_variable": { "global_val": "barry_return_home_map" },
+                "target_params": { "om_terrain": "horse_farm_isherwood_13", "om_special": "Isherwood Farm Mutable", "search_range": 500, "z": 0 },
+                "furniture": "f_sofa",
+                "target_max_radius": 30,
+                "min_radius": 0,
+                "max_radius": 0
+              },
+              { "u_teleport": { "global_val": "barry_return_home_map" }, "force": true },
+              {
+                "queue_eocs": { "id": "EOC_BARRY_CHECK_IF_HOME_DEACTIVATE", "effect": { "math": [ "barry_travelling_home", "=", "2" ] } },
+                "time_in_future": 25
+              },
+              { "u_spawn_item": "NC_Isherwood_Barry_equip", "use_item_group": true, "force_equip": true },
+              { "u_spawn_item": "3006", "count": [ 8, 16 ] }
+            ]
+          }
+        ],
+        "unique_ids": [ "BARRY_MISSION" ]
       }
     ]
   },
@@ -221,6 +266,7 @@
     "id": "isherwood_mission_large_damage_retreat",
     "recurrence": 1,
     "condition": { "math": [ "currently_invading_map", "==", "1" ] },
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
     "effect": [
       {
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
@@ -238,7 +284,7 @@
                 { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
                 {
                   "mapgen_update": "isherwood_rescue_remove_npcs",
-                  "om_terrain": "rural_road",
+                  "om_terrain": "isherwood_barry_rescue_field",
                   "om_special": "Barry's Mi-Go Scout Tower"
                 },
                 { "math": [ "currently_invading_map", "=", "0" ] },
@@ -257,9 +303,11 @@
     "global": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        { "not": { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } },
         {
           "and": [
             { "not": { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 } },
@@ -285,7 +333,7 @@
               { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
               {
                 "mapgen_update": "isherwood_rescue_remove_npcs",
-                "om_terrain": "rural_road",
+                "om_terrain": "isherwood_barry_rescue_field",
                 "om_special": "Barry's Mi-Go Scout Tower"
               }
             ]
@@ -298,7 +346,7 @@
       {
         "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
         "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
-        "furniture": "f_sofa",
+        "furniture": "f_chair",
         "target_max_radius": 30,
         "min_radius": 0,
         "max_radius": 0
@@ -333,7 +381,7 @@
       },
       {
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
-        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
+        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" }
       },
       {
         "mapgen_update": "isherwood_rescue_remove_npcs",
@@ -357,7 +405,7 @@
       {
         "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
         "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
-        "furniture": "f_sofa",
+        "furniture": "f_chair",
         "target_max_radius": 30,
         "min_radius": 0,
         "max_radius": 0
@@ -371,6 +419,7 @@
     "global": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
+    "deactivate_condition": { "math": [ "isherwood_barry_rescued", "==", "1" ] },
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
@@ -409,11 +458,11 @@
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
         "then": [
           { "set_string_var": "blames_themselves", "target_var": { "global_val": "isherwood_barry_death_opinion" } },
-          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
           {
             "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
             "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
-            "furniture": "f_sofa",
+            "furniture": "f_chair",
             "target_max_radius": 30,
             "min_radius": 0,
             "max_radius": 0
