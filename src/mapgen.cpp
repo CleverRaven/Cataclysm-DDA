@@ -227,6 +227,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                   "when[" << to_string( when ) << "] )";
 
     const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
+    std::vector<bool> generated;
+    generated.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS );
 
     // Prepare the canvas...
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -234,7 +236,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                if( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                const std::vector<bool>::iterator iter = generated.begin() + grid_pos;
+                generated.emplace( iter, MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) != nullptr );
+
+                if( !generated.at( grid_pos ) || save_results ) {
                     setsubmap( grid_pos, new submap() );
 
                     // Generate uniform submaps immediately and cheaply.
@@ -265,14 +270,14 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     // map exists.
 
     for( int gridz = OVERMAP_HEIGHT; gridz >= -OVERMAP_DEPTH; gridz-- ) {
-        const tripoint_abs_sm p_sm = {p_sm_base.xy(), gridz};
+        const tripoint_abs_sm p_sm = { p_sm_base.xy(), gridz };
         set_abs_sub( p_sm );
 
         for( int gridx = 0; gridx <= 1; gridx++ ) {
             for( int gridy = 0; gridy <= 1; gridy++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                if( ( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) &&
+                if( ( !generated.at( grid_pos ) || !save_results ) &&
                     !getsubmap( grid_pos )->is_uniform() &&
                     uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
                     saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
@@ -294,10 +299,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         // Not sure if we actually have to check all submaps.
-        const bool any_missing = MAPBUFFER.lookup_submap( p_sm ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point_east ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point_south_east ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point_south ) == nullptr;
+        const bool any_missing = !generated.at( get_nonant( { point_rel_sm_zero, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( { point_rel_sm_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( { point_rel_sm_south_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( { point_rel_sm_south, p_sm.z() } ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( !save_results || any_missing ) &&
@@ -386,12 +391,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                     const tripoint_rel_sm pos( gridx, gridy, gridz );
                     const size_t grid_pos = get_nonant( pos );
-                    if( gridx <= 1 && gridy <= 1 ) {
-                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
-                            saven( {gridx, gridy, gridz} );
-                        }
-                    } else {
-                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                    if( !generated.at( grid_pos ) ) {
+                        if( gridx <= 1 && gridy <= 1 ) {
+                            saven( { gridx, gridy, gridz } );
+                        } else {
                             delete getsubmap( grid_pos );
                         }
                     }
