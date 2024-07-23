@@ -64,7 +64,7 @@
         "name": "the lungs",
         "armor_mult": { "physical": 0.45 },
         "difficulty": { "ranged": 3 },
-        "damage_mult": { "physical": 3 },
+        "damage_mult": { "physical": 1.75 },
         "coverage_mult": { "melee": 0 },
         "coverage": 7
       },
