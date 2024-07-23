@@ -22,6 +22,7 @@
   - [Conveyance](#conveyance)
   - [How The JMATH Works](#how-the-jmath-works)
     - [How JMATH Outputs are Used in Spells](#how-jmath-outputs-are-used-in-spells)
+  - [Advice for Using Proficiencies in Spells](#advice-for-using-proficiencies-in-spells)
 
 ---
 
@@ -113,6 +114,8 @@ Take for example this function for evocation proficiency bonuses:
 ```
 What this does is it takes the three associated proficiencies for Evocation (Beginner, Apprentice, and Master) and sees how much you know of that proficiency, on the percent scale of 0% to 100%. It will then take this found value and convert it from a percent to an integer by multiplying it by 1, and this allows the value to be used in `math` calculations. The function then divides the converted integer by 10. This is used for balancing reasons, since initial testing of `math` calculations using a 1 to 1 conversion resulted in spells producing insane damage numbers and costing 0 mana to cast. It repeats this process for all three proficiencies, and then adds them together, giving us a maximum value of 30. This number is used by the game to determine how big of a bonus you get to things like damage and cost reduction, since this maximum value requires that the character master all 3 of these proficiencies in full.
 
+All of the proficiency bonus and negation JMATH functions work the same way, just with different listed proficiencies to calculate off of. One works just like the other, except if it adds or subtracts using the output value.
+
 _0 and _1 will be discussed in [How JMATH Outputs are Used in Spells](#how-jmath-outputs-are-used-in-spells)
 
 ##### How JMATH Outputs are Used in Spells
@@ -160,4 +163,12 @@ Damage increments work off of the same logic as stated above, with 4.0 being the
     4.0 / (80 - 16)
     4.0 / 64 
       0.0625
-``` which gives us our result of 0.0625.
+``` 
+which gives us our result of 0.0625. This already accounts for spell levels and such, so you don't have to worry about that.
+
+This same process can be repeated for all needed calculations in proficiency bonuses and negations. For example, this process applies to `base_energy_cost`, `final_energy_cost`, and `energy_increment` when calculating the proficiency negations on mana costs for Conjuration spells, or `min_duration`, `max_duration`, and `duration_increment` for Enhancement bonusues extending the buff's time.
+
+### Advice for Using Proficiencies in Spells
+1. When determining scaling modifiers for proficiency bonuses, remeber to account for the maximum possible bonus (all three proficiencies at 100%, max spell level). If this is not done, then your spell might not scale properly at higher power levels, or become too strong when the player accquires all used proficiencies.
+2. Ideally, bonuses should cap around 20% of the base values at maximum proficiency, but this is mainly a rule of thumb. It's up to the discretion of the programmer for how big they want their bonuses to go. So, if something feels to powerful, then reel it back in at bit. If it feels underwhelming, don't be afraid to buff it.
+3. When working on spells with multiple effects, such as an `extra_effects` entry, be sure to account for all of the sub-spells and have them use the proper `math` functions. Otherwise, your spell won't scale properly.
