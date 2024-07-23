@@ -23,8 +23,10 @@
 
 loading_ui::loading_ui( UNUSED bool display )
 {
-    menu = std::make_unique<uilist>();
-    menu->settext( _( "Loading" ) );
+    if( !test_mode ) {
+        menu = std::make_unique<uilist>();
+        menu->settext( _( "Loading" ) );
+    }
 }
 
 loading_ui::~loading_ui() = default;
