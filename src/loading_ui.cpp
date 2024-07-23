@@ -15,7 +15,13 @@
 #include "sdl_wrappers.h"
 #endif // TILES
 
-loading_ui::loading_ui( __attribute__( ( unused ) ) bool display )
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
+loading_ui::loading_ui( UNUSED bool display )
 {
     menu = std::make_unique<uilist>();
     menu->settext( _( "Loading" ) );

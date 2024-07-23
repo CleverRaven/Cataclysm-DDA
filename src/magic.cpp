@@ -2387,7 +2387,7 @@ class spellcasting_callback : public uilist_callback
             return ( std::max( 80, TERMX * 3 / 8 ) * ImGui::CalcTextSize( "X" ).x ) * 2.0 / 3.0;
         }
 
-        void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
+        void refresh( uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );

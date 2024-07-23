@@ -167,7 +167,7 @@ class teleporter_callback : public uilist_callback
         float desired_extra_space_right( ) override {
             return 33 * ImGui::CalcTextSize( "X" ).x;
         }
-        void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
+        void refresh( uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {

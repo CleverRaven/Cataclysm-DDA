@@ -217,6 +217,12 @@
 #include "sdl_utils.h"
 #endif // TILES
 
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
 static const activity_id ACT_BLEED( "ACT_BLEED" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -2049,7 +2055,7 @@ static hint_rating rate_action_insert( const avatar &you, const item_location &l
 int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iStartX,
                                const std::function<int()> &iWidth,
-                               __attribute( ( unused ) ) const inventory_item_menu_position position )
+                               UNUSED const inventory_item_menu_position position )
 {
     int cMenu = static_cast<int>( '+' );
 
