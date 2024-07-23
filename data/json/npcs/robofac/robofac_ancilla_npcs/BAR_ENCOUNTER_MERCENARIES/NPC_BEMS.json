@@ -19,7 +19,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "BGSS_CYBORG_1_STORY1",
-    "faction": "robofac_auxiliaries"
+    "faction": "your_followers"
   },
   {
     "type": "npc",
@@ -30,7 +30,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "BGSS_CYBORG_1_STORY1",
-    "faction": "robofac_auxiliaries"
+    "faction": "your_followers"
   },
   {
     "type": "npc",
