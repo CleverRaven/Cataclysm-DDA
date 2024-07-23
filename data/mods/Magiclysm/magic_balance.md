@@ -160,5 +160,4 @@ Damage increments work off of the same logic as stated above, with 4.0 being the
     4.0 / (80 - 16)
     4.0 / 64 
       0.0625
-```
-which gives us our result of 0.0625.
+``` which gives us our result of 0.0625.
