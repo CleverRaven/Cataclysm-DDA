@@ -399,7 +399,7 @@
     "id": "hedge_walk_on_water",
     "type": "SPELL",
     "name": "To Walk Across the Flowing Waters",
-    "description": "While standing with your feet in the water, recite this charm to have the water bear you up.  You must keep moving at a steady pace, without running or stopping for more than a few moments, or the charm will fade. ",
+    "description": "While standing with your feet in the water, recite this charm to have the water bear you up.  You must keep moving at a steady pace, without running or stopping for more than a few moments, or the charm will fade.",
     "message": "",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
     "valid_targets": [ "self" ],
