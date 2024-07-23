@@ -15,6 +15,11 @@
   - [Tier 2](#tier-2)
   - [Tier 3](#tier-3)
 - [Spellcasting Proficiencies](#spellcasting-proficiencies)
+  - [Evocation](#evocation)
+  - [Channeling](#channeling)
+  - [Conjuration](#conjuration)
+  - [Enhancement](#enhancement)
+  - [Conveyance](#conveyance)
 
 ---
 
