@@ -1,7 +1,7 @@
 ## Contents
 
 - [Spells](#spells)
-  - [difficulty](#difficulty)
+  - [Difficulty](#difficulty)
   - [Max Level](#max-level)
   - [Attack Stats](#attack-stats)
   - [Energy Source](#energy-source)
@@ -76,7 +76,7 @@ These spells are even more fantastic or highly specialized.
 Translocate Self: This spell has a very niche but powerful spell effect. Even though its casting time precludes it from being cast in combat, its effect allows you to teleport anywhere you created a translocator gate, making it a very useful utility spell. In addition, it is classless, making it even more versatile, useful, and powerful.
 Mana Blast: This spell is like fireball, but its damage is even higher, and in addition does force damage and as such ignores armor. That puts this spell squarely in tier 3 alone.
 
-### Spellcasting Proficiencies
+## Spellcasting Proficiencies
 Spellcasting proficiencies allow mages to specialize in various kinds of magic, across magic classes, based on what those particular spells do. There are currently five proficieny classes; those being Evocation, Channeling, Conjuration, Enhancement, and Conveyance. 
 
 Evocation covers powerful, short-casting spells that are meant to release large bursts of energy quickly. This covers most offensive spells, such as Magic Missile, Fireball, or Necrotic Gaze. Evocation can also cover non-offensive spells too, so long as they require the caster to pool mana and release it in fast fashion, and their effects aren't covered by one of the other proficiencies. Proficiency in Evocation allows the caster to use mana more efficiently, raising the damage or power of the spell's effect.
