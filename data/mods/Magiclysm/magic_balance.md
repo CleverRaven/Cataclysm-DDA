@@ -143,4 +143,22 @@ For our next example, let's take a look at the JSON of the classic Kelvinist sta
 ```
 
 There are a few important numbers out of this that relate to how the previous JMATH is used.
-:
+
+Min and Max Damage:
+```JSON
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(16, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(80, 0.5)" ] }
+```
+The first value listed in the `min_damage` and `max_damage` arrays is the base damage of the spell, the _0 in [How The JMATH Works](#how-the-jmath-works). This is what damage the spell would do if the player had no experience at all in Evocation proficiencies, and is what the calculated bonus is added too in the aforementioned example. 0.5 is the _1 that was seen in [How The JMATH Works](#how-the-jmath-works), and this is a scaling modifier. Not all spells do the same damage or scale the same way, so this serves as a way to tune the bonuses of JMATH calculations. In greater detail, this value is what the sum of the three proficiencies is multiplied by at the end of the JMATH calculation to produce the final bonus value, which is added to _0. 
+
+Damage Increments:
+```JSON
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.0, 0.0625)" ] }
+```
+Damage increments work off of the same logic as stated above, with 4.0 being the base increase with no proficiency, and 0.0625 being the scaling modifier. In this case, the scaling modifier limits how much bonus damage is added to the spell upon level-up, thus keeping the natural flow of spell progression in check. Without this value, spells would hit their max damage after 4-6 level-ups, giving players no reason to study above that level and breaking magic balance. To find the scaling modifier for damage increments, simply divide the base `damage_increment` with the difference between base `max_damage` and base `min_damage` of the spell in question. Mathematically expressed, it looks like this for Point Flare;
+```JSON
+    4.0 / (80 - 16)
+    4.0 / 64 
+      0.0625
+```
+which gives us our result of 0.0625.
