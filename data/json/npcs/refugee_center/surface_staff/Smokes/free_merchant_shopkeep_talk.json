@@ -232,16 +232,7 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
     "type": "talk_topic",
-    "dynamic_line": {
-      "concatenate": [
-        "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it",
-        {
-          "follower_present": "NC_BEGGAR_3",
-          "yes": ".\"\n\nLuo puts her hands on her hips.  \"You're getting *paid* for… ah, fuck it.  I should be pissed, but honestly I'm so glad to be out of this place, I can't even be mad.  That's really saying something, coming from me.",
-          "no": "."
-        }
-      ]
-    },
+    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in merch if you can clear them out without anyone getting hurt, yeah.",
     "responses": [
       {
         "text": "I'll see what I can do.  What's merch?",
@@ -263,7 +254,16 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited_Reward",
     "type": "talk_topic",
-    "dynamic_line": "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it.",
+    "dynamic_line": {
+      "concatenate": [
+        "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it",
+        {
+          "follower_present": "NC_BEGGAR_3",
+          "yes": ".\"\n\nLuo puts her hands on her hips.  \"You're getting *paid* for… ah, fuck it.  I should be pissed, but honestly I'm so glad to be out of this place, I can't even be mad.  That's really saying something, coming from me.",
+          "no": "."
+        }
+      ]
+    },
     "speaker_effect": { "effect": { "u_spawn_item": "FMCNote", "count": 20 } },
     "responses": [ { "text": "Thank you!", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" } ]
   },
