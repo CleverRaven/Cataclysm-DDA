@@ -575,7 +575,7 @@ void uilist::calc_data()
     }
 
     vmax = entries.size();
-    uint additional_lines = 0;
+    unsigned int additional_lines = 0;
 
     bool has_titlebar = title[0] != '#';
     if( has_titlebar ) {
