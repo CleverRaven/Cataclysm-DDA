@@ -92,7 +92,6 @@
     "excess": "opiate_eff",
     "min": 0,
     "max": 40000,
-    "//": "Takes 30 min to kick in, lasts 6 hours",
     "rate": "100 s",
     "disease_excess": [ [ 100, 216 ] ]
   },
