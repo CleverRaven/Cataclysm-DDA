@@ -568,7 +568,8 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Corpse-like Flesh" },
-    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.",
+    "description": "Your undead body is now much more dead than alive.  It prevents mundane illnesses and parasites from affecting you, while granting you a total immunity against radiation.  In addition, your scent is now something most mundane creatures cannot understand.",
+    "scent_type": "sc_vampire",
     "flags": [ "PARAIMMUNE", "NO_DISEASE", "NO_RADIATION", "INFECTION_IMMUNE" ]
   },
   {
@@ -707,14 +708,26 @@
   {
     "type": "mutation",
     "id": "BLOOD_DRINKER",
-    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "name": { "str": "Fully fueled by the Blood." },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "You have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
+    "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
+    "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
+          { "value": "KCAL", "multiply": -100 },
+          { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
+          { "value": "HUNGER", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

@@ -137,5 +137,37 @@
     "id": "consume_human_blood",
     "condition": { "u_has_trait": "VAMPIRE" },
     "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vampire_blood_to_kcal",
+    "//": "Check if the vampire is underweight or lower for their size category.  If yes, consume some blood to increase their calories.  Conversion rate of 1 blood vitamin to 5 calories, in 500 calories chunks.",
+    "recurrence": [ "1 h", "1 h" ],
+    "condition": { "u_has_trait": "BLOOD_DRINKER" },
+    "deactivate_condition": { "not": { "u_has_trait": "BLOOD_DRINKER" } },
+    "effect": {
+      "run_eocs": {
+        "id": "eoc_vampire_blood_to_kcal_check_convert",
+        "//": "100000 Kcal is within the normal range for a medium-sized character",
+        "effect": { 
+            "math": [ "u_calories_needed", "=", "100000", "u_size", "=", "u_val('size')" ],
+            "switch": { "math": [ "u_size" ] },
+            "cases": [
+              { "case": 1, "effect": [ { "math": [ "u_calories_needed", "/=", "4" ] } ] },
+              { "case": 2, "effect": [ { "math": [ "u_calories_needed", "/=", "2" ] } ] },
+              { "case": 3, "effect": [  ] },
+              { "case": 4, "effect": [ { "math": [ "u_calories_needed", "*=", "1.5" ] } ] },
+              { "case": 5, "effect": [ { "math": [ "u_calories_needed", "*=", "3" ] } ] }
+            ],
+            "run_eocs":{
+              "id": "eoc_vampire_blood_to_kcal_convert",
+              "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
+              "effect": { 
+              "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100", "u_calories()", "+=", "500" ] },
+              "u_message": "Some of your stolen blood is consumed by your body, making it a little less gaunt.", "type": "good"
+            }
+      }
+    }
   }
+}
 ]
