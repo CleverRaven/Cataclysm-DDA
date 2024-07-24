@@ -238,24 +238,5 @@
       "type": "effect_on_condition",
       "id": "EOC_REMOVE_LUNA_MISSION",
       "effect":  { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
-      },
-
-
-
-      {
-        "type": "effect_on_condition",
-        "id": "EOC_ENTER_ABYSSAL_HUNGER_ZONE",
-        "effect": [ 
-          
-
-
-
-
-
-
-
-
-
-        ]
-     }
+         }
 ]

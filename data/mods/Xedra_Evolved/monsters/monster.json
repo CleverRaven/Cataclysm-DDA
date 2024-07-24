@@ -480,6 +480,226 @@
   }
     ]
     
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_grasping_globule",
+    "name": { "str": "grasping globule" },
+    "description": "A large, irregular mass of greenish slime, leaking toxic gas wherever it goes.  It forms tendrils as it percieves you, likely to keep you close to itself as you succumb to its gas.",
+    "default_faction": "nether",
+    "bodytype": "blob",
+    "species": [ "NETHER" ],
+    "volume": "240 L",
+    "weight": "300 kg",
+    "hp": 150,
+    "speed": 120,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "black_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 5,
+    "melee_dice_sides": 3,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 3
+      }
+    ],
+    "emit_fields": [
+      {
+        "emit_id": "fd_toxic_gas",
+        "delay": "1 s"
+      }
+    ],
+    "dodge": 2,
+    "harvest": "exempt",
+    "corpse_type": "NO_CORPSE",
+    "vision": 70,
+    "vision_night": 70,
+    "special_attacks": [
+      {
+        "id": "grab"
+      },
+      [
+        "ACID_BARF",
+        10
+      ],
+      {
+        "id": "grab_drag",
+        "cooldown": 3
+      },
+      {
+        "id": "drag_followup"
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "GRABS",
+      "BASHES",
+      "GROUP_BASH",
+      "NO_BREATHE",
+      "PUSH_MON"
+    ],
+    "grab_strength": 40
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bashing_globule",
+    "name": { "str": "bashing globule" },
+    "description": "A large, irregular mass of reddish slime, forming appendages to bash its targets.  It wanders blindly, seeking something to crush with its mass.",
+    "default_faction": "nether",
+    "bodytype": "blob",
+    "species": [ "NETHER" ],
+    "volume": "240 L",
+    "weight": "300 kg",
+    "hp": 200,
+    "speed": 140,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "black_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 7,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 7
+      }
+    ],
+    "dodge": 2,
+    "harvest": "exempt",
+    "corpse_type": "NO_CORPSE",
+    "vision": 5,
+    "vision_night": 5,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "STUMBLES",
+      "BASHES",
+      "GROUP_BASH",
+      "NO_BREATHE",
+      "PUSH_MON"
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spewing_globule",
+    "name": { "str": "spewing globule" },
+    "description": "This mass of slime quivers as you approach.  Beneath the surface, you see shapes trying to find a way out of it.",
+    "default_faction": "nether",
+    "bodytype": "blob",
+    "species": [ "NETHER" ],
+    "volume": "875 L",
+    "weight": "200 kg",
+    "hp": 300,
+    "speed": 85,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "white_magenta",
+    "aggression": 100,
+    "morale": 100,
+    "harvest": "exempt",
+    "corpse_type": "NO_CORPSE",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": {
+          "id": "mucus_spawn",
+          "hit_self": true
+        },
+        "cooldown": 20,
+        "monster_message": "%s spews mucus at you!"
+      },
+      {
+        "type": "spell",
+        "spell_data": {
+          "id": "small_globule_spawn",
+          "hit_self": true
+        },
+        "cooldown": 5,
+        "monster_message": "%s opens itself, and some small globules crawl out of it!"
+      }
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "NO_BREATHE",
+      "IMMOBILE",
+      "PUSH_MON",
+      "SMELLS"
+    ],
+    "vision_day": 83,
+    "vision_night": 83
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mall_globule",
+    "name": { "str": "small globule" },
+    "description": "This small, swift ball of slime moves to attack you without hesitation.  Despite its size and lack of strength, its speed must not be underestimated.",
+    "default_faction": "nether",
+    "bodytype": "blob",
+    "species": [ "NETHER" ],
+    "volume": "18 L",
+    "weight": "20 kg",
+    "hp": 10,
+    "speed": 135,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 3,
+    "melee_dice_sides": 2,
+    "melee_damage": [
+      {
+        "damage_type": "bash",
+        "amount": 2
+      }
+    ],
+    "harvest": "exempt",
+    "corpse_type": "NO_CORPSE",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "NO_BREATHE",
+      "SMELLS"
+    ],
+    "vision_day": 83,
+    "vision_night": 83
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mucus",
+    "name": { "str": "mucus" },
+    "description": "A mass of mucus, produced to hinder your movements.",
+    "default_faction": "nether",
+    "bodytype": "blob",
+    "species": [ "NETHER" ],
+    "volume": "875 L",
+    "weight": "200 kg",
+    "hp": 30,
+    "speed": 0,
+    "//": "The goal is to make it immobile without the flag, so others can push them.",
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "harvest": "exempt",
+    "corpse_type": "NO_CORPSE",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "NO_BREATHE"
+    ],
+    "vision_day": 0,
+    "vision_night": 0
   }
-
 ]

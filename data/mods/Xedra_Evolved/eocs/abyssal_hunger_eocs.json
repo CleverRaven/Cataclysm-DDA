@@ -1,0 +1,75 @@
+[
+ 
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENTER_ABYSSAL_HUNGER_ZONE",
+    "effect": [
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
+      { "revert_location": { "global_val": "dungeon_loc" }, "key": "abyssal_hunger_zone", "time_in_future": "infinite" },
+      { "revert_location": { "global_val": "dungeon_roof_loc" }, "time_in_future": "infinite", "key": "abyssal_hunger_zone" },
+      { "mapgen_update": "abyssal_hunger_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
+      { "mapgen_update": "abyssal_hunger_roof", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "math": [ "abyssal_hunger_level", "=", "1" ] },
+      { "u_message": "You were devoured by the Abyssal Hunger!" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL",
+    "condition": { "math": [ "abyssal_hunger_level", "<", "5" ] },
+    "effect": [
+      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "mapgen_update": "abyssal_hunger_zone_regular", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_message": "You progress through the insides of the being that swallowed you." }
+    ],
+    "false_effect": [
+      { "math": [ "abyssal_hunger_level", "++" ] },
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "mapgen_update": "abyssal_hunger_zone_brain", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_message": "You progress through the insides of the being that swallowed you." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ABYSSAL_HUNGER_EXIT",
+    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "effect": [
+      { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" },
+      { "u_spawn_item": "abyssal_hunger_shard" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ABYSSAL_HUNGER_EXIT",
+    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "effect": [
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      {
+        "u_teleport": { "global_val": "original_loc" },
+        "success_message": "You return to where you performed the ritual.",
+        "fail_message": "Something is very wrong!",
+        "force": true
+      },
+      { "math": [ "abyssal_hunger_level", "=", "0" ] }
+    ]
+  },
+  {
+    "id": "EOC_DEATH_ABYSSAL_HUNGER",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
+    "effect": [
+      {
+        "u_message": "It is unclear if you were slain by an immune system or digested but suffice to say, you are no more.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" }
+    ]
+  }
+]

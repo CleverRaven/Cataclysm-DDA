@@ -1,0 +1,184 @@
+[
+  {
+    "type": "palette",
+    "id": "abyssal_hunger_palette",
+    "terrain": { "0": "t_abyssal_flesh_floor", "1": "t_abyssal_flesh_wall", "B": "t_abyssal_brain", "T": "f_shard_location" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "portal_dungeon_roof",
+    "object": {
+      "set": [ { "square": "terrain", "id": "t_abyssal_flesh_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "abyssal_hunger_zone_regular",
+    "object": {
+      "rows": [
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "palettes": [ "abyssal_hunger_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
+      { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 },
+      { "point": "trap", "id": "tr_abyssal_hunger_next_level", "x": [ 1, 22 ], "y": 22 } ],
+      "place_monster": [ { "group": "GROUP_ABYSSAL_HUNGER_CELLS", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 12, 16 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "abyssal_hunger_zone_brain",
+    "object": {
+      "rows": [
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa10000BB00BB00001aaaa",
+        "aaaa10000BB00BB00001aaaa",
+        "aaaa1000BBBTTBBB0001aaaa",
+        "aaaa1000BBBBBBBB0001aaaa",
+        "aaaa1000BBBBBBBB0001aaaa",
+        "aaaa1000BBBBBBBB0001aaaa",
+        "aaaa10000BBBBBB00001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1000000000000001aaaa",
+        "aaaa1111111111111111aaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "palettes": [ "abyssal_hunger_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
+      { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 },
+      { "point": "trap", "id": "tr_portal_dungeon_next_level", "x": [ 1, 22 ], "y": 22 } ],
+      "place_monster": [ { "group": "GROUP_ABYSSAL_HUNGER_CELLS", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 22, 26 ] } ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_abyssal_hunger_next_level",
+    "name": "Swirling vortex",
+    "color": "blue",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "abyssal_hunger_next_level" }
+  },
+  {
+    "type": "SPELL",
+    "id": "abyssal_hunger_next_level",
+    "name": "abyssal hunger next level",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
+  },
+  {
+    "type": "furniture",
+    "id": "f_shard_location",
+    "name": "shard-filled brain chunk",
+    "description": "A chunk of brain matter holding some shards akin to the one you are looking for.  Examine to pick one.",
+    "//": "On examine, activates the EOC cthat grants the player the shard before sending them back to the ritual point.",
+    "symbol": "S",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 0,
+    "required_str": -1,
+    "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ABYSSAL_HUNGER_GRANT_SHARD" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_abyssal_flesh_wall",
+    "name": "warped flesh wall",
+    "description": "Cold to the touch, the deformed flesh of this monstrous being churns as it perceives your presence.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta_red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_nm_floor_flesh",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "AUTO_WALL_SYMBOL",
+      "BLOCK_WIND"
+    ],
+    "looks_like": "t_nm_wall_flesh",
+    "bash": {
+      "str_min": 99999,
+      "str_max": 99999,
+      "sound": "please report the bug allowing you to destroy these walls on github.",
+      "sound_fail": "whump!",
+      "ter_set": "t_abyssal_flesh_floor",
+      "items": [ { "item": "meat_tainted", "count": [ 1, 1 ] } ]
+    }
+  },
+
+
+
+    {
+      "type": "terrain",
+      "id": "t_abyssal_flesh_floor",
+      "name": "warped flesh floor",
+      "description": "Walking over the innards of this monstrous beast, you can feel it move underneath your feet.",
+      "symbol": ".",
+      "color": "magenta_white",
+      "move_cost": 1,
+      "connect_groups": "INDOORFLOOR",
+      "flags": [
+        "TRANSPARENT",
+        "SUPPORTS_ROOF",
+        "INDOORS",
+        "FLAT"
+      ],
+      "looks_like": "t_nm_floor_flesh"
+    },
+    {
+      "type": "terrain",
+      "id": "t_abyssal_flesh_roof",
+      "name": "warped flesh roof",
+      "description": "A section of flat, flesh-like rooftop.",
+      "symbol": ".",
+      "color": "magenta",
+      "move_cost": 2,
+      "flags": [ "FLAT" ]
+    }
+      ]
