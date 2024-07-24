@@ -67,5 +67,132 @@
       { "u_message": "As the shadow dissipates, it leaves something behind.", "type": "good" },
       { "u_spawn_item": "shadow_singularity_piece", "count": 1 }
     ]
-  }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DREAM_DRAINER_LOOT",
+    "effect": [
+      { "u_message": "As the mosquito fades away, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "dream_drainer_heart", "count": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUNA_ATTUNED_LOOT",
+    "effect": [
+      { "u_message": "As the revenant decoheres, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "moonstruck_pearl", "count": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD",
+    "condition": { "u_location_variable": { "context_val": "test" }, "field": "fd_fatigue", "intensity": 3, "target_max_radius": 5  },
+    "effect": [ { "u_spawn_item": "stormwrought_blood_itert" }, { "u_message": "The ritual harnesses the energies of the tear to infuse some blood with it, leaving behind a small ball of almost-solid blood.  It only needs to bath in the energies of the storms until it is fully charged and it will be ready to use.", "type": "good", "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" } ],
+    "false_effect": [
+      { "u_message": "Without the proximity of a tear in reality, the ritual fails to harness any energy and the blood boils away.", "type": "bad" }
+    ]
+      },
+      {
+        "type": "effect_on_condition",
+        "id": "CHARGE_STORMWROUGHT_BLOOD",
+        "recurrence": "5 minutes",
+        "global": true,
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "is_weather": "portal_storm" },
+                { "and": [ { "is_weather": "distant_portal_storm" }, { "one_in_chance": 12 } ] },
+                { "is_weather": "close_portal_storm" }
+              ]
+            },
+            { "u_has_items": { "item": "stormwrought_blood_itert" } },
+            "u_is_outside"
+          ]
+        },
+        "deactivate_condition": {
+          "not": {
+            "or": [ { "is_weather": "portal_storm" }, { "is_weather": "distant_portal_storm" }, { "is_weather": "close_portal_storm" } ]
+          }
+        },
+        "effect": [
+          { "math": [ "u_stormwrought_blood_charge", "++" ] },
+          {
+            "run_eocs": [
+              {
+                "id": "STORMWROUGHT_BLOOD_FULL_CHARGE",
+                "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "25" ] },
+                "effect": [ 
+                  { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
+                  { "u_remove_item_with": "stormwrought_blood_itert" },
+                  { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
+                  { "math": [ "u_stormwrought_blood_charge", "==", "0" ] }
+                  ],
+                "false_effect": [
+                  {
+                    "run_eocs": [
+                      {
+                        "id": "STORMWROUGHT_BLOOD_HIGH_CHARGE",
+                        "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "10" ] },
+                        "effect": [ { "u_message": "The stormwrought blood boils intensely for a moment before returning to its inert state.", "type": "info" } ],
+                        "false_effect": [
+                          {
+                            "run_eocs": [
+                              {
+                                "id": "STORMWROUGHT_BLOOD_LOW_CHARGE",
+                                "condition": { "math": [ "u_stormwrought_blood_charge", ">=", "1" ] },
+                                "effect": [ { "u_message": "The stormwrought blood boils a little, then becomes inert again.", "type": "info" } ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {
+        "type": "effect_on_condition",
+        "id": "EOC_ENTER_ABYSSAL_HUNGER_ZONE",
+        "effect": [ 
+          
+
+
+
+
+
+
+
+
+
+        ]
+     }
 ]

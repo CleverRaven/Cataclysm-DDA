@@ -127,7 +127,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Walking the shadowed path of Blood", "str_pl": "copies of Walking the shadowed path of Blood"},
-    "description": "This handwritten book contains a very thorough detailling of all what a vampire needs to reach their full potential.  You already know most of it, but some parts have yet to be read.",
+    "description": "This handwritten book contains a very thorough detailing of all what a vampire needs to reach their full potential.  You already know most of it, but some parts have yet to be read.",
     "weight": "830 g",
     "volume": "1320 ml",
     "price": "1 USD",

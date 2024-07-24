@@ -91,7 +91,14 @@
       {
         "text": "I have brought back the components you need for the ritual.",
         "topic": "TALK_VAMPIRE_MENTOR_MAKE_TIER_5",
-        "condition": { "and": [ { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" }, { "u_has_item": "stormwrought_blood_charged" }, { "u_has_item": "concentrated_underhill_essence", "count": 1000 },  { "u_has_item": "dream_drainer_heart" },  { "u_has_item": "moonstruck_pearl" },  { "u_has_item": "abyssal_hunger_shard" } ] }
+        "condition": { "and": [ { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" }, { "u_has_item": "stormwrought_blood_charged" }, { "u_has_item": "concentrated_underhill_essence", "count": 1000 },  { "u_has_item": "dream_drainer_heart" },  { "u_has_item": "moonstruck_pearl" },  { "u_has_item": "abyssal_hunger_shard" } ] },
+        "effect": [
+          { "u_sell_item": "stormwrought_blood_charged", "count": 1 },
+          { "u_sell_item": "concentrated_underhill_essence", "count": 1000 },
+          { "u_sell_item": "dream_drainer_heart", "count": 1 },
+          { "u_sell_item": "moonstruck_pearl", "count": 1 },
+          { "u_sell_item": "abyssal_hunger_shard", "count": 1 }
+        ]
       },
       {
         "text": "Just passing through, don't mind me.",
