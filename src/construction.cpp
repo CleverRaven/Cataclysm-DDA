@@ -898,8 +898,7 @@ construction_id construction_menu( const bool blueprint )
                 }
             } else if( select >= 0 && static_cast<size_t>( select ) < constructs.size() ) {
                 last_construction = constructs[select];
-            }
-            else {
+            } else {
                 filter.clear();
             }
             category_id = construct_cat[tabindex].id;
