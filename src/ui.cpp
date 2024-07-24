@@ -320,7 +320,7 @@ uilist::uilist( const std::string &msg, std::initializer_list<const char *const>
     query();
 }
 
-uilist::~uilist() =default;
+uilist::~uilist() = default;
 
 void uilist::color_error( const bool report )
 {
