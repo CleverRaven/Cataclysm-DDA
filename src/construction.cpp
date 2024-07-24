@@ -890,6 +890,7 @@ construction_id construction_menu( const bool blueprint )
             construction_group_str_id last_construction = construction_group_str_id::NULL_ID();
             if( isnew ) {
                 filter = uistate.construction_filter;
+                filter.clear();
                 tabindex = uistate.construction_tab.is_valid()
                            ? uistate.construction_tab.id().to_i() : 0;
                 if( uistate.last_construction.is_valid() ) {
