@@ -72,7 +72,7 @@
     "material": [ "shadowstuff" ],
     "ammo_type": "scrap_shadowstuff",
     "symbol": ",",
-    "color": "gray"
+    "color": "light_gray"
   },
   {
     "id": "chunk_shadowstuff",
