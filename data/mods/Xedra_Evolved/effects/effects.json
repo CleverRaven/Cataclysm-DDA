@@ -318,7 +318,7 @@
       [ "Your vision twists a little after drinking that Fae blood.", "mixed" ],
       [ "Your vision starts distorting a little more as you drink the Fae blood.", "mixed" ],
       [ "Your vision starts seeing things that aren't there as you drink the Fae blood.", "mixed" ],
-      [ "Drinking that much Fae blood has left your vision almost unable of differentiating between reality and illusion.", "bad" ]
+      [ "Drinking that much Fae blood has left your vision almost unable to differentiate between reality and illusion.", "bad" ]
     ],
     "decay_messages": [
       [ "Your vision is normal again.", "good" ],

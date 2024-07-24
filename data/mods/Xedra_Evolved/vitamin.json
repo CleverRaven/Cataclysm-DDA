@@ -44,9 +44,9 @@
     "name": { "str": "Hallucinating on Fae blood" },
     "excess": "drank_fae_blood_hallucination",
     "min": 0,
-    "max": 2000,
-    "rate": "1 m",
-    "disease_excess": [ [ 1, 200 ], [ 201, 400 ], [ 401, 600 ], [ 601, 2000 ] ]
+    "max": 20000,
+    "rate": "10 s",
+    "disease_excess": [ [ 1, 500 ], [ 501, 1800 ], [ 1801, 3000 ], [ 3001, 20000 ] ]
   },
   {
     "id": "creative_spark_research",
