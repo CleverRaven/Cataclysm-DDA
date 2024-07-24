@@ -90,7 +90,7 @@
     "material": [ "shadowstuff" ],
     "ammo_type": "components",
     "symbol": ",",
-    "color": "gray"
+    "color": "light_gray"
   },
   {
     "id": "scrap_dreamdross",
