@@ -541,11 +541,13 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
-static ImVec2 calc_size( const std::string & line ) {
-    return ImGui::CalcTextSize( line.c_str() );
+static ImVec2 calc_size( const std::string &line )
+{
+    return ImGui::CalcTextSize( remove_color_tags( line ).c_str() );
 }
 
-static int line_count_from_size( const ImVec2 & size ) {
+static int line_count_from_size( const ImVec2 &size )
+{
     return static_cast<int>( ceilf( size.y / ImGui::GetFontSize() ) );
 };
 
@@ -626,9 +628,7 @@ void uilist::calc_data()
 
     calculated_menu_size = { 0.0, 0.0 };
     for( int fentry : fentries ) {
-        // this will overestimate if there are any color tags, but that never happens. probably.
-        calculated_menu_size.x = std::max( calculated_menu_size.x,
-                                           ImGui::CalcTextSize( entries[fentry].txt.c_str() ).x );
+        calculated_menu_size.x = std::max( calculated_menu_size.x, calc_size( entries[fentry].txt ).x );
     }
     calculated_menu_size.x += ImGui::CalcTextSize( " [X] " ).x;
     calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y,
@@ -643,9 +643,10 @@ void uilist::calc_data()
 
     float longest_line_width = std::max( std::max( title_size.x, text_size.x ),
                                          std::max( calculated_menu_size.x, desc_size.x ) );
-    calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width;
+    calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width
+                          + 2 * ( ImGui::GetStyle().WindowPadding.x + ImGui::GetStyle().WindowBorderSize );
     calculated_bounds.h = ( ImGui::GetStyle().FramePadding.y * 2.0 ) + ( ImGui::GetStyle().ItemSpacing.y
-                          * 2.0 ) + title_size.y + calculated_menu_size.y + text_size.y + desc_size.y;
+                          * 4.0 ) + title_size.y + calculated_menu_size.y + text_size.y + desc_size.y;
 }
 
 void uilist::setup()
