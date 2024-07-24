@@ -19,7 +19,7 @@
   {
     "type": "GENERIC",
     "id": "disc_golf",
-    "category": "weapons",
+    "category": "other",
     "price": "10 USD",
     "price_postapoc": "50 cent",
     "name": { "str": "disc" },
@@ -35,7 +35,7 @@
   {
     "type": "GENERIC",
     "id": "frisbee",
-    "category": "weapons",
+    "category": "other",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "name": { "str": "frisbee" },
