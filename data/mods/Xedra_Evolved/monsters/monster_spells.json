@@ -318,5 +318,37 @@
     "max_duration": 1000,
     "max_level": 5,
     "energy_source": "NONE"
+  },
+  {
+    "type": "SPELL",
+    "id": "mucus_spawn",
+    "name": { "str": "Summon Mucus" },
+    "description": "Spew mucus monsters at the target.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "hostile" ],
+    "min_damage": 8,
+    "max_damage": 8,
+    "min_range": 24,
+    "max_range": 24,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_mucus"
+  },
+  {
+    "type": "SPELL",
+    "id": "small_globule_spawn",
+    "name": { "str": "Summon small globule" },
+    "description": "Summons a small globule.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_small_globule"
   }
 ]
