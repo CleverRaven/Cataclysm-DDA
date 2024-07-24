@@ -398,8 +398,6 @@
       { "text": "See you.", "topic": "TALK_DONE" }
     ]
   },
-
-
   {
     "id": [ "TALK_VAMPIRE_MENTOR_MAKE_TIER_5" ],
     "type": "talk_topic",

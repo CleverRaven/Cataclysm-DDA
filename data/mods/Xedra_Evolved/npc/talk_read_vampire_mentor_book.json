@@ -1,0 +1,75 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_READ_VAMPIRE_MENTOR_BOOK",
+    "dynamic_line": "[You skim through the book, searching for the components your mentor told you about, until you find the section with the components and their rituals]",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_STORMWROUGHT_BLOOD",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_UNDERHILL_ESSENCE",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DREAMDRAINER_HEART",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MONSTRUCK_PEARL",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the Abyssal Hunger's shard]", "topic": "TALK_ABYSSAL_HUNGER_SHARD" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ABYSSAL_HUNGER_SHARD",
+    "dynamic_line": "",
+    "responses": [
+      { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
+      { "text": "[Read about the concentrated underhill essence]", "topic": "TALK_UNDERHILL_ESSENCE" },
+      { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },
+      { "text": "[Read about the moonstruck pearl]", "topic": "TALK_MONSTRUCK_PEARL" },
+      { "text": "[Close the book]", "topic": "TALK_DONE" }
+    ]
+  }
+]
