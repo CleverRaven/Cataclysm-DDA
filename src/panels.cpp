@@ -220,9 +220,9 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
         const int width, const int height )
 {
     ImGui::BeginGroup();
-    auto start_pos = ImGui::GetCursorPos();
-    const ImVec2 mid { static_cast<float>( width / 2 ), static_cast<float>( height / 2 ) };
-    auto char_size = ImGui::CalcTextSize( "X" );
+    ImVec2 start_pos = ImGui::GetCursorPos();
+    const ImVec2 mid { static_cast<float>( width / 2.0 ), static_cast<float>( height / 2.0 ) };
+    ImVec2 char_size = ImGui::CalcTextSize( "X" );
     // Map is centered on curs - typically player's global_omt_location
     const tripoint_abs_omt targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
@@ -278,14 +278,14 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
                 }
             }
             // TODO: Build colorized string instead of writing directly to window
-            auto pos = start_pos + ( char_size * ( mid + ImVec2( i, j ) ) );
+            ImVec2 pos = start_pos + ( char_size * ( mid + ImVec2( i, j ) ) );
             ImGui::SetCursorPos( pos );
             // Show hordes on minimap, leaving a one-tile space around the player
             bool show_hordes = i < -1 || i > 1 || j < -1 || j > 1;
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( show_hordes && horde_size >= HORDE_VISIBILITY_SIZE &&
                 seen && you.overmap_los( omp, sight_points ) ) {
-                auto horde = horde_size > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
+                const char *horde = horde_size > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
                 ImGui::TextColored( c_green, "%s", horde );
                 ImGui::SameLine( 0, 0 );
             } else {

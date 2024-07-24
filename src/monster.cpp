@@ -966,8 +966,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 void monster::print_info_imgui() const
 {
     ImGui::TextUnformatted( _( "Origin: " ) );
-    auto mods = enumerate_as_string( type->src.begin(),
-                                     type->src.end(),
+    std::string mods = enumerate_as_string( type->src.begin(),
+                                            type->src.end(),
     []( const std::pair<mtype_id, mod_id> &source ) {
         return string_format( "'%s'", source.second->name() );
     },
@@ -985,10 +985,10 @@ void monster::print_info_imgui() const
     std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
     ImGui::TextColored( bar_color, "%s", bar_str.c_str() );
-    auto unbar_str = std::string( 5 - utf8_width( bar_str ), '.' );
+    std::string unbar_str = std::string( 5 - utf8_width( bar_str ), '.' );
     ImGui::SameLine( 0, 0 );
     ImGui::TextColored( c_white, "%s", unbar_str.c_str() );
-    auto symbol_color = basic_symbol_color();
+    nc_color symbol_color = basic_symbol_color();
     ImGui::SameLine();
     ImGui::TextColored( symbol_color, "%s %s", name().c_str(),
                         get_effect_status().c_str() );

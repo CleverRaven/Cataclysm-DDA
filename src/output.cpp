@@ -1209,10 +1209,10 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                 //A bit tricky, find %d and split the string
                 size_t pos = sFmt.find( "<num>" );
                 if( pos != std::string::npos ) {
-                    cataimgui::draw_colored_text( sFmt.substr( 0, pos ).c_str(), c_white );
+                    cataimgui::draw_colored_text( sFmt.substr( 0, pos ), c_white );
                     sPost = sFmt.substr( pos + 5 );
                 } else {
-                    cataimgui::draw_colored_text( sFmt.c_str(), c_white );
+                    cataimgui::draw_colored_text( sFmt, c_white );
                 }
 
                 if( i.sValue != "-999" ) {
@@ -1252,7 +1252,7 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                 }
                 if( !sPost.empty() ) {
                     ImGui::SameLine( 0, 0 );
-                    cataimgui::draw_colored_text( sPost.c_str(), c_white );
+                    cataimgui::draw_colored_text( sPost, c_white );
                 }
             }
         }

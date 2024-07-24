@@ -35,7 +35,7 @@ class uilist_impl : cataimgui::window
 {
         uilist &parent;
     public:
-        uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
+        explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
                     ImGuiWindowFlags_NoTitleBar ), parent( parent ) {
         }
 
@@ -87,7 +87,8 @@ void uilist_impl::draw_controls()
             for( size_t i = 0; i < parent.fentries.size(); i++ ) {
                 auto entry = parent.entries[parent.fentries[i]];
                 ImGui::PushID( i );
-                auto flags = !entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
+                ImGuiSelectableFlags_ flags = !entry.enabled ? ImGuiSelectableFlags_Disabled :
+                                              ImGuiSelectableFlags_None;
                 bool is_selected = static_cast<int>( i ) == parent.fselected;
                 if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) ||
                     ImGui::IsItemHovered() ) {
@@ -103,7 +104,7 @@ void uilist_impl::draw_controls()
                 if( entry.hotkey.has_value() ) {
                     ImGui::Text( "%c", '[' );
                     ImGui::SameLine( 0, 0 );
-                    auto color = is_selected ? parent.hilight_color : parent.hotkey_color;
+                    nc_color color = is_selected ? parent.hilight_color : parent.hotkey_color;
                     cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
                                                   color );
                     ImGui::SameLine( 0, 0 );
@@ -604,11 +605,10 @@ void uilist::calc_data()
     }
 
     calculated_menu_size = { 0.0, 0.0 };
-    for( size_t i = 0; i < fentries.size(); i++ ) {
-        auto entry = entries[fentries[i]];
+    for( int fentry : fentries ) {
         // this will overestimate if there are any color tags, but that never happens. probably.
         calculated_menu_size.x = std::max( calculated_menu_size.x,
-                                           ImGui::CalcTextSize( entry.txt.c_str() ).x );
+                                           ImGui::CalcTextSize( entries[fentry].txt.c_str() ).x );
     }
     calculated_menu_size.x += ImGui::CalcTextSize( " [X] " ).x;
     calculated_menu_size.y = std::min( ImGui::GetMainViewport()->Size.y,

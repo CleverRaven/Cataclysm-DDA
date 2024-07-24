@@ -72,7 +72,7 @@ class wish_mutate_callback: public uilist_callback
         }
 
         template<typename T>
-        void ValueRow( const char *key, std::vector<T> list ) {
+        void ValueRow( const char *key, const std::vector<T> &list ) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::TextUnformatted( key );
@@ -86,13 +86,13 @@ class wish_mutate_callback: public uilist_callback
             ImGui::NewLine();
         }
 
-        void ValueRow( const char *key, std::vector<string_id<mutation_branch>> list ) {
+        void ValueRow( const char *key, const std::vector<string_id<mutation_branch>> &list ) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::TextUnformatted( key );
             ImGui::TableNextColumn();
             for( const auto &value : list ) {
-                auto color = mcolor( value );
+                nc_color color = mcolor( value );
                 ImGui::TextColored( color,
                                     "%s",
                                     value->name().c_str() );
@@ -100,7 +100,7 @@ class wish_mutate_callback: public uilist_callback
             ImGui::NewLine();
         }
 
-        void ValueRow( const char *key, std::vector<mutation_category_id> list ) {
+        void ValueRow( const char *key, const std::vector<mutation_category_id> &list ) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::TextUnformatted( key );
@@ -111,7 +111,7 @@ class wish_mutate_callback: public uilist_callback
             ImGui::NewLine();
         }
 
-        void ValueRow( const char *key, std::set<std::string> list ) {
+        void ValueRow( const char *key, const std::set<std::string> &list ) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::TextUnformatted( key );
@@ -218,7 +218,7 @@ class wish_mutate_callback: public uilist_callback
                 ImGui::TextWrapped( "%s", mdata.desc().c_str() );
             }
 
-            auto y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
+            float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
             if( ImGui::GetCursorPosY() < y ) {
                 ImGui::SetCursorPosY( y );
             }
@@ -668,7 +668,7 @@ class wish_monster_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            auto info_size = ImGui::GetContentRegionAvail( );
+            ImVec2 info_size = ImGui::GetContentRegionAvail( );
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
@@ -687,8 +687,8 @@ class wish_monster_callback: public uilist_callback
                 }
 
                 if( valid_entnum ) {
-                    auto header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.c_str(), group,
-                                                 hallucination ? _( " (hallucination)" ) : "" );
+                    std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.c_str(), group,
+                                                        hallucination ? _( " (hallucination)" ) : "" );
                     ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
                                                 header.c_str() ).x ) * 0.5 );
                     ImGui::TextColored( c_cyan, "%s", header.c_str() );
@@ -696,7 +696,7 @@ class wish_monster_callback: public uilist_callback
                     tmp.print_info_imgui();
                 }
 
-                auto y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
+                float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
                 if( ImGui::GetCursorPosY() < y ) {
                     ImGui::SetCursorPosY( y );
                 }
@@ -917,7 +917,7 @@ class wish_item_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            auto info_size = ImGui::GetContentRegionAvail();
+            ImVec2 info_size = ImGui::GetContentRegionAvail();
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
@@ -958,7 +958,7 @@ class wish_item_callback: public uilist_callback
                     display_item_info( tmp.get_info( true ), {} );
                 }
 
-                auto y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
+                float y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
                 if( ImGui::GetCursorPosY() < y ) {
                     ImGui::SetCursorPosY( y );
                 }

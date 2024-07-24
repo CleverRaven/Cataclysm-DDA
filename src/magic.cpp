@@ -2393,8 +2393,8 @@ class spellcasting_callback : public uilist_callback
                                         _( "Popup Distractions" );
             ImGui::TextColored( casting_ignore ? c_red : c_light_green, "%s %s", "[I]", ignore_string.c_str() );
             const std::string assign_letter = _( "Assign Hotkey [=]" );
-            auto w = ImGui::CalcTextSize( assign_letter.c_str() ).x;
-            auto x = ImGui::GetContentRegionAvail().x - w;
+            float w = ImGui::CalcTextSize( assign_letter.c_str() ).x;
+            float x = ImGui::GetContentRegionAvail().x - w;
             ImGui::SameLine( x, 0 );
             ImGui::TextColored( c_yellow, "%s", assign_letter.c_str() );
             ImGui::NewLine();
@@ -2491,7 +2491,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
     const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
 
-    auto column_width = desired_extra_space_right( ) / 2.0;
+    double column_width = desired_extra_space_right( ) / 2.0;
     if( ImGui::BeginTable( "data", 2 ) ) {
         ImGui::TableSetupColumn( "current level", ImGuiTableColumnFlags_WidthFixed, column_width );
         ImGui::TableSetupColumn( "max level", ImGuiTableColumnFlags_WidthFixed, column_width );
@@ -2563,7 +2563,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 
     // Range / AOE in two columns
-    auto range = sp.range( pc ) <= 0 ? _( "self" ) : std::to_string( sp.range( pc ) );
+    std::string range = sp.range( pc ) <= 0 ? _( "self" ) : std::to_string( sp.range( pc ) );
     ImGui::Text( "%s: %s", _( "Range" ), range.c_str() );
 
     // if it's any type of attack spell, the stats are normal.
@@ -2671,7 +2671,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 
     // TODO(db48x): rewrite to display via ImGui directly, so that wrapping can be done correctly
-    auto width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
+    float width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
@@ -2886,9 +2886,9 @@ static void draw_spellbook_info( const spell_type &sp )
 
     const std::string spell_class = sp.spell_class == trait_NONE ? _( "Classless" ) :
                                     sp.spell_class->name();
-    auto posX = ImGui::GetCursorPosX() + ImGui::GetColumnWidth() - ImGui::CalcTextSize(
-                    spell_class.c_str() ).x
-                - ImGui::GetScrollX() - 2 * ImGui::GetStyle().ItemSpacing.x;
+    float posX = ImGui::GetCursorPosX() + ImGui::GetColumnWidth() - ImGui::CalcTextSize(
+                     spell_class.c_str() ).x
+                 - ImGui::GetScrollX() - 2 * ImGui::GetStyle().ItemSpacing.x;
     if( posX > ImGui::GetCursorPosX() ) {
         ImGui::SetCursorPosX( posX );
     }
