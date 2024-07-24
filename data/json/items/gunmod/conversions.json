@@ -401,7 +401,7 @@
     "id": "retool_ar15_22",
     "type": "GUNMOD",
     "name": { "str": ".22 upper receiver" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a 16-inch barrel chambered for .22 rounds.  Specialized or modified STANAG-style magazines are required to properly feed cartridges of a differe.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers enable compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a 16-inch barrel chambered for .22 rounds.",
     "//": "M4-22 Gen II Upper 22LR/16''BBL",
     "variant_type": "gun",
     "weight": "2275 g",
