@@ -901,9 +901,6 @@ construction_id construction_menu( const bool blueprint )
             }
             else {
                 filter.clear();
-                if (uistate.last_construction.is_valid()) {
-                    last_construction = uistate.last_construction;
-                }
             }
             category_id = construct_cat[tabindex].id;
             if( category_id == construction_category_ALL ) {
