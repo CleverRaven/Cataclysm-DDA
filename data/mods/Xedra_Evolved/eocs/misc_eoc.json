@@ -156,26 +156,89 @@
           }
         ]
       },
+      {
+        "type": "effect_on_condition",
+        "id": "EOC_SUMMON_DREAM_DRAINER_COCOON",
+        "effect": [
+          { "queue_eocs": "EOC_SUMMON_DREAM_DRAINER_MOSQUITO", "time_in_future": [ "1 m", "1 m" ] },
+          { "u_location_variable": { "context_val": "loc" } },
+          {
+            "run_eocs": [
+              {
+                "id": "EOC_SUMMON_DREAM_DRAINER_COCOON_2",
+                "effect": [
+                  { "npc_cast_spell": { "id": "dream_drainer_cocoon_maker_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
+                  { "npc_message": "The mosquito consumes the catalyst and forms a cocoon.", "type": "good" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
 
+      {
+        "type": "effect_on_condition",
+        "id": "EOC_SUMMON_DREAM_DRAINER_MOSQUITO",
+        "effect": [
+          { "u_location_variable": { "context_val": "loc" } },
+          {
+            "run_eocs": [
+              {
+                "id": "EOC_SUMMON_DREAM_DRAINER_COCOON_OUT",
+                "effect": [
+                  { "npc_cast_spell": { "id": "dream_drainer_mosquito_maker", "min_level": 1 }, "loc": { "context_val": "loc" } },
+                  { "npc_message": "The cocoon collapses on itself, leaving only a being born from the most feverish dreams.", "type": "mixed" }
+                ]
+              },
+              {
+                "id": "EOC_SUMMON_DREAM_DRAINER_COCOON_ASSIGN_MISSION",
+                "effect": [
+                  { "remove_active_mission": "MISSION_KILL_DREAM_DRAINER" },
+                  { "assign_mission": "MISSION_KILL_DREAM_DRAINER" }
+                ]
+              }
+            ]
+          }
+        ]
+      },
 
+            
+      {
+      "type": "effect_on_condition",
+      "id": "EOC_CHECK_TO_SUMMON_REVENANT",
+      "effect": {
+        "run_eocs": [
+          {
+            "id": "EOC_CHECK_TO_SUMMON_REVENANT_MOON_DARK_OUTSIDE",
+            "condition": { "and": [ { "math": [ "moon_phase() == 4" ] }, "u_is_outside", { "not": "is_day" } ] },
+            "effect": [
+              { "u_message": "You utter the last words of the ritual and the revenant suddently animates, disappears and reappears nearby, a deadly glare in its eyes.", "type": "mixed" },
+              {
+                "u_spawn_monster": "mon_luna_attuned_revenant",
+                "real_count": 1,
+                "min_radius": 20,
+                "max_radius": 25,
+                "spawn_message": "You see a flash of moonlight surrounding a tall, slender being.",
+                "spawn_message_plural": "You see a flash of moonlight surrounding tall, slender beings."
+              },
+              { "u_remove_item_with": "revenant_effigy" },
+              { "assign_mission": "MISSION_KILL_LUNA_ATTUNED" },
+              { "queue_eocs": "EOC_REMOVE_LUNA_MISSION", "time_in_future": [ "1 d", "1 d" ] }
 
+            ],
+            "false_effect": [
+              { "u_message": "The revenant cannot be animated unless a sufficient amount of the light of a full moon shines upon it.", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    {
+      "type": "effect_on_condition",
+      "id": "EOC_REMOVE_LUNA_MISSION",
+      "effect":  { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
+      },
 
 
 
