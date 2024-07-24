@@ -351,7 +351,7 @@
   {
     "id": [ "TALK_VAMPIRE_MENTOR_GATHER_TIER_5" ],
     "type": "talk_topic",
-    "dynamic_line": "Here's the book.  It contains everything you need to know about the components you need to acquire.  Come back here when you'll have them all and you will fully walk the path.",
+    "dynamic_line": "Here's the book.  It contains everything you need to know about the components you need to acquire.  Be sure to read it thoroughly as the rituals have very specific conditions to be accomplished.  Come back here when you'll have them all and you will fully walk the path.",
     "responses": [
       { "text": "Thank you.  I'll bring back these components.", "topic": "TALK_DONE" }
     ]
@@ -367,7 +367,7 @@
   {
     "id": [ "TALK_VAMPIRE_MENTOR_BOOK_NEED_NEW" ],
     "type": "talk_topic",
-    "dynamic_line": "I do have another copy, however you'll have to buy it at a steep price.  Each of these are written by hand these days so we can't let people treat them like disposable thing.",
+    "dynamic_line": "I do have another copy, however you'll have to buy it at a steep price.  Each of these are written by hand these days so we can't let people treat them like disposable things.",
     "responses": [
       {
         "text": "[$100] I'll buy the book.",

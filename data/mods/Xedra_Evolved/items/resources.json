@@ -253,6 +253,13 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_march_lord",
+    "name": { "str": "march lord skull" },
+    "description": "The skull of a march lord.  You can feel its lingering power as you touch it.",
+    "copy-from": "skull_abstract"
+  },
+  {
+    "type": "GENERIC",
     "id": "stormwrought_blood_itert",
     "copy-from": "rock",
     "name": { "str": "inert stormwrought blood", "str_pl": "doses of inert stormwrought blood" },
