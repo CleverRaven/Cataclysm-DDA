@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS",
+    "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON",
     "effect": [
       { "u_add_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
       { "u_message": "Lightning sparks from you hands.", "type": "good" }
@@ -11,7 +11,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_PER_TURN",
     "condition": { "math": [ "u_val('mana')", ">=", "10" ] },
-    "effect": [ ],
+    "effect": [  ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your fulgurating strikes!", "type": "bad" },
       { "u_lose_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
@@ -28,7 +28,7 @@
     "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_deactivate_future",
     "effect": { "u_deactivate_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS" }
   },
-   {
+  {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_MELEE_MONSTER",
     "eoc_type": "EVENT",

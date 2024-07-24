@@ -406,14 +406,14 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "ELECTRICAL_EMISSIONS" ],
-    "prereqs": [ "ELECTRICAL_FIELD" ],
+    "prereqs2": [ "ELECTRICAL_FIELD" ],
     "description": "At will, the Sylph may cause their attacks to carry a charge, whose power grows with their mastery of lightning.  Each attack costs mana while this trait is active.",
     "category": [ "SYLPH" ],
     "active": true,
     "activated_is_setup": true,
-    "activated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS" ],
-    "processed": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_MANA_CHECKER" ],
-    "deactivated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS" ]
+    "activated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON" ],
+    "processed_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_OFF" ]
   },
   {
     "type": "mutation",
@@ -426,7 +426,7 @@
     "category": [ "SYLPH" ],
     "valid": false,
     "player_display": false,
-    "enchantments": [ "ench_fulgurating_strikes_basic", "ench_fulgurating_strikes_advanced" ]
+    "enchantments": [ "ench_sylph_fulgurating_strikes_basic", "ench_sylph_fulgurating_strikes_advanced" ]
   },
   {
     "type": "mutation",
