@@ -511,5 +511,15 @@
       { "group": "xe_eater_spell_group3", "prob": 100 },
       { "group": "xe_eater_spell_group4", "prob": 50 }
     ]
+  },
+  {
+    "id": "triffid_heart",
+    "type": "harvest",
+    "message": "<triffid_harvest>",
+    "entries": [
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
+      { "drop": "triffid_heart_chunk", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.3 }
+    ]
   }
 ]
