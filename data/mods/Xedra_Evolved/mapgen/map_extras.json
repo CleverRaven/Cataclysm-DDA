@@ -879,12 +879,20 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_dreamwound_shadow",
-    "sym": "w",
-    "color": "dark_gray",
-    "autonote": true,
     "object": {
       "place_nested": [ { "chunks": [ "dreamwound_shadow" ], "x": [ 2, 20 ], "y": [ 2, 20 ] } ],
       "monsters": { " ": { "monster": "GROUP_DREAM_WOUND_SHADOW", "chance": 1, "density": 0.0001 } }
     }
+  },
+  {
+    "id": "mx_dreamwound_shadow",
+    "type": "map_extra",
+    "name": { "str": "a shadowy wound in reality" },
+    "description": "What you can only describe as a wound in reality appears to be leaking shadows.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dreamwound_shadow" },
+    "sym": "w",
+    "min_max_zlevel": [ 0, 0 ],
+    "color": "dark_gray_red",
+    "autonote": true
   }
 ]
