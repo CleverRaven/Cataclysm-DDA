@@ -71,6 +71,7 @@
     <binary>cataclysm-tiles</binary>
   </provides>
   <releases>
+    <release version="0.H" type="development" date="2024-07-22" />
     <release version="0.G Gaiman" date="2023-03-01">
       <description>
         <p>
