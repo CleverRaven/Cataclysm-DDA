@@ -70,6 +70,7 @@
     "stack_size": 10,
     "//": "Density .5g/ml.",
     "material": [ "shadowstuff" ],
+    "ammo_type": [ "scrap_shadowstuff" ],
     "symbol": ",",
     "color": "gray"
   },
@@ -87,6 +88,7 @@
     "stack_size": 10,
     "//": "Density .5g/ml.",
     "material": [ "shadowstuff" ],
+    "ammo_type": "components",
     "symbol": ",",
     "color": "gray"
   },
