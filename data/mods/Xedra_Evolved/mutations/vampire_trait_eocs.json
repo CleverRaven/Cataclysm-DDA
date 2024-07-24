@@ -23,14 +23,14 @@
     "id": "EOC_VAMPIRE_BLOOD_DRINKING_FAE_BLOOD",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
-    "//": "Fae blood is 100 times more abundant per corpse and 250 times smaller than other bloods, so it need its own EoC.",
+    "//": "Fae blood causes hallucinations when drank by vampires, so it need its own EoC.",
     "condition": {
       "and": [
         { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "4 + rand(1)" ] }, { "math": [ "u_vitamin('drank_fae_blood')", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] }, { "math": [ "u_vitamin('drank_fae_blood')", "+=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
