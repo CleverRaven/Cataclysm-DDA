@@ -223,6 +223,7 @@ static bool opiate_effect( Character &u, addiction &add )
     // No further effects if we're doped up.
     if( u.get_painkiller() >= 35 ) {
         add.sated = 0_turns;
+        u.remove_effect(effect_shakes);
         return false;
     }
     u.mod_str_bonus( -1 );
