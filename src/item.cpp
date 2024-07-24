@@ -11843,8 +11843,9 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    // Fire will depend on amount of fuel if stackable
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        int stack_burnt = std::max( 1, count() / type->stack_size );
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;
