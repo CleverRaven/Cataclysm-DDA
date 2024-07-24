@@ -71,7 +71,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
-    const tripoint &pt = attack.end_point;
+    const tripoint_bub_ms &pt = tripoint_bub_ms( attack.end_point );
 
     if( effects.count( ammo_effect_SHATTER_SELF ) ) {
         // Drop the contents, not the thrown item
@@ -173,7 +173,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         const trap &tr = here.tr_at( pt );
         if( tr.triggered_by_item( dropped_item ) ) {
-            tr.trigger( pt, dropped_item );
+            tr.trigger( pt.raw(), dropped_item );
         }
     }
 }
@@ -521,7 +521,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects );
+    bool dealt_damage = attack.dealt_dam.total_damage() > 0;
+    apply_ammo_effects( null_source ? nullptr : origin, tp, proj.proj_effects, dealt_damage );
     const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
         explosion_handler::explosion( null_source ? nullptr : origin, tp, proj.get_custom_explosion() );

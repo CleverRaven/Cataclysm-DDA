@@ -279,7 +279,21 @@
     "remove_message": "You return to your normal speed.",
     "rating": "good",
     "max_duration": "2 minutes",
+    "removes_effects": [ "magic_slowed" ],
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.7 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "magic_slowed",
+    "name": [ "Slowed" ],
+    "desc": [ "Your speed is magically inhibited." ],
+    "apply_message": "Everyone else suddenly seems to speed up!",
+    "remove_message": "You return to your normal speed.",
+    "rating": "bad",
+    "show_in_info": true,
+    "max_duration": "2 minutes",
+    "removes_effects": [ "haste" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.5 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1295,11 +1309,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_druid_water_walking",
+    "name": [ "Water Strider's Walk" ],
+    "desc": [ "You can walk on the surface of the water" ],
+    "rating": "good",
+    "remove_message": "You can no longer walk on the water.",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_shifter_raven_form_levitation",
     "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_item_protection_water",
+    "//": "Hidden effect, used for multiple druid spells",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ITEM_WATERPROOFING" ]
   },
   {
     "type": "effect_type",
@@ -1373,6 +1404,7 @@
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
       "effect_magus_ranged_increase",
+      "magic_slowed",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
@@ -1508,6 +1540,7 @@
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
       "effect_technomancer_pain_ignore",
+      "magic_slowed",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

@@ -1003,7 +1003,7 @@ void suffer::from_item_dropping( Character &you )
 void suffer::from_other_mutations( Character &you )
 {
     map &here = get_map();
-    const tripoint position = you.pos();
+    const tripoint_bub_ms position = you.pos_bub();
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
         here.spawn_item( position, "bone", 1 );
@@ -1101,7 +1101,7 @@ void suffer::from_radiation( Character &you )
     map &here = get_map();
     // get radioactive leak level of your inventory
     float item_radiation = you.get_leak_level();
-    const int map_radiation = here.get_radiation( you.pos() );
+    const int map_radiation = here.get_radiation( you.pos_bub() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1132,7 +1132,7 @@ void suffer::from_radiation( Character &you )
         if( rad_mut_proc && !kept_in ) {
             // Irradiate a random nearby point
             // If you can't, irradiate the player instead
-            tripoint rad_point = you.pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            tripoint_bub_ms rad_point = you.pos_bub() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
             if( here.get_radiation( rad_point ) < rad_mut ) {
                 here.adjust_radiation( rad_point, 1 );

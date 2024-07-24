@@ -20,6 +20,11 @@
     "info": "This character cannot be affected by Arvore pollens."
   },
   {
+    "id": "SKINCHANGED",
+    "type": "json_flag",
+    "info": "This gear will transform you into animal form, and may have some side effects."
+  },
+  {
     "id": "ELECTROKINETIC_CHARGEABLE",
     "type": "json_flag",
     "info": "This item can be recharged by an electrokinetic"

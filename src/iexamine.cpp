@@ -406,14 +406,15 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     bool table_exists = false;
     std::list<item_location> on_table;
     item_location nanofab_template;
-    tripoint spawn_point;
+    tripoint_bub_ms spawn_point;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
-    for( const tripoint &valid_location : here.points_in_radius( examp, 1 ) ) {
+    for( const tripoint_bub_ms &valid_location : here.points_in_radius( tripoint_bub_ms( examp ),
+            1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
-            on_table = here.items_with( valid_location, [&]( const item & it ) {
+            on_table = here.items_with( valid_location.raw(), [&]( const item & it ) {
                 return it.has_flag( flag_NANOFAB_REPAIR );
             } );
             break;
@@ -546,10 +547,10 @@ void iexamine::gaspump( Character &you, const tripoint &examp )
 
                 item spill = item_it->split( qty );
                 if( spill.is_null() ) {
-                    here.add_item_or_charges( you.pos(), *item_it );
+                    here.add_item_or_charges( you.pos_bub(), *item_it );
                     items.erase( item_it );
                 } else {
-                    here.add_item_or_charges( you.pos(), spill );
+                    here.add_item_or_charges( you.pos_bub(), spill );
                 }
 
             } else {
@@ -1336,7 +1337,8 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         }
     }
 
-    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+    const auto move_item = [&]( map_stack & items, const tripoint_bub_ms & src,
+    const tripoint_bub_ms & dest ) {
         for( auto it = items.begin(); it != items.end(); ) {
             here.add_item_or_charges( dest, *it );
             it = here.i_rem( src, it );
@@ -1345,9 +1347,9 @@ void iexamine::elevator( Character &you, const tripoint &examp )
 
     // move along every item in the elevator
     for( decltype( this_elevator )::size_type i = 0; i < this_elevator.size(); i++ ) {
-        tripoint const &src = this_elevator[i];
+        tripoint_bub_ms const &src = tripoint_bub_ms( this_elevator[i] );
         map_stack items = here.i_at( src );
-        move_item( items, src, that_elevator[i] );
+        move_item( items, src, tripoint_bub_ms( that_elevator[i] ) );
     }
 
     // move along all creatures on the elevator
@@ -1631,10 +1633,10 @@ void iexamine::deployed_furniture( Character &you, const tripoint &pos )
 {
     map &here = get_map();
 
-    tripoint drop_pos = pos;
+    tripoint_bub_ms drop_pos = tripoint_bub_ms( pos );
 
     if( you.pos().z != pos.z ) {
-        drop_pos = you.pos();
+        drop_pos = you.pos_bub();
         if( !you.query_yn( _( "Pull up the %s?" ), here.furn( pos ).obj().name() ) ) {
             return;
         }
@@ -1758,7 +1760,7 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     map &here = get_map();
     item plank( "2x4", calendar::turn );
     add_msg( _( "You remove the plank." ) );
-    here.add_item_or_charges( you.pos(), plank );
+    here.add_item_or_charges( you.pos_bub(), plank );
     const ter_id &ter_pit = here.ter( examp );
     if( ter_pit == ter_t_pit_covered ) {
         here.ter_set( examp, ter_t_pit );
@@ -2249,7 +2251,7 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
     } else {
-        get_map().add_item_or_charges( you.pos(), harvest );
+        get_map().add_item_or_charges( you.pos_bub(), harvest );
         you.add_msg_if_player( _( "You harvest and drop: %s." ), harvest.tname() );
     }
 }
@@ -2487,7 +2489,7 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
         return;
     }
     here.furn_set( examp, furn_str_id::NULL_ID() );
-    here.spawn_item( you.pos(), itype_marloss_seed, 1, 3, calendar::turn );
+    here.spawn_item( you.pos_bub(), itype_marloss_seed, 1, 3, calendar::turn );
     iexamine_helper::handle_harvest( you, "withered", false );
 }
 
@@ -2767,7 +2769,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
                 if( from_activity ) {
                     i.set_var( "activity_var", you.name );
                 }
-                here.add_item_or_charges( you.pos(), i );
+                here.add_item_or_charges( you.pos_bub(), i );
             }
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
@@ -3696,7 +3698,7 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
     for( item &it : items_here ) {
         if( !it.made_of_from_type( phase_id::LIQUID ) ) {
             add_msg( _( "You remove %s from the vat." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             here.i_rem( examp, &it );
         }
     }
@@ -3928,7 +3930,7 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
     for( item &it : items_here ) {
         if( !it.made_of_from_type( phase_id::LIQUID ) ) {
             add_msg( _( "You remove %s from the tank." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             here.i_rem( examp, &it );
         }
     }
@@ -4305,11 +4307,11 @@ static void pick_plant( Character &you, const tripoint &examp,
     int plantCount = rng( plantBase, round( plantBase + survival / 2 ) );
     plantCount = std::min( plantCount, 12 );
 
-    here.spawn_item( you.pos(), itemType, plantCount, 0, calendar::turn );
+    here.spawn_item( you.pos_bub(), itemType, plantCount, 0, calendar::turn );
 
     if( seeds ) {
         // FIXME: shouldn't derive seed type by string manipulation
-        here.spawn_item( you.pos(), itype_id( "seed_" + itemType.str() ), 1,
+        here.spawn_item( you.pos_bub(), itype_id( "seed_" + itemType.str() ), 1,
                          rng( plantCount / 4, plantCount / 2 ), calendar::turn );
     }
 
@@ -4329,7 +4331,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
         query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
-        here.spawn_item( you.pos(), itype_hickory_root, rng( 1,
+        here.spawn_item( you.pos_bub(), itype_hickory_root, rng( 1,
                          round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
@@ -4463,10 +4465,10 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             }
 
             add_msg( _( "You remove the %s." ), spile->tname() );
-            here.add_item_or_charges( you.pos(), *spile );
+            here.add_item_or_charges( you.pos_bub(), *spile );
 
             if( container ) {
-                here.add_item_or_charges( you.pos(), *container );
+                here.add_item_or_charges( you.pos_bub(), *container );
             }
             here.i_clear( examp );
 
@@ -4498,7 +4500,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            here.add_item_or_charges( you.pos(), *container );
+            here.add_item_or_charges( you.pos_bub(), *container );
             you.mod_moves( -you.item_handling_cost( *container ) );
             here.i_rem( examp, container );
             return;
@@ -4515,7 +4517,7 @@ void iexamine::shrub_marloss( Character &you, const tripoint &examp )
         pick_plant( you, examp, itype_mycus_fruit, ter_t_shrub_fungal );
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         map &here = get_map();
-        here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_mycus_fruit, 1, 0, calendar::turn );
         here.ter_set( examp, ter_t_fungus );
         add_msg( m_info, _( "The shrub offers up a fruit, then crumbles into a fungal bed." ) );
     } else {
@@ -4536,7 +4538,7 @@ void iexamine::tree_marloss( Character &you, const tripoint &examp )
             here.ter_set( examp, ter_t_marloss_tree );
         }
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
-        here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_mycus_fruit, 1, 0, calendar::turn );
         here.ter_set( examp, ter_t_tree_fungal );
         add_msg( m_info, _( "The tree offers up a fruit, then shrivels into a fungal tree." ) );
     } else {
@@ -4821,7 +4823,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
                             const int handling_cost = -you.item_handling_cost( *itm );
 
                             add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
-                            here.add_item_or_charges( you.pos(), *itm );
+                            here.add_item_or_charges( you.pos_bub(), *itm );
                             itm = items.erase( itm );
                             you.mod_moves( handling_cost );
                             return;
@@ -4941,10 +4943,10 @@ void iexamine::curtains( Character &you, const tripoint &examp )
             here.ter_set( examp, here.ter( examp )->curtain_transform );
         }
 
-        here.spawn_item( you.pos(), itype_nail, 1, 4, calendar::turn );
-        here.spawn_item( you.pos(), itype_sheet, 2, 0, calendar::turn );
-        here.spawn_item( you.pos(), itype_stick, 1, 0, calendar::turn );
-        here.spawn_item( you.pos(), itype_string_36, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_nail, 1, 4, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_sheet, 2, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_stick, 1, 0, calendar::turn );
+        here.spawn_item( you.pos_bub(), itype_string_36, 1, 0, calendar::turn );
         you.mod_moves( -to_moves<int>( 10_seconds ) );
         you.add_msg_if_player( _( "You tear the curtains and curtain rod off the windowframe." ) );
     } else {
@@ -6184,7 +6186,7 @@ static void mill_activate( Character &you, const tripoint &examp )
             add_msg( _( "You remove the %s from the mill." ), source.tname() );
 
             for( int i = 0; i < mill_type_count.second; i++ ) {
-                here.add_item_or_charges( you.pos(), source );
+                here.add_item_or_charges( you.pos_bub(), source );
                 you.mod_moves( -you.item_handling_cost( source ) );
                 for( item &iter : items ) {
                     if( iter.typeId() == source.typeId() ) {
@@ -6221,7 +6223,7 @@ static void mill_activate( Character &you, const tripoint &examp )
                 add_msg( _( "You remove the %s from the mill." ), source.tname() );
 
                 for( int i = 0; i < mill_type_count.second; i++ ) {
-                    here.add_item_or_charges( you.pos(), source );
+                    here.add_item_or_charges( you.pos_bub(), source );
                     you.mod_moves( -you.item_handling_cost( source ) );
                     for( item &iter : items ) {
                         if( iter.typeId() == source.typeId() ) {
@@ -6239,7 +6241,7 @@ static void mill_activate( Character &you, const tripoint &examp )
                              source.tname( 1, false ), lot_size );
                     add_msg( _( "You remove the %s from the mill." ), source.tname() );
                     for( int i = 0; i < mill_type_count.second; i++ ) {
-                        here.add_item_or_charges( you.pos(), source );
+                        here.add_item_or_charges( you.pos_bub(), source );
                         you.mod_moves( -you.item_handling_cost( source ) );
                         for( item &iter : items ) {
                             if( iter.typeId() == source.typeId() ) {
@@ -6254,7 +6256,7 @@ static void mill_activate( Character &you, const tripoint &examp )
                              source.tname( 1, false ), lot_size );
                     add_msg( _( "You remove the excess %s from the mill." ), source.tname() );
                     for( int i = 0; i < mill_type_count.second - process_count; i++ ) {
-                        here.add_item_or_charges( you.pos(), source );
+                        here.add_item_or_charges( you.pos_bub(), source );
                         you.mod_moves( -you.item_handling_cost( source ) );
                         for( item &iter : items ) {
                             if( iter.typeId() == source.typeId() ) {
@@ -6276,7 +6278,7 @@ static void mill_activate( Character &you, const tripoint &examp )
         } else {
             add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1, false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             you.mod_moves( -you.item_handling_cost( it ) );
             here.i_rem( examp, &it );
             return;
@@ -6350,7 +6352,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
                      false ) );
             add_msg( _( "You remove %s from the rack." ), it.tname() );
-            here.add_item_or_charges( you.pos(), it );
+            here.add_item_or_charges( you.pos_bub(), it );
             you.mod_moves( -you.item_handling_cost( it ) );
             here.i_rem( examp, &it );
             return;
@@ -6928,7 +6930,7 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
                     const int handling_cost = -you.item_handling_cost( *it );
 
                     add_msg( _( "You remove %s from the mill." ), it->tname() );
-                    here.add_item_or_charges( you.pos(), *it );
+                    here.add_item_or_charges( you.pos_bub(), *it );
                     it = items_here.erase( it );
                     you.mod_moves( handling_cost );
                 } else {
@@ -7159,7 +7161,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                     const int handling_cost = -you.item_handling_cost( *it );
 
                     add_msg( _( "You remove %s from the rack." ), it->tname() );
-                    here.add_item_or_charges( you.pos(), *it );
+                    here.add_item_or_charges( you.pos_bub(), *it );
                     it = items_here.erase( it );
                     you.mod_moves( handling_cost );
                 } else {

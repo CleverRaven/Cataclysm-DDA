@@ -1585,7 +1585,8 @@ static void spawn_artifact()
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
-                here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
+                here.spawn_artifact( tripoint_bub_ms( *center ), relic_list[relic_menu.ret],
+                                     artifact_max_attributes,
                                      artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
         }

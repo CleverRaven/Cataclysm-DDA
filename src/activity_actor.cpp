@@ -4867,7 +4867,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
             loc.carrier()->add_msg_if_player( m_neutral,
                                               _( "The %s no longer fits in your inventory so you drop it instead." ),
                                               reloadable_name );
-            get_map().add_item_or_charges( loc.position(), reloadable );
+            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
             loc.remove_item();
             break;
     }

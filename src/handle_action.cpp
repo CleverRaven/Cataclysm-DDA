@@ -469,20 +469,20 @@ static void rcdrive( const point &d )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( c + d );
+    tripoint_bub_ms dest( c + d );
     if( here.impassable( dest ) || !here.can_put_items_ter_furn( dest ) ||
         here.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
-        tripoint src( c );
+        tripoint_bub_ms src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         here.i_rem( src, rc_car );
         car_location_string.clear();
-        car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
+        car_location_string << dest.x() << ' ' << dest.y() << ' ' << dest.z();
         player_character.set_value( "remote_controlling", car_location_string.str() );
         return;
     }
@@ -583,7 +583,7 @@ static void open()
     if( !openp_ ) {
         return;
     }
-    const tripoint openp = *openp_;
+    const tripoint_bub_ms openp = tripoint_bub_ms( *openp_ );
     map &here = get_map();
 
     player_character.mod_moves( -to_moves<int>( 1_seconds ) );
@@ -918,16 +918,16 @@ static void smash()
     if( !smashp_ ) {
         return;
     }
-    tripoint smashp = *smashp_;
+    tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
 
     bool smash_floor = false;
-    if( smashp.z != player_character.posz() ) {
-        if( smashp.z > player_character.posz() ) {
+    if( smashp.z() != player_character.posz() ) {
+        if( smashp.z() > player_character.posz() ) {
             // TODO: Knock on the ceiling
             return;
         }
 
-        smashp.z = player_character.posz();
+        smashp.z() = player_character.posz();
         smash_floor = true;
     }
     get_event_bus().send<event_type::character_smashes_tile>(

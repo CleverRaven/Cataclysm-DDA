@@ -279,6 +279,7 @@ static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_WATERWALKING( "WATERWALKING" );
 
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_web_up( "f_web_up" );
@@ -302,6 +303,7 @@ static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
+static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
@@ -6503,7 +6505,8 @@ bool game::is_zones_manager_open() const
     return zones_manager_open;
 }
 
-static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction )
+static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                     bool show_all_zones )
 {
     werase( w_info );
 
@@ -6529,8 +6532,20 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green,
-                            _( "<S>how all / hide distant" ) ) + 2;
+    std::string all_zones = _( "<S>how all" );
+    std::string distant_zones = _( "Hide distant" );
+    std::array<nc_color, 2> selection_color = { c_dark_gray, c_dark_gray };
+    selection_color[int( !show_all_zones )] = c_yellow;
+
+    nc_color current_color = selection_color[0];
+    tmpx += shortcut_print( w_info, point( tmpx, 5 ), current_color, c_light_green, all_zones );
+    current_color = c_white;
+    print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, " / " );
+    tmpx += 3;
+    current_color = selection_color[1];
+    print_colored_text( w_info, point( tmpx, 5 ), current_color, current_color, distant_zones );
+    tmpx += utf8_width( distant_zones ) + 2;
+
     shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green, _( "<M>ap" ) );
 
     if( debug_mode ) {
@@ -6799,7 +6814,7 @@ void game::zones_manager()
             return;
         }
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info, zones_faction );
+        zones_manager_shortcuts( w_zones_info, zones_faction, show_all_zones );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
@@ -7683,15 +7698,15 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( tripoint &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
-        if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
+    for( tripoint_bub_ms &points_p_it : closest_points_first( u.pos_bub(), iRadius ) ) {
+        if( points_p_it.y() >= u.posy() - iRadius && points_p_it.y() <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
 
             for( item &elem : m.i_at( points_p_it ) ) {
-                const tripoint relative_pos = points_p_it - u.pos();
+                const tripoint_rel_ms relative_pos = points_p_it - u.pos_bub();
 
-                add_item_recursive( item_order, temp_items, &elem, relative_pos );
+                add_item_recursive( item_order, temp_items, &elem, relative_pos.raw() );
             }
         }
     }
@@ -9388,7 +9403,7 @@ void game::butcher()
     std::vector<map_stack::iterator> corpses;
     std::vector<map_stack::iterator> disassembles;
     std::vector<map_stack::iterator> salvageables;
-    map_stack items = m.i_at( u.pos() );
+    map_stack items = m.i_at( u.pos_bub() );
     const inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
@@ -10818,7 +10833,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             u.max_quality( qual_BUTCHER, PICKUP_RANGE ) > INT_MIN ) {
             std::vector<item *> corpses;
 
-            for( item &it : m.i_at( u.pos() ) ) {
+            for( item &it : m.i_at( u.pos_bub() ) ) {
                 corpses.push_back( &it );
             }
 
@@ -10831,7 +10846,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
             const bool acid_immune = u.is_immune_damage( damage_acid ) || u.is_immune_field( fd_acid );
-            const auto pulp = [&]( const tripoint & pos ) {
+            const auto pulp = [&]( const tripoint_bub_ms & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
                         ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
@@ -10853,10 +10868,10 @@ point game::place_player( const tripoint &dest_loc, bool quick )
 
             if( pulp_butcher == "pulp_adjacent" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                 for( const direction &elem : adjacentDir ) {
-                    pulp( u.pos() + displace_XY( elem ) );
+                    pulp( u.pos_bub() + displace_XY( elem ) );
                 }
             } else {
-                pulp( u.pos() );
+                pulp( u.pos_bub() );
             }
         }
     }
@@ -10885,7 +10900,8 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) &&
         !m.has_flag_furn( "BRIDGE", u.pos_bub() ) &&
-        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
+        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) &&
+        !u.has_flag( json_flag_WATERWALKING ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
     }
@@ -11182,7 +11198,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = ( u.pos_bub() + u.grab_point ).raw();
+    tripoint_bub_ms fpos = ( u.pos_bub() + u.grab_point );
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         // Where did it go? We're grabbing thin air so reset.
@@ -11204,11 +11220,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
+    const tripoint_bub_ms fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
-    const bool canmove = can_move_furniture( fdest, dp );
+    const bool canmove = can_move_furniture( fdest.raw(), dp );
     // @TODO: it should be possible to move over invisible traps. This should probably
     // trigger the trap.
     // The current check (no move if trap) allows a player to detect invisible traps by
@@ -11308,7 +11324,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
         m.set_field_intensity( fdest, fd_fire, fire_intensity );
-        m.set_field_age( fdest, fd_fire, fire_age );
+        m.set_field_age( fdest.raw(), fd_fire, fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.
@@ -11337,10 +11353,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
     }
 
     if( !m.has_floor_or_water( fdest ) && !m.has_flag( ter_furn_flag::TFLAG_FLAT, fdest ) ) {
-        std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest ) );
+        std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest.raw() ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
-        m.drop_furniture( fdest );
+        m.drop_furniture( fdest.raw() );
         return true;
     }
 
@@ -11442,7 +11458,12 @@ void game::on_options_changed()
 
 void game::water_affect_items( Character &ch ) const
 {
+    bool gear_waterproofed = ch.has_flag( json_flag_ITEM_WATERPROOFING );
+
     for( item_location &loc : ch.all_items_loc() ) {
+        if( gear_waterproofed ) {
+            break;
+        }
         // check flag first because its cheaper
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
             add_msg_if_player_sees( ch.pos(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
@@ -11722,7 +11743,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool climbing = false;
     climbing_aid_id climbing_aid = climbing_aid_default;
     int move_cost = 100;
-    tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
+    tripoint_bub_ms stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     bool adjacent_climb = false;
     if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) &&
@@ -11733,7 +11754,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 adjacent_climb = true;
             }
         }
-        if( here.has_floor_or_support( stairs ) ) {
+        if( here.has_floor_or_support( stairs.raw() ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
             return;
         }
@@ -11743,7 +11764,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( u.pos(), stairs );
+        const int cost = u.climbing_cost( u.pos_bub().raw(), stairs.raw() );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling;
@@ -11767,15 +11788,15 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         std::vector<tripoint> pts;
-        for( const tripoint &pt : here.points_in_radius( stairs, 1 ) ) {
+        for( const tripoint_bub_ms &pt : here.points_in_radius( stairs, 1 ) ) {
             if( here.passable( pt ) &&
-                here.has_floor_or_support( pt ) ) {
-                pts.push_back( pt );
+                here.has_floor_or_support( pt.raw() ) ) {
+                pts.push_back( pt.raw() );
             }
         }
 
         if( wall_cling && here.is_wall_adjacent( stairs ) ) {
-            pts.push_back( stairs );
+            pts.push_back( stairs.raw() );
         }
 
         if( pts.empty() ) {
@@ -11793,7 +11814,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             if( !pnt ) {
                 return;
             }
-            stairs = *pnt;
+            stairs = tripoint_bub_ms( *pnt );
         }
     }
 
@@ -11850,7 +11871,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool submerging = false;
     // > and < are used for diving underwater.
     if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) ) {
-        swimming = true;
+        if( !u.has_flag( json_flag_WATERWALKING ) ) {
+            swimming = true;
+        }
         const ter_id &target_ter = here.ter( u.pos_bub() + tripoint( 0, 0, movez ) );
 
         // If we're in a water tile that has both air above and deep enough water to submerge in...
@@ -11873,9 +11896,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 }
                 // ...and we're not already submerged.
                 else {
-                    // Check for a flotation device first before allowing us to submerge.
+                    // Check for a flotation device or the WATERWALKING flag first before allowing us to submerge.
                     if( u.worn_with_flag( flag_FLOTATION ) ) {
                         add_msg( m_info, _( "You can't dive while wearing a flotation device." ) );
+                        return;
+                    }
+                    if( u.has_flag( json_flag_WATERWALKING ) ) {
+                        add_msg( m_info, _( "You can't dive while walking on water." ) );
                         return;
                     }
 
@@ -11943,7 +11970,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( !pnt ) {
             return;
         }
-        stairs = *pnt;
+        stairs = tripoint_bub_ms( *pnt );
     }
 
     std::vector<monster *> monsters_following;
@@ -11984,7 +12011,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     point submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
-        submap_shift = update_map( stairs.x, stairs.y, z_level_changed );
+        submap_shift = update_map( stairs.x(), stairs.y(), z_level_changed );
     }
 
     // if an NPC or monster is on the stairs when player ascends/descends
@@ -13492,9 +13519,13 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     g->vertical_move( -descended_levels, true );
 
     if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos_bub() ) ) {
-        you.set_underwater( true );
-        g->water_affect_items( you );
-        you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+        if( you.has_flag( json_flag_WATERWALKING ) ) {
+            you.add_msg_if_player( _( "You climb down and stand on the water's surface." ) );
+        } else {
+            you.set_underwater( true );
+            g->water_affect_items( you );
+            you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+        }
     }
 }
 

@@ -870,7 +870,16 @@
         ]
       }
     ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WALK_UNDERWATER",
+      "NO_PSIONICS"
+    ]
   },
   {
     "type": "effect_type",
@@ -1549,7 +1558,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",

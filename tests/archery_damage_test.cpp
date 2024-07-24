@@ -39,7 +39,7 @@ static void test_projectile_hitting_wall( const std::string &target_type, bool s
         projectile projectile_copy = attack.proj;
         here.set( target_point, ter_id( target_type ), furn_id( "f_null" ) );
         CAPTURE( projectile_copy.impact.total_damage() );
-        here.shoot( target_point.raw(), projectile_copy, false );
+        here.shoot( target_point, projectile_copy, false );
         CAPTURE( target_type );
         CAPTURE( weapon_type );
         CAPTURE( ter_id( target_type ).obj().name() );

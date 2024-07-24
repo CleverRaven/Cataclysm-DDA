@@ -2880,16 +2880,16 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 
 void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomove )
 {
-    tripoint p = pt;
+    tripoint_bub_ms p = tripoint_bub_ms( pt );
     map &here = get_map();
-    if( sees_dangerous_field( p )
-        || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
+    if( sees_dangerous_field( p.raw() )
+        || ( nomove != nullptr && nomove->find( p.raw() ) != nomove->end() ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = here.get_dir_circle( pos(), p );
-        for( const tripoint &ot : other_points ) {
+        std::vector<tripoint_bub_ms> other_points = here.get_dir_circle( pos_bub(), p );
+        for( const tripoint_bub_ms &ot : other_points ) {
             if( could_move_onto( ot )
-                && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
+                && ( nomove == nullptr || nomove->find( ot.raw() ) == nomove->end() ) ) {
 
                 p = ot;
                 break;
@@ -2900,20 +2900,20 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     recoil = MAX_RECOIL;
 
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
-        p.x = rng( posx() - 1, posx() + 1 );
-        p.y = rng( posy() - 1, posy() + 1 );
-        p.z = posz();
+        p.x() = rng( posx() - 1, posx() + 1 );
+        p.y() = rng( posy() - 1, posy() + 1 );
+        p.z() = posz();
     }
 
     // nomove is used to resolve recursive invocation, so reset destination no
     // matter it was changed by stunned effect or not.
-    if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
-        p = pos();
+    if( nomove != nullptr && nomove->find( p.raw() ) != nomove->end() ) {
+        p = pos_bub();
     }
 
     // "Long steps" are allowed when crossing z-levels
     // Stairs teleport the player too
-    if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
+    if( rl_dist( pos_bub(), p ) > 1 && p.z() == posz() ) {
         // On the same level? Not so much. Something weird happened
         path.clear();
         move_pause();
@@ -2988,7 +2988,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
 
-        if( critter->pos() == p ) {
+        if( critter->pos_bub() == p ) {
             move_pause();
             return;
         }
@@ -3007,7 +3007,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     }
 
     Character &player_character = get_player_character();
-    if( p.z != posz() ) {
+    if( p.z() != posz() ) {
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
@@ -3020,12 +3020,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     } else if( has_effect( effect_stumbled_into_invisible ) &&
                here.has_field_at( p, field_fd_last_known ) && !sees( player_character ) &&
                attitude_to( player_character ) == Attitude::HOSTILE ) {
-        attack_air( p );
+        attack_air( p.raw() );
         move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
-        bool diag = trigdist && posx() != p.x && posy() != p.y;
+        bool diag = trigdist && posx() != p.x() && posy() != p.y();
         if( is_mounted() ) {
-            const double base_moves = run_cost( here.combined_movecost( pos(), p ),
+            const double base_moves = run_cost( here.combined_movecost( pos_bub(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
@@ -3033,7 +3033,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
-            mod_moves( -run_cost( here.combined_movecost( pos(), p ), diag ) );
+            mod_moves( -run_cost( here.combined_movecost( pos_bub(), p ), diag ) );
         }
         moved = true;
     } else if( here.open_door( *this, p, !here.is_outside( pos_bub() ), true ) ) {
@@ -3079,9 +3079,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
     if( moved ) {
         make_footstep_noise();
-        const tripoint old_pos = pos();
+        const tripoint_bub_ms old_pos = pos_bub();
         setpos( p );
-        if( old_pos.x - p.x < 0 ) {
+        if( old_pos.x() - p.x() < 0 ) {
             facing = FacingDirection::RIGHT;
         } else {
             facing = FacingDirection::LEFT;

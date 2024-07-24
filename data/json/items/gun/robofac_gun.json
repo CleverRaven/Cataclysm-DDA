@@ -329,7 +329,6 @@
     "color": "blue",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "ammo": [ "40x46mm" ],
-    "to_hit": -2,
     "extend": { "flags": [ "NO_TURRET" ] },
     "dispersion": 120,
     "durability": 9,

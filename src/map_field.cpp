@@ -643,7 +643,7 @@ static void field_processor_extra_radiation( const tripoint &p, field_entry &cur
     const field_intensity_level &ilevel = cur.get_intensity_level();
     if( ilevel.extra_radiation_max > 0 ) {
         int extra_radiation = rng( ilevel.extra_radiation_min, ilevel.extra_radiation_max );
-        pd.here.adjust_radiation( p, extra_radiation );
+        pd.here.adjust_radiation( tripoint_bub_ms( p ), extra_radiation );
     }
 }
 
@@ -1087,7 +1087,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter_furn_has_flag( ter, frn, ter_furn_flag::TFLAG_FLAMMABLE_HARD ) &&
@@ -1098,7 +1098,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.destroy( p, false );
+                here.bash( p, 999, false, true, true );
             }
 
         } else if( ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {

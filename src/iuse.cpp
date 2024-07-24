@@ -154,6 +154,7 @@ static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -494,7 +495,7 @@ std::optional<int> iuse::sewage( Character *p, item *, const tripoint & )
 
 std::optional<int> iuse::honeycomb( Character *p, item *, const tripoint & )
 {
-    get_map().spawn_item( p->pos(), itype_wax, 2 );
+    get_map().spawn_item( p->pos_bub(), itype_wax, 2 );
     return 1;
 }
 
@@ -1810,13 +1811,13 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint & )
     if( !pnt_ ) {
         return std::nullopt;
     }
-    const tripoint pnt = *pnt_;
+    const tripoint_bub_ms pnt = tripoint_bub_ms( *pnt_ );
 
     if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return std::nullopt;
     }
-    if( !good_fishing_spot( pnt, p ) ) {
+    if( !good_fishing_spot( pnt.raw(), p ) ) {
         return std::nullopt;
     }
     it->active = true;
@@ -2218,7 +2219,7 @@ class exosuit_interact
                 } else if( ret == 0 ) {
                     // Unload existing module
                     pkt->remove_items_if( [&c, &here]( const item & i ) {
-                        here.add_item_or_charges( c.pos(), i );
+                        here.add_item_or_charges( c.pos_bub(), i );
                         return true;
                     } );
                     return to_moves<int>( 5_seconds );
@@ -2279,7 +2280,7 @@ class exosuit_interact
             // Unload existing module
             if( not_empty ) {
                 pkt->remove_items_if( [&c, &here]( const item & i ) {
-                    here.add_item_or_charges( c.pos(), i );
+                    here.add_item_or_charges( c.pos_bub(), i );
                     return true;
                 } );
                 moves += to_moves<int>( 5_seconds );
@@ -3155,7 +3156,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint & )
         }
         case 1:
             p->add_msg_if_player( m_info, _( "The ground's radiation level: %d mSv/h" ),
-                                  get_map().get_radiation( p->pos() ) );
+                                  get_map().get_radiation( p->pos_bub() ) );
             break;
         case 2:
             p->add_msg_if_player( _( "The geiger counter's scan LED turns on." ) );
@@ -4402,7 +4403,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : get_map().i_at( point_bub_ms( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
@@ -4483,7 +4484,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( chop_planks_activity_actor( moves ) );
-    p.activity.placement = get_map().getglobal( p.pos() );
+    p.activity.placement = get_map().getglobal( p.pos_bub() );
 }
 
 std::optional<int> iuse::lumber( Character *p, item *it, const tripoint & )
@@ -4498,9 +4499,9 @@ std::optional<int> iuse::lumber( Character *p, item *it, const tripoint & )
     }
     map &here = get_map();
     // Check if player is standing on any lumber
-    for( item &i : here.i_at( p->pos() ) ) {
+    for( item &i : here.i_at( p->pos_bub() ) ) {
         if( i.typeId() == itype_log ) {
-            here.i_rem( p->pos(), &i );
+            here.i_rem( p->pos_bub(), &i );
             cut_log_into_planks( *p );
             return 1;
         }
@@ -4958,7 +4959,8 @@ int iuse::towel_common( Character *p, item *it, bool )
     bool slime = p->has_effect( effect_slimed );
     bool boom = p->has_effect( effect_boomered );
     bool glow = p->has_effect( effect_glowing );
-    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
+    bool bile = p->has_effect( effect_bile_irritant );
+    int mult = slime + boom + glow + bile; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
     const std::string name = it ? it->tname() : _( "towel" );
 
@@ -4970,10 +4972,11 @@ int iuse::towel_common( Character *p, item *it, bool )
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
-    } else if( slime || boom || glow ) {
+    } else if( slime || boom || glow || bile ) {
         p->remove_effect( effect_slimed ); // able to clean off all at once
         p->remove_effect( effect_boomered );
         p->remove_effect( effect_glowing );
+        p->remove_effect( effect_bile_irritant );
         p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
                               name );
 
@@ -5881,9 +5884,10 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
         // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
+        { effect_boomered, ef_con( to_translation( " has <color_magenta>bile</color> covering their eyes.  " ) ) },
         { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
         { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
+        { effect_bile_irritant, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
         { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
         { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
         { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
@@ -8589,16 +8593,16 @@ std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint & )
     map &here = get_map();
     if( chance <= 20 ) {
         p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        here.spawn_item( p->pos(), "splinter", 2 );
+        here.spawn_item( p->pos_bub(), "splinter", 2 );
         return 1;
     } else if( chance <= 40 ) {
         p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        here.spawn_item( p->pos(), "stick", 2 );
+        here.spawn_item( p->pos_bub(), "stick", 2 );
         return 1;
     } else if( chance <= 100 ) {
         p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        here.spawn_item( p->pos(), "stick", 1 );
-        here.spawn_item( p->pos(), "splinter", 1 );
+        here.spawn_item( p->pos_bub(), "stick", 1 );
+        here.spawn_item( p->pos_bub(), "splinter", 1 );
         return 1;
     }
     return 0;

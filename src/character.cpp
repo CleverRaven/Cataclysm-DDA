@@ -338,6 +338,7 @@ static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
+static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
@@ -1188,7 +1189,7 @@ void Character::consume_dodge_attempts()
     }
 }
 
-ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
+ret_val<void> Character::can_try_dodge( bool ignore_dodges_left ) const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -1198,7 +1199,7 @@ ret_val<void> Character::can_try_doge( bool ignore_dodges_left ) const
     }
     //If stamina is too low we can't dodge
     if( get_stamina_dodge_modifier() <= 0.11 ) {
-        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to doge.  Stamina: %d", get_stamina() );
+        add_msg_debug( debugmode::DF_MELEE, "Stamina too low to dodge.  Stamina: %d", get_stamina() );
         add_msg_debug( debugmode::DF_MELEE, "Stamina dodge modifier: %f", get_stamina_dodge_modifier() );
         return ret_val<void>::make_failure( !is_npc() ? _( "Your stamina is too low to attempt to dodge." )
                                             :
@@ -1934,7 +1935,7 @@ void Character::mod_part_hp_cur( const bodypart_id &id, int set )
 
 void Character::on_try_dodge()
 {
-    ret_val<void> can_dodge = can_try_doge();
+    ret_val<void> can_dodge = can_try_dodge();
     if( !can_dodge.success() ) {
         add_msg( m_bad, can_dodge.c_str() );
         return;
@@ -1954,7 +1955,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
 {
     // Make sure we're not practicing dodge in situation where we can't dodge
     // We can ignore dodges_left because it was already checked in get_dodge()
-    if( !can_try_doge( true ).success() ) {
+    if( !can_try_dodge( true ).success() ) {
         return;
     }
 
@@ -7052,6 +7053,7 @@ void Character::burn_move_stamina( int moves )
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     //Appropriate traits let you walk along the bottom without getting as tired
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) &&
+        !has_flag( json_flag_WATERWALKING ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
           get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) &&
         !get_map().has_flag_furn( "BRIDGE", pos_bub() ) &&
@@ -7328,7 +7330,7 @@ bool Character::consume_charges( item &used, int qty )
         if( has_item( used ) ) {
             i_rem( &used );
         } else {
-            map_stack items = get_map().i_at( pos() );
+            map_stack items = get_map().i_at( pos_bub() );
             for( item_stack::iterator iter = items.begin(); iter != items.end(); iter++ ) {
                 if( &( *iter ) == &used ) {
                     iter = items.erase( iter );
@@ -7339,7 +7341,7 @@ bool Character::consume_charges( item &used, int qty )
         return true;
     }
 
-    used.ammo_consume( qty, pos(), this );
+    used.ammo_consume( qty, pos_bub(), this );
     return false;
 }
 
@@ -10156,7 +10158,7 @@ bool Character::crush_frozen_liquid( item_location loc )
                                        hammering_item.tname() );
                     // FIXME: Hardcoded damage type
                     const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_bash );
-                    get_map().bash( loc.position(), smashskill );
+                    get_map().bash( loc.pos_bub(), smashskill );
                 }
             } else {
                 done_crush = false;
@@ -10278,9 +10280,15 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos_bub() );
     const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos_bub() );
+    const bool water_walking = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) &&
+                               has_flag( json_flag_WATERWALKING );
 
     if( is_mounted() ) {
         return effects;
+    }
+
+    if( water_walking ) {
+        movecost = 100;
     }
 
     if( movecost > 105 ) {
@@ -10291,6 +10299,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         if( has_proficiency( proficiency_prof_parkour ) ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
+
 
         if( movecost < 100 ) {
             run_cost_effect effect { _( "Bonuses Capped" ) };
@@ -10439,14 +10448,14 @@ void Character::place_corpse()
         }
     }
 
-    here.add_item_or_charges( pos(), body );
+    here.add_item_or_charges( pos_bub(), body );
 }
 
 void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
     bay.load( om_target, false );
-    point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
+    point_omt_ms fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
@@ -10456,8 +10465,8 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     if( bay.furn( fin ) != furn_str_id::NULL_ID() ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id::NULL_ID() ) {
-                fin.x = p.x;
-                fin.y = p.y;
+                fin.x() = p.x;
+                fin.y() = p.y;
             }
         }
     }
@@ -12794,7 +12803,7 @@ void Character::leak_items()
         }
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
         if( weapon.leak( get_map(), this, pos() ) ) {
-            get_map().add_item_or_charges( pos(), weapon );
+            get_map().add_item_or_charges( pos_bub(), weapon );
             removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
         }

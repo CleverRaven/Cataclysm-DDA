@@ -48,7 +48,7 @@
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10,
     "vitamins": [ [ "calcium", 7 ], [ "iron", 1 ], [ "meat_allergen", 1 ] ]
   },
