@@ -598,8 +598,7 @@
     "max_range": 24,
     "sound_description": "ssszziiipp",
     "damage_type": "biological",
-    "min_damage": 5,
-    "max_damage": 17,
+    "min_damage": 0,
     "extra_effects": [ { "id": "spell_gene_sting_selector" } ]
   },
   {
@@ -618,10 +617,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_random_mutate",
-    "condition": "u_is_character",
+    "condition": { "and": [ { "math": [ "_damage_taken", ">", "0" ] }, "u_is_npc" ] },
     "effect": [
       { "set_string_var": "<random_category>", "target_var": { "context_val": "dart_mutation_category" }, "parse_tags": true },
-      { "u_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
+      { "npc_mutate_category": { "context_val": "dart_mutation_category" }, "use_vitamins": false }
     ]
   },
   {
