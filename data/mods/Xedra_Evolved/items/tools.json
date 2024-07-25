@@ -202,7 +202,7 @@
       "type": "effect_on_conditions",
       "description": "Complete the ritual.",
       "effect_on_conditions": [ "EOC_CHECK_TO_SUMMON_REVENANT" ],
-      "need_wielding": true
+"//": "until the day EoCs can be affected with need_wielding, they won't have it to allow the game to start"
     },
     "volume": "72500 ml",
     "weight": "91500 g",

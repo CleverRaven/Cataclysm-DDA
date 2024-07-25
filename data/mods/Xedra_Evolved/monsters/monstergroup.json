@@ -291,5 +291,14 @@
       { "monster": "mon_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_venus_doll", "weight": 400, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ABYSSAL_HUNGER_CELLS",
+    "monsters": [
+      { "monster": "mon_grasping_globule", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_bashing_globule", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_spewing_globule", "weight": 50, "cost_multiplier": 0 }
+    ]
   }
 ]

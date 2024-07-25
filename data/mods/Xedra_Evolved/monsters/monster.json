@@ -333,7 +333,7 @@
     "id": "mon_mosquito_mega",
     "type": "MONSTER",
     "name": { "str": "dream-drainer mosquito" },
-    "description": "Forged from the wildest dreams and the worst nightmares, this gigantic mosquito bloats as its probosis syphons the air, as if it was feeding on some invisible thing.  Looking at it, your mind blurs a little, making you feel that what this monster is sucking are your dreams.",
+    "description": "Forged from the wildest dreams and the worst nightmares, this gigantic mosquito bloats as its proboscis syphons the air, as if it was feeding on some invisible thing.  Looking at it, your mind blurs a little, making you feel that what this monster is sucking are your dreams.",
     "default_faction": "mosquito",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -350,7 +350,10 @@
     "vision_day": 44,
     "vision_night": 32,
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s melts away."
+    },
     "flags": [
       "SEES",
       "SMELLS",
@@ -391,7 +394,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_spear", "min_level": 5 },
         "cooldown": 30,
-        "monster_message": "%1$s points its probosis at you, and a projectile bursts from it!"
+        "monster_message": "%1$s points its proboscis at you, and a projectile bursts from it!"
       },
       {
         "id": "mon_dream_drainer_bash",
@@ -427,7 +430,10 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 0,
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s decoheres and is consumed by the moonlight!"
+    },
     "vision_day": 50,
     "vision_night": 60,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
@@ -465,7 +471,7 @@
         "id": "mon_luna_attuned_revenant_moon_withdrawal",
         "spell_data": { "id": "mon_luna_attuned_revenant_moon_withdrawal", "hit_self": true },
       "allow_no_target": true,
-      "condition": { "not": [ "u_is_outside" ] },
+      "condition": { "not": "u_is_outside" },
       "monster_message": "Without the moonlight shining on it, %1$s is weakened!",
       "cooldown": 10
     },
@@ -474,8 +480,8 @@
       "id": "mon_luna_attuned_revenant_moonless_tantrum",
       "spell_data": { "id": "mon_luna_attuned_revenant_beam" },
     "allow_no_target": true,
-    "condition": { "not": [ "u_is_outside" ] },
-    "monster_message": "%1$s lashes out as it attepmts to be exposed to the moonlight again!",
+    "condition": { "not": "u_is_outside" },
+    "monster_message": "%1$s lashes out as it attempts to be exposed to the moonlight again!",
     "cooldown": 5
   }
     ]
@@ -515,8 +521,11 @@
     ],
     "dodge": 2,
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
-    "vision": 70,
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s melts away."
+    },
+    "vision_day": 70,
     "vision_night": 70,
     "special_attacks": [
       {
@@ -574,8 +583,11 @@
     ],
     "dodge": 2,
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
-    "vision": 5,
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s melts away."
+    },
+    "vision_day": 5,
     "vision_night": 5,
     "flags": [
       "SEES",
@@ -605,7 +617,10 @@
     "aggression": 100,
     "morale": 100,
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s melts away."
+    },
     "special_attacks": [
       {
         "type": "spell",
@@ -664,7 +679,10 @@
       }
     ],
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s melts away."
+    },
     "flags": [
       "SEES",
       "HEARS",
@@ -693,7 +711,10 @@
     "aggression": 100,
     "morale": 100,
     "harvest": "exempt",
-    "corpse_type": "NO_CORPSE",
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s melts away."
+    },
     "flags": [
       "SEES",
       "HEARS",

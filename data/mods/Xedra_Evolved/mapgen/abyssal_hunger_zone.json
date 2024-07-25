@@ -2,7 +2,8 @@
   {
     "type": "palette",
     "id": "abyssal_hunger_palette",
-    "terrain": { "0": "t_abyssal_flesh_floor", "1": "t_abyssal_flesh_wall", "B": "t_abyssal_brain", "T": "f_shard_location" }
+    "terrain": { "0": "t_abyssal_flesh_floor", "1": "t_abyssal_flesh_wall", "B": "t_abyssal_brain", "a": "t_open_air" },
+    "furniture": { "T": "f_shard_location" }
   },
   {
     "type": "mapgen",
@@ -130,30 +131,19 @@
     "color": "magenta_red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_nm_floor_flesh",
+    "roof": "t_abyssal_flesh_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [
-      "NOITEM",
-      "SUPPORTS_ROOF",
-      "WALL",
-      "NO_SCENT",
-      "AUTO_WALL_SYMBOL",
-      "BLOCK_WIND"
-    ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "looks_like": "t_nm_wall_flesh",
     "bash": {
       "str_min": 99999,
       "str_max": 99999,
       "sound": "please report the bug allowing you to destroy these walls on github.",
       "sound_fail": "whump!",
-      "ter_set": "t_abyssal_flesh_floor",
-      "items": [ { "item": "meat_tainted", "count": [ 1, 1 ] } ]
+      "ter_set": "t_abyssal_flesh_floor"
     }
   },
-
-
-
     {
       "type": "terrain",
       "id": "t_abyssal_flesh_floor",
@@ -163,12 +153,7 @@
       "color": "magenta_white",
       "move_cost": 1,
       "connect_groups": "INDOORFLOOR",
-      "flags": [
-        "TRANSPARENT",
-        "SUPPORTS_ROOF",
-        "INDOORS",
-        "FLAT"
-      ],
+      "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
       "looks_like": "t_nm_floor_flesh"
     },
     {
@@ -180,5 +165,27 @@
       "color": "magenta",
       "move_cost": 2,
       "flags": [ "FLAT" ]
+    },
+    {
+      "type": "terrain",
+      "id": "t_abyssal_brain",
+      "name": "Abyssal Hunger's brain",
+      "description": "A gigantic mass of flesh similar to a brain.",
+      "symbol": "LINE_OXOX",
+      "color": "magenta_red",
+      "move_cost": 0,
+      "coverage": 100,
+      "roof": "t_abyssal_flesh_roof",
+      "connect_groups": "WALL",
+      "connects_to": "WALL",
+      "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BLOCK_WIND" ],
+      "looks_like": "t_concrete_wall_flesh",
+      "bash": {
+        "str_min": 99999,
+        "str_max": 99999,
+        "sound": "please report the bug allowing you to destroy these on github.",
+        "sound_fail": "whump!",
+        "ter_set": "t_nm_floor_flesh"
+      }
     }
-      ]
+  ]

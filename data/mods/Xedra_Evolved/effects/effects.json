@@ -1894,21 +1894,22 @@
   {
     "type": "effect_type",
     "id": "effect_dream_drainer_speed",
-    "max_duration": "25 s",
     "name": [ "Accelerated" ],
-    "desc": [ "A burst of <color_green>speed</color>." ],
+    "desc": [ "A burst of speed." ],
+    "max_duration": "25 s",
     "apply_message": "You feel your legs are much longer now.",
     "remove_message": "Your body shrinks back into its normal space.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "SPEED", "add":  70 } ]
-  },
+  } ]
+},
   {
-    "id": "effect_dream_drainer_armor",
     "type": "effect_type",
-    "max_duration": "25 s",
+    "id": "effect_dream_drainer_armor",
     "name": [ "Armored" ],
     "desc": [ "The bug is shielded.  This is a bug if you have it." ],
+    "max_duration": "25 s",
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
@@ -1923,7 +1924,7 @@
           { "value": "ARMOR_COLD", "add": -15 },
           { "value": "ARMOR_ELEC", "add": -15 },
           { "value": "ARMOR_ACID", "add": -15 },
-          { "value": "ARMOR_BULLET", "add": -50 }
+          { "value": "ARMOR_BULLET", "add": -15 }
         ]
       }
     ]
@@ -1939,6 +1940,4 @@
     "show_intensity": false,
     "show_in_info": true
   }
-]
-}
 ]

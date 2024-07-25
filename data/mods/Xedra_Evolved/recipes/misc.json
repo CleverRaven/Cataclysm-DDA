@@ -42,6 +42,7 @@
     "subcategory": "CSC_XEDRA_MISC"
   },
   {
+    "id": "stormwrought_blood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "stormwrought blood",
@@ -112,6 +113,7 @@
     "subcategory": "CSC_XEDRA_MISC"
   },
   {
+    "id": "bait_abyssal_hunger",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "name": "bait the Abyssal Hunger",

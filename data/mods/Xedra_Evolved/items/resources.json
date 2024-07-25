@@ -284,6 +284,7 @@
     "description": "The distilled essence of the Fae.  Can be used as part of rituals.",
     "weight": "9 g",
     "volume": "5 ml",
+    "charges": 1,
     "price": "8 USD",
     "price_postapoc": "10 cent",
     "symbol": "~",

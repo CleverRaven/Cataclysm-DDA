@@ -210,7 +210,7 @@
     "id": "mon_dream_drainer_spear",
     "type": "SPELL",
     "name": "Pierce",
-    "description": "Throw a long ethereal spear out of your probosis or finger.",
+    "description": "Throw a long ethereal spear out of your proboscis or finger.",
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],

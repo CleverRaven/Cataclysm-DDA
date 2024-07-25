@@ -87,12 +87,27 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD",
-    "condition": { "u_location_variable": { "context_val": "test" }, "field": "fd_fatigue", "intensity": 3, "target_max_radius": 5  },
-    "effect": [ { "u_spawn_item": "stormwrought_blood_itert" }, { "u_message": "The ritual harnesses the energies of the tear to infuse some blood with it, leaving behind a small ball of almost-solid blood.  It only needs to bath in the energies of the storms until it is fully charged and it will be ready to use.", "type": "good", "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" } ],
-    "false_effect": [
+    "effect": [
+      { "u_location_variable": { "context_val": "near_tear" }, "field": "fd_fatigue", "target_max_radius": 5 },
+      {
+        "if": { "map_field_id": "fd_fatigue", "loc": { "context_val": "near_tear" } },
+        "then": { "run_eocs": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_SUCCESS" },
+        "else": { "run_eocs": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_FAIL" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_SUCCESS",
+    "effect": [ { "u_spawn_item": "stormwrought_blood_itert" }, { "u_message": "The ritual harnesses the energies of the tear to infuse some blood with it, leaving behind a small ball of almost-solid blood.  It only needs to bath in the energies of the storms until it is fully charged and it will be ready to use.", "type": "good" }, { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD_FAIL",
+    "effect": [
       { "u_message": "Without the proximity of a tear in reality, the ritual fails to harness any energy and the blood boils away.", "type": "bad" }
     ]
-      },
+  },  
       {
         "type": "effect_on_condition",
         "id": "CHARGE_STORMWROUGHT_BLOOD",
@@ -107,7 +122,7 @@
                 { "is_weather": "close_portal_storm" }
               ]
             },
-            { "u_has_items": { "item": "stormwrought_blood_itert" } },
+            { "u_has_item": "stormwrought_blood_itert" },
             "u_is_outside"
           ]
         },
@@ -127,7 +142,7 @@
                   { "u_message": "As the stormwrought blood becomes fully charged, it starts simmering.", "type": "good" },
                   { "u_remove_item_with": "stormwrought_blood_itert" },
                   { "u_spawn_item": "stormwrought_blood_charged", "suppress_message": true },
-                  { "math": [ "u_stormwrought_blood_charge", "==", "0" ] }
+                  { "math": [ "u_stormwrought_blood_charge", "=", "0" ] }
                   ],
                 "false_effect": [
                   {
