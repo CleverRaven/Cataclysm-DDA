@@ -34,7 +34,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
       {
         "run_eocs": [
-          "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
           "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
           "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
         ]
@@ -86,7 +86,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
       {
         "run_eocs": [
-          "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
           "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
           "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
         ]
@@ -140,7 +140,7 @@
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
       {
         "run_eocs": [
-          "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+          "EOC_AFS_CONCENTRATION_SUCCESS_PROFICIENCY",
           "EOC_AFS_PSI_SKILL_INCREASE_ON_USE_FINALIZE",
           "EOC_AFS_CONCENTRATION_COSTS_FOCUS"
         ]
