@@ -30,7 +30,12 @@
     "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "spell_feral_wizard_base" }, "cooldown": 10 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_feral_wizard_base" },
+        "monster_message": "%1$s chants and gestures erratically!",
+        "cooldown": 10
+      },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
     ],
