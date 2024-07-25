@@ -541,7 +541,7 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
-static ImVec2 calc_size( const std::string &line )
+static ImVec2 calc_size( const std::string_view line )
 {
     return ImGui::CalcTextSize( remove_color_tags( line ).c_str() );
 }
@@ -549,7 +549,7 @@ static ImVec2 calc_size( const std::string &line )
 static int line_count_from_size( const ImVec2 &size )
 {
     return static_cast<int>( ceilf( size.y / ImGui::GetFontSize() ) );
-};
+}
 
 void uilist::calc_data()
 {
