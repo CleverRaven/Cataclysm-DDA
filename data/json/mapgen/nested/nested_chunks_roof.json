@@ -542,13 +542,13 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "residential_1x2_solar",
-    "object": { "mapgensize": [ 1, 2 ], "place_furniture": { "furn": "f_solar_unit", "x": 0, "y": [ 0, 1 ] } }
+    "object": { "mapgensize": [ 2, 2 ], "place_furniture": { "furn": "f_solar_unit", "x": 0, "y": [ 0, 1 ] } }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "residential_1x3_solar",
-    "object": { "mapgensize": [ 1, 3 ], "place_furniture": { "furn": "f_solar_unit", "x": 0, "y": [ 0, 2 ] } }
+    "object": { "mapgensize": [ 3, 3 ], "place_furniture": { "furn": "f_solar_unit", "x": 0, "y": [ 0, 2 ] } }
   },
   {
     "type": "mapgen",
