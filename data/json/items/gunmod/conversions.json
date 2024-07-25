@@ -420,6 +420,8 @@
     "mod_targets": [ "modular_ar15", "modular_m4_carbine", "modular_m16a4", "modular_m16_auto_rifle", "modular_m27_assault_rifle" ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
+    "overwrite_min_cycle_recoil": 83,
+    "//": "AR has too big recoil for .22 round, 83 is right on the edge of being able to use blackpowder loaded and ratshot",
     "ammo_modifier": [ "22" ],
     "magazine_adaptor": [ [ "22", [ "22_ar15mag_10", "22_ar15mag_28" ] ] ],
     "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "22_ar15mag_10", "22_ar15mag_28" ] } ],
