@@ -656,13 +656,6 @@
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_painkiller", "chance": 16 },
       { "id": "bio_power_storage_mkII", "chance": 90 },
-      { "id": "bio_synlungs", "chance": 5 },
-      { "id": "bio_jointservo", "chance": 18 },
-      { "id": "bio_digestion", "chance": 23 },
-      { "id": "bio_razors", "chance": 33 },
-      { "id": "bio_claws", "chance": 33 },
-      { "id": "bio_blade", "chance": 33 },
-      { "id": "bio_torsionratchet", "chance": 100 }
     ]
   },
   {
