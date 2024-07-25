@@ -69,7 +69,7 @@
         "             -.......-  ",
         "       -------.......-  ",
         "       -.............-  ",
-        "       -.............-  ",
+        "       -.......1.....-  ",
         "       -.............-  ",
         "       -.............-  ",
         "       -.............-  ",
@@ -90,7 +90,17 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "residential_1x2_solar", 6 ],
+            [ "residential_2x2_solar", 2 ],
+            [ "residential_1x3_solar", 3 ],
+            [ "null", 88 ]
+          ]
+        }
+      }
     }
   }
 ]
