@@ -124,8 +124,8 @@
         "                        ",
         "                        ",
         "  -------               ",
-        "  -.....-            M  ",
-        "  -.....-            M  ",
+        "  -.....-           1   ",
+        "  -.....-               ",
         "  -.....--------------  ",
         "  -..................-  ",
         "  -..................-  ",
@@ -139,6 +139,11 @@
       ],
       "palettes": [ "roof_palette" ],
       "place_items": [ { "item": "roof_trash", "x": [ 4, 19 ], "y": [ 15, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "nested": {
+        "1": {
+          "chunks": [ [ "residential_1x2_solar", 6 ], [ "residential_2x2_solar", 2 ], [ "residential_1x3_solar", 3 ], [ "null", 88 ] ]
+        }
+      },
       "place_nested": [
         {
           "chunks": [ [ "null", 15 ], [ "roof_4x4_utility", 30 ], [ "roof_4x4_utility_1", 30 ], [ "roof_4x4_holdout", 3 ] ],
