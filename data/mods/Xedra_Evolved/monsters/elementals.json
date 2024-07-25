@@ -335,7 +335,7 @@
     "name": { "str": "nuckalavee" },
     "description": "A giant grotesque centaur-like beast, with a skinless human torso grafted to an equally skinless horse.  Thick toxic smoke leeches from its two mouths as it affixes you with a gaze of pure malevolence.",
     "default_faction": "nether",
-    "bodytype": "blob",
+    "bodytype": "centaur",
     "species": [ "UNDINE" ],
     "volume": "108500 ml",
     "weight": "250 kg",
