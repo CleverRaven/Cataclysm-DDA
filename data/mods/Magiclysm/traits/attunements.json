@@ -38,7 +38,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "EMP_IMMUNE" ]
   },
   {
     "id": "ALCHEMIST",
