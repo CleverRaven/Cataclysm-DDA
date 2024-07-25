@@ -188,7 +188,6 @@
       { "monster": "mon_hunting_horror", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gozu", "weight": 50 },
       { "monster": "mon_shoggoth", "weight": 30, "cost_multiplier": 2 },
-      { "monster": "mon_nuckalavee", "weight": 30, "cost_multiplier": 2 },
       { "monster": "mon_albino_penguin", "weight": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_darkman", "weight": 10, "cost_multiplier": 2 }
     ]
@@ -426,7 +425,6 @@
       { "monster": "mon_mi_go_scout" },
       { "monster": "mon_shrapnel_swarm" },
       { "monster": "mon_flaming_eye" },
-      { "monster": "mon_nuckalavee" },
       { "monster": "mon_flying_polyp" },
       { "monster": "mon_unseen_hunter" },
       { "monster": "mon_hound_tindalos" },
