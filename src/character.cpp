@@ -6708,7 +6708,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
     int sel = 0;
     if( interactive ) {
         uilist menu;
-        menu.text = _( "Mend which fault?" );
+        menu.title = _( "Mend which fault?" );
         menu.desc_enabled = true;
 
         constexpr int fold_width = 80;

@@ -541,6 +541,14 @@ void uilist::inputfilter()
     filter_popup.reset();
 }
 
+static ImVec2 calc_size( const std::string & line ) {
+    return ImGui::CalcTextSize( line.c_str() );
+}
+
+static int line_count_from_size( const ImVec2 & size ) {
+    return static_cast<int>( ceilf( size.y / ImGui::GetFontSize() ) );
+};
+
 void uilist::calc_data()
 {
     std::vector<int> autoassign;
@@ -578,25 +586,37 @@ void uilist::calc_data()
     vmax = entries.size();
     unsigned int additional_lines = 0;
 
-    bool has_titlebar = title[0] != '#';
+    ImVec2 title_size = {};
+    bool has_titlebar = !title.empty();
     if( has_titlebar ) {
         additional_lines += 1;
+        title_size = calc_size( title );
     }
 
+    ImVec2 text_size = {};
+    if( !text.empty() ) {
+        text_size = calc_size( text );
+        additional_lines += line_count_from_size( text_size );
+        text_size.y += ImGui::GetStyle().ItemSpacing.y * 2.0;
+    }
+
+    ImVec2 desc_size = {};
     int desc_lines = 0;
     if( desc_enabled ) {
+        desc_size = calc_size( footer_text );
+        desc_lines = line_count_from_size( desc_size );
         for( const uilist_entry &ent : entries ) {
-            // this is a bad estimate because it wraps by character count, and we don’t even know how many characters will fit
-            desc_lines = std::max<int>( desc_lines,
-                                        foldstring( footer_text.empty() ? ent.desc : footer_text, 0 ).size() );
+            ImVec2 entry_size = calc_size( ent.desc );
+            desc_size.x = std::max( desc_size.x, entry_size.x );
+            desc_size.y = std::max( desc_size.y, entry_size.y );
+            desc_lines = std::max( desc_lines, line_count_from_size( entry_size ) );
         }
         if( desc_lines <= 0 ) {
             desc_enabled = false;
         }
+        desc_size.y += ImGui::GetStyle().ItemSpacing.y * 2.0;
     }
-    if( desc_enabled ) {
-        additional_lines += desc_lines;
-    }
+    additional_lines += desc_lines;
 
     if( ( vmax + additional_lines ) * ImGui::GetTextLineHeightWithSpacing() >
         ImGui::GetMainViewport()->Size.y ) {
@@ -621,9 +641,11 @@ void uilist::calc_data()
         extra_space_right = callback->desired_extra_space_right( ) + ImGui::GetStyle().FramePadding.x;
     }
 
-    calculated_bounds.w = extra_space_left + extra_space_right + calculated_menu_size.x;
-    calculated_bounds.h = ImGui::GetFrameHeightWithSpacing() + calculated_menu_size.y
-                          + ( additional_lines * ImGui::GetTextLineHeightWithSpacing() );
+    float longest_line_width = std::max( std::max( title_size.x, text_size.x ),
+                                         std::max( calculated_menu_size.x, desc_size.x ) );
+    calculated_bounds.w = extra_space_left + extra_space_right + longest_line_width;
+    calculated_bounds.h = ( ImGui::GetStyle().FramePadding.y * 2.0 ) + ( ImGui::GetStyle().ItemSpacing.y
+                          * 2.0 ) + title_size.y + calculated_menu_size.y + text_size.y + desc_size.y;
 }
 
 void uilist::setup()
@@ -730,7 +752,11 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
 {
     shared_ptr_fast<uilist_impl> current_ui = ui.lock();
     if( !current_ui ) {
-        ui = current_ui = make_shared_fast<uilist_impl>( *this );
+        if( title.empty() ) {
+            ui = current_ui = make_shared_fast<uilist_impl>( *this );
+        } else {
+            ui = current_ui = make_shared_fast<uilist_impl>( *this, title );
+        }
         current_ui->on_resized();
     }
     return current_ui;
