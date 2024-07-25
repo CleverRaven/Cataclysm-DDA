@@ -193,7 +193,13 @@
       { "monster": "mon_water_sprite", "weight": 125, "cost_multiplier": 0 },
       { "monster": "mon_spitting_lizard", "weight": 300, "cost_multiplier": 0 },
       { "monster": "mon_undertow", "weight": 75, "cost_multiplier": 2 },
-      { "monster": "mon_shabriri", "weight": 60, "cost_multiplier": 2 }
+      { "monster": "mon_shabriri", "weight": 60, "cost_multiplier": 2 },
+      {
+        "monster": "mon_nuckalavee",
+        "weight": 5,
+        "cost_multiplier": 5,
+        "conditions": [ "SPRING", "AUTUMN", "WINTER" ]
+      }
     ]
   },
   {
@@ -211,6 +217,11 @@
       { "monster": "mon_undertow", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_shabriri", "weight": 50, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_UNDINE_GREATER",
+    "monsters": [ { "monster": "mon_nuckalavee", "weight": 20, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
