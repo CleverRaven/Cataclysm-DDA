@@ -477,7 +477,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_west );
+                m.displace_vehicle( app1, tripoint_rel_ms_west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -492,7 +492,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_east );
+                m.displace_vehicle( app2, tripoint_rel_ms_east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -518,7 +518,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_west );
+                m.displace_vehicle( app1, tripoint_rel_ms_west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
@@ -533,7 +533,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_east );
+                m.displace_vehicle( app2, tripoint_rel_ms_east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }

@@ -1033,5 +1033,11 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "pur_tablets", "count": [ 75, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dynamite_shipment",
+    "items": [ { "item": "dynamite", "count": [ 2, 3 ] } ]
   }
 ]

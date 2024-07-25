@@ -130,7 +130,7 @@ vehicle *display::vehicle_driven( const Character &u )
 {
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos_bub() ) );
     }
     return veh;
 }

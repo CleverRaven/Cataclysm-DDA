@@ -470,6 +470,15 @@
             }
           }
         ]
+      },
+      {
+        "condition": { "not": "is_day" },
+        "values": [
+          {
+            "value": "OVERMAP_SIGHT",
+            "add": { "math": [ "4 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') * 2)" ] }
+          }
+        ]
       }
     ]
   },
@@ -615,6 +624,23 @@
     ],
     "remove_message": "You're sure you could try to learn a new blood gift now.",
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_bat_form_levitation",
+    "//": "Hidden effect, used to make sure bat form can fly.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_mist_form",
+    "//": "Hidden effect, used to make sure mist form doesn't drop items.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
   },
   {
     "id": "eater_lump_pool",
@@ -1002,7 +1028,7 @@
       "pain_min": [ 1 ],
       "pain_max": [ 3 ],
       "pain_chance": [ 6 ],
-      "pain_max_val": [ 100 ],
+      "pain_max_val": [ 50 ],
       "pain_tick": [ 120 ]
     },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
@@ -1674,6 +1700,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_walk_on_water",
+    "name": [ "Walk Across the Flowing Waters" ],
+    "desc": [ "The waters are bearing you up." ],
+    "rating": "good",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_skinchanged_penalties",
+    "name": [ "Skinchanged Mind" ],
+    "desc": [ "You're starting to get used to being an animal.  Even enjoy it." ],
+    "max_intensity": 20,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "INTELLIGENCE", "add": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') * -1" ] } },
+          {
+            "value": "PERCEPTION",
+            "add": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') * 0.33" ] }
+          },
+          {
+            "value": "SKILL_RUST_RESIST",
+            "multiply": { "math": [ "max(((u_effect_intensity('effect_skinchanged_penalties') - 3) * 0.8),0)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_skinchanged_animalistic_mind",
+    "name": [ "Animalistic Mind" ],
+    "desc": [ "Hunt.  Kill.  Feed.  Sleep." ],
+    "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_plantkin",
     "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
     "desc": [
@@ -1796,5 +1859,11 @@
     "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Dangerous levels of oxygen and nitrogen in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "called_daffodil",
+    "name": [ "Called the daffodil" ],
+    "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
   }
 ]

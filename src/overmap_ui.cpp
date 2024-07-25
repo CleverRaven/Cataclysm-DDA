@@ -1136,7 +1136,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERMAP_WEATHER",
-                    !get_map().is_outside( get_player_character().pos() ) ? c_dark_gray :
+                    !get_map().is_outside( get_player_character().pos_bub() ) ? c_dark_gray :
                     uistate.overmap_visible_weather ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
@@ -1592,7 +1592,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
     overmap_path_params params;
     vehicle *player_veh = nullptr;
     if( driving ) {
-        const optional_vpart_position vp = here.veh_at( player_character.pos() );
+        const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
         if( !vp.has_value() ) {
             debugmsg( "Failed to find driven vehicle" );
             return {};
@@ -1930,7 +1930,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
-            if( get_map().is_outside( get_player_character().pos() ) ) {
+            if( get_map().is_outside( get_player_character().pos_bub() ) ) {
                 uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
             }
         } else if( action == "TOGGLE_FAST_SCROLL" ) {

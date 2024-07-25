@@ -170,14 +170,14 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             avatar &player_character = get_avatar();
             for( std::pair<const int, mission> &e : world_missions ) {
                 mission &i = e.second;
-                if( i.type->monster_kill_goal == 1 ) {
-                    if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                    if( i.type->monster_kill_goal == 1 ) {
                         i.step_complete( 1 );
-                        return;
+                    } else {
+                        // Recurring nemesis!!
+                        mission_start::kill_nemesis( &i );
                     }
-                } else {
-                    // Recurring nemesis!!
-                    mission_start::kill_nemesis( &i );
+                    return;
                 }
             }
         }

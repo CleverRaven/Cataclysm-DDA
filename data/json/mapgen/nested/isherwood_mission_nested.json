@@ -167,8 +167,7 @@
         { "class": "isherwood_luke_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_jesse_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_chris_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "class": "isherwood_lisa_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "class": "isherwood_barry", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+        { "class": "isherwood_lisa_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] }
       ],
       "remove_vehicles": [ { "vehicles": [ "extended_pickup" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
@@ -179,7 +178,6 @@
     "method": "json",
     "object": {
       "remove_npcs": [
-        { "class": "isherwood_barry", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_chris_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_lisa_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_chris_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },

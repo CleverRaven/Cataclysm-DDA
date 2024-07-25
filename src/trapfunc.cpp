@@ -1203,7 +1203,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     if( roll < diff ) {
         you.add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
         you.use_amount( itemname, 1 );
-        here.spawn_item( random_neighbor( you.pos() ), itemname );
+        here.spawn_item( tripoint_bub_ms( random_neighbor( you.pos() ) ), itemname );
         return false;
     }
 
@@ -1216,7 +1216,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     if( safe.empty() ) {
         you.add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
         you.use_amount( itemname, 1 );
-        here.spawn_item( random_neighbor( you.pos() ), itemname );
+        here.spawn_item( tripoint_bub_ms( random_neighbor( you.pos() ) ), itemname );
         return false;
     } else {
         you.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
@@ -1606,7 +1606,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 return false;
             }
             set_queued_points();
-            here.set_seen_cache_dirty( p );
+            here.set_seen_cache_dirty( tripoint_bub_ms( p ) );
             here.set_transparency_cache_dirty( p.z );
             return true;
         }

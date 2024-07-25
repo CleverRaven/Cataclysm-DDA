@@ -452,12 +452,12 @@ void Character::update_bodytemp()
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos() );
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
-    bool sheltered = g->is_sheltered( pos() );
+    bool sheltered = g->is_sheltered( pos_bub() );
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
                                             get_location(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
@@ -472,7 +472,7 @@ void Character::update_bodytemp()
     const int climate_control_heat = climate_control.first;
     const int climate_control_chill = climate_control.second;
     const bool use_floor_warmth = can_use_floor_warmth();
-    const furn_id furn_at_pos = here.furn( pos() );
+    const furn_id furn_at_pos = here.furn( pos_bub() );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
@@ -575,8 +575,8 @@ void Character::update_bodytemp()
         // Change the ambient temperature into a delta based on our comfortable temperature.
         units::temperature_delta adjusted_temp = player_local_temp - ambient_norm;
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ||
-            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ||
+            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos_bub() ) && is_lower( bp ) ) ) {
             adjusted_temp = water_temperature - ambient_norm; // Swap out air temp for water temp.
             windchill = 0_C_delta;
         }

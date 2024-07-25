@@ -156,7 +156,6 @@
     "barrel_length": "264 mm",
     "price": "3 kUSD 500 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -2,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
