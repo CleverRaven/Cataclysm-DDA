@@ -45,6 +45,7 @@ struct ammo_effect {
         bool do_flashbang = false;
         bool do_emp_blast = false;
         bool foamcrete_build = false;
+        bool always_cast_spell = false;
 
         field_type_id trail_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */

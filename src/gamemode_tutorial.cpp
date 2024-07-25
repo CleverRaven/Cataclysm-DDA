@@ -210,7 +210,7 @@ void tutorial_game::per_turn()
 
     map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( player_character.pos().xy() ) ) {
+        for( const item &it : here.i_at( player_character.pos_bub().xy() ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -246,7 +246,7 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( !here.i_at( point( player_character.posx(), player_character.posy() ) ).empty() ) {
+    if( !here.i_at( point_bub_ms( player_character.posx(), player_character.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 

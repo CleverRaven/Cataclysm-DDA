@@ -870,7 +870,16 @@
         ]
       }
     ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WALK_UNDERWATER",
+      "NO_PSIONICS"
+    ]
   },
   {
     "type": "effect_type",
@@ -1359,6 +1368,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 95,
+    "blocks_effects": [ "blisters" ],
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
@@ -1425,7 +1435,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",
@@ -1548,7 +1559,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",
@@ -1807,7 +1818,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",

@@ -730,7 +730,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
             { _( "Math functions" ), &jmath_func::finalize },
-            { _( "Math expressions" ), &finalize_conditions },
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicles::finalize_prototypes },
@@ -766,6 +765,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
+            { _( "Math expressions" ), &finalize_conditions },
         }
     };
 

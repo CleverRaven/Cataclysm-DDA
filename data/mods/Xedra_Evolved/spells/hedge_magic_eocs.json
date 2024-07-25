@@ -216,5 +216,173 @@
     "condition": { "and": [ "u_is_outside", { "or": [ { "u_at_om_location": "forest_thick" }, { "u_at_om_location": "forest" } ] } ] },
     "effect": [ { "u_add_trait": "HEDGE_FOREST_BUSH_SHAPE" } ],
     "false_effect": [ { "u_message": "Without being in a forest, the charm has no effect." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_SPAWN_ITEM",
+    "effect": [ { "u_spawn_item": "item_hedge_turn_into_bear", "suppress_message": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "item_hedge_turn_into_bear", { "context_val": "itype" } ] },
+    "effect": [
+      {
+        "u_message": "As you put the mantle on, your skin writhes, your limbs twist, and thick fur sprouts from your body as you fall onto all fours.",
+        "type": "neutral"
+      },
+      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
+        "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_set_flag": "SEMITANGIBLE" } ] } ]
+      },
+      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS",
+    "condition": { "u_has_worn_with_flag": "SKINCHANGED" },
+    "effect": [
+      {
+        "u_add_effect": "effect_skinchanged_penalties",
+        "duration": { "math": [ "rand(10800) + 3600" ] },
+        "intensity": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') + 1" ] }
+      },
+      {
+        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "time_in_future": [ "15 minutes", "45 minutes" ]
+      },
+      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] },
+      {
+        "if": { "math": [ "u_val('intelligence')", "<=", "3" ] },
+        "then": [
+          { "u_add_effect": "effect_skinchanged_animalistic_mind", "duration": "7 days" },
+          {
+            "u_message": "It would be so easy to walk off into the forest and forget you had ever been human.",
+            "type": "mixed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+    "//": "The below EoC is for quick decrementing of the effect after skinchanging ends.",
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "SKINCHANGED" } }, { "u_has_effect": "effect_skinchanged_penalties" } ] },
+    "effect": [
+      { "math": [ "u_skinchanged_penalty", "=", "u_effect_intensity('effect_skinchanged_penalties')" ] },
+      { "u_lose_effect": "effect_skinchanged_penalties" },
+      {
+        "u_add_effect": "effect_skinchanged_penalties",
+        "duration": "1 hour",
+        "intensity": { "math": [ "u_skinchanged_penalty - 1" ] }
+      },
+      {
+        "if": {
+          "and": [ { "math": [ "u_val('intelligence')", ">=", "4" ] }, { "u_has_effect": "effect_skinchanged_animalistic_mind" } ]
+        },
+        "then": [
+          { "u_lose_effect": "effect_skinchanged_animalistic_mind" },
+          {
+            "u_message": "You remember your childhood.  The sound of your mother's voice.  You are not a wild beast!",
+            "type": "good"
+          }
+        ]
+      },
+      {
+        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "time_in_future": [ "15 minutes", "45 minutes" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM",
+    "effect": [
+      { "u_message": "Your nonexistence arms somehow remove the mantle and return to your old shape.", "type": "neutral" },
+      { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_consume_item": "item_hedge_turn_into_bear", "count": 1 },
+      { "u_spawn_item": "item_hedge_turn_into_bear_off", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER",
+    "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+    "effect": [
+      {
+        "u_message": "You drop the bark on the water and recite the words of the charm, and as you take your first step, the water feels firm under your feet.",
+        "type": "good"
+      },
+      { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 }
+    ],
+    "false_effect": [ { "u_message": "You must be standing on water or the charm will have no effect.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_hedge_walk_on_water" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE_2",
+            "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+            "effect": [
+              {
+                "if": { "math": [ "u_effect_duration('effect_hedge_walk_on_water')", "<=", "2" ] },
+                "then": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 2 } ],
+                "else": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 } ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "As you step on solid ground again, the charm fades.", "type": "neutral" },
+              { "u_lose_effect": "effect_hedge_walk_on_water" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_RUNNING_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_walk_on_water" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
   }
 ]

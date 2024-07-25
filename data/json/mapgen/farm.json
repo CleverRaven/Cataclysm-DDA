@@ -580,5 +580,92 @@
       ],
       "palettes": [ "roof_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1_apiary" ] ],
+    "//": "Apiary",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "                        ",
+        "     FFFFFFFFFFFFFFFFFF ",
+        "     F         ,      F ",
+        "     F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        ",,,  F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        ",,,,,g,,,,,     ,,    F ",
+        "  ,,,g,,,,   ,        F ",
+        "     F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        "   , F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        "     F               ,F ",
+        "    ,FFFFFFFFFFFFFFFFFF ",
+        "     ,,                 ",
+        "           ,      ##### ",
+        "               , ♦#r♠♥# ",
+        "                ,,+___# ",
+        "                  ##### ",
+        "                        ",
+        " FFFFFFFFFFFFFFFFFFFFFF ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F "
+      ],
+      "terrain": { "⬡": [ [ "t_apiary", 5 ], [ "t_apiary_empty", 95 ] ] },
+      "items": {
+        "♠": [
+          { "item": "hive", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "home_hw", "chance": 50 },
+          { "item": "tools_common", "chance": 50 }
+        ],
+        "r": { "item": "honey_market_stall", "repeat": [ 4, 12 ] }
+      },
+      "furniture": { "♥": "f_machinery_light", "♠": "f_locker", "♦": "f_woodchips" },
+      "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
+      "palettes": [ "farm" ],
+      "place_monster": [
+        { "group": "GROUP_BEEKEEPER", "x": [ 6, 21 ], "y": [ 3, 10 ], "pack_size": 1, "chance": 10 },
+        { "group": "GROUP_BEE", "x": [ 6, 21 ], "y": [ 3, 10 ], "pack_size": [ 2, 4 ], "chance": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1_apiary_roof" ] ],
+    "weight": 250,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  ..... ",
+        "                  ...=. ",
+        "                  ..... ",
+        "                  ..... ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

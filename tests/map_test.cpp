@@ -31,10 +31,10 @@ TEST_CASE( "map_coordinate_conversion_functions" )
 
     // Make sure we're not in the 'easy' case where abs_sub is zero
     if( here.get_abs_sub().x() == 0 ) {
-        here.shift( point_east );
+        here.shift( point_rel_sm_east );
     }
     if( here.get_abs_sub().y() == 0 ) {
-        here.shift( point_south );
+        here.shift( point_rel_sm_south );
     }
     here.vertical_shift( z );
 

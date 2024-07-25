@@ -39,5 +39,33 @@
       ]
     },
     "effect": [ { "math": [ "u_skill_exp('deduction', 'format': 'raw')", "+=", "250" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_DAFFODIL",
+    "condition": { "u_has_effect": "called_daffodil" },
+    "effect": [ { "u_message": "You can't call more daffodil yet.", "type": "bad" } ],
+    "false_effect": [ { "u_add_effect": "called_daffodil", "duration": "24 hours" }, { "u_cast_spell": { "id": "call_daffodil_real" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_caster_necklace_boost",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_is_wearing": "dream_attuning_necklace" },
+    "effect": [
+      { "math": [ "u_school_level_adjustment('DREAMER')", "+=", "5" ] },
+      { "math": [ "u_school_level_adjustment('EATER')", "+=", "5" ] },
+      { "math": [ "u_school_level_adjustment('DREAMSMITH')", "+=", "5" ] },
+      { "math": [ "u_school_level_adjustment('INVENTOR')", "+=", "5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHADOW_LOOT",
+    "effect": [
+      { "u_message": "As the shadow dissipates, it leaves something behind.", "type": "good" },
+      { "u_spawn_item": "shadow_singularity_piece", "count": 1 }
+    ]
   }
 ]

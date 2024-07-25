@@ -393,7 +393,7 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
             item_location added_tool = player_character.i_add( gear );
             REQUIRE( added_tool );
             if( plug_in && added_tool->can_link_up() ) {
-                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north ),
+                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint_north ),
                                               link_state::automatic ).success() );
             }
         } else {

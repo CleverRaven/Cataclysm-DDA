@@ -1559,19 +1559,6 @@
     ]
   },
   {
-    "id": "nested_hk_g36",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "hk_g36", "charges": [ 0, 30 ] },
-      { "item": "g36mag_30rd" },
-      { "item": "g36mag_30rd", "prob": 50 },
-      { "group": "on_hand_223" }
-    ]
-  },
-  {
     "id": "nested_henry_big_boy",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1878,6 +1865,19 @@
       { "item": "sig_assault_rifle", "charges": [ 0, 30 ] },
       { "item": "stanag30" },
       { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_sl8",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "sl8", "charges": [ 0, 10 ] },
+      { "item": "sl8mag" },
+      { "item": "sl8mag", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },

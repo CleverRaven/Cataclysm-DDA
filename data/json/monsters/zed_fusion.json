@@ -277,6 +277,9 @@
         "type": "gun",
         "cooldown": 2,
         "gun_type": "barb_launcher",
+        "ammo_type": "barb_paralysis",
+        "no_ammo_sound": "unch",
+        "require_targeting_player": false,
         "ranges": [ [ 2, 12, "DEFAULT" ] ],
         "description": "The impaler launches a barb!"
       },

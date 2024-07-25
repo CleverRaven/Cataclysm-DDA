@@ -207,7 +207,6 @@
       { "monster": "mon_yugg", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "weight": 80, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_nuckalavee", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "weight": 110, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_shoggoth", "weight": 20, "cost_multiplier": 0 },

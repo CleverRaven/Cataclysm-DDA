@@ -1216,7 +1216,7 @@ void mapgen_lake_shore( mapgendata &dat )
             if( did_extend_adjacent_terrain ) {
                 for( int x = 0; x < SEEX * 2; x++ ) {
                     for( int y = 0; y < SEEY * 2; y++ ) {
-                        m->i_clear( point( x, y ) );
+                        m->i_clear( point_bub_ms( x, y ) );
                     }
                 }
             }
@@ -1668,7 +1668,7 @@ void mapgen_ocean_shore( mapgendata &dat )
             if( did_extend_adjacent_terrain ) {
                 for( int x = 0; x < SEEX * 2; x++ ) {
                     for( int y = 0; y < SEEY * 2; y++ ) {
-                        m->i_clear( point( x, y ) );
+                        m->i_clear( point_bub_ms( x, y ) );
                     }
                 }
             }

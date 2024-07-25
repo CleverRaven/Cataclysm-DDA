@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "pouch_wild_druid",
-    "entries": [ { "item": "fur" }, { "item": "fur" }, { "item": "fur" }, { "item": "bone_tainted" }, { "item": "bone_tainted" } ]
+    "entries": [ { "item": "fur", "count": 3 } ]
   },
   {
     "type": "item_group",
@@ -1313,6 +1313,31 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "shifter_druid",
+    "name": "Shifter Druid",
+    "description": "The ancient druidic art of taking animal forms had mostly fallen out of favor by the modern era, since most people didn't need to be a bear in their daily lives and even if they did transform into a raven, they still had to physically fly to their destination and couldn't check the internet for directions.  You, however, studied the ancient arts and gained the ability to transform yourself.  It's come in very handy since the world ended.",
+    "points": 6,
+    "spells": [ { "id": "druid_natures_commune", "level": 3 } ],
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "spellcraft" } ],
+    "traits": [ "DRUID", "ANIMALEMPATH" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "robe" },
+          { "item": "chestwrap" },
+          { "item": "loincloth" },
+          { "item": "leathersandals" },
+          { "item": "gloves_wraps" },
+          { "item": "cloak" },
+          { "item": "leather_pouch" },
+          { "item": "water_clean", "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
+      }
     }
   }
 ]

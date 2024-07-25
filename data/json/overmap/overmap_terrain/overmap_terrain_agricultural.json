@@ -637,6 +637,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "farm_1_apiary" ],
+    "copy-from": "generic_rural_building",
+    "name": "apiary",
+    "sym": "h",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "farm_1_apiary_roof" ],
+    "copy-from": "generic_rural_building",
+    "name": "apiary roof",
+    "sym": "h",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "horse_farm_isherwood_9_roof",
     "copy-from": "farm_horse_greenhouse_roof",
     "extras": ""

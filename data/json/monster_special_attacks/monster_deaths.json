@@ -755,23 +755,5 @@
     "min_range": 5,
     "max_range": 5,
     "extra_effects": [ { "id": "death_acid", "hit_self": true } ]
-  },
-  {
-    "id": "death_zombie_kinderling",
-    "type": "SPELL",
-    "name": { "str": "Zombie Kinderling Death" },
-    "description": "Zombie kinderling dies.",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "effect": "guilt",
-    "effect_str": "ZOMBIE",
-    "min_damage": 100,
-    "max_damage": 100,
-    "min_duration": 180000,
-    "max_duration": 180000,
-    "min_range": 5,
-    "max_range": 5,
-    "extra_effects": [ { "id": "death_smokeburst", "hit_self": true } ]
   }
 ]

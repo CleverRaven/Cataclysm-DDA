@@ -214,7 +214,6 @@
     "material": [ "stone" ],
     "weight": "2700 g",
     "volume": "1 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1200,8 +1199,7 @@
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "weight": "500 g",
-    "volume": "500 ml",
-    "to_hit": -2
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -1215,8 +1213,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1230,8 +1227,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1245,8 +1241,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "180 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1260,8 +1255,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1275,8 +1269,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "200 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1290,8 +1283,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "212 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1305,8 +1297,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1320,8 +1311,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1335,8 +1325,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "240 g",
-    "volume": "250 ml",
-    "to_hit": -2
+    "volume": "250 ml"
   },
   {
     "type": "COMESTIBLE",

@@ -273,6 +273,9 @@
 "Mods: Sky Island":
   - data/mods/Sky_Island/**/*
 
+"Isolation Protocols ☣":
+  - data/mods/Isolation-Protocol/**/*
+
 "Mods":
   - any: [ 'data/mods/**' ]
     all: [ '!data/mods/TEST_DATA/**' ]

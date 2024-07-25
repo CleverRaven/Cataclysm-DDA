@@ -26,7 +26,6 @@
     "material": [ "stone" ],
     "weight": "250 g",
     "volume": "150 ml",
-    "to_hit": -2,
     "qualities": [ [ "BUTCHER", -50 ] ],
     "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions.",
     "melee_damage": { "bash": 5, "cut": 3 }
@@ -226,7 +225,6 @@
     "weight": "89 g",
     "volume": "250 ml",
     "flags": [ "TRADER_AVOID" ],
-    "to_hit": -2,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -259,7 +257,6 @@
     "name": "demon spider fang",
     "description": "A fang from a demon spider.  It seems to still drip with poison; you might be able to use this in some alchemical recipe?",
     "weight": "270 g",
-    "to_hit": -2,
     "color": "green",
     "symbol": ",",
     "material": [ "flesh" ],
@@ -267,6 +264,7 @@
     "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "good" },
     "melee_damage": { "stab": 8 }
   },
   {

@@ -192,6 +192,33 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "homemade_polehammer",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "hammer", 1 ], [ "homemade_polehammer_makeshift", 1 ] ], [ [ "nails", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "homemade_polehammer_makeshift",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
+    "components": [ [ [ "stick_long", 1 ], [ "long_pole", 1 ] ], [ [ "hammer", 1 ] ], [ [ "superglue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cudgel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
