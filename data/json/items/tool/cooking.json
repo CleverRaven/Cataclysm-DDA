@@ -25,6 +25,7 @@
     "id": "butchering_kit",
     "name": { "str": "butchering kit" },
     "type": "TOOL",
+    "category": "tools",
     "description": "A kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",

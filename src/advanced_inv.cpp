@@ -237,7 +237,7 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
         case SORTBY_PRICE:
             return _( "barter value" );
         case SORTBY_PRICEPERVOLUME:
-            return _( "price / volume" );
+            return _( "barter value / volume" );
         case SORTBY_STACKS:
             return _( "amount" );
     }

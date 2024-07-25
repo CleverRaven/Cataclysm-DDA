@@ -25,6 +25,7 @@ AMMO_TYPE_WHITELIST = {
     'chemical_spray',
     'fishspear',
     'flammable',
+    'gene_sting_barb',
     'm235',  # Rocket
     'metal_rail',
     'nail',
@@ -56,6 +57,7 @@ ID_WHITELIST = {
     'ksg-25',
     'raging_judge',
     'american_180',
+    'gene_sting_gun',
     'ppsh',
     'af2011a1_38super',
     # Magazines

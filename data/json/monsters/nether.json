@@ -1458,7 +1458,7 @@
     "description": "A huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.",
     "default_faction": "nether",
     "bodytype": "snake",
-    "species": [ "NETHER" ],
+    "species": [ "NETHER_BURROWING" ],
     "diff": 10,
     "volume": "600 L",
     "weight": "800 kg",
@@ -1474,11 +1474,23 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "bleed_rate": 50,
+    "starting_ammo": { "gene_sting_barb": 100 },
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "eoc": "EOC_YUGG_DEATH" },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_gene_sting", "min_level": 5 }, "cooldown": 160 } ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "gun_type": "gene_sting_gun",
+        "ammo_type": "gene_sting_barb",
+        "no_ammo_sound": "SCREEE!!!!",
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 18, "DEFAULT" ] ],
+        "description": "The yugg launches a viscous barb!"
+      }
+    ],
     "flags": [
       "SEES",
       "HEARS",
