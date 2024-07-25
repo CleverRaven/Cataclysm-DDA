@@ -17,7 +17,7 @@
     "min_range": 7,
     "max_range": 7,
     "field_id": "fd_cold_air4",
-    "field_chance": 100,
+    "field_chance": 1,
     "min_field_intensity": 3,
     "max_field_intensity": 3,
     "damage_type": "cold"
@@ -164,5 +164,26 @@
     "field_chance": 1,
     "min_field_intensity": 3,
     "max_field_intensity": 3
+  },
+  {
+    "id": "mon_nuckalavee_toxic_breath",
+    "type": "SPELL",
+    "name": "Nuckalavee Toxic Breath",
+    "description": "The Nuckalavee breathes out toxic gas.  It's a bug if you have it.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "max_level": 20,
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_aoe": 30,
+    "max_aoe": 30,
+    "min_range": 6,
+    "max_range": 6,
+    "field_id": "fd_toxic_gas",
+    "field_chance": 1,
+    "min_field_intensity": 2,
+    "max_field_intensity": 3,
+    "damage_type": "cold"
   }
 ]
