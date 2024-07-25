@@ -431,7 +431,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
     "type": "talk_topic",
-    "dynamic_line": { "//~": "Give me a second, and I'll bring them here.", "str": "Gimme a tick, 'n I'll fetch 'em 'ere." },
+    "dynamic_line": { "//~": "Give me a second, and I'll bring them here.", "str": "Gimme spek, 'n  fetch 'em 'ere." },
     "responses": [
       {
         "text": "Of course, it is time for us to talk.",
@@ -513,7 +513,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue",
     "type": "talk_topic",
-    "dynamic_line": { "//~": "Let me see.  Will do what I can for a coin.", "str": "Lemme peep.  Will do what I can for a bob." },
+    "dynamic_line": { "//~": "Let me see.  Will do what I can for a coin.", "str": "Lemme poke.  Will tass what ye can for a shiny." },
     "responses": [
       {
         "text": "[Prototype Cyborg] Can you help this guy look like they have lost their mind?",
@@ -533,7 +533,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "For this one I can pull out their cbm and give workingt to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively why don't you just give him to me i surelly can tun him in quite usefull worker.'",
-      "str": "Fer this 'un, I can yank out their bits 'n give 'em to ya, or I can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to me?  I reckon I can turn 'im into a right useful worker."
+      "str": "Fer this 'un, ye can jerk out bits 'n give 'em to you, or ye can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to ye?  I reckon I can turn 'im into a right useful worker."
     },
     "responses": [
       {
@@ -592,7 +592,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "This one can't be saved too much brain rotted but i can salvage bits from them or repurpose them for walker, or just cut out rot and neural interface so you can bury them proper",
-      "str": "This 'un can't be saved, too much brain gone.  But I can salvage bits from 'em or repurpose 'em for a walker, or just cut out the rot and neural link so ya can bury 'em proper."
+      "str": "This 'unwon't be twitching', too much grey lost to dead.  But ye can salvage bits from 'em or born 'em for a walker, or just cut out the rot 'n grey link so ya can miss 'em proper."
     },
     "responses": [
       {
