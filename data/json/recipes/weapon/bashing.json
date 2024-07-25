@@ -334,7 +334,7 @@
     "skill_used": "survival",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 4,
-    "time": "3 h",
+    "time": "2 h",
     "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "autolearn": true,
     "qualities": [
@@ -345,9 +345,9 @@
       { "id": "CUT", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_knapping" },
-      { "proficiency": "prof_knapping_speed" },
-      { "proficiency": "prof_carving" }
+      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.50 },
+      { "proficiency": "prof_knapping_speed", "time_multiplier": 2.5 },
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.10 }
     ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
   },
@@ -571,7 +571,7 @@
     "skill_used": "survival",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 4,
-    "time": "3 h",
+    "time": "1 h",
     "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "autolearn": true,
     "qualities": [
@@ -582,9 +582,9 @@
       { "id": "CUT", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_knapping" },
-      { "proficiency": "prof_knapping_speed" },
-      { "proficiency": "prof_carving", "skill_penalty": 0.15 }
+      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.50 },
+      { "proficiency": "prof_knapping_speed", "time_multiplier": 2.5 },
+      { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.10 }
     ],
     "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ], [ [ "rock", 8 ], [ "flint", 8 ] ], [ [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
   },
