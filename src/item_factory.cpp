@@ -3307,7 +3307,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
 
     for( const JsonObject jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
-                                    jsobj.get_float( "probability" ) );
+                                    static_cast<float>( jsobj.get_float( "probability" ) ) );
     }
 
     if( jo.has_member( "primary_material" ) ) {
