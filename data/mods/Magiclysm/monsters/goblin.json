@@ -224,7 +224,7 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "mon_wolf_mutant_huge",
+    "looks_like": "mon_wolf",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 20,
     "morale": 70,

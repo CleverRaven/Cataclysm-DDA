@@ -306,15 +306,6 @@
         "pack_size": [ 2, 5 ],
         "conditions": [ "NIGHT" ]
       },
-      { "monster": "mon_wolf_mutant_huge", "weight": 1, "cost_multiplier": 0, "starts": "21 days" },
-      {
-        "monster": "mon_wolf_mutant_huge",
-        "weight": 2,
-        "cost_multiplier": 0,
-        "starts": "21 days",
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "NIGHT" ]
-      },
       { "monster": "mon_coyote", "weight": 1, "cost_multiplier": 2, "pack_size": [ 1, 6 ] },
       { "monster": "mon_coyote", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 6 ], "conditions": [ "NIGHT" ] },
       { "monster": "mon_coyote", "weight": 1, "cost_multiplier": 2, "ends": "3 days", "pack_size": [ 1, 6 ] },
