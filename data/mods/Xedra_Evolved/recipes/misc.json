@@ -51,8 +51,7 @@
     "time": "15 m",
     "skill_used": "deduction",
     "difficulty": 2,
-    "autolearn": false,
-    "book_learn": [ [ "vampire_mentor_book", 2 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC",
     "result_eocs": [ "EOC_ATTEMPT_TO_MAKE_STORMWROUGHT_BLOOD" ]
@@ -67,8 +66,7 @@
     "batch_time_factors": [ 90, 1 ],
     "skill_used": "deduction",
     "difficulty": 2,
-    "autolearn": false,
-    "book_learn": [ [ "vampire_mentor_book", 2 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC"
   },
@@ -85,8 +83,7 @@
     "time": "2 h",
     "skill_used": "deduction",
     "difficulty": 2,
-    "autolearn": false,
-    "book_learn": [ [ "vampire_mentor_book", 2 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC"
   },
@@ -107,8 +104,7 @@
     "time": "2 h",
     "skill_used": "deduction",
     "difficulty": 2,
-    "autolearn": false,
-    "book_learn": [ [ "vampire_mentor_book", 2 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC"
   },
@@ -129,8 +125,7 @@
     "time": "30 m",
     "skill_used": "deduction",
     "difficulty": 2,
-    "autolearn": false,
-    "book_learn": [ [ "vampire_mentor_book", 2 ] ],
+    "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC",
     "result_eocs": [ "EOC_ENTER_ABYSSAL_HUNGER_ZONE" ]

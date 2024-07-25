@@ -127,7 +127,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE",
-    "name": { "str": "Infected with the vampire disease." },
+    "name": { "str": "Infected with the vampire disease" },
     "points": 0,
     "description": "You have developed a thirst for the blood of your fellow humans.",
     "starting_trait": false,
@@ -259,7 +259,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE2",
-    "name": { "str": "Walking the shadowed path of blood." },
+    "name": { "str": "Walking the shadowed path of blood" },
     "points": 0,
     "description": "You have new fangs to go along with your thirst for blood.",
     "starting_trait": false,
@@ -384,7 +384,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE3",
-    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "name": { "str": "Mortal hungers are replaced with immortal hungers" },
     "points": 0,
     "description": "You replace some of your regular caloric intake with blood and begin to see some of the more esoteric abilities inherent to vampirism.",
     "starting_trait": false,
@@ -459,7 +459,7 @@
   {
     "type": "mutation",
     "id": "VAMPIRE4",
-    "name": { "str": "Discarded their mortality." },
+    "name": { "str": "Discarded their mortality" },
     "points": 0,
     "description": "You have become a true vampire and are beginning to see some of the most potent abilities vampirism has to offer.",
     "starting_trait": false,
@@ -708,7 +708,7 @@
   {
     "type": "mutation",
     "id": "BLOOD_DRINKER",
-    "name": { "str": "Fully fueled by the Blood." },
+    "name": { "str": "Fully fueled by the Blood" },
     "points": 0,
     "description": "You have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
     "starting_trait": false,

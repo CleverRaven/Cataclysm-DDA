@@ -106,7 +106,7 @@
     "id": "abyssal_hunger_next_level",
     "name": "abyssal hunger next level",
     "copy-from": "trap_base",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
+    "effect_str": "EOC_ENTER_ABYSSAL_HUNGER_NEXT_LEVEL"
   },
   {
     "type": "furniture",

@@ -507,18 +507,8 @@
     "melee_skill": 5,
     "melee_dice": 5,
     "melee_dice_sides": 3,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 3
-      }
-    ],
-    "emit_fields": [
-      {
-        "emit_id": "fd_toxic_gas",
-        "delay": "1 s"
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
+    "emit_fields": [ { "emit_id": "emit_toxic_stream", "delay": "1 s" } ],
     "dodge": 2,
     "harvest": "exempt",
     "death_function": {
