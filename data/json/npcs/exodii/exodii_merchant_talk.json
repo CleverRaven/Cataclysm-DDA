@@ -521,7 +521,7 @@
         "topic": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue"
       },
       {
-        "text": "[Broken Cyborg] Can you save my buddy who look a bit rough around the edges, but he still didn't flatline?",
+        "text": "[Broken Cyborg] Can you save my buddy who looks a bit rough around the edges, but they still haven't flatlined?",
         "condition": { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Broken_Cyborg_Rescue"
       },
@@ -532,8 +532,8 @@
     "id": "TALK_EXODII_MERCHANT_Experiment_Prototype_Cyborg_Rescue",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "For this one I can pull out their cbm and give workingt to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively why don't you just give him to me i surelly can tun him in quite usefull worker.'",
-      "str": "Fer this 'un, ye can jerk out bits 'n give 'em to you, or ye can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to ye?  I reckon I can turn 'im into a right useful worker."
+      "//~": "For this one I can pull out their cbm and give any working to you, or I can just take out broken bits so that they will still be able to use the rest of stuff in them.  Alternatively why don't you just give them to me I surely can help them adjust to life as a cyborg.'",
+      "str": "Fer this 'un, I can yank out their bits 'n give 'em to ya, or I can jus' take out the busted pieces so they can still use th' rest o' stuff in 'em. Elsewise, why don't ya jest give 'im to me?  I reckon I can turn 'im into a right useful worker."
     },
     "responses": [
       {
