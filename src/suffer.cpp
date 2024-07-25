@@ -1170,7 +1170,7 @@ void suffer::from_radiation( Character &you )
         // 1000 rads = 900 / 10000 = 9 / 100 = 10% !!!
         // 2000 rads = 2000 / 10000 = 1 / 5 = 20% !!!
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < you.get_rad() ) {
-            you.mutate();
+            get_event_bus().send<event_type::character_radioactively_mutates>( you.getID() );
         }
         if( you.get_rad() > 50 && rng( 1, 3000 ) < you.get_rad() &&
             ( you.stomach.contains() > 0_ml || radiation_increasing || !you.in_sleep_state() ) ) {

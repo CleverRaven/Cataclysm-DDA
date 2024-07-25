@@ -387,13 +387,13 @@
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1a",
     "type": "talk_topic",
     "dynamic_line": "'Ow long's it been since the mess happened?",
-    "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
+    "responses": [ { "text": "[Tell them.]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro1b",
     "type": "talk_topic",
     "dynamic_line": "Thank ye.  When you an' Rubik first met, how long'd it been since the mess begun?",
-    "responses": [ { "text": "[Tell them]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
+    "responses": [ { "text": "[Tell them.]", "topic": "TALK_EXODII_MERCHANT_Talk_Intro2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk_Intro2",

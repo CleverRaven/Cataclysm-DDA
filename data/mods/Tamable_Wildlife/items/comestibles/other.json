@@ -14,7 +14,7 @@
     "material": [ "junk" ],
     "symbol": ";",
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ], [ "junk_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",

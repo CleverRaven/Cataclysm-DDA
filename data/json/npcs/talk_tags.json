@@ -2109,6 +2109,114 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_all_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 90% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_most_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 75% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_some_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 50% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_little_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 25% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_none_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 10% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_all_text>",
+    "text": "<mypronoun> will reserve 100% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_most_text>",
+    "text": "<mypronoun> will reserve 75% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_some_text>",
+    "text": "<mypronoun> will reserve 50% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_little_text>",
+    "text": "<mypronoun> will reserve 25% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_none_text>",
+    "text": "<mypronoun> will not reserve any power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_when_convenient>",
+    "text": "<mypronoun> will aim when it's convenient."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_spray>",
+    "text": "<mypronoun> will not bother to aim at all."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_precise>",
+    "text": "<mypronoun> will take time and aim carefully."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_strictly_precise>",
+    "text": "<mypronoun> will only shoot after taking a long time to aim."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_none>",
+    "text": "<mypronoun> won't fight unless their life depends on it."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_close>",
+    "text": "<mypronoun> will attack enemies that get too close."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_weak>",
+    "text": "<mypronoun> will attack enemies that they can kill easily."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_hit>",
+    "text": "<mypronoun> will attack only enemies that you attack first."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_all>",
+    "text": [
+      { "text": "<mypronoun> will attack anything they want.", "weight": 999 },
+      { "text": "<npc_name> has permission to go <color_red>ABSOLUTELY AXE CRAZY!</color>", "weight": 1 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_free_fire>",
+    "text": "<mypronoun> will attack any enemy within range of their ranged weapon, but won't move."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_no_move>",
+    "text": "<mypronoun> will attack only enemies they can reach without moving."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_use_guns_true_text>",
     "text": "<mypronoun> will use ranged weapons."
   },

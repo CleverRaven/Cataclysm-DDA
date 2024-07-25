@@ -83,6 +83,7 @@
       { "u_lose_trait": "DUST_REBORN" },
       { "math": [ "u_pain()", "=", "0" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
+      { "math": [ "u_val('rad')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
       { "math": [ "u_vitamin('blood')", "=", "0" ] },
       { "math": [ "u_vitamin('calcium')", "=", "0" ] },

@@ -1,0 +1,102 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Can you tell me how much do you like me?",
+        "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
+            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "u_has_mission": "KILL_YOUR_BEST_FRIEND" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Can you tell me how much do you like me?",
+        "topic": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", "<=", "9" ] },
+            { "math": [ "n_val('npc_value')", "<=", "9" ] },
+            { "u_has_mission": "KILL_YOUR_BEST_FRIEND" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
+    "dynamic_line": "You're a good friend.  I had better friends but I also had way worse.",
+    "responses": [
+      { "text": "Thanks for telling me. Can we talk about something else?", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me. See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND_FOLLOWER_SACRIFICE",
+    "dynamic_line": "You're the best person in the world for me.  I wouldn't ever hesitate to trust you with my life.  I feel that no matter what happens, it'll be fine as you'll be there.",
+    "responses": [
+      {
+        "text": "Thanks for telling me.  Can we talk about something else?",
+        "topic": "TALK_FRIEND",
+        "effect": [ { "npc_add_trait": "VAMPIRE_SACRIFICE" } ]
+      },
+      {
+        "text": "Thanks for telling me.  See you later.",
+        "topic": "TALK_DONE",
+        "effect": [ { "npc_add_trait": "VAMPIRE_SACRIFICE" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SACRIFICE",
+    "name": { "str": "sacrificial mark" },
+    "points": 0,
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "description": "You're not supposed to see this.  Tracks that you are killing your best friend ever",
+    "enchantments": [ "sacrificial_marked" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "sacrificial_marked",
+    "name": { "str": "Absolute best friend" },
+    "description": "This person considers you their absolute best friend, the best person in the entire world.",
+    "condition": "ALWAYS",
+    "hit_me_effect": [ { "id": "sacrificial_marked" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "sacrificial_marked",
+    "name": "sacrificial marked",
+    "description": "Shouldn't be visible.  Tracks that you are killing someone that considers you the best person in the world.",
+    "valid_targets": [ "hostile" ],
+    "min_range": 50,
+    "max_range": 50,
+    "min_duration": 500,
+    "max_duration": 500,
+    "difficulty": 5,
+    "flags": [ "SILENT", "NO_SFX", "NO_LEGS", "NO_PROJECTILE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "about_to_kill_best_friend"
+  },
+  {
+    "type": "effect_type",
+    "id": "about_to_kill_best_friend",
+    "max_duration": "5 s"
+  }
+]

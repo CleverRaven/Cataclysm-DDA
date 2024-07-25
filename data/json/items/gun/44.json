@@ -177,5 +177,100 @@
       }
     ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "colt_anaconda_8",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str": ".44 long barrel hunting revolver" },
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-calibre revolver in their line.  This one has an extended 8-inch barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_anaconda_8",
+        "name": { "str": "Colt Anaconda" },
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has an extended 8-inch barrel."
+      }
+    ],
+    "weight": "1672 g",
+    "volume": "1384 ml",
+    "//": "350 x 153 x 70, but trimmed massively",
+    "longest_side": "350 mm",
+    "barrel_length": "203 mm",
+    "price": "1499 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "44" ],
+    "dispersion": 280,
+    "durability": 8,
+    "blackpowder_tolerance": 56,
+    "clip_size": 6,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "44": 6 },
+        "allowed_speedloaders": [ "44_speedloader6" ]
+      }
+    ],
+    "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "colt_anaconda_6",
+    "copy-from": "colt_anaconda_8",
+    "type": "GUN",
+    "name": { "str": ".44 hunting revolver" },
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-calibre revolver in their line.  This one has a 6-inch barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_anaconda",
+        "name": { "str": "Colt Anaconda" },
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has a 6-inch barrel."
+      }
+    ],
+    "weight": "1499 g",
+    "volume": "1299 ml",
+    "//": "300 x 153 x 70, but trimmed massively",
+    "longest_side": "300 mm",
+    "barrel_length": "153 mm",
+    "price": "1499 USD",
+    "symbol": "(",
+    "color": "dark_gray"
+  },
+  {
+    "id": "colt_anaconda_4",
+    "copy-from": "colt_anaconda_8",
+    "type": "GUN",
+    "name": { "str": ".44 short barrel hunting revolver" },
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-calibre revolver in their line.  This one has a shortened 4-inch barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_anaconda",
+        "name": { "str": "Colt Anaconda" },
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has a shortened 4-inch barrel."
+      }
+    ],
+    "weight": "1499 g",
+    "volume": "1053 ml",
+    "//": "240 x 153 x 70, but trimmed massively",
+    "longest_side": "240 mm",
+    "barrel_length": "102 mm",
+    "price": "1499 USD",
+    "symbol": "(",
+    "color": "dark_gray"
   }
 ]

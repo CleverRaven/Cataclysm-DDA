@@ -1099,6 +1099,17 @@ conditional_t::func f_npc_role_nearby( const JsonObject &jo, std::string_view me
     };
 }
 
+conditional_t::func f_npc_is_travelling( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        const Character *traveller = d.actor( is_npc )->get_character();
+        if( !traveller ) {
+            return false;
+        }
+        return !traveller->omt_path.empty();
+    };
+}
+
 conditional_t::func f_npc_allies( const JsonObject &jo, std::string_view member )
 {
     dbl_or_var dov = get_dbl_or_var( jo, member );
@@ -2487,6 +2498,7 @@ std::vector<condition_parser>
 parsers_simple = {
     {"u_male", "npc_male", &conditional_fun::f_is_male },
     {"u_female", "npc_female", &conditional_fun::f_is_female },
+    {"u_is_travelling", "npc_is_travelling", &conditional_fun::f_npc_is_travelling },
     {"has_no_assigned_mission", &conditional_fun::f_no_assigned_mission },
     {"has_assigned_mission", &conditional_fun::f_has_assigned_mission },
     {"has_many_assigned_missions", &conditional_fun::f_has_many_assigned_missions },

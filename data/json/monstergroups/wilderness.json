@@ -222,8 +222,8 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_fly_small", "weight": 2, "cost_multiplier": 0 },
-      { "monster": "mon_aphid", "weight": 3, "pack_size": [ 1, 5 ], "cost_multiplier": 0 }
+      { "group": "GROUP_FLY", "weight": 2, "cost_multiplier": 0 },
+      { "group": "GROUP_APHID", "weight": 3, "pack_size": [ 1, 5 ], "cost_multiplier": 0 }
     ]
   },
   {
@@ -232,21 +232,21 @@
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_fly_small", "weight": 2, "cost_multiplier": 0 },
-      { "monster": "mon_spider_jumping_small", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_spider_wolf_small", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_mantis_small", "weight": 2, "cost_multiplier": 10 },
-      { "monster": "mon_lady_bug", "weight": 5, "cost_multiplier": 10 },
-      { "monster": "mon_aphid", "weight": 3, "pack_size": [ 1, 5 ], "cost_multiplier": 0 },
-      { "monster": "mon_locust_small", "weight": 3, "pack_size": [ 3, 9 ], "cost_multiplier": 0 },
-      { "monster": "mon_grasshopper_small", "weight": 3, "pack_size": [ 1, 3 ], "cost_multiplier": 0 },
+      { "group": "GROUP_FLY", "weight": 2, "cost_multiplier": 0 },
+      { "group": "GROUP_SPIDER_JUMPING", "weight": 1, "cost_multiplier": 0 },
+      { "group": "GROUP_SPIDER_WOLF", "weight": 1, "cost_multiplier": 0 },
+      { "group": "GROUP_PRAYING_MANTIS", "weight": 2, "cost_multiplier": 10 },
+      { "group": "GROUP_LADY_BUG", "weight": 5, "cost_multiplier": 10 },
+      { "group": "GROUP_APHID", "weight": 3, "pack_size": [ 1, 5 ], "cost_multiplier": 0 },
+      { "group": "GROUP_LOCUST", "weight": 3, "pack_size": [ 3, 9 ], "cost_multiplier": 0 },
+      { "group": "GROUP_GRASSHOPPER", "weight": 3, "pack_size": [ 1, 3 ], "cost_multiplier": 0 },
       { "monster": "mon_antlion_giant", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_stag_beetle_small", "weight": 2, "cost_multiplier": 10 },
+      { "group": "GROUP_STAG_BEETLE", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_woodlouse", "weight": 3, "cost_multiplier": 3 },
-      { "monster": "mon_butterfly", "weight": 2, "cost_multiplier": 3 },
-      { "monster": "mon_moth", "weight": 2, "cost_multiplier": 3 },
+      { "group": "GROUP_BUTTERFLY", "weight": 2, "cost_multiplier": 3 },
+      { "group": "GROUP_MOTH", "weight": 2, "cost_multiplier": 3 },
       { "monster": "mon_cicada", "weight": 1, "cost_multiplier": 3 },
-      { "monster": "mon_worm_small", "weight": 1, "cost_multiplier": 0 }
+      { "group": "GROUP_WORM", "weight": 1, "cost_multiplier": 0 }
     ]
   },
   {
@@ -356,7 +356,7 @@
         "starts": "7 days",
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_strider_small", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "group": "GROUP_WATER_STRIDER", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
       { "monster": "mon_goose", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_coot", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
       { "monster": "mon_moorhen", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
@@ -454,18 +454,8 @@
         "ends": "90 days",
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
-      {
-        "monster": "mon_slug_forest",
-        "weight": 15,
-        "cost_multiplier": 2,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_snail_forest",
-        "weight": 15,
-        "cost_multiplier": 2,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
+      { "group": "GROUP_SLUG", "weight": 15, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "group": "GROUP_SNAIL", "weight": 15, "cost_multiplier": 2, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       { "group": "GROUP_TADPOLES_SWAMP", "weight": 100, "pack_size": [ 3, 6 ] },
       { "group": "GROUP_FROGS_SWAMP", "weight": 100, "pack_size": [ 1, 3 ] },
       { "group": "GROUP_MUTAFROGS_SWAMP", "weight": 75, "starts": "7 days" }
@@ -478,11 +468,11 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_firefly", "weight": 30, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_mosquito_small", "weight": 50, "pack_size": [ 1, 6 ] },
+      { "group": "GROUP_MOSQUITO", "weight": 50, "pack_size": [ 1, 6 ] },
       { "monster": "mon_dragonfly_giant", "weight": 35, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_centipede_small", "weight": 40, "cost_multiplier": 2 },
+      { "group": "GROUP_CENTIPEDE", "weight": 40, "cost_multiplier": 2 },
       { "monster": "mon_dermatik", "weight": 40, "cost_multiplier": 2 },
-      { "monster": "mon_crayfish_small", "weight": 10 }
+      { "group": "GROUP_CRAYFISH", "weight": 10 }
     ]
   },
   {
@@ -507,11 +497,11 @@
       { "monster": "mon_squirrel", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel_red", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_skunk", "weight": 2, "cost_multiplier": 0 },
-      { "monster": "mon_mantis_small", "weight": 5, "cost_multiplier": 10 },
-      { "monster": "mon_lady_bug", "weight": 8, "cost_multiplier": 10 },
-      { "monster": "mon_aphid", "weight": 20, "cost_multiplier": 0 },
-      { "monster": "mon_locust_small", "weight": 15, "pack_size": [ 3, 9 ], "cost_multiplier": 0 },
-      { "monster": "mon_grasshopper_small", "weight": 30, "cost_multiplier": 0 },
+      { "group": "GROUP_PRAYING_MANTIS", "weight": 5, "cost_multiplier": 10 },
+      { "group": "GROUP_LADY_BUG", "weight": 8, "cost_multiplier": 10 },
+      { "group": "GROUP_APHID", "weight": 20, "cost_multiplier": 0 },
+      { "group": "GROUP_LOCUST", "weight": 15, "pack_size": [ 3, 9 ], "cost_multiplier": 0 },
+      { "group": "GROUP_GRASSHOPPER", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_antlion_giant", "weight": 5, "cost_multiplier": 10 },
       { "monster": "mon_hummingbird", "weight": 25, "cost_multiplier": 0 },
       { "monster": "mon_woodpecker", "weight": 25, "cost_multiplier": 0 }
@@ -590,7 +580,7 @@
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_POND_FISH_2", "weight": 200, "cost_multiplier": 0 },
-      { "monster": "mon_strider_small", "weight": 30, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
+      { "group": "GROUP_WATER_STRIDER", "weight": 30, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_water_scorpion_larva", "weight": 30, "cost_multiplier": 0 },
       { "group": "GROUP_TADPOLES_ALL", "weight": 75, "cost_multiplier": 0, "pack_size": [ 3, 6 ] }
     ]

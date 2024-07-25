@@ -595,7 +595,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    const tripoint placement = target - pos();
+    const tripoint_rel_ms placement = tripoint_rel_ms( target - pos() );
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
         if( is_avatar() && vp.has_value() && item_pair.first->is_bucket_nonempty() &&

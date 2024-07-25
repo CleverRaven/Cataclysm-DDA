@@ -113,14 +113,14 @@
     "type": "requirement",
     "//": "A small piece of fabric or leather to strap something firmly to the body.  Stronger than a bit of string.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ], [ "strap_cotton", 1 ] ] ]
   },
   {
     "id": "strap_large",
     "type": "requirement",
     "//": "A long piece of fabric or leather to strap something firmly to the body.  Stronger than a bit of string.",
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cordage_short", 1, "LIST" ], [ "leather", 4 ], [ "fur", 4 ] ] ]
+    "components": [ [ [ "cordage_short", 1, "LIST" ], [ "leather", 4 ], [ "fur", 4 ], [ "strap_cotton", 1 ] ] ]
   },
   {
     "id": "dye_cloth",

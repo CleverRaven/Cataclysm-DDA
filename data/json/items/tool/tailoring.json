@@ -14,7 +14,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "LEATHER_AWL", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP", "FRAGILE_MELEE" ],
+    "flags": [ "BELT_CLIP", "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 2, "stab": 5 }
   },
   {

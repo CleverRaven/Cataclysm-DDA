@@ -814,6 +814,11 @@ class Creature : public viewer
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
 
+        /* Returns the which limbs are being used for movement of a given type*/
+        std::vector<bodypart_id> get_ground_contact_bodyparts( bool arms_legs = false ) const;
+
+        std::string string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps ) const;
+
         /* Returns the number of bodyparts of a given type*/
         int get_num_body_parts_of_type( body_part_type::type part_type ) const;
 

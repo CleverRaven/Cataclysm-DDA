@@ -240,7 +240,7 @@
     "dynamic_line": "*puts her hands on her hips and glares at you.  \"I thought I made it clear I wasn't willing to accept enticing tidbits of information.  What the actual fuck?  Interdimensional cyborgs?  I don't want to believe you, but also, I already kinda thought there might be some multidimensional hijinks going on here, so I kinda do want to believe you.  They speak English though?  Are you sure this isn't some kind of scam?  Are you just fucking with me?  Honestly this would be a great way to fuck with me.\"",
     "responses": [
       {
-        "text": "(show her your bionic interface)",
+        "text": "[Show her your bionic interface.]",
         "condition": { "u_has_trait": "CBM_Interface" },
         "topic": "TALK_REFUGEE_JENNY_Exodii_Proof"
       },
@@ -295,7 +295,7 @@
     "dynamic_line": "Huh.\"  She purses her lips and looks at you reluctantly.  \"I guess I can teach you a bit, but you'd have to be like, my on-the-job apprentice and help me get stuff done.  It'll cost you a bit depending on what you want to learn.  Do you know anything about electronics, computers, or mechanics already?\"",
     "responses": [
       {
-        "text": "[SKILL 2] I'm not a total noob.",
+        "text": "[Skill 2] I'm not a total noob.",
         "condition": {
           "or": [
             { "math": [ "u_skill('computer')", ">=", "2" ] },
@@ -306,7 +306,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2"
       },
       {
-        "text": "[SKILL <2] No, that's why I want you to teach me.",
+        "text": "[Skill <2] No, that's why I want you to teach me.",
         "condition": {
           "and": [
             { "math": [ "u_skill('computer')", "<", "2" ] },

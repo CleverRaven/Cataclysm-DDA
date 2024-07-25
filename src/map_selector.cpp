@@ -37,6 +37,13 @@ tripoint_range<tripoint_bub_ms> points_in_range_bub( const map &m )
                tripoint_bub_ms( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, OVERMAP_HEIGHT ) );
 }
 
+tripoint_range<tripoint_bub_ms> points_in_level_range( const map &m, const int z )
+{
+    return tripoint_range<tripoint_bub_ms>(
+               tripoint_bub_ms( 0, 0, z ),
+               tripoint_bub_ms( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, z ) );
+}
+
 std::optional<tripoint> random_point( const map &m,
                                       const std::function<bool( const tripoint & )> &predicate )
 {
@@ -47,6 +54,12 @@ std::optional<tripoint_bub_ms> random_point( const map &m,
         const std::function<bool( const tripoint_bub_ms & )> &predicate )
 {
     return random_point( points_in_range_bub( m ), predicate );
+}
+
+std::optional<tripoint_bub_ms> random_point_on_level( const map &m, const int z,
+        const std::function<bool( const tripoint_bub_ms & )> &predicate )
+{
+    return random_point( points_in_level_range( m, z ), predicate );
 }
 
 std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,

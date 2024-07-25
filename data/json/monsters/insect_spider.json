@@ -1075,7 +1075,7 @@
     "vision_night": 8,
     "dissect": "dissect_spider_sample_single",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR" },
+    "upgrades": { "age_grow": 14, "into": "mon_spider_cellar_giant" },
     "delete": {
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
       "flags": [ "GRABS" ],
@@ -2995,7 +2995,7 @@
     "volume": "750 ml",
     "weight": "1 kg",
     "stomach_size": 30,
-    "upgrades": { "age_grow": 35, "into": "mon_grasshopper_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_grasshopper_giant" },
     "extend": { "flags": [ "SMALL_HIDER", "NO_BREED" ] }
   },
   {
@@ -3351,7 +3351,7 @@
     "weight": "4 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "extend": { "flags": [ "NO_BREED" ] },
-    "upgrades": { "age_grow": 40, "into": "mon_strider_giant" }
+    "upgrades": { "age_grow": 30, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",

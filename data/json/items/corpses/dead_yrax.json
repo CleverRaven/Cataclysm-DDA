@@ -16,6 +16,22 @@
     "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
+    "type": "GENERIC",
+    "id": "broken_yrax_triakis",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "triakis remains" },
+    "category": "other",
+    "description": "Its broken shell reveals an interior made from a single piece of quartz, intricately carved into a series of nested tetrahedra.",
+    "price": "10 USD",
+    "material": [ "steel", "yrax_quartz" ],
+    "volume": "119 L",
+    "weight": "221 kg",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
+  },
+  {
     "id": "broken_golden_monolith",
     "type": "GENERIC",
     "symbol": "I",

@@ -52,10 +52,10 @@
     "id": "regen_serum_main",
     "name": [ "Injected 48x-\"Locutus\"" ],
     "desc": [
-      "You just take a shot of some weird stuff.  You feel sleepiness, nauseous, and overall weakened, but you wounds close up at unnatural pace."
+      "You just took a shot of some weird stuff.  You feel sleepy, nauseous, and generally weak, but your wounds are closing up at an unnatural pace."
     ],
-    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release an air, and put right into your veins, in hope it won't kill you.",
-    "remove_message": "You feel your rapid regeneration turn back to normal, but some negative effects are still presented.",
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into a vein, hoping it won't kill you.",
+    "remove_message": "You feel your rapid regeneration fade away, but you still feel sick.",
     "rating": "mixed",
     "flags": [ "MEND_ALL" ],
     "enchantments": [

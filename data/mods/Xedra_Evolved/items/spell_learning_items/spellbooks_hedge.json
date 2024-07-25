@@ -79,5 +79,20 @@
     "symbol": "?",
     "color": "dark_gray",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
+  },
+  {
+    "id": "spellbook_hedge_snare_changelings",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
+    "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": "10 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
   }
 ]

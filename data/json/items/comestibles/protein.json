@@ -73,7 +73,14 @@
     "color": "green",
     "container": "wrapper_pr",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
+    "vitamins": [
+      [ "calcium", 30 ],
+      [ "iron", 30 ],
+      [ "vitC", 30 ],
+      [ "bad_food", 5 ],
+      [ "veggy_allergen", 1 ],
+      [ "fruit_allergen", 1 ]
+    ]
   },
   {
     "id": "protein_shake",
@@ -92,7 +99,8 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 20,
-    "relative": { "vitamins": [ [ "vitC", "20 mg" ] ] }
+    "relative": { "vitamins": [ [ "vitC", "20 mg" ] ] },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "protein_shake_fortified",
@@ -133,7 +141,7 @@
     "calories": 232,
     "quench": 22,
     "fun": 1,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 32 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -153,6 +161,7 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 18,
-    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] },
+    "vitamins": [ [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ]
   }
 ]

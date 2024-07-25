@@ -449,7 +449,8 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -470,7 +471,8 @@
     "price_postapoc": "1 cent",
     "material": [ "fruit" ],
     "volume": "10 ml",
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -489,7 +491,7 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "flags": [ "MYCUS_OK" ],
-    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ], [ "fruit_allergen", 1 ] ],
     "fun": 30
   },
   {
@@ -590,7 +592,7 @@
     "price_postapoc": "50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD", "FREEZERBURN" ]
   },
   {
@@ -662,7 +664,7 @@
     "material": [ "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -681,7 +683,7 @@
     "material": [ "bean" ],
     "volume": "41 ml",
     "cooks_like": "beans_cooked",
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -704,7 +706,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -724,7 +726,7 @@
     "volume": "85 ml",
     "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -743,7 +745,7 @@
     "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -760,7 +762,7 @@
     "price_postapoc": "75 cent",
     "material": [ "veggy" ],
     "volume": "85 ml",
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -779,7 +781,7 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "smoking_result": "dry_soybean",
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_5_1" },
     "seed_data": {
@@ -809,7 +811,7 @@
     "material": [ "veggy" ],
     "fun": -5,
     "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_1" },
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -837,7 +839,7 @@
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "INEDIBLE", "CATTLE" ],
     "smoking_result": "edamame_roasted"
@@ -858,7 +860,8 @@
     "fun": 10,
     "material": [ "veggy", "blood" ],
     "volume": "83 ml",
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -983,7 +986,7 @@
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "125 ml",
-    "vitamins": [ [ "vitC", "11 mg" ], [ "iron", "1600 μg" ], [ "calcium", "40800 μg" ] ],
+    "vitamins": [ [ "vitC", "11 mg" ], [ "iron", "1600 μg" ], [ "calcium", "40800 μg" ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -998,7 +1001,7 @@
     "symbol": "%",
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": "80 cent",
     "price_postapoc": "0 cent",
@@ -1022,7 +1025,7 @@
     "symbol": ";",
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1045,7 +1048,7 @@
     "symbol": ";",
     "quench": 1,
     "calories": 1190,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1068,7 +1071,7 @@
     "symbol": ";",
     "quench": 1,
     "calories": 6120,
-    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1090,7 +1093,7 @@
     "material": [ "veggy" ],
     "symbol": ";",
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "freezing_point": -274,
     "color": "brown",
@@ -1115,7 +1118,7 @@
     "symbol": ";",
     "quench": 2,
     "calories": 450,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -1139,7 +1142,7 @@
     "symbol": ";",
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
@@ -1164,7 +1167,7 @@
     "symbol": ";",
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
@@ -1189,7 +1192,7 @@
     "healthy": -1,
     "quench": -1,
     "calories": 380,
-    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "calcium", 30 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "freezing_point": -274,
     "color": "brown",
@@ -1206,7 +1209,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 70,
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -1223,7 +1226,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 50,
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "description": "A small plant or flower, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -1240,7 +1243,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 174,
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -1429,7 +1432,8 @@
     "calories": 200,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1438,7 +1442,8 @@
     "name": { "str": "wheat-free blodplättar" },
     "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
     "material": [ "veggy", "blood" ],
-    "primary_material": "veggy"
+    "primary_material": "veggy",
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1462,7 +1467,7 @@
     "parasites": 20,
     "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME", "BIRD", "NUTRIENT_OVERRIDE" ],
     "//1": "1 earthworm has such a small amount of vitamins, i'm not sure it's possible to model them.",
-    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ] ]
+    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1533,7 +1538,8 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "volume": "15 ml",
-    "fun": -20
+    "fun": -20,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1553,7 +1559,8 @@
     "calories": 100,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

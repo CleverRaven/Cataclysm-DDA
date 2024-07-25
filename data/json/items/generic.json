@@ -439,7 +439,8 @@
     "weight": "50 g",
     "volume": "250 ml",
     "to_hit": -4,
-    "fun": -25
+    "fun": -25,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2968,7 +2969,8 @@
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
     "volume": "250 ml",
-    "to_hit": -2
+    "to_hit": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",

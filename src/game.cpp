@@ -41,6 +41,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "ascii_art.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -52,6 +53,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
+#include "cata_imgui.h"
 #include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -86,6 +88,7 @@
 #include "editmap.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "end_screen.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -105,6 +108,7 @@
 #include "get_version.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "imgui/imgui.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
@@ -226,6 +230,8 @@ static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
+static const ascii_art_id ascii_tombstone( "ascii_tombstone" );
+
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 static const bionic_id bio_remote( "bio_remote" );
@@ -285,9 +291,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
-static const itype_id itype_holybook_bible1( "holybook_bible1" );
-static const itype_id itype_holybook_bible2( "holybook_bible2" );
-static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rope_30( "rope_30" );
@@ -342,7 +345,6 @@ static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -355,7 +357,6 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
@@ -598,7 +599,7 @@ void game::load_data_from_dir( const cata_path &path, const std::string &src, lo
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
 
-#if !(defined(_WIN32) || defined(TILES))
+#if defined(TUI)
 // in ncurses_def.cpp
 extern void check_encoding(); // NOLINT
 extern void ensure_term_size(); // NOLINT
@@ -610,7 +611,7 @@ void game_ui::init_ui()
     static bool first_init = true;
 
     if( first_init ) {
-#if !(defined(_WIN32) || defined(TILES))
+#if defined(TUI)
         check_encoding();
 #endif
 
@@ -636,7 +637,7 @@ void game_ui::init_ui()
     }
 
     // First get TERMX, TERMY
-#if defined(TILES) || defined(_WIN32)
+#if !defined(TUI)
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
@@ -2401,7 +2402,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
     ( void ) ctxt;
     ( void ) speed;
     ( void ) iso;
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(TUI)
     std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
         return ret;
@@ -2798,192 +2799,112 @@ bool game::is_game_over()
     return false;
 }
 
-void game::bury_screen() const
+class end_screen_data;
+
+class end_screen_data
 {
-    avatar &u = get_avatar();
+        friend class end_screen_ui_impl;
+    public:
+        void draw_end_screen_ui();
+};
 
-    std::vector<std::string> vRip;
-
-    int iMaxWidth = 0;
-    int iNameLine = 0;
-    int iInfoLine = 0;
-
-    if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
-        u.has_amount( itype_holybook_bible3, 1 ) ) {
-        if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
-            vRip.emplace_back( "               _______  ___" );
-            vRip.emplace_back( "              <       `/   |" );
-            vRip.emplace_back( "               >  _     _ (" );
-            vRip.emplace_back( "              |  |_) | |_) |" );
-            vRip.emplace_back( "              |  | \\ | |   |" );
-            vRip.emplace_back( "   ______.__%_|            |_________  __" );
-            vRip.emplace_back( " _/                                  \\|  |" );
-            iNameLine = vRip.size();
-            vRip.emplace_back( "|                                        <" );
-            vRip.emplace_back( "|                                        |" );
-            iMaxWidth = utf8_width( vRip.back() );
-            vRip.emplace_back( "|                                        |" );
-            vRip.emplace_back( "|_____.-._____              __/|_________|" );
-            vRip.emplace_back( "              |            |" );
-            iInfoLine = vRip.size();
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |           <" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |   _        |" );
-            vRip.emplace_back( "              |__/         |" );
-            vRip.emplace_back( "             % / `--.      |%" );
-            vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
-            vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
-            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
-            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
-
-        } else {
-            vRip.emplace_back( "               _______  ___" );
-            vRip.emplace_back( "              |       \\/   |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            iInfoLine = vRip.size();
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |            |" );
-            vRip.emplace_back( "              |           <" );
-            vRip.emplace_back( "              |   _        |" );
-            vRip.emplace_back( "              |__/         |" );
-            vRip.emplace_back( "   ______.__%_|            |__________  _" );
-            vRip.emplace_back( " _/                                   \\| \\" );
-            iNameLine = vRip.size();
-            vRip.emplace_back( "|                                         <" );
-            vRip.emplace_back( "|                                         |" );
-            iMaxWidth = utf8_width( vRip.back() );
-            vRip.emplace_back( "|                                         |" );
-            vRip.emplace_back( "|_____.-._______            __/|__________|" );
-            vRip.emplace_back( "             % / `_-.   _  |%" );
-            vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
-            vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
-            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
-            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+class end_screen_ui_impl : public cataimgui::window
+{
+    public:
+        std::array<char, 255> text;
+        explicit end_screen_ui_impl() : cataimgui::window( _( "The End" ) ) {
         }
-    } else {
-        vRip.emplace_back( R"(           _________  ____           )" );
-        vRip.emplace_back( R"(         _/         `/    \_         )" );
-        vRip.emplace_back( R"(       _/      _     _      \_.      )" );
-        vRip.emplace_back( R"(     _%\      |_) | |_)       \_     )" );
-        vRip.emplace_back( R"(   _/ \/      | \ | |           \_   )" );
-        vRip.emplace_back( R"( _/                               \_ )" );
-        vRip.emplace_back( R"(|                                   |)" );
-        iNameLine = vRip.size();
-        vRip.emplace_back( R"( )                                 < )" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|   _                               |)" );
-        vRip.emplace_back( R"(|__/                                |)" );
-        iMaxWidth = utf8_width( vRip.back() );
-        vRip.emplace_back( R"( / `--.                             |)" );
-        vRip.emplace_back( R"(|                                  ( )" );
-        iInfoLine = vRip.size();
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|                                   |)" );
-        vRip.emplace_back( R"(|     %                         .   |)" );
-        vRip.emplace_back( R"(|  @`                            %% |)" );
-        vRip.emplace_back( R"(| %@%@%\                *      %`%@%|)" );
-        vRip.emplace_back( R"(%%@@@.%@%\%%            `\  %%.%%@@%@)" );
-        vRip.emplace_back( R"(@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@)" );
+    protected:
+        void draw_controls() override;
+};
+
+void end_screen_data::draw_end_screen_ui()
+{
+    input_context ctxt;
+    ctxt.register_action( "TEXT.CONFIRM" );
+#if defined(WIN32) || defined(TILES)
+    ctxt.set_timeout( 50 );
+#endif
+    end_screen_ui_impl p_impl;
+
+    while( true ) {
+        ui_manager::redraw_invalidated();
+        std::string action = ctxt.handle_input();
+        if( action == "TEXT.CONFIRM" || !p_impl.get_is_open() ) {
+            break;
+        }
+    }
+    avatar &u = get_avatar();
+    const bool is_suicide = g->uquit == QUIT_SUICIDE;
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
+            std::string( p_impl.text.data() ) );
+}
+
+void end_screen_ui_impl::draw_controls()
+{
+    text[0] = '\0';
+    avatar &u = get_avatar();
+    ascii_art_id art = ascii_tombstone;
+    dialogue d( get_talker_for( u ), nullptr );
+    std::string input_label;
+    std::vector<std::pair<std::pair<int, int>, std::string>> added_info;
+
+    //Sort end_screens in order of decreasing priority
+    std::vector<end_screen> sorted_screens = end_screen::get_all();
+    std::sort( sorted_screens.begin(), sorted_screens.end(), []( end_screen const & a,
+    end_screen const & b ) {
+        return a.priority > b.priority;
+    } );
+
+    for( const end_screen &e_screen : sorted_screens ) {
+        if( e_screen.condition( d ) ) {
+            art = e_screen.picture_id;
+            if( !e_screen.added_info.empty() ) {
+                added_info = e_screen.added_info;
+            }
+            if( !e_screen.last_words_label.empty() ) {
+                input_label = e_screen.last_words_label;
+            }
+            break;
+        }
     }
 
-    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+    if( art.is_valid() ) {
+        int row = 1;
+        for( const std::string &line : art->picture ) {
+            draw_colored_text( line );
 
-    catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               iOffset );
-    draw_border( w_rip );
+            for( std::pair<std::pair<int, int>, std::string> info : added_info ) {
+                if( row ==  info.first.second ) {
+                    parse_tags( info.second, u, u );
+                    ImGui::SameLine( str_width_to_pixels( info.first.first ), 0 );
+                    draw_colored_text( info.second );
+                }
+            }
+            row++;
+        }
+    }
+
+    if( !input_label.empty() ) {
+        ImGui::NewLine();
+        draw_colored_text( input_label );
+        ImGui::SameLine( str_width_to_pixels( input_label.size() + 2 ), 0 );
+        ImGui::InputText( "##LAST_WORD_BOX", text.data(), text.size() );
+        ImGui::SetKeyboardFocusHere( -1 );
+    }
+
+}
+
+void game::bury_screen() const
+{
+    end_screen_data new_instance;
+    new_instance.draw_end_screen_ui();
 
     sfx::do_player_death_hurt( get_player_character(), true );
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
     sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
-
-    for( size_t iY = 0; iY < vRip.size(); ++iY ) {
-        size_t iX = 0;
-        const char *str = vRip[iY].data();
-        for( int slen = vRip[iY].size(); slen > 0; ) {
-            const uint32_t cTemp = UTF8_getch( &str, &slen );
-            if( cTemp != U' ' ) {
-                nc_color ncColor = c_light_gray;
-
-                if( cTemp == U'%' ) {
-                    ncColor = c_green;
-
-                } else if( cTemp == U'_' || cTemp == U'|' ) {
-                    ncColor = c_white;
-
-                } else if( cTemp == U'@' ) {
-                    ncColor = c_brown;
-
-                } else if( cTemp == U'*' ) {
-                    ncColor = c_red;
-                }
-
-                mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
-                          cTemp );
-            }
-            iX += mk_wcwidth( cTemp );
-        }
-    }
-
-    std::string sTemp;
-
-    center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
-
-    const time_duration survived = calendar::turn - calendar::start_of_game;
-    const int minutes = to_minutes<int>( survived ) % 60;
-    const int hours = to_hours<int>( survived ) % 24;
-    const int days = to_days<int>( survived );
-
-    if( days > 0 ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
-    } else if( hours > 0 ) {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dh %dm", hours, minutes );
-    } else {
-        // NOLINTNEXTLINE(cata-translate-string-literal)
-        sTemp = string_format( "%dm", minutes );
-    }
-
-    center_print( w_rip, iInfoLine++, c_white, sTemp );
-
-    const int iTotalKills = g->get_kill_tracker().monster_kill_count();
-
-    sTemp = _( "Kills:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
-               ( sTemp + " " ) );
-    wprintz( w_rip, c_magenta, "%d", iTotalKills );
-
-    sTemp = _( "In memory of:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
-               c_light_gray,
-               sTemp );
-
-    sTemp = u.get_name();
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
-               sTemp );
-
-    sTemp = _( "Last Words:" );
-    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
-               c_light_gray,
-               sTemp );
-
-    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
-    std::string sLastWords = string_input_popup()
-                             .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
-                             .max_length( iMaxWidth - 4 - 1 )
-                             .query_string();
-
-    const bool is_suicide = uquit == QUIT_SUICIDE;
-    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
-            sLastWords );
 }
 
 void game::death_screen()
@@ -4223,212 +4144,6 @@ void game::draw_veh_dir_indicator( bool next )
     }
 }
 
-void game::draw_minimap()
-{
-
-    // Draw the box
-    werase( w_minimap );
-    draw_border( w_minimap );
-
-    const tripoint_abs_omt curs = u.global_omt_location();
-    const point_abs_omt curs2( curs.xy() );
-    const tripoint_abs_omt targ = u.get_active_mission_target();
-    bool drew_mission = targ == overmap::invalid_tripoint;
-
-    const int levz = m.get_abs_sub().z();
-    for( int i = -2; i <= 2; i++ ) {
-        for( int j = -2; j <= 2; j++ ) {
-            const point_abs_omt om( curs2 + point( i, j ) );
-            nc_color ter_color;
-            tripoint_abs_omt omp( om, levz );
-            std::string ter_sym;
-            const bool seen = overmap_buffer.seen( omp );
-            if( overmap_buffer.has_note( omp ) ) {
-
-                const std::string &note_text = overmap_buffer.note( omp );
-
-                ter_color = c_yellow;
-                ter_sym = "N";
-
-                int symbolIndex = note_text.find( ':' );
-                int colorIndex = note_text.find( ';' );
-
-                bool symbolFirst = symbolIndex < colorIndex;
-
-                if( colorIndex > -1 && symbolIndex > -1 ) {
-                    if( symbolFirst ) {
-                        if( colorIndex > 4 ) {
-                            colorIndex = -1;
-                        }
-                        if( symbolIndex > 1 ) {
-                            symbolIndex = -1;
-                            colorIndex = -1;
-                        }
-                    } else {
-                        if( symbolIndex > 4 ) {
-                            symbolIndex = -1;
-                        }
-                        if( colorIndex > 2 ) {
-                            colorIndex = -1;
-                        }
-                    }
-                } else if( colorIndex > 2 ) {
-                    colorIndex = -1;
-                } else if( symbolIndex > 1 ) {
-                    symbolIndex = -1;
-                }
-
-                if( symbolIndex > -1 ) {
-                    int symbolStart = 0;
-                    if( colorIndex > -1 && !symbolFirst ) {
-                        symbolStart = colorIndex + 1;
-                    }
-                    ter_sym = note_text.substr( symbolStart, symbolIndex - symbolStart ).c_str()[0];
-                }
-
-                if( colorIndex > -1 ) {
-
-                    int colorStart = 0;
-
-                    if( symbolIndex > -1 && symbolFirst ) {
-                        colorStart = symbolIndex + 1;
-                    }
-
-                    std::string sym = note_text.substr( colorStart, colorIndex - colorStart );
-
-                    if( sym.length() == 2 ) {
-                        if( sym == "br" ) {
-                            ter_color = c_brown;
-                        } else if( sym == "lg" ) {
-                            ter_color = c_light_gray;
-                        } else if( sym == "dg" ) {
-                            ter_color = c_dark_gray;
-                        }
-                    } else {
-                        char colorID = sym.c_str()[0];
-                        if( colorID == 'r' ) {
-                            ter_color = c_light_red;
-                        } else if( colorID == 'R' ) {
-                            ter_color = c_red;
-                        } else if( colorID == 'g' ) {
-                            ter_color = c_light_green;
-                        } else if( colorID == 'G' ) {
-                            ter_color = c_green;
-                        } else if( colorID == 'b' ) {
-                            ter_color = c_light_blue;
-                        } else if( colorID == 'B' ) {
-                            ter_color = c_blue;
-                        } else if( colorID == 'W' ) {
-                            ter_color = c_white;
-                        } else if( colorID == 'C' ) {
-                            ter_color = c_cyan;
-                        } else if( colorID == 'c' ) {
-                            ter_color = c_light_cyan;
-                        } else if( colorID == 'P' ) {
-                            ter_color = c_pink;
-                        } else if( colorID == 'm' ) {
-                            ter_color = c_magenta;
-                        }
-                    }
-                }
-            } else if( !seen ) {
-                ter_sym = " ";
-                ter_color = c_black;
-            } else if( overmap_buffer.has_vehicle( omp ) ) {
-                ter_color = c_cyan;
-                ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
-            } else {
-                const oter_id &cur_ter = overmap_buffer.ter( omp );
-                ter_sym = cur_ter->get_symbol();
-                if( overmap_buffer.is_explored( omp ) ) {
-                    ter_color = c_dark_gray;
-                } else {
-                    ter_color = cur_ter->get_color();
-                }
-            }
-            if( !drew_mission && targ.xy() == omp.xy() ) {
-                // If there is a mission target, and it's not on the same
-                // overmap terrain as the player character, mark it.
-                // TODO: Inform player if the mission is above or below
-                drew_mission = true;
-                if( i != 0 || j != 0 ) {
-                    ter_color = red_background( ter_color );
-                }
-            }
-            if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, point( 3, 3 ), ter_color, ter_sym );
-            } else {
-                mvwputch( w_minimap, point( 3 + i, 3 + j ), ter_color, ter_sym );
-            }
-        }
-    }
-
-    // Print arrow to mission if we have one!
-    if( !drew_mission ) {
-        double slope = curs2.x() != targ.x() ?
-                       static_cast<double>( targ.y() - curs2.y() ) / ( targ.x() - curs2.x() ) : 4;
-
-        if( curs2.x() == targ.x() || std::fabs( slope ) > 3.5 ) { // Vertical slope
-            if( targ.y() > curs2.y() ) {
-                mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
-            } else {
-                mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
-            }
-        } else {
-            point arrow( point_north_west );
-            if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
-                arrow.y = targ.y() > curs2.y() ? 6 : 0;
-                arrow.x =
-                    static_cast<int>( 3 + 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) );
-                if( arrow.x < 0 ) {
-                    arrow.x = 0;
-                }
-                if( arrow.x > 6 ) {
-                    arrow.x = 6;
-                }
-            } else {
-                arrow.x = targ.x() > curs2.x() ? 6 : 0;
-                arrow.y = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
-                if( arrow.y < 0 ) {
-                    arrow.y = 0;
-                }
-                if( arrow.y > 6 ) {
-                    arrow.y = 6;
-                }
-            }
-            char glyph = '*';
-            if( targ.z() > u.posz() ) {
-                glyph = '^';
-            } else if( targ.z() < u.posz() ) {
-                glyph = 'v';
-            }
-
-            mvwputch( w_minimap, arrow, c_red, glyph );
-        }
-    }
-
-    Character &player_character = get_player_character();
-    const int sight_points = player_character.overmap_sight_range( g->light_level(
-                                 player_character.posz() ) );
-    for( int i = -3; i <= 3; i++ ) {
-        for( int j = -3; j <= 3; j++ ) {
-            if( i > -3 && i < 3 && j > -3 && j < 3 ) {
-                continue; // only do hordes on the border, skip inner map
-            }
-            const tripoint_abs_omt omp( curs2 + point( i, j ), levz );
-            if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
-                if( overmap_buffer.seen( omp )
-                    && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
-                              overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
-                }
-            }
-        }
-    }
-
-    wnoutrefresh( w_minimap );
-}
-
 float game::natural_light_level( const int zlev ) const
 {
     // ignore while underground or above limits
@@ -5116,7 +4831,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     }
 }
 
-void game::use_computer( const tripoint &p )
+void game::use_computer( const tripoint_bub_ms &p )
 {
     if( u.has_trait( trait_ILLITERATE ) ) {
         add_msg( m_info, _( "You can not read a computer screen!" ) );
@@ -5141,8 +4856,8 @@ void game::use_computer( const tripoint &p )
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
             dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
-                           p.x << ", " << p.y << ", " << p.z << ") - none there";
-            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
+                           p.x() << ", " << p.y() << ", " << p.z() << ") - none there";
+            debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x(), p.y(), p.z() );
         }
         return;
     }
@@ -5246,9 +4961,19 @@ monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
     return place_critter_around( id, p, 0 );
 }
 
+monster *game::place_critter_at( const mtype_id &id, const tripoint_bub_ms &p )
+{
+    return place_critter_around( id, p.raw(), 0 );
+}
+
 monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p )
 {
     return place_critter_around( mon, p, 0 );
+}
+
+monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint_bub_ms &p )
+{
+    return place_critter_around( mon, p.raw(), 0 );
 }
 
 monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
@@ -6153,7 +5878,7 @@ void game::examine( bool with_pickup )
     u.manual_examine = false;
 }
 
-static std::string get_fire_fuel_string( const tripoint &examp )
+static std::string get_fire_fuel_string( const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     if( here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, examp ) ) {
@@ -6221,6 +5946,11 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 }
 
 void game::examine( const tripoint &examp, bool with_pickup )
+{
+    game::examine( tripoint_bub_ms( examp ), with_pickup );
+}
+
+void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 {
     if( disable_robot( examp ) ) {
         return;
@@ -6371,6 +6101,11 @@ void game::pickup_all()
 }
 
 void game::pickup( const tripoint &p )
+{
+    game::pickup( tripoint_bub_ms( p ) );
+}
+
+void game::pickup( const tripoint_bub_ms &p )
 {
     // Highlight target
     shared_ptr_fast<game::draw_callback_t> hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -6748,7 +6483,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
                                           m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
-                                        get_fire_fuel_string( lp ) ) - 1;
+                                        get_fire_fuel_string( tripoint_bub_ms( lp ) ) ) - 1;
             line += lines;
         } else {
             mvwprintz( w_look, point( column, ++line ), cur.color(), cur.name() );
@@ -10482,6 +10217,11 @@ void game::set_safe_mode( safe_mode_type mode )
 
 bool game::disable_robot( const tripoint &p )
 {
+    return game::disable_robot( tripoint_bub_ms( p ) );
+}
+
+bool game::disable_robot( const tripoint_bub_ms &p )
+{
     monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p );
     if( !mon_ptr ) {
         return false;
@@ -10495,7 +10235,7 @@ bool game::disable_robot( const tripoint &p )
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
-        const disable_activity_actor actor( p, disable_activity_actor::get_disable_turns(), false );
+        const disable_activity_actor actor( p.raw(), disable_activity_actor::get_disable_turns(), false );
         u.assign_activity( actor );
         return true;
     }
@@ -10509,7 +10249,8 @@ bool game::disable_robot( const tripoint &p )
         }
 
         if( choice == 0 ) {
-            u.assign_activity( disable_activity_actor( p, disable_activity_actor::get_disable_turns(), true ) );
+            u.assign_activity( disable_activity_actor( p.raw(), disable_activity_actor::get_disable_turns(),
+                               true ) );
         }
     }
     return false;
@@ -10692,29 +10433,29 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
-    const tripoint furn_pos = u.pos() + u.grab_point;
-    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy(), 0 );
+    const tripoint_bub_ms furn_pos = u.pos_bub() + u.grab_point;
+    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy().raw(), 0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
-        pushing = dp.xy() ==  u.grab_point.xy();
-        pulling = dp.xy() == -u.grab_point.xy();
+        pushing = dp.xy() ==  u.grab_point.xy().raw();
+        pulling = dp.xy() == -u.grab_point.xy().raw();
     }
 
     // Now make sure we're actually holding something
     const vehicle *grabbed_vehicle = nullptr;
-    const optional_vpart_position vp_grabbed = m.veh_at( u.pos() + u.grab_point );
+    const optional_vpart_position vp_grabbed = m.veh_at( u.pos_bub() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
-        if( m.has_furn( u.pos() + u.grab_point ) ) {
+        if( m.has_furn( u.pos_bub() + u.grab_point ) ) {
             shifting_furniture = !pushing && !pulling;
         } else {
             // We were grabbing a furniture that isn't there
             grabbed = false;
         }
     } else if( grabbed && u.get_grab_type() == object_type::VEHICLE ) {
-        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos() + u.grab_point ) );
+        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos_bub() + u.grab_point ) );
         if( grabbed_vehicle == nullptr ) {
             // We were grabbing a vehicle that isn't there anymore
             grabbed = false;
@@ -10723,7 +10464,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
-    if( u.grab_point != tripoint_zero && !grabbed && !furniture_move ) {
+    if( u.grab_point != tripoint_rel_ms_zero && !grabbed && !furniture_move ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( object_type::NONE );
     }
@@ -10794,7 +10535,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
-    if( grabbed && u.get_grab_type() == object_type::FURNITURE && u.pos() + u.grab_point == dest_loc ) {
+    if( grabbed && u.get_grab_type() == object_type::FURNITURE &&
+        ( u.pos_bub() + u.grab_point ).raw() == dest_loc ) {
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
@@ -10953,16 +10695,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( furniture_move ) {
         // Adjust the grab_point if player has changed z level.
-        u.grab_point.z -= u.posz() - oldpos.z;
+        u.grab_point.z() -= u.posz() - oldpos.z;
     }
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z = vp_grabbed->pos().z - u.posz();
+        u.grab_point.z() = vp_grabbed->pos().z - u.posz();
     }
 
     if( pulling ) {
-        const tripoint shifted_furn_pos = furn_pos - ms_shift;
+        const tripoint shifted_furn_pos = furn_pos.raw() - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
         const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
@@ -11484,7 +11226,8 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 
 bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
-    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
+    // TODO: Fix when unary operation available
+    const bool pulling_furniture = dp.xy() == ( point_rel_ms_zero - u.grab_point.xy() ).raw();
     const bool has_floor = m.has_floor_or_water( fdest );
     creature_tracker &creatures = get_creature_tracker();
     bool is_ramp_or_road = m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fdest ) ||
@@ -11505,15 +11248,15 @@ int game::grabbed_furn_move_time( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = u.pos() + u.grab_point;
+    tripoint_bub_ms fpos = u.pos_bub() + u.grab_point;
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         return 0;
     }
 
-    tripoint fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
+    tripoint_bub_ms fdest = fpos + tripoint( dp.xy(), 0 ); // intended destination of furniture.
 
-    const bool canmove = can_move_furniture( fdest, dp );
+    const bool canmove = can_move_furniture( fdest.raw(), dp );
     const furn_t &furntype = m.furn( fpos ).obj();
     const int dst_items = m.i_at( fdest ).size();
 
@@ -11571,7 +11314,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 {
     // Furniture: pull, push, or standing still and nudging object around.
     // Can push furniture out of reach.
-    tripoint fpos = u.pos() + u.grab_point;
+    tripoint fpos = ( u.pos_bub() + u.grab_point ).raw();
     // supposed position of grabbed furniture
     if( !m.has_furn( fpos ) ) {
         // Where did it go? We're grabbing thin air so reset.
@@ -11580,20 +11323,20 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return false;
     }
 
-    int ramp_offset = 0;
+    int ramp_z_offset = 0;
     // Furniture could be on a ramp at different time than player so adjust for that.
     if( m.has_flag( ter_furn_flag::TFLAG_RAMP_UP, fpos + tripoint( dp.xy(), 0 ) ) ) {
-        ramp_offset = 1;
+        ramp_z_offset = 1;
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, fpos + tripoint( dp.xy(), 0 ) ) ) {
-        ramp_offset = -1;
+        ramp_z_offset = -1;
     }
 
-    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy();
-    const bool pulling_furniture = dp.xy() == -u.grab_point.xy();
+    const bool pushing_furniture = dp.xy() ==  u.grab_point.xy().raw();
+    const bool pulling_furniture = dp.xy() == -u.grab_point.xy().raw();
     const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     // Intended destination of furniture.
-    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_offset );
+    const tripoint fdest = fpos + tripoint( dp.xy(), ramp_z_offset );
 
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
@@ -11733,13 +11476,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true;
     }
 
-    u.grab_point.z += ramp_offset;
+    u.grab_point.z() += ramp_z_offset;
 
     if( shifting_furniture ) {
         // We didn't move
-        tripoint d_sum = u.grab_point + dp;
+        tripoint d_sum = u.grab_point.raw() + dp;
         if( std::abs( d_sum.x ) < 2 && std::abs( d_sum.y ) < 2 ) {
-            u.grab_point = d_sum; // furniture moved relative to us
+            u.grab_point.raw() = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
             add_msg( _( "You let go of the %s." ), furntype.name() );
             u.grab( object_type::NONE );
@@ -11766,7 +11509,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
 
     // vehicle: pulling, pushing, or moving around the grabbed object.
     if( u.get_grab_type() == object_type::VEHICLE ) {
-        return grabbed_veh_move( dp );
+        return grabbed_veh_move( tripoint_rel_ms( dp ) );
     }
 
     if( u.get_grab_type() == object_type::FURNITURE ) {
@@ -11775,7 +11518,7 @@ bool game::grabbed_move( const tripoint &dp, const bool via_ramp )
     }
 
     add_msg( m_info, _( "Nothing at grabbed point %d,%d,%d or bad grabbed object type." ),
-             u.grab_point.x, u.grab_point.y, u.grab_point.z );
+             u.grab_point.x(), u.grab_point.y(), u.grab_point.z() );
     u.grab( object_type::NONE );
     return false;
 }
@@ -12186,8 +11929,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
-        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
+    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos_bub() ) &&
+        !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos_bub() ) &&
         !u.has_effect( effect_gliding ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
@@ -12200,7 +11943,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
     } else if( !climbing && !force && movez == 1 &&
-               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
+               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos_bub() ) && !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -12208,7 +11951,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( force ) {
         // Let go of a grabbed cart.
         u.grab( object_type::NONE );
-    } else if( u.grab_point != tripoint_zero ) {
+    } else if( u.grab_point != tripoint_rel_ms_zero ) {
         add_msg( m_info, _( "You can't drag things up and down stairs." ) );
         return;
     }
@@ -12505,7 +12248,7 @@ void game::start_hauling( const tripoint &pos )
     // Whether the destination is inside a vehicle (not supported)
     const bool to_vehicle = false;
     // Destination relative to the player
-    const tripoint relative_destination{};
+    const tripoint_rel_ms relative_destination{};
 
     const move_items_activity_actor actor( target_items, quantities, to_vehicle, relative_destination,
                                            true );

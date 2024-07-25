@@ -88,10 +88,10 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 180 },
+    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 240 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
-    "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 240 },
+    "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 180 },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
     "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
   },

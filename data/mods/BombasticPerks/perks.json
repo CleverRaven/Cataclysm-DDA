@@ -497,6 +497,23 @@
   },
   {
     "type": "mutation",
+    "id": "perk_blood_drinker",
+    "name": { "str": "Hemophage" },
+    "points": 0,
+    "description": "You do not drink…wine.  You are immune to the negative consequences of drinking blood, such as parasitic infection.",
+    "category": [ "perk" ],
+    "flags": [ "HEMOVORE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_blood_drinking_heal",
+    "name": { "str": "The Blood is the Life" },
+    "points": 0,
+    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_popeye",
     "name": { "str": "Of sailors and spinach" },
     "points": 0,

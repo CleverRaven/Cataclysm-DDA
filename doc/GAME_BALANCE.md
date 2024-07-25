@@ -44,6 +44,7 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 
 Maximal skill: 10 (highest for balance purposes; jabberwock, shoggoth, gracken)
 
+
 # Monster dodge skill scaling:
 Minimum skill: 0 (no dodge potential; zombie, turret, fungaloid, fused dragonfly)
 
@@ -53,12 +54,58 @@ Notable skill: 4 (natural dodging ability; wolf, feral soldier; mi-go, vinebeast
 
 Maximal skill: 8 (highest for balance purposes; giant jumping spider, dermatik, liquid cat, atlantic salmon)
 
+
+# Monster armor scaling:
+
+Minimum armor: 0 (no armor at all; zombie, feral, blank body, bulldog)
+
+Civilian grade: 6 (some armor; zombie cop, firefighter zombie, alpha bee, dark wyrm, zombie brute)
+
+Military grade: 20 (specialized for modern war; zombie soldier, super soldier ant, SWAT zombie's ballistic armor)
+
+Supernatural: 40 (late game threat; skeletal juggernaut, hound of Tindalos )
+
+Maximum armor: 80 (highest for balance purposes; melded task force's fire armor )
+
+
+# Monster melee dice size scaling:
+Minimum damage: 1 (lowest damage; brown chick )
+
+Weak damage: 2 (low damage; black cat, decayed zombie )
+
+Standard damage: 3 (standard day one threat; zombie, giant fly, wolf, Atlantic cod )
+
+Higher damage: 4 (higher day one threat; blank body, zombie predator )
+
+High damage: 6 (highest day one threat; feral human, mi-go )
+
+Superhuman damage: 8 (deadly endgame threat; hulk, wild boar, Exodii quadruped )
+
+Maximum dice size for balance purposes: 12 (hardest possible hitter; dire wolf )
+
+This is how hard the monster hits.
+
+
+# Monster melee dice number scaling:
+Minimum dice: 1 (predictable damage; black cat, Atlantic cod, blank body, feral human)
+
+Standard dice: 2 (minimal variation; zombie, giant wasp, wolf)
+
+Higher risk: 3 (higher day one threat; dissoluted devourer, tough zombie )
+
+High risk: 4 (dangerous threat; hulk, zombie predator, mi-go)
+
+Maximum dice for balance purposes: 9 (highest for balance purposes; melded task force)
+
+Essentially this is how explosive the damage can be, with high numbers of dice allowing dangerous peaks.
+
+
 # Monster maximum damage scaling:
 Minimum damage: 0 (no damage potential; spore cloud, hallucination)
 
 Nominal damage: 4 (minimal threat; decayed zombie, blank body, cat)
 
-Average damage: 6 (normal day one threat; zombie, wasp)
+Average damage: 6 (normal day one threat; zombie, giant wasp)
 
 High damage: 10 (dangerous day one threat; tough zombie, wolf, zombie scientist)
 
@@ -79,6 +126,22 @@ Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid hea
 Maximal HP: 800 (highest for balance purposes; wraith)
 
 In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
+
+
+# Monster aggression scaling:
+Minimum aggression: -99 (never attack; chicken, giant aphid )
+
+Low aggression: -50 (slow to anger; fungaloid, American eel )
+
+Average aggression: -10 (average critter; cow, beagle, Exodii quadruped )
+
+Borderline aggression: 0 (the slightest thing will mean bloodshed; giant ant, tiger )
+
+Notable aggression: 20-30 (usually attacks; oversized soldier ant, triffid, mi-go, giant web spider, feral human )
+
+Maximum aggression: 100 (kill everything on sight; all zombies, slime, shoggoth, kreck )
+
+The most important difference is between 10 and 9, which is the difference between a monster attacking or not. Farther away in either direction means other factors like danger or other triggers like being attacked matter less or not at all.
 
 
 # Monster Speed Scaling:
@@ -107,6 +170,25 @@ Notable difficulty: ~50 (unusually dangerous; zombie master, mi-go, antlered ham
 Very high difficulty: ~100 (supernaturally dangerous; zombie hulk, shoggoth, wraith, jabberwock, skeletal juggernaut, fused dragonflies, mi-go guard)
 
 Maximum danger: 300 (highest for balance purposes; triffid heart, melded task force)
+
+
+# Monster vision scaling:
+Minimum: 0 (blind and unable to sense presence nearby; brainless zombie night vision)
+
+Minimal vision: 1-2 (default night vision; graboid night vision, kreck night vision, triffid night vision, brainless zombie day vision)
+
+Very poor vision: ~5 (zombie night vision, feral night vision, giant ant night vision )
+
+Poor vision: 20 (cat night vision, Exodii quadruped night vision, wretched hatchery day vision )
+
+Normal vision : 40 (default day vision; zombie, feral, mi-go, black bear, Atlantic cod )
+
+Very strong vision: 50 (supernatural or specialized; hound of Tindalos, mi-go, kreck, zombie master, turkey, A Shadow? )
+
+Maximum vision: 60 (highest for balance purposes; spasming lump; flesh wall )
+
+Vision is not necessarily limited to eyesight. We have monsters with literally no eyes that can detect creatures within a couple of spaces.
+
 
 
 # Dodge System assumptions:

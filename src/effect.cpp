@@ -1503,7 +1503,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
     }
 };
 
-void load_effect_type( const JsonObject &jo )
+void load_effect_type( const JsonObject &jo, const std::string_view src )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
@@ -1605,7 +1605,7 @@ void load_effect_type( const JsonObject &jo )
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + new_etype.id.str() + "_" + std::to_string(
                                        enchant_num++ );
-        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
     effect_types[new_etype.id] = new_etype;
 }

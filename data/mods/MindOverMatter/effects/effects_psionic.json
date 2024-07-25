@@ -307,7 +307,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -1321,7 +1322,8 @@
     "max_intensity": 77,
     "dur_add_perc": 10,
     "int_dur_factor": "46 s",
-    "enchantments": [ "enchant_pyrokin_cloak" ]
+    "enchantments": [ "enchant_pyrokin_cloak" ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -1635,7 +1637,7 @@
       "You are editing out your most negative thoughts.  When you think about it, is the Cataclysm really the worst thing that could have happened?"
     ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You let your thoughts return to their normal flow.",
     "rating": "good",
     "max_duration": "7 days"
   },

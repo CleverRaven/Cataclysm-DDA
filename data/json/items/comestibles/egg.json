@@ -18,7 +18,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ] ],
+    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -189,7 +189,8 @@
     "material": [ "egg" ],
     "volume": "62 ml",
     "fun": -12,
-    "flags": [ "RAW" ]
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -209,7 +210,7 @@
     "price_postapoc": "1 USD",
     "spoils_in": "5 days",
     "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -221,7 +222,7 @@
     "price_postapoc": "5 USD",
     "material": [ "egg" ],
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
-    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
+    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 100
   },
@@ -500,7 +501,7 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "fun": 5,
     "flags": [ "RAW" ]
   },
@@ -521,7 +522,7 @@
     "material": [ "egg" ],
     "volume": "25 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "egg_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -886,7 +887,7 @@
     "price_postapoc": "10 cent",
     "material": [ "egg" ],
     "fun": -8,
-    "vitamins": [ [ "vitC", 12 ], [ "mutant_toxin", 27 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "mutant_toxin", 27 ], [ "egg_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -915,7 +916,8 @@
     "volume": "15 ml",
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -4,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -950,7 +952,8 @@
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 3,
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -975,7 +978,8 @@
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -990,7 +994,8 @@
     "price_postapoc": "50 cent",
     "material": [ "egg" ],
     "fun": 4,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1005,7 +1010,8 @@
     "price": "5 USD",
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1029,7 +1035,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "veggy" ],
     "fun": 10,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1045,7 +1052,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "wheat" ],
     "fun": 4,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1061,7 +1069,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "wheat" ],
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1077,7 +1086,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "veggy" ],
     "fun": 4,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1093,7 +1103,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "veggy" ],
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1107,7 +1118,8 @@
     "price": "5 USD",
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1121,7 +1133,8 @@
     "price": "5 USD",
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk", "veggy" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1135,7 +1148,8 @@
     "price": "5 USD",
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk", "veggy", "flesh" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1152,7 +1166,8 @@
     "material": [ "bread", "egg" ],
     "primary_material": "bread",
     "volume": "649 ml",
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "egg_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1168,7 +1183,8 @@
     "price_postapoc": "75 cent",
     "material": [ "egg" ],
     "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "id": "curing_roe",
@@ -1333,7 +1349,8 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "egg", "veggy" ],
     "fun": 5,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
