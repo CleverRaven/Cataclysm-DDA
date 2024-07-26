@@ -565,7 +565,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "industrial_1x5_solar",
+    "nested_mapgen_id": "industrial_1x1_solar",
     "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_solar_unit", "x": 0, "y": 0 } ] }
   }
 ]
