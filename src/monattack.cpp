@@ -724,38 +724,6 @@ bool mattack::shriek_stun( monster *z )
     return true;
 }
 
-bool mattack::howl( monster *z )
-{
-    Creature *target = z->attack_target();
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > 4 ||
-        !z->sees( *target ) ) {
-        return false;
-    }
-
-    // It takes a while
-    z->mod_moves( -to_moves<int>( 2_seconds ) );
-    sounds::sound( z->pos(), 35, sounds::sound_t::alert, _( "an ear-piercing howl!" ), false, "shout",
-                   "howl" );
-
-    // TODO: Make this use mon's faction when those are in
-    if( z->friendly != 0 ) {
-        for( monster &other : g->all_monsters() ) {
-            if( other.type != z->type ) {
-                continue;
-            }
-            // Quote KA101: Chance of friendlying other howlers in the area, I'd imagine:
-            // wolves use howls for communication and can convey that the ape is on Team Wolf.
-            if( one_in( 4 ) ) {
-                other.friendly = z->friendly;
-                break;
-            }
-        }
-    }
-
-    return true;
-}
-
 bool mattack::rattle( monster *z )
 {
     // TODO: Let it rattle at non-player friendlies

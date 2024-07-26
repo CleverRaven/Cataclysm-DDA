@@ -195,13 +195,17 @@
   {
     "type": "mutation",
     "id": "WAVE_RIDER",
-    "name": { "str": "Wave Rider" },
+    "name": { "str": "The Sea Bears Me Up" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The waves themselves answer your call and create a special vehicle for you to travel across the surface of water.",
+    "description": "The waves themselves answer your call and support you, allowing you to walk on the surface of the water.  Activate to walk on water.",
     "category": [ "UNDINE" ],
-    "spells_learned": [ [ "wave_rider", 1 ] ]
+    "prereqs": [ "WATER_SEALED" ],
+    "prereqs2": [ "UNDINE_DEX_UP_1" ],
+    "active": true,
+    "activated_is_setup": true,
+    "active_flags": [ "WATERWALKING" ]
   },
   {
     "type": "mutation",

@@ -717,33 +717,6 @@ endif
 
 PKG_CONFIG = $(CROSS)pkg-config
 
-ifeq ($(SOUND), 1)
-  ifneq ($(TILES),1)
-    $(error "SOUND=1 only works with TILES=1")
-  endif
-  ifeq ($(NATIVE),osx)
-    ifndef FRAMEWORK # libsdl build
-      ifeq ($(MACPORTS), 1)
-        LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
-      else # homebrew
-        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
-        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
-        LDFLAGS += -lvorbisfile -lvorbis -logg
-      endif
-    endif
-  else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
-    LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
-    LDFLAGS += -lpthread
-  endif
-
-  ifeq ($(MSYS2),1)
-    LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
-  endif
-
-  CXXFLAGS += -DSDL_SOUND
-endif
-
 ifeq ($(SDL), 1)
   TILES = 1
 endif
@@ -778,7 +751,8 @@ ifeq ($(TILES), 1)
       endif
     endif
   else ifneq ($(NATIVE),emscripten)
-    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image SDL2_ttf)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_image SDL2_ttf)
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -788,9 +762,6 @@ ifeq ($(TILES), 1)
 
     LDFLAGS += -lSDL2_ttf -lSDL2_image
 
-    # We don't use SDL_main -- we have proper main()/WinMain()
-    CXXFLAGS := $(filter-out -Dmain=SDL_main,$(CXXFLAGS))
-    LDFLAGS := $(filter-out -lSDL2main,$(LDFLAGS))
   endif
 
   DEFINES += -DTILES
@@ -859,6 +830,37 @@ else
     CXXFLAGS += -DNCURSES_INTERNALS
   endif
 endif # TILES
+
+ifeq ($(SOUND), 1)
+  ifneq ($(TILES),1)
+    $(error "SOUND=1 only works with TILES=1")
+  endif
+  ifeq ($(NATIVE),osx)
+    ifndef FRAMEWORK # libsdl build
+      ifeq ($(MACPORTS), 1)
+        LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
+      else # homebrew
+        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+        LDFLAGS += -lvorbisfile -lvorbis -logg
+      endif
+    endif
+  else # not osx
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+    LDFLAGS += -lpthread
+  endif
+
+  ifeq ($(MSYS2),1)
+    LDFLAGS += -lmpg123 -lshlwapi -lvorbisfile -lvorbis -logg -lflac
+  endif
+
+  CXXFLAGS += -DSDL_SOUND
+endif
+
+# We don't use SDL_main -- we have proper main()/WinMain()
+CXXFLAGS := $(filter-out -Dmain=SDL_main,$(CXXFLAGS))
+LDFLAGS := $(filter-out -lSDL2main,$(LDFLAGS))
 
 ifeq ($(BSD), 1)
   # BSDs have backtrace() and friends in a separate library

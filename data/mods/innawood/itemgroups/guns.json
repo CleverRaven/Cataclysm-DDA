@@ -193,12 +193,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_launcher_improvised",
-    "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
-    "items": [ { "group": "archery", "prob": 50 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_common",
     "//": "Guns of all types commonly owned by citizens and found in many locations.",
     "items": [ { "group": "guns_improvised", "prob": 100 } ]

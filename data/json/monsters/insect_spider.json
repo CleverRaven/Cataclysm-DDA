@@ -1744,7 +1744,6 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "dissect": "dissect_spider_sample_large",
-    "special_attacks": [ [ "HOWL", 10 ] ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },

@@ -154,6 +154,7 @@ static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blood_spiders( "blood_spiders" );
@@ -4958,7 +4959,8 @@ int iuse::towel_common( Character *p, item *it, bool )
     bool slime = p->has_effect( effect_slimed );
     bool boom = p->has_effect( effect_boomered );
     bool glow = p->has_effect( effect_glowing );
-    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
+    bool bile = p->has_effect( effect_bile_irritant );
+    int mult = slime + boom + glow + bile; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
     const std::string name = it ? it->tname() : _( "towel" );
 
@@ -4970,10 +4972,11 @@ int iuse::towel_common( Character *p, item *it, bool )
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
-    } else if( slime || boom || glow ) {
+    } else if( slime || boom || glow || bile ) {
         p->remove_effect( effect_slimed ); // able to clean off all at once
         p->remove_effect( effect_boomered );
         p->remove_effect( effect_glowing );
+        p->remove_effect( effect_bile_irritant );
         p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
                               name );
 
@@ -5881,9 +5884,10 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
         // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
         { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
+        { effect_boomered, ef_con( to_translation( " has <color_magenta>bile</color> covering their eyes.  " ) ) },
         { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
         { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
+        { effect_bile_irritant, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
         { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
         { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
         { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
