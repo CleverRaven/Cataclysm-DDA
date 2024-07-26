@@ -905,14 +905,18 @@
     "stomach_size": 250,
     "grab_strength": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required" } ],
     "zombify_into": "mon_zombie_dog",
     "burn_into": "mon_dog_scorched",
     "dodge": 4,
     "vision_night": 20,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_NEAR_BABY" ],
-    "special_attacks": [ [ "EAT_FOOD", 40 ], [ "EAT_CARRION", 40 ] ],
+    "special_attacks": [
+      [ "EAT_FOOD", 40 ],
+      [ "EAT_CARRION", 40 ],
+      { "id": "bite_grab", "attack_upper": false, "cooldown": 5 },
+      { "id": "scratch_grab_required" }
+    ],
     "fear_triggers": [ "FRIEND_DIED", "SOUND" ],
     "harvest": "dog_with_skull_fur",
     "dissect": "dissect_lupine_sample_single",
@@ -929,6 +933,7 @@
       "KEENNOSE",
       "EATS",
       "GRABS",
+      "GROUP_MORALE",
       "CORNERED_FIGHTER"
     ]
   },
