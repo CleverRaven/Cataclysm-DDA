@@ -655,7 +655,7 @@
       { "id": "bio_armor_eyes", "chance": 100 },
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_painkiller", "chance": 16 },
-      { "id": "bio_power_storage_mkII", "chance": 90 },
+      { "id": "bio_power_storage_mkII", "chance": 90 }
     ]
   },
   {
