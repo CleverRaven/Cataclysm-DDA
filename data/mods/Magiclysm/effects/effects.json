@@ -1279,7 +1279,16 @@
     "rating": "good",
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
-    "flags": [ "ETHEREAL", "FEATHER_FALL", "CLIMB_NO_LADDER", "INVISIBLE", "NO_SCENT", "NO_SPELLCASTING" ]
+    "flags": [
+      "ETHEREAL",
+      "FEATHER_FALL",
+      "CLIMB_NO_LADDER",
+      "INVISIBLE",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "WATERWALKING",
+      "ITEM_WATERPROOFING"
+    ]
   },
   {
     "type": "effect_type",
