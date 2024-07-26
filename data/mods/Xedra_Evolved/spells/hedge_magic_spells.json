@@ -437,7 +437,7 @@
     "name": "Blessed Weapon Nether Damage",
     "description": "This is the extra damage a blessed weapon does to Nether creatures.  It's a bug if you have it directly.",
     "message": "",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "valid_targets": [ "hostile" ],
     "effect": "attack",
     "shape": "blast",
@@ -446,6 +446,6 @@
     "max_damage": 25,
     "min_range": 1,
     "max_range": 1,
-    "targeted_monster_species": [ "NETHER", "ABERRATION", "NETHER_EMANATION" ]
+    "targeted_monster_species": [ "NETHER", "ABERRATION", "HORROR", "NETHER_EMANATION" ]
   }
 ]
