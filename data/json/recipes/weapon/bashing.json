@@ -327,29 +327,18 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_sword_stone",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 4,
-    "time": "2 h",
-    "book_learn": [ [ "textbook_mesoam", 3 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
     "autolearn": true,
-    "qualities": [
-      { "id": "PUNCH", "level": 1 },
-      { "id": "CHISEL_WOOD", "level": 1 },
-      { "id": "HAMMER_SOFT", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.5 },
-      { "proficiency": "prof_knapping_speed", "time_multiplier": 2.5 },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.1 }
-    ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -564,34 +553,18 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_spear_stone",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 4,
-    "time": "1 h",
-    "book_learn": [ [ "textbook_mesoam", 3 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
     "autolearn": true,
-    "qualities": [
-      { "id": "PUNCH", "level": 1 },
-      { "id": "CHISEL_WOOD", "level": 1 },
-      { "id": "HAMMER_SOFT", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.5 },
-      { "proficiency": "prof_knapping_speed", "time_multiplier": 2.5 },
-      { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.1 }
-    ],
-    "components": [
-      [ [ "spear_shaft", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "rock", 8 ], [ "flint", 8 ] ],
-      [ [ "superglue", 5 ], [ "bone_glue", 5 ] ]
-    ]
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "2x4", 1 ] ], [ [ "rock", 8 ], [ "flint", 8 ] ] ]
   },
   {
     "type": "recipe",
