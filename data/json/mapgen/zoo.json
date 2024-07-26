@@ -476,7 +476,7 @@
   {
     "name": "GROUP_COYOTES_ZOO",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_coyote", "weight": 5 }, { "monster": "mon_coyote_wolf", "weight": 5 } ]
+    "monsters": [ { "monster": "mon_coyote" } ]
   },
   {
     "name": "GROUP_TIGERS_ZOO",

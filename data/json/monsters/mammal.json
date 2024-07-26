@@ -913,7 +913,7 @@
     "reproduction": { "baby_monster": "mon_coyote_pup", "baby_count": 4, "baby_timer": 63 },
     "//": "Average litter size of 4 pups, with gestation taking 63 days, but pupping occurs only from March to May",
     "baby_flags": [ "SPRING" ],
-    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_NEAR_BABY" ],
+    "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],
     "special_attacks": [
       [ "EAT_FOOD", 40 ],
       [ "EAT_CARRION", 40 ],
