@@ -28,5 +28,10 @@
     "id": "ELECTROKINETIC_CHARGEABLE",
     "type": "json_flag",
     "info": "This item can be recharged by an electrokinetic"
+  },
+  {
+    "id": "BLESSED_WEAPON",
+    "type": "json_flag",
+    "info": "This weapon does extra damage against creatures of the Nether."
   }
 ]

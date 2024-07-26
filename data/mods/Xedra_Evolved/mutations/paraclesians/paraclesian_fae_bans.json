@@ -368,7 +368,7 @@
         { "material": "hc_steel", "wielded_only": true },
         { "material": "ch_steel", "wielded_only": true },
         { "material": "lc_steel_chain", "wielded_only": true },
-        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
         { "material": "hc_steel_chain", "wielded_only": true },
         { "material": "ch_steel_chain", "wielded_only": true }
       ],
@@ -458,7 +458,7 @@
         { "material": "hc_steel", "wielded_only": true },
         { "material": "ch_steel", "wielded_only": true },
         { "material": "lc_steel_chain", "wielded_only": true },
-        { "material": "mc_steel_chain", "worn_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
         { "material": "hc_steel_chain", "wielded_only": true },
         { "material": "ch_steel_chain", "wielded_only": true }
       ],
