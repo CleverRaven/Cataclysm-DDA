@@ -489,9 +489,9 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Unarmored target
     // Minor damage at range.
     // More serious damage at close range.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_zombie" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_cow" );
     // Grevious damage at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 62, "mon_zombie" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 62, "mon_cow" );
 
     // Triviallly armored target (armor_bullet: 1)
     // Can rarely if ever inflict damage at range.
@@ -518,13 +518,13 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
 
     // BUCKSHOT
     // Unarmored target
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 72, "mon_zombie" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 72, "mon_cow" );
     // Heavy damage at range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 107, "mon_zombie" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 107, "mon_cow" );
     // More damage at close range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_zombie" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_cow" );
     // Extreme damage at point blank range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 75, "mon_zombie" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 75, "mon_cow" );
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
@@ -546,11 +546,11 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     // Unarmored target
     // This test result is difficult to converge
     // After more attempts, the average value is about 7
-    // shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 18, 7, "mon_zombie" );
-    shoot_monster( "shotgun_s", {"choke"}, "shot_bird", 12, 15, "mon_zombie" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 5, 20, "mon_zombie" );
+    // shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 18, 7, "mon_cow" );
+    shoot_monster( "shotgun_s", {"choke"}, "shot_bird", 12, 15, "mon_cow" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 5, 20, "mon_cow" );
     // All the results of tests at point blank are abonormal
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_zombie" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_cow" );
 
     // Triviallly armored target (armor_bullet: 1)
     shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_zombie_tough" );
@@ -559,10 +559,10 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 61, "mon_zombie_brute" );
 
     // Unarmored target
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_zombie" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_zombie" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_zombie" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_zombie" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_cow" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_cow" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_cow" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_cow" );
     // Triviallly armored target (armor_bullet: 1)
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 32, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 61, "mon_zombie_tough" );
