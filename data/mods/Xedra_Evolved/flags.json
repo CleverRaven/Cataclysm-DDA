@@ -37,6 +37,6 @@
   {
     "id": "BLESSED_WEAPON",
     "type": "json_flag",
-    "info": "This weapon does extra damage against creatures of the Nether."
+    "info": "This weapon does <good>extra damage</good> against creatures of the <info>Nether</info>."
   }
 ]
