@@ -1278,6 +1278,8 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_map_test->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
     CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
+    CHECK( globvars.get_global_value( "npctalk_var_map_test_loc_a" ) == "(70,70,0)");
+    CHECK( globvars.get_global_value( "npctalk_var_map_test_loc_b" ) == "(70,60,0)");
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )

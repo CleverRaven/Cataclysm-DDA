@@ -803,8 +803,15 @@
     "type": "effect_on_condition",
     "id": "EOC_map_test",
     "effect": [
-      { "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
-      { "math": [ "key_distance_loc", "=", "distance('u', _loc)" ] },
+      {
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" },
+        "target_var": { "global_val": "map_test_loc_a" }
+      },
+      {
+        "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" },
+        "target_var": { "global_val": "map_test_loc_b" }
+      },
+      { "math": [ "key_distance_loc", "=", "distance('u', map_test_loc_a)" ] },
       { "math": [ "key_distance_npc", "=", "distance('u', 'npc')" ] }
     ]
   },
