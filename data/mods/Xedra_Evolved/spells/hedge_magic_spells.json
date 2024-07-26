@@ -412,5 +412,40 @@
     "components": "spell_components_hedge_walk_on_water",
     "max_level": 1,
     "base_casting_time": 1000
+  },
+  {
+    "id": "hedge_bless_steel_weapon",
+    "type": "SPELL",
+    "name": "To Bless the Sacred Weapon",
+    "description": "Ensorcell an iron or steel weapon that you are holding so it does additional damage to unholy creatures when used in melee combat.  If the weapon is too damaged, the charm will cease to function.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL", "NO_HANDS" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HEDGE_BLESS_STEEL_WEAPON",
+    "shape": "blast",
+    "components": "spell_components_hedge_bless_steel_weapon",
+    "max_level": 1,
+    "base_casting_time": 2880000
+  },
+  {
+    "id": "hedge_blessed_weapon_nether_damage",
+    "type": "SPELL",
+    "name": "Blessed Weapon Nether Damage",
+    "description": "This is the extra damage a blessed weapon does to Nether creatures.  It's a bug if you have it directly.",
+    "message": "",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "min_damage": 5,
+    "max_damage": 25,
+    "min_range": 1,
+    "max_range": 1,
+    "targeted_monster_species": [ "NETHER", "ABERRATION", "HORROR", "NETHER_EMANATION" ]
   }
 ]

@@ -27,7 +27,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] }
   },
   {
     "id": "spellbook_hedge_doctor_book",
