@@ -148,7 +148,7 @@
     "apply_message": "Your footsteps feel quieter.",
     "remove_message": "Your steps are normal once again.",
     "rating": "good",
-    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ] } ]
   },
   {
     "type": "effect_type",
