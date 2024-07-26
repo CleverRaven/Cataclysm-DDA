@@ -1049,7 +1049,7 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_nomex", 4 ], [ "sheet_nomex_patchwork", 4 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "sheet_kevlar", 4 ], [ "sheet_kevlar_patchwork", 4 ] ],
       [ [ "nomex_hood", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
@@ -1064,7 +1064,7 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_nomex", 3 ], [ "sheet_nomex_patchwork", 3 ] ],
-      [ [ "sheet_kevlar_layered", 3 ] ],
+      [ [ "sheet_kevlar", 3 ], [ "sheet_kevlar_patchwork", 3 ] ],
       [ [ "nomex_hood", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
@@ -1078,7 +1078,7 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_nomex", 6 ], [ "sheet_nomex_patchwork", 6 ] ],
-      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "sheet_kevlar", 6 ], [ "sheet_kevlar_patchwork", 6 ] ],
       [ [ "nomex_hood", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
@@ -1177,7 +1177,7 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "cotton_patchwork", 8 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "sheet_kevlar", 4 ], [ "sheet_kevlar_patchwork", 4 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
@@ -1196,7 +1196,7 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "cotton_patchwork", 6 ] ],
-      [ [ "sheet_kevlar_layered", 3 ] ],
+      [ [ "sheet_kevlar", 3 ], [ "sheet_kevlar_patchwork", 3 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
@@ -1210,7 +1210,7 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [
       [ [ "cotton_patchwork", 10 ] ],
-      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "sheet_kevlar", 6 ], [ "sheet_kevlar_patchwork", 6 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
@@ -1231,7 +1231,7 @@
     "components": [
       [ [ "faux_fur", 8 ] ],
       [ [ "cotton_patchwork", 6 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "sheet_kevlar", 4 ], [ "sheet_kevlar_patchwork", 4 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
@@ -1253,7 +1253,7 @@
     "components": [
       [ [ "faux_fur", 6 ] ],
       [ [ "cotton_patchwork", 4 ] ],
-      [ [ "sheet_kevlar_layered", 3 ] ],
+      [ [ "sheet_kevlar", 3 ], [ "sheet_kevlar_patchwork", 3 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ],
@@ -1269,7 +1269,7 @@
     "components": [
       [ [ "faux_fur", 10 ] ],
       [ [ "cotton_patchwork", 8 ] ],
-      [ [ "sheet_kevlar_layered", 6 ] ],
+      [ [ "sheet_kevlar", 6 ], [ "sheet_kevlar_patchwork", 6 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ],
@@ -1305,7 +1305,7 @@
     "components": [
       [ [ "leather", 8 ], [ "tanned_hide", 1 ] ],
       [ [ "cotton_patchwork", 4 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "sheet_kevlar", 4 ], [ "sheet_kevlar_patchwork", 4 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
@@ -1326,7 +1326,7 @@
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "cotton_patchwork", 2 ] ],
-      [ [ "sheet_kevlar_layered", 2 ] ],
+      [ [ "sheet_kevlar", 2 ], [ "sheet_kevlar_patchwork", 2 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
@@ -1347,7 +1347,7 @@
     "components": [
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "cotton_patchwork", 4 ] ],
-      [ [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "sheet_kevlar", 4 ], [ "sheet_kevlar_patchwork", 4 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 100 ] ]
     ],
@@ -1369,7 +1369,7 @@
     "components": [
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
       [ [ "cotton_patchwork", 2 ] ],
-      [ [ "sheet_kevlar_layered", 3 ] ],
+      [ [ "sheet_kevlar", 3 ], [ "sheet_kevlar_patchwork", 3 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 75 ] ]
     ]
@@ -1384,7 +1384,7 @@
     "components": [
       [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ],
       [ [ "cotton_patchwork", 6 ] ],
-      [ [ "sheet_kevlar_layered", 5 ] ],
+      [ [ "sheet_kevlar", 5 ], [ "sheet_kevlar_patchwork", 5 ] ],
       [ [ "hood_rain", 1 ], [ "plastic_sheet_small", 2 ], [ "hood_gut", 1 ] ],
       [ [ "duct_tape", 150 ] ]
     ]
@@ -1406,7 +1406,7 @@
       [ [ "leather", 14 ], [ "tanned_hide", 3 ] ],
       [ [ "cotton_patchwork", 6 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "sheet_kevlar_layered", 5 ] ],
+      [ [ "sheet_kevlar", 5 ], [ "sheet_kevlar_patchwork", 5 ] ],
       [ [ "hood_rain", 2 ], [ "plastic_sheet_small", 4 ], [ "hood_gut", 2 ] ],
       [ [ "duct_tape", 200 ] ]
     ],
@@ -2307,7 +2307,7 @@
       ],
       [ [ "polycarbonate_chunk", 4 ], [ "glasses_bal", 2 ] ],
       [ [ "leather", 3 ] ],
-      [ [ "sheet_kevlar_layered", 2 ] ]
+      [ [ "sheet_kevlar", 2 ] ]
     ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
