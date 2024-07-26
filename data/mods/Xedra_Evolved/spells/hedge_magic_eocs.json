@@ -419,26 +419,43 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_ATTACKS",
+    "id": "EOC_BLESSED_WEAPON_ATTACKS",
     "//": "This same EoC will account for other weapons with the BLESSED_WEAPON flag--it also requires the presence of the HEDGE_ENCHANTED flag to trigger damage removing the enchantment",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
-    "condition": {
-      "and": [
-        { "u_has_wielded_with_flag": "BLESSED_WEAPON" },
-        {
-          "or": [
-            { "npc_has_species": "NETHER" },
-            { "npc_has_species": "ABERRATION" },
-            { "npc_has_species": "NETHER_EMANATION" },
-            { "npc_has_species": "HORROR" }
-          ]
-        }
-      ]
-    },
+    "condition": { "u_has_wielded_with_flag": "BLESSED_WEAPON" },
     "effect": [
-      { "npc_location_variable": { "context_val": "nether_hellbeast" } },
-      { "u_cast_spell": { "id": "hedge_blessed_weapon_nether_damage" }, "loc": { "context_val": "nether_hellbeast" } },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLESSED_WEAPON_ATTACKS_2",
+            "condition": {
+              "or": [
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "ABERRATION" },
+                { "npc_has_species": "NETHER_EMANATION" },
+                { "npc_has_species": "HORROR" }
+              ]
+            },
+            "effect": [
+              { "npc_location_variable": { "context_val": "nether_hellbeast" } },
+              {
+                "u_cast_spell": { "id": "hedge_blessed_weapon_nether_damage" },
+                "loc": { "context_val": "nether_hellbeast" }
+              },
+              { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM",
+    "condition": { "u_has_wielded_with_flag": "HEDGE_ENCHANTED" },
+    "effect": [
       {
         "u_run_inv_eocs": "random",
         "search_data": [ { "flags": [ "HEDGE_ENCHANTED" ], "wielded_only": true } ],
