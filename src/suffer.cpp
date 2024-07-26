@@ -333,9 +333,9 @@ void suffer::while_grabbed( Character &you )
     creature_tracker &creatures = get_creature_tracker();
     int crowd = 0;
     int impassable_ter = 0;
-    for( auto&& dest : here.points_in_radius( you.pos(), 1, 0 ) ) { // *NOPAD*
+    for( auto&& dest : here.points_in_radius( you.pos(), 2, 0 ) ) { // *NOPAD*
         const monster *const mon = creatures.creature_at<monster>( dest );
-        if( mon && mon->has_flag( mon_flag_GROUP_BASH ) ) {
+        if( mon && mon->has_flag( mon_flag_GROUP_BASH ) && !helpermon.is_hallucination() ) {
             crowd++;
             add_msg_debug( debugmode::DF_CHARACTER, "Crowd pressure check: monster %s found, crowd size %d",
                            mon->name(), crowd );
@@ -345,8 +345,8 @@ void suffer::while_grabbed( Character &you )
         }
     }
 
-    // if we aren't near two monsters with GROUP_BASH we won't suffocate
-    if( crowd < 2 ) {
+    // if we aren't near four monsters with GROUP_BASH we won't suffocate
+    if( crowd < 6 ) {
         return;
     }
     // Getting crushed against the wall counts as a monster
@@ -355,14 +355,14 @@ void suffer::while_grabbed( Character &you )
         crowd += impassable_ter;
     }
 
-    if( crowd == 2 ) {
+    if( crowd == 6 ) {
         // only a chance to lose breath at low grab chance, none with only a single zombie
         you.oxygen -= rng( 0, 1 );
-    } else if( crowd <= 4 ) {
-        you.oxygen -= 1;
-    } else if( crowd <= 6 ) {
-        you.oxygen -= rng( 1, 2 );
     } else if( crowd <= 8 ) {
+        you.oxygen -= 1;
+    } else if( crowd <= 10 ) {
+        you.oxygen -= rng( 1, 2 );
+    } else if( crowd <= 12 ) {
         you.oxygen -= 2;
     }
 
