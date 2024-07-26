@@ -345,9 +345,9 @@
       { "id": "CUT", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.50 },
+      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.5 },
       { "proficiency": "prof_knapping_speed", "time_multiplier": 2.5 },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.10 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.1 }
     ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "rock", 20 ], [ "flint", 20 ] ], [ [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
   },
@@ -582,11 +582,16 @@
       { "id": "CUT", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.50 },
+      { "proficiency": "prof_knapping", "time_multiplier": 1.25, "skill_penalty": 0.5 },
       { "proficiency": "prof_knapping_speed", "time_multiplier": 2.5 },
-      { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.10 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.25, "skill_penalty": 0.1 }
     ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "2x4", 1 ] ], [ [ "rock", 8 ], [ "flint", 8 ] ], [ [ "superglue", 5 ], [ "bone_glue", 5 ] ] ]
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "rock", 8 ], [ "flint", 8 ] ],
+      [ [ "superglue", 5 ], [ "bone_glue", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
