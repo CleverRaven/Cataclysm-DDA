@@ -811,7 +811,6 @@
     "points": 0,
     "purifiable": false,
     "description": "Far from being terrified or even unnerved by the creatures of the Nether, their presence fills you with atavistic killing fury.  You do +35% melee damage when in melee combat with Nether beings and take 15% less damage from all sources, but if you attack any other target when there is a Nether-beast to slay, you suffer a large penalty to your accuracy.",
-    "category": [ "perk" ],
     "enchantments": [
       {
         "condition": {
