@@ -971,7 +971,7 @@
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "glasses_safety", 1 ], [ "face_shield_plastic", 1 ] ],
       [ [ "tailoring_canvas_patchwork", 8 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_plasticworking" }, {"prof_closures" }, {"prof_closures_waterproofing"} ]
+    "proficiencies": [ { "proficiency": "prof_millinery" }, { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing"} ]
   },
   {
     "result": "helmet_scavenger_xs",
