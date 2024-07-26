@@ -419,7 +419,7 @@
     "id": "mon_test_shotgun_0_bullet",
     "type": "MONSTER",
     "name": { "str": "chonky thing with 0 ballistic armor" },
-    "description": "Long live the dire wolves.",
+    "description": "Used to replace the now-obsoleted dire wolf in the shotgun damage test.",
     "copy-from": "mon_cow",
     "volume": "600 L",
     "weight": "600 kg",
