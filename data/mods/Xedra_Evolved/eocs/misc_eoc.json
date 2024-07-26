@@ -173,51 +173,25 @@
       },
       {
         "type": "effect_on_condition",
-        "id": "EOC_SUMMON_DREAM_DRAINER_COCOON",
-        "effect": [
-          { "queue_eocs": "EOC_SUMMON_DREAM_DRAINER_MOSQUITO", "time_in_future": [ "1 m", "1 m" ] },
-          { "u_location_variable": { "context_val": "loc" } },
-          {
-            "run_eocs": [
-              {
-                "id": "EOC_SUMMON_DREAM_DRAINER_COCOON_2",
-                "effect": [
-                  { "npc_cast_spell": { "id": "dream_drainer_cocoon_maker_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
-                  { "npc_message": "The mosquito consumes the catalyst and forms a cocoon.", "type": "good" }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-
-      {
-        "type": "effect_on_condition",
-        "id": "EOC_SUMMON_DREAM_DRAINER_MOSQUITO",
+        "id": "EOC_SUMMON_DREAM_DRAINER",
         "effect": [
           { "u_location_variable": { "context_val": "loc" } },
           {
             "run_eocs": [
               {
-                "id": "EOC_SUMMON_DREAM_DRAINER_COCOON_OUT",
+                "id": "EOC_SUMMON_DREAM_DRAINER_2",
                 "effect": [
-                  { "npc_cast_spell": { "id": "dream_drainer_mosquito_maker", "min_level": 1 }, "loc": { "context_val": "loc" } },
-                  { "npc_message": "The cocoon collapses on itself, leaving only a being born from the most feverish dreams.", "type": "mixed" }
-                ]
-              },
-              {
-                "id": "EOC_SUMMON_DREAM_DRAINER_COCOON_ASSIGN_MISSION",
-                "effect": [
+                  { "npc_cast_spell": { "id": "dream_drainer_maker_real", "min_level": 1 }, "loc": { "context_val": "loc" } },
+                  { "u_remove_item_with": "dream_drainer_catalyst" },
                   { "remove_active_mission": "MISSION_KILL_DREAM_DRAINER" },
-                  { "assign_mission": "MISSION_KILL_DREAM_DRAINER" }
+                  { "assign_mission": "MISSION_KILL_DREAM_DRAINER" },
+                  { "npc_message": "The mosquito consumes the catalyst and suddenly starts filling with air as it reshapes itself.", "type": "mixed" }
                 ]
               }
             ]
           }
         ]
       },
-
-            
       {
       "type": "effect_on_condition",
       "id": "EOC_CHECK_TO_SUMMON_REVENANT",
@@ -253,5 +227,5 @@
       "type": "effect_on_condition",
       "id": "EOC_REMOVE_LUNA_MISSION",
       "effect":  { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
-         }
+  }
 ]

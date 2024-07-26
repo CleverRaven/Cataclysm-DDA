@@ -95,14 +95,14 @@
           "and": [ 
             { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" }, 
             { "u_has_item": "stormwrought_blood_charged" }, 
-            { "u_has_items": { "item": "concentrated_underhill_essence", "count": 1000 } },
+            { "u_has_items": { "item": "concentrated_underhill_essence", "count": 400 } },
             { "u_has_item": "dream_drainer_heart" },  
             { "u_has_item": "moonstruck_pearl" },  
             { "u_has_item": "abyssal_hunger_shard" } ]
            },
         "effect": [
           { "u_sell_item": "stormwrought_blood_charged", "count": 1 },
-          { "u_sell_item": "concentrated_underhill_essence", "count": 1000 },
+          { "u_sell_item": "concentrated_underhill_essence", "count": 400 },
           { "u_sell_item": "dream_drainer_heart", "count": 1 },
           { "u_sell_item": "moonstruck_pearl", "count": 1 },
           { "u_sell_item": "abyssal_hunger_shard", "count": 1 }
@@ -143,7 +143,7 @@
       },
       {
         "text": "I want to become a stronger vampire.",
-        "condition": { "u_has_trait": "VAMPIRE4" },
+        "condition": { "and": [ { "u_has_trait": "VAMPIRE4" }, { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } }, { "not": { "u_has_trait": "BLOOD_DRINKER" } } ] },
         "topic": "TALK_VAMPIRE_MENTOR_BECOME_MORE_STRONGER"
       },
       {

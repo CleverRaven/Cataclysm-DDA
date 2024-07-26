@@ -343,7 +343,7 @@
     "max_range": 8
   },
   {
-    "id": "dream_drainer_cocoon_maker",
+    "id": "dream_drainer_maker",
     "type": "SPELL",
     "name": "Create the dream-drainer",
     "description": "This spell is used by the catalyst to summon the dream-drainer.  It's not intended to be known by the player.",
@@ -351,7 +351,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_SUMMON_DREAM_DRAINER_COCOON",
+    "effect_str": "EOC_SUMMON_DREAM_DRAINER",
     "shape": "blast",
     "base_casting_time": 5,
     "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
@@ -369,33 +369,12 @@
     ]
   },
   {
-    "id": "dream_drainer_cocoon_maker_real",
+    "id": "dream_drainer_maker_real",
     "type": "SPELL",
     "name": "Create the dream-drainer real",
     "description": "Transform a mosquito into a dream-draining nightmare.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_LEGS", "NO_PROJECTILE" ],
-    "effect": "targeted_polymorph",
-    "effect_str": "mon_dream_drainer_cocoon",
-    "shape": "blast",
-    "spell_class": "NONE",
-    "base_casting_time": 10,
-    "difficulty": 0,
-    "max_level": 1,
-    "min_damage": 9999,
-    "max_damage": 9999,
-    "damage_type": "pure",
-    "min_range": 30,
-    "max_range": 30
-  },
-  {
-    "id": "dream_drainer_mosquito_maker",
-    "type": "SPELL",
-    "name": "Make the dream-drainer",
-    "description": "This spell is used to summon the dream-drainer from the cocoon.  It's not intended to be known by the player.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "hostile", "ally" ],
     "effect": "targeted_polymorph",
     "effect_str": "mon_dream_drainer_mosquito",
     "shape": "blast",
@@ -407,7 +386,6 @@
     "max_damage": 9999,
     "damage_type": "pure",
     "min_range": 30,
-    "max_range": 30,
-    "targeted_monster_ids": [ "mon_dream_drainer_cocoon" ]
+    "max_range": 30
   }
 ]

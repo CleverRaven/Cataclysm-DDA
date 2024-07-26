@@ -8,7 +8,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "portal_dungeon_roof",
+    "update_mapgen_id": "abyssal_hunger_roof",
     "object": {
       "set": [ { "square": "terrain", "id": "t_abyssal_flesh_roof", "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ]
@@ -87,8 +87,7 @@
       "palettes": [ "abyssal_hunger_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
       "set": [ { "square": "furniture", "id": "f_null", "x": 0, "x2": 23, "y": 0, "y2": 23 },
-      { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 },
-      { "point": "trap", "id": "tr_portal_dungeon_next_level", "x": [ 1, 22 ], "y": 22 } ],
+      { "point": "variable", "id": "dungeon_start", "x": 1, "y": 2 } ],
       "place_monster": [ { "group": "GROUP_ABYSSAL_HUNGER_CELLS", "x": [ 5, 18 ], "y": [ 5, 18 ], "repeat": [ 22, 26 ] } ]
     }
   },
@@ -115,9 +114,9 @@
     "description": "A chunk of brain matter holding some shards akin to the one you are looking for.  Examine to pick one.",
     "//": "On examine, activates the EOC cthat grants the player the shard before sending them back to the ritual point.",
     "symbol": "S",
-    "color": "dark_gray",
+    "bgcolor": "dark_gray",
     "move_cost_mod": -1,
-    "coverage": 0,
+    "coverage": 100,
     "required_str": -1,
     "flags": [ "NOCOLLIDE", "NO_PICKUP_ON_EXAMINE", "TRANSPARENT" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ABYSSAL_HUNGER_GRANT_SHARD" ] }

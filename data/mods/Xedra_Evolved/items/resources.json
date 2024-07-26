@@ -265,6 +265,7 @@
     "name": { "str": "inert stormwrought blood", "str_pl": "doses of inert stormwrought blood" },
     "color": "red",
     "material": [ "hblood" ],
+    "looks_like": "blood",
     "description": "A ball of almost-solid blood, needing to bath in the energies of a portal storm before being useful."
   },
   {
@@ -274,6 +275,7 @@
     "name": { "str": "simmering stormwrought blood", "str_pl": "doses of simmering stormwrought blood" },
     "color": "red",
     "material": [ "hblood" ],
+    "looks_like": "blood",
     "description": "A ball of almost-solid blood with ripples across its surface.  It has been exposed to the energies of the portal storms enough to be used in the ritual."
   },
   {
@@ -290,6 +292,7 @@
     "symbol": "~",
     "color": "light_blue",
     "phase": "liquid",
+    "looks_like": "fae_blood",
     "use_action": { "type": "consume_drug", "activation_message": "You drink some concentrated underhill essence.", "vitamins": [ [ "underhill_essence", 100 ] ] },
     "flags": [ "WATER_DISSOLVE" ]
   },
@@ -302,6 +305,7 @@
     "volume": "1500 ml",
     "color": "blue",
     "material": [ "dreamstuff" ],
+    "looks_like": "jabberwock_heart",
     "description": "A heartlike object made from dreamdross.  It feels as if it were still beating despite its lack of movement."
   },
   {
@@ -313,6 +317,7 @@
     "name": { "str": "moonstruck pearl", "str_pl": "moonstruck pearls" },
     "color": "white",
     "material": [ "monolith" ],
+    "looks_like": "pearl",
     "description": "A small pearl brightly shining with moonlight."
   },
   {
@@ -324,6 +329,7 @@
     "name": { "str": "Abyssal Hunger's shard", "str_pl": "Abyssal Hunger's shards" },
     "color": "brown",
     "material": [ "monolith" ],
+    "looks_like": "material_shrd_limestone",
     "description": "A strange object you brought back from the insides of the Abyssal Hunger."
   }
 ]

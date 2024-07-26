@@ -27,7 +27,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_UNDERHILL_ESSENCE",
-    "dynamic_line": "To extract the essence of the Fae, you will need to have one lump of steel and one lump of cast iron on your person or nearby enough to be included in the ritual, Fae parts and a container for the liquid essence.  \n\nIron, and to a lesser extend steel, are anathema to the Fae, a fact that the following ritual takes advantage of to separate the essence from the butchered corpse by temporarily amplifying their Fae-bane properties, pushing the essence out of the remains.  \n\nAny Fae part will do, as long as their level of relative physics is higher than nothing.",
+    "dynamic_line": "To extract the two liters of Fae essence the ritual requires, you will need to have one lump of steel and one lump of cast iron on your person or nearby enough to be included in the ritual, Fae parts and a container for the liquid essence.  \n\nIron, and to a lesser extend steel, are anathema to the Fae, a fact that the following ritual takes advantage of to separate the essence from the butchered corpse by temporarily amplifying their Fae-bane properties, pushing the essence out of the remains.  \n\nAny Fae part will do, as long as their level of relative physics is higher than nothing.",
     "responses": [
       { "text": "[Read about the stormwrought blood]", "topic": "TALK_STORMWROUGHT_BLOOD" },
       { "text": "[Read about the dream-drainer mosquito's heart]", "topic": "TALK_DREAMDRAINER_HEART" },

@@ -296,52 +296,18 @@
     "armor": { "bash": 15, "cut": 30, "bullet": 25 }
   },
   {
-    "type": "MONSTER",
-    "id": "mon_dream_drainer_cocoon",
-    "//": "300+ kg",
-    "name": { "str": "dream-drainer cocoon" },
-    "looks_like": "mon_breather_hub",
-    "description": "A rigid, red lump of flesh the size of a horse constricted by bands of rope-sized pulsing blue veins that tie it to the floor below.  The whole thing is shuddering constantly, and a shadow is growing within it.",
-    "color": "black_red",
-    "symbol": "8",
-    "bodytype": "blob",
-    "material": [ "flesh" ],
-    "species": [ "INSECT" ],
-    "default_faction": "insect",
-    "volume": "450 L",
-    "weight": "450 kg",
-    "hp": 600,
-    "speed": 100,
-    "death_drops": "explode_innards",
-    "death_function": {
-      "message": "The %s explodes in a shower of gore!",
-      "corpse_type": "NO_CORPSE",
-      "effect": {
-        "id": "death_blood",
-        "hit_self": true,
-        "min_level": 3
-      }
-    },
-    "flags": [
-      "IMMOBILE",
-      "NO_BREATHE",
-      "WARM"
-    ],
-    "copy-from": "mon_meat_cocoon_small"
-  },
-  {
-    "id": "mon_mosquito_mega",
+    "id": "mon_dream_drainer_mosquito",
     "type": "MONSTER",
     "name": { "str": "dream-drainer mosquito" },
     "description": "Forged from the wildest dreams and the worst nightmares, this gigantic mosquito bloats as its proboscis syphons the air, as if it was feeding on some invisible thing.  Looking at it, your mind blurs a little, making you feel that what this monster is sucking are your dreams.",
     "default_faction": "mosquito",
     "bodytype": "flying insect",
-    "species": [ "INSECT_FLYING" ],
+    "species": [ "NETHER" ],
     "diff": 2,
     "volume": "625 L",
     "weight": "815 kg",
     "hp": 400,
-    "speed": 30,
+    "speed": 50,
     "material": [ "iflesh" ],
     "symbol": "y",
     "color": "blue",
@@ -365,20 +331,22 @@
       "PUSH_MON",
       "PUSH_VEH"
     ],
-    "copy-from": "mon_mosquito_mega",
+    "looks_like": "mon_mosquito_mega",
     "special_attacks": [
       { "id": "impale" },
       {
         "id": "mon_dream_drainer_heal",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_heal", "min_level": 5 },
-        "cooldown": 30,
+        "allow_no_target": true,
+        "cooldown": 10,
         "monster_message": "%1$s shivers as its wounds close."
       },
       {
         "id": "mon_dream_drainer_speed",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_speed", "min_level": 5 },
+        "allow_no_target": true,
         "cooldown": 30,
         "monster_message": "%1$s buzzes loudly as its speed increases."
       },
@@ -386,6 +354,7 @@
         "id": "mon_dream_drainer_armor",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_armor", "min_level": 5 },
+        "allow_no_target": true,
         "cooldown": 30,
         "monster_message": "%1$s's shell hardens as you prepare to attack it."
       },
@@ -393,7 +362,7 @@
         "id": "mon_dream_drainer_spear",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_spear", "min_level": 5 },
-        "cooldown": 30,
+        "cooldown": 10,
         "monster_message": "%1$s points its proboscis at you, and a projectile bursts from it!"
       },
       {
@@ -403,7 +372,7 @@
         "cooldown": 50,
         "monster_message": "%1$s hits you with one of its legs with tremendous force."
       },
-      { "type": "leap", "cooldown": 30, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 }
+      { "type": "leap", "cooldown": 10, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 }
     ]
   },
   {
@@ -413,7 +382,7 @@
     "description": "Nearly seven feet tall and whip thin, this grotesque mockery of a March Lord is wrapped in fiery moonlight.  Its eyes stare at you as the heart you granted it pulses with power.",
     "default_faction": "changeling",
     "bodytype": "human",
-    "species": [ "CHANGELING" ],
+    "species": [ "ZOMBIE" ],
     "volume": "72500 ml",
     "weight": "91500 g",
     "hp": 690,
@@ -461,7 +430,8 @@
       {
         "id": "mon_luna_attuned_revenant_beam",
         "type": "spell",
-        "spell_data": { "id": " ", "min_level": 5 },
+        "spell_data": { "id": "mon_luna_attuned_revenant_beam" },
+        "allow_no_target": true,
         "condition": "u_is_outside",
         "cooldown": 30,
         "monster_message": "A ray of moonlight bursts from %1$s!"
@@ -477,7 +447,7 @@
     },
     {
       "type": "spell",
-      "id": "mon_luna_attuned_revenant_moonless_tantrum",
+      "id": "mon_luna_attuned_revenant_beam",
       "spell_data": { "id": "mon_luna_attuned_revenant_beam" },
     "allow_no_target": true,
     "condition": { "not": "u_is_outside" },

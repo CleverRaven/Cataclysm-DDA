@@ -66,7 +66,8 @@
     "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "id": "fae_blood",
     "name": { "str_sp": "fae blood" },
     "weight": "260 g",
@@ -78,11 +79,7 @@
     "material": [ "fae_blood" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "category": "fuel",
-    "ammo_type": "fae_blood",
-    "damage": { "damage_type": "stab", "amount": 0, "armor_penetration": 0 },
-    "range": 4,
-    "effects": [ "NEVER_MISFIRES" ]
+    "copy-from": "animal_blood"
   },
   {
     "id": "fae_meat_cooked",
