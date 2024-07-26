@@ -182,6 +182,8 @@ extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
+static bool has_vehicle_control( avatar &player_character );
+
 class user_turn
 {
 
@@ -467,20 +469,20 @@ static void rcdrive( const point &d )
     }
     item *rc_car = rc_pair->second;
 
-    tripoint dest( c + d );
+    tripoint_bub_ms dest( c + d );
     if( here.impassable( dest ) || !here.can_put_items_ter_furn( dest ) ||
         here.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
-        tripoint src( c );
+        tripoint_bub_ms src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         here.i_rem( src, rc_car );
         car_location_string.clear();
-        car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
+        car_location_string << dest.x() << ' ' << dest.y() << ' ' << dest.z();
         player_character.set_value( "remote_controlling", car_location_string.str() );
         return;
     }
@@ -497,7 +499,7 @@ static void pldrive( const tripoint &p )
     Character &player_character = get_player_character();
     map &here = get_map();
     if( !veh ) {
-        if( const optional_vpart_position vp = here.veh_at( player_character.pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( player_character.pos_bub() ) ) {
             veh = &vp->vehicle();
             part = vp->part_index();
         }
@@ -581,7 +583,7 @@ static void open()
     if( !openp_ ) {
         return;
     }
-    const tripoint openp = *openp_;
+    const tripoint_bub_ms openp = tripoint_bub_ms( *openp_ );
     map &here = get_map();
 
     player_character.mod_moves( -to_moves<int>( 1_seconds ) );
@@ -598,7 +600,7 @@ static void open()
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
             // If player is inside vehicle, open the door/window/curtain
-            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
+            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos_bub() ) );
             const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
@@ -636,7 +638,8 @@ static void open()
         return;
     }
     // Not a vehicle part, just a regular door
-    bool didit = here.open_door( player_character, openp, !here.is_outside( player_character.pos() ) );
+    bool didit = here.open_door( player_character, openp,
+                                 !here.is_outside( player_character.pos_bub() ) );
     if( didit ) {
         player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
     } else {
@@ -666,6 +669,28 @@ static void close()
     }
 }
 
+static void set_next_option( const std::string &option )
+{
+    get_options().get_option( option ).setNext();
+    get_options().save();
+    add_msg( _( "Set %s to %s." ),
+             get_options().get_option( option ).getMenuText(),
+             get_options().get_option( option ).getValueName() );
+}
+
+static void auto_features_warn()
+{
+    if( !get_option<bool>( "AUTO_FEATURES" ) ) {
+        const options_manager::cOpt &auto_features = get_options().get_option( "AUTO_FEATURES" );
+        add_msg( _( "Warning: Options > %s > %s > %s set to %s." ),
+                 auto_features.getPage(),
+                 auto_features.getGroupName(),
+                 auto_features.getMenuText(),
+                 auto_features.getValueName()  // false in locale
+               );
+    }
+}
+
 // Establish or release a grab on a vehicle
 static void grab()
 {
@@ -673,10 +698,10 @@ static void grab()
     map &here = get_map();
 
     if( you.get_grab_type() != object_type::NONE ) {
-        if( const optional_vpart_position vp = here.veh_at( you.pos() + you.grab_point ) ) {
+        if( const optional_vpart_position vp = here.veh_at( you.pos_bub() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
-        } else if( here.has_furn( you.pos() + you.grab_point ) ) {
-            add_msg( _( "You release the %s." ), here.furnname( you.pos() + you.grab_point ) );
+        } else if( here.has_furn( you.pos_bub() + you.grab_point ) ) {
+            add_msg( _( "You release the %s." ), here.furnname( you.pos_bub() + you.grab_point ) );
         }
 
         you.grab( object_type::NONE );
@@ -688,9 +713,9 @@ static void grab()
         add_msg( _( "Never mind." ) );
         return;
     }
-    tripoint grabp = *grabp_;
+    tripoint_bub_ms grabp = tripoint_bub_ms( *grabp_ );
 
-    if( grabp == you.pos() ) {
+    if( grabp == you.pos_bub() ) {
         add_msg( _( "You get a hold of yourself." ) );
         you.grab( object_type::NONE );
         return;
@@ -699,11 +724,11 @@ static void grab()
     // Object might not be on the same z level if on a ramp.
     if( !( here.veh_at( grabp ) || here.has_furn( grabp ) ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, grabp ) ||
-            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos() ) ) {
-            grabp.z += 1;
+            here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, you.pos_bub() ) ) {
+            grabp.z() += 1;
         } else if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, grabp ) ||
-                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos() ) ) {
-            grabp.z -= 1;
+                   here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, you.pos_bub() ) ) {
+            grabp.z() -= 1;
         }
     }
 
@@ -732,14 +757,14 @@ static void grab()
                 return;
             }
         }
-        you.grab( object_type::VEHICLE, grabp - you.pos() );
+        you.grab( object_type::VEHICLE, grabp - you.pos_bub() );
         add_msg( _( "You grab the %s." ), veh_name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !here.furn( grabp ).obj().is_movable() ) {
             add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
-        you.grab( object_type::FURNITURE, grabp - you.pos() );
+        you.grab( object_type::FURNITURE, grabp - you.pos_bub() );
         if( !here.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), here.furnname( grabp ) );
         } else {
@@ -893,16 +918,16 @@ static void smash()
     if( !smashp_ ) {
         return;
     }
-    tripoint smashp = *smashp_;
+    tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
 
     bool smash_floor = false;
-    if( smashp.z != player_character.posz() ) {
-        if( smashp.z > player_character.posz() ) {
+    if( smashp.z() != player_character.posz() ) {
+        if( smashp.z() > player_character.posz() ) {
             // TODO: Knock on the ceiling
             return;
         }
 
-        smashp.z = player_character.posz();
+        smashp.z() = player_character.posz();
         smash_floor = true;
     }
     get_event_bus().send<event_type::character_smashes_tile>(
@@ -1083,7 +1108,7 @@ static void wait()
     map &here = get_map();
 
     if( player_character.controlling_vehicle ) {
-        const vehicle &veh = here.veh_at( player_character.pos() )->vehicle();
+        const vehicle &veh = here.veh_at( player_character.pos_bub() )->vehicle();
         if( !veh.can_use_rails() && (   // control optional if on rails
                 veh.is_flying_in_air() ||   // control required: fuel is consumed even at hover
                 veh.is_falling ||           // *not* vertical_velocity, which is only used for collisions
@@ -1223,13 +1248,17 @@ static void wait()
 static void sleep()
 {
     avatar &player_character = get_avatar();
+    if( has_vehicle_control( player_character ) ) {
+        add_msg( m_info, _( "You can't sleep while controlling a vehicle." ) );
+        return;
+    }
     if( player_character.is_mounted() ) {
         add_msg( m_info, _( "You cannot sleep while mounted." ) );
         return;
     }
 
-    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos() ) );
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) &&
+    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos_bub() ) );
+    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos_bub() ) &&
         !player_character.has_trait( trait_WATERSLEEPER ) &&
         !player_character.has_trait( trait_WATERSLEEP ) &&
         !player_character.has_trait( trait_UNDINE_SLEEP_WATER ) &&
@@ -1658,7 +1687,7 @@ static void fire()
         return;
     }
     // try firing turrets
-    if( const optional_vpart_position ovp = here.veh_at( you.pos() ) ) {
+    if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
         if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
             if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
                 return;
@@ -1881,12 +1910,12 @@ static void handle_debug_mode()
     auto debugmode_entry_setup = []( uilist_entry & entry, bool active ) -> void {
         if( active )
         {
-            entry.extratxt.txt = _( "A" );
+            entry.extratxt.txt = entry.hotkey->short_description() + " " + _( "A" );
             entry.extratxt.color = c_white_green;
             entry.text_color = c_green;
         } else
         {
-            entry.extratxt.txt = " ";
+            entry.extratxt.txt = entry.hotkey->short_description() + " ";
             entry.extratxt.color = c_unset;
             entry.text_color = c_light_gray;
         }
@@ -1917,10 +1946,20 @@ static void handle_debug_mode()
 
     dbmenu.addentry( 1, true, 't', _( "Toggle all filters" ) );
     bool toggle_value = true;
+    const hotkey_queue &hotkeys = hotkey_queue::alpha_digits();
+    input_event assigned_hotkey = ctxt.first_unassigned_hotkey( hotkeys );
+    int reserved_character_d = 'd';
+    int reserved_character_t = 't';
 
     for( int i = 0; i < debugmode::DF_LAST; ++i ) {
-        uilist_entry entry( i + 2, true, 0,
-                            debugmode::filter_name( static_cast<debugmode::debug_filter>( i ) ) );
+        uilist_entry entry( i + 2, true, assigned_hotkey,
+                            "  " + debugmode::filter_name( static_cast<debugmode::debug_filter>( i ) ) );
+        assigned_hotkey = ctxt.next_unassigned_hotkey( hotkeys, assigned_hotkey );
+        // Skip d and t, special cased
+        if( assigned_hotkey.sequence.front() == reserved_character_d ||
+            assigned_hotkey.sequence.front() == reserved_character_t ) {
+            assigned_hotkey = hotkeys.next( assigned_hotkey );
+        }
 
         entry.extratxt.left = 1;
 
@@ -1989,7 +2028,7 @@ static bool has_vehicle_control( avatar &player_character )
     if( player_character.is_dead_state() ) {
         return false;
     }
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( vp && vp->vehicle().player_in_control( player_character ) ) {
         return true;
     }
@@ -2260,7 +2299,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
 
             if( has_vehicle_control( player_character ) ) {
-                const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+                const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_below );
                     break;
@@ -2269,13 +2308,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
             if( !player_character.in_vehicle ) {
                 // We're NOT standing on tiles with stairs, ropes, ladders etc
-                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos() ) ) {
+                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos_bub() ) ) {
                     std::vector<tripoint> pts;
 
                     // Check tiles around player character for open air
-                    for( const tripoint &p : m.points_in_radius( player_character.pos(), 1 ) ) {
+                    for( const tripoint_bub_ms &p : m.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                            pts.push_back( p );
+                            pts.push_back( p .raw() );
                         }
                     }
 
@@ -2310,7 +2349,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 vertical_move( 1, false );
             } else if( has_vehicle_control( player_character ) ) {
-                const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+                const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
                 if( vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_above );
                 }
@@ -2602,11 +2641,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SLEEP:
-            if( has_vehicle_control( player_character ) ) {
-                add_msg( m_info, _( "You can't sleep while controlling a vehicle" ) );
-            } else {
-                sleep();
-            }
+            sleep();
             break;
 
         case ACTION_CONTROL_VEHICLE:
@@ -2642,10 +2677,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTOSAFE: {
-            options_manager::cOpt &autosafemode_option = get_options().get_option( "AUTOSAFEMODE" );
-            add_msg( m_info, autosafemode_option.value_as<bool>()
-                     ? _( "Auto safe mode OFF!" ) : _( "Auto safe mode ON!" ) );
-            autosafemode_option.setNext();
+            // Set Auto reactivate safe mode to x
+            set_next_option( "AUTOSAFEMODE" );
             break;
         }
 
@@ -2718,7 +2751,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MAP:
-            if( !m.is_outside( player_character.pos() ) ) {
+            if( !m.is_outside( player_character.pos_bub() ) ) {
                 uistate.overmap_visible_weather = false;
             }
             if( !get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
@@ -2729,7 +2762,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_SKY:
-            if( m.is_outside( player_character.pos() ) ) {
+            if( m.is_outside( player_character.pos_bub() ) ) {
                 ui::omap::display_visible_weather();
             } else {
                 add_msg( m_info, _( "You can't see the sky from here." ) );
@@ -2820,30 +2853,20 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTO_FEATURES:
-            get_options().get_option( "AUTO_FEATURES" ).setNext();
-            get_options().save();
-            //~ Auto Features are now ON/OFF
-            add_msg( _( "%s are now %s." ),
-                     get_options().get_option( "AUTO_FEATURES" ).getMenuText(),
-                     get_option<bool>( "AUTO_FEATURES" ) ? _( "ON" ) : _( "OFF" ) );
+            // Set Auto Features to x
+            set_next_option( "AUTO_FEATURES" );
             break;
 
         case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
-            get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
-            get_options().save();
-            //~ Auto Pulp/Pulp Adjacent/Butcher is now set to x
-            add_msg( _( "%s is now set to %s." ),
-                     get_options().get_option( "AUTO_PULP_BUTCHER" ).getMenuText(),
-                     get_options().get_option( "AUTO_PULP_BUTCHER" ).getValueName() );
+            // Set Auto pulp or butcher to x
+            set_next_option( "AUTO_PULP_BUTCHER" );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_MINING:
-            get_options().get_option( "AUTO_MINING" ).setNext();
-            get_options().save();
-            //~ Auto Mining is now ON/OFF
-            add_msg( _( "%s is now %s." ),
-                     get_options().get_option( "AUTO_MINING" ).getMenuText(),
-                     get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
+            // Set Auto Mining to x
+            set_next_option( "AUTO_MINING" );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_THIEF_MODE:
@@ -2870,21 +2893,14 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_AUTO_FORAGING:
-            get_options().get_option( "AUTO_FORAGING" ).setNext();
-            get_options().save();
-            //~ Auto Foraging is now set to x
-            add_msg( _( "%s is now set to %s." ),
-                     get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
-                     get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+            // Set Auto Foraging to x
+            set_next_option( "AUTO_FORAGING" );
+            auto_features_warn();
             break;
 
         case ACTION_TOGGLE_AUTO_PICKUP:
-            get_options().get_option( "AUTO_PICKUP" ).setNext();
-            get_options().save();
-            //~ Auto pickup is now set to x
-            add_msg( _( "%s is now set to %s." ),
-                     get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
-                     get_options().get_option( "AUTO_PICKUP" ).getValueName() );
+            // Set Auto pickup enabled to x
+            set_next_option( "AUTO_PICKUP" );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -2947,8 +2963,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_TOGGLE_PREVENT_OCCLUSION:
-            get_options().get_option( "PREVENT_OCCLUSION" ).setNext();
-            get_options().save();
+            set_next_option( "PREVENT_OCCLUSION" );
             break;
 
         case ACTION_ZOOM_IN:

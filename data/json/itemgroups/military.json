@@ -467,7 +467,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "e_tool", "prob": 60 },
-      { "item": "mask_gas", "prob": 20, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 20 },
       { "item": "two_way_radio", "prob": 60, "charges": [ 0, 100 ] },
       { "group": "infantry_knives", "prob": 80 }
     ]
@@ -552,20 +552,16 @@
       { "item": "resonance_measurement_device", "prob": 10 },
       { "item": "elbow_pads", "prob": 80 },
       { "item": "knee_pads", "prob": 85 },
-      { "item": "tac_helmet", "prob": 100 },
+      {
+        "distribution": [ { "group": "tac_helmet_nvg", "prob": 60 }, { "item": "tac_helmet", "prob": 40 } ],
+        "prob": 100
+      },
       { "item": "mask_gas", "prob": 100 },
       { "item": "gloves_tactical", "prob": 80 },
       { "group": "xedra_ballistic_vest_heavy_pristine", "prob": 100 },
       { "group": "clothing_tactical_leg", "prob": 80 },
       { "group": "clothing_watch", "prob": 45 },
-      {
-        "distribution": [
-          { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_nv", "prob": 30, "charges": [ 50, 100 ] },
-          { "item": "goggles_ir", "prob": 30, "charges": [ 50, 100 ] }
-        ],
-        "prob": 100
-      },
+      { "item": "glasses_bal", "prob": 30 },
       { "group": "xedra_gun" },
       { "group": "cop_melee" },
       { "group": "cop_holster_field" }
@@ -932,7 +928,7 @@
       { "item": "combo_cover", "prob": 5 },
       { "group": "military_ballistic_vest", "prob": 40 },
       { "item": "sheet_kevlar_layered", "prob": 10 },
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       { "item": "helmet_army", "prob": 40 },
       { "item": "helmet_liner", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },

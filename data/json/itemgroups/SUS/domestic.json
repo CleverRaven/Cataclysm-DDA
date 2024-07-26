@@ -8,8 +8,8 @@
     "entries": [
       { "item": "knife_butter", "count": [ 1, 6 ] },
       { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
-      { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
-      { "item": "knife_paring", "prob": 75 },
+      { "item": "knife_small", "variant": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
+      { "item": "knife_small", "variant": "knife_paring", "prob": 75 },
       { "item": "fork", "count": [ 1, 6 ] },
       { "item": "fork", "count": [ 1, 6 ], "prob": 75 },
       { "item": "spoon", "count": [ 1, 6 ] },
@@ -76,17 +76,28 @@
     "//2": "This group is for a drawer full of knives and related implements.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ] },
-      { "item": "knife_paring" },
-      { "item": "knife_paring", "prob": 75 },
-      { "item": "knife_bread", "prob": 95 },
-      { "item": "knife_bread", "prob": 45 },
       {
-        "distribution": [ { "item": "knife_butcher", "prob": 10 }, { "item": "knife_meat_cleaver", "prob": 10 } ],
+        "distribution": [
+          { "item": "knife_large", "variant": "knife_chef", "prob": 10 },
+          { "item": "knife_cleaver", "variant": "knife_vegetable_cleaver", "prob": 3 }
+        ]
+      },
+      { "item": "knife_small", "variant": "knife_paring" },
+      { "item": "knife_small", "variant": "knife_paring", "prob": 75 },
+      { "item": "knife_large", "variant": "knife_bread", "prob": 95 },
+      { "item": "knife_large", "variant": "knife_bread", "prob": 45 },
+      {
+        "distribution": [
+          { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
+          { "item": "knife_cleaver", "variant": "knife_meat_cleaver", "prob": 10 }
+        ],
         "prob": 65
       },
-      { "item": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
-      { "collection": [ { "item": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ], "prob": 85 },
+      { "item": "knife_small", "variant": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
+      {
+        "collection": [ { "item": "knife_large", "variant": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ],
+        "prob": 85
+      },
       { "item": "scissors", "prob": 80 },
       { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
       { "item": "cutting_board", "count": [ 1, 2 ] },
@@ -233,7 +244,20 @@
       { "item": "chopsticks", "prob": 2 },
       { "item": "office_holepunch", "prob": 2, "count": [ 1, 3 ] },
       { "item": "nuts_bolts", "prob": 50, "charges": [ 3, 12 ] },
-      { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" }
+      { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" },
+      { "item": "bat_anklet", "prob": 10 },
+      { "item": "flower_anklet", "prob": 10 },
+      { "item": "woven_anklet", "prob": 10 },
+      { "item": "gold_lip_ring_loop", "prob": 5 },
+      { "item": "gold_lip_ring_stud", "prob": 5 },
+      { "item": "silver_lip_ring_loop", "prob": 6 },
+      { "item": "silver_lip_ring_stud", "prob": 6 },
+      { "item": "gold_nose_ring_loop", "prob": 5 },
+      { "item": "gold_nose_ring_stud", "prob": 5 },
+      { "item": "silver_nose_ring_loop", "prob": 6 },
+      { "item": "silver_nose_ring_stud", "prob": 6 },
+      { "item": "gold_toe_ring", "prob": 5 },
+      { "item": "silver_toe_ring", "prob": 6 }
     ]
   },
   {
@@ -279,7 +303,7 @@
       { "item": "boxcutter", "prob": 20 },
       { "item": "feather", "prob": 20, "charges": 1 },
       { "item": "tailors_kit", "prob": 12, "charges": [ 50, 350 ] },
-      { "item": "electric_spinwheel", "prob": 12, "charges": [ 0, 100 ] },
+      { "item": "electric_spinwheel", "prob": 12 },
       { "item": "polaroid_photo", "prob": 10 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "chopsticks", "prob": 10 },
@@ -291,7 +315,10 @@
       { "item": "bead_necklace", "count": [ 5, 9 ], "prob": 5 },
       { "item": "old_key", "prob": 5, "count": [ 1, 12 ] },
       { "item": "office_letter_opener", "prob": 5 },
-      { "item": "glowstick_dead", "prob": 5 }
+      { "item": "glowstick_dead", "prob": 5 },
+      { "item": "bat_anklet", "prob": 10 },
+      { "item": "flower_anklet", "prob": 10 },
+      { "item": "woven_anklet", "prob": 10 }
     ]
   },
   {
@@ -504,6 +531,7 @@
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 1 },
+      { "item": "snow_machine_home", "prob": 5 },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
       {
         "collection": [
@@ -1058,7 +1086,10 @@
       { "group": "bags_unisex", "prob": 20 },
       { "group": "hats_unisex", "prob": 20 },
       { "group": "scarfs_unisex", "prob": 20 },
-      { "item": "crutches", "prob": 1 }
+      { "item": "crutches", "prob": 1 },
+      { "item": "woven_anklet", "prob": 5 },
+      { "item": "bat_anklet", "prob": 5 },
+      { "item": "flower_anklet", "prob": 5 }
     ]
   },
   {

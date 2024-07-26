@@ -1,0 +1,44 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "corpse_yugg_rubber",
+    "name": { "str": "rubber yugg corpse" },
+    "description": "An oversized hollow tube made of black semi-liquid rubbery substance.  It is vaguely shaped like a yugg.",
+    "symbol": "W",
+    "color": "dark_gray",
+    "category": "corpses",
+    "material": [ "rubber" ],
+    "price_postapoc": "10 USD",
+    "volume": "600 L",
+    "weight": "500 kg",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_yugg_mutflesh",
+    "name": { "str": "massive fleshy tube" },
+    "description": "An oversized tube of faintly green raw flesh of nondescript origin.  It is vaguely shaped like a yugg.",
+    "symbol": "W",
+    "color": "red",
+    "category": "corpses",
+    "material": [ "flesh" ],
+    "price_postapoc": "0 USD",
+    "volume": "600 L",
+    "weight": "500 kg",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_yugg_jade",
+    "name": { "str": "jade yugg statue" },
+    "description": "A statue of a yugg, made entire out of jade.  If jade was still worth anything this could fetch a fortune.  A shame the world ended.",
+    "symbol": "W",
+    "color": "green",
+    "category": "corpses",
+    "material": [ "stone" ],
+    "price_postapoc": "0 USD",
+    "volume": "600 L",
+    "weight": "900 kg",
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

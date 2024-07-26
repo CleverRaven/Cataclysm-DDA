@@ -671,7 +671,7 @@ void editmap::draw_main_ui_overlay()
                     if( sm ) {
                         const tripoint_bub_ms sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z() );
                         for( const spawn_point &sp : sm->spawns ) {
-                            const tripoint_bub_ms spawn_p = sm_origin + sp.pos;
+                            const tripoint_bub_ms spawn_p = sm_origin + rebase_rel( sp.pos );
                             const auto spawn_it = spawns.find( spawn_p );
                             if( spawn_it == spawns.end() ) {
                                 const Creature::Attitude att = sp.friendly ? Creature::Attitude::FRIENDLY : Creature::Attitude::ANY;
@@ -1844,10 +1844,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
     overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
-    tinymap tmpmap;
-    // TODO: add a do-not-save-generated-submaps parameter
-    // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    tmpmap.generate( omt_pos, calendar::turn );
+    smallmap tmpmap;
+    tmpmap.generate( omt_pos, calendar::turn, false );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1891,7 +1889,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos,
-                             calendar::turn );
+                             calendar::turn, false );
         }
 
         if( showpreview ) {
@@ -1916,11 +1914,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
             tmpmap.generate( omt_pos,
-                             calendar::turn );
+                             calendar::turn, false );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
-            const point target_sub( target.x() / SEEX, target.y() / SEEY );
+            const point_rel_sm target_sub( target.x() / SEEX, target.y() / SEEY );
 
             here.set_transparency_cache_dirty( target.z() );
             here.set_outside_cache_dirty( target.z() );
@@ -1932,27 +1930,29 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
-                    // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
-                    // functions that would alter the results
-                    const tripoint dest_pos = target_sub + tripoint( x, y, target.z() );
-                    const tripoint src_pos = tripoint{ x, y, target.z()};
+                    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                        // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
+                        // functions that would alter the results
+                        const tripoint_rel_sm dest_pos = target_sub + tripoint( x, y, z );
+                        const tripoint_rel_sm src_pos = tripoint_rel_sm{ x, y, z };
 
-                    submap *destsm = here.get_submap_at_grid( dest_pos );
-                    submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
-                    if( srcsm == nullptr || destsm == nullptr ) {
-                        debugmsg( "Tried to apply previewed mapgen at (%d,%d,%d) but the submap is not loaded", src_pos.x,
-                                  src_pos.y, src_pos.z );
-                        continue;
-                    }
+                        submap *destsm = here.get_submap_at_grid( dest_pos );
+                        submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+                        if( srcsm == nullptr || destsm == nullptr ) {
+                            debugmsg( "Tried to apply previewed mapgen at (%d,%d,%d) but the submap is not loaded", src_pos.x(),
+                                      src_pos.y(), src_pos.z() );
+                            continue;
+                        }
 
-                    std::swap( *destsm, *srcsm );
+                        std::swap( *destsm, *srcsm );
 
-                    for( auto &veh : destsm->vehicles ) {
-                        veh->sm_pos = dest_pos;
-                    }
+                        for( auto &veh : destsm->vehicles ) {
+                            veh->sm_pos = dest_pos.raw();
+                        }
 
-                    if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
-                        here.spawn_monsters( true );
+                        if( !destsm->spawns.empty() ) {                             // trigger spawnpoints
+                            here.spawn_monsters( true );
+                        }
                     }
                 }
             }
@@ -1960,11 +1960,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             // Since we cleared the vehicle cache of the whole z-level (not just the generate map), we add it back here
             for( int x = 0; x < here.getmapsize(); x++ ) {
                 for( int y = 0; y < here.getmapsize(); y++ ) {
-                    const tripoint dest_pos = tripoint( x, y, target.z() );
+                    const tripoint_rel_sm dest_pos = tripoint_rel_sm( x, y, target.z() );
                     const submap *destsm = here.get_submap_at_grid( dest_pos );
                     if( destsm == nullptr ) {
-                        debugmsg( "Tried to update vehicle cache at (%d,%d,%d) but the submap is not loaded", dest_pos.x,
-                                  dest_pos.y, dest_pos.z );
+                        debugmsg( "Tried to update vehicle cache at (%d,%d,%d) but the submap is not loaded", dest_pos.x(),
+                                  dest_pos.y(), dest_pos.z() );
                         continue;
                     }
                     here.update_vehicle_list( destsm, target.z() ); // update real map's vcaches
@@ -2209,15 +2209,14 @@ void editmap::edit_mapgen()
 /*
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
-void editmap::cleartmpmap( tinymap &tmpmap ) const
+void editmap::cleartmpmap( smallmap &tmpmap ) const
 {
-    for( submap *&smap : tmpmap.grid ) {
-        delete smap;
-        smap = nullptr;
-    }
+    tmpmap.delete_unmerged_submaps();
 
-    level_cache &ch = tmpmap.get_cache( target.z() );
-    ch.clear_vehicle_cache();
-    ch.vehicle_list.clear();
-    ch.zone_vehicles.clear();
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        level_cache &ch = tmpmap.get_cache( z );
+        ch.clear_vehicle_cache();
+        ch.vehicle_list.clear();
+        ch.zone_vehicles.clear();
+    }
 }

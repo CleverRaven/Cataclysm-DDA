@@ -39,7 +39,7 @@
         "id": "smash",
         "attack_upper": true,
         "throw_strength": 30,
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       [ "BIO_OP_DISARM", 10 ]
@@ -53,7 +53,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS"
     ]
@@ -98,11 +98,15 @@
         "id": "smash",
         "attack_upper": true,
         "throw_strength": 50,
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       [ "BIO_OP_DISARM", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } },
+      {
+        "id": "bio_op_takedown",
+        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
       {
         "id": "psi_biokin2_hardened_skin",
         "type": "spell",
@@ -123,7 +127,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "STUN_IMMUNE"
@@ -170,12 +174,12 @@
         "id": "smash",
         "attack_upper": true,
         "throw_strength": 50,
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       {
         "type": "leap",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 5,
@@ -183,7 +187,11 @@
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
-      { "id": "bio_op_takedown", "cooldown": 15, "condition": { "not": { "u_has_effect": "effect_psi_null" } } },
+      {
+        "id": "bio_op_takedown",
+        "cooldown": { "math": [ "7 + rand(19)" ] },
+        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+      },
       {
         "id": "psi_biokin3_hardened_skin",
         "type": "spell",
@@ -204,7 +212,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_BREATHE",
@@ -240,7 +248,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 45,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -255,8 +263,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "GOODHEARING",
       "HARDTOSHOOT"
@@ -292,14 +299,14 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 50,
     "vision_night": 50,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "move_cost": 150,
         "gun_type": "feral_clair_thrown_rock",
         "ammo_type": "rock",
@@ -324,8 +331,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO",
       "WIELDED_WEAPON",
@@ -364,14 +370,14 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 55,
     "vision_night": 55,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_clair",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "move_cost": 150,
         "gun_type": "pattern_screamer_thrown_rock",
         "ammo_type": "rock",
@@ -388,7 +394,7 @@
         "id": "psi_pattern_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_shrieking_monster", "min_level": 3 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "Static fills your hearing for a moment, blotting out all other sounds!"
       }
@@ -403,8 +409,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO",
       "WIELDED_WEAPON",
@@ -453,7 +458,7 @@
         "id": "psi_electrokin_dazehit",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's touches %3$s with a jolt!"
       }
@@ -468,7 +473,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -513,7 +518,7 @@
         "id": "psi_electrokin2_dazehit",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "2 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's touches %3$s with a jolt!"
       },
@@ -521,7 +526,7 @@
         "id": "psi_electrokin2_lightning_bolt",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_lightning_bolt_monster", "min_level": 4 },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's unleashes a bolt of lightning!"
       },
@@ -529,7 +534,7 @@
         "id": "psi_electrokin2_paralyze",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_paralysis_monster", "min_level": 5 },
-        "cooldown": 30,
+        "cooldown": { "math": [ "15 + rand(38)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's waves a hand at %3$s and sparks crackle over their skin!"
       }
@@ -544,7 +549,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRIC"
     ]
@@ -590,7 +595,7 @@
         "id": "psi_electrokin3_dazehit",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 5 },
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's touches %3$s with a jolt!"
       },
@@ -598,7 +603,7 @@
         "id": "psi_electrokin3_lightning_bolt",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_lightning_blast_monster", "min_level": 8 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's unleashes a bolt of lightning!"
       },
@@ -606,7 +611,7 @@
         "id": "psi_electrokin3_paralyze",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_paralysis_monster", "min_level": 8 },
-        "cooldown": 25,
+        "cooldown": { "math": [ "12 + rand(32)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's waves a hand at %3$s and sparks crackle over their skin!"
       },
@@ -614,7 +619,7 @@
         "id": "psi_electrokin3_revive",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_revive_monster", "min_level": 5 },
-        "cooldown": 50,
+        "cooldown": { "math": [ "25 + rand(63)" ] },
         "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's gestures and lighting crackles around them!"
@@ -630,7 +635,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "ELECTRIC_FIELD"
     ]
@@ -675,7 +680,7 @@
         "id": "psi_photokin1_lightdodge",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 3 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
@@ -683,7 +688,7 @@
         "id": "psi_photokin1_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 2 },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       }
@@ -697,7 +702,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -743,7 +748,7 @@
         "id": "psi_photokin2_lightdodge",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 6 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
@@ -751,7 +756,7 @@
         "id": "psi_photokin2_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 5 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       },
@@ -759,7 +764,7 @@
         "id": "psi_photokin2_lightflash",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 4 },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
       },
@@ -767,7 +772,7 @@
         "id": "psi_photokin2_radiation_blast",
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 7 },
-        "cooldown": 25,
+        "cooldown": { "math": [ "12 + rand(32)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s and %3$s is enveloped in an eerie glow!"
       }
@@ -781,7 +786,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PHOTOKIN_MONSTER_IMMUNE"
     ]
@@ -833,7 +838,7 @@
         "id": "psi_photokin3_lightdodge",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 7 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
@@ -841,7 +846,7 @@
         "id": "psi_photokin3_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 6 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s fires a photon beam!"
       },
@@ -849,7 +854,7 @@
         "id": "psi_photokin3_lightflash",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 6 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
       },
@@ -857,7 +862,7 @@
         "id": "psi_photokin3_radiation_blast",
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
       }
@@ -871,7 +876,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "PHOTOKIN_MONSTER_IMMUNE"
     ]
@@ -917,7 +922,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_fountain_of_flames",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 80,
         "damage_max_instance": [ { "damage_type": "heat", "amount": 20 } ],
         "dodgeable": true,
@@ -935,7 +940,7 @@
         "id": "psi_pyrokin1_flashbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 1 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       }
@@ -949,7 +954,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREPROOF"
     ]
@@ -999,7 +1004,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_fountain_of_flames",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 80,
         "range": 2,
         "damage_max_instance": [ { "damage_type": "heat", "amount": 25 } ],
@@ -1018,7 +1023,7 @@
         "id": "psi_pyrokin2_flashbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 4 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       },
@@ -1026,7 +1031,7 @@
         "id": "psi_pyrokin2_flamebomb",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 4 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s gestures and summons a conflagration!"
       }
@@ -1040,7 +1045,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREY"
     ]
@@ -1095,7 +1100,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_fountain_of_flames",
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "move_cost": 80,
         "range": 3,
         "damage_max_instance": [ { "damage_type": "heat", "amount": 35 } ],
@@ -1114,7 +1119,7 @@
         "id": "psi_pyrokin3_flashbang",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 5 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       },
@@ -1122,7 +1127,7 @@
         "id": "psi_pyrokin3_flamebomb",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 6 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s gestures and summons a conflagration!"
       }
@@ -1136,7 +1141,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FIREY"
     ]
@@ -1186,13 +1191,13 @@
         "id": "psi_telekin1_telegrab",
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
         "type": "gun",
-        "cooldown": 5,
+        "cooldown": { "math": [ "2 + rand(7)" ] },
         "move_cost": 50,
         "gun_type": "feral_human_thrown_rock",
         "ammo_type": "rock",
@@ -1207,7 +1212,7 @@
       {
         "id": "smash",
         "move_cost": 80,
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 15, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 6,
@@ -1226,7 +1231,7 @@
         "id": "psi_telekin1_momentum_alteration",
         "type": "spell",
         "spell_data": { "id": "telekinetic_momentum_monster" },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": {
           "and": [
             { "not": { "u_has_effect": "effect_psi_null" } },
@@ -1246,7 +1251,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "PUSH_VEH",
@@ -1295,7 +1300,7 @@
         "id": "psi_telekin2_telegrab",
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
@@ -1303,7 +1308,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_telekinetic_mindhammer",
-        "cooldown": 12,
+        "cooldown": { "math": [ "6 + rand(15)" ] },
         "move_cost": 80,
         "range": 8,
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20 } ],
@@ -1321,7 +1326,7 @@
       {
         "id": "smash",
         "move_cost": 80,
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
@@ -1369,7 +1374,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "FLIES",
@@ -1408,7 +1413,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1422,7 +1427,7 @@
         "id": "psi_telepath1_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
@@ -1430,7 +1435,7 @@
         "id": "psi_telepath1_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 1 },
-        "cooldown": 18,
+        "cooldown": { "math": [ "9 + rand(23)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       }
@@ -1444,8 +1449,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -1477,7 +1481,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1492,7 +1496,7 @@
         "id": "psi_telepath2_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
-        "cooldown": 16,
+        "cooldown": { "math": [ "8 + rand(20)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
@@ -1500,7 +1504,7 @@
         "id": "psi_telepath2_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       },
@@ -1508,7 +1512,7 @@
         "id": "psi_telepath2_horror",
         "type": "spell",
         "spell_data": { "id": "telepathic_horror_monster", "min_level": 4 },
-        "cooldown": 25,
+        "cooldown": { "math": [ "12 + rand(32)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       }
@@ -1522,8 +1526,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
     ]
@@ -1556,7 +1559,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_teep",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1571,7 +1574,7 @@
         "id": "psi_telepath3_scream",
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
@@ -1579,7 +1582,7 @@
         "id": "psi_telepath3_blast",
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 5 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s!"
       },
@@ -1588,7 +1591,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_horror_aoe_monster", "min_level": 15 },
         "allow_no_target": true,
-        "cooldown": 25,
+        "cooldown": { "math": [ "12 + rand(32)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s eyes suddenly go wide!"
       },
@@ -1596,7 +1599,7 @@
         "id": "psi_telepath3_freeze",
         "type": "spell",
         "spell_data": { "id": "telepathic_primal_fear_monster", "min_level": 5 },
-        "cooldown": 35,
+        "cooldown": { "math": [ "17 + rand(44)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
       }
@@ -1610,8 +1613,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "TEEP_IMMUNE"
     ]
@@ -1644,7 +1646,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1654,13 +1656,13 @@
         "id": "psi_teleport1_slow",
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 2 },
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s looks at %3$s and the world lurches."
       },
       {
         "type": "leap",
-        "cooldown": 8,
+        "cooldown": { "math": [ "4 + rand(10)" ] },
         "allow_no_target": true,
         "max_range": 8,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
@@ -1676,8 +1678,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1712,7 +1713,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "zombify_into": "mon_zombie_survivor",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -1722,7 +1723,7 @@
         "id": "psi_teleport2_slow",
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 4 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
@@ -1731,7 +1732,7 @@
         "attack_type": "melee",
         "id": "teleport_touch",
         "move_cost": 80,
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "accuracy": 5,
         "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
         "blockable": false,
@@ -1743,7 +1744,7 @@
       },
       {
         "type": "leap",
-        "cooldown": 2,
+        "cooldown": { "math": [ "1 + rand(2)" ] },
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 12,
@@ -1760,8 +1761,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1797,7 +1797,7 @@
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
-    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
     "death_drops": "feral_humans_death_drops_porter",
     "death_function": {
       "effect": { "id": "teleport_summon_monster", "hit_self": true },
@@ -1813,7 +1813,7 @@
         "attack_type": "melee",
         "id": "teleport_touch",
         "move_cost": 65,
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
         "blockable": false,
@@ -1827,7 +1827,7 @@
         "id": "psi_teleport3_slow",
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
-        "cooldown": 10,
+        "cooldown": { "math": [ "5 + rand(13)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
@@ -1835,7 +1835,7 @@
         "id": "psi_teleport3_instability",
         "type": "spell",
         "spell_data": { "id": "teleport_blink_attack_monster", "min_level": 4 },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s touches %3$s and the world around %3$s wavers."
       },
@@ -1858,8 +1858,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
-      "PATH_AVOID_FIRE",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "CLIMBS",
       "HARDTOSHOOT",
@@ -1911,7 +1910,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_vitakinetic_weakness",
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "move_cost": 60,
         "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
         "dodgeable": true,
@@ -1935,7 +1934,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG"
@@ -1984,7 +1983,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_vitakinetic_laceration",
-        "cooldown": 12,
+        "cooldown": { "math": [ "6 + rand(15)" ] },
         "move_cost": 60,
         "damage_max_instance": [ { "damage_type": "biological", "amount": 15 } ],
         "effects": [
@@ -2005,7 +2004,7 @@
         "type": "monster_attack",
         "attack_type": "melee",
         "id": "mon_vitakinetic_weakness_2",
-        "cooldown": 15,
+        "cooldown": { "math": [ "7 + rand(19)" ] },
         "move_cost": 60,
         "damage_max_instance": [ { "damage_type": "biological", "amount": 0 } ],
         "dodgeable": true,
@@ -2023,7 +2022,7 @@
         "id": "psi_vitakin2_regeneration",
         "type": "spell",
         "spell_data": { "id": "vitakinetic_regeneration_monster" },
-        "cooldown": 20,
+        "cooldown": { "math": [ "10 + rand(25)" ] },
         "allow_no_target": true,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
@@ -2038,7 +2037,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PRIORITIZE_TARGETS",
       "NO_FUNG_DMG"

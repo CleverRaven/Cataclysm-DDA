@@ -128,6 +128,16 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
 
+static const morale_type morale_feeling_bad( "morale_feeling_bad" );
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
+static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
+static const morale_type morale_moodswing( "morale_moodswing" );
+static const morale_type morale_pyromania_nearfire( "morale_pyromania_nearfire" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+static const morale_type morale_wet( "morale_wet" );
+
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
@@ -304,7 +314,7 @@ void suffer::while_underwater( Character &you )
         }
     }
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
-        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
+        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos_bub() ) &&
         you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
@@ -442,10 +452,10 @@ void suffer::while_awake( Character &you, const int current_stim )
     if( you.has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
         if( rng( 1, 20 ) > 9 ) {
             // 55% chance
-            you.add_morale( MORALE_MOODSWING, -20, -100 );
+            you.add_morale( morale_moodswing, -20, -100 );
         } else {
             // 45% chance
-            you.add_morale( MORALE_MOODSWING, 20, 100 );
+            you.add_morale( morale_moodswing, 20, 100 );
         }
     }
 
@@ -512,9 +522,9 @@ void suffer::from_chemimbalance( Character &you )
     }
     if( one_turn_in( 8_hours ) ) {
         if( one_in( 3 ) ) {
-            you.add_morale( MORALE_FEELING_GOOD, 20, 100 );
+            you.add_morale( morale_feeling_good, 20, 100 );
         } else {
-            you.add_morale( MORALE_FEELING_BAD, -20, -100 );
+            you.add_morale( morale_feeling_bad, -20, -100 );
         }
     }
     if( one_turn_in( 6_hours ) ) {
@@ -993,7 +1003,7 @@ void suffer::from_item_dropping( Character &you )
 void suffer::from_other_mutations( Character &you )
 {
     map &here = get_map();
-    const tripoint position = you.pos();
+    const tripoint_bub_ms position = you.pos_bub();
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
         here.spawn_item( position, "bone", 1 );
@@ -1064,20 +1074,20 @@ void suffer::from_other_mutations( Character &you )
         you.mutate();
     }
 
-    const bool needs_fire = !you.has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
-                            !you.has_morale( MORALE_PYROMANIA_STARTFIRE );
+    const bool needs_fire = !you.has_morale( morale_pyromania_nearfire ) &&
+                            !you.has_morale( morale_pyromania_startfire );
     if( you.has_trait( trait_PYROMANIA ) && needs_fire && !you.in_sleep_state() &&
         calendar::once_every( 2_hours ) ) {
-        you.add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
+        you.add_morale( morale_pyromania_nofire, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
             const translation smokin_hot_fiyah =
                 SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
             you.add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
         }
     }
-    if( you.has_trait( trait_KILLER ) && !you.has_morale( MORALE_KILLER_HAS_KILLED ) &&
+    if( you.has_trait( trait_KILLER ) && !you.has_morale( morale_killer_has_killed ) &&
         calendar::once_every( 2_hours ) ) {
-        you.add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
+        you.add_morale( morale_killer_need_to_kill, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
             const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
                                          translation() );
@@ -1091,7 +1101,7 @@ void suffer::from_radiation( Character &you )
     map &here = get_map();
     // get radioactive leak level of your inventory
     float item_radiation = you.get_leak_level();
-    const int map_radiation = here.get_radiation( you.pos() );
+    const int map_radiation = here.get_radiation( you.pos_bub() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1122,7 +1132,7 @@ void suffer::from_radiation( Character &you )
         if( rad_mut_proc && !kept_in ) {
             // Irradiate a random nearby point
             // If you can't, irradiate the player instead
-            tripoint rad_point = you.pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            tripoint_bub_ms rad_point = you.pos_bub() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
             if( here.get_radiation( rad_point ) < rad_mut ) {
                 here.adjust_radiation( rad_point, 1 );
@@ -1160,7 +1170,7 @@ void suffer::from_radiation( Character &you )
         // 1000 rads = 900 / 10000 = 9 / 100 = 10% !!!
         // 2000 rads = 2000 / 10000 = 1 / 5 = 20% !!!
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < you.get_rad() ) {
-            you.mutate();
+            get_event_bus().send<event_type::character_radioactively_mutates>( you.getID() );
         }
         if( you.get_rad() > 50 && rng( 1, 3000 ) < you.get_rad() &&
             ( you.stomach.contains() > 0_ml || radiation_increasing || !you.in_sleep_state() ) ) {
@@ -1567,7 +1577,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
                                            _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
                 map &here = get_map();
-                here.add_field( you.pos(), fd_reality_tear, 1 );
+                here.add_field( you.pos(), fd_fatigue, 1 );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
@@ -2014,7 +2024,7 @@ void Character::apply_wetness_morale( units::temperature temperature )
         }
     }
     // 61_seconds because decay is applied in 1_minutes increments
-    add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
+    add_morale( morale_wet, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
 void Character::add_addiction( const addiction_id &type, int strength )

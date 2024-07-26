@@ -32,7 +32,7 @@
 #include "character_id.h"
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
@@ -579,6 +579,13 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        // Used to display pain penalties
+        int ppen_str;
+        int ppen_dex;
+        int ppen_int;
+        int ppen_per;
+        int ppen_spd;
+
         int kill_xp = 0;
         // Level-up points spent on Stats through Kills
         int spent_upgrade_points = 0;
@@ -589,7 +596,7 @@ class Character : public Creature, public visitable
         std::set<const profession *> hobbies;
 
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
-        tripoint grab_point;
+        tripoint_rel_ms grab_point;
 
         std::optional<city> starting_city;
         std::optional<point_abs_om> world_origin;
@@ -819,7 +826,7 @@ class Character : public Creature, public visitable
         void set_dodges_left( int dodges );
         void mod_dodges_left( int mod );
         void consume_dodge_attempts();
-        ret_val<void> can_try_doge( bool ignore_dodges_left = false ) const;
+        ret_val<void> can_try_dodge( bool ignore_dodges_left = false ) const;
 
         float get_stamina_dodge_modifier() const;
 
@@ -916,6 +923,7 @@ class Character : public Creature, public visitable
         static int thirst_speed_penalty( int thirst );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
+        stat_mod read_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
@@ -1438,9 +1446,6 @@ class Character : public Creature, public visitable
         void dismount();
         void forced_dismount();
 
-        /** Attempt to enter a tile in a vehicle */
-        bool move_in_vehicle( Creature *c, const tripoint &dest_loc ) const;
-
         bool is_deaf() const;
         bool is_mute() const;
         // Get the specified limb score. If bp is defined, only the scores from that body part type are summed.
@@ -1500,7 +1505,7 @@ class Character : public Creature, public visitable
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
-        /** used for profession spawning and save migration for nested containers. remove after 0.F */
+        // TODO: Remove remaining calls to insert into the raw inventory and remove functions where appropriate so this can be removed
         void migrate_items_to_storage( bool disintegrate );
 
         /**
@@ -1893,6 +1898,10 @@ class Character : public Creature, public visitable
         bool enough_power_for( const bionic_id &bid ) const;
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info( bool customize_character = false );
+        /** Provides the window and detailed morale data */
+        void disp_morale();
+        /** Opens the medical window */
+        void disp_medical();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -1918,6 +1927,8 @@ class Character : public Creature, public visitable
         bool is_worn_module( const item &thing ) const {
             return worn.is_worn_module( thing );
         }
+
+        bool has_worn_module_with_flag( const flag_id &f );
         /**
          * Asks how to use the item (if it has more than one use_method) and uses it.
          * Returns true if it destroys the item. Consumes charges from the item.
@@ -2220,6 +2231,11 @@ class Character : public Creature, public visitable
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
         std::vector<const item *> inv_dump() const;
+
+        // TODO: Cache this like weight carried?
+        units::volume get_total_volume() const;
+        units::volume get_base_volume() const;
+
         units::mass weight_carried() const;
         units::volume volume_carried() const;
 
@@ -2449,7 +2465,7 @@ class Character : public Creature, public visitable
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
-        void set_skills_from_hobbies();
+        void set_skills_from_hobbies( bool no_override = false );
 
         void set_bionics_from_hobbies();
 
@@ -2458,7 +2474,8 @@ class Character : public Creature, public visitable
         float get_proficiency_practice( const proficiency_id &prof ) const;
         time_duration get_proficiency_practiced_time( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
-        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
+        void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false,
+                              bool recursive = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const std::optional<time_duration> &max = std::nullopt );
@@ -2601,8 +2618,8 @@ class Character : public Creature, public visitable
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
 
-        /** Returns true if the player has some form of night vision */
-        bool has_nv();
+        /** Returns true if the player has some form of night vision with green overlay */
+        bool has_nv_goggles();
 
         int get_lift_assist() const;
 
@@ -2996,6 +3013,7 @@ class Character : public Creature, public visitable
         float get_bmi() const;
         float get_bmi_fat() const;
         float get_bmi_lean() const;
+        bool has_calorie_deficit() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
@@ -3134,7 +3152,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun );
+        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
@@ -3247,7 +3265,7 @@ class Character : public Creature, public visitable
         int run_cost( int base_cost, bool diag = false ) const;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
         /**
          * Get all hostile creatures currently visible to this player.
          */
@@ -3398,7 +3416,7 @@ class Character : public Creature, public visitable
             const itype_id &,
             std::map<recipe_id, std::pair<nutrients, nutrients>> &rec_cache,
             const cata::flat_set<flag_id> &extra_flags = {} ) const;
-        /** Returns allergy type or MORALE_NULL if not allergic for this character */
+        /** Returns allergy type or morale_type::NULL_ID() if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
         /** Returns true if the character is wearing something on the entered body part. Ignores INTEGRATED */
@@ -3511,7 +3529,7 @@ class Character : public Creature, public visitable
         /**
           * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
           */
-        recipe_subset get_group_available_recipes() const;
+        recipe_subset &get_group_available_recipes() const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
@@ -3738,7 +3756,9 @@ class Character : public Creature, public visitable
         using trap_map = std::map<tripoint, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
+        // TODO: Get rid of untyped overload.
         bool knows_trap( const tripoint &pos ) const;
+        bool knows_trap( const tripoint_bub_ms &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
 
         // see Creature::sees
@@ -4117,6 +4137,11 @@ class Character : public Creature, public visitable
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchant_cache> enchantment_cache;
+
+    private:
+        /* cached recipes, which are invalidated if the turn changes */
+        mutable time_point cached_recipe_turn;
+        pimpl<recipe_subset> cached_recipe_subset;
 };
 
 Character &get_player_character();

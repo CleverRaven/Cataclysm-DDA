@@ -100,7 +100,7 @@ static const std::array<std::string, 8> multitile_keys = {{
 };
 
 static const std::string empty_string;
-static const std::array<std::string, 15> TILE_CATEGORY_IDS = {{
+static const std::array<std::string, 16> TILE_CATEGORY_IDS = {{
         "", // TILE_CATEGORY::NONE,
         "vehicle_part", // TILE_CATEGORY::VEHICLE_PART,
         "terrain", // TILE_CATEGORY::TERRAIN,
@@ -114,6 +114,7 @@ static const std::array<std::string, 15> TILE_CATEGORY_IDS = {{
         "hit_entity", // TILE_CATEGORY::HIT_ENTITY,
         "weather", // TILE_CATEGORY::WEATHER,
         "overmap_terrain", // TILE_CATEGORY::OVERMAP_TERRAIN
+        "overmap_weather", // TILE_CATEGORY::OVERMAP_WEATHER
         "map_extra", // TILE_CATEGORY::MAP_EXTRA
         "overmap_note", // TILE_CATEGORY::OVERMAP_NOTE
     }
@@ -2365,6 +2366,9 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             if( auto ret = find_tile_looks_like( looks_like, category, variant, lljl ) ) {
                 return ret;
             }
+            if( auto ret = find_tile_looks_like( looks_like, TILE_CATEGORY::FURNITURE, variant, lljl ) ) {
+                return ret;
+            }
             return std::nullopt;
         }
 
@@ -2482,7 +2486,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         } else if( prevent_occlusion == 1 ) {
             retract = 100;
         } else {
-            const float distance = o.distance( pos.xy() );
+            const float distance = is_isometric() ? o.distance( pos.xy() ) :
+                                   point( static_cast<int>( o.x + ( screentile_width / 2.0f ) ),
+                                          static_cast<int>( o.y - 1 + ( screentile_height / 2.0f ) ) ).distance( pos.xy() );
             const float d_min = prevent_occlusion_min_dist > 0.0 ? prevent_occlusion_min_dist :
                                 tileset_ptr->get_prevent_occlusion_min_dist();
             const float d_max = prevent_occlusion_max_dist > 0.0 ? prevent_occlusion_max_dist :
@@ -2491,7 +2497,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             const float d_range = d_max - d_min;
             const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
 
-            retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
+            retract = static_cast<int>( 100.0 * ( 1.0 - std::clamp( ( distance - d_min ) * d_slope, 0.0f,
+                                                  1.0f ) ) );
         }
 
         if( prevent_occlusion_transp && retract > 0 ) {
@@ -2601,10 +2608,19 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             }
             sym = static_cast<uint8_t>( tmp.symbol().empty() ? ' ' : tmp.symbol().front() );
             col = tmp.color();
+        } else if( category == TILE_CATEGORY::OVERMAP_WEATHER ) {
+            const weather_type_id weather_def( id );
+            if( weather_def.is_valid() ) {
+                sym = weather_def->symbol;
+                col = weather_def->map_color;
+            }
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
             if( tmp.is_valid() ) {
                 if( !tmp->is_linear() ) {
+                    // if rota is for a omt with connections, it can be outside the bounds of
+                    // om_direction::type. We can't do anything about that now, so just stay inbounds
+                    rota %= om_direction::size;
                     sym = tmp->get_rotated( static_cast<om_direction::type>( rota ) )->get_uint32_symbol();
                 } else {
                     sym = tmp->symbol;
@@ -2783,6 +2799,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             }
         }
         break;
+        case TILE_CATEGORY::OVERMAP_WEATHER:
         case TILE_CATEGORY::OVERMAP_TERRAIN:
         case TILE_CATEGORY::MAP_EXTRA:
             seed = simple_point_hash( pos );
@@ -3349,7 +3366,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         }
         const std::string &fname = f.id().str();
         if( !( you.get_grab_type() == object_type::FURNITURE
-               && p == you.pos() + you.grab_point )
+               && tripoint_bub_ms( p ) == you.pos_bub() + you.grab_point )
             && here.memory_cache_dec_is_dirty( p ) ) {
             you.memorize_decoration( here.getglobal( p ), fname, subtile, rotation );
         }
@@ -3894,7 +3911,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             avatar &you = get_avatar();
             if( !veh.forward_velocity() && !veh.player_in_control( you )
                 && !( you.get_grab_type() == object_type::VEHICLE
-                      && veh.get_points().count( you.pos() + you.grab_point ) )
+                      && veh.get_points().count( ( you.pos_bub() + you.grab_point ).raw() ) )
                 && here.memory_cache_dec_is_dirty( p ) ) {
                 you.memorize_decoration( here.getglobal( p ), vd.get_tileset_id(), subtile, rotation );
             }
@@ -5345,7 +5362,15 @@ void cata_tiles::do_tile_loading_report()
 
     // TODO: BULLET
     // TODO: HIT_ENTITY
-    // TODO: WEATHER
+    std::vector<std::string> weather_overlays;
+    for( const weather_type &weather : weather_types::get_all() ) {
+        weather_overlays.emplace_back( weather.tiles_animation );
+    }
+    std::sort( weather_overlays.begin(), weather_overlays.end() );
+    weather_overlays.erase( std::unique( weather_overlays.begin(), weather_overlays.end() ),
+                            weather_overlays.end() );
+    tile_loading_report_seq_ids( weather_overlays, TILE_CATEGORY::WEATHER );
+    tile_loading_report_seq_types( weather_types::get_all(), TILE_CATEGORY::OVERMAP_WEATHER );
 
     std::vector<oter_type_str_id> oter_types;
     for( const oter_t &oter : overmap_terrains::get_all() ) {
@@ -5365,7 +5390,7 @@ void cata_tiles::do_tile_loading_report()
 
     // TODO: OVERMAP_NOTE
 
-    static_assert( static_cast<int>( TILE_CATEGORY::last ) == 15,
+    static_assert( static_cast<int>( TILE_CATEGORY::last ) == 16,
                    "If you add more tile categories then update this tile loading report and then "
                    "increment the value in this static_assert accordingly" );
 

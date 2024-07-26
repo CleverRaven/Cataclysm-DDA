@@ -156,6 +156,23 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_6x6_roof",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "RRRRRR",
+        "RRRRRR",
+        "RRRRRR",
+        "RRRRRR",
+        "RRRRRR",
+        "RRRRRR"
+      ],
+      "terrain": { "R": "t_metal_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "nest_exodii_crash_building_big_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -169,7 +186,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_6x6_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -188,7 +206,25 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_6x6_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_oval_roof",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " RRRR ",
+        "RRRRRR",
+        "RRRRRR",
+        "RRRRRR",
+        "RRRRRR",
+        " RRRR "
+      ],
+      "terrain": { "R": "t_metal_roof" }
     }
   },
   {
@@ -207,7 +243,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_oval_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -226,7 +263,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100, "repeat": [ 1, 2 ] } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100, "repeat": [ 1, 2 ] } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_6x6_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -244,7 +282,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_6x6_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -262,7 +301,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_6x6_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -280,7 +320,22 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_oval_roof" ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nest_exodii_crash_3x3_roof",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "RRR",
+        "RRR",
+        "RRR"
+      ],
+      "terrain": { "R": "t_metal_roof" }
     }
   },
   {
@@ -296,7 +351,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -312,7 +368,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
-      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
+      "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] },
+      "place_nested": [ { "chunks": [ "nest_exodii_crash_3x3_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

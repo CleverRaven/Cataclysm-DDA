@@ -92,7 +92,12 @@
     "id": "silverware",
     "type": "item_group",
     "//": "Forks, spoons, knives, etc.",
-    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+    "items": [
+      [ "knife_butter", 30 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 10 },
+      [ "fork", 30 ],
+      [ "spoon", 30 ]
+    ]
   },
   {
     "id": "used_toy_box",
@@ -347,5 +352,10 @@
     "type": "item_group",
     "id": "armor_riot_leg",
     "items": [ [ "armor_riot_leg", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "butterfly_net_any",
+    "items": [ { "item": "butterfly_net_collapsible", "prob": 4 }, { "item": "butterfly_net_makeshift", "prob": 6 } ]
   }
 ]

@@ -124,6 +124,31 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
   },
   {
+    "id": "srm_1216_mag_16",
+    "type": "MAGAZINE",
+    "name": { "str": "16-round rotary shotgun magazine" },
+    "description": "A 16-round magazine for a rotary magazine-fed shotgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "srm_1216_mag_16",
+        "name": { "str": "SRM Arms Model 1216 16-round magazine" },
+        "description": "A 16-round rotary magazine for that strangest of beasts, the SRM Arms Model 1216 shotgun."
+      }
+    ],
+    "weight": "453 g",
+    "volume": "3670 ml",
+    "longest_side": "355 mm",
+    "price": "200 USD",
+    "price_postapoc": "6 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 16 } } ]
+  },
+  {
     "id": "m26_mass_mag_3",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "type": "MAGAZINE",
@@ -160,5 +185,100 @@
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+  },
+  {
+    "id": "mossberg_590m_mag_5",
+    "copy-from": "mossberg_590m_mag_10",
+    "type": "MAGAZINE",
+    "name": { "str": "magazine-fed pump shotgun 5-round magazine" },
+    "description": "A small 5-round box magazine for the magazine-fed pump shotgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590m_mag_5",
+        "name": { "str": "Mossberg 590M 5-round magazine" },
+        "description": "A small 5-round box magazine for the Mossberg 590M shotgun."
+      }
+    ],
+    "weight": "445 g",
+    "volume": "770 ml",
+    "longest_side": "136 mm",
+    "price": "88 USD",
+    "price_postapoc": "4 USD",
+    "symbol": "#",
+    "color": "dark_gray",
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
+  },
+  {
+    "id": "mossberg_590m_mag_10",
+    "type": "MAGAZINE",
+    "name": { "str": "magazine-fed pump shotgun 10-round magazine" },
+    "description": "A 10-round box magazine for the magazine-fed pump shotgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590m_mag_10",
+        "name": { "str": "Mossberg 590M 10-round magazine" },
+        "description": "A 10-round box magazine for the Mossberg 590M shotgun."
+      }
+    ],
+    "weight": "607 g",
+    "volume": "1147 ml",
+    "longest_side": "203 mm",
+    "price": "99 USD",
+    "price_postapoc": "6 USD",
+    "material": [ "lc_steel" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
+  },
+  {
+    "id": "mossberg_590m_mag_15",
+    "copy-from": "mossberg_590m_mag_10",
+    "type": "MAGAZINE",
+    "name": { "str": "magazine-fed pump shotgun 15-round magazine" },
+    "description": "A 15-round box magazine for the magazine-fed pump shotgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590m_mag_15",
+        "name": { "str": "Mossberg 590M 15-round magazine" },
+        "description": "A 15-round box magazine for the Mossberg 590M shotgun."
+      }
+    ],
+    "weight": "740 g",
+    "volume": "1487 ml",
+    "longest_side": "263 mm",
+    "price": "116 USD",
+    "price_postapoc": "4 USD",
+    "symbol": "#",
+    "color": "dark_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 15 } } ]
+  },
+  {
+    "id": "mossberg_590m_mag_20",
+    "copy-from": "mossberg_590m_mag_10",
+    "type": "MAGAZINE",
+    "name": { "str": "magazine-fed pump shotgun 20-round magazine" },
+    "description": "A 20-round box magazine for the magazine-fed pump shotgun.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mossberg_590m_mag_20",
+        "name": { "str": "Mossberg 590M 20-round magazine" },
+        "description": "A 20-round box magazine for the Mossberg 590M shotgun."
+      }
+    ],
+    "weight": "817 g",
+    "volume": "1810 ml",
+    "longest_side": "320 mm",
+    "price": "126 USD",
+    "price_postapoc": "3 USD",
+    "symbol": "#",
+    "color": "dark_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   }
 ]

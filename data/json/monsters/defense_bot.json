@@ -48,7 +48,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
@@ -104,7 +104,7 @@
       "ELECTRONIC",
       "COLDPROOF",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
@@ -150,7 +150,7 @@
       "message": "Loud rock music blares as the %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "STUN_IMMUNE" ],
     "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
@@ -202,7 +202,7 @@
       "message": "Loud rock music blares as the %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "STUN_IMMUNE" ],
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "STUN_IMMUNE" ],
     "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
@@ -230,7 +230,7 @@
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "STUN_IMMUNE" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "STUN_IMMUNE" ],
     "armor": { "bash": 12, "cut": 12, "bullet": 10, "electric": 5 }
   },
   {
@@ -272,7 +272,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO",
       "STUN_IMMUNE"
     ],
@@ -312,7 +312,7 @@
       "GOODHEARING",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE"
     ],
@@ -355,7 +355,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"
@@ -399,7 +399,7 @@
       "COLDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "DROPS_AMMO",
       "STUN_IMMUNE"

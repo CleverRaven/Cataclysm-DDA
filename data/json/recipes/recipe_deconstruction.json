@@ -2016,11 +2016,11 @@
   {
     "result": "cable",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "8 s",
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
     "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "copper_wire", 1 ] ] ]
   },
   {
     "result": "camera",
@@ -2197,7 +2197,9 @@
     "result": "crown_golden_survivor",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "crown_golden"
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 200 ] ] ]
   },
   {
     "result": "cu_pipe",
@@ -3068,7 +3070,7 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_bread",
+    "result": "knife_large",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
@@ -3076,26 +3078,10 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_butcher",
+    "result": "knife_huge",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "spike", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "knife_carving",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "spike", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_chef",
-    "time": "5 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "spike", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -3108,7 +3094,7 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_meat_cleaver",
+    "result": "knife_cleaver",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "blade", 1 ], [ "scrap", 10 ] ] ]
@@ -3116,27 +3102,10 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_paring",
+    "result": "knife_small",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
-  },
-  {
-    "result": "knife_steak",
-    "type": "uncraft",
-    "time": "3 m",
-    "//": "Another odd one",
-    "activity_level": "MODERATE_EXERCISE",
-    "components": [ [ [ "spike", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_vegetable_cleaver",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "laptop",
@@ -5670,6 +5639,123 @@
     "components": [ [ [ "diamond", 1 ] ] ]
   },
   {
+    "result": "gold_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "bat_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_6", 1 ] ] ]
+  },
+  {
+    "result": "flower_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 s",
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_6", 1 ] ] ]
+  },
+  {
+    "result": "woven_anklet",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 s",
+    "components": [ [ [ "string_6", 8 ] ] ]
+  },
+  {
+    "result": "gold_lip_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_lip_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_lip_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_lip_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_nose_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_nose_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_nose_ring_loop",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "silver_nose_ring_stud",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
+    "result": "gold_toe_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 2 ] ] ]
+  },
+  {
+    "result": "silver_toe_ring",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 2 ] ] ]
+  },
+  {
     "result": "razor_shaving",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -6211,14 +6297,6 @@
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
-    "result": "sneakers",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "3 m",
-    "components": [ [ [ "sole_rubber", 1 ] ], [ [ "cotton_patchwork", 8 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ]
-  },
-  {
     "result": "hat_boonie",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -6427,14 +6505,6 @@
     "time": "25 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_nylon", 15 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
-  },
-  {
-    "result": "blazer",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "felt_patch", 150 ] ], [ [ "button_plastic", 2 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "office_holepunch",

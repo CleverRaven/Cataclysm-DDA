@@ -307,7 +307,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -869,7 +870,16 @@
         ]
       }
     ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
+    "flags": [
+      "ETHEREAL",
+      "INVISIBLE",
+      "FEATHER_FALL",
+      "CLIMB_NO_LADDER",
+      "LEVITATION",
+      "ITEM_WATERPROOFING",
+      "WALK_UNDERWATER",
+      "NO_PSIONICS"
+    ]
   },
   {
     "type": "effect_type",
@@ -1321,7 +1331,8 @@
     "max_intensity": 77,
     "dur_add_perc": 10,
     "int_dur_factor": "46 s",
-    "enchantments": [ "enchant_pyrokin_cloak" ]
+    "enchantments": [ "enchant_pyrokin_cloak" ],
+    "flags": [ "BARKY" ]
   },
   {
     "type": "effect_type",
@@ -1357,6 +1368,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 95,
+    "blocks_effects": [ "blisters" ],
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
     "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
@@ -1423,7 +1435,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",
@@ -1546,7 +1559,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 34,
-    "flags": [ "LEVITATION" ]
+    "flags": [ "LEVITATION", "ITEM_WATERPROOFING", "WATERWALKING" ]
   },
   {
     "type": "effect_type",
@@ -1635,9 +1648,16 @@
       "You are editing out your most negative thoughts.  When you think about it, is the Cataclysm really the worst thing that could have happened?"
     ],
     "apply_message": "",
-    "remove_message": "",
+    "remove_message": "You let your thoughts return to their normal flow.",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_mood_stabilization_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1798,7 +1818,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",

@@ -764,16 +764,16 @@
     "id": "XS_holster",
     "type": "ARMOR",
     "copy-from": "holster",
-    "name": { "str": "XS holster" },
+    "name": { "str": "holster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
+    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PREFIX_XS", "PALS_MEDIUM" ]
   },
   {
     "id": "XS_nylon_holster",
     "type": "ARMOR",
     "copy-from": "nylon_holster",
-    "name": { "str": "XS nylon holster" },
+    "name": { "str": "nylon holster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
+    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PREFIX_XS", "PALS_MEDIUM" ]
   }
 ]

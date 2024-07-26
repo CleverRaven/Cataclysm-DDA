@@ -56,7 +56,36 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l",
+          "foot_sole_r",
+          "foot_sole_l"
+        ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "encumbrance": 35,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "steel", "covered_by_mat": 50, "thickness": 2.5 }
+        ],
+        "coverage": 100
+      }
+    ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -85,8 +114,7 @@
     "volume": "1 L",
     "price": "180 USD",
     "price_postapoc": "30 USD",
-    "to_hit": 2,
-    "material": [ "kevlar_layered", "steel" ],
+    "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
@@ -94,7 +122,42 @@
     "material_thickness": 4,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 50, "thickness": 2.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [ { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 } ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "steel", "covered_by_mat": 90, "thickness": 2.0 }
+        ]
+      }
+    ]
   },
   {
     "id": "xl_gloves_hsurvivor",
@@ -122,7 +185,6 @@
     "volume": "1 L",
     "price": "180 USD",
     "price_postapoc": "25 USD",
-    "to_hit": 2,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -169,7 +231,7 @@
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xl_hood_fsurvivor",

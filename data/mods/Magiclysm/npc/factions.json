@@ -8,7 +8,8 @@
     "known_by_u": false,
     "size": 5,
     "power": 100,
-    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } },
     "wealth": 100000,
     "currency": "embued_coin",
     "relations": {
@@ -69,7 +70,8 @@
     "known_by_u": false,
     "size": 50,
     "power": 50,
-    "fac_food_supply": { "calories": 11520, "vitamins": {  } },
+    "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } },
     "wealth": 1000,
     "relations": {
       "lobby_beggars": {
@@ -130,7 +132,8 @@
     "known_by_u": false,
     "size": 5,
     "power": 100,
-    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "//": "90 days worth of food for 10 people, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
     "wealth": 75000000,
     "currency": "denarius",
     "relations": {

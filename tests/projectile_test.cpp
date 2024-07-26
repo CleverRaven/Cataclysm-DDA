@@ -50,7 +50,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     creature_tracker &creatures = get_creature_tracker();
 
     // Move the player out of the way of the test area
-    get_player_character().setpos( { 2, 2, 0 } );
+    get_player_character().setpos( tripoint_bub_ms{ 2, 2, 0 } );
 
     // Ensure that a projectile fired from a gun can pass through a chain link fence
     // First, set up a test area - three tiles in a row

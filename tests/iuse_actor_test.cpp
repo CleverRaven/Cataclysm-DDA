@@ -136,7 +136,7 @@ static void cut_up_yields( const std::string &target )
     CAPTURE( target );
     salvage_actor test_actor;
     item cut_up_target{ target };
-    item tool{ "knife_butcher" };
+    item tool{ "knife_huge" };
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
@@ -150,14 +150,14 @@ static void cut_up_yields( const std::string &target )
     REQUIRE( smallest_yield_mass != units::mass_max );
 
     units::mass cut_up_target_mass = cut_up_target.weight();
-    item &spawned_item = here.add_item_or_charges( guy.pos(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    item &spawned_item = here.add_item_or_charges( guy.pos_bub(), cut_up_target );
+    item_location item_loc( map_cursor( guy.pos_bub() ), &spawned_item );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
     test_actor.try_to_cut_up( guy, tool, item_loc );
 
-    map_stack salvaged_items = here.i_at( guy.pos() );
+    map_stack salvaged_items = here.i_at( guy.pos_bub() );
     units::mass salvaged_mass = 0_gram;
     for( const item &salvage : salvaged_items ) {
         salvaged_mass += salvage.weight();

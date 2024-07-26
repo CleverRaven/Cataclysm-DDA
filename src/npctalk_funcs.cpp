@@ -24,6 +24,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -44,12 +45,12 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -99,6 +100,10 @@ static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const mission_type_id mission_MISSION_REACH_SAFETY( "MISSION_REACH_SAFETY" );
+
+static const morale_type morale_chat( "morale_chat" );
+static const morale_type morale_haircut( "morale_haircut" );
+static const morale_type morale_shave( "morale_shave" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
@@ -358,6 +363,9 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
+        if( !overmap_buffer.seen( elem ) ) {
+            continue;
+        }
         std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
@@ -366,7 +374,7 @@ void talk_function::goto_location( npc &p )
         camps.push_back( temp_camp );
     }
     for( const basecamp *iter : camps ) {
-        //~ %1$s: camp name, %2$d and %3$d: coordinates
+        //~ %1$s: camp name, %2$s: coordinates of the camp
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
@@ -398,6 +406,19 @@ void talk_function::goto_location( npc &p )
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
         add_msg( m_info, _( "That is not a valid destination for %s." ), p.disp_name() );
+        return;
+    }
+    g->follower_path_to_show = &p; // Necessary for overmap display in tiles version...
+    ui::omap::display_npc_path( p.global_omt_location(), p.omt_path );
+    g->follower_path_to_show = nullptr;
+    int tiles_to_travel = p.omt_path.size();
+    time_duration ETA = time_between_npc_OM_moves * tiles_to_travel;
+    ETA = ETA * rng_float( 0.8, 1.2 ); // Add +-20% variance in our estimate
+    if( !query_yn(
+            _( "Estimated time to arrival: %1$s  \nTiles to travel: %2$s  \nIs this path and destination acceptable?" ),
+            to_string_approx( ETA ), tiles_to_travel ) ) {
+        p.goal = npc::no_goal_point;
+        p.omt_path.clear();
         return;
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
@@ -489,7 +510,7 @@ void talk_function::wake_up( npc &p )
 
 void talk_function::reveal_stats( npc &p )
 {
-    p.disp_info();
+    p.disp_info( true );
 }
 
 void talk_function::end_conversation( npc &p )
@@ -785,7 +806,7 @@ void talk_function::barber_hair( npc &/*p*/ )
 void talk_function::buy_haircut( npc &p )
 {
     Character &player_character = get_player_character();
-    player_character.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
+    player_character.add_morale( morale_haircut, 5, 5, 720_minutes, 3_minutes );
     const int moves = to_moves<int>( 20_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
@@ -795,17 +816,11 @@ void talk_function::buy_haircut( npc &p )
 void talk_function::buy_shave( npc &p )
 {
     Character &player_character = get_player_character();
-    player_character.add_morale( MORALE_SHAVE, 10, 10, 360_minutes, 3_minutes );
+    player_character.add_morale( morale_shave, 10, 10, 360_minutes, 3_minutes );
     const int moves = to_moves<int>( 5_minutes );
     player_character.assign_activity( ACT_WAIT_NPC, moves );
     player_character.activity.str_values.push_back( p.get_name() );
     add_msg( m_good, _( "%s gives you a decent shave…" ), p.get_name() );
-}
-
-void talk_function::morale_chat( npc &p )
-{
-    get_player_character().add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
-    add_msg( m_good, _( "That was a pleasant conversation with %s…" ), p.disp_name() );
 }
 
 void talk_function::morale_chat_activity( npc &p )
@@ -835,7 +850,7 @@ void talk_function::morale_chat_activity( npc &p )
         }
         p.add_effect( effect_socialized_recently, 6_hours );
     }
-    player_character.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
+    player_character.add_morale( morale_chat, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
 }
 
 /*
@@ -854,7 +869,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
-        p.assign_activity( drop_activity_actor( to_drop, tripoint_zero, false ) );
+        p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms_zero, false ) );
         p.say( "<acknowledged>" );
     } else {
         p.say( _( "I don't have anything to drop off." ) );
@@ -969,7 +984,7 @@ bool talk_function::drop_stolen_item( item &cur_item, npc &p )
         item to_drop = player_character.i_rem( &cur_item );
         to_drop.remove_old_owner();
         to_drop.set_owner( p );
-        here.add_item_or_charges( player_character.pos(), to_drop );
+        here.add_item_or_charges( player_character.pos_bub(), to_drop );
         dropped = true;
     } else if( cur_item.is_container() ) {
         bool changed = false;
@@ -1031,7 +1046,7 @@ void talk_function::drop_weapon( npc &p )
         return;
     }
     item weap = p.remove_weapon();
-    get_map().add_item_or_charges( p.pos(), weap );
+    get_map().add_item_or_charges( p.pos_bub(), weap );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )

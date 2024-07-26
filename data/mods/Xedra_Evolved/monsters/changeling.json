@@ -57,7 +57,7 @@
       "HUMAN",
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO"
     ],
     "armor": {
@@ -198,7 +198,7 @@
       "HUMAN",
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "DROPS_AMMO"
     ],
     "armor": {
@@ -494,7 +494,7 @@
       "FAE_CREATURE",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "HIT_AND_RUN"
     ],
@@ -544,7 +544,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "UNICORNFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER", "WARM", "NO_BREED" ],
     "armor": { "bash": 2, "electric": 1, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {

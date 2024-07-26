@@ -488,6 +488,36 @@ std::set<const itype *> Single_item_creator::every_item() const
     return {};
 }
 
+std::map<const itype *, std::pair<int, int>> Single_item_creator::every_item_min_max() const
+{
+    switch( type ) {
+        case S_ITEM: {
+            const itype *i = item::find_type( itype_id( id ) );
+            if( i->count_by_charges() ) {
+                // TODO: Not technically perfect for only charge_min/charge max and for ammo/liquids but Item_modifier::modify()'s logic is gross and I'd rather not try to replicate it perfectly as is
+                const int min_charges = modifier->charges.first == -1 ?
+                                        i->charges_default() : modifier->charges.first;
+                const int max_charges = modifier->charges.second == -1 ?
+                                        i->charges_default() : modifier->charges.second;
+                return { std::make_pair( i, std::make_pair( modifier->count.first * min_charges, modifier->count.second * max_charges ) ) };
+            }
+            return { std::make_pair( i, modifier->count ) };
+        }
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
+            if( isd != nullptr ) {
+                return isd->every_item_min_max();
+            }
+            return {};
+        }
+        case S_NONE:
+            return {};
+    }
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+    cata_fatal( "Unexpected type" );
+    return {};
+}
+
 void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
 {
     if( ammo != 0 || mag != 0 ) {
@@ -976,6 +1006,24 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
+std::map<const itype *, std::pair<int, int>> Item_group::every_item_min_max() const
+{
+    std::map<const itype *, std::pair<int, int>> result;
+    for( const auto &spawn_data : items ) {
+        std::map<const itype *, std::pair<int, int>> item_entries = spawn_data->every_item_min_max();
+        for( const auto &item_entry : item_entries ) {
+            const auto existing_item_entry = result.find( item_entry.first );
+            if( existing_item_entry != result.end() ) {
+                existing_item_entry->second.first += item_entry.second.first;
+                existing_item_entry->second.second += item_entry.second.second;
+            } else {
+                result.insert( item_entry );
+            }
+        }
+    }
+    return result;
+}
+
 item_group::ItemList item_group::items_from( const item_group_id &group_id,
         const time_point &birthday, spawn_flags flags )
 {
@@ -1011,6 +1059,11 @@ item item_group::item_from( const item_group_id &group_id )
 bool item_group::group_is_defined( const item_group_id &group_id )
 {
     return item_controller->get_group( group_id ) != nullptr;
+}
+
+Item_spawn_data *item_group::spawn_data_from_group( const item_group_id &group_id )
+{
+    return item_controller->get_group( group_id );
 }
 
 bool item_group::group_contains_item( const item_group_id &group_id, const itype_id &type_id )

@@ -7,7 +7,7 @@
     "color": "yellow",
     "see_cost": 3,
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +17,7 @@
     "color": "light_gray",
     "see_cost": 2,
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -27,6 +27,6 @@
     "color": "cyan",
     "see_cost": 5,
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   }
 ]

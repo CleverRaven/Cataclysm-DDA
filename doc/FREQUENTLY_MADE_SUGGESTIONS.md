@@ -62,15 +62,15 @@ Also, we use mingw for windows builds, it turns out mingw does not have working 
 
 problem #3 is that multithreading doesn't get you performance improvements as fast as almost anyone thinks it will.  to break that down, threading is relatively good for throughput, but it's hard to use it to improve latency.  as it turns out, user-facing programs almost never care about throughput, they only care about latency, so that kind of sucks.  so for example, one of the expensive things we do is calculating FoV, it turns out it's what's called embarrassingly paralleizable, if a little tricky.  i.e. you can break it up into 8 almost entirely independent jobs.  The catch is, that task is actually dominated by cache misses instead of computation, and multithreading makes that worse, because you have to ship the input and output data aound to the various CPUs.  so splitting that task up is relatively easy, but I'm not at all certain that doing so would make it any faster.
 
-we had some mystery regressions and some not-so-mystery regressions since 0.E, subsequent improvements have clawed all that performance back and more.  so we're in pretty good shape now
+We had some mystery regressions and some not-so-mystery regressions since 0.E, subsequent improvements have clawed all that performance back and more.  So we're in pretty good shape now.
 
-which brings me to the "soft" problems with multithreading.  say we do get good multithreaded optimizations and performance increases linearly with cores (so much lolnope, performance almost always increases with diminishing returns).  I develop on two systems, one has 8 functional cores and the other has 12 functional cores.  In the perfect multithreading case, there's a 50% performance difference between the two systems, so a code change with performance that is barely tolerable on the 12 core system is untenable on the 8 core system.
+Which brings me to the "soft" problems with multithreading.  Say we do get good multithreaded optimizations and performance increases linearly with cores (so much lolnope, performance almost always increases with diminishing returns).  I develop on two systems, one has 8 functional cores and the other has 12 functional cores.  In the perfect multithreading case, there's a 50% performance difference between the two systems, so a code change with performance that is barely tolerable on the 12 core system is untenable on the 8 core system.
 
-keeping dda single threaded helps keep me (and the other developers) honest, because it narrows the gap between the best and worst systems available.  it also narrows the gap within the userbase, including extreme cases where people are still on single or dual core CPUs
+Keeping dda single threaded helps keep me (and the other developers) honest, because it narrows the gap between the best and worst systems available.  It also narrows the gap within the userbase, including extreme cases where people are still on single or dual core CPUs.
 
-finally there's the opportunity cost issue.  for the effort of multithreading key parts of the game, we can put a hell of a lot of investment into more generally applicable optimization.  there's a hell of a lot of cache coherency and algorithmic optimization we have planned that we haven't gotten around to yet.  Optimizing the code would result in some sophisticated and finely tuned code we have to maintain, but we don't have to worry about the rest of the code being hard to maintain
+Finally there's the opportunity cost issue.  For the effort of multithreading key parts of the game, we can put a hell of a lot of investment into more generally applicable optimization.  There's a hell of a lot of cache coherency and algorithmic optimization we have planned that we haven't gotten around to yet.  Optimizing the code would result in some sophisticated and finely tuned code we have to maintain, but we don't have to worry about the rest of the code being hard to maintain. One very large optimization performed since this entry was added was [creature reachability zones](https://github.com/CleverRaven/Cataclysm-DDA/pull/69574). This is one sort of always-applicable optimization that does not require specific software or hardware support for multithreading.
 
-that's the worst thing about multithreading IMO, as soon as you have multiple threads, you have to start worrying about thread safety throughout your code
+That's the worst thing about multithreading IMO, as soon as you have multiple threads, you have to start worrying about thread safety throughout your code.
 
 #### Bringing charges back: No.
 
@@ -133,7 +133,11 @@ Savescumming is not a normal part of the game, and there is no intention of ever
 
 #### Dying and coming back as an NPC from your faction: Yes, with caveats
 
-I’m 100% fine having a game mode available where this happens.  However, at least in the current state of development, it’s way too easy to accumulate NPC followers and end up becoming effectively immortal.  Thus trivializes a lot of aspects of the game and encouraging even more reckless behavior so things would need to be done to make it more difficult to acquire NPC followers, or at least NPC followers that you could switch to when you died.
+The technical implementation for this was added to the game between the release of 0.F "Frank" and 0.G "Gaiman". As of this writing, swapping to any follower is freely available on death of the player character. There are also vanilla options to swap the player character on a cooldown.
+
+Currently there are no extra effects from this besides the changing of the player character, and your followers are perfectly content to follow whoever ends up in charge (even if the last six leaders were total failures and the new one appears to be unsuitable as leader). This is subject to change as the feature is developed.
+
+Currently it’s way too easy to accumulate NPC followers and end up becoming effectively immortal.  Thus trivializes a lot of aspects of the game and encouraging even more reckless behavior. In the future, there may be limits on the NPC followers that you could switch to when you died, or differences in who would continue to follow the new leader.
 
 #### Psychic powers: mod only
 
@@ -159,7 +163,7 @@ One approach that might work would be specific monster attacks that make your sc
 
 We limit crafting for the most part (exception, see cars) to things a single survivor with limited tools can create, and every reasonable plan for automatic action guns I’ve seen has required rather extensive tooling that’s not available to the survivor (metal folding/rolling machines, presses, drill presses).
 
-The absolute closest thing to an automatic weapon I’ve been able to come up with that would be reasonable to craft is an old-school Gatling gun, and a motor for same to up the rounds per second.
+The absolute closest thing to an automatic weapon I’ve been able to come up with that would be reasonable to craft is an old-school Gatling gun, and a motor for same to up the rounds per second. This currently exists ingame as the "12-gauge gatling gun" (id: `bigun`).
 
 At some point in the future we might build up tooling to the point where automatic weapons manufacture becomes feasible, at that point we can revisit this.
 
@@ -241,17 +245,19 @@ When this happens (which will be a while, it’s pretty invasive and complicated
 
 Some people want to play as a robot, or an android, or a brain in a jar piloting a robotic body, or as a dog.  The developers want to allow people to do all of that.  Unfortunately, there's a lot of changes that need to be made to get from the current state of the code to that highly desirable end-point.  Some changes have already been made, but there's nothing really visible yet.
 
+As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms. However the work is still ongoing, and not yet ready for a general release. Much of the foundational work can be seen in the currently named "Work in Progress Limb Stuff" mod which ships with the game.
+
 #### Bring back ICBM launch: Mod only
 
 There used to be a partially implemented feature where you could break into an ICBM silo and hack the computer systems, then launch a missile at some target on the overmap. The results were incredibly underwhelming and didn't remotely represent the damage a many-kt warhead would cause, and was a frequent source of bugs, so it was removed.
 
-It's not a valid idea to bring it back for a number of reasons.  One, the very large scale map destruction it would require would be a lot of work to implement, for incredibly low tangible benefit. Two, the feasibility of a survivor breaking into a nuclear silo and successfully launching a missile is negligible, the most likely situation is that the silo would have been put into some kind of lockdown or even destroyed once the staff deemed it infeasible to continue standing by, rendering a launch literally impossible, but even if that didn't happen, navigating the security mechanisms and failsafes the launch system would be expected to have is so difficult as to be effectively impossible. Three, the impact of an ICBM launch is the wrong scale for the game, if the desired feature is "destroy an area 150m across from a distance", which is what the previous feature amounted to, there are numerous options for achieving that without the ludicrous and impossible overkill embodied in a nuclear strike.  For example, an artillery or even mortar barrage has the capability of leveling a 100m or even larger area, and is a million times more feasible to acquire than a nuclear launch.
+It's not a valid idea to bring it back for a number of reasons.  One, the very large scale map destruction it would require would be a lot of work to implement, for incredibly low tangible benefit. Two, the feasibility of a survivor breaking into a nuclear silo and successfully launching a missile is negligible, the most likely situation is that the silo would have been put into some kind of lockdown or even destroyed once the staff deemed it infeasible to continue standing by, rendering a launch literally impossible. Even if that didn't happen, navigating the security mechanisms and failsafes the launch system would be expected to have is so difficult as to be effectively impossible, and that assumes that the launch systems are still accessible let alone operational. Three, the impact of an ICBM launch is the wrong scale for the game, if the desired feature is "destroy an area 150m across from a distance", which is what the previous feature amounted to, there are numerous options for achieving that without the ludicrous and impossible overkill embodied in a nuclear strike.  For example, an artillery or even mortar barrage has the capability of leveling a 100m or even larger area, and is a million times more feasible to acquire than a nuclear launch.
 
 Code for ICBM launch is restored (with several bugfixes) and used in No Hope mod which is shipped with the game.
 
 #### Add a lance charge for massive damage bonuses: yes, but not the way most people imagine it
 
-The general understanding of how lances work is badly warped by depictions of jousting tournaments in books and movies, dungeons and dragons and video games.
+The general understanding of how lances work is badly warped by depictions of jousting tournaments in books and movies, dungeons and dragons, and video games.
 
 A successful lance charge is always going to result in the rider no longer holding a working lance, just think about the mechanics of it.
 
@@ -281,8 +287,21 @@ Storing blood for later is far outside the reach of the survivor even if they kn
 
 #### Direct transfusions from NPC followers: qualified maybe.
 
-Coercing followers into being your personal blood bags is not going to happen. Otherwise, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. But there is a better solution.
+Coercing followers into being your personal blood bags is not going to happen. 
 
+Assuming a willing donor, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. Mistakes in this process (mismatched blood types, certain immune reactions, etc.) can easily be fatal, so this is still a high-risk option.
+
+A slightly inferior but much more accessible and safer alternative is saline infusions to partially substitute for missing blood volume. This is currently in the game.
+
+#### Add 3D printers and have them print guns and armor and car parts: Yes but no.
+
+This breaks down into two possibilities, which tl;dr, neither really works.
+
+The first option is you find design files for 3D prints. Without the internet, finding design files for 3D prints would be exceedingly difficult. The absence of a reliable method to search files on deserted computers, coupled with the fact that many useful designs are considered contraband, makes this option highly improbable. The idea of discovering files on discarded USB sticks has already been stretched to its limits and cannot be reasonably expanded to include a new method of crafting items. Even if one were to find a location with 3D printers, such as a house or workplace, most of the design files would are going to be for unhelpful items like figurines, toys, and replacement parts for random appliances, rather than items you want to produce as a survivor. 
+
+The second option is creating new designs from scratch or existing designs. This involves finding a functional 3D printer, securing the necessary software (including drivers and design software), sourcing filament, and then creating original designs. This process could take anywhere from days to weeks for simple items, and potentially years for complex items like functional firearms. In most cases, there are easier-to-find alternatives for anything you could create with a 3D printer. Again, if your goal is 3D printing bottle openers and anime figurines, this would be a way to do that, but for useful survival-y things, it's not a viable option.
+
+Finally, even if one were to overcome these issues and make 3D printed items, the quality of these items is generally going to be inferior to those crafted from metal, wood, or fabric. The resources and effort required to produce items with a 3D printer outweigh the benefits, making it impractical for a post-apocalyptic world. 
 
 ### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.
@@ -293,15 +312,31 @@ This isn’t feasible for several reasons. First, the assumption is that the gri
 
 Second, this would be extremely difficult to support in the game engine because once you surpass a certain scale you need to keep every connected electrical device loaded and periodically processed in order to keep track of power usage. The only way I could see this working is if you ran through a series of missions to reclaim a town, and as part of the missions some power generation plant was assembled, and the town was wired up for it. At that point we could hand-wave the power usage tracking because the faction would be running the plant, not the player.
 
-#### Short-range power transmission (scale of a single building): Partially implemented
+#### Short-range power transmission (scale of a single building): Largely implemented
 
 Currently you can hook up multiple vehicles with jumper cables so they can transmit power, and this even works if some of the vehicles aren’t in the immediate area.
 
-The plan is to extend this by building “appliances” that you can hook into this grid, but you interact with them using the construction and menus brought up with 'e’xamine instead of going through the vehicle menus. The main thing holding this kind of thing back is generators, which for game balance should make lots of noise and attract monsters, but monsters aren’t very good at dealing with this yet (see hordes).
+As of the 0.G "Gaiman" release there exists "appliances" which can be placed and interacted with using the construction and menus brought up with 'e’xamine instead of going through the vehicle menus. These "appliances" automatically form power grids and can be connected through special wire connections which can run through existing walls (if those walls would already have wiring provisions). There are "appliances" for most objects you would expect to encounter, including backup generators, household lighting, fridges, common power tools, etc. There are also a variety of cables (jumper cables, extension cords, etc.) which can be used to connect appliances to vehicles or other appliances, allowing power flow in either direction.
 
-In addition to "appliances", there may also be "facilities".  Again, under the hood, facilities are going to be related to vehicles (admittedly, stationary vehicles) but are going to be built via the construction menu and interacted with as collections of terrain and furniture.  Facilities will hopefully allow for medium sized, powered buildings.
+In addition to "appliances", there may also be "facilities".  Again, under the hood, facilities are going to be related to vehicles (admittedly, stationary vehicles) but are going to be built via the construction menu and interacted with as collections of terrain and furniture.  Facilities will hopefully allow for medium sized, powered buildings. As of this writing, there is not yet any support for "facilities".
 
 ### User interface
+
+#### Bring back points pool in chargen: there is a reason we moved away from it
+
+The main reason would be that it was not a fun system. To quote Venera3:
+
+> The point system turning every character into a Heavy Sleeper Truth Teller Wool Allergy Stimulant Psychosis \<and now insert the traits you want to take\> is just shit design
+
+The point system did not encourage players to try new approaches or roleplay but instead supported attempts to 'break' it, find a way to trick the system, and try to find as much profit within existing points as possible. Which brings us to issue number two, which is...
+
+Points are a bad tool for balance. How many points is a bad back trait worth? 3? 2? 2.5? 2.76? π? Numbers have difficulties representing the abstract influence of a single trait on your entire playthrough. 
+
+Luckily for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against a zombie. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
+
+Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Has the pool system been removed completely? No, you can still turn it on when you create the world, and it won't be removed unless it stands in the way of another changes. Is it possible to make a good system out of a pool system? Probably, but no one did.
+
+Nota Bene, having a version of survivor mode with restrictions, a-la "you can't get traits that would make your defense higher than X" is desirable and would cover the niche of players who feel the open pool is too much for them, and want some sort of restriction.
 
 #### The ability to select MP3s to play while listening to music: Too complicated
 
@@ -380,9 +415,11 @@ What would be more reasonable and possible would be finding a high end personal 
 
 #### We should be able to modify helicopters and other aircraft: Qualified yes
 
-Small modifications of aircraft would be fine, but significant changes (adding frames, changing the engine, etc) basically mean that you have a new aircraft design and you need to run some test flights to make sure that your new design is airworthy.
+Small modifications of aircraft are fine, but significant changes (adding frames, changing the engine, etc) basically mean that you have a new aircraft design and you need to run some test flights to make sure that your new design is airworthy. In the real world this is normally handled by very complicated flight modeling software which (up until the last decade or so) still required manual verification by wind tunnel and flight testing, both of which are obviously unavailable following the Cataclysm. Even if someone was able to locate the software it would be unusable for its intended purpose without formal education in aeronautics.
 
-For this to happen, we need code to detect significant changes in aircraft, code to simulate the chance that your new design isn't airworthy, and code to make you fall out of the sky during your test flights.  None of that is hard, but the current vehicles maintainer has other tasks to work on and no one else is offering to step up to the plate.
+For this to happen, we need code to detect significant changes in aircraft, code to simulate the chance that your new design isn't airworthy, and code to make you fall out of the sky during your test flights.
+
+As of this writing, a variety of 'simple parts' can be added or removed from helicopters at will without rendering them non-airworthy. This is controlled by a simple JSON flag and can be easily changed as needed, if a good argument can be made that the addition/removal of such a part would never seriously impact a helicopter.
 
 #### We should be able to make airplanes/autogyros/hot air balloons/blimps/submarines: Yes
 
@@ -399,6 +436,16 @@ Vehicles can already span multiple z-levels, with a ground vehicle moving along 
 For some examples of 12-gague 00-shot patterns, take a look at http://www.theboxotruth.com/the-box-o-truth-20-buckshot-patterns/
 
 tldr at 45 yards, which is outside the maximum effective range of the round in the first place (I’ve seen anywhere from 25 yards to 35 yards claimed), the spread was between 27 and 33 inches. Even at this extreme range, the spread is still less than one in-game square, so you’re effectively never going to hit two targets standing side-by-side. What might happen is you get some kind of “graze” one one target, and the shot that didn’t hit the target will continue and possibly hit another target behind it.
+
+#### Hit multiple targets with a very large, penetrating round: Kind of yes, with specific qualifications
+
+Under the existing system, rounds that strike a creature apply all their kinetic energy (damage) to the creature and cease to exist. Explosive rounds get around this in-game by alternatively creating an explosion (handled differently) and otherwise sending out shrapnel (spawns new 'bullets' radiating outwards from the explosion).
+
+There are certain very large-caliber rounds in the game which could penetrate a human body or shambling corpse and still have damaging or lethal amounts of kinetic energy after passing through, but even these rounds dissipate on hitting the first creature they encounter. (Note that some terrain and furniture can be penetrated with partial damage reduction, but this system does not have widespread support and is not extendable to creatures)
+
+Adding this is desired, and it would be possible if someone wrote a bunch of code to enable it.
+
+This would not be applicable to most rounds, including basically all rounds smaller than 50cal (0.5 inch, or ~12.7mm bullet diameter). Such small rounds simply don't have enough kinetic energy to wound a second person after passing through one body, even in highly optimistic scenarios.
 
 ### Environment
 
@@ -422,7 +469,7 @@ More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
 
-If you make this argument, you will not only not make the intended point, since the argument is nonsensical, but you will also damage your credibility with me personally, and I suspect with the other contributors as well. I am absolutely sick of reading this, and I am even more sick of responding to it, so I’ll just refer to this post from now on.
+If you make this argument, you will not only not make the intended point, since the argument is nonsensical, but you will also damage your credibility with me personally, and with many of the other contributors as well. I am absolutely sick of reading this, and I am even more sick of responding to it, so I’ll just refer to this post from now on.
 
 The supposed lack of “consistency” between super-science elements of the game and mundane elements of the game is intended. The setting of the world is current-day New England (America if you don’t recognize the region name), with isolated science fiction elements, such as super-science items that generally appear in “secret research labs”* or deployed with military units. The existence of super-science items does not imply that every aspect of daily life is imbued with elements of fantastical science.
 

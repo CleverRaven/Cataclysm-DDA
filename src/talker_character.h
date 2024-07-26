@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "character.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "npc.h"
 #include "talker.h"
 #include "type_id.h"

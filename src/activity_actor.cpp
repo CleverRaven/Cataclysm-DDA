@@ -34,8 +34,10 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "contents_change_handler.h"
+#include "coordinate_constants.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -138,7 +140,7 @@ static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
-static const activity_id ACT_HEAT( "ACT_HEAT" );
+static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
@@ -224,6 +226,12 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
+static const morale_type morale_book( "morale_book" );
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_haircut( "morale_haircut" );
+static const morale_type morale_play_with_pet( "morale_play_with_pet" );
+static const morale_type morale_shave( "morale_shave" );
+
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
@@ -233,6 +241,7 @@ static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -264,6 +273,8 @@ static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvest
 static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+
+static const trap_str_id tr_ledge( "tr_ledge" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -333,11 +344,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
     // therefore the order of evaluation matters here
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
-        first_turn ) {
-        aborted = true;
-        act.moves_left = 0;
-        return;
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !reload_loc ) {
+        if( !load_RAS_weapon() ) {
+            aborted = true;
+            act.moves_left = 0;
+            return;
+        }
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -355,10 +367,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             fin_trajectory = trajectory;
             act.moves_left = 0;
         }
-        // If aborting on the first turn, keep 'first_turn' as 'true'.
-        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
-        // to simulate avatar not loading them in the first place
-        first_turn = false;
 
         // Allow interrupting activity only during 'aim and fire'.
         // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
@@ -388,14 +396,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
-
-    if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        // RAS weapons are currently bugged, this is a workaround so bug impact
-        // isn't amplified, once #54997 and #50571 are fixed this can be removed.
-        restore_view();
-        return;
-    }
+    who.fire_gun( fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
         restore_view();
@@ -418,8 +419,8 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
 {
-    restore_view();
     unload_RAS_weapon();
+    restore_view();
 }
 
 void aim_activity_actor::serialize( JsonOut &jsout ) const
@@ -428,17 +429,17 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "fin_trajectory", fin_trajectory );
-    jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
     jsout.member( "snap_to_target", snap_to_target );
-    jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
+    jsout.member( "reload_loc", reload_loc );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
     jsout.member( "aborted", aborted );
     jsout.member( "reload_requested", reload_requested );
     jsout.member( "abort_if_no_targets", abort_if_no_targets );
+    jsout.member( "should_unload_RAS", should_unload_RAS );
 
     jsout.end_object();
 }
@@ -451,17 +452,17 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "fin_trajectory", actor.fin_trajectory );
-    data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
     data.read( "snap_to_target", actor.snap_to_target );
-    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
+    data.read( "reload_loc", actor.reload_loc );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "aborted", actor.aborted );
     data.read( "reload_requested", actor.reload_requested );
     data.read( "abort_if_no_targets", actor.abort_if_no_targets );
+    data.read( "should_unload_RAS", actor.should_unload_RAS );
 
     return actor.clone();
 }
@@ -519,48 +520,27 @@ bool aim_activity_actor::load_RAS_weapon()
         // Menu canceled
         return false;
     }
-    int reload_time = 0;
-    reload_time += opt.moves();
-    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
-        // Reload not allowed
-        return false;
-    }
 
-    // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
-                          get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
-    // At low stamina levels, firing starts getting slow.
-    int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
-    reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
-    you.mod_moves( -reload_time );
-    loaded_RAS_weapon = true;
+    reload_loc = opt.ammo;
     return true;
 }
 
 void aim_activity_actor::unload_RAS_weapon()
 {
-    // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
     item_location weapon = get_weapon();
-    if( !weapon || !loaded_RAS_weapon ) {
+    if( !weapon || !should_unload_RAS ) {
         return;
     }
 
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        int moves_before_unload = you.get_moves();
-
-        // Note: this code works only for avatar
-        item_location loc = item_location( you, gun.target );
-        you.unload( loc, true );
-
-        // Give back time for unloading as essentially nothing has been done.
-        if( first_turn ) {
-            you.set_moves( moves_before_unload );
+        if( gun->ammo_remaining() ) {
+            item_location loc = item_location( you, gun.target );
+            you.unload( loc, true );
         }
     }
-    loaded_RAS_weapon = false;
 }
 
 void autodrive_activity_actor::update_player_vehicle( Character &who )
@@ -1596,7 +1576,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos.raw() ) );
+                                   get_map().tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -1972,7 +1952,7 @@ bool read_activity_actor::player_read( avatar &you )
         const int book_fun = learner->book_fun_for( *book, *learner );
         if( book_fun != 0 ) {
             // Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK,
+            learner->add_morale( morale_book,
                                  book_fun * 5, book_fun * 15,
                                  1_hours, 30_minutes, true,
                                  book->type );
@@ -2128,7 +2108,7 @@ bool read_activity_actor::npc_read( npc &learner )
     const int book_fun = learner.book_fun_for( *book, learner );
     if( book_fun != 0 ) {
         // Fun bonus is no longer calculated here.
-        learner.add_morale( MORALE_BOOK,
+        learner.add_morale( morale_book,
                             book_fun * 5, book_fun * 15,
                             1_hours, 30_minutes, true,
                             book->type );
@@ -2424,7 +2404,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
-    move_items_activity_actor actor( {}, {}, false, tripoint_zero );
+    move_items_activity_actor actor( {}, {}, false, tripoint_rel_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -3790,7 +3770,7 @@ void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*
     }
     const recipe item_recipe = craft->get_making();
     // practice recipe items with no components can be safely removed
-    if( item_recipe.category == "CC_PRACTICE" && craft->components.empty() ) {
+    if( item_recipe.category->is_practice && craft->components.empty() ) {
         craft_item.remove_item();
     }
 }
@@ -3967,7 +3947,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
         // morale bonus kicks in gradually after 5 minutes of exercise
         if( calendar::once_every( 2_minutes ) &&
             ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
-            who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
+            who.add_morale( morale_feeling_good, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
             add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
@@ -4236,6 +4216,15 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         const furn_id furn = here.furn( target );
 
         if( furn->has_examine( iexamine::harvest_furn ) ) {
+            // TODO: Should be generified as a harvest field
+            if( furn->has_flag( ter_furn_flag::TFLAG_HARVEST_REQ_CUT1 ) && who.max_quality( qual_CUT ) < 1 ) {
+                if( !auto_forage ) {
+                    who.add_msg_if_player( m_info,
+                                           _( "You'll need a cutting tool to harvest this." ) );
+                }
+                act.set_to_null();
+                return;
+            }
             exam_furn = true;
         } else if( furn->has_examine( iexamine::harvest_furn_nectar ) )  {
             exam_furn = true;
@@ -4878,7 +4867,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
             loc.carrier()->add_msg_if_player( m_neutral,
                                               _( "The %s no longer fits in your inventory so you drop it instead." ),
                                               reloadable_name );
-            get_map().add_item_or_charges( loc.position(), reloadable );
+            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
             loc.remove_item();
             break;
     }
@@ -5670,7 +5659,7 @@ void meditate_activity_actor::start( player_activity &act, Character & )
 void meditate_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
-    who.add_morale( MORALE_FEELING_GOOD, 5, 10 );
+    who.add_morale( morale_feeling_good, 5, 10 );
     act.set_to_null();
 }
 
@@ -5692,7 +5681,7 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
-    who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
+    who.add_morale( morale_play_with_pet, rng( 3, 10 ), 10, 5_hours, 25_minutes );
 
     if( !playstr.empty() ) {
         who.add_msg_if_player( m_good, playstr, pet_name );
@@ -6046,7 +6035,7 @@ void shave_activity_actor::start( player_activity &act, Character & )
 void shave_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You open up your kit and shave." ) );
-    who.add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    who.add_morale( morale_shave, 8, 8, 240_minutes, 3_minutes );
     act.set_to_null();
 }
 
@@ -6069,7 +6058,7 @@ void haircut_activity_actor::start( player_activity &act, Character & )
 void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
-    who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    who.add_morale( morale_haircut, 3, 3, 480_minutes, 3_minutes );
     if( who.is_avatar() ) {
         uilist amenu;
         amenu.title = _( "Change what?" );
@@ -6988,7 +6977,7 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
         // Check first and only if possible attempt it with player char
         // This suppresses warnings unless it is an item the player wears
         if( actor->valid_to_cut_up( nullptr, it ) ) {
-            item_location item_loc( map_cursor( who.pos() ), &it );
+            item_location item_loc( map_cursor( who.pos_bub() ), &it );
             actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }
@@ -7719,19 +7708,41 @@ void heat_activity_actor::start( player_activity &act, Character & )
 
 void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
-    if( !h.loc ) {
-        p.add_msg_if_player( _( "You can't find the heater any more." ) );
-        act.set_to_null();
+    // use a hack in use_vehicle_tool vehicle_use.cpp
+    if( !act.coords.empty() ) {
+        h.vpt = get_map().getglobal( act.coords[0] );
+    }
+    std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
+    if( h.pseudo_flag ) {
+        if( !vp ) {
+            p.add_msg_if_player( _( "You can't find the appliance any more." ) );
+            act.set_to_null();
+            return;
+        }
+        if( vp.value().vehicle().connected_battery_power_level().first < requirements.ammo *
+            h.heating_effect ) {
+            p.add_msg_if_player( _( "You need more energy to heat these items." ) );
+            act.set_to_null();
+            return;
+        }
+    } else {
+        if( !h.loc ) {
+            p.add_msg_if_player( _( "You can't find the heater any more." ) );
+            act.set_to_null();
+            return;
+        }
+        if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+            p.add_msg_if_player( _( "You need more energy to heat these items." ) );
+            act.set_to_null();
+            return;
+        }
     }
     for( drop_location &ait : to_heat ) {
         if( !ait.first ) {
             p.add_msg_if_player( _( "Some of the food you selected is gone." ) );
             act.set_to_null();
+            return;
         }
-    }
-    if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
-        p.add_msg_if_player( _( "You need more energy to heat these items." ) );
-        act.set_to_null();
     }
 }
 
@@ -7764,8 +7775,13 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag == true ) {
-        h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+    if( h.consume_flag ) {
+        if( h.pseudo_flag ) {
+            get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
+                    h.heating_effect );
+        } else {
+            h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+        }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
 
@@ -7781,8 +7797,10 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "heating_effect", h.heating_effect );
     jsout.member( "loc", h.loc );
     jsout.member( "consume_flag", h.consume_flag );
+    jsout.member( "pseudo_flag", h.pseudo_flag );
     jsout.member( "time", requirements.time );
     jsout.member( "ammo", requirements.ammo );
+    jsout.member( "vpt", h.vpt );
     jsout.end_object();
 }
 
@@ -7794,8 +7812,10 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     data.read( "heating_effect", actor.h.heating_effect );
     data.read( "loc", actor.h.loc );
     data.read( "consume_flag", actor.h.consume_flag );
+    data.read( "pseudo_flag", actor.h.pseudo_flag );
     data.read( "time", actor.requirements.time );
     data.read( "ammo", actor.requirements.ammo );
+    data.read( "vpt", actor.h.vpt );
     return actor.clone();
 }
 
@@ -7919,7 +7939,7 @@ deserialize_functions = {
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
     { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
-    { ACT_HEAT, &heat_activity_actor::deserialize },
+    { ACT_HEATING, &heat_activity_actor::deserialize },
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
     { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },

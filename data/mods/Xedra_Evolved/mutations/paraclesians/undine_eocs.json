@@ -1,6 +1,91 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_UNDINE_NEAR_WATER_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "UNDINE" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CONDITION_CHECK_UNDINE_NEAR_WATER_ON_OMT_ENTER_2",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "generic_river_bank", "range": 1 },
+                { "u_near_om_location": "generic_river", "range": 1 },
+                { "u_near_om_location": "river_center", "range": 1 },
+                { "u_near_om_location": "river", "range": 1 },
+                { "u_near_om_location": "river_c_not_ne", "range": 1 },
+                { "u_near_om_location": "river_c_not_nw", "range": 1 },
+                { "u_near_om_location": "river_c_not_se", "range": 1 },
+                { "u_near_om_location": "river_c_not_sw", "range": 1 },
+                { "u_near_om_location": "river_ne", "range": 1 },
+                { "u_near_om_location": "river_se", "range": 1 },
+                { "u_near_om_location": "river_sw", "range": 1 },
+                { "u_near_om_location": "river_nw", "range": 1 },
+                { "u_near_om_location": "lake_shore", "range": 1 },
+                { "u_near_om_location": "lake_surface", "range": 1 },
+                { "u_near_om_location": "ocean", "range": 1 },
+                { "u_near_om_location": "ocean_shore", "range": 1 },
+                { "u_near_om_location": "ocean_surface", "range": 1 },
+                { "u_near_om_location": "ocean_bed", "range": 1 },
+                { "u_near_om_location": "ocean_water_cube", "range": 1 },
+                { "u_near_om_location": "ocean_surface", "range": 1 },
+                { "u_near_om_location": "pond_field", "range": 1 },
+                { "u_at_om_location": "fishing_pond_0_0" },
+                { "u_at_om_location": "fishing_pond_1_0" },
+                { "u_at_om_location": "fishing_pond_0_1" },
+                { "u_at_om_location": "fishing_pond_1_1" },
+                { "u_at_om_location": "forest_water" },
+                { "u_at_om_location": "undine_genius_loci_NW" },
+                { "u_at_om_location": "undine_genius_loci_NE" },
+                { "u_at_om_location": "undine_genius_loci_SW" },
+                { "u_at_om_location": "undine_genius_loci_SE" }
+              ]
+            },
+            "effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "1" ] } ],
+            "false_effect": [ { "math": [ "u_undine_is_connected_to_waters", "=", "0" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_UNDINE_IN_WATER",
+    "condition": {
+      "or": [
+        "u_is_underwater",
+        { "u_is_on_terrain": "t_water_dp" },
+        { "u_is_on_terrain": "t_water_sh" },
+        { "u_is_on_terrain": "t_swater_dp" },
+        { "u_is_on_terrain": "t_swater_dp_underground" },
+        { "u_is_on_terrain": "t_water_dp_underground" },
+        { "u_is_on_terrain": "t_swater_dp_underground" },
+        { "u_is_on_terrain": "t_water_hot" },
+        { "u_is_on_terrain": "t_water_murky" },
+        { "u_is_on_terrain": "t_water_sh_underground" },
+        { "u_is_on_terrain": "t_swater_dp_underground" },
+        { "u_is_on_terrain": "t_swater_sh_underground" },
+        { "u_is_on_terrain": "t_swater_sh" },
+        { "u_is_on_terrain": "t_water_moving_dp" },
+        { "u_is_on_terrain": "t_water_moving_dp_underground" },
+        { "u_is_on_terrain": "t_water_sh_murky_underground" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_UNDINE_CLOSE_TO_OR_IN_WATER",
+    "condition": {
+      "or": [ { "math": [ "u_undine_is_connected_to_waters", "==", "1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_COMPLETED_ROLL_REMAINDER_ELEMENTAL_RECIPE",
     "effect": { "u_message": "These are all the ways you can alter these elements now." }
   },
@@ -90,43 +175,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_UNDINE_GOBLIN_FRUIT",
-    "condition": {
-      "or": [
-        { "u_is_on_terrain": "t_water_dp" },
-        { "u_is_on_terrain": "t_water_sh" },
-        { "u_is_on_terrain": "t_swater_dp" },
-        { "u_is_on_terrain": "t_swater_dp_underground" },
-        { "u_is_on_terrain": "t_water_dp_underground" },
-        { "u_is_on_terrain": "t_water_pool" },
-        { "u_is_on_terrain": "t_water_pool_outdoors" },
-        { "u_is_on_terrain": "t_swater_dp_underground" },
-        { "u_is_on_terrain": "t_water_hot" },
-        { "u_is_on_terrain": "t_water_murky" },
-        { "u_is_on_terrain": "t_water_sh_underground" },
-        { "u_is_on_terrain": "t_swater_dp_underground" },
-        { "u_is_on_terrain": "t_swater_sh_underground" },
-        { "u_is_on_terrain": "t_swater_sh" },
-        { "u_is_on_terrain": "t_water_pool_shallow" },
-        { "u_is_on_terrain": "t_water_pool_shallow_outdoors" },
-        { "u_is_on_terrain": "t_water_moving_dp" },
-        { "u_is_on_terrain": "t_water_moving_dp_underground" },
-        { "u_is_on_terrain": "t_water_sh_murky_underground" },
-        { "u_at_om_location": "generic_river_bank" },
-        { "u_at_om_location": "generic_river" },
-        { "u_at_om_location": "river_center" },
-        { "u_at_om_location": "river" },
-        { "u_at_om_location": "river_c_not_ne" },
-        { "u_at_om_location": "river_c_not_nw" },
-        { "u_at_om_location": "river_c_not_se" },
-        { "u_at_om_location": "river_c_not_sw" },
-        { "u_at_om_location": "river_ne" },
-        { "u_at_om_location": "river_se" },
-        { "u_at_om_location": "river_sw" },
-        { "u_at_om_location": "river_nw" },
-        { "u_at_om_location": "lake_shore" },
-        { "u_at_om_location": "lake_surface" }
-      ]
-    },
+    "condition": { "test_eoc": "EOC_CONDITION_UNDINE_CLOSE_TO_OR_IN_WATER" },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
     "false_effect": [
       {

@@ -15,7 +15,7 @@
           "id": "psi_triffid_seedseer_discern_weakness",
           "type": "spell",
           "spell_data": { "id": "clairsentient_discern_weakness_monster", "min_level": 4 },
-          "cooldown": 25,
+          "cooldown": { "math": [ "12 + rand(32)" ] },
           "condition": { "not": { "u_has_effect": "effect_psi_null" } },
           "monster_message": "%1$s's fronds quiver."
         }
@@ -37,7 +37,7 @@
           "type": "monster_attack",
           "attack_type": "melee",
           "id": "mon_fountain_of_flames",
-          "cooldown": 10,
+          "cooldown": { "math": [ "5 + rand(13)" ] },
           "move_cost": 80,
           "range": 4,
           "damage_max_instance": [ { "damage_type": "heat", "amount": 20 } ],
@@ -65,7 +65,7 @@
           "id": "psi_triffid_flamebreaker_no_flame_buff",
           "type": "spell",
           "spell_data": { "id": "pyrokinetic_flame_armor_ally_monster", "min_level": 8 },
-          "cooldown": 20,
+          "cooldown": { "math": [ "10 + rand(25)" ] },
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
@@ -90,13 +90,13 @@
           "id": "psi_triffid_teleporter_slow",
           "type": "spell",
           "spell_data": { "id": "teleport_slow_monster", "min_level": 8 },
-          "cooldown": 15,
+          "cooldown": { "math": [ "7 + rand(19)" ] },
           "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-          "monster_message": "%1$s waves its fronds at at %3$s."
+          "monster_message": "%1$s waves its fronds at %3$s."
         },
         {
           "type": "leap",
-          "cooldown": 8,
+          "cooldown": { "math": [ "4 + rand(10)" ] },
           "move_cost": 50,
           "allow_no_target": true,
           "max_range": 10,
@@ -107,9 +107,9 @@
           "id": "psi_triffid_teleporter_ally_teleport",
           "type": "spell",
           "spell_data": { "id": "teleporter_triffid_summon_allies", "min_level": 10 },
-          "cooldown": 35,
+          "cooldown": { "math": [ "17 + rand(44)" ] },
           "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-          "monster_message": "%1$s waves its fronds at at %3$s and the air around %3$s solidifies into shapes."
+          "monster_message": "%1$s waves its fronds at %3$s and the air around %3$s solidifies into shapes."
         }
       ]
     }

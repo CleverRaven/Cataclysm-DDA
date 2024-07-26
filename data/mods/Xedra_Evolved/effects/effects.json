@@ -369,7 +369,8 @@
     "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -5 ] },
-    "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
+    "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] },
+    "flags": [ "HEMOVORE" ]
   },
   {
     "type": "effect_type",
@@ -454,12 +455,98 @@
   {
     "type": "effect_type",
     "id": "eyegleam",
-    "name": [ "Eye gleam" ],
+    "name": [ "Eye Gleam" ],
     "desc": [ "You can see in the dark." ],
-    "apply_message": "Your sight adjusts to the darkness.",
-    "remove_message": "The darkness loses its shape.",
     "rating": "good",
-    "flags": [ "NIGHT_VISION" ]
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "NIGHT_VIS",
+            "add": {
+              "math": [
+                "5 + (vampire_total_tier_one_traits() * 1) + (vampire_total_tier_two_traits() * 2) + (vampire_total_tier_three_traits() * 3) + (vampire_total_tier_four_traits_plus_potence() * 4)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "not": "is_day" },
+        "values": [
+          {
+            "value": "OVERMAP_SIGHT",
+            "add": { "math": [ "4 + u_has_trait('VAMPIRE2') + u_has_trait('VAMPIRE3') + (u_has_trait('VAMPIRE4') * 2)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampiric_strength",
+    "name": [ "Vigor Mortis" ],
+    "desc": [ "You have the strength of the damned." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STRENGTH",
+            "add": {
+              "math": [
+                "1 + (vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.33) + (vampire_total_tier_three_traits() * 0.5) + (vampire_total_tier_four_traits_plus_potence() * 0.75)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampiric_resilience",
+    "name": [ "Sanguine Resilience" ],
+    "desc": [ "You have the fortitude of the grave." ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "ARMOR_BASH",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.01) + (vampire_total_tier_two_traits() * -0.02) + (vampire_total_tier_three_traits() * -0.04) + (vampire_total_tier_four_traits_plus_potence() * -0.06)), -0.66)"
+              ]
+            }
+          },
+          {
+            "value": "ARMOR_CUT",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.005) + (vampire_total_tier_two_traits() * -0.01) + (vampire_total_tier_three_traits() * -0.02) + (vampire_total_tier_four_traits_plus_potence() * -0.03)), -0.33)"
+              ]
+            }
+          },
+          {
+            "value": "ARMOR_STAB",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.003) + (vampire_total_tier_two_traits() * -0.007) + (vampire_total_tier_three_traits() * -0.015) + (vampire_total_tier_four_traits_plus_potence() * -0.025)), -0.25)"
+              ]
+            }
+          },
+          {
+            "value": "ARMOR_BULLET",
+            "multiply": {
+              "math": [
+                "max(((vampire_total_tier_one_traits() * -0.012) + (vampire_total_tier_two_traits() * -0.025) + (vampire_total_tier_three_traits() * -0.05) + (vampire_total_tier_four_traits_plus_potence() * -0.075)), -0.85)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -479,7 +566,81 @@
       "health_chance": [ 4 ],
       "stamina_min": [ 40 ],
       "stamina_chance": [ 2 ]
-    }
+    },
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampiric_dodge",
+    "name": [ "Flow Like Blood" ],
+    "desc": [ "You can move so quickly you might even be able to dodge bullets." ],
+    "rating": "good",
+    "blocks_effects": [ "grabbed" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "EVASION",
+            "add": {
+              "math": [
+                "min(0.15 + ((vampire_total_tier_one_traits() * 0.012) + (vampire_total_tier_two_traits() * 0.025) + (vampire_total_tier_three_traits() * 0.05) + (vampire_total_tier_four_traits_plus_potence() * 0.075)), 0.7)"
+              ]
+            }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "min(1 + ((vampire_total_tier_one_traits() * 0.25) + (vampire_total_tier_two_traits() * 0.45) + (vampire_total_tier_three_traits() * 0.65) + (vampire_total_tier_four_traits_plus_potence() * 0.95)), 15)"
+              ]
+            }
+          },
+          { "value": "BONUS_DODGE", "add": 2 }
+        ]
+      }
+    ],
+    "flags": [ "HARDTOHIT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_fear_gazed",
+    "//": "Hidden effect, used to prevent spamming fear gaze repeatedly.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_studying_blood_gifts",
+    "//": "Hidden effect, used to make sure only active blood gift research gains powers.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_recently_learned_blood_gifts",
+    "name": [ "Learned blood gift" ],
+    "desc": [
+      "You recently discovered a gift of the blood.  Until you've experimented with it and tested your new powers, further research will be fruitless."
+    ],
+    "remove_message": "You're sure you could try to learn a new blood gift now.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_bat_form_levitation",
+    "//": "Hidden effect, used to make sure bat form can fly.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_mist_form",
+    "//": "Hidden effect, used to make sure mist form doesn't drop items.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
   },
   {
     "id": "eater_lump_pool",
@@ -777,6 +938,104 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_sylph_undine_wearing_iron",
+    "name": [ "Touching Iron" ],
+    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to burn.",
+    "remove_message": "The burning from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 10 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 200 ],
+      "pain_tick": [ 90 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.75 },
+      { "limb_score": "breathing", "modifier": 0.7 },
+      { "limb_score": "lift", "modifier": 0.8 },
+      { "limb_score": "grip", "modifier": 0.8 },
+      { "limb_score": "reaction", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_arvore_sylph_undine_wearing_steel",
+    "name": [ "Touching Steel" ],
+    "desc": [
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to burn.",
+    "remove_message": "The burning from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 8 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ 100 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.8 },
+      { "limb_score": "breathing", "modifier": 0.75 },
+      { "limb_score": "lift", "modifier": 0.9 },
+      { "limb_score": "grip", "modifier": 0.85 },
+      { "limb_score": "reaction", "modifier": 0.85 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_salamander_wearing_iron",
+    "name": [ "Touching Iron" ],
+    "desc": [ "You are in contact with iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed." ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to burn.",
+    "remove_message": "The burning from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 3 ],
+      "pain_max_val": [ 100 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9 },
+      { "limb_score": "breathing", "modifier": 0.85 },
+      { "limb_score": "lift", "modifier": 0.9 },
+      { "limb_score": "grip", "modifier": 0.9 },
+      { "limb_score": "reaction", "modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_salamander_wearing_steel",
+    "name": [ "Touching Steel" ],
+    "desc": [
+      "You are in contact with steel, the closest material to iron, the ancient bane of the fae.  It will cause you pain and discomfort until removed."
+    ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to itch.",
+    "remove_message": "The itching from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 2 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 6 ],
+      "pain_max_val": [ 50 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
@@ -994,6 +1253,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_fire_dot",
+    "name": [ "Fire in the Marrow" ],
+    "desc": [ "Your burning internal organs are making it more difficult to aim." ],
+    "rating": "bad",
+    "base_mods": { "hit_mod": [ -3 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_featherfall",
     "name": [ "" ],
     "desc": [ "" ],
@@ -1199,6 +1466,17 @@
     "remove_message": "Your feet touch the ground once again.",
     "rating": "good",
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_hindering_wind",
+    "name": [ "Hindering Winds" ],
+    "desc": [ "The winds are swirling around you and slowing you down!" ],
+    "apply_message": "A wind swirls up around you, slowing you.",
+    "remove_message": "The wind around you dies down.",
+    "rating": "bad",
+    "base_mods": { "dodge_mod": [ -2 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1422,6 +1700,43 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_walk_on_water",
+    "name": [ "Walk Across the Flowing Waters" ],
+    "desc": [ "The waters are bearing you up." ],
+    "rating": "good",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_skinchanged_penalties",
+    "name": [ "Skinchanged Mind" ],
+    "desc": [ "You're starting to get used to being an animal.  Even enjoy it." ],
+    "max_intensity": 20,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "INTELLIGENCE", "add": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') * -1" ] } },
+          {
+            "value": "PERCEPTION",
+            "add": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') * 0.33" ] }
+          },
+          {
+            "value": "SKILL_RUST_RESIST",
+            "multiply": { "math": [ "max(((u_effect_intensity('effect_skinchanged_penalties') - 3) * 0.8),0)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_skinchanged_animalistic_mind",
+    "name": [ "Animalistic Mind" ],
+    "desc": [ "Hunt.  Kill.  Feed.  Sleep." ],
+    "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_plantkin",
     "name": [ "Arvore Mutation", "Arvore Transformation", "Arvore Metamorphosis" ],
     "desc": [
@@ -1544,5 +1859,11 @@
     "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Dangerous levels of oxygen and nitrogen in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "called_daffodil",
+    "name": [ "Called the daffodil" ],
+    "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
   }
 ]

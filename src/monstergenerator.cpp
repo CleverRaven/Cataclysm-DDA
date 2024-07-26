@@ -383,6 +383,8 @@ void MonsterGenerator::finalize_mtypes()
         mon.difficulty *= ( mon.hp + mon.speed - mon.attack_cost + ( mon.morale + mon.agro ) * 0.1 ) * 0.01
                           + ( mon.vision_day + 2 * mon.vision_night ) * 0.01;
 
+        mon.difficulty = std::max( 1, mon.difficulty );
+
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
         }
@@ -508,7 +510,7 @@ mtype MonsterGenerator::generate_fake_pseudo_dormant_monster( const mtype &mon )
     // first make a new mon_spellcasting_actor actor
     std::unique_ptr<mon_spellcasting_actor> new_actor( new mon_spellcasting_actor() );
     new_actor->allow_no_target = true;
-    new_actor->cooldown = 1;
+    new_actor->cooldown.min.dbl_val = 1;
     new_actor->spell_data.id = spell_pseudo_dormant_trap_setup;
     new_actor->spell_data.self = true;
 
@@ -589,7 +591,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
     add_hardcoded_attack( "RATTLE", mattack::rattle );
-    add_hardcoded_attack( "HOWL", mattack::howl );
     add_hardcoded_attack( "ACID", mattack::acid );
     add_hardcoded_attack( "ACID_BARF", mattack::acid_barf );
     add_hardcoded_attack( "ACID_ACCURATE", mattack::acid_accurate );
@@ -626,7 +627,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "JACKSON", mattack::jackson );
     add_hardcoded_attack( "DANCE", mattack::dance );
     add_hardcoded_attack( "DOGTHING", mattack::dogthing );
-    add_hardcoded_attack( "GENE_STING", mattack::gene_sting );
     add_hardcoded_attack( "PARA_STING", mattack::para_sting );
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
     add_hardcoded_attack( "PHOTOGRAPH", mattack::photograph );
@@ -1080,6 +1080,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "dissect", dissect );
 
+    optional( jo, was_loaded, "decay", decay );
+
     if( jo.has_array( "shearing" ) ) {
         std::vector<shearing_entry> entries;
         for( JsonObject shearing_entry : jo.get_array( "shearing" ) ) {
@@ -1280,6 +1282,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_traps", path_settings.avoid_traps, false );
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
+        optional( jop, was_loaded, "avoid_dangerous_fields", path_settings.avoid_dangerous_fields, false );
     }
 }
 
@@ -1463,8 +1466,6 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
 
 void mattack_actor::load( const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
-
     // Legacy support
     if( !jo.has_string( "id" ) ) {
         id = jo.get_string( "type" );
@@ -1473,7 +1474,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
         assign( jo, "id", id, false );
     }
 
-    assign( jo, "cooldown", cooldown, strict );
+    cooldown = get_dbl_or_var( jo, "cooldown", false, 0.0 );
 
     load_internal( jo, src );
     // Set was_loaded manually because we don't have generic_factory to do it for us
@@ -1527,7 +1528,14 @@ void mtype::add_special_attack( const JsonArray &inner, const std::string_view )
         }
     }
     mtype_special_attack new_attack = mtype_special_attack( iter->second );
-    new_attack.actor->cooldown = inner.get_int( 1 );
+    if( inner.has_array( 1 ) ) {
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner.get_array( 1 )[0],
+                                         "special attack cooldown", 0.0 );
+        new_attack.actor->cooldown.max = get_dbl_or_var_part( inner.get_array( 1 )[1],
+                                         "special attack cooldown", 0.0 );
+    } else {
+        new_attack.actor->cooldown.min = get_dbl_or_var_part( inner[1], "special attack cooldown", 0.0 );
+    }
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
 }

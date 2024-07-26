@@ -52,7 +52,16 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "PADDED",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL",
+      "MUNDANE",
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
+    ]
   },
   {
     "id": "helmet_inventor_on",
@@ -165,7 +174,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -227,7 +236,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -339,7 +348,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [ "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
   },
   {
     "id": "aura_force_on",
@@ -382,7 +391,17 @@
     ],
     "ammo": [ "battery" ],
     "material_thickness": 0.1,
-    "flags": [ "WATCH", "ALARMCLOCK", "SKINTIGHT", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "SKINTIGHT",
+      "WATER_BREAK",
+      "CALORIES_INTAKE",
+      "ELECTRONIC",
+      "MUNDANE",
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -529,7 +548,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
@@ -592,7 +611,7 @@
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
-    "flags": [ "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },

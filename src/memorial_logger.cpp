@@ -1113,6 +1113,7 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::camp_taken_over:
         case event_type::character_consumes_item:
         case event_type::character_dies:
         case event_type::character_eats_item:
@@ -1129,6 +1130,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_wakes_up:
         case event_type::character_attempt_to_fall_asleep:
         case event_type::character_falls_asleep:
+        case event_type::character_radioactively_mutates:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
         case event_type::character_casts_spell:

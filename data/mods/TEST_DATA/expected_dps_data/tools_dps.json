@@ -1,0 +1,43 @@
+[
+  {
+    "type": "test_data",
+    "//": "Conventional tools",
+    "expected_dps": {
+      "makeshift_crutches": 5.59,
+      "bronze_hoe": 5.6,
+      "grapnel": 5.64,
+      "honey_scraper": 5.58,
+      "swage": 5.71,
+      "hammer_bronze": 5.78,
+      "bronze_sickle": 6.13,
+      "lug_wrench": 6.18,
+      "metalworking_tongs_bronze": 6.18,
+      "metalworking_tongs": 6.18,
+      "makeshift_hammer": 6.18,
+      "sickle_stone": 5.33,
+      "atlatl": 7.13,
+      "big_pliers": 5.49,
+      "hoe": 7.38,
+      "kevlar_shears": 7.62,
+      "drift": 8.5,
+      "awl_steel": 8.53,
+      "wrench_large": 6.48,
+      "bronze_pickaxe": 7.77,
+      "shovel_snow": 5.49,
+      "hotcut_bronze": 9.61,
+      "hotcut": 9.61,
+      "crutches": 13.49
+    }
+  },
+  {
+    "type": "test_data",
+    "//": "Powered tools",
+    "expected_dps": {
+      "polesaw_on": 9.4,
+      "trimmer_on": 14.71,
+      "elec_chainsaw_on": 16.18,
+      "masonrysaw_on": 19.29,
+      "electric_masonrysaw_on": 19.29
+    }
+  }
+]

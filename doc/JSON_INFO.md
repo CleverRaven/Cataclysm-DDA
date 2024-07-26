@@ -39,6 +39,7 @@ Use the `Home` key to return to the top.
     - [Damage Info Ordering](#damage-info-ordering)
     - [Dreams](#dreams)
     - [Disease](#disease)
+    - [End Screen](#end-screen)
     - [Emitters](#emitters)
     - [Item Groups](#item-groups)
     - [Item Category](#item-category)
@@ -1512,6 +1513,41 @@ Using `damage_info_order` we can reorder how these are shown, and even determine
   }
 ```
 
+### End Screen
+
+| Identifier           | Description
+|---                   |---
+| `id`                 | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| `priority`           | (_mandatory_) Int used to chose among several end sreens with valid conditions, higher value have higher priority. Priority 0 is the default tombstone end.
+| `picture_id`         | (_mandatory_) ID of an ascii art, see #Ascii_arts.
+| `condition`          | (_mandatory_) Conditions necessary to display this end screen.  See the "Dialogue conditions" section of [NPCs](NPCs.md) for the full syntax.
+| `added_info`         | (_optional_) Vector of pairs of a pair of int character offset and Line number and a string to be written on the end screen. The string can use talk tags, see the "Special Custom Entries" section of [NPCs](NPCs.md) for the full syntax.
+| `last_words_label`   | (_optional_) String used to label the last word input prompt. If left empty no prompt will be displayed.
+
+```json
+  {
+    "type": "end_screen",
+    "id": "death_cross",
+    "priority": 1,
+    "picture_id": "ascii_rip_cross",
+    "condition": {
+      "and": [
+        { "not": "u_is_alive" },
+        {
+          "or": [ { "u_has_item": "holybook_bible1" }, { "u_has_item": "holybook_bible2" }, { "u_has_item": "holybook_bible3" } ]
+        },
+        { "not": { "and": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] } }
+      ]
+    },
+    "added_info": [
+      [ [ 8, 8 ], "In memory of: <u_name>" ],
+      [ [ 15, 9 ], "Survived: <time_survived>" ],
+      [ [ 17, 10 ], "Kills: <total_kills>" ]
+    ],
+    "last_words_label": "Last Words:"
+  }
+```
+
 ### Emitters
 
 Emitters randomly place [fields](#field-types) around their positions - every turn for monster emissions, every ten seconds for furniture/terrain.
@@ -1653,6 +1689,7 @@ Fault fixes are methods to fix faults, the fixes can optionally add other faults
   "faults_added": [ "fault_gun_unlubricated" ], // faults added when fix is applied
   "skills": { "mechanics": 1 }, // skills required to apply fix
   "set_variables": { "dirt": "0" }, // sets the variables on the item when fix is applied
+  "adjust_variables_multiply": { "dirt": ".8" }, // adjusts the variables on the item when fix is applied using MULTIPLICATION
   "requirements": [ [ "gun_cleaning", 1 ] ], // requirements array, see below
   "mod_damage": 1000, // damage to modify on item when fix is applied, can be negative to repair
   "mod_degradation": 50, // degradation to modify on item when fix is applied, can be negative to reduce degradation
@@ -3412,13 +3449,13 @@ Weakpoints only match if they share the same id, so it's important to define the
   "bash": 0,
   "cut": 0
 },
-"to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
-"to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
+"to_hit" {                                   // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
   "grip": "solid",                           // the item's grip value
   "length": "long",                          // the item's length value
   "surface": "point",                        // the item's striking surface value
   "balance": "neutral"                       // the item's balance value
 },
+"to_hit": 1,                                 // (Optional, legacy, default = -2) To-hit bonus if using it as a melee weapon.
 "variant_type": "gun"      // Possible options: "gun", "generic" - controls which options enable/disable seeing the variants of this item.
 "variants": [              // Cosmetic variants this item can have
   {
@@ -3473,7 +3510,7 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
-See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteria for selecting each value.
+See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
@@ -3494,6 +3531,7 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
   ]
 },
 "range" : 5,          // Range when fired
+"recovery_chance": 6, // Percentage of chance to recover the ammo after firing
 "dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
 "shot_counter": 5,    // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5); designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
 "projectile_count": 5,// amount of pellets, that the ammo will shot, like in shotgun-like weapon; if used, shot_damage should be specified
@@ -3550,6 +3588,9 @@ ammo_effects define what effect the projectile, that you shoot, would have. List
   "do_flashbang": false,     // Creates a one tile radius EMP explosion at the hit location; default false
   "do_emp_blast": false      // Creates a hardcoded flashbang explosion; default false
   "foamcrete_build": false   // Creates foamcrete fields and walls on the hit location, used in aftershock; default false
+  "spell_data": { "id": "bear_trap" } // Spell, that would be casted when projectile hits an enemy
+  "spell_data": { "id": "release_the_deltas", "hit_self": true, "min_level": 10 }, //another example
+  "always_cast_spell ": false // if spell_data is used, and this is true, spell would be casted even if projectile did not deal any damage. Default false.
 }
 ```
 
@@ -4035,7 +4076,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
 
-    "inherits_flags": true // if a pocket inherits flags it means any flags that the items inside have contribute to the item that has the pockets itself.
+    "inherits_flags": true // Items in this pocket pass their flags to the parent item.
   }
 ]
 ```
@@ -4060,7 +4101,12 @@ Any Item can be a container. To add the ability to contain things to an item, yo
   "cut": 12
 },
 "flags" : ["CHOP"],    // Indicates special effects
-"to_hit": 1            // To-hit bonus if using it as a melee weapon
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+  "grip": "solid",                           
+  "length": "long",                          
+  "surface": "point",                        
+  "balance": "neutral"                       
+}
 ```
 ### Memory Cards
 
@@ -4229,7 +4275,12 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
   "bash": 12,
   "cut": 0
 },
-"to_hit": 3,          // To-hit bonus if using it as a melee weapon
+"to_hit" {             // (Optional) To hit bonus values, omit if item isn't suited to be used as a melee weapon, see [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value) for individual value breakdowns.
+  "grip": "solid",                           
+  "length": "long",                          
+  "surface": "point",                        
+  "balance": "neutral"                       
+}
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
 "fuel_efficiency": 0.2, // When combined with being a UPS this item will burn fuel for its given energy value to produce energy with the efficiency provided. Needs to be > 0 for this to work
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below

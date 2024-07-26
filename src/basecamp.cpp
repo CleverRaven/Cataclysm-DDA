@@ -19,6 +19,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
@@ -28,6 +29,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
@@ -187,9 +189,12 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type )
+void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type,
+                            bool player_founded )
 {
-    query_new_name( true );
+    if( player_founded ) {
+        query_new_name( true );
+    }
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -205,9 +210,11 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view ca
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
         const std::string direction = oter_get_rotation_string( omt_ref );
-        const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
-                            direction );
-        overmap_buffer.ter_set( omt_pos, bcid );
+        if( player_founded ) {
+            const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
+                                direction );
+            overmap_buffer.ter_set( omt_pos, bcid );
+        }
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -317,6 +324,24 @@ bool basecamp::has_water() const
 {
     // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
+}
+
+bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
+{
+    // The owner can always access their own camp.
+    if( fac() == guy.get_faction() ) {
+        return true;
+    }
+    // Sharing stuff also means sharing access.
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+        return true;
+    }
+    // Some factions will share access to infinite water sources, but not food
+    if( water_request &&
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
+        return true;
+    }
+    return false;
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
@@ -429,6 +454,7 @@ void basecamp::update_resources( const std::string &bldg )
 void basecamp::update_provides( const std::string &bldg, expansion_data &e_data )
 {
     if( !recipe_id( bldg ).is_valid() ) {
+        debugmsg( "Invalid basecamp recipe %s", bldg );
         return;
     }
 
@@ -733,7 +759,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     // find available fuel
 
     for( const tripoint_abs_ms &abs_ms_pt : src_set ) {
-        const tripoint &pt = target_map.getlocal( abs_ms_pt );
+        const tripoint_bub_ms &pt = target_map.bub_from_abs( abs_ms_pt );
         if( target_map.accessible_items( pt ) ) {
             for( const item &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
@@ -808,19 +834,83 @@ void basecamp::unload_camp_map()
 
 void basecamp::set_owner( faction_id new_owner )
 {
-    for( const std::pair<faction_id, faction> fac : g->faction_manager_ptr->all() ) {
-        if( fac.first == new_owner ) {
-            owner = new_owner;
-            return;
-        }
-    }
-    //Fallthrough, id must be invalid
-    debugmsg( "Could not find matching faction for new owner's faction_id!" );
+    // Absolutely no safety checks, factions don't exist until you've encountered them but we sometimes set the owner before that
+    owner = new_owner;
 }
 
 faction_id basecamp::get_owner()
 {
     return owner;
+}
+
+void basecamp::handle_takeover_by( faction_id new_owner, bool violent_takeover )
+{
+    get_event_bus().send<event_type::camp_taken_over>( get_owner(), new_owner, name, violent_takeover );
+
+    // If anyone was somehow assigned here, they aren't any longer.
+    assigned_npcs.clear();
+    camp_workers.clear();
+
+    add_msg_debug( debugmode::DF_CAMPS, "Camp %s owned by %s is being taken over by %s!",
+                   name, fac()->name, new_owner->name );
+
+    if( !violent_takeover ) {
+        set_owner( new_owner );
+        return;
+    }
+
+    // Since it was violent, the old owner is going to be upset.
+    // Currently only handles player faction, and very bluntly.
+    if( new_owner == get_player_character().get_faction()->id ) {
+        fac()->likes_u -= 100;
+        fac()->trusts_u -= 100;
+    }
+
+    int num_of_owned_camps = 0;
+    // Go over all camps in existence and count the ones belonging to current owner
+    // TODO: Remove this when camps stop being stored on the player
+    for( tripoint_abs_omt camp_loc : get_player_character().camps ) {
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+        if( !bcp ) {
+            continue;
+        }
+        basecamp *checked_camp = *bcp;
+        // Note: Will count current basecamp object as well
+        if( checked_camp->get_owner() == get_owner() ) {
+            add_msg_debug( debugmode::DF_CAMPS,
+                           "Camp %s at %s is owned by %s, adding it to plunder calculations.",
+                           checked_camp->name, checked_camp->camp_omt_pos().to_string_writable(), get_owner()->name );
+            num_of_owned_camps++;
+        }
+    }
+
+    if( num_of_owned_camps < 1 ) {
+        debugmsg( "Tried to take over a camp owned by %s, but they somehow own no camps!  Is the owner's faction id no longer valid?",
+                  get_owner().c_str() );
+        // Also abort the rest
+        set_owner( new_owner );
+        return;
+    }
+
+    // The faction taking over also seizes resources proportional to the number of camps the previous owner had
+    // e.g. a single-camp faction has its entire stockpile plundered, a 10-camp faction has 10% transferred
+    nutrients captured_with_camp = fac()->food_supply / num_of_owned_camps;
+    nutrients taken_from_camp = -captured_with_camp;
+    camp_food_supply( taken_from_camp );
+    add_msg_debug( debugmode::DF_CAMPS,
+                   "Food supplies of %s plundered by %d kilocalories!  Total food supply reduced to %d kilocalories after losing %.1f%% of their camps.",
+                   fac()->name, captured_with_camp.kcal(), fac()->food_supply.kcal(),
+                   1.0 / static_cast<double>( num_of_owned_camps ) * 100.0 );
+    set_owner( new_owner );
+    int previous_days_of_food = camp_food_supply_days( MODERATE_EXERCISE );
+    camp_food_supply( captured_with_camp );
+    add_msg_debug( debugmode::DF_CAMPS,
+                   "Food supply of new owner %s has increased to %d kilocalories due to takeover of camp %s!",
+                   fac()->name, new_owner->food_supply.kcal(), name );
+    if( new_owner == get_player_character().get_faction()->id ) {
+        popup( _( "Through your looting of %s you found %d days worth of food and other resources." ),
+               name, camp_food_supply_days( MODERATE_EXERCISE ) - previous_days_of_food );
+    }
 }
 
 void basecamp::form_crafting_inventory()
@@ -860,7 +950,7 @@ bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
 void basecamp::load_data( const std::string &data )
 {
     std::stringstream stream( data );
-    stream >> name >> bb_pos.x >> bb_pos.y;
+    stream >> name >> bb_pos.x() >> bb_pos.y();
     // add space to name
     replace( name.begin(), name.end(), '_', ' ' );
 }

@@ -1029,7 +1029,7 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
  * Handle input and update display
  *
  */
-void uilist::query( bool loop, int timeout )
+void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 {
 #if defined(__ANDROID__)
     bool auto_pos = w_x_setup.fun == nullptr && w_y_setup.fun == nullptr &&
@@ -1140,19 +1140,26 @@ void uilist::query( bool loop, int timeout )
             }
             filterlist();
         } else if( iter != keymap.end() ) {
-            const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
-            if( it != fentries.end() ) {
-                const bool enabled = entries[*it].enabled;
-                if( enabled || allow_disabled || hilight_disabled ) {
-                    // Change the selection to display correctly when this function
-                    // is called again.
-                    fselected = std::distance( fentries.begin(), it );
-                    selected = *it;
-                    if( enabled || allow_disabled ) {
-                        ret = entries[selected].retval;
-                    }
-                    if( callback != nullptr ) {
-                        callback->select( this );
+            if( allow_unfiltered_hotkeys ) {
+                const bool enabled = entries[iter->second].enabled;
+                if( enabled || allow_disabled ) {
+                    ret = entries[iter->second].retval;
+                }
+            } else {
+                const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
+                if( it != fentries.end() ) {
+                    const bool enabled = entries[*it].enabled;
+                    if( enabled || allow_disabled || hilight_disabled ) {
+                        // Change the selection to display correctly when this function
+                        // is called again.
+                        fselected = std::distance( fentries.begin(), it );
+                        selected = *it;
+                        if( enabled || allow_disabled ) {
+                            ret = entries[selected].retval;
+                        }
+                        if( callback != nullptr ) {
+                            callback->select( this );
+                        }
                     }
                 }
             }

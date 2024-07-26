@@ -15,6 +15,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -886,7 +887,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, critter->pos_bub() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const units::angle angle =
@@ -2007,8 +2008,10 @@ bool vehicle::level_vehicle()
                                      !here.supports_above( part_pos + tripoint_below );
         }
         if( !is_on_ramp &&
-            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint( part_pos.xy(), part_pos.z - 1 ) ) ||
-              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint( part_pos.xy(), part_pos.z + 1 ) ) ) ) {
+            ( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, tripoint_bub_ms( part_pos.x, part_pos.y,
+                             part_pos.z - 1 ) ) ||
+              here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, tripoint_bub_ms( part_pos.x, part_pos.y,
+                             part_pos.z + 1 ) ) ) ) {
             is_on_ramp = true;
         }
     }
@@ -2032,7 +2035,7 @@ bool vehicle::level_vehicle()
         }
     }
     if( adjust_level ) {
-        here.displace_vehicle( *this, tripoint_below, center_drop, dropped_parts );
+        here.displace_vehicle( *this, tripoint_rel_ms_below, center_drop, dropped_parts );
         return false;
     } else {
         return true;

@@ -41,7 +41,7 @@
     "color": "red",
     "see_cost": 5,
     "spawns": { "group": "GROUP_OIL_PLATFORM", "population": [ 15, 20 ], "chance": 100 },
-    "flags": [ "RISK_HIGH", "OCEAN" ]
+    "flags": [ "RISK_HIGH", "OCEAN", "SOURCE_FUEL", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -59,7 +59,7 @@
     "color": "red",
     "see_cost": 5,
     "spawns": { "group": "GROUP_OIL_PLATFORM", "population": [ 25, 35 ], "chance": 100 },
-    "flags": [ "RISK_HIGH", "OCEAN" ]
+    "flags": [ "RISK_HIGH", "OCEAN", "SOURCE_FUEL", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -163,6 +163,6 @@
     "sym": "O",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH", "OCEAN" ]
+    "flags": [ "RISK_HIGH", "OCEAN", "SOURCE_FUEL", "GENERIC_LOOT" ]
   }
 ]

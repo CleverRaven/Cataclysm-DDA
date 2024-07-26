@@ -568,8 +568,32 @@
     "base_casting_time": 6000,
     "final_casting_time": 1500,
     "casting_time_increment": -225,
-    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth.  They need to go stand in the sun for that.",
-    "learn_spells": { "arvore_summon_preservation_container": 6, "arvore_tree_singing_spell": 10 }
+    "learn_spells": { "arvore_summon_preservation_container": 6, "arvore_tree_singing_spell": 10, "arvore_nurture_the_green_aoe": 14 }
+  },
+  {
+    "id": "arvore_nurture_the_green_aoe",
+    "type": "SPELL",
+    "name": "Spreading the Viridian Mantle",
+    "description": "Rather than fostering the growth of a single plant, you can cause a wave of growth all around you, affecting an entire field and bringing it towards ripeness.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "shape": "blast",
+    "difficulty": 9,
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_plant_growth",
+    "min_aoe": { "math": [ "(1 + (u_spell_level('arvore_nurture_the_green_aoe') * 1) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+    "max_aoe": { "math": [ "(1 + (u_spell_level('arvore_nurture_the_green_aoe') * 1) * (scaling_factor(u_val('intelligence') ) ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 2500,
+    "energy_increment": -50,
+    "base_casting_time": 720000,
+    "final_casting_time": 360000,
+    "casting_time_increment": -15000
   },
   {
     "id": "arvore_growing_wood_walls",
@@ -973,7 +997,7 @@
     "base_casting_time": 200,
     "casting_time_increment": -5,
     "final_casting_time": 100,
-    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT" ]
+    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
   },
   {
     "id": "arvore_turn_into_tree_banish",
@@ -991,7 +1015,7 @@
     "max_damage": { "math": [ "(100 + (u_arvore_turn_into_tree_spell_level * 15)) * u_arvore_turn_into_tree_intelligence" ] },
     "min_range": 0,
     "max_range": 0,
-    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT" ]
+    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT", "ROBOT_FLYING" ]
   },
   {
     "id": "arvore_reduce_thirst_spell",
@@ -1118,6 +1142,7 @@
       "ZOMBIE",
       "FERAL",
       "ROBOT",
+      "ROBOT_FLYING",
       "HORROR",
       "ABERRATION",
       "HALLUCINATION",

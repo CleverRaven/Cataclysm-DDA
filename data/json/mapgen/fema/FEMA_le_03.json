@@ -1,6 +1,42 @@
 [
   {
     "type": "mapgen",
+    "nested_mapgen_id": "fema_le_03_roof",
+    "//": "left edge",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  --------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  --------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": "FEMA_le",
     "//": "left edge",
     "weight": 200,
@@ -47,7 +83,8 @@
         { "item": "id_science_visitor_1", "x": 14, "y": [ 14, 17 ], "chance": 30 }
       ],
       "item": { "B": { "item": "cotton_patchwork", "amount": [ 0, 5 ], "custom-flags": [ "FILTHY" ] } },
-      "monster": { "Z": { "monster": "mon_zombie_brute" }, "z": { "monster": "mon_zombie_scientist" } }
+      "monster": { "Z": { "monster": "mon_zombie_brute" }, "z": { "monster": "mon_zombie_scientist" } },
+      "place_nested": [ { "chunks": [ "fema_le_03_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

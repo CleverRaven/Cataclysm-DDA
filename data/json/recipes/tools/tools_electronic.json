@@ -300,7 +300,7 @@
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_circuits" }
     ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 6 ] ],
@@ -328,7 +328,7 @@
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_circuits" }
     ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "antenna", 1 ], [ "screwdriver", 1 ], [ "xacto", 1 ], [ "knife_butter", 1 ] ],
@@ -356,7 +356,7 @@
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_circuits" }
     ],
-    "using": [ [ "soldering_standard", 12 ], [ "surface_heat", 12 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 12 ], [ "plastic_molding", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 6 ] ],
@@ -384,7 +384,7 @@
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_elec_circuits" }
     ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 6 ] ],
@@ -461,8 +461,8 @@
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
-        [ "knife_butcher", 2 ],
-        [ "knife_steak", 6 ],
+        [ "knife_huge", 2 ],
+        [ "knife_small", 6 ],
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
@@ -493,8 +493,8 @@
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
-        [ "knife_butcher", 2 ],
-        [ "knife_steak", 6 ],
+        [ "knife_huge", 2 ],
+        [ "knife_small", 6 ],
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
@@ -744,7 +744,7 @@
       [ "textbook_fabrication", 3 ],
       [ "manual_fabrication", 4 ]
     ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
@@ -804,7 +804,7 @@
     "time": "8 h 45 m",
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 20 ], [ "plastic_molding", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 8 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
@@ -837,7 +837,7 @@
     "time": "3 h",
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" }, { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "plastic_molding", 2 ], [ "soldering_standard", 5 ] ],
+    "using": [ [ "plastic_molding", 7 ], [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [
       [ [ "metalworking_tongs_any", 1, "LIST" ] ],
@@ -845,7 +845,12 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 150 ] ]
     ],
-    "components": [ [ [ "glass_shard", 8 ] ], [ [ "element", 1 ], [ "crude_heating_element", 1 ] ], [ [ "cable", 10 ] ] ]
+    "components": [
+      [ [ "glass_shard", 8 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "element", 1 ], [ "crude_heating_element", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -869,6 +874,28 @@
       [ [ "scrap", 5 ] ],
       [ [ "draw_plate", 1 ] ],
       [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "noise_emitter_super",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "radio_book", 2 ], [ "textbook_anarch", 3 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "noise_emitter", 1 ], [ "horn_big", 1 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "amplifier_head", 1 ] ]
     ]
   }
 ]

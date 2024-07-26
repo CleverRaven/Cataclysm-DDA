@@ -1639,7 +1639,8 @@
     "type": "GENERIC",
     "id": "sketch",
     "copy-from": "paper",
-    "name": { "str_sp": "sketch" },
+    "category": "other",
+    "name": { "str": "sketch", "str_pl": "sketches" },
     "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
     "price": "0 cent",
     "price_postapoc": "5 cent",
@@ -1680,6 +1681,7 @@
     "type": "GENERIC",
     "id": "painting",
     "copy-from": "sheet_canvas",
+    "category": "other",
     "name": { "str_sp": "painting" },
     "description": "A painting that someone has made.",
     "price": "100 USD",
@@ -1719,14 +1721,12 @@
     "color": "light_gray",
     "name": { "str": "stone sculpture" },
     "description": "A medium-sized stone sculpture.",
-    "category": "spare_parts",
     "material": "stone",
     "weight": "7884 g",
     "volume": "20813 ml",
     "longest_side": "30 cm",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "variants": [
       {
         "id": "statue_person",
@@ -1769,15 +1769,13 @@
     "symbol": ";",
     "color": "brown",
     "name": { "str": "clay sculpture" },
-    "description": "A medium-sized clay sculpture.",
-    "category": "spare_parts",
+    "description": "A small clay sculpture.",
     "material": "clay",
     "weight": "150 g",
     "volume": "94 ml",
     "longest_side": "30 cm",
     "price": "800 USD",
     "price_postapoc": "25 cent",
-    "to_hit": -2,
     "variants": [
       {
         "id": "statue_person",
@@ -1813,5 +1811,61 @@
       }
     ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_collapsible",
+    "name": { "str": "collapsible butterfly net" },
+    "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.  It must be extended to use.",
+    "weight": "247 g",
+    "volume": "780 ml",
+    "longest_side": "235 mm",
+    "color": "light_gray",
+    "symbol": "P",
+    "material": [ { "type": "aluminum", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
+    "price_postapoc": "15 cent",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 },
+    "use_action": {
+      "menu_text": "Extend",
+      "type": "transform",
+      "target": "butterfly_net_collapsible_extended",
+      "msg": "You snap open your butterfly net."
+    },
+    "//": "Volume based on https://www.amazon.com/dp/B0CBLV98KP with the assumption that it's a cylinder with a 6.5cm diameter - using 13cm would give ridiculously high volume, and the 13cm assumption on the website includes only half of the collapsed length."
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_collapsible_extended",
+    "name": { "str": "collapsible butterfly net (extended)", "str_pl": "collapsible butterfly nets (extended)" },
+    "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
+    "copy-from": "butterfly_net_collapsible",
+    "longest_side": "92 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "use_action": {
+      "menu_text": "Collapse",
+      "type": "transform",
+      "target": "butterfly_net_collapsible",
+      "msg": "You collapse your butterfly net."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_makeshift",
+    "name": { "str": "butterfly net" },
+    "description": "A piece of canvas stretched over a stick.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
+    "weight": "376 g",
+    "volume": "865 ml",
+    "longest_side": "92 cm",
+    "color": "brown",
+    "symbol": "P",
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
+    "price_postapoc": "5 cent",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 }
   }
 ]

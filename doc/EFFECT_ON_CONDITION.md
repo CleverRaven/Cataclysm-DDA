@@ -966,6 +966,7 @@ check do you stand in a cloud of smoke
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
 #### Examples
 Create a popup with message `You have died.  Continue as one of your followers?`
 ```json
@@ -1032,9 +1033,9 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
 },
 ```
 
-### `map_terrain_id`, `map_furniture_id`
+### `map_terrain_id`, `map_furniture_id`, `map_field_id`
 - type: string or [variable object](##variable-object)
-- return true if the terrain or furniture has specific id
+- return true if the terrain, furniture or field has specific id
 - `loc` will specify location of terrain or furniture (**mandatory**)
 
 #### Valid talkers:
@@ -1145,9 +1146,10 @@ Check whether the eoc `test_condition` would use its true or false effect
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
 
-EOC Name | Description | Variables |
---------------------- | --------- | ----------- |
-EOC_RandEnc | Spawns a random encounter at the specified `omt` with mapgen update `map_update` that is later removed with `map_removal`. It has a 1 in `chance` chance of happening and can only occur after `days_till_spawn`. Can optionally only happen if `random_enc_condition` is true | `map_update`: a mapgen update ID <br/> `omt`: overmap tile ID where this happens <br/> `map_removal`: a mapgen update ID <br/> `chance`: an integer <br/> `days_till_spawn`: an integer <br/> `random_enc_condition`: a set condition
+| EOC Name | Description | Variables |
+| --------------------- | --------- | ----------- |
+| EOC_RandEnc | Spawns a random encounter at the specified `omt` with mapgen update `map_update` that is later removed with `map_removal`. It has a 1 in `chance` chance of happening and can only occur after `days_till_spawn`. Can optionally only happen if `random_enc_condition` is true | `map_update`: a mapgen update ID <br/> `omt`: overmap tile ID where this happens <br/> `map_removal`: a mapgen update ID <br/> `chance`: an integer <br/> `days_till_spawn`: an integer <br/> `random_enc_condition`: a set condition |
+
 # EVENT EOCs:
 EVENT EOCs trigger on in game events specified in the event_type enum in `event.h`. When an EVENT EOC triggers it tries to perform the EOC on the NPC that is the focus of the event and if it cannot determine one, triggers on the avatar. So any cata_event that has a field for "avatar_id", "character", "attacker", "killer", "npc" will potentially resolve to another npc rather than the avatar, based on who the event triggers for.
 
@@ -1170,6 +1172,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | broken_bone | Triggered when any body part reaches 0 hp | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
 | broken_bone_mends | Triggered when `mending` effect is removed by expiry (Character::mend) | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
 | buries_corpse | Triggers when item with flag CORPSE is located on same tile as construction with post-special `done_grave` is completed | { "character", `character_id` },<br/> { "corpse_type", `mtype_id` },<br/> { "corpse_name", `string` }, | character / NONE |
+| camp_taken_over | Triggers any faction's camp is taken over | { "old_owner", `faction_id` }, <br/> { "new_Owner", `faction_id` }, <br/> { "camp_name", `string` }, <br/> { "was_violent", `bool` }, | avatar / NONE |
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
 | character_butchered_corpse | Triggers after succesful butchering action. Possible values of butcher_type are `ACT_BLEED`, `ACT_BUTCHER`, `ACT_BUTCHER_FULL`, `ACT_FIELD_DRESS`, `ACT_SKIN`, `ACT_QUARTER`, `ACT_DISMEMBER`, `ACT_DISSECT` | { "character", `character_id` }, { "monster_id", `mtype_id` }, { "butcher_type", `string` }, | character / NONE |
 | character_casts_spell | Triggers when a character casts spells. When a spell with multiple effects is cast, the number of effects will be triggered | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "school", `trait_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
@@ -1187,6 +1190,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_loses_effect |  | { "character", `character_id` },<br/> { "effect", `efftype_id` },<br/> { "bodypart", `bodypart_id` } | character / NONE |
 | character_melee_attacks_character |  | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
 | character_melee_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "hits", `bool` },<br/> { "victim_type", `mtype_id` },| character / monster |
+| character_radioactively_mutates | triggered when a character mutates due to being irradiated | { "character", `character_id` }, | character / NONE |
 | character_ranged_attacks_character | |  { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim", `character_id` },<br/> { "victim_name", `string` }, | character (attacker) / character (victim) |
 | character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
@@ -2045,7 +2049,7 @@ Run EOCs on items in your or NPC's inventory
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
-| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items;<br/>`calories` - minimum amount of kcal of an item | 
+| "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items;<br/>`calories` - minimum amount of kcal of an item | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
 | "true_eocs" / "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
 
@@ -2085,7 +2089,20 @@ Pick a wooden item with `DURABLE_MELEE` and `ALWAYS_TWOHAND` flags, and run `EOC
   ]
 }
 ```
-
+Pick all items with `RECHARGE` _or_ `ELECTRONIC` flags, and run `EOC_PRINT_ITEM_CHARGE` on them.
+```json
+{
+  "type": "effect_on_condition",
+  "id": "eoc_print_inv_power",
+  "effect": [
+    {
+      "u_run_inv_eocs": "all",
+      "search_data": [ { "flags": [ "RECHARGE" ] }, { "flags": [ "ELECTRONIC" ] } ],
+      "true_eocs": [ "EOC_PRINT_ITEM_CHARGE" ]
+    }
+  ]
+}
+```
 
 #### `u_map_run_item_eocs`, `npc_map_run_item_eocs`
 Search items around you on the map, and run EoC on them
@@ -2096,7 +2113,7 @@ Search items around you on the map, and run EoC on them
 | "loc" | optional | location variable | location, where items would be scanned; lack of it would scan only tile the talker stands on | 
 | "min_radius", "max_radius" | optional | int or [variable object](#variable-object) | radius around the location/talker that would be searched | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu that would be shown, if `manual` or `manual_mult` values are used | 
-| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "search_data" | optional | `search_data` | sets the condition(s) for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc | 
 
 ##### Valid talkers:
@@ -2837,7 +2854,7 @@ Search a specific coordinates of map around `u_`, `npc_` or `target_params` and 
 | "target_params" | optional | assign_mission_target | if used, the search would be performed not from `u_` or `npc_` location, but from `mission_target`. it uses an [assign_mission_target](MISSIONS_JSON.md) syntax | 
 | "x_adjust", "y_adjust", "z_adjust" | optional | int, float or [variable object](##variable-object) | add this amount to `x`, `y` or `z` coordinate in the end; `"x_adjust": 2` would save the coordinate with 2 tile shift to the right from targeted | 
 | "z_override" | optional | boolean | default is false; if true, instead of adding up to `z` level, override it with absolute value; `"z_adjust": 3` with `"z_override": true` turn the value of `z` to `3` | 
-| "terrain" / "furniture" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](##variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
+| "terrain" / "furniture" / "field" / "trap" / "monster" / "zone" / "npc" | optional | string or [variable object](##variable-object) | if used, search the entity with corresponding id between `target_min_radius` and `target_max_radius`; if empty string is used (e.g. `"monster": ""`), return any entity from the same radius  | 
 | "target_min_radius", "target_max_radius" | optional | int, float or [variable object](##variable-object) | default 0, min and max radius for search, if previous field was used | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if the location was found, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 
@@ -2879,6 +2896,26 @@ Search the map, that contain `house` in it's id on a range 200-1200 overmap tile
 }
 ```
 
+Check the map 26 tiles around to find `fd_fire`; if fire is presented, prints it's coordinates, otherwise prints "no fire".
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FIRE_IS_NEARBY",
+    "effect": [
+      { "u_location_variable": { "context_val": "test" }, "field": "fd_fire", "target_max_radius": 26 },
+      {
+        "if": { "map_field_id": "fd_fire", "loc": { "context_val": "test" } },
+        "then": { "u_message": "Fire is in <context_val:test>" },
+        "else": { "u_message": "No fire nearby" }
+      },
+      {
+        "if": { "math": [ "has_var(_test)" ] },
+        "then": { "u_message": "Fire is in <context_val:test>" },
+        "else": { "u_message": "No fire nearby" }
+      }
+    ]
+  },
+```
 
 #### `location_variable_adjust`
 Allow adjust location value, obtained by `u_location_variable`, and share the same syntax and rules

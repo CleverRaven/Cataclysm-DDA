@@ -40,7 +40,10 @@
       "evac_center_14_z1",
       "evac_center_17_z1",
       "evac_center_18_z1",
-      "evac_center_19_z1"
+      "evac_center_19_z1",
+      "evac_center_12_z2",
+      "evac_center_13_z2",
+      "evac_center_14_z2"
     ],
     "name": "refugee center roof",
     "sym": "┼",

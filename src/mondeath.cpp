@@ -35,7 +35,6 @@
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "point.h"
 #include "rng.h"
@@ -102,8 +101,9 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     int placed_chunks = 0;
     while( placed_chunks < chunk_amt ) {
         bool drop_chunks = true;
-        tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
-        const auto traj = line_to( z.pos(), tarp );
+        tripoint_bub_ms tarp( z.pos_bub() + point( rng( -distance, distance ), rng( -distance,
+                              distance ) ) );
+        const std::vector<tripoint_bub_ms> traj = line_to( z.pos_bub(), tarp );
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
@@ -205,7 +205,7 @@ item_location mdeath::splatter( monster &z )
         if( z.has_effect( effect_critter_underfed ) ) {
             corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
         }
-        return here.add_item_ret_loc( z.pos(), corpse );
+        return here.add_item_ret_loc( z.pos_bub(), corpse );
     }
     return {};
 }
@@ -236,7 +236,7 @@ void mdeath::broken( monster &z )
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
     map &here = get_map();
-    here.add_item_or_charges( z.pos(), broken_mon );
+    here.add_item_or_charges( z.pos_bub(), broken_mon );
 
     if( z.type->has_flag( mon_flag_DROPS_AMMO ) ) {
         for( const std::pair<const itype_id, int> &ammo_entry : z.ammo ) {
@@ -266,7 +266,7 @@ void mdeath::broken( monster &z )
                     }
                 }
                 if( !spawned ) {
-                    here.spawn_item( z.pos(), ammo_entry.first, ammo_entry.second, 1,
+                    here.spawn_item( z.pos_bub(), ammo_entry.first, ammo_entry.second, 1,
                                      calendar::turn );
                 }
             }
@@ -296,5 +296,5 @@ item_location make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_critter_underfed ) ) {
         corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
-    return get_map().add_item_ret_loc( z.pos(), corpse );
+    return get_map().add_item_ret_loc( z.pos_bub(), corpse );
 }

@@ -176,6 +176,20 @@
     ]
   },
   {
+    "id": "avchievement_gains_vampire4_trait",
+    "type": "achievement",
+    "name": "Embracing the curse, building your power.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "VAMPIRE4" ],
+        "description": "You became a true vampire, forsaking your mortality forevermore.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_1_deduction",
     "type": "achievement",
     "name": { "str": "Inspector Lestrade" },

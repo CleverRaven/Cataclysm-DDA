@@ -69,6 +69,18 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_EXPLOSION_TRAP",
+    "name": { "str": "Sigil of Detonation" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to lay a fiery trap which will burst into searing flames when stepped on.",
+    "prereqs": [ "SALAMANDER_DASH_BOOM" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_explosion_trap_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_SMOKE_TELEPORT",
     "name": { "str": "In a Puff of Smoke" },
     "points": 6,

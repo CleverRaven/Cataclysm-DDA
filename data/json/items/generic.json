@@ -282,8 +282,33 @@
     "material": [ "dry_plant" ],
     "weight": "20 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dry_seaweed",
+    "name": { "str_sp": "dried seaweed" },
+    "looks_like": "withered",
+    "description": "A bit of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
+    "weight": "10 g",
+    "color": "green",
+    "symbol": ",",
+    "material": [ "dry_plant" ],
+    "volume": "10 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dry_seaweed_pile",
+    "name": { "str_sp": "pile of dried seaweed" },
+    "looks_like": "withered",
+    "description": "A big heap of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
+    "weight": "200 g",
+    "color": "green",
+    "symbol": ",",
+    "material": [ "dry_plant" ],
+    "volume": "200 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -298,7 +323,6 @@
     "material": [ "plastic" ],
     "weight": "8 g",
     "volume": "10 ml",
-    "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -315,7 +339,6 @@
     "material": [ "plastic" ],
     "weight": "52 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
   {
@@ -331,7 +354,6 @@
     "material": [ "bone" ],
     "weight": "45 g",
     "volume": "150 ml",
-    "to_hit": -2,
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
@@ -356,7 +378,6 @@
     "material": [ "steel" ],
     "techniques": [ "WRAP" ],
     "volume": "1 L",
-    "to_hit": -2,
     "price": "80 USD",
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
@@ -378,7 +399,6 @@
     "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "melee_damage": { "bash": 1 }
   },
   {
@@ -413,7 +433,8 @@
     "weight": "50 g",
     "volume": "250 ml",
     "to_hit": -4,
-    "fun": -25
+    "fun": -25,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -910,7 +931,6 @@
     "material": [ "steel" ],
     "weight": "1000 g",
     "volume": "1500 ml",
-    "to_hit": -2,
     "qualities": [ [ "BUTCHER", -38 ] ],
     "melee_damage": { "bash": 6, "cut": 8 }
   },
@@ -999,8 +1019,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "151 g",
-    "volume": "100 ml",
-    "to_hit": -2
+    "volume": "100 ml"
   },
   {
     "type": "GENERIC",
@@ -1014,8 +1033,7 @@
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "1 g",
-    "volume": "3 ml",
-    "to_hit": -2
+    "volume": "3 ml"
   },
   {
     "type": "GENERIC",
@@ -1029,8 +1047,7 @@
     "price_postapoc": "1 USD",
     "material": [ "lc_steel" ],
     "weight": "151 g",
-    "volume": "100 ml",
-    "to_hit": -2
+    "volume": "100 ml"
   },
   {
     "type": "GENERIC",
@@ -1072,8 +1089,7 @@
     "material": [ "steel" ],
     "weight": "302 g",
     "volume": "500 ml",
-    "flags": [ "HURT_WHEN_WIELDED" ],
-    "to_hit": -2
+    "flags": [ "HURT_WHEN_WIELDED" ]
   },
   {
     "type": "GENERIC",
@@ -1136,23 +1152,6 @@
     "weight": "450 g",
     "volume": "300 ml",
     "melee_damage": { "bash": 4 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "skewer_bone",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "bone skewer" },
-    "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
-    "category": "other",
-    "material": [ "bone" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "10 g",
-    "volume": "25 ml",
-    "to_hit": -5,
-    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",
@@ -1458,15 +1457,22 @@
     "looks_like": "kord",
     "symbol": "(",
     "color": "light_gray",
-    "name": { "str": "Kord 6P67 rifle (Demilled)", "str_pl": "Kord 6P67 rifles (Demilled)" },
+    "name": { "str": "Kord AK rifle (Demilled)", "str_pl": "Kord AK rifles (Demilled)" },
     "weight": "3250 g",
     "volume": "2418 ml",
     "material": [ "steel", "plastic" ],
     "longest_side": "48 cm",
     "price": "2 kUSD 500 USD",
     "category": "other",
-    "to_hit": -2,
     "description": "A special forces Russian rifle chambered in 5.45 that someone has taken a plasma cutter to, cutting it in three places to comply with import restrictions.  This thing would have been hard to source, and thankfully its unique complex recoil balance system remains intact, unlike the receiver and barrel.  The telltale rainbow patterns of torch cuts mar the otherwise beautiful receiver.  A well-equipped gunsmith with time and materials could probably build a new one out of this…",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "broken_kord",
+        "name": { "str": "Kord 6P67 rifle (Demilled)", "str_pl": "Kord 6P67 rifles (Demilled)" },
+        "description": "A special forces Russian rifle chambered in 5.45 that someone has taken a plasma cutter to, cutting it in three places to comply with import restrictions.  This thing would have been hard to source, and thankfully its unique complex recoil balance system remains intact, unlike the receiver and barrel.  The telltale rainbow patterns of torch cuts mar the otherwise beautiful receiver.  A well-equipped gunsmith with time and materials could probably build a new one out of this…"
+      }
+    ],
     "flags": [ "TRADER_AVOID", "NO_REPAIR", "MISSION_ITEM" ]
   },
   {
@@ -2121,8 +2127,7 @@
     "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "weight": "68 g",
-    "volume": "250 ml",
-    "to_hit": 2
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -2376,7 +2381,6 @@
     "material": [ "wood" ],
     "weight": "220 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
@@ -2390,7 +2394,6 @@
     "//": "Commercial pinecones average 300g. We're assuming wild ones weigh less than this.",
     "weight": "200 g",
     "volume": "250 ml",
-    "to_hit": -2,
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
@@ -2520,7 +2523,6 @@
     "name": { "str": "sunflower" },
     "description": "The top of a sunflower, with yellow petals and some seeds that have yet to be eaten by animals.",
     "weight": "450 g",
-    "to_hit": -2,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
@@ -2625,7 +2627,6 @@
     "material": [ "clay", "stone" ],
     "weight": "969 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 8 }
   },
@@ -2699,7 +2700,6 @@
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "1500 g",
     "volume": "2250 ml",
-    "to_hit": -2,
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -2951,7 +2951,7 @@
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
     "volume": "250 ml",
-    "to_hit": -2
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -3403,6 +3403,7 @@
     "description": "A rather outdated light bulb used in all sorts of lighting equipment.",
     "symbol": ",",
     "color": "white",
+    "category": "spare_parts",
     "material": [ "glass" ],
     "weight": "10 g",
     "volume": "250 ml",
@@ -3734,7 +3735,6 @@
     "material": [ "clay", "stone" ],
     "weight": "969 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 8 }
   },
@@ -4106,13 +4106,12 @@
     "color": "brown",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and has some duct tape to mark the striking points.  You need to embed it into the ground for training.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and has some duct tape to mark the striking points.  Use the construction menu (* by default) to embed it into the ground for training.",
     "price": "150 USD",
     "price_postapoc": "6 USD",
     "material": [ "wood" ],
     "weight": "50 kg",
     "volume": "80 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 12 }
   },
   {
@@ -4122,13 +4121,12 @@
     "color": "light_gray",
     "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.  You need to embed it into the ground for training.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.  Use the construction menu (* by default) to embed it into the ground for training.",
     "price": "150 USD",
     "price_postapoc": "10 USD",
     "material": [ "steel", "wood" ],
     "weight": "55 kg",
     "volume": "80 L",
-    "to_hit": -2,
     "melee_damage": { "bash": 14 }
   },
   {
@@ -4138,7 +4136,7 @@
     "color": "brown",
     "name": { "str": "box archery target" },
     "category": "other",
-    "description": "A soft target for archery, consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.  Must be set up to use.",
+    "description": "A soft target for archery, consisting of tightly-packed cloth stuffed into a cardboard box, with a bullseye marked on the front.  Must be set up in the construction menu (* by default) to use.",
     "price": "30 USD",
     "price_postapoc": "2 USD",
     "material": [ { "type": "cotton", "portion": 9 }, { "type": "cardboard" } ],
@@ -4163,7 +4161,6 @@
     "weight": "5 kg",
     "volume": "22 L",
     "longest_side": "36 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

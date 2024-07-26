@@ -6,7 +6,16 @@
     "sym": "<",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp1-1",
+    "name": "mi-go encampment",
+    "sym": "<",
+    "color": "dark_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,7 +24,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -24,7 +33,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -33,7 +42,16 @@
     "sym": "_",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-3",
+    "name": "mi-go landing roof",
+    "sym": "_",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -51,7 +69,7 @@
     "sym": ">",
     "color": "light_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -60,6 +78,15 @@
     "sym": "=",
     "color": "dark_gray",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_portal_roof",
+    "name": "mi-go structure roof",
+    "sym": "=",
+    "color": "dark_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_EXTREME" ]
   }
 ]

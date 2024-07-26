@@ -22,7 +22,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", "4300 μg" ], [ "iron", "600 μg" ], [ "calcium", "8600 μg" ] ]
+    "vitamins": [ [ "vitC", "4300 μg" ], [ "iron", "600 μg" ], [ "calcium", "8600 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "maple_sap",
@@ -71,7 +71,8 @@
     "fun": -1,
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
-    "freezing_point": -4
+    "freezing_point": -4,
+    "vitamins": [ [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "ketchup",
@@ -95,7 +96,13 @@
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
     "phase": "liquid",
-    "vitamins": [ [ "vitC", "2300 μg" ], [ "iron", "100 μg" ], [ "calcium", "2700 μg" ] ]
+    "vitamins": [
+      [ "vitC", "2300 μg" ],
+      [ "iron", "100 μg" ],
+      [ "calcium", "2700 μg" ],
+      [ "veggy_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
   },
   {
     "id": "barbecue_sauce",
@@ -118,7 +125,8 @@
     "charges": 16,
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "honey_mustard",
@@ -141,7 +149,8 @@
     "charges": 16,
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "mustard",
@@ -165,7 +174,7 @@
     "charges": 48,
     "phase": "liquid",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "honey_bottled",
@@ -233,7 +242,7 @@
     "fun": -25,
     "use_action": [ "BLECH" ],
     "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "freezing_point": -26
   },
   {
@@ -243,7 +252,8 @@
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
     "material": [ "flesh", "oil" ],
-    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -266,7 +276,7 @@
     "charges": 4,
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
+    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ], [ "junk_allergen", 1 ] ],
     "freezing_point": -29
   },
   {
@@ -292,7 +302,8 @@
     "charges": 10,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -16,
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "horseradish",
@@ -314,7 +325,8 @@
     "charges": 48,
     "fun": -20,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -342,7 +354,8 @@
     "phase": "liquid",
     "charges": 3,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "coconut_water",
@@ -386,7 +399,8 @@
     "primary_material": "tomato",
     "volume": "250 ml",
     "flags": [ "FREEZERBURN" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -408,6 +422,7 @@
     "flags": [ "FREEZERBURN", "EATEN_COLD" ],
     "phase": "liquid",
     "charges": 7,
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   }
 ]

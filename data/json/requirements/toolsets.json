@@ -11,7 +11,7 @@
     "//": "Forming of shot from raw materials",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "water", 1 ], [ "water_clean", -1 ], [ "salt_water", -1 ], [ "water_sewage", -1 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [
         [ "ladle", -1 ],
         [ "ceramic_mug", -1 ],
@@ -61,6 +61,13 @@
       [ [ "soapy_water", 3 ] ],
       [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
     ]
+  },
+  {
+    "id": "gun_cleaning_quick",
+    "type": "requirement",
+    "//": "Requires a rod/wire and cloth patch or similar item.",
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ] ]
   },
   {
     "id": "gun_lubrication",
@@ -242,6 +249,7 @@
     "tools": [
       [
         [ "soldering_iron", 1 ],
+        [ "integrated_electrokit", 1 ],
         [ "soldering_iron_portable", 1 ],
         [ "integrated_welder", 1 ],
         [ "small_repairkit", 1 ],

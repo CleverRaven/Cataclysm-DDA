@@ -107,5 +107,17 @@
       [ "afs_gibs_shotgun", 20 ],
       [ "afs_raketa_shotgun", 20 ]
     ]
+  },
+  {
+    "id": "afs_police_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_civilian_armory", "prob": 3 }, { "item": "tazer", "prob": 5 } ]
+  },
+  {
+    "id": "afs_police_anti_robot_armory",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "group": "afs_swat_emp", "prob": 3 }, { "group": "afs_civilian_laser_mag", "prob": 1 } ]
   }
 ]

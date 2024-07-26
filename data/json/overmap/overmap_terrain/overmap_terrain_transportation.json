@@ -225,7 +225,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3" ],
+    "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3", "s_air_atc_4" ],
     "name": "control tower",
     "sym": "X",
     "color": "i_light_gray",

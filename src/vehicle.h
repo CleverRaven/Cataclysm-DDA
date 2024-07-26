@@ -24,7 +24,8 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinates.h"
+#include "coordinate_constants.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"
@@ -624,7 +625,7 @@ class turret_data
         bool ammo_select( const itype_id &ammo );
 
         /** Effects inclusive of any from ammo loaded from tanks */
-        std::set<std::string> ammo_effects() const;
+        std::set<ammo_effect_str_id> ammo_effects() const;
 
         /** Maximum range considering current ammo (if any) */
         int range() const;
@@ -868,6 +869,9 @@ class vehicle
          * @param where Location of the other vehicle's origin tile.
          */
         static vehicle *find_vehicle( const tripoint_abs_ms &where );
+        // find_vehicle, but it compares the provided position to the position of
+        // every vehicle part instead of just the vehicle's position
+        static vehicle *find_vehicle_using_parts( const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
         std::map<vehicle *, float> search_connected_vehicles();
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
@@ -2092,7 +2096,9 @@ class vehicle
         void build_electronics_menu( veh_menu &menu );
         void build_bike_rack_menu( veh_menu &menu, int part );
         void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        // TODO: Get rid of untyped overload.
         void interact_with( const tripoint &p, bool with_pickup = false );
+        void interact_with( const tripoint_bub_ms &p, bool with_pickup = false );
 
         std::string disp_name() const;
 
@@ -2424,7 +2430,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_zero );
+            here.set_seen_cache_dirty( tripoint_bub_ms_zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );

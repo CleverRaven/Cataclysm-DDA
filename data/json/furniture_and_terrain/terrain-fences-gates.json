@@ -1174,7 +1174,7 @@
     "symbol": "LINE_OXOX",
     "color": "yellow",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "bash": {

@@ -33,7 +33,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "LIXA_road_guard" ],
+    "id": [ "LIXA_road_guard", "LIXA_road_guard_roof" ],
     "name": "research facility checkpoint",
     "sym": "l",
     "color": "light_gray",

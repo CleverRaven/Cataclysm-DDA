@@ -440,12 +440,12 @@ void test_scenario::run()
             break;
         }
         case container_location::vehicle: {
-            vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos(),
+            vehicle *veh = here.add_vehicle( vehicle_prototype_test_cargo_space, guy.pos_bub(),
                                              -90_degrees, 0, 0 );
             REQUIRE( veh );
-            here.board_vehicle( guy.pos(), &guy );
+            here.board_vehicle( guy.pos_bub(), &guy );
             std::optional<vpart_reference> vp =
-                here.veh_at( guy.pos() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
+                here.veh_at( guy.pos_bub() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
             std::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
             REQUIRE( added.has_value() );
@@ -453,8 +453,8 @@ void test_scenario::run()
             break;
         }
         case container_location::ground: {
-            item &added = here.add_item( guy.pos(), it );
-            it_loc = item_location( map_cursor( guy.pos() ), &added );
+            item &added = here.add_item( guy.pos_bub(), it );
+            it_loc = item_location( map_cursor( guy.pos_bub() ), &added );
             break;
         }
         default: {
@@ -862,9 +862,9 @@ void test_scenario::run()
         REQUIRE( !it_loc );
     }
     INFO( "checking ground items" );
-    match( map_cursor( guy.pos() ), here.i_at( guy.pos() ), ground );
+    match( map_cursor( guy.pos_bub() ), here.i_at( guy.pos_bub() ), ground );
     INFO( "checking vehicle items" );
-    std::optional<vpart_reference> vp = here.veh_at( guy.pos() )
+    std::optional<vpart_reference> vp = here.veh_at( guy.pos_bub() )
                                         .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
     if( cur_container_loc == container_location::vehicle ) {
         REQUIRE( vp.has_value() );

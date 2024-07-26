@@ -142,7 +142,7 @@
     "id": "NC_ARSONIST_cutting",
     "subtype": "distribution",
     "entries": [
-      { "item": "knife_butcher", "prob": 20 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 20 },
       { "item": "hatchet", "prob": 20 },
       { "item": "ax", "prob": 20 },
       { "item": "machete", "prob": 20 },

@@ -17,6 +17,7 @@ from .parsers.dream import parse_dream
 from .parsers.effect import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
 from .parsers.enchant import parse_enchant
+from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
 from .parsers.fault import parse_fault
@@ -61,6 +62,7 @@ from .parsers.morale_type import parse_morale_type
 from .parsers.movement_mode import parse_movement_mode
 from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
+from .parsers.overmap_special import parse_overmap_special
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
@@ -114,6 +116,7 @@ parsers = {
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
+    "camp_migration": dummy_parser,
     "character_mod": parse_character_mod,
     "charge_removal_blacklist": dummy_parser,
     "city": parse_city,
@@ -135,6 +138,7 @@ parsers = {
     "effect_type": parse_effect_type,
     "emit": dummy_parser,
     "enchantment": parse_enchant,
+    "end_screen": parse_end_screen,
     "engine": parse_generic,
     "event_statistic": parse_event_statistic,
     "event_transformation": dummy_parser,
@@ -193,7 +197,7 @@ parsers = {
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
     "overmap_location": dummy_parser,
-    "overmap_special": dummy_parser,
+    "overmap_special": parse_overmap_special,
     "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,

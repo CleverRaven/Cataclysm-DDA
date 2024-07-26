@@ -31,7 +31,8 @@
     "sym": "^",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",
@@ -111,6 +112,24 @@
     "id": "lighthouse_z3",
     "name": "lighthouse",
     "sym": "&",
+    "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lighthouse_small_ground",
+    "name": "small lighthouse",
+    "sym": "0",
+    "color": "yellow",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lighthouse_small_z1", "lighthouse_small_z2", "lighthouse_small_z3", "lighthouse_small_z4", "lighthouse_small_roof" ],
+    "name": "small lighthouse",
+    "sym": "0",
     "color": "yellow",
     "see_cost": 5
   },
@@ -368,7 +387,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cabin_aban1",
+    "id": [ "cabin_aban1", "cabin_aban1_roof" ],
     "name": "ruined cabin",
     "sym": "F",
     "color": "green",
@@ -377,7 +396,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "barn_aban1",
+    "id": [ "barn_aban1", "barn_aban1_roof" ],
     "name": "barn",
     "sym": "F",
     "color": "green",
@@ -386,7 +405,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "car_corner_aban1",
+    "id": [ "car_corner_aban1", "car_corner_aban1_roof" ],
     "name": "car corner",
     "sym": "F",
     "color": "green",
@@ -488,7 +507,9 @@
     "type": "overmap_terrain",
     "id": [
       "bandit_farm_3",
+      "bandit_farm_3_roof",
       "bandit_farm_2",
+      "bandit_farm_2_roof",
       "bandit_farm_1",
       "bandit_farm_6",
       "bandit_farm_5",
@@ -575,6 +596,15 @@
     "color": "light_green",
     "see_cost": 5,
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campsite_cabin_incomplete_roof",
+    "name": "incomplete cabin roof",
+    "sym": "+",
+    "color": "light_green",
+    "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
@@ -688,7 +718,8 @@
       "godco_8_1",
       "godco_9_1",
       "godco_1_2",
-      "godco_2_2"
+      "godco_2_2",
+      "godco_1_3"
     ],
     "name": "church retreat roof",
     "sym": "+",
@@ -711,7 +742,7 @@
     "sym": "O",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -874,7 +905,7 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -883,7 +914,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -955,7 +986,7 @@
     "sym": "S",
     "color": "white",
     "see_cost": 3,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -978,6 +1009,13 @@
     "type": "overmap_terrain",
     "id": [ "smallscrapyard_ocu" ],
     "name": "scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu_roof" ],
+    "name": "scrap yard roof",
     "sym": "s",
     "color": "red"
   },
@@ -1015,7 +1053,7 @@
     "sym": "8",
     "color": "yellow",
     "see_cost": 3,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

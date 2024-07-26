@@ -61,13 +61,58 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_iron_allergy_wearing_iron",
+    "name": [ "Touching Iron" ],
+    "desc": [ "You are in contact with iron.  It will cause you pain and discomfort until removed." ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to burn.",
+    "remove_message": "The burning from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 3 ],
+      "pain_max_val": [ 100 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9 },
+      { "limb_score": "breathing", "modifier": 0.85 },
+      { "limb_score": "lift", "modifier": 0.9 },
+      { "limb_score": "grip", "modifier": 0.9 },
+      { "limb_score": "reaction", "modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_iron_allergy_wearing_steel",
+    "name": [ "Touching Steel" ],
+    "desc": [ "You are in contact with steel.  It will cause you pain and discomfort until removed." ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to itch.",
+    "remove_message": "The itching from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 2 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 6 ],
+      "pain_max_val": [ 50 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "enchant_windrun",
     "name": [ "Windrunning" ],
     "desc": [ "You are bolstered and pushed along by the power of the wind." ],
     "apply_message": "You are bolstered and pushed along by the power of the wind",
     "remove_message": "The wind at your back dies down.",
     "rating": "good",
-    "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "((u_spell_level('windrun') * 2) + 10)" ] } } ] } ],
+    "base_mods": { "stamina_min": [ 10 ] }
   },
   {
     "type": "effect_type",
@@ -108,7 +153,16 @@
     "apply_message": "You are filled with energy that improves everything you do!",
     "remove_message": "Your energy fades.",
     "rating": "good",
-    "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "SPEED", "add": { "math": [ "((u_spell_level('bless') ) + 5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -225,7 +279,21 @@
     "remove_message": "You return to your normal speed.",
     "rating": "good",
     "max_duration": "2 minutes",
+    "removes_effects": [ "magic_slowed" ],
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.7 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "magic_slowed",
+    "name": [ "Slowed" ],
+    "desc": [ "Your speed is magically inhibited." ],
+    "apply_message": "Everyone else suddenly seems to speed up!",
+    "remove_message": "You return to your normal speed.",
+    "rating": "bad",
+    "show_in_info": true,
+    "max_duration": "2 minutes",
+    "removes_effects": [ "haste" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.5 } ] } ]
   },
   {
     "type": "effect_type",
@@ -279,7 +347,7 @@
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
     "removes_effects": [ "eagles_sight", "ogres_strength", "foxs_cunning" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('cats_grace') / 4 ) + 2" ] } } ] } ]
   },
   {
     "type": "effect_type",
@@ -1211,7 +1279,16 @@
     "rating": "good",
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
-    "flags": [ "ETHEREAL", "FEATHER_FALL", "CLIMB_NO_LADDER", "INVISIBLE", "NO_SCENT", "NO_SPELLCASTING" ]
+    "flags": [
+      "ETHEREAL",
+      "FEATHER_FALL",
+      "CLIMB_NO_LADDER",
+      "INVISIBLE",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "WATERWALKING",
+      "ITEM_WATERPROOFING"
+    ]
   },
   {
     "type": "effect_type",
@@ -1238,6 +1315,31 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_druid_water_walking",
+    "name": [ "Water Strider's Walk" ],
+    "desc": [ "You can walk on the surface of the water" ],
+    "rating": "good",
+    "remove_message": "You can no longer walk on the water.",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_druid_shifter_raven_form_levitation",
+    "//": "Hidden effect, used because LEVITATION flag does not work on mutations",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_item_protection_water",
+    "//": "Hidden effect, used for multiple druid spells",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "ITEM_WATERPROOFING" ]
   },
   {
     "type": "effect_type",
@@ -1311,6 +1413,7 @@
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
       "effect_magus_ranged_increase",
+      "magic_slowed",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
@@ -1446,6 +1549,7 @@
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
       "effect_technomancer_pain_ignore",
+      "magic_slowed",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

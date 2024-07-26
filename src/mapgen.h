@@ -13,7 +13,7 @@
 #include <vector>
 
 #include "cata_variant.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "dialogue_helpers.h"
 #include "jmapgen_flags.h"
 #include "json.h"
@@ -648,23 +648,33 @@ enum room_type {
 // helpful functions
 bool connects_to( const oter_id &there, int dir );
 // wrappers for map:: functions
+// TODO: get rid of untyped overload.
 void line( map *m, const ter_id &type, const point &p1, const point &p2, int z );
+void line( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2, int z );
+// TODO: Get rid of untyped overload.
 void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 );
+void line( tinymap *m, const ter_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
+// TODO: Get rid of untyped overload.
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2, int z );
+void line_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2,
+                int z );
+// TODO: Get rid of untyped overload.
 void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
+void line_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
-void square( map *m, const ter_id &type, const point &p1, const point &p2 );
-void square( map *m, ter_id( *f )(), const point &p1, const point &p2 );
-void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 );
-void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
-void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
-void rough_circle( map *m, const ter_id &type, const point &, int rad );
-void rough_circle_furn( map *m, const furn_id &type, const point &, int rad );
+void square( map *m, const ter_id &type, const point_bub_ms &p1, const point_bub_ms &p2 );
+void square( map *m, ter_id( *f )(), const point_bub_ms &p1, const point_bub_ms &p2 );
+void square( map *m, const weighted_int_list<ter_id> &f, const point_bub_ms &p1,
+             const point_bub_ms &p2 );
+void square_furn( map *m, const furn_id &type, const point_bub_ms &p1, const point_bub_ms &p2 );
+void square_furn( tinymap *m, const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2 );
+void rough_circle( map *m, const ter_id &type, const point_bub_ms &, int rad );
+void rough_circle_furn( map *m, const furn_id &type, const point_bub_ms &, int rad );
 void circle( map *m, const ter_id &type, double x, double y, double rad );
-void circle( map *m, const ter_id &type, const point &, int rad );
-void circle_furn( map *m, const furn_id &type, const point &, int rad );
-void add_corpse( map *m, const point & );
+void circle( map *m, const ter_id &type, const point_bub_ms &, int rad );
+void circle_furn( map *m, const furn_id &type, const point_bub_ms &, int rad );
+void add_corpse( map *m, const point_bub_ms & );
 
 extern std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
 extern std::map<update_mapgen_id, update_mapgen> update_mapgens;

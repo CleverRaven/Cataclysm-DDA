@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "isolated_road_field_0", "isolated_road_field_1" ],
+    "id": [ "isolated_road_field_0", "isolated_road_field_1", "isolated_road_field_1_roof" ],
     "name": "yard",
     "sym": ".",
     "color": "green",
@@ -27,7 +27,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "gunshow_0", "gunshow_1" ],
+    "id": [ "gunshow_0", "gunshow_1", "gunshow_0_roof", "gunshow_1_roof" ],
     "name": "gun show",
     "sym": "G",
     "color": "red",

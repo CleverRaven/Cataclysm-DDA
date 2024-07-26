@@ -3833,7 +3833,9 @@
       "bundle_copper_pipe",
       "bundle_branch",
       "bundle_branch_long",
-      "bundle_javelin"
+      "bundle_javelin",
+      "seaweed_pile",
+      "dry_seaweed_pile"
     ],
     "difficulty": 1
   },

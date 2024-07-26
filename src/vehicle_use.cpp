@@ -58,6 +58,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -110,7 +111,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 void handbrake()
 {
     Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
+    const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( !vp ) {
         return;
     }
@@ -1029,7 +1030,7 @@ void vehicle::operate_reaper()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
-        const tripoint reaper_pos = vp.pos();
+        const tripoint_bub_ms reaper_pos = vp.pos_bub();
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
@@ -1325,7 +1326,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     map &here = get_map();
     here.set_transparency_cache_dirty( sm_pos.z );
     const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
-    here.set_seen_cache_dirty( part_location );
+    here.set_seen_cache_dirty( tripoint_bub_ms( part_location ) );
     const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
@@ -1808,6 +1809,11 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
+    //Hack for heat_activity_actor.
+    if( act.id() == ACT_HEATING ) {
+        act.coords.push_back( vp_pos.raw() );
+    }
+
     const int used_charges = ammo_in_tool - tool.ammo_remaining();
     if( used_charges > 0 ) {
         if( is_battery_tool ) {
@@ -1845,8 +1851,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                                          : has_part_here( "CTRL_ELECTRONIC" );
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
-    const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
-                               &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
+    const bool player_inside = get_map().veh_at( get_player_character().pos_bub() ) ?
+                               &get_map().veh_at( get_player_character().pos_bub() )->vehicle() == this :
                                false;
     bool power_linked = false;
     bool item_linked = false;
@@ -2198,7 +2204,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const std::optional<vpart_reference> vp_cargo = vp.cargo();
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
-            get_map().has_items( vp.pos() ) ||
+            get_map().has_items( vp.pos_bub() ) ||
             ( vp_cargo && !vp_cargo->items().empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( "GET_ITEMS" )
@@ -2434,6 +2440,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
 void vehicle::interact_with( const tripoint &p, bool with_pickup )
 {
+    vehicle::interact_with( tripoint_bub_ms( p ), with_pickup );
+}
+
+void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
+{
     const optional_vpart_position ovp = get_map().veh_at( p );
     if( !ovp ) {
         debugmsg( "interact_with called at %s and no vehicle is found", p.to_string() );
@@ -2443,6 +2454,6 @@ void vehicle::interact_with( const tripoint &p, bool with_pickup )
     veh_menu menu( *this, _( "Select an action" ) );
     do {
         menu.reset();
-        build_interact_menu( menu, p, with_pickup );
+        build_interact_menu( menu, p.raw(), with_pickup );
     } while( menu.query() );
 }

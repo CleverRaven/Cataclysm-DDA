@@ -333,7 +333,6 @@
     "volume": "40 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
@@ -631,6 +630,37 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_tiny",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "tiny plastic bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A watertight plastic bottle, holds 30 mL of liquid.",
+    "ascii_picture": "bottle_plastic_small",
+    "weight": "2 g",
+    "volume": "35 ml",
+    "longest_side": "4 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "transparent": true,
+        "max_contains_volume": "30 ml",
+        "max_item_volume": "1 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
@@ -2007,7 +2037,6 @@
     "volume": "44250 ml",
     "price": "100 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -2357,7 +2386,6 @@
     "longest_side": "33 cm",
     "price": "12 USD 50 cent",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
@@ -3521,7 +3549,6 @@
     "volume": "5 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
@@ -3744,21 +3771,6 @@
         "ascii_picture": "condom_flavored_orange",
         "weight": 40,
         "append": true
-      },
-      {
-        "id": "condom_flavored_foodplace",
-        "name": { "str": "food™ flavored condom" },
-        "description": "A condom with Foodplace's delicious food™ flavored lube, in purple packaging to match.",
-        "ascii_picture": "condom_flavored_foodplace",
-        "weight": 2,
-        "append": true
-      },
-      {
-        "id": "condom_flavored_jalapeno",
-        "name": { "str": "jalapeno flavored condom" },
-        "description": "For those who need to spice up their sex life, are masochistic, or just hate themselves, this condom is flavored after jalapeños.",
-        "ascii_picture": "condom_flavored_jalapeno",
-        "append": true
       }
     ],
     "pocket_data": [
@@ -3941,7 +3953,6 @@
     "volume": "2900 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "pocket_data": [
@@ -3971,7 +3982,6 @@
     "volume": "1250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "cotton", "neoprene" ],
     "flags": [ "COLLAPSE_CONTENTS", "PALS_MEDIUM" ],
     "pocket_data": [
@@ -4782,7 +4792,6 @@
     "volume": "221 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",
@@ -4810,7 +4819,6 @@
     "volume": "95 ml",
     "price": "50 cent",
     "price_postapoc": "5 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "t",
     "color": "light_cyan",

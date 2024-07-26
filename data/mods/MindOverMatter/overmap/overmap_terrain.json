@@ -113,7 +113,7 @@
     "extras": "phavian_lab_interior",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

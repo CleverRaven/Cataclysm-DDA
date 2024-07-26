@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "shia_stuff",
     "subtype": "distribution",
-    "entries": [ { "item": "knife_steak", "prob": 3 }, { "item": "ax", "prob": 1 } ]
+    "entries": [ { "item": "knife_small", "variant": "knife_steak", "prob": 3 }, { "item": "ax", "prob": 1 } ]
   },
   {
     "type": "item_group",

@@ -152,6 +152,7 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
+      "sloc_lighthouse_small_ground",
       "sloc_lodge_ground",
       "sloc_light_industry_scen"
     ],
@@ -608,7 +609,8 @@
       "sloc_campsite",
       "sloc_campground",
       "sloc_cabin_lake",
-      "sloc_lighthouse_ground"
+      "sloc_lighthouse_ground",
+      "sloc_lighthouse_small_ground"
     ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],

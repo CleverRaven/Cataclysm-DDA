@@ -354,7 +354,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        arm_shooter( shooter, "ppsh", { "holo_sight" } );
+        arm_shooter( shooter, "fn_p90", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
         test_fast_shooting( shooter, 60, 0.5 );
     }

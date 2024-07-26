@@ -24,7 +24,7 @@
     "time": "45 m",
     "autolearn": true,
     "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -699,9 +699,8 @@
     "book_learn": [ [ "plastics_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 1 ] ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
-      [ [ "plastic_chunk", 3 ] ],
+      [ [ "plastic_chunk", 1 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]

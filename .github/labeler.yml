@@ -137,8 +137,8 @@
 "Monsters":
   - "**/**monster**"
   - "**/monster**"
-  - "**/**monsters**"
-  - "**/monsters**"
+  - "**/**monster**/**"
+  - "**/monster**/**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
@@ -222,6 +222,9 @@
   - data/mods/Aftershock/**/*
   - data/mods/aftershock_exoplanet/**/*
 
+"Mods: Backrooms":
+  - data/mods/Backrooms/**/*
+
 "Mods: Dark Days of the Dead":
   - data/mods/classic_zombies/**/*
 
@@ -269,6 +272,9 @@
 
 "Mods: Sky Island":
   - data/mods/Sky_Island/**/*
+
+"Isolation Protocols ☣":
+  - data/mods/Isolation-Protocol/**/*
 
 "Mods":
   - any: [ 'data/mods/**' ]

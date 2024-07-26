@@ -11,7 +11,7 @@
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_2" ]
+    "recovery_chance": 50
   },
   {
     "type": "AMMO",
@@ -26,7 +26,7 @@
     "price": "5 USD",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "effects": [ "RECOVER_6" ]
+    "recovery_chance": 83
   },
   {
     "type": "AMMO",
@@ -41,7 +41,8 @@
     "price": "6 USD 50 cent",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_10", "NOGIB" ]
+    "recovery_chance": 90,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -57,7 +58,7 @@
     "price_postapoc": "30 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
-    "effects": [ "RECOVER_8" ]
+    "recovery_chance": 87
   },
   {
     "type": "AMMO",
@@ -69,7 +70,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 10 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 1 },
-    "effects": [ "RECOVER_25" ]
+    "recovery_chance": 96
   },
   {
     "type": "AMMO",
@@ -89,7 +90,7 @@
     "dispersion": 100,
     "loudness": 0,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_30" ],
+    "recovery_chance": 97,
     "melee_damage": { "bash": 3 }
   },
   {
@@ -102,7 +103,8 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 30 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "recovery_chance": 97,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -115,7 +117,7 @@
     "relative": { "dispersion": 80 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25, "armor_penetration": 1 },
     "show_stats": true,
-    "effects": [ "RECOVER_20" ]
+    "recovery_chance": 95
   },
   {
     "type": "AMMO",
@@ -131,7 +133,7 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 2 },
     "range": 2,
-    "effects": [ "RECOVER_35" ]
+    "recovery_chance": 97
   },
   {
     "type": "AMMO",
@@ -147,7 +149,7 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 4 },
     "range": 2,
-    "effects": [ "RECOVER_40" ]
+    "recovery_chance": 97
   },
   {
     "type": "AMMO",
@@ -161,7 +163,8 @@
     "relative": { "dispersion": -30 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
-    "effects": [ "RECOVER_45", "NOGIB" ]
+    "recovery_chance": 98,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -177,7 +180,7 @@
     "price_postapoc": "60 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
-    "effects": [ "RECOVER_30" ]
+    "recovery_chance": 97
   },
   {
     "id": "bullet_crossbow",
@@ -190,7 +193,7 @@
     "price": "200 USD",
     "price_postapoc": "20 USD",
     "material": [ "wood", "iron" ],
-    "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE" ],
     "skill": "rifle",
     "ammo": [ "pebble" ],
     "weight": "1906 g",
@@ -214,7 +217,7 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "hand_crossbow",
@@ -229,7 +232,7 @@
     "price": "550 USD",
     "price_postapoc": "25 USD",
     "material": [ "steel", "wood" ],
-    "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE" ],
     "skill": "pistol",
     "ammo": [ "bolt" ],
     "weight": "900 g",
@@ -252,7 +255,7 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "crossbow",
@@ -267,7 +270,7 @@
     "price": "60 USD",
     "price_postapoc": "35 USD",
     "material": [ "wood" ],
-    "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE" ],
     "skill": "rifle",
     "min_strength": 8,
     "longest_side": "86 cm",
@@ -286,7 +289,7 @@
     "reload": 1200,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ], [ "sling", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "compositecrossbow",
@@ -301,7 +304,7 @@
     "price": "890 USD",
     "price_postapoc": "40 USD",
     "material": [ "wood", "bone" ],
-    "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE" ],
     "skill": "rifle",
     "min_strength": 9,
     "ammo": [ "bolt" ],
@@ -328,7 +331,7 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "compcrossbow",
@@ -342,7 +345,7 @@
     "//": "27in Carbon fiber compound crossbow at 17in draw with 20in, 197J, 175 lbs draw, 0.636 Slugs with 300grain quarrels.",
     "price": "2 kUSD",
     "material": [ "steel", "plastic" ],
-    "flags": [ "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE" ],
     "skill": "rifle",
     "min_strength": 7,
     "ammo": [ "bolt" ],
@@ -369,7 +372,7 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "huge_crossbow",
@@ -383,7 +386,7 @@
     "price": "324 USD",
     "//": "800 lbs, 40in steel limbs, 0.41 Slugs with a 30g bolt, 2.0 slugs with a special 0.5 lb bolt",
     "material": [ "iron", "wood" ],
-    "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
+    "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID", "FRAGILE_MELEE" ],
     "skill": "rifle",
     "ammo": [ "bolt" ],
     "weight": "6803 g",
@@ -401,7 +404,7 @@
     "reload": 6000,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 20 }
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "rep_crossbow",
@@ -415,7 +418,7 @@
     "//": "Cho-ku-no style repeating crossbow, very short draw and very light pull. 30lb draw weight, 10 in draw distance. 0.25 Slugs",
     "price": "3 kUSD 240 USD",
     "material": [ "steel", "wood" ],
-    "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
+    "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID", "FRAGILE_MELEE" ],
     "skill": "rifle",
     "ammo": [ "bolt" ],
     "weight": "3628 g",
@@ -433,6 +436,6 @@
     "reload": 900,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 10 } } ],
-    "melee_damage": { "bash": 13 }
+    "melee_damage": { "bash": 6 }
   }
 ]

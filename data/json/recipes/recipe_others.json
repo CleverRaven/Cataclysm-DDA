@@ -294,7 +294,7 @@
     "time": "20 m",
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "book_learn": [ [ "recipe_bullets", 6 ], [ "textbook_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -1040,6 +1040,20 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_brazier",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "spike", -1 ], [ "nail", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "components": [ [ [ "bucket", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "55gal_firebarrel",
     "category": "CC_OTHER",
@@ -1221,6 +1235,7 @@
         [ "integrated_welder", 300 ],
         [ "soldering_iron", 300 ],
         [ "soldering_iron_portable", 300 ],
+        [ "integrated_electrokit", 300 ],
         [ "oxy_torch", 40 ]
       ]
     ],
@@ -1260,7 +1275,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 90 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1351,8 +1366,8 @@
     "time": "10 m",
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1397,6 +1412,7 @@
         [ "integrated_welder", 150 ],
         [ "soldering_iron", 150 ],
         [ "soldering_iron_portable", 150 ],
+        [ "integrated_electrokit", 150 ],
         [ "oxy_torch", 20 ]
       ]
     ],
@@ -1436,6 +1452,7 @@
         [ "integrated_welder", 75 ],
         [ "soldering_iron", 75 ],
         [ "soldering_iron_portable", 75 ],
+        [ "integrated_electrokit", 75 ],
         [ "oxy_torch", 10 ]
       ]
     ],
@@ -1600,6 +1617,7 @@
         [ "integrated_welder", 225 ],
         [ "soldering_iron", 225 ],
         [ "soldering_iron_portable", 225 ],
+        [ "integrated_electrokit", 225 ],
         [ "oxy_torch", 30 ]
       ]
     ],
@@ -1770,7 +1788,8 @@
         [ "welder_crude", 150 ],
         [ "integrated_welder", 150 ],
         [ "soldering_iron", 150 ],
-        [ "soldering_iron_portable", 150 ]
+        [ "soldering_iron_portable", 150 ],
+        [ "integrated_electrokit", 150 ]
       ]
     ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
@@ -2071,8 +2090,7 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "using": [ [ "plastic_molding", 2 ] ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -3382,5 +3400,44 @@
       [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ],
       [ [ "nails", 40, "LIST" ] ]
     ]
+  },
+  {
+    "result": "seaweed_pile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "autolearn": true,
+    "components": [ [ [ "seaweed", 20 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "dry_seaweed_pile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "autolearn": true,
+    "components": [ [ [ "dry_seaweed", 20 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "butterfly_net_makeshift",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "25 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "sheet_canvas", 1 ], [ "sheet_canvas_patchwork", 1 ] ] ],
+    "byproducts": [ [ "splinter", 8 ] ]
   }
 ]

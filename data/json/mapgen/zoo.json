@@ -505,10 +505,10 @@
     "name": "GROUP_SPIDERS_ZOO",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_spider_web_small", "weight": 10 },
-      { "monster": "mon_spider_trapdoor_small", "weight": 10 },
-      { "monster": "mon_spider_widow_small", "weight": 10 },
-      { "monster": "mon_spider_wolf_small", "weight": 10 }
+      { "group": "GROUP_SPIDER" },
+      { "group": "GROUP_SPIDER_TRAPDOOR" },
+      { "group": "GROUP_SPIDER_WIDOW" },
+      { "group": "GROUP_SPIDER_WOLF" }
     ]
   },
   {

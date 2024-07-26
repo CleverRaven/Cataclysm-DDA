@@ -115,7 +115,7 @@
     "color": "c_light_cyan",
     "looks_like": "forest_water",
     "see_cost": 5,
-    "flags": [ "SOURCE_FORAGE", "RISK_HIGH" ]
+    "flags": [ "SOURCE_FORAGE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

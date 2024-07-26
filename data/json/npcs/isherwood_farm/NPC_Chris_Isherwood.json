@@ -193,7 +193,10 @@
           "no": {
             "u_has_var": "isherwood_chris_marshal_badge",
             "value": "seen",
-            "yes": "I see you took the badge off.  Fine, then, but you'd better not let anyone here know you've got ties to the Marshals.\"",
+            "yes": {
+              "gendered_line": "I see you took the badge off.  Fine, then, but you'd better not let anyone here know you've got ties to the Marshals.\"",
+              "relevant_genders": [ "u" ]
+            },
             "no": "Hi, what's up?\""
           }
         }
@@ -201,7 +204,7 @@
     },
     "responses": [
       {
-        "text": "…(Leave)",
+        "text": "…[Leave.]",
         "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
         "effect": { "u_add_var": "isherwood_chris_marshal_badge", "value": "seen" },
         "opinion": { "trust": -5, "value": -5 },
@@ -250,7 +253,7 @@
     "dynamic_line": "They made their way to this weird spire like structure, I've never seen anything like it, it glistened in the sun like something organic.  I think they could be holding Barry there, I've seen them arrive and leave with other humans.",
     "responses": [
       {
-        "text": "[START MISSION] I might be able to help you get Barry back, but we've got to plan this out.",
+        "text": "I might be able to help you get Barry back, but we've got to plan this out.",
         "condition": {
           "and": [ { "math": [ "isherwood_barry_rescued", "!=", "1" ] }, { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } } ]
         },
@@ -484,6 +487,16 @@
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
       },
+      {
+        "text": "We're going to need some way to breach the tower itself, possibly some form of explosives.  Do you know anyone who could help us with that?",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_been_to_migos", "value": "yes" },
+            { "not": { "u_has_var": "chris_planned_for_bomb", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -530,6 +543,16 @@
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
       },
+      {
+        "text": "We're going to need some way to breach the tower itself, possibly some form of explosives.  Do you know anyone who could help us with that?",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_been_to_migos", "value": "yes" },
+            { "not": { "u_has_var": "chris_planned_for_bomb", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -558,25 +581,25 @@
     "dynamic_line": "*smiles slightly.  \"Awesome, getting our team kitted out better will go a long way to making this possible.\"",
     "responses": [
       {
-        "text": "[5 RIOT ARMOR] I've got enough riot armor for everyone.",
+        "text": "[5 Riot Armor] I've got enough riot armor for everyone.",
         "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[5 RIOT HELMET] These crowd control helmets should help a lot.",
+        "text": "[5 Riot Helmet] These crowd control helmets should help a lot.",
         "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[5 RIOT ARM GUARD] I hope these armguards won't interfere with people's aim.",
+        "text": "[5 Riot Arm Guard] I hope these armguards won't interfere with people's aim.",
         "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[5 RIOT LEG GUARD] I've got these leg guards to keep people from getting hobbled.",
+        "text": "[5 Riot Leg Guard] I've got these leg guards to keep people from getting hobbled.",
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
@@ -616,7 +639,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail",
-    "dynamic_line": "*nods slowly.  \"I understand.  You tried.  We could maybe… no, nevermind.  Time is important here, we can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
+    "dynamic_line": {
+      "gendered_line": "*nods slowly.  \"I understand.  You tried.  We could maybe… no, nevermind.  Time is important here, we can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Sorry.  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'm sorry.  I'm going to go take care of a few more things.", "topic": "TALK_DONE" }
@@ -650,6 +676,36 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb",
+    "dynamic_line": "* looks thoughtful for a moment, then becomes a bit nervous.  \"Wait, won't that run the risk of injuring Barry, or possibly collapsing the tower?  I don't want him hurt during this, or anyone else if this bomb sends back a bunch of shrapnel.  What do you think about it?\"",
+    "responses": [
+      {
+        "text": "Don't worry, I know what I'm doing.  I've taken a look at these sorts of towers before, and I know that the structure itself is pretty solid.  If we tune it right, then the tower won't fall over.",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb_Luke"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Bomb_Luke",
+    "dynamic_line": "Well, I trust you on this.  If you need a good hand with chemistry, go see Luke about it.  He knows a lot, you'd be surprised.  \" He pauses for a moment, and thinks as if trying to recall something.  \"Luke should be over in the old outbuilding near the dairy, that's on the other end of the property.",
+    "responses": [
+      {
+        "text": "That sounds great, I'll go talk to him about it.  Let's talk about something else first, though.",
+        "effect": { "u_add_var": "chris_planned_for_bomb", "value": "yes" },
+        "topic": "TALK_ISHERWOOD_CHRIS_TOPICS"
+      },
+      {
+        "text": "That sounds great, I'll go talk to him about it.",
+        "effect": { "u_add_var": "chris_planned_for_bomb", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_TRY_AGAIN",
     "dynamic_line": "If you think we're ready, I think we can try another go.  Even… even if it's too late for Uncle Barry, I think we've got to try to take that damn tower out of commission.",
     "responses": [
@@ -678,8 +734,7 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "barry_mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 },
-      "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "unique_id": "BARRY_MISSION", "target": true } ] }
+      "assign_mission_target": { "om_terrain": "barry_mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

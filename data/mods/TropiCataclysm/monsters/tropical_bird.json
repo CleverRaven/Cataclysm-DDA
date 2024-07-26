@@ -31,7 +31,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_guinea_fowl",
@@ -65,7 +65,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_quail",
@@ -98,7 +98,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS" ]
   },
   {
     "id": "mon_guinea_fowl_chick",
@@ -148,7 +148,7 @@
     "reproduction": { "baby_egg": "egg_toucan", "baby_count": 5, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS" ]
   },
   {
     "id": "mon_parrot",
@@ -182,7 +182,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
   },
   {
     "id": "mon_cockatoo",
@@ -216,7 +216,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
   },
   {
     "id": "mon_budgerigar",
@@ -250,7 +250,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
   },
   {
     "id": "mon_macaw",
@@ -284,7 +284,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS", "CANPLAY" ]
   },
   {
     "id": "mon_toucan_chick",
@@ -358,7 +358,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_tinamou", "baby_count": 6, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_seriema",
@@ -389,7 +389,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "reproduction": { "baby_egg": "egg_seriema", "baby_count": 6, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_chachalaca",
@@ -488,7 +488,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_flamingo", "baby_count": 1, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "SWARMS" ]
   },
   {
     "id": "mon_flamingo_chick",

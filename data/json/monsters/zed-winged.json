@@ -12,7 +12,6 @@
     "melee_skill": 2,
     "melee_dice_sides": 2,
     "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
         "id": "arm",
@@ -31,6 +30,7 @@
       { "id": "scratch_humanoid" },
       { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": { "half_life": 35, "into": "mon_zombie_brute_winged" },
     "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] },
     "//": "In the future, it would be nice if these guys could be resistant to fall damage."
@@ -72,8 +72,7 @@
       { "id": "scratch_humanoid" },
       { "type": "leap", "cooldown": 2, "max_range": 8 }
     ],
-    "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_lasher",
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
     "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] }
   },
@@ -168,10 +167,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 8 } ],
     "luminance": 8,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_electromagnetics" ],
-    "special_attacks": [
-      [ "SHOCKSTORM", 25 ],
-      { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ],
+    "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": false,
     "extend": { "flags": [ "ELECTRIC" ] }

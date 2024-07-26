@@ -20,7 +20,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -76,7 +76,8 @@
     "price_postapoc": "2 USD",
     "material": [ "milk" ],
     "volume": "500 ml",
-    "charges": 2
+    "charges": 2,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -112,7 +113,7 @@
     "phase": "liquid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 33 ], [ "iron", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -132,7 +133,8 @@
     "material": [ "milk" ],
     "volume": "15 ml",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -187,7 +189,7 @@
     "phase": "liquid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 20,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -208,7 +210,8 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "fun": -12
+    "fun": -12,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -245,7 +248,7 @@
     "primary_material": "cheese",
     "volume": "31 ml",
     "fun": 7,
-    "vitamins": [ [ "calcium", 16 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,7 +267,7 @@
     "description": "Unaged curdled milk and whey, made by draining cheese rather than pressing like cheese curds.  The retained whey keeps the curds loose and soft, giving a somewhat soupy texture to this lower calorie variety of cheese.",
     "price": "3 USD 85 cent",
     "price_postapoc": "1 USD 50 cent",
-    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -308,7 +311,7 @@
     "primary_material": "cheese",
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "calcium", 13 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -328,7 +331,7 @@
     "primary_material": "cheese",
     "volume": "62 ml",
     "fun": 5,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 3 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -348,7 +351,7 @@
     "primary_material": "powder",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 16 ] ],
+    "vitamins": [ [ "calcium", 16 ], [ "milk_allergen", 1 ] ],
     "fun": -1,
     "freezing_point": -459
   },
@@ -369,7 +372,7 @@
     "price_postapoc": "1 USD",
     "material": [ "milk" ],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 16 ] ],
+    "vitamins": [ [ "calcium", 16 ], [ "milk_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -391,7 +394,7 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -412,7 +415,7 @@
     "volume": "62 ml",
     "cooks_like": "milk",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "fun": -5,
     "freezing_point": -459
   },
@@ -436,7 +439,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 20,
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 7 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -470,7 +473,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 7 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "milk_allergen", 1 ] ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
@@ -494,7 +497,7 @@
     "primary_material": "milk",
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -516,7 +519,7 @@
     "phase": "solid",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -537,6 +540,6 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 19 ], [ "iron", 5 ], [ "milk_allergen", 1 ] ]
   }
 ]

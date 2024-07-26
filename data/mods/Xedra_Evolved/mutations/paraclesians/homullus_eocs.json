@@ -1,71 +1,72 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
-    "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
-    "condition": {
-      "or": [
-        {
-          "or": [
-            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
-            { "u_near_om_location": "evac_center_18", "range": 6 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
-            { "u_near_om_location": "ranch_camp_41", "range": 6 },
-            { "u_near_om_location": "godco_5", "range": 6 },
-            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
-          ]
-        },
-        {
-          "and": [
-            {
+    "id": "EOC_CONDITION_CHECK_HOMULLUS_IN_CIVILIZATION_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "HOMULLUS" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CONDITION_CHECK_HOMULLUS_IN_CIVILIZATION_ON_OMT_ENTER_2",
+            "condition": {
               "or": [
-                { "u_near_om_location": "road_curved", "range": 3 },
-                { "u_near_om_location": "road_four_way", "range": 3 },
-                { "u_near_om_location": "road_tee", "range": 3 },
-                { "u_near_om_location": "road_straight", "range": 3 },
-                { "u_near_om_location": "road_end", "range": 3 },
-                { "u_near_om_location": "road_sw", "range": 3 },
-                { "u_near_om_location": "road_ne", "range": 3 },
-                { "u_near_om_location": "road_ew", "range": 3 },
-                { "u_near_om_location": "road_ns", "range": 3 },
-                { "u_near_om_location": "road_nesw", "range": 3 },
-                { "u_near_om_location": "road", "range": 3 },
-                { "u_near_om_location": "dirt_road", "range": 3 },
-                { "u_near_om_location": "subway", "range": 3 }
+                { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+                { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
               ]
             },
-            {
-              "and": [
-                { "not": { "u_at_om_location": "field" } },
-                { "not": { "u_at_om_location": "forest" } },
-                { "not": { "u_at_om_location": "forest_thick" } },
-                { "not": { "u_at_om_location": "forest_water" } },
-                { "not": { "u_at_om_location": "lake_surface" } },
-                { "not": { "u_at_om_location": "river_center" } }
-              ]
-            }
-          ]
-        }
+            "effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "1" ] } ],
+            "false_effect": [ { "math": [ "u_homullus_is_in_civilization", "=", "0" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_HOMULLUS_NEAR_FACTION",
+    "condition": {
+      "or": [
+        { "u_near_om_location": "evac_center_13", "range": 3 },
+        { "u_near_om_location": "evac_center_18", "range": 6 },
+        { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+        { "u_near_om_location": "horse_farm_isherwood_9", "range": 3 },
+        { "u_near_om_location": "farm_isherwood_2", "range": 3 },
+        { "u_near_om_location": "dairy_farm_isherwood_SW", "range": 3 },
+        { "u_near_om_location": "lumbermill_0_0_ocu", "range": 1 },
+        { "u_near_om_location": "ranch_camp_41", "range": 6 },
+        { "u_near_om_location": "godco_5", "range": 3 },
+        { "u_near_om_location": "smallscrapyard_ocu", "range": 1 },
+        { "u_near_om_location": "robofachq_surface_entrance", "range": 4 }
       ]
     },
     "effect": [  ]
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
+    "condition": { "math": [ "u_homullus_is_in_civilization", "==", "1" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_SELF_DECEPTION",
-    "effect": {
-      "u_add_morale": "morale_homullus_self_deception",
-      "bonus": 10,
-      "max_bonus": 30,
-      "duration": {
-        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') )" ]
-      },
-      "decay_start": {
-        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
+    "effect": [
+      { "u_lose_morale": "morale_homullus_self_deception" },
+      {
+        "u_add_morale": "morale_homullus_self_deception",
+        "bonus": { "math": [ "( 5 + u_spell_level('homullus_self_deception_spell') ) * scaling_factor(u_val('perception') )" ] },
+        "max_bonus": 40,
+        "duration": {
+          "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') )" ]
+        },
+        "decay_start": {
+          "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
+        }
       }
-    }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -140,33 +141,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
-    "effect": [
-      {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
-        "target_var": { "context_val": "homullus_location" }
-      },
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_HOMULLUS_GOBLIN_FRUIT_2",
-            "//": "This EoC is required because map_in_city cannot check talker location directly.",
-            "condition": {
-              "or": [
-                { "u_near_om_location": "evac_center_13", "range": 3 },
-                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-                { "u_near_om_location": "ranch_camp_41", "range": 3 },
-                { "u_near_om_location": "godco_5", "range": 3 },
-                { "u_at_om_location": "FACTION_CAMP_ANY" },
-                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
-              ]
-            },
-            "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
-            "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
-          }
-        ]
-      }
-    ]
+    "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -364,17 +341,7 @@
       "and": [
         {
           "or": [
-            { "u_near_om_location": "evac_center_13", "range": 3 },
-            { "u_near_om_location": "evac_center_09", "range": 3 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 1 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 1 },
-            { "u_near_om_location": "ranch_camp_41", "range": 3 },
-            { "u_near_om_location": "ranch_camp_35", "range": 3 },
-            { "u_near_om_location": "ranch_camp_22", "range": 3 },
-            { "u_near_om_location": "ranch_camp_11", "range": 3 },
-            { "u_near_om_location": "godco_5", "range": 3 },
-            { "u_at_om_location": "FACTION_CAMP_ANY" },
+            { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
             { "math": [ "u_characters_nearby('radius': 50, 'attitude': 'any')", ">=", "15" ] }
           ]
         }

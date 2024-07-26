@@ -56,6 +56,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vitamin.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -502,9 +503,9 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
         const item *const avoid )
 {
     return inv_internal( you, liquid_inventory_selector_preset( liquid, avoid ),
-                         string_format( _( "Container for %s | %s %s" ), liquid.display_name( liquid.charges ),
+                         string_format( _( "Pour %s | %s %s into" ), liquid.display_name( liquid.charges ),
                                         format_volume( liquid.volume() ), volume_units_abbr() ), radius,
-                         string_format( _( "You don't have a suitable container for carrying %s." ),
+                         string_format( _( "You don't have a suitable container to pour %s into." ),
                                         liquid.tname() ) );
 }
 
@@ -570,7 +571,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( ignore_liquidcont && loc.where() == item_location::type::map &&
                 !loc->made_of( phase_id::SOLID ) ) {
                 map &here = get_map();
-                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
                     return false;
                 }
             }
@@ -1831,27 +1832,15 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
 
 static bool valid_unload_container( const item_location &container )
 {
-    // Item must be a container.
-    if( !container->is_container() ) {
-        return false;
-    }
-
-    // Item must be able to be unloaded
-    if( container->has_flag( flag_NO_UNLOAD ) ) {
-        return false;
-    }
-
-    // Container must contain at least one item
-    if( container->empty_container() ) {
-        return false;
-    }
-
-    // Not all contents should not be liquid, gas or plasma
-    if( container->contains_no_solids() ) {
-        return false;
-    }
-
-    return true;
+    return
+        // Item must be a container.
+        container->is_container()
+        // Item must be able to be unloaded
+        && !container->has_flag( flag_NO_UNLOAD )
+        // Container must contain at least one item
+        && !container->empty_container()
+        // Not all contents should not be liquid, gas or plasma
+        && !container->contains_no_solids();
 }
 
 drop_locations game_menus::inv::unload_container( avatar &you )

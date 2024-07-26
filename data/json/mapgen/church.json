@@ -191,7 +191,7 @@
     "//": "Gothic Church",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "ssssssssssssssssssssssss",
         "s WWWWW    ss    WWWWW s",
@@ -220,7 +220,7 @@
       ],
       "palettes": [ "church" ],
       "terrain": {
-        ",": "t_rock_floor",
+        ",": "t_thconc_floor",
         "B": "t_window_stained_blue",
         "G": "t_window_stained_green",
         "V": "t_window_stained_red",
@@ -278,8 +278,8 @@
         "+": "t_door_locked",
         "D": "t_window_domestic",
         "B": "t_window_stained_blue",
-        "_": "t_rock_floor_no_roof",
-        "U": "t_rock_floor_no_roof",
+        "_": "t_concrete",
+        "U": "t_concrete",
         "<": "t_stairs_up",
         "G": "t_window_stained_green"
       },
@@ -377,7 +377,7 @@
     "method": "json",
     "om_terrain": "church_roof_1",
     "object": {
-      "fill_ter": "t_rock_floor_no_roof",
+      "fill_ter": "t_concrete",
       "rows": [
         "                        ",
         "  xxxxx          xxxxx  ",
@@ -405,7 +405,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "x": "t_rock_wall_half", ".": "t_rock_floor_no_roof" }
+      "terrain": { "x": "t_rock_wall_half", ".": "t_concrete" }
     }
   }
 ]

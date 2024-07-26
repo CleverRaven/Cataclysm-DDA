@@ -58,7 +58,7 @@
       ]
     },
     "armor": { "bash": 12, "cut": 12, "bullet": 4 },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "WIELDED_WEAPON" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
@@ -252,7 +252,7 @@
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zombie_dog_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "EATS" ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
   },
   {
@@ -346,7 +346,7 @@
       "HAS_MIND",
       "WARM",
       "BASHES",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "QUIETMOVES",
       "SWARMS",
       "GROUP_MORALE",

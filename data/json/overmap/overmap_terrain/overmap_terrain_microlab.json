@@ -6,7 +6,7 @@
     "sym": "L",
     "color": "light_blue",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +30,7 @@
     "sym": "S",
     "color": "light_blue",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -60,7 +60,7 @@
     "sym": "L",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -80,7 +80,7 @@
     "sym": "L",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -97,7 +97,7 @@
     "sym": "L",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -137,7 +137,7 @@
     "sym": "L",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -168,7 +168,7 @@
     "color": "green",
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -195,7 +195,7 @@
     "color": "green",
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -205,7 +205,7 @@
     "color": "green",
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",

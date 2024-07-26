@@ -317,7 +317,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                 if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
                     wield( comp );
                 } else {
-                    get_map().add_item_or_charges( pos(), comp );
+                    get_map().add_item_or_charges( pos_bub(), comp );
                 }
             }
         }
@@ -1201,7 +1201,7 @@ int Character::get_spell_resist() const
 
 float Character::get_dodge() const
 {
-    if( !can_try_doge().success() ) {
+    if( !can_try_dodge().success() ) {
         return 0.0f;
     }
 
@@ -1474,7 +1474,7 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
     }
 
     // skip wall adjacent techniques if not next to a wall
-    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos() ) ) {
+    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos_bub() ) ) {
         add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
         return std::nullopt;
     }
@@ -1848,7 +1848,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
-            const optional_vpart_position vp0 = here.veh_at( pos() );
+            const optional_vpart_position vp0 = here.veh_at( pos_bub() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
             bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
             bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );
@@ -1902,7 +1902,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
     if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
         item weap = you->remove_weapon();
-        here.add_item_or_charges( you->pos(), weap );
+        here.add_item_or_charges( you->pos_bub(), weap );
         if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
@@ -2575,6 +2575,8 @@ std::string melee_message( const ma_technique &tec, Character &p,
         message = npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type.first == damage_bash ) {
         message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
+    } else {
+        message = npc ? _( "<npcname> hits %s" ) : _( "You hit %s" );
     }
     if( ddi.wp_hit.empty() ) {
         return message;
@@ -2825,7 +2827,7 @@ void avatar::disarm( npc &target )
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it->tname() );
-            const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            const tripoint_bub_ms tp = target.pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
             here.add_item_or_charges( tp, target.i_rem( &*it ) );
             mod_moves( -100 );
         } else {
@@ -2840,7 +2842,7 @@ void avatar::disarm( npc &target )
         if( my_roll >= their_roll ) {
             add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                      target.get_name(), it->tname() );
-            const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+            const tripoint_bub_ms tp = target.pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
             here.add_item_or_charges( tp, target.i_rem( &*it ) );
         } else {
             add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),

@@ -81,8 +81,8 @@
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "recovery_chance": 99,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 },
     "variant_type": "generic",
@@ -122,7 +122,6 @@
     "volume": "3 L",
     "price": "85 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -2,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "roller_blades",
@@ -143,7 +142,6 @@
     "volume": "3750 ml",
     "price": "85 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "looks_like": "rollerskates",
@@ -735,7 +733,6 @@
     "description": "A thin sheet of metal.",
     "//": "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6000 g",
-    "to_hit": -2,
     "color": "light_cyan",
     "symbol": "]",
     "material": [ "steel" ],
@@ -773,7 +770,7 @@
     "volume": "1250 ml",
     "longest_side": "76 cm",
     "price": "75 USD",
-    "to_hit": 2,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -1032,7 +1029,6 @@
     "weight": "3000 g",
     "volume": "750 ml",
     "price": "50 USD",
-    "to_hit": -2,
     "qualities": [ [ "JACK", 4 ] ],
     "melee_damage": { "bash": 4 }
   },
@@ -1442,7 +1438,6 @@
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "glass", "plastic" ],
     "symbol": "[",
     "looks_like": "glasses_eye",
@@ -1642,7 +1637,7 @@
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
     },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -1666,7 +1661,7 @@
     "charges": 4,
     "//": "stackable to keep the test using this item working",
     "stackable": true,
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -1723,7 +1718,7 @@
     "fun": 10,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "test_egg",
@@ -1746,8 +1741,8 @@
     "//": "Omitting the RAW flag so calories will be taken at face value.",
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
-    "rot_spawn_chance": 50
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ], [ "egg_allergen", 1 ] ],
+    "rot_spawn_chance": 98
   },
   {
     "type": "COMESTIBLE",
@@ -2061,7 +2056,6 @@
     "weight": "1700 g",
     "volume": "15750 ml",
     "price": "240 USD",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -2120,7 +2114,7 @@
     "loudness": 0,
     "count": 10,
     "critical_multiplier": 10,
-    "effects": [ "RECOVER_25" ],
+    "recovery_chance": 96,
     "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
@@ -2251,7 +2245,6 @@
     "volume": "500 ml",
     "price": "690 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -2284,7 +2277,6 @@
     "barrel_length": "150 mm",
     "price": "690 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -2686,7 +2678,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -2800,7 +2792,7 @@
     "stackable": true,
     "charges": 2,
     "stack_size": 4,
-    "vitamins": [  ],
+    "vitamins": [ [ "meat_allergen", 1 ] ],
     "fun": -18
   },
   {
@@ -2830,7 +2822,7 @@
     "stackable": true,
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 3 ], [ "meat_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -2985,7 +2977,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "vitamins": [ [ "mutagen", 60 ], [ "human_flesh_vitamin", 100 ] ],
+    "vitamins": [ [ "mutagen", 60 ], [ "human_flesh_vitamin", 100 ], [ "meat_allergen", 1 ] ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -3322,7 +3314,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ] ]
+    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "debug_vitamins",
@@ -3512,7 +3504,7 @@
     "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "test_vitx", 200 ] ],
+    "vitamins": [ [ "test_vitx", 200 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -3587,7 +3579,6 @@
     "volume": "500 ml",
     "price": "690 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -3618,7 +3609,6 @@
     "weight": "500 g",
     "volume": "250 ml",
     "price": "10 kUSD",
-    "to_hit": -2,
     "material": [ "lvl4ballisticglass", "qt_steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -5053,5 +5043,36 @@
     "material": [ "foodplace_foodstuff" ],
     "fun": 20,
     "monotony_penalty": 4
+  },
+  {
+    "type": "AMMO",
+    "id": "rock_volume_test",
+    "name": { "str": "10L rock" },
+    "copy-from": "rock",
+    "volume": "10 L"
+  },
+  {
+    "id": "acidbomb_test",
+    "type": "AMMO",
+    "category": "weapons",
+    "name": { "str": "acid bomb" },
+    "description": "A fragile container filled with acid.  Throw it to spill out a pool of potent acid.  It could also be used in a staff sling with a modified cradle.",
+    "weight": "650 g",
+    "volume": "680 ml",
+    "longest_side": "132 mm",
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "glass" ],
+    "symbol": "*",
+    "color": "yellow",
+    "use_action": [ "ACIDBOMB_ACT" ],
+    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ],
+    "ammo_type": "sling-ready_grenade",
+    "damage": { "damage_type": "bash", "amount": 4 },
+    "range": 11,
+    "dispersion": 14,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ACIDBOMB" ],
+    "melee_damage": { "bash": 4 }
   }
 ]

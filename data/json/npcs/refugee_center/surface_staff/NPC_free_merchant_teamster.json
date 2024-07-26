@@ -250,8 +250,14 @@
         {
           "npc_has_var": "exodii_mission_wh_correct",
           "value": "no",
-          "yes": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
-          "no": ", looking thoughtful.  \"Hmm.  I'm not sure, but I've heard of an odd building that's a bit like you're describing.\""
+          "yes": {
+            "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"Hmm.  I'm not sure, but I've heard of an odd building that's a bit like you're describing.\"",
+            "relevant_genders": [ "npc" ]
+          }
         }
       ]
     },
@@ -275,7 +281,7 @@
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
     "responses": [
       {
-        "text": "[Tell them about Rubik and the Exodii]",
+        "text": "[Tell them about Rubik and the Exodii.]",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
         "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
       },
@@ -470,7 +476,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
+      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "teamster_mission_directions", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -46,7 +46,6 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -104,6 +103,9 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_wall_wiring( "wall_wiring" );
 
+static const morale_type morale_funeral( "morale_funeral" );
+static const morale_type morale_gravedigger( "morale_gravedigger" );
+
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
@@ -139,6 +141,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -207,6 +210,7 @@ static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
 static void remove_above( const tripoint_bub_ms &p, Character & );
 static void add_roof( const tripoint_bub_ms &p, Character & );
 
+static void do_turn_deconstruct( const tripoint_bub_ms &, Character & );
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
 
@@ -1370,35 +1374,6 @@ void complete_construction( Character *you )
                     }
                 }
             }
-
-            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
-                const tripoint_bub_ms below = terp + tripoint_below;
-                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
-                    const map_bash_info bash_info = here.ter( below ).obj().bash;
-                    // ter_set_bashed_from_above should default to ter_set
-                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
-                        if( below.z() >= -1 ) {
-                            // Stupid to set soil at above the ground level, but if they haven't defined
-                            // anything for the terrain that's what you'll get.
-                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
-                            ter_id converted_terrain = ter_t_dirt;
-                            regional_settings settings = g->get_cur_om().get_settings();
-                            std::map<std::string, int> soil_map =
-                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
-                            if( !soil_map.empty() ) {
-                                converted_terrain = ter_id(
-                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
-                            }
-                            here.ter_set( below, converted_terrain );
-                        } else {
-                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
-                            here.ter_set( below, ter_t_rock_floor );
-                        }
-                    } else {
-                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
-                    }
-                }
-            }
         }
     }
 
@@ -1478,10 +1453,16 @@ bool construct::check_support( const tripoint_bub_ms &p )
     if( here.impassable( p ) ) {
         return false;
     }
+
+    // The current collapse logic is based on the level below supporting a "roof" rather
+    // than the orthogonal tiles supporting a roof tile. Thus, the construction logic
+    // uses similar criteria, which means you may have to first change grass into a dirt
+    // floor before you may be able to build a roof above it.
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) &&
-            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ||
+            ( !here.ter( p + offset )->has_flag( "EMPTY_SPACE" ) &&
+              here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) ) {
             num_supports++;
         }
     }
@@ -1509,7 +1490,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
-    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+    if( !( here.passable( p ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
            here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
                 here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
@@ -1633,7 +1614,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( mon_flag_HUMAN ) ) {
                     if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                        player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1642,7 +1623,7 @@ void construct::done_grave( const tripoint_bub_ms &p, Character &player_characte
                 }
             } else {
                 if( player_character.has_trait( trait_SPIRITUAL ) ) {
-                    player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    player_character.add_morale( morale_funeral, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it.get_corpse_name() );
@@ -1841,7 +1822,7 @@ static void unroll_digging( const int numer_of_2x4s )
     // refund components!
     item rope( "rope_30" );
     map &here = get_map();
-    tripoint avatar_pos = get_player_character().pos();
+    tripoint_bub_ms avatar_pos = get_player_character().pos_bub();
     here.add_item_or_charges( avatar_pos, rope );
     // presuming 2x4 to conserve lumber.
     here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
@@ -1896,13 +1877,11 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
             { mon_zombie, mon_zombie_fat, mon_zombie_rot, mon_skeleton, mon_zombie_crawler }
         };
 
-        // TODO: fix point types
-        g->place_critter_at( random_entry( monids ), p.raw() );
+        g->place_critter_at( random_entry( monids ), p );
         here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
-        // TODO: fix point types
-        here.spawn_item( p.raw(), itype_bone_human, rng( 5, 15 ) );
+        here.spawn_item( p, itype_bone_human, rng( 5, 15 ) );
         here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =
@@ -1947,8 +1926,8 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
         return;
     }
 
-    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above.raw() ) ||
-        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above.raw() ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above ) ) {
         here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
@@ -1977,7 +1956,7 @@ void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
 {
     map &here = get_map();
-    tripoint avatar_pos = who.pos();
+    tripoint_bub_ms avatar_pos = who.pos_bub();
     // copied from iexamine::curtains
     here.spawn_item( avatar_pos, itype_nail, 1, 4 );
     here.spawn_item( avatar_pos, itype_sheet, 2 );
@@ -2053,6 +2032,66 @@ void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
     here.ter_set( p + tripoint_above, roof );
 }
 
+void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
+{
+    map &here = get_map();
+    // Only run once at the start of construction
+    if( here.partial_con_at( p )->counter == 0 && who.is_avatar() &&
+        get_option<bool>( "QUERY_DECONSTRUCT" ) ) {
+        bool cancel_construction = false;
+
+        auto deconstruct_items = []( const item_group_id & drop_group ) {
+            std::string ret;
+            const std::map<const itype *, std::pair<int, int>> deconstruct_items =
+                        item_group::spawn_data_from_group( drop_group )->every_item_min_max();
+            for( const auto &deconstruct_item : deconstruct_items ) {
+                const int &min = deconstruct_item.second.first;
+                const int &max = deconstruct_item.second.second;
+                if( min != max ) {
+                    ret += string_format( "- %d-%d %s\n", min, max, deconstruct_item.first->nname( max ) );
+                } else {
+                    ret += string_format( "- %d %s\n", max, deconstruct_item.first->nname( max ) );
+                }
+            }
+            return ret;
+        };
+        auto deconstruction_will_practice_skill = [ &who ]( auto & skill ) {
+            return who.get_skill_level( skill.id ) >= skill.min &&
+                   who.get_skill_level( skill.id ) < skill.max;
+        };
+
+        if( here.has_furn( p ) ) {
+            const furn_t &f = here.furn( p ).obj();
+            if( !!f.deconstruct.skill &&
+                deconstruction_will_practice_skill( *f.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ), f.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          f.name(), deconstruct_items( f.deconstruct.drop_group ) );
+            }
+        } else {
+            const ter_t &t = here.ter( p ).obj();
+            if( !!t.deconstruct.skill &&
+                deconstruction_will_practice_skill( *t.deconstruct.skill ) ) {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nYou feel you might also learn something about %s.\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ), t.deconstruct.skill->id.obj().name() );
+            } else {
+                cancel_construction = !who.query_yn(
+                                          _( "Deconstructing the %s will yield:\n%s\nReally deconstruct?" ),
+                                          t.name(), deconstruct_items( t.deconstruct.drop_group ) );
+            }
+        }
+        if( cancel_construction ) {
+            here.partial_con_remove( p );
+            who.cancel_activity();
+        }
+    }
+}
+
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
@@ -2071,12 +2110,12 @@ void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
 {
     do_turn_shovel( p, who );
-    if( !who.has_morale( MORALE_GRAVEDIGGER ) ) {
+    if( !who.has_morale( morale_gravedigger ) ) {
         if( who.has_trait( trait_SPIRITUAL ) && !who.has_trait( trait_PSYCHOPATH ) )  {
             if( who.query_yn(
                     _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
                 add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-                who.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+                who.add_morale( morale_gravedigger, -50, -100, 48_hours, 12_hours );
                 if( one_in( 3 ) ) {
                     who.vomit();
                 }
@@ -2086,13 +2125,13 @@ void construct::do_turn_exhume( const tripoint_bub_ms &p, Character &who )
         } else if( who.has_trait( trait_PSYCHOPATH ) ) {
             who.add_msg_if_player(
                 m_good, _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, 25, 50, 2_hours, 1_hours );
         } else if( who.has_trait( trait_NUMB ) ) {
             who.add_msg_if_player( m_bad, _( "You wonder if you dig up anything useful." ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
         } else if( !who.has_trait( trait_EATDEAD ) && !who.has_trait( trait_SAPROVORE ) ) {
             who.add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            who.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            who.add_morale( morale_gravedigger, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 who.vomit();
             }
@@ -2269,6 +2308,7 @@ void load_construction( const JsonObject &jo )
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
     do_turn_special_map = {{
             { "", construct::done_nothing },
+            { "do_turn_deconstruct", construct::do_turn_deconstruct },
             { "do_turn_shovel", construct::do_turn_shovel },
             { "do_turn_exhume", construct::do_turn_exhume },
         }

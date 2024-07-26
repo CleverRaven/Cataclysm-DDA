@@ -11,7 +11,10 @@
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "5" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "5" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('vita_stop_bleeding')", "<=", "0" ] },
@@ -42,7 +45,10 @@
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('vita_health_power')", ">=", "6" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_health_power')", ">=", "6" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('vita_health_power_ally')", "<=", "0" ] },
@@ -74,7 +80,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "5" ] },
@@ -111,7 +117,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('vita_health_power')", ">=", "8" ] },
@@ -154,7 +160,10 @@
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('vita_cure_disease')", "<=", "0" ] },
@@ -186,7 +195,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('vita_health_power')", ">=", "8" ] },
@@ -225,7 +234,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -271,7 +280,10 @@
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_cure_disease')", ">=", "7" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_cure_disease')", ">=", "7" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('vita_stop_infection')", "<=", "0" ] },
@@ -303,7 +315,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('vita_stop_infection')", ">=", "5" ] },
@@ -341,7 +353,10 @@
         { "u_has_trait": "VITAKINETIC" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "8" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "8" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('vita_attack_touch')", "<=", "0" ] },
@@ -373,7 +388,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('vita_healing_trance')", ">=", "6" ] },
@@ -417,7 +432,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('vita_stop_infection')", ">=", "12" ] },
@@ -461,7 +476,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -509,7 +524,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "or": [
                 { "math": [ "u_spell_level('vita_super_heal')", ">=", "6" ] },

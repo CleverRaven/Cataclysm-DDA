@@ -14,7 +14,8 @@
     "material": [ "veggy" ],
     "volume": "20 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -34,7 +35,7 @@
     "symbol": ",",
     "looks_like": "potato",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": -3
   },
   {
@@ -54,7 +55,7 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "fun": -3
   },
   {
@@ -75,7 +76,7 @@
     "symbol": ",",
     "flags": [ "RAW" ],
     "material": [ "veggy" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 8 ], [ "vitC", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 8 ], [ "vitC", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -94,7 +95,7 @@
     "symbol": ",",
     "flags": [ "RAW" ],
     "material": [ "veggy" ],
-    "vitamins": [ [ "vitC", 10 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 10 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -114,7 +115,7 @@
     "volume": "180 ml",
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "134700 μg" ], [ "iron", "1100 μg" ], [ "calcium", "71 mg" ] ]
+    "vitamins": [ [ "vitC", "134700 μg" ], [ "iron", "1100 μg" ], [ "calcium", "71 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -135,7 +136,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW", "CATTLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "332800 μg" ], [ "iron", "12900 μg" ], [ "calcium", "364 mg" ] ]
+    "vitamins": [ [ "vitC", "332800 μg" ], [ "iron", "12900 μg" ], [ "calcium", "364 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -156,7 +157,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "25600 μg" ], [ "iron", "300 μg" ], [ "calcium", "28 mg" ] ]
+    "vitamins": [ [ "vitC", "25600 μg" ], [ "iron", "300 μg" ], [ "calcium", "28 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -175,7 +176,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -196,7 +197,7 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -217,7 +218,7 @@
     "fun": 1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "4200 μg" ], [ "iron", "200 μg" ], [ "calcium", "23800 μg" ] ]
+    "vitamins": [ [ "vitC", "4200 μg" ], [ "iron", "200 μg" ], [ "calcium", "23800 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -236,7 +237,7 @@
     "volume": "250 ml",
     "fun": -12,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "iron", 8 ] ]
+    "vitamins": [ [ "iron", 8 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -255,7 +256,7 @@
     "volume": "500 ml",
     "flags": [ "SMOKABLE", "FREEZERBURN" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -275,7 +276,7 @@
     "fun": -8,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -303,7 +304,7 @@
     "longest_side": "19 cm",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "29700 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -321,7 +322,8 @@
     "price_postapoc": "2 cent",
     "material": [ "veggy", "cotton" ],
     "volume": "62 ml",
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -339,7 +341,7 @@
     "material": [ "veggy" ],
     "volume": "70 ml",
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ] ],
+    "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -372,7 +374,7 @@
     "longest_side": "22 cm",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "48200 μg" ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "800 μg" ], [ "calcium", "48200 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -406,7 +408,7 @@
     "longest_side": "10 cm",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "700 μg" ], [ "iron", "300 μg" ] ]
+    "vitamins": [ [ "vitC", "700 μg" ], [ "iron", "300 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -436,7 +438,8 @@
     "volume": "250 ml",
     "fun": -4,
     "flags": [ "RAW" ],
-    "//": "Dahlia roots contain an incredible amount of vitamin B6. This isn't a vitamin tracked in Cataclysm, but be careful of vitamin overdose when eating dahlia in real life."
+    "//": "Dahlia roots contain an incredible amount of vitamin B6. This isn't a vitamin tracked in Cataclysm, but be careful of vitamin overdose when eating dahlia in real life.",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -457,7 +460,7 @@
     "fun": -2,
     "smoking_result": "dry_veggy",
     "flags": [ "RAW", "SMOKABLE" ],
-    "vitamins": [ [ "vitC", "10600 μg" ], [ "iron", "900 μg" ], [ "calcium", "79800 μg" ] ]
+    "vitamins": [ [ "vitC", "10600 μg" ], [ "iron", "900 μg" ], [ "calcium", "79800 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -476,7 +479,7 @@
     "volume": "135 ml",
     "fun": -8,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "3 mg" ], [ "iron", "500 μg" ], [ "calcium", "24600 μg" ] ]
+    "vitamins": [ [ "vitC", "3 mg" ], [ "iron", "500 μg" ], [ "calcium", "24600 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -509,7 +512,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -529,7 +533,7 @@
     "volume": "45 ml",
     "fun": -18,
     "flags": [ "RAW", "PLANTABLE_SEED" ],
-    "vitamins": [ [ "vitC", "5400 μg" ], [ "iron", "600 μg" ], [ "calcium", "32400 μg" ] ],
+    "vitamins": [ [ "vitC", "5400 μg" ], [ "iron", "600 μg" ], [ "calcium", "32400 μg" ], [ "veggy_allergen", 1 ] ],
     "//": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
@@ -549,7 +553,7 @@
     "material": [ "garlic" ],
     "volume": "6 ml",
     "fun": -3,
-    "vitamins": [ [ "vitC", "900 μg" ], [ "iron", "100 μg" ], [ "calcium", "5400 μg" ] ],
+    "vitamins": [ [ "vitC", "900 μg" ], [ "iron", "100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ],
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -568,7 +572,8 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -15
+    "fun": -15,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -587,7 +592,7 @@
     "volume": "400 ml",
     "fun": -12,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitC", "62300 μg" ], [ "iron", "1100 μg" ], [ "calcium", "140 mg" ] ]
+    "vitamins": [ [ "vitC", "62300 μg" ], [ "iron", "1100 μg" ], [ "calcium", "140 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -607,7 +612,7 @@
     "volume": "1850 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW", "CATTLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "2100 μg" ], [ "calcium", "91 mg" ] ]
+    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "2100 μg" ], [ "calcium", "91 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -627,7 +632,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "2 mg" ], [ "iron", "300 μg" ], [ "calcium", "13 mg" ] ]
+    "vitamins": [ [ "vitC", "2 mg" ], [ "iron", "300 μg" ], [ "calcium", "13 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -645,7 +650,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -666,7 +672,7 @@
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
-    "vitamins": [ [ "vitC", "8100 μg" ], [ "iron", "200 μg" ], [ "calcium", "25300 μg" ] ]
+    "vitamins": [ [ "vitC", "8100 μg" ], [ "iron", "200 μg" ], [ "calcium", "25300 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -688,7 +694,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "SMOKABLE", "RAW" ],
-    "smoking_result": "dry_veggy"
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -709,7 +716,7 @@
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "42 mg" ], [ "iron", "1700 μg" ], [ "calcium", "25600 μg" ] ]
+    "vitamins": [ [ "vitC", "42 mg" ], [ "iron", "1700 μg" ], [ "calcium", "25600 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -729,7 +736,7 @@
     "fun": -1,
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "32900 μg" ], [ "iron", "1100 μg" ], [ "calcium", "5400 μg" ] ]
+    "vitamins": [ [ "vitC", "32900 μg" ], [ "iron", "1100 μg" ], [ "calcium", "5400 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -748,7 +755,7 @@
     "volume": "2062 ml",
     "fun": -1,
     "flags": [ "RAW", "INEDIBLE" ],
-    "vitamins": [ [ "vitC", "102 mg" ], [ "iron", "9200 μg" ], [ "calcium", "237600 μg" ] ],
+    "vitamins": [ [ "vitC", "102 mg" ], [ "iron", "9200 μg" ], [ "calcium", "237600 μg" ], [ "veggy_allergen", 1 ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -786,7 +793,7 @@
     "fun": -2,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -806,7 +813,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -826,7 +833,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -847,7 +854,7 @@
     "fun": -12,
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "1 mg" ], [ "calcium", "20 mg" ] ]
+    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "1 mg" ], [ "calcium", "20 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -868,7 +875,7 @@
     "longest_side": "19 cm",
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "100 μg" ], [ "calcium", "43900 μg" ] ]
+    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "100 μg" ], [ "calcium", "43900 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -888,7 +895,7 @@
     "fun": -10,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "1 mg" ], [ "calcium", "13 mg" ] ]
+    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "1 mg" ], [ "calcium", "13 mg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -910,7 +917,8 @@
     "volume": "9 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
     "//": "Tea is sold by weight not by volume. 1 kg of tea has a volume of 3,4 liters. We use smaller packs of at least 100 mg. Such a tea has a volume of 340 ml minus package makes it around 320 ml. 3 g per serving makes 33 charges.",
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -936,7 +944,8 @@
     "primary_material": "dried_vegetable",
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "fun": -10
+    "fun": -10,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -963,7 +972,7 @@
     "volume": "150 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "16900 μg" ], [ "iron", "300 μg" ], [ "calcium", "12300 μg" ] ]
+    "vitamins": [ [ "vitC", "16900 μg" ], [ "iron", "300 μg" ], [ "calcium", "12300 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -992,7 +1001,7 @@
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1038,7 +1047,7 @@
     "longest_side": "22 cm",
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", "35100 μg" ], [ "iron", "700 μg" ], [ "calcium", "31400 μg" ] ]
+    "vitamins": [ [ "vitC", "35100 μg" ], [ "iron", "700 μg" ], [ "calcium", "31400 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1066,7 +1075,7 @@
     "material": [ "veggy" ],
     "cooks_like": "beans_cooked",
     "smoking_result": "dry_beans",
-    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "1 mg" ], [ "calcium", "31 mg" ] ],
+    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "1 mg" ], [ "calcium", "31 mg" ], [ "veggy_allergen", 1 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "beans", "fruit": "raw_beans", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
@@ -1090,7 +1099,7 @@
     "fun": -10,
     "use_action": [ "POISON" ],
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1109,7 +1118,7 @@
     "material": [ "veggy" ],
     "volume": "45 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1142,7 +1151,7 @@
     "material": [ "veggy" ],
     "volume": "62 ml",
     "longest_side": "20 cm",
-    "vitamins": [ [ "vitC", 6 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1163,7 +1172,7 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "fun": -5,
-    "vitamins": [ [ "vitC", "95700 μg" ], [ "iron", "400 μg" ], [ "calcium", "11900 μg" ] ]
+    "vitamins": [ [ "vitC", "95700 μg" ], [ "iron", "400 μg" ], [ "calcium", "11900 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1194,7 +1203,7 @@
     "volume": "25 ml",
     "//": "250 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.  Nutritional data based off buckwheat flour.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "vitamins": [ [ "iron", "500 μg" ], [ "calcium", "5 mg" ] ],
+    "vitamins": [ [ "iron", "500 μg" ], [ "calcium", "5 mg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
   },
   {
@@ -1234,7 +1243,7 @@
     "healthy": -1,
     "symbol": "e",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ] ],
+    "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -8
   },
   {
@@ -1255,7 +1264,96 @@
     "symbol": "e",
     "looks_like": "eggplant",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "60500 μg" ], [ "iron", "650 μg" ], [ "calcium", "24650 μg" ] ],
+    "vitamins": [ [ "vitC", "60500 μg" ], [ "iron", "650 μg" ], [ "calcium", "24650 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seaweed",
+    "name": { "str_sp": "seaweed" },
+    "weight": "30 g",
+    "color": "green",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "description": "A handful of slimy seaweed.  It doesn't look edible, but properly dried, it might make for decent kindling.",
+    "material": [ "veggy" ],
+    "volume": "30 ml",
+    "flags": [ "SMOKABLE", "INEDIBLE" ],
+    "smoking_result": "dry_seaweed",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seaweed_pile",
+    "name": { "str_sp": "pile of seaweed" },
+    "weight": "600 g",
+    "color": "green",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "description": "A slimy heap of seaweed.  It doesn't look edible, but properly dried, it might make for decent kindling.",
+    "material": [ "veggy" ],
+    "volume": "600 ml",
+    "flags": [ "SMOKABLE", "INEDIBLE" ],
+    "smoking_result": "dry_seaweed_pile",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sea_lettuce",
+    "name": { "str_sp": "sea lettuce" },
+    "weight": "100 g",
+    "color": "green",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 12,
+    "description": "A handful of edible green seaweed.  It makes a good snack as-is, but can be dried or prepared in a number of ways.",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "kelp_sugar",
+    "name": { "str_sp": "sugar kelp" },
+    "weight": "100 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 17,
+    "description": "A sizable strip of new growth harvested from a sugar kelp.  While these are most often dried, it seems edible enough as is.",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "kombu",
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bladderwrack",
+    "name": { "str_sp": "bladderwrack" },
+    "weight": "100 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 17,
+    "description": "A leafy bunch of seaweed covered in air bladders.  Many claims are made about its health benefits, but at least as a foodstuff, it's no better or worse than other edible seaweed.",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ], [ "veggy_allergen", 1 ] ]
   }
 ]

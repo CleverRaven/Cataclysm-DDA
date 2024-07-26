@@ -10,6 +10,7 @@
 
 #include "explosion.h"
 #include "field_type.h"
+#include "magic.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -23,6 +24,7 @@ struct ammo_effect {
         void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
+        fake_spell spell_data;
 
         field_type_id aoe_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
@@ -43,6 +45,7 @@ struct ammo_effect {
         bool do_flashbang = false;
         bool do_emp_blast = false;
         bool foamcrete_build = false;
+        bool always_cast_spell = false;
 
         field_type_id trail_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
@@ -52,8 +55,8 @@ struct ammo_effect {
         int trail_chance = 100;
 
         // Used by generic_factory
-        string_id<ammo_effect> id;
-        std::vector<std::pair<string_id<ammo_effect>, mod_id>> src;
+        ammo_effect_str_id id;
+        std::vector<std::pair<ammo_effect_str_id, mod_id>> src;
         bool was_loaded = false;
 
         static size_t count();

@@ -36,6 +36,14 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "rampant_machine",
+    "base_faction": "robofac",
+    "neutral": [ "utility_bot" ],
+    "hate": [ "zombie", "fungus", "cult", "alien_predator", "triffid", "nether", "PrepNet", "moxie", "bio_machine", "reavers" ],
+    "by_mood": [ "human" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "UICA_mil",
     "base_faction": "WraitheonRobotics"
   },

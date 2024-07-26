@@ -209,12 +209,12 @@ class monster : public Creature
          * can_move_to() is a wrapper for both of them.
          * know_danger_at() checks for fire, trap etc. (flag PATH_AVOID_)
          */
+        // TODO: Get rid of untyped overload
         bool can_move_to( const tripoint &p ) const;
+        bool can_move_to( const tripoint_bub_ms &p ) const;
         bool can_reach_to( const tripoint &p ) const;
         bool will_move_to( const tripoint &p ) const;
         bool know_danger_at( const tripoint &p ) const;
-
-        bool monster_move_in_vehicle( const tripoint &p ) const;
 
         bool will_reach( const point &p ); // Do we have plans to get to (x, y)?
         int  turns_to_reach( const point &p ); // How long will it take?
@@ -606,7 +606,7 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        std::unordered_set<tripoint> get_path_avoid() const override;
+        std::function<bool( const tripoint & )> get_path_avoid() const override;
         double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
     private:

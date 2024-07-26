@@ -285,5 +285,61 @@
       { "u_lose_trait": "TELEKINETIC_LIFTER_2" },
       { "u_lose_trait": "TELEKINETIC_LIFTER_1" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_EXTENDED_CHANNELING_ON",
+    "condition": { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_EXTENDED_CHANNELING_ON_2",
+            "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+            "effect": [
+              { "u_deactivate_trait": "PSI_TORRENTIAL_CHANNELING" },
+              { "u_add_trait": "PSI_EXTENDED_CHANNELING_active" },
+              { "u_message": "You begin to take more care in channeling your powers.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_add_trait": "PSI_EXTENDED_CHANNELING_active" },
+              { "u_message": "You begin to take more care in channeling your powers.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "PSI_EXTENDED_CHANNELING_active" },
+      { "u_message": "You return to your previous speed in channeling your powers.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON",
+    "condition": { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_TORRENTIAL_CHANNELING_ON_2",
+            "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
+            "effect": [
+              { "u_deactivate_trait": "PSI_EXTENDED_CHANNELING" },
+              { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+              { "u_message": "You begin drawing deeply on the Nether.", "type": "good" }
+            ],
+            "false_effect": [
+              { "u_add_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+              { "u_message": "You begin drawing deeply on the Nether.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "PSI_TORRENTIAL_CHANNELING_active" },
+      { "u_message": "The cut off the overflow of Nether power.", "type": "neutral" }
+    ]
   }
 ]

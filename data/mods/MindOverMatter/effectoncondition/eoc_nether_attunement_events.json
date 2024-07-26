@@ -78,7 +78,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -95,7 +95,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -166,7 +166,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -183,7 +183,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "condition": { "or": [ { "u_has_effect": "effect_noetic_resilience" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" } ] },
     "effect": [
       { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
@@ -217,32 +217,69 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_TORRENTIAL_active",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3 + (u_nether_conduit_repeated_channeling_value / 5 ) )" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": { "not": { "u_has_effect": "effect_noetic_resilience" } },
-    "effect": {
-      "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
-      "cases": [
-        { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
-        { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
-        { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] } },
-        { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.1" ] } },
-        { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.17" ] } },
-        { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.25" ] } },
-        { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.35" ] } },
-        { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
-        { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
-        { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
-        { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
-        { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
-      ]
-    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST_2",
+            "condition": { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING_active" } },
+            "effect": {
+              "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+              "cases": [
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
+                { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
+                { "case": 35, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] } },
+                { "case": 55, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.1" ] } },
+                { "case": 85, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.17" ] } },
+                { "case": 115, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.25" ] } },
+                { "case": 145, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.35" ] } },
+                { "case": 175, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
+              ]
+            },
+            "false_effect": {
+              "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+              "cases": [
+                { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.5" ] } },
+                { "case": 195, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.75" ] } },
+                { "case": 215, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "2" ] } },
+                { "case": 235, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "3" ] } },
+                { "case": 245, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "4" ] } }
+              ]
+            }
+          }
+        ]
+      }
+    ],
     "false_effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1.05" ] }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_DRAIN_EVENTS",
+    "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_SETUP",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": {
@@ -251,226 +288,248 @@
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] }
       ]
     },
-    "//": "Switch statement below is to ensure there is always a chance of something happening.",
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_CHECK_EXTENDED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_CHECK_EXTENDED",
+    "condition": { "u_has_trait": "PSI_EXTENDED_CHANNELING_active" },
+    "effect": [
       {
-        "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
-        "cases": [
+        "run_eocs": [
           {
-            "case": 15,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ]
-              ]
-            }
-          },
-          {
-            "case": 25,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ]
-              ]
-            }
-          },
-          {
-            "case": 50,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ]
-              ]
-            }
-          },
-          {
-            "case": 70,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ]
-              ]
-            }
-          },
-          {
-            "case": 85,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ]
-              ]
-            }
-          },
-          {
-            "case": 100,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ]
-              ]
-            }
-          },
-          {
-            "case": 125,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ]
-              ]
-            }
-          },
-          {
-            "case": 150,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ]
-              ]
-            }
-          },
-          {
-            "case": 175,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 2 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ]
-              ]
-            }
-          },
-          {
-            "case": 200,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 2 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ],
-                [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 1 ]
-              ]
-            }
-          },
-          {
-            "case": 235,
-            "effect": {
-              "weighted_list_eocs": [
-                [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 12 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 9 ],
-                [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 6 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 6 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 12 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 11 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 8 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 8 ],
-                [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 5 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 3 ],
-                [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 2 ],
-                [ "EOC_NETHER_EFFECT_CHECK_MUTATION", 2 ],
-                [ "EOC_NETHER_EFFECT_CHECK_RIFT", 1 ]
-              ]
-            }
+            "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES_CHECK_EXTENDED_2",
+            "condition": { "x_in_y_chance": { "x": { "math": [ "u_effect_intensity('effect_disease_psionic_drain')" ] }, "y": 15 } },
+            "effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
           }
         ]
       }
-    ]
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_ATTUNEMENT_CONSEQUENCES",
+    "//": "Switch statement below is to ensure there is always a chance of something happening.",
+    "effect": {
+      "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
+      "cases": [
+        {
+          "case": 15,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ]
+            ]
+          }
+        },
+        {
+          "case": 25,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ]
+            ]
+          }
+        },
+        {
+          "case": 50,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ]
+            ]
+          }
+        },
+        {
+          "case": 70,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ]
+            ]
+          }
+        },
+        {
+          "case": 85,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ]
+            ]
+          }
+        },
+        {
+          "case": 100,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ]
+            ]
+          }
+        },
+        {
+          "case": 125,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ]
+            ]
+          }
+        },
+        {
+          "case": 150,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ]
+            ]
+          }
+        },
+        {
+          "case": 175,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ]
+            ]
+          }
+        },
+        {
+          "case": 200,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 6 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 1 ]
+            ]
+          }
+        },
+        {
+          "case": 235,
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_DRAIN_EFFECT_CHECK_HEADACHE", 12 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT", 9 ],
+              [ "EOC_NETHER_EFFECT_CHECK_COLD_WIND", 6 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 6 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 12 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 11 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 8 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 5 ],
+              [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_ATTENUATION", 8 ],
+              [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE", 5 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 3 ],
+              [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_MUTATION", 2 ],
+              [ "EOC_NETHER_EFFECT_CHECK_RIFT", 1 ]
+            ]
+          }
+        }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -692,7 +751,7 @@
             {
               "u_add_effect": "effect_nether_attunement_raiser",
               "duration": {
-                "math": [ "time(' 30 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+                "math": [ "time(' 10 m') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
               }
             }
           ]
@@ -1061,7 +1120,7 @@
       ]
     },
     "effect": [
-      { "u_set_field": "fd_reality_tear", "radius": 0, "intensity": 3, "hit_player": false },
+      { "u_set_field": "fd_fatigue", "radius": 0, "intensity": 3, "hit_player": false },
       { "u_message": "As you unleash your powers, the air around you twists and warps in on itself.", "type": "bad" }
     ]
   },

@@ -103,7 +103,7 @@
     "type": "TOOL",
     "name": { "str": "ketene lamp" },
     "description": "A section of glass pipe with a bulb in the middle, which contains an electrical heating element.  It is used for producing ketene via pyrolysis of acetone or 1,3-butadiene from cyclohexane, for use in other chemical reactions.  Due to the instability of ketene, it can't be stored and must be used immediately.",
-    "weight": "3 kg",
+    "weight": "1800 g",
     "volume": "2 L",
     "price": "200 USD",
     "price_postapoc": "10 USD",
@@ -1028,6 +1028,15 @@
     "material": [ "glass" ],
     "symbol": "|",
     "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "25 ml",
+        "max_contains_weight": "100 g",
+        "watertight": true
+      }
+    ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -1412,8 +1421,8 @@
     "id": "weather_glass",
     "type": "GENERIC",
     "category": "TOOL",
-    "name": { "str_sp": "Weather glass" },
-    "description": "also called storm glass or 'Goethe barometer', The weather glass barometer consists of a glass container with a sealed body, half filled with water.  A narrow spout connects to the body below the water level and rises above the water level.  the difference between the sealed water level and after opening the narrow spout determines the atmospheric pressure.  Activate to get current atmospheric pressure",
+    "name": { "str_sp": "weather glass" },
+    "description": "Also called storm glass or 'Goethe barometer', The weather glass barometer consists of a glass container with a sealed body, half filled with water.  A narrow spout connects to the body below the water level and rises above the water level.  The difference between the sealed water level in the body and the narrow open spout determines the atmospheric pressure.  Activate to get current atmospheric pressure.",
     "//": "this is based on wikipedia's page on barometers, in section 'water barometers'",
     "material": [ "glass" ],
     "weight": "6000 g",
@@ -1432,7 +1441,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "hygroscope" },
-    "description": "This is a small rectangular box, Inside it is a device that measures humidity by utilizing the hygroscopy of hair, The hair's length changes with humidity, And indicated on a dial",
+    "description": "A small rectangular box.  Inside is a device that measures humidity by utilizing the hygroscopy of hair.  The hair's length changes with humidity as indicated on a dial.",
     "//": "this is based on Hair tension hygrometers, https://en.wikipedia.org/wiki/Hygrometer",
     "weight": "3000 g",
     "volume": "2 L",

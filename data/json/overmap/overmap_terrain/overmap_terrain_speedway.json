@@ -232,7 +232,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "speedway_6_7_1", "speedway_6_7_2" ],
+    "id": [ "speedway_6_7_1", "speedway_6_7_2", "speedway_6_7_3" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "announcer station",
     "sym": "─",

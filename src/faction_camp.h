@@ -3,10 +3,11 @@
 #define CATA_SRC_FACTION_CAMP_H
 
 #include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 
 template <typename E> struct enum_traits;
 

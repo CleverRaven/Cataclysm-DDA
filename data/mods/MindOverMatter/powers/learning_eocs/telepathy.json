@@ -12,7 +12,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             { "and": [ { "math": [ "u_spell_level('telepathic_concentration')", ">=", "5" ] } ] }
           ]
         },
@@ -44,7 +44,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telepathic_concentration')", ">=", "6" ] },
@@ -81,7 +81,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "7" ] },
@@ -117,7 +117,10 @@
         { "u_has_trait": "TELEPATH" },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
-          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] } ]
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
+          ]
         },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('telepathic_animal_mind_control')", "<=", "0" ] },
@@ -152,7 +155,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -196,7 +199,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telepathic_blast')", ">=", "8" ] },
@@ -233,7 +236,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telepathic_confusion')", ">=", "8" ] },
@@ -278,7 +281,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -322,7 +325,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "10" ] }
           ]
         },
@@ -356,7 +359,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 {
@@ -406,7 +409,7 @@
         { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
         {
           "or": [
-            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT" },
             {
               "and": [
                 { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "10" ] },

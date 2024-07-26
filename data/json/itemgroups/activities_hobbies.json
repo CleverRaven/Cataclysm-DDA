@@ -229,7 +229,8 @@
       { "item": "bandolier_wrist", "prob": 100 },
       { "item": "fitness_band", "prob": 10 },
       { "item": "hand_pump", "prob": 10 },
-      { "item": "folded_inflatable_boat", "prob": 4 }
+      { "item": "folded_inflatable_boat", "prob": 4 },
+      { "group": "butterfly_net_any", "prob": 20 }
     ]
   },
   {
@@ -314,7 +315,7 @@
       { "group": "butane_lighter_and_fuel", "prob": 10 },
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
-      { "item": "electric_spinwheel", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "electric_spinwheel", "prob": 3 },
       [ "thread", 40 ],
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -418,6 +419,7 @@
       [ "whistle", 20 ],
       [ "charcoal", 20 ],
       [ "leathersandals", 10 ],
+      [ "espadrilles", 5 ],
       [ "bullwhip", 1 ],
       [ "grapnel", 1 ],
       [ "razor_blade", 9 ],
@@ -510,7 +512,7 @@
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
-      { "item": "electric_spinwheel", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "electric_spinwheel", "prob": 3 },
       [ "thread", 40 ],
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },

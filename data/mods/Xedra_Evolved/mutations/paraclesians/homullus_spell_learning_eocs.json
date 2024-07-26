@@ -26,27 +26,14 @@
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
     "effect": [
       {
-        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" },
-        "target_var": { "context_val": "homullus_location" }
-      },
-      {
         "run_eocs": [
           {
             "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_2",
-            "//": "This EoC is required because map_in_city cannot check talker location directly.",
             "condition": {
               "or": [
-                { "u_at_om_location": "FACTION_CAMP_ANY" },
-                { "u_near_om_location": "evac_center_13", "range": 3 },
-                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-                { "u_near_om_location": "ranch_camp_41", "range": 3 },
-                { "u_near_om_location": "godco_5", "range": 3 },
-                { "u_at_om_location": "homullus_genius_loci_NW" },
-                { "u_at_om_location": "homullus_genius_loci_NE" },
-                { "u_at_om_location": "homullus_genius_loci_SW" },
-                { "u_at_om_location": "homullus_genius_loci_SE" },
-                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
+                { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+                { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
               ]
             },
             "effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]

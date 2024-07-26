@@ -46,6 +46,29 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "soldering_iron_portable",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
+    "components": [
+      [ [ "e_scrap", 2 ], [ "glowplug", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "duct_tape", 10 ] ],
+      [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "hotplate",
     "category": "CC_ELECTRONIC",
@@ -70,8 +93,8 @@
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
-        [ "knife_butcher", 2 ],
-        [ "knife_steak", 6 ],
+        [ "knife_huge", 2 ],
+        [ "knife_small", 6 ],
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],
@@ -102,8 +125,8 @@
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
-        [ "knife_butcher", 2 ],
-        [ "knife_steak", 6 ],
+        [ "knife_huge", 2 ],
+        [ "knife_small", 6 ],
         [ "knife_butter", 6 ],
         [ "muffler", 1 ]
       ],

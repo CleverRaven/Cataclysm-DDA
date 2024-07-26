@@ -203,9 +203,9 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name(), m.name( c.pos() )
+                it.display_name(), m.name( c.pos_bub() )
             );
-            m.add_item_or_charges( c.pos(), it );
+            m.add_item_or_charges( c.pos_bub(), it );
             return true;
         }
     }
@@ -222,7 +222,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint where = veh.global_part_pos3( vp );
+    const tripoint_bub_ms where = veh.bub_part_pos( vp );
     map &here = get_map();
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
@@ -235,7 +235,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
         }
 
         if( it.made_of( phase_id::LIQUID ) ) {
-            here.add_item_or_charges( c.pos(), it );
+            here.add_item_or_charges( c.pos_bub(), it );
             it.charges = 0;
         }
 
@@ -431,7 +431,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
         item &dropped_item = here.add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( where.raw() ), &dropped_item );
+        items_dropped.emplace_back( map_cursor( where ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
@@ -540,7 +540,7 @@ int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
 {
     avatar &player_character = get_avatar();
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
-        const tripoint cart_position = player_character.pos() + player_character.grab_point;
+        const tripoint_bub_ms cart_position = player_character.pos_bub() + player_character.grab_point;
         if( const std::optional<vpart_reference> ovp = get_map().veh_at( cart_position ).cargo() ) {
             return move_cost_cart( it, src, dest, ovp->items().free_volume() );
         }
@@ -671,7 +671,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
+    const auto &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
             here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
@@ -745,7 +745,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
+    const auto &avoid = you.get_path_avoid();
     if( sorted.front() == you.pos_bub() ) {
         // We are on the best tile
         return {};
@@ -1856,7 +1856,7 @@ static bool fetch_activity(
     const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.getlocal( you.backlog.front().coords.back() ) ) ) {
+    if( !here.can_put_items_ter_furn( here.bub_from_abs( you.backlog.front().coords.back() ) ) ) {
         return false;
     }
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
@@ -1957,7 +1957,7 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             elem.set_var( "activity_var", you.name );
             you.assign_activity( ACT_BUTCHER_FULL, 0, true );
             // TODO: fix point types
-            you.activity.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+            you.activity.targets.emplace_back( map_cursor( src_loc ), &elem );
             you.activity.placement = here.getglobal( src_loc );
             return true;
         }
@@ -3132,7 +3132,7 @@ static bool generic_multi_activity_do(
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
                                                            recipe_time_flag::ignore_proficiencies ) * qty ) );
                     // TODO: fix point types
-                    act.targets.emplace_back( map_cursor( src_loc.raw() ), &elem );
+                    act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getglobal( src_loc );
                     act.position = qty;
                     act.index = false;
@@ -3522,7 +3522,7 @@ int get_auto_consume_moves( Character &you, const bool food )
             return VisitResponse::NEXT;
         };
 
-        const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
+        const optional_vpart_position vp = here.veh_at( here.bub_from_abs( loc ) );
         if( vp ) {
             if( const std::optional<vpart_reference> vp_cargo = vp.cargo() ) {
                 for( item &it : vp_cargo->items() ) {
@@ -3531,8 +3531,8 @@ int get_auto_consume_moves( Character &you, const bool food )
                 }
             }
         } else {
-            for( item &it : here.i_at( here.getlocal( loc ) ) ) {
-                item_location i_loc( map_cursor( here.getlocal( loc ) ), &it );
+            for( item &it : here.i_at( here.bub_from_abs( loc ) ) ) {
+                item_location i_loc( map_cursor( here.bub_from_abs( loc ) ), &it );
                 visit_item_contents( i_loc, visit );
             }
         }

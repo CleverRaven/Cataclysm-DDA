@@ -176,7 +176,7 @@
     "warmth": 20,
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "MODULE_HOLDER" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -196,11 +196,12 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
         "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+        "description": "Pocket for a face shield, or a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       },
       {
         "pocket_type": "CONTAINER",
@@ -362,7 +363,20 @@
     "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED", "MODULE_HOLDER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
+      }
+    ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -383,7 +397,7 @@
     "warmth": 20,
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "MODULE_HOLDER" ],
     "armor": [
       {
         "encumbrance_modifiers": [ "NONE" ],
@@ -403,11 +417,12 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
         "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+        "description": "Pocket for a face shield, or a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       },
       {
         "pocket_type": "CONTAINER",
@@ -745,7 +760,6 @@
     "volume": "2500 ml",
     "price": "380 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -2,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "helmet_larmor",
@@ -2829,7 +2843,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "PADDED" ],
+    "flags": [ "WATERPROOF", "PADDED", "MODULE_HOLDER" ],
     "armor": [
       {
         "material": [
@@ -2857,11 +2871,12 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
         "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+        "description": "Pocket for a face shield, or a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       },
       {
         "pocket_type": "CONTAINER",

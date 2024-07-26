@@ -180,7 +180,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d ) );
+        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
     }
 
     omt_find_params find_params;
@@ -526,7 +526,8 @@ bool mission_util::load_funcs( const JsonObject &jo,
     return true;
 }
 
-bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func )
+bool mission_type::parse_funcs( const JsonObject &jo, const std::string_view src,
+                                std::function<void( mission * )> &phase_func )
 {
     std::vector<std::function<void( mission *miss )>> funcs;
     if( !mission_util::load_funcs( jo, funcs ) ) {
@@ -537,7 +538,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
-    talk_effects.load_effect( jo, "effect" );
+    talk_effects.load_effect( jo, "effect", src );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         npc *beta_npc = g->find_npc( miss->get_npc_id() );
         ::dialogue d( get_talker_for( get_avatar() ),

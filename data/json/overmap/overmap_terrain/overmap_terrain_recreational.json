@@ -92,7 +92,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ],
+    "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1", "state_park_1_0_1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": "S",
@@ -223,6 +223,14 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "TreeFarm_1a_roof",
+    "name": "tree farm",
+    "sym": "T",
+    "color": "i_green",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -407,6 +415,7 @@
     "id": [
       "s_baseballfield_a1",
       "s_baseballfield_a2",
+      "s_baseballfield_a2_2",
       "s_baseballfield_b1",
       "s_baseballfield_b2",
       "stadium_1_2",
@@ -799,9 +808,11 @@
       "movietheater_roof_0_0",
       "movietheater_roof_1_0",
       "movietheater_roof_2_0",
+      "movietheater_2_2_0",
       "movietheater_roof_0_1",
       "movietheater_roof_1_1",
       "movietheater_roof_2_1",
+      "movietheater_2_2_1",
       "movietheater_roof_0_2",
       "movietheater_roof_1_2",
       "movietheater_roof_2_2"

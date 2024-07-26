@@ -923,5 +923,39 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tile_flat_roof", "|": "t_wall_metal" }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "speedway_6_7_3" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ---       ",
+        "              -.-       ",
+        "              ---       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]
