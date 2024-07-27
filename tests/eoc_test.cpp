@@ -1308,6 +1308,10 @@ TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
                                     globvars.get_global_value( "npctalk_var_map_test_loc_b" ) ) );
     CHECK( m.getlocal( tmp_abs_a ) == tripoint( 70, 70, 0 ) );
     CHECK( m.getlocal( tmp_abs_b ) == tripoint( 70, 60, 0 ) );
+
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )
