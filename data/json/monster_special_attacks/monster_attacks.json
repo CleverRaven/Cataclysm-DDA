@@ -681,8 +681,9 @@
         }
       ]
     },
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 4, "armor_multiplier": 0.33 } ],
     "effects": [ { "id": "dermatik", "duration": 86400, "affect_hit_bp": true } ],
-    "cooldown": 25,
+    "cooldown": 25,	
     "move_cost": 300,
     "hit_dmg_u": "The %1$s sinks its ovipositor into your %2$s!",
     "hit_dmg_npc": "The %1$s sinks its ovipositor into <npcname>'s %2$s!",
