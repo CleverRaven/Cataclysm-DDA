@@ -94,7 +94,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_DERMATIK_PREGNANCY_INIT",
+    "id": "EOC_dermatik_visible_INIT",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
     "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
@@ -157,7 +157,7 @@
         ],
         "else": { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size') / 3" ] }
       },
-      { "u_lose_effect": "dermatik_pregnancy" },
+      { "u_lose_effect": "dermatik_visible" },
       { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] }
     ]
   },
@@ -178,7 +178,7 @@
         "u_add_effect": "formication",
         "duration": 6,
         "target_part": { "global_val": "IMPREGNATED_BODYPART" },
-        "intensity": { "math": [ "u_effect_intensity('dermatik_pregnancy', 'bodypart': IMPREGNATED_BODYPART)" ] }
+        "intensity": { "math": [ "u_effect_intensity('dermatik_visible', 'bodypart': IMPREGNATED_BODYPART)" ] }
       }
     ]
   }

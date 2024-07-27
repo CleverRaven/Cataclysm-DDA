@@ -616,7 +616,7 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Dermatik Larva Size" },
-    "excess": "dermatik_pregnancy",
+    "excess": "dermatik_visible",
     "min": 0,
     "max": 1440,
     "rate": "48 h",

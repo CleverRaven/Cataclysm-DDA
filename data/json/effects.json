@@ -2951,7 +2951,7 @@
   },
   {
     "type": "effect_type",
-    "id": "dermatik_pregnancy",
+    "id": "dermatik_visible",
     "name": [ "Wriggling Skin", "Crawling Lump", "Distended Flesh" ],
     "desc": [
       "You can feel something wriggling beneath the skin…",
