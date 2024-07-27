@@ -128,6 +128,6 @@
     "flags": [ "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_MISC",
-    "result_eocs": [ "EOC_ENTER_ABYSSAL_HUNGER_ZONE" ]
+    "result_eocs": [ "EOC_ENTER_ABYSSAL_HUNGER_DUNGEON" ]
   }
 ]
