@@ -2939,6 +2939,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
+    "show_in_info": true,
     "immune_bp_flags": [ "BIONIC_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
@@ -4999,26 +5000,5 @@
     "id": "a_winner_is_u",
     "name": [ "Winning!" ],
     "//": "Used to display the winning screen upon winning like a winner."
-  },
-  {
-    "type": "effect_type",
-    "id": "dermatik",
-    "name": [ "Wriggling skin" ],
-    "desc": [ "You can feel something wriggling beneath your skin…" ],
-    "main_parts_only": true,
-    "resist_traits": [ "ACIDBLOOD", "PARAIMMUNE" ],
-    "base_mods": { "vomit_chance": [ 600, 1200 ], "vomit_tick": [ 600, 1200 ], "hurt_min": [ 999 ], "hurt_tick": [ 86400 ] },
-    "enchantments": [ { "values": [ { "value": "HUNGER", "multiply": 1.5 }, { "value": "METABOLISM", "multiply": 1.5 } ] } ],
-    "rating": "bad",
-    "remove_message": "The wriggling under your skin stops.",
-    "blood_analysis_description": "Unknown parasitic infection"
-  },
-  {
-    "type": "effect_type",
-    "id": "formication",
-    "name": [ "PLACEHOLDER" ],
-    "desc": [ "PLACEHOLDER" ],
-    "main_parts_only": true,
-    "rating": "bad"
   }
 ]
