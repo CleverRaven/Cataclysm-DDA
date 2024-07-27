@@ -318,7 +318,10 @@
       [ "Your vision twists a little after drinking that Fae blood.", "mixed" ],
       [ "Your vision starts distorting a little more as you drink the Fae blood.", "mixed" ],
       [ "Your vision starts seeing things that aren't there as you drink the Fae blood.", "mixed" ],
-      [ "Drinking that much Fae blood has left your vision almost unable to differentiate between reality and illusion.", "bad" ]
+      [
+        "Drinking that much Fae blood has left your vision almost unable to differentiate between reality and illusion.",
+        "bad"
+      ]
     ],
     "decay_messages": [
       [ "Your vision is normal again.", "good" ],
@@ -1901,9 +1904,8 @@
     "remove_message": "Your body shrinks back into its normal space.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "SPEED", "add":  70 } ]
-  } ]
-},
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 70 } ] } ]
+  },
   {
     "type": "effect_type",
     "id": "effect_dream_drainer_armor",
@@ -1938,13 +1940,6 @@
     "rating": "bad",
     "show_intensity": false,
     "show_in_info": true,
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "SPEED", "add": -130 }
-        ]
-      }
-    ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": -130 } ] } ]
   }
 ]
