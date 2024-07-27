@@ -438,5 +438,10 @@
     "id": "morale_asocial",
     "type": "morale_type",
     "text": "Spent time alone"
+  },
+  {
+    "id": "morale_gave_birth",
+    "type": "morale_type",
+    "text": "Gave birth to dermatik"
   }
 ]
