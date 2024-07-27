@@ -9,7 +9,7 @@
     "volume": "787 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": { "grip": "neutral", "length": "hand", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
