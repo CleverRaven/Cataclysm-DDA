@@ -2940,7 +2940,7 @@
       "hunger_min": [ 1 ],
       "hunger_tick": [ 30 ],
       "thirst_min": [ 1 ],
-      "thirst_tick": [ 30 ],
+      "thirst_tick": [ 300 ],
       "sleepiness_min": [ 1 ],
       "sleepiness_tick": [ 300 ],
       "h_mod_min": [ 1 ],
