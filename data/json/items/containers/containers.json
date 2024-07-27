@@ -2266,6 +2266,35 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "petri_dish",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "Petri dish", "str_pl": "Petri dishes" },
+    "description": "A 9mm Petri dish, commonly used in labs dealing with microorganisms or tissue samples.",
+    "weight": "25 g",
+    "volume": "145 ml",
+    "longest_side": "96 mm",
+    "price": "4 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "glass" ],
+    "symbol": "u",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "93 ml",
+        "max_contains_weight": "450 g"
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "//": "Based on https://www.amazon.com/dp/B074Y6GD2R"
+  },
+  {
     "id": "flask_hip",
     "type": "GENERIC",
     "category": "clothing",
