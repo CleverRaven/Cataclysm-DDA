@@ -322,7 +322,7 @@
         ]
       },
       {
-        "text": "A book? You said I would only need a few components!",
+        "text": "A book?  You said I would only need a few components!",
         "condition": { "not": { "u_has_mission": "GET_COMPONENTS_FOR_TIER_5" } },
         "topic": "TALK_VAMPIRE_MENTOR_WHY_BOOK"
       },
