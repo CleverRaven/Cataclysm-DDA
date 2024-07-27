@@ -38,9 +38,7 @@
     "recurrence": [ "29 minutes", "29 minutes" ],
     "global": true,
     "condition": { "u_has_effect": "drank_fae_blood_hallucination", "intensity": 3 },
-    "effect": [
-      { "u_add_effect": "hallu", "intensity": 1, "duration": "30 minutes" }
-    ]
+    "effect": [ { "u_add_effect": "hallu", "intensity": 1, "duration": "30 minutes" } ]
   },
   {
     "type": "effect_on_condition",
