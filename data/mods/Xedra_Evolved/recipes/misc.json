@@ -74,12 +74,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "dream_drainer_catalyst",
-    "components": [
-      [ [ "fae_blood", 4 ] ],
-      [ [ "wyld_candy", 20 ] ],
-      [ [ "lotus_blossom", 15 ] ],
-      [ [ "scrap_dreamdross", 35 ] ]
-    ],
+    "components": [ [ [ "fae_blood", 4 ] ], [ [ "wyld_candy", 20 ] ], [ [ "lotus_blossom", 15 ] ], [ [ "scrap_dreamdross", 35 ] ] ],
     "time": "2 h",
     "skill_used": "deduction",
     "difficulty": 2,
