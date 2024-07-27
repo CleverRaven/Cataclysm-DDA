@@ -2147,7 +2147,8 @@ int game::inventory_item_menu( item_location locThisItem,
 
                 oThisItem.info( true, vThisItem );
 
-                popup_width += ImGui::CalcTextSize( " [X] " ).x;
+                popup_width += ImGui::CalcTextSize( " [X] " ).x + 2 * ( ImGui::GetStyle().WindowPadding.x +
+                               ImGui::GetStyle().WindowBorderSize );
                 float x = 0.0;
                 switch( position ) {
                     default:
