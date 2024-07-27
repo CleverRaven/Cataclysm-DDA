@@ -27,12 +27,6 @@
   {
     "type": "scent_type",
     "id": "sc_vampire",
-    "receptive_species": [
-      "NETHER",
-      "HORROR",
-      "ABERRATION",
-      "HALLUCINATION",
-      "UNKNOWN"
-    ]
+    "receptive_species": [ "NETHER", "HORROR", "ABERRATION", "HALLUCINATION", "UNKNOWN" ]
   }
 ]
