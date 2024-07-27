@@ -316,20 +316,8 @@
     "vision_day": 44,
     "vision_night": 32,
     "harvest": "exempt",
-    "death_function": {
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s melts away."
-    },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "FLIES",
-      "HIT_AND_RUN",
-      "PATH_AVOID_FIRE",
-      "DESTROYS",
-      "PUSH_MON",
-      "PUSH_VEH"
-    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
     "looks_like": "mon_mosquito_mega",
     "special_attacks": [
       { "id": "impale" },
@@ -398,10 +386,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "dodge": 0,
     "harvest": "exempt",
-    "death_function": {
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s decoheres and is consumed by the moonlight!"
-    },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s decoheres and is consumed by the moonlight!" },
     "vision_day": 50,
     "vision_night": 60,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
@@ -419,11 +404,7 @@
       "SUNDEATH"
     ],
     "special_attacks": [
-      {
-        "id": "smash",
-        "throw_strength": 96,
-        "condition": "u_is_outside"
-      },
+      { "id": "smash", "throw_strength": 96, "condition": "u_is_outside" },
       {
         "id": "mon_luna_attuned_revenant_spear",
         "type": "spell",
@@ -444,21 +425,20 @@
         "type": "spell",
         "id": "mon_luna_attuned_revenant_moon_withdrawal",
         "spell_data": { "id": "mon_luna_attuned_revenant_moon_withdrawal", "min_level": 1, "hit_self": true },
-      "allow_no_target": true,
-      "condition": { "not": "u_is_outside" },
-      "monster_message": "Without the moonlight shining on it, %1$s is weakened!",
-      "cooldown": 10
-    },
-    {
-      "type": "spell",
-      "id": "mon_luna_attuned_revenant_lash_out",
-      "spell_data": { "id": "mon_luna_attuned_revenant_lash_out", "min_level": 1 },
-    "condition": { "not": "u_is_outside" },
-    "monster_message": "%1$s lashes out as it attempts to be exposed to the moonlight again!",
-    "cooldown": 5
-  }
-]
-    
+        "allow_no_target": true,
+        "condition": { "not": "u_is_outside" },
+        "monster_message": "Without the moonlight shining on it, %1$s is weakened!",
+        "cooldown": 10
+      },
+      {
+        "type": "spell",
+        "id": "mon_luna_attuned_revenant_lash_out",
+        "spell_data": { "id": "mon_luna_attuned_revenant_lash_out", "min_level": 1 },
+        "condition": { "not": "u_is_outside" },
+        "monster_message": "%1$s lashes out as it attempts to be exposed to the moonlight again!",
+        "cooldown": 5
+      }
+    ]
   },
   {
     "type": "MONSTER",
@@ -483,34 +463,11 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 3 } ],
     "dodge": 2,
     "harvest": "exempt",
-    "death_function": {
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s melts away."
-    },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "vision_day": 70,
     "vision_night": 70,
-    "special_attacks": [
-      {
-        "id": "grab"
-      },
-      {
-        "id": "grab_drag",
-        "cooldown": 3
-      },
-      {
-        "id": "drag_followup"
-      }
-    ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "STUMBLES",
-      "GRABS",
-      "BASHES",
-      "GROUP_BASH",
-      "NO_BREATHE",
-      "PUSH_MON"
-    ],
+    "special_attacks": [ { "id": "grab" }, { "id": "grab_drag", "cooldown": 3 }, { "id": "drag_followup" } ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "GRABS", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ],
     "grab_strength": 40
   },
   {
@@ -533,28 +490,13 @@
     "melee_skill": 5,
     "melee_dice": 6,
     "melee_dice_sides": 7,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 7
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
     "dodge": 2,
     "harvest": "exempt",
-    "death_function": {
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s melts away."
-    },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "vision_day": 2,
     "vision_night": 2,
-    "flags": [
-      "SEES",
-      "STUMBLES",
-      "BASHES",
-      "GROUP_BASH",
-      "NO_BREATHE",
-      "PUSH_MON"
-    ]
+    "flags": [ "SEES", "STUMBLES", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
   },
   {
     "type": "MONSTER",
@@ -574,10 +516,7 @@
     "aggression": 100,
     "morale": 100,
     "harvest": "exempt",
-    "death_function": {
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s melts away."
-    },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
         "type": "spell",
@@ -586,14 +525,7 @@
         "monster_message": "%s opens itself, and some small globules crawl out of it!"
       }
     ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "NO_BREATHE",
-      "IMMOBILE",
-      "PUSH_MON",
-      "SMELLS"
-    ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "IMMOBILE", "PUSH_MON", "SMELLS" ],
     "vision_day": 83,
     "vision_night": 83
   },
@@ -617,23 +549,10 @@
     "melee_skill": 2,
     "melee_dice": 3,
     "melee_dice_sides": 2,
-    "melee_damage": [
-      {
-        "damage_type": "bash",
-        "amount": 2
-      }
-    ],
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "harvest": "exempt",
-    "death_function": {
-      "corpse_type": "NO_CORPSE",
-      "message": "The %s melts away."
-    },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "NO_BREATHE",
-      "SMELLS"
-    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS" ],
     "vision_day": 9,
     "vision_night": 9
   }
