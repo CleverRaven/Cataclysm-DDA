@@ -205,8 +205,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             nc_color ter_color;
             std::string ter_sym;
 
-            const bool seen = overmap_buffer.seen( omp );
-            oter_display_args args( seen );
+            oter_display_args args( overmap_buffer.seen( omp ) );
             args.edge_tile = i == left || i == right || j == top || j == bottom;
             std::tie( ter_sym, ter_color ) = oter_symbol_and_color( omp, args, opts );
             // TODO: Build colorized string instead of writing directly to window

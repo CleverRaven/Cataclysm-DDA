@@ -42,6 +42,8 @@ struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
 
+enum class om_vision_level : int8_t;
+
 inline const overmap_land_use_code_id land_use_code_forest( "forest" );
 inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
 inline const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
@@ -110,6 +112,12 @@ bool are_parallel( type dir1, type dir2 );
 type from_cube( cube_direction, const std::string &error_msg );
 
 } // namespace om_direction
+
+namespace io
+{
+template<>
+std::string enum_to_string<om_vision_level>( om_vision_level );
+} // namespace io
 
 template<>
 struct enum_traits<om_direction::type> {
@@ -248,9 +256,12 @@ struct oter_type_t {
 
         string_id<oter_type_t> id;
         std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
+    private:
+        friend struct oter_t;
         translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
+    public:
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         std::vector<std::string> looks_like;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
@@ -265,6 +276,14 @@ struct oter_type_t {
         bool was_loaded = false;
 
         std::string get_symbol() const;
+
+        uint32_t get_uint32_symbol() const {
+            return symbol;
+        }
+
+        nc_color get_color() const {
+            return color;
+        }
 
         oter_type_t() = default;
 
@@ -328,21 +347,10 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
-        std::string get_name() const {
-            return type->name.translated();
-        }
-
-        std::string get_symbol( const bool from_land_use_code = false ) const {
-            return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
-        }
-
-        uint32_t get_uint32_symbol() const {
-            return symbol;
-        }
-
-        nc_color get_color( const bool from_land_use_code = false ) const {
-            return from_land_use_code ? type->land_use_code->color : type->color;
-        }
+        std::string get_name( om_vision_level ) const;
+        std::string get_symbol( om_vision_level, bool from_land_use_code = false ) const;
+        uint32_t get_uint32_symbol() const;
+        nc_color get_color( om_vision_level, bool from_land_use_code = false ) const;
 
         // dir is only meaningful for rotatable, non-linear terrain.  If you
         // need an answer that also works for linear terrain, call

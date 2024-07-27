@@ -88,9 +88,30 @@ struct radio_tower {
     }
 };
 
+enum class om_vision_level : int8_t {
+    unseen = 0,
+    // Vague details from a quick glance
+    // Broad geographical features - forest,field,buildings,water
+    vague,
+    // A scan from a distance
+    // Track roads, distinguish obvious features (farms from fields)
+    outlines,
+    // Detailed scan from a distance
+    // General building types, some hard to spot features become clear
+    details,
+    // Full knowledge of the tile
+    full,
+    last
+};
+
+template<>
+struct enum_traits<om_vision_level> {
+    static constexpr om_vision_level last = om_vision_level::last;
+};
+
 struct map_layer {
     cata::mdarray<oter_id, point_om_omt> terrain;
-    cata::mdarray<bool, point_om_omt> visible;
+    cata::mdarray<om_vision_level, point_om_omt> visible;
     cata::mdarray<bool, point_om_omt> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
@@ -234,8 +255,9 @@ class overmap
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
-        void set_seen( const tripoint_om_omt &p, bool val );
-        bool seen( const tripoint_om_omt &p ) const;
+        void set_seen( const tripoint_om_omt &p, om_vision_level val );
+        om_vision_level seen( const tripoint_om_omt &p ) const;
+        bool seen_more_than( const tripoint_om_omt &p, om_vision_level test ) const;
         bool &explored( const tripoint_om_omt &p );
         bool is_explored( const tripoint_om_omt &p ) const;
 
@@ -575,7 +597,7 @@ struct oter_display_lru {
     std::array<std::pair<oter_id, oter_t const *>, cache_size> cache;
     size_t cache_next = 0;
 
-    std::pair<std::string, nc_color> get_symbol_and_color( const oter_id &cur_ter );
+    std::pair<std::string, nc_color> get_symbol_and_color( const oter_id &cur_ter, om_vision_level );
 };
 
 // "arguments" to oter_symbol_and_color that do not change between calls in a batch
@@ -632,10 +654,10 @@ struct oter_display_options {
 // arguments for oter_symbol_and_color pertaining to a single point
 struct oter_display_args {
 
-    explicit oter_display_args( bool seen ) : see( seen ) {}
+    explicit oter_display_args( om_vision_level vis ) : vision( vis ) {}
 
     // Can the/has the PC seen this tile
-    bool see;
+    om_vision_level vision;
     // If this tile is on the edge of the drawn tiles, we may draw a mission indicator on it
     bool edge_tile = false;
     // Check if location is within player line-of-sight

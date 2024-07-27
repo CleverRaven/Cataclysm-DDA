@@ -1175,7 +1175,7 @@ std::string display::current_position_text( const tripoint_abs_omt &loc )
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         return e->string_id;
     }
-    return overmap_buffer.ter( loc )->get_name();
+    return overmap_buffer.ter( loc )->get_name( overmap_buffer.seen( loc ) );
 }
 
 // Return (x, y) position of mission target, relative to avatar location, within an overmap of the

@@ -763,18 +763,26 @@ void overmapbuffer::add_camp( const basecamp &camp )
     om_loc.om->camps.push_back( camp );
 }
 
-bool overmapbuffer::seen( const tripoint_abs_omt &p )
+om_vision_level overmapbuffer::seen( const tripoint_abs_omt &p )
 {
     if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
         return om_loc.om->seen( om_loc.local );
     }
-    return false;
+    return om_vision_level::unseen;
 }
 
-void overmapbuffer::set_seen( const tripoint_abs_omt &p, bool seen )
+void overmapbuffer::set_seen( const tripoint_abs_omt &p, om_vision_level seen )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     om_loc.om->set_seen( om_loc.local, seen );
+}
+
+bool overmapbuffer::seen_more_than( const tripoint_abs_omt &p, om_vision_level test )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->seen( om_loc.local ) > test;
+    }
+    return false;
 }
 
 const oter_id &overmapbuffer::ter( const tripoint_abs_omt &p )
@@ -837,7 +845,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     for( int i = -radius; i <= radius; i++ ) {
         for( int j = -radius; j <= radius; j++ ) {
             const tripoint_abs_omt p = center + point( i, j );
-            if( seen( p ) ) {
+            if( seen( p ) != om_vision_level::unseen ) {
                 continue;
             }
             if( trigdist && i * i + j * j > radius_squared ) {
@@ -847,7 +855,7 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
                 continue;
             }
             result = true;
-            set_seen( p, true );
+            set_seen( p, om_vision_level::full );
         }
     }
     return result;
@@ -911,7 +919,8 @@ overmap_path_params overmap_path_params::for_aircraft()
 
 static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path_params &params )
 {
-    if( params.only_known_by_player && !overmap_buffer.seen( omt_pos ) ) {
+    if( params.only_known_by_player &&
+        !overmap_buffer.seen_more_than( omt_pos, om_vision_level::vague ) ) {
         return -1;
     }
     if( params.avoid_danger && overmap_buffer.is_marked_dangerous( omt_pos ) ) {
@@ -1102,10 +1111,10 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         return false;
     }
 
-    if( params.must_see && !seen( location ) ) {
+    if( params.must_see && seen( location ) == om_vision_level::unseen ) {
         return false;
     }
-    if( params.cant_see && seen( location ) ) {
+    if( params.cant_see && seen( location ) != om_vision_level::unseen ) {
         return false;
     }
 
@@ -1490,7 +1499,7 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
     const auto it = std::find_if( cities.begin(), cities.end(),
     [this]( const city_reference & elem ) {
         const tripoint_abs_omt p = project_to<coords::omt>( elem.abs_sm_pos );
-        return seen( p );
+        return seen_more_than( p, om_vision_level::outlines );
     } );
 
     if( it != cities.end() ) {
@@ -1503,8 +1512,9 @@ city_reference overmapbuffer::closest_known_city( const tripoint_abs_sm &center 
 std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 {
     const oter_id oter = ter( project_to<coords::omt>( where ) );
-    const nc_color ter_color = oter->get_color();
-    std::string ter_name = colorize( oter->get_name(), ter_color );
+    om_vision_level vision = seen( project_to<coords::omt>( where ) );
+    nc_color ter_color = oter->get_color( vision );
+    std::string ter_name = colorize( oter->get_name( vision ), ter_color );
 
     if( where.z() != 0 ) {
         return ter_name;
