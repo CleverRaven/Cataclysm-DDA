@@ -55,7 +55,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_sheared( "sheared" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_bleed("bleed");
+static const efftype_id effect_bleed( "bleed" );
 
 
 static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
@@ -97,31 +97,32 @@ void attach_saddle_to( monster &z )
     loc.remove_item();
 }
 
-void bandage_animal(monster& z)
+void bandage_animal( monster &z )
 {
-    if (!z.has_effect(effect_bleed)) {
+    if( !z.has_effect( effect_bleed ) ) {
         return;
     }
     item_location wieldede_item = get_player_character().get_wielded_item();
-    if (!wieldede_item) {
-        add_msg(_("I need to have in hand something to stop the bleeding of %s"), z.name());
+    if( !wieldede_item ) {
+        add_msg( _( "I need to have in hand something to stop the bleeding of %s" ), z.name() );
         return;
     }
-    const use_function* usage = wieldede_item.get_item()->type->get_use("heal");
-    if (usage == nullptr) {
-        add_msg(_("I'm not going to stop %s bleeding with this %s "), z.name(), wieldede_item.get_item()->display_name() );
+    const use_function *usage = wieldede_item.get_item()->type->get_use( "heal" );
+    if( usage == nullptr ) {
+        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
+                 wieldede_item.get_item()->display_name() );
         return;
     }
-    const heal_actor* actor = dynamic_cast<const heal_actor*>(usage->get_actor_ptr());
-    if (actor->bleed)
-    {
-        z.remove_effect(effect_bleed);
+    const heal_actor *actor = dynamic_cast<const heal_actor *>( usage->get_actor_ptr() );
+    if( actor->bleed ) {
+        z.remove_effect( effect_bleed );
         wieldede_item.remove_item();
-        add_msg(_("The bleeding of %s stopped"), z.name());
+        add_msg( _( "The bleeding of %s stopped" ), z.name() );
 
-    } 
-    else
-        add_msg(_("I'm not going to stop %s bleeding with this %s "), z.name(), wieldede_item.get_item()->display_name());
+    } else {
+        add_msg( _( "I'm not going to stop %s bleeding with this %s " ), z.name(),
+                 wieldede_item.get_item()->display_name() );
+    }
 }
 
 void remove_saddle_from( monster &z )
@@ -741,8 +742,8 @@ bool monexamine::pet_menu( monster &z )
     if( !z.type->chat_topics.empty() ) {
         amenu.addentry( talk_to, true, 'c', _( "Talk to %s" ), pet_name );
     }
-    if (z.has_effect(effect_bleed)) {
-        amenu.addentry(stop_bleeding, true, 'B', _("Treat bleeding from %s"), pet_name);
+    if( z.has_effect( effect_bleed ) ) {
+        amenu.addentry( stop_bleeding, true, 'B', _( "Treat bleeding from %s" ), pet_name );
     }
     if( !z.has_flag( mon_flag_RIDEABLE_MECH ) ) {
         if( z.has_flag( mon_flag_PET_MOUNTABLE ) && player_character.can_mount( z ) ) {
@@ -759,8 +760,7 @@ bool monexamine::pet_menu( monster &z )
                    player_character.get_skill_level( skill_survival ) < 4 ) {
             amenu.addentry( mount, false, 'r', _( "You require survival skill 4 to ride without a saddle" ) );
         }
-    } 
-    else {
+    } else {
         const itype &type = *item::find_type( z.type->mech_battery );
         int max_charge = type.magazine->capacity;
         float charge_percent;
@@ -881,7 +881,7 @@ bool monexamine::pet_menu( monster &z )
             get_avatar().talk_to( get_talker_for( z ) );
             break;
         case stop_bleeding:
-            bandage_animal(z);
+            bandage_animal( z );
             break;
         default:
             break;
@@ -1015,7 +1015,7 @@ bool monexamine::mfriend_menu( monster &z )
             get_avatar().talk_to( get_talker_for( z ) );
             break;
         case stop_bleeding:
-            bandage_animal(z);
+            bandage_animal( z );
             break;
         default:
             break;
