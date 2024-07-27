@@ -560,7 +560,7 @@
     "id": "biokin_perfected_motion",
     "type": "SPELL",
     "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
     "message": "The world around you slows down to a crawl.",
     "teachable": false,
     "valid_targets": [ "self" ],

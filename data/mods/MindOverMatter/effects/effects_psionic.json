@@ -490,7 +490,7 @@
         ]
       }
     ],
-    "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT", "UNCANNY_DODGE", "WATERWALKING", "ITEM_WATERPROOFING" ]
   },
   {
     "type": "effect_type",
