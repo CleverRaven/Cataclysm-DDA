@@ -255,7 +255,7 @@ class overmap
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
-        void set_seen( const tripoint_om_omt &p, om_vision_level val );
+        void set_seen( const tripoint_om_omt &p, om_vision_level val, bool force = false );
         om_vision_level seen( const tripoint_om_omt &p ) const;
         bool seen_more_than( const tripoint_om_omt &p, om_vision_level test ) const;
         bool &explored( const tripoint_om_omt &p );

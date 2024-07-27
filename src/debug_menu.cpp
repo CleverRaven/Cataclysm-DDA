@@ -3668,11 +3668,22 @@ void debug()
             break;
 
         case debug_menu_index::REVEAL_MAP: {
+            uilist vis_sel;
+            vis_sel.text = _( "Reveal at which vision level?" );
+            for( int i = static_cast<int>( om_vision_level::unseen );
+                 i < static_cast<int>( om_vision_level::last ); ++i ) {
+                vis_sel.addentry( i, true, std::nullopt, io::enum_to_string( static_cast<om_vision_level>( i ) ) );
+            }
+            vis_sel.query();
+            int vis_ret = vis_sel.ret;
+            if( vis_ret == UILIST_CANCEL ) {
+                break;
+            }
             overmap &cur_om = g->get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.set_seen( { i, j, k }, om_vision_level::full );
+                        cur_om.set_seen( { i, j, k }, static_cast<om_vision_level>( vis_ret ), true );
                     }
                 }
             }

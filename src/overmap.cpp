@@ -3206,13 +3206,13 @@ std::vector<oter_id> overmap::predecessors( const tripoint_om_omt &p )
     return it->second;
 }
 
-void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val )
+void overmap::set_seen( const tripoint_om_omt &p, om_vision_level val, bool force )
 {
     if( !inbounds( p ) ) {
         return;
     }
 
-    if( seen( p ) >= val ) {
+    if( !force && seen( p ) >= val ) {
         return;
     }
 
