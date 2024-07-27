@@ -1,0 +1,203 @@
+[
+  {
+    "id": "default",
+    "type": "oter_vision",
+    "levels": [  ]
+  },
+  {
+    "id": "always_full",
+    "type": "oter_vision",
+    "levels": [  ]
+  },
+  {
+    "id": "isolated_building",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" },
+      { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" },
+      { "name": "building", "sym": "^", "color": "light_gray", "looks_like": "cabin" }
+    ]
+  },
+  {
+    "id": "city_building",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "city", "sym": "#", "color": "light_gray" },
+      { "name": "city building", "sym": "O", "color": "light_gray" },
+      { "name": "city building", "sym": "O", "color": "light_gray" }
+    ]
+  },
+  {
+    "id": "isolated_tower",
+    "type": "oter_vision",
+    "levels": [ { "name": "tower", "sym": "0", "color": "light_gray" }, { "name": "tower", "sym": "0", "color": "light_gray" } ]
+  },
+  {
+    "id": "island",
+    "type": "oter_vision",
+    "levels": [ { "blends_adjacent": true }, { "name": "island", "sym": "o", "color": "brown" } ]
+  },
+  {
+    "id": "wreckage",
+    "type": "oter_vision",
+    "levels": [ { "name": "wreckage", "sym": "^", "color": "dark_gray" }, { "name": "wreckage", "sym": "^", "color": "dark_gray" } ]
+  },
+  {
+    "id": "forested",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" }
+    ]
+  },
+  {
+    "id": "first_glance_forest",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "managed forest", "sym": "F", "color": "green", "looks_like": "forest" }
+    ]
+  },
+  {
+    "id": "forested_swampy",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "forest", "sym": "F", "color": "green", "looks_like": "forest_thick" },
+      { "name": "swamp", "sym": "F", "color": "cyan", "looks_like": "forest_water" },
+      { "name": "swamp", "sym": "F", "color": "cyan", "looks_like": "forest_water" }
+    ]
+  },
+  {
+    "id": "open_land",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
+      { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" }
+    ]
+  },
+  {
+    "id": "farm_field",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "field", "sym": ".", "color": "brown", "looks_like": "field" },
+      { "name": "farm field", "sym": "#", "color": "i_brown" }
+    ]
+  },
+  {
+    "id": "large_pavement",
+    "type": "oter_vision",
+    "levels": [ { "blends_adjacent": true }, { "name": "pavement", "sym": "O", "color": "dark_gray", "looks_like": "s_lot" } ]
+  },
+  {
+    "id": "single_water",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "water", "sym": "O", "color": "blue", "looks_like": "pond_field" },
+      { "name": "water", "sym": "O", "color": "blue", "looks_like": "pond_field" }
+    ]
+  },
+  {
+    "id": "water_body",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "water body", "sym": "#", "color": "blue", "looks_like": "river_center" },
+      { "name": "water body", "sym": "#", "color": "blue", "looks_like": "river_center" }
+    ]
+  },
+  {
+    "id": "roof_or_air",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "open air", "color": "blue", "sym": ".", "looks_like": "open_air" },
+      { "name": "open air", "color": "blue", "sym": ".", "looks_like": "open_air" }
+    ]
+  },
+  {
+    "id": "underground_dirt",
+    "type": "oter_vision",
+    "levels": [ { "name": "underground", "color": "brown", "sym": "#" }, { "name": "basement", "color": "black", "sym": "O" } ]
+  },
+  {
+    "id": "underground_stone",
+    "type": "oter_vision",
+    "levels": [ { "name": "underground", "color": "brown", "sym": "#" }, { "name": "basement", "color": "black", "sym": "O" } ]
+  },
+  {
+    "id": "large_building",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "large building", "color": "i_white", "sym": "+" },
+      { "name": "large building", "color": "i_white", "sym": "+" },
+      { "name": "large building", "color": "i_white", "sym": "+" }
+    ]
+  },
+  {
+    "id": "large_city_building",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "city", "color": "light_gray", "sym": "#" },
+      { "name": "large building", "color": "i_light_gray", "sym": "+" },
+      { "name": "large building", "color": "i_light_gray", "sym": "+" }
+    ]
+  },
+  {
+    "id": "large_structure",
+    "//": "more recognizable structure, easier to figure out what is",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "structure", "color": "light_gray", "sym": "#" },
+      { "name": "structure", "color": "light_gray", "sym": "#" }
+    ]
+  },
+  {
+    "id": "large_ship",
+    "type": "oter_vision",
+    "levels": [ { "name": "ship", "color": "dark_gray", "sym": "#" }, { "name": "ship", "color": "dark_gray", "sym": "#" } ]
+  },
+  {
+    "id": "large_outcropping",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "outcropping", "color": "light_gray", "sym": "X" },
+      { "name": "outcropping", "color": "light_gray", "sym": "X" }
+    ]
+  },
+  {
+    "id": "natural_outcropping",
+    "type": "oter_vision",
+    "levels": [
+      { "blends_adjacent": true },
+      { "name": "outcropping", "color": "brown", "sym": "^" },
+      { "name": "outcropping", "color": "brown", "sym": "^" }
+    ]
+  },
+  {
+    "id": "natural_depression",
+    "type": "oter_vision",
+    "levels": [
+      { "blends_adjacent": true },
+      { "name": "depression", "color": "brown", "sym": "U" },
+      { "name": "depression", "color": "brown", "sym": "U" }
+    ]
+  },
+  {
+    "id": "unusual_structure",
+    "//": "can't even mistake it for something familiar",
+    "type": "oter_vision",
+    "levels": [
+      { "name": "unusual structure", "sym": "8", "color": "i_brown" },
+      { "name": "unusual structure", "sym": "8", "color": "i_brown" }
+    ]
+  },
+  {
+    "id": "blends_till_outlines",
+    "type": "oter_vision",
+    "levels": [ { "blends_adjacent": true } ]
+  },
+  {
+    "id": "blends_till_details",
+    "type": "oter_vision",
+    "levels": [ { "blends_adjacent": true }, { "blends_adjacent": true } ]
+  }
+]

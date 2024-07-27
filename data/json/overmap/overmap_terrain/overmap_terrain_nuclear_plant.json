@@ -512,6 +512,7 @@
       "nuclear_plant_7_3_7",
       "nuclear_plant_8_3_7"
     ],
+    "vision_levels": "large_building",
     "name": "nuclear plant",
     "sym": "N",
     "color": "red",

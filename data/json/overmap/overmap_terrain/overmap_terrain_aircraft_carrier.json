@@ -124,6 +124,7 @@
       "aircraft_carrier_1a_4",
       "aircraft_carrier_2a_4"
     ],
+    "vision_levels": "large_ship",
     "name": "aircraft carrier",
     "sym": "A",
     "color": "red",
@@ -174,6 +175,7 @@
       "aircraft_carrier_13b_-1",
       "aircraft_carrier_13c_-1"
     ],
+    "vision_levels": "large_ship",
     "name": "aircraft carrier",
     "sym": "A",
     "color": "red",
