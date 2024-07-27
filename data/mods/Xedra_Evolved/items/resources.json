@@ -293,7 +293,11 @@
     "color": "light_blue",
     "phase": "liquid",
     "looks_like": "fae_blood",
-    "use_action": { "type": "consume_drug", "activation_message": "You drink some concentrated underhill essence.", "vitamins": [ [ "underhill_essence", 100 ] ] },
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink some concentrated underhill essence.",
+      "vitamins": [ [ "underhill_essence", 100 ] ]
+    },
     "flags": [ "WATER_DISSOLVE" ]
   },
   {
