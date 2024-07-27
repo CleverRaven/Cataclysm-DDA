@@ -184,7 +184,7 @@
   {
     "type": "TOOL",
     "id": "dream_drainer_catalyst",
-    "name": { "str_sp": "dream drainer catalyst" },
+    "name": { "str_sp": "dream-drainer catalyst" },
     "color": "light_blue",
     "use_action": { "type": "cast_spell", "spell_id": "dream_drainer_maker", "no_fail": true, "level": 1 },
     "volume": "250 ml",
@@ -202,7 +202,7 @@
       "type": "effect_on_conditions",
       "description": "Complete the ritual.",
       "effect_on_conditions": [ "EOC_CHECK_TO_SUMMON_REVENANT" ],
-"//": "until the day EoCs can be affected with need_wielding, they won't have it to allow the game to start"
+      "//": "until the day EoCs can be affected with need_wielding, they won't have it to allow the game to start"
     },
     "volume": "72500 ml",
     "weight": "91500 g",
