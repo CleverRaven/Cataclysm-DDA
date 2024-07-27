@@ -243,7 +243,7 @@ class talker
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
         virtual void deactivate_mutation( const trait_id & ) {}
-        virtual void set_trait_purifiability( const trait_id &, const bool purifiable ) {}
+        virtual void set_trait_purifiability( const trait_id &, const bool & ) {}
         virtual void set_sleepiness( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
