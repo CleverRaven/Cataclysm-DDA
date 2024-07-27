@@ -127,11 +127,28 @@
     "min_duration": 3000,
     "max_duration": 18000
   },
+    {
+    "id": "death_guilt",
+    "type": "SPELL",
+    "name": { "str": "Death Guilt" },
+    "description": "Feeling guilty over killing a monster.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "guilt",
+    "effect_str": "NULL",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_duration": 180000,
+    "max_duration": 180000,
+    "min_range": 5,
+    "max_range": 5
+  },
   {
     "id": "death_shadowman",
     "type": "SPELL",
     "name": { "str": "Shadowman Death" },
-    "valid_targets": [ "ally", "hostile" ],
+    "valid_targets": [ "ally", "hostile", "self" ],
     "description": "Eliminates any dream shadows in the area.",
     "teachable": false,
     "effect": "banishment",
@@ -140,11 +157,10 @@
     "damage_type": "pure",
     "min_damage": 407,
     "max_damage": 407,
-    "damage_increment": 13,
     "min_aoe": 60,
     "max_aoe": 60,
     "extra_effects": [ { "id": "CLOSE_DREAMWOUND_SHADOW", "hit_self": true } ],
-    "flags": [ "SILENT", "IGNORE_WALLS" ]
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_FAIL", "SILENT", "IGNORE_WALLS" ]
   },
   {
     "type": "SPELL",
@@ -152,13 +168,25 @@
     "name": { "str": "Close Dreamwound Shadow" },
     "description": "Closes a shadowy wound between reality and dreams.",
     "message": "",
-    "min_aoe": 40,
-    "max_aoe": 40,
-    "valid_targets": [ "field" ],
+    "min_aoe": 60,
+    "max_aoe": 60,
+    "valid_targets": [ "ground" ],
     "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
-    "effect": "remove_field",
-    "effect_str": "fd_dream_wound_shadow"
+    "effect": "ter_transform",
+    "effect_str": "ter_shadowman_close_wound"
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_shadowman_close_wound",
+    "field": [
+      {
+        "result": "fd_null",
+        "valid_field": [ "fd_dream_wound_shadow" ],
+        "message": "The shadowy rift pulls closed!",
+        "message_good": true
+      }
+    ]
   },
   {
     "type": "SPELL",
