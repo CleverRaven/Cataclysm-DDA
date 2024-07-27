@@ -193,6 +193,7 @@ namespace io
             case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
             case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
             case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
+            case enchant_vals::mod::THROW_STR: return "THROW_STR";
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";

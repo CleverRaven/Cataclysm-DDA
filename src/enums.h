@@ -335,6 +335,7 @@ enum class distraction_type : int {
     temperature,
     mutation,
     oxygen,
+    withdrawal,
     last,
 };
 

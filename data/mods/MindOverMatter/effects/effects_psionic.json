@@ -490,7 +490,7 @@
         ]
       }
     ],
-    "flags": [ "HARDTOHIT", "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT", "UNCANNY_DODGE", "WATERWALKING", "ITEM_WATERPROOFING" ]
   },
   {
     "type": "effect_type",
@@ -1435,7 +1435,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",
@@ -1817,7 +1818,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
   },
   {
     "type": "effect_type",

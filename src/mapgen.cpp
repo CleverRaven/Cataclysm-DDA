@@ -98,8 +98,12 @@ static const furn_str_id furn_f_sign( "f_sign" );
 static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
+static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
+
 static const furn_str_id furn_f_vending_o( "f_vending_o" );
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
+static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
+
 
 static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
 static const item_group_id Item_spawn_data_bed( "bed" );
@@ -227,6 +231,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                   "when[" << to_string( when ) << "] )";
 
     const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
+    std::vector<bool> generated;
+    generated.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS );
 
     // Prepare the canvas...
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -234,7 +240,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                if( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                const std::vector<bool>::iterator iter = generated.begin() + grid_pos;
+                generated.emplace( iter, MAPBUFFER.submap_exists( p_sm_base.xy() + pos ) );
+
+                if( !generated.at( grid_pos ) || save_results ) {
                     setsubmap( grid_pos, new submap() );
 
                     // Generate uniform submaps immediately and cheaply.
@@ -265,14 +274,14 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     // map exists.
 
     for( int gridz = OVERMAP_HEIGHT; gridz >= -OVERMAP_DEPTH; gridz-- ) {
-        const tripoint_abs_sm p_sm = {p_sm_base.xy(), gridz};
+        const tripoint_abs_sm p_sm = { p_sm_base.xy(), gridz };
         set_abs_sub( p_sm );
 
         for( int gridx = 0; gridx <= 1; gridx++ ) {
             for( int gridy = 0; gridy <= 1; gridy++ ) {
                 const tripoint_rel_sm pos( gridx, gridy, gridz );
                 const size_t grid_pos = get_nonant( pos );
-                if( ( !save_results || MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) &&
+                if( ( !generated.at( grid_pos ) || !save_results ) &&
                     !getsubmap( grid_pos )->is_uniform() &&
                     uniform_terrain( overmap_buffer.ter( { p.xy(), gridz } ) ) == t_null.id() ) {
                     saved_overlay[gridx + gridy * 2] = getsubmap( grid_pos );
@@ -294,10 +303,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         // Not sure if we actually have to check all submaps.
-        const bool any_missing = MAPBUFFER.lookup_submap( p_sm ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point_east ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point_south_east ) == nullptr ||
-                                 MAPBUFFER.lookup_submap( p_sm + point_south ) == nullptr;
+        const bool any_missing = !generated.at( get_nonant( { point_rel_sm_zero, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( { point_rel_sm_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( { point_rel_sm_south_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( { point_rel_sm_south, p_sm.z() } ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( !save_results || any_missing ) &&
@@ -386,12 +395,10 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                     const tripoint_rel_sm pos( gridx, gridy, gridz );
                     const size_t grid_pos = get_nonant( pos );
-                    if( gridx <= 1 && gridy <= 1 ) {
-                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
-                            saven( {gridx, gridy, gridz} );
-                        }
-                    } else {
-                        if( MAPBUFFER.lookup_submap( p_sm_base.xy() + pos ) == nullptr ) {
+                    if( !generated.at( grid_pos ) ) {
+                        if( gridx <= 1 && gridy <= 1 ) {
+                            saven( { gridx, gridy, gridz } );
+                        } else {
                             delete getsubmap( grid_pos );
                         }
                     }
@@ -2172,9 +2179,11 @@ class jmapgen_vending_machine : public jmapgen_piece
         bool reinforced;
         mapgen_value<item_group_id> group_id;
         bool lootable;
+        bool powered;
         jmapgen_vending_machine( const JsonObject &jsi, const std::string_view/*context*/ ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
-            , lootable( jsi.get_bool( "lootable", false ) ) {
+            , lootable( jsi.get_bool( "lootable", false ) )
+            , powered( jsi.get_bool( "powered", false ) ) {
             if( jsi.has_member( "item_group" ) ) {
                 group_id = mapgen_value<item_group_id>( jsi.get_member( "item_group" ) );
             } else {
@@ -2189,7 +2198,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.place_vending( r, chosen_id, reinforced, lootable );
+            dat.m.place_vending( r, chosen_id, reinforced, lootable, powered );
         }
         bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
             return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
@@ -6637,26 +6646,33 @@ void map::place_toilet( const tripoint_bub_ms &p, int charges )
 }
 
 void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bool reinforced,
-                         bool lootable )
+                         bool lootable, bool powered )
 {
-    if( reinforced ) {
-        furn_set( p, furn_f_vending_reinforced );
-        place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
+    if( !powered ) {
+        if( reinforced ) {
+            furn_set( p, furn_f_vending_reinforced_off );
+        } else {
+            furn_set( p, furn_f_vending_c_off );
+        }
     } else {
-        // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
-        // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
-        if( lootable &&
-            !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
-            furn_set( p, furn_f_vending_o );
-            for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
-                if( one_in( 4 ) ) {
-                    spawn_item( loc, "glass_shard", rng( 1, 25 ) );
-                }
-            }
+        if( reinforced ) {
+            furn_set( p, furn_f_vending_reinforced );
         } else {
             furn_set( p, furn_f_vending_c );
-            place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
         }
+    }
+    // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
+    // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
+    if( lootable &&
+        !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
+        bash( p.raw(), 9999 );
+        for( const tripoint &loc : points_in_radius( p.raw(), 1 ) ) {
+            if( one_in( 4 ) ) {
+                spawn_item( loc, "glass_shard", rng( 1, 25 ) );
+            }
+        }
+    } else {
+        place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     }
 }
 

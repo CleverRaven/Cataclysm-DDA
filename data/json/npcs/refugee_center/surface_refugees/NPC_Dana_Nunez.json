@@ -208,13 +208,13 @@
     "id": [
       "TALK_REFUGEE_Dana_Background_baking",
       "TALK_TACOMA_Dana_Baking",
-      "TALK_REFUGEE_Dana_Background_baking_nobarter",
+      "TALK_REFUGEE_Dana_Background_baking2_nobarter",
       "TALK_REFUGEE_Dana_Background_baking2_yesbarter"
     ],
     "responses": [
       {
         "//": "Regular sourdough, trade flour, regular price",
-        "text": "That sounds like a great deal, here's some flour for you.",
+        "text": "[8 flour] That sounds like a great deal, here's some flour for you.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
@@ -242,16 +242,17 @@
       },
       {
         "//": "Regular sourdough, trade flour, barter price",
-        "text": "Thanks for cutting me a deal, here's the six cups of flour.",
+        "text": "[6 flour] Thanks for cutting me a deal, here's the six cups of flour.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "dana_baking_sold" } },
+            { "npc_has_effect": "dana_barter_success" },
             { "u_has_items": { "item": "flour", "count": 6 } },
             { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
           ]
         },
-        "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_spawn_item": "sourdough_bread" } ]
+        "effect": [ { "u_sell_item": "flour", "count": 6 }, { "u_spawn_item": "sourdough_bread" } ]
       },
       {
         "//": "Regular sourdough, trade merch, barter price",
@@ -269,17 +270,17 @@
       },
       {
         "//": "Special sourdough, trade flour, regular price",
-        "text": "That sounds like a great deal, here's some flour for you.",
+        "text": "[8 flour] That sounds like a great deal, here's some flour for you.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "dana_baking_sold" } },
             { "not": { "npc_has_effect": "dana_barter_success" } },
             { "u_has_items": { "item": "flour", "count": 8 } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
           ]
         },
-        "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_spawn_item": "sourdough_bread" } ]
+        "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
       },
       {
         "//": "Special sourdough, trade merch, regular price",
@@ -288,24 +289,26 @@
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "dana_baking_sold" } },
+            { "not": { "npc_has_effect": "dana_barter_success" } },
             { "u_has_items": { "item": "FMCNote", "count": 2 } },
-            { "not": { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" } }
+            { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 2 }, { "u_spawn_item": "sourdough_bread" } ]
+        "effect": [ { "u_sell_item": "FMCNote", "count": 2 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
       },
       {
         "//": "Special sourdough, trade flour, barter price",
-        "text": "Thanks for cutting me a deal, here's the six cups of flour.",
+        "text": "[6 flour] Thanks for cutting me a deal, here's the six cups of flour.",
         "topic": "TALK_REFUGEE_Dana_Background_baking2",
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "dana_baking_sold" } },
+            { "npc_has_effect": "dana_barter_success" },
             { "u_has_items": { "item": "flour", "count": 6 } },
             { "u_has_var": "mission_flag_Dana_Sourdough", "value": "yes" }
           ]
         },
-        "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
+        "effect": [ { "u_sell_item": "flour", "count": 6 }, { "u_spawn_item": "Dana_sourdough_bread" } ]
       },
       {
         "//": "Special sourdough, trade merch, barter price",
@@ -349,8 +352,14 @@
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 20 },
-        "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
-        "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
+        "failure": {
+          "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter",
+          "effect": { "npc_add_effect": "dana_barter_fail", "duration": "24 h" }
+        },
+        "success": {
+          "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter",
+          "effect": { "npc_add_effect": "dana_barter_success", "duration": "24 h" }
+        }
       },
       {
         "text": "[BARTER] Aw, c'mon.  I rescued Landough, can't you cut me a little deal?",
@@ -363,8 +372,14 @@
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 5 },
-        "failure": { "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter" },
-        "success": { "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter" }
+        "failure": {
+          "topic": "TALK_REFUGEE_Dana_Background_baking2_nobarter",
+          "effect": { "npc_add_effect": "dana_barter_fail", "duration": "24 h" }
+        },
+        "success": {
+          "topic": "TALK_REFUGEE_Dana_Background_baking2_yesbarter",
+          "effect": { "npc_add_effect": "dana_barter_success", "duration": "24 h" }
+        }
       }
     ]
   },
@@ -381,14 +396,12 @@
     "id": "TALK_REFUGEE_Dana_Background_baking2_nobarter",
     "dynamic_line": "Sorry, it's not something I can bend on.  I don't make a big profit off this, I use what I get to make more bread.  If I cut you a deal, I'll run out of supplies.",
     "//": "see above for responses to buy bread at original price.",
-    "speaker_effect": { "effect": { "npc_add_effect": "dana_barter_fail", "duration": "24 h" } },
     "responses": [ { "text": "Thanks, but I think I'll pass.  I gotta run.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_baking2_yesbarter",
     "dynamic_line": "Oh, fine.  Six cups of flour, or one merch.  I'm not going any lower, I got a business to run here.",
-    "speaker_effect": { "effect": { "npc_add_effect": "dana_barter_success", "duration": "24 h" } },
     "responses": [
       { "text": "You know, I think I changed my mind.  Can we talk about something else?", "topic": "TALK_REFUGEE_Dana_1" },
       { "text": "I guess I'm outta here then.", "topic": "TALK_DONE" }
@@ -530,7 +543,7 @@
     "value": 1000,
     "item": "landough_calrisean",
     "start": {
-      "assign_mission_target": { "om_terrain": "bakery", "reveal_radius": 1, "random": true, "search_range": 120 },
+      "assign_mission_target": { "om_terrain": "bakery", "reveal_radius": 1, "random": true, "search_range": 800 },
       "update_mapgen": { "place_item": [ { "item": "landough_calrisean", "x": 5, "y": 16 } ] },
       "effect": { "u_add_var": "mission_flag_Dana_Sourdough", "value": "in_progress" }
     },

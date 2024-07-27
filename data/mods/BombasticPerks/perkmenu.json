@@ -175,6 +175,72 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_mighty_thews" } },
+        "text": "Gain [<trait_name:perk_mighty_thews>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_mighty_thews>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_mighty_thews>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_mighty_thews", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires strength 13",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('strength_base') + u_val('strength_bonus')", ">=", "13" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_pantherish_grace" } },
+        "text": "Gain [<trait_name:perk_pantherish_grace>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_mighty_thews>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_pantherish_grace>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_pantherish_grace", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires dexerity 13",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus')", ">=", "13" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_eagle_eyes" } },
+        "text": "Gain [<trait_name:perk_eagle_eyes>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_eagle_eyes>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_eagle_eyes>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_eagle_eyes", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires preception 13",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus')", ">=", "13" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_holdout_pocket" } },
         "text": "Gain [<trait_name:perk_holdout_pocket>]",
         "effect": [
@@ -1229,6 +1295,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_moonstruck", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_rage_against_unnatural" } },
+        "text": "Gain [<trait_name:perk_rage_against_unnatural>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_rage_against_unnatural>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_rage_against_unnatural>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_rage_against_unnatural", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "No Requirements",
             "target_var": { "context_val": "trait_requirement_description" },

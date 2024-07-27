@@ -131,6 +131,10 @@ Food can inherit the allergens of materials it was cooked from
 Add conjunctivitis from boomer bile
 Event Bus for Radiation
 Species Based Snare traps
+Add TEMPORARY_SHAPESHIFT flag, use it to recalculate size before standard size flags
+sunset/sunrise appreciation
+Add ITEM_WATERPROOFING flag, add to Magiclysm/XE content
+Make salvaged combat exoskeletons repairable
 
 
 ## Content:
@@ -290,6 +294,9 @@ Bakery contains flour now, plus overhaul and improvements
 Expands the regenerating zombie into it's own line
 Adds a new set of twisted geometry artifacts, found where geometry itself is twisted due to the acts of humans and worse.
 Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
+Adds a home canning hobby/background to character creation
+Mute very divergent mouth mutations
+Added apiary overmap tile to farm generation
 
 
 ## Interface:
@@ -363,6 +370,7 @@ Adds message for NPCs completing crafting so it doesn't reference the player inc
 Add the 12-bit rainbow as color palette option
 NPC follower rules can now be viewed and modified in a dedicated, mouse-supported window (imgui)
 Prevent automatically assigning keys to passive bionics
+Zone Manager: "Show All / Hide Distant" highlights selection
 
 
 ## Mods:
@@ -552,6 +560,18 @@ Aftershock Lore documents
 Aftershock: Add a tool and gadget trader to Port Augustmoon.
 [MoM] Add gremlin, a Nether-touched fox, plus small monster tweaks
 [MoM] Randomize monster power cooldowns
+[Xedra Evolved] Add check for Salamander being near fire, not just in it
+[MoM] You can't contemplate powers if you're too weary
+[Magiclysm] Add Shifter druid profession + wildshifts
+[Magiclysm] Add Iron Intolerance starting trait
+[MoM] Add Sensor Jamming Photokinetic power
+[Xedra Evolved] Add Iron Intolerance starting trait
+[XE/Magiclysm] Update Giant Growth with new `TEMPORARY_SHAPESHIFT` flag
+[Magiclysm] Diviner can send you to druid tower
+[Isolation Protocol] Autodoc safe room variant
+[Magiclysm] Add mana trait NPC trait groups
+[Xedra Evolved] Add Skinchanger profession + hedge magic spell
+Add more quests to Boann and the possibility to leave the world
 
 
 ## Balance:
@@ -633,6 +653,8 @@ Display ordered NPC path on map, NPCs refuse to go to dangerous locations
 Reduce Anthill Spawns
 Science item group no longer littered with personal prescriptions
 more monster balance documentation
+update Hub 01 armor repair fees and timeframes
+Add Wound Care proficiency for Park Rangers
 
 
 ## Bugfixes:
@@ -838,6 +860,10 @@ Limit shot targets to the reality bubble
 Remove acid bombs
 gate close displacement bugfix
 Actually removes acid bomb
+Prevent the unique Isherwood Migo Tower from Spawning in Innawoods.
+[Bombastic Perks] Make perks unpurifiable
+bugfixes related to burning buildings
+Civilianize Semi Auto MP40
 
 
 ## Performance:
@@ -953,6 +979,7 @@ Update Flatpak manifest to use clang and include the default soundpack
 stl_emulation span::count_ is not const anymore
 No longer build object creator in CI nor include it in releases
 Add PDCurses to Windows
+Fixed linux experimental build automation issues caused by SDL dependencies
 
 
 ## I18N and A11Y:
