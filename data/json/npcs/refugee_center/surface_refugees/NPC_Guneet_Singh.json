@@ -131,13 +131,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_2",
-    "dynamic_line": "\"What's up?\"  He stares at you for a moment.  \"What a weird question.  The world ended.  That's what's up.  What am I supposed to answer to that one?\"",
+    "dynamic_line": "What's up?\"  He stares at you for a moment.  \"What a weird question.  The world ended.  That's what's up.  What am I supposed to answer to that one?",
     "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Background",
-    "dynamic_line": "\"I was in high school, you know.\"  Gunny jabs his thumb at his shirt, which reads 'Alexander Bullock High'.  \"Most of the way through my junior year.  'My story'?  I got on a bus with my parents, the bus crashed, and everyone died except a few people, most of whom are crammed into this little shelter now.  Who knows when we're getting out.\"",
+    "dynamic_line": "I was in high school, you know.\"  Gunny jabs his thumb at his shirt, which reads 'Alexander Bullock High'.  \"Most of the way through my junior year.  'My story'?  I got on a bus with my parents, the bus crashed, and everyone died except a few people, most of whom are crammed into this little shelter now.  Who knows when we're getting out.",
     "responses": [
       { "text": "Your family all made it here?", "topic": "TALK_REFUGEE_Guneet_Family" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -147,7 +147,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Family",
-    "dynamic_line": "\"Yeah, we did.\"  He gestures to a turbaned older man, speaking quietly with a small woman a little way away.  \"Seems like it should be a great thing, right?  It is.  We're super lucky.  But I can't help feel like people blame us for it.  I keep wondering, y'know, 'why us'.  What makes me so special?  And how can I even enjoy this, when everyone around me is hurting so bad?\"",
+    "dynamic_line": "Yeah, we did.\"  He gestures to a turbaned older man, speaking quietly with a small woman a little way away.  \"Seems like it should be a great thing, right?  It is.  We're super lucky.  But I can't help feel like people blame us for it.  I keep wondering, y'know, 'why us'.  What makes me so special?  And how can I even enjoy this, when everyone around me is hurting so bad?",
     "responses": [
       { "text": "Is there something you could do to help the others?", "topic": "TALK_REFUGEE_Guneet_Help" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
