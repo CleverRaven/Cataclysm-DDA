@@ -306,8 +306,8 @@
     "diff": 2,
     "volume": "625 L",
     "weight": "815 kg",
-    "hp": 400,
-    "speed": 50,
+    "hp": 800,
+    "speed": 100,
     "material": [ "iflesh" ],
     "symbol": "y",
     "color": "blue",
@@ -338,7 +338,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_heal", "min_level": 5 },
         "allow_no_target": true,
-        "cooldown": 10,
+        "cooldown": 5,
         "monster_message": "%1$s shivers as its wounds close."
       },
       {
@@ -346,7 +346,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_speed", "min_level": 5 },
         "allow_no_target": true,
-        "cooldown": 15,
+        "cooldown": 14,
         "monster_message": "%1$s buzzes loudly as its speed increases."
       },
       {
@@ -354,24 +354,24 @@
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_armor", "min_level": 5 },
         "allow_no_target": true,
-        "cooldown": 20,
+        "cooldown": 15,
         "monster_message": "%1$s's shell hardens as you prepare to attack it."
       },
       {
         "id": "mon_dream_drainer_spear",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_spear", "min_level": 5 },
-        "cooldown": 10,
+        "cooldown": 6,
         "monster_message": "%1$s points its proboscis at you, and a projectile bursts from it!"
       },
       {
         "id": "mon_dream_drainer_bash",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_bash", "min_level": 5 },
-        "cooldown": 20,
+        "cooldown": 10,
         "monster_message": "%1$s hits you with one of its legs with tremendous force."
       },
-      { "type": "leap", "cooldown": 10, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 }
+      { "type": "leap", "cooldown": 4, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 }
     ]
   },
   {
