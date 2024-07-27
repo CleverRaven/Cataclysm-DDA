@@ -100,7 +100,6 @@ static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
 static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
 
-static const furn_str_id furn_f_vending_o( "f_vending_o" );
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
 
