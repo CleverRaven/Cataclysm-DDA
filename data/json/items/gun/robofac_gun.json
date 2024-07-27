@@ -373,7 +373,7 @@
     "location": "bore",
     "mod_targets": [ "robofac_gun" ],
     "name": { "str_sp": "HWP EXOTIC configuration" },
-    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "123ln" ],
     "min_skills": [ [ "weapon", 1 ] ],
