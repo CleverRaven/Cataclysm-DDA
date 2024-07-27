@@ -716,6 +716,7 @@
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
+    "//": "When weariness can be modified through Json, see if this mutation should make the player immune to it.",
     "enchantments": [
       {
         "values": [
