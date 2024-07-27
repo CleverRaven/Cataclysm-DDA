@@ -66,7 +66,33 @@
         "difficulty": { "ranged": 3 },
         "damage_mult": { "physical": 1.75 },
         "coverage_mult": { "melee": 0 },
-        "coverage": 7
+        "coverage": 7,
+        "effects": [
+          {
+            "effect": "bleed",
+            "intensity": [ 10, 15 ],
+            "duration": [ 10, 20 ],
+            "chance": 75,
+            "message": "The %s is shot in the lungs!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "bleed",
+            "intensity": [ 20, 30 ],
+            "duration": [ 20, 30 ],
+            "chance": 85,
+            "message": "The %s is shot in the lungs!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "bleed",
+            "intensity": [ 30, 40 ],
+            "duration": [ 30, 40 ],
+            "chance": 95,
+            "message": "The %s is shot in the lungs!",
+                        "damage_required": [ 51, 100 ]
+          }
+        ]
       },
       {
         "name": "the leg",
