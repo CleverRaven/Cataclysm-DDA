@@ -95,10 +95,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ABYSSAL_HUNGER_GRANT_SHARD",
     "condition": { "math": [ "abyssal_hunger_level", "!=", "0" ] },
-    "effect": [
-      { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" },
-      { "u_spawn_item": "abyssal_hunger_shard" }
-    ]
+    "effect": [ { "run_eocs": "EOC_ABYSSAL_HUNGER_EXIT" }, { "u_spawn_item": "abyssal_hunger_shard" } ]
   },
   {
     "type": "effect_on_condition",
