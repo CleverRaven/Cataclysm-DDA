@@ -117,13 +117,6 @@
         "if": { "math": [ "u_vitamin('dermatik_larva_size')", "==", "1440" ] },
         "then": [
           { "if": { "u_has_effect": "sleep" }, "then": { "u_lose_effect": "sleep" } },
-          {
-            "u_add_morale": "morale_gave_birth",
-            "bonus": -20,
-            "max_bonus": -40,
-            "duration": "12 h",
-            "decay_start": "6 h"
-          },
           { "math": [ "NUM_LARVA", "=", "u_val('size')" ] },
           {
             "u_message": "<global_val:NUM_LARVA> dermatik larvae bursts out of the bulge of flesh on your <global_val:IMPREGNATED_BODYPART>!",
