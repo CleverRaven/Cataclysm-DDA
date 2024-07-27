@@ -2938,7 +2938,7 @@
     ],
     "base_mods": {
       "hunger_min": [ 1 ],
-      "hunger_tick": [ 30 ],
+      "hunger_tick": [ 20 ],
       "thirst_min": [ 1 ],
       "thirst_tick": [ 300 ],
       "sleepiness_min": [ 1 ],
@@ -2947,6 +2947,7 @@
       "h_mod_tick": [ 300 ],
       "healing_rate": [ 0.05 ]
     },
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 3.0 } ] } ],
     "immune_flags": [ "ACIDBLOOD", "PARAIMMUNE" ]
   },
   {
