@@ -415,6 +415,7 @@ void DynamicDataLoader::initialize()
     add( "oter_id_migration", &overmap::load_oter_id_migration );
     add( "camp_migration", &overmap::load_oter_id_camp_migration );
     add( "overmap_terrain", &overmap_terrains::load );
+    add( "oter_vision", &oter_vision::load_oter_vision );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
     add( "construction", &load_construction );
@@ -613,6 +614,7 @@ void DynamicDataLoader::unload_data()
     overmap_connections::reset();
     overmap_land_use_codes::reset();
     overmap_locations::reset();
+    oter_vision::reset();
     city::reset();
     overmap_specials::reset();
     overmap_special_migration::reset();
@@ -843,6 +845,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
+            { _( "Overmap terrain vision" ), &oter_vision::check_oter_vision },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Cities" ), &city::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },

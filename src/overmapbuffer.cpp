@@ -1515,6 +1515,12 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
     om_vision_level vision = seen( project_to<coords::omt>( where ) );
     nc_color ter_color = oter->get_color( vision );
     std::string ter_name = colorize( oter->get_name( vision ), ter_color );
+    if( oter->blends_adjacent( vision ) ) {
+        oter_vision::blended_omt blended = oter_vision::get_blended_omt_info(
+                                               project_to<coords::omt>( where ), vision );
+        ter_color = blended.color;
+        ter_name = colorize( blended.name, ter_color );
+    }
 
     if( where.z() != 0 ) {
         return ter_name;

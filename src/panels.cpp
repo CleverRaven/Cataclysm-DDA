@@ -171,7 +171,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     const int start_x = start_input.x;
     const point mid( width / 2, height / 2 );
     map &here = get_map();
-    const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
+    const int sight_points = you.overmap_modified_sight_range( g->light_level( you.posz() ) );
 
     oter_display_options opts( global_omt, sight_points );
     if( targ != overmap::invalid_tripoint ) {

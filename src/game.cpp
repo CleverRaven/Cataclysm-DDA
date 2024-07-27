@@ -12479,7 +12479,8 @@ point game::update_map( int &x, int &y, bool z_level_changed )
 void game::update_overmap_seen()
 {
     const tripoint_abs_omt ompos = u.global_omt_location();
-    const int dist = u.overmap_sight_range( light_level( u.posz() ) );
+    const int dist = u.overmap_modified_sight_range( light_level( u.posz() ) );
+    const int base_sight = u.overmap_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, om_vision_level::full );
@@ -12505,12 +12506,22 @@ void game::update_overmap_seen()
             const oter_id &ter = overmap_buffer.ter( *it );
             sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
         }
-        if( sight_points >= 0 ) {
+        const auto set_seen = []( const tripoint_abs_omt & p, om_vision_level level ) {
             tripoint_abs_omt seen( p );
             do {
-                overmap_buffer.set_seen( seen, om_vision_level::full );
+                overmap_buffer.set_seen( seen, level );
                 --seen.z();
             } while( seen.z() >= 0 );
+        };
+        int tiles_from = rl_dist( p, ompos );
+        if( tiles_from < std::floor( base_sight / 2 ) ) {
+            set_seen( p, om_vision_level::full );
+        } else if( tiles_from < base_sight ) {
+            set_seen( p, om_vision_level::details );
+        } else if( tiles_from < base_sight * 2 ) {
+            set_seen( p, om_vision_level::outlines );
+        } else {
+            set_seen( p, om_vision_level::vague );
         }
     }
 }

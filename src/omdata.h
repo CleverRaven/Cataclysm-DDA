@@ -250,6 +250,49 @@ struct enum_traits<oter_travel_cost_type> {
     static constexpr oter_travel_cost_type last = oter_travel_cost_type::last;
 };
 
+class oter_vision
+{
+    public:
+        struct blended_omt {
+            oter_id id;
+            std::string sym;
+            nc_color color;
+            std::string name;
+        };
+
+        struct level {
+            translation name;
+            uint32_t symbol = 0;
+            nc_color color = c_black;
+            std::string looks_like;
+            bool blends_adjacent;
+
+            void deserialize( const JsonObject &jo );
+        };
+        const level *viewed( om_vision_level ) const;
+
+        static void load_oter_vision( const JsonObject &jo, const std::string &src );
+        static void reset();
+        static void check_oter_vision();
+        static const std::vector<oter_vision> &get_all();
+
+        oter_vision_id get_id() const;
+
+        void load( const JsonObject &jo, std::string_view src );
+        void check() const;
+
+        static blended_omt get_blended_omt_info( const tripoint_abs_omt &omp, om_vision_level vision );
+
+    private:
+        friend class generic_factory<oter_vision>;
+        friend struct mod_tracker;
+        oter_vision_id id;
+        std::vector<std::pair<oter_vision_id, mod_id>> src;
+        bool was_loaded = false;
+
+        std::vector<level> levels;
+};
+
 struct oter_type_t {
     public:
         static const oter_type_t null_type;
@@ -274,6 +317,8 @@ struct oter_type_t {
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
+
+        oter_vision_id vision_levels;
 
         std::string get_symbol() const;
 
@@ -347,10 +392,14 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
+        bool blends_adjacent( om_vision_level vision ) const;
+
         std::string get_name( om_vision_level ) const;
         std::string get_symbol( om_vision_level, bool from_land_use_code = false ) const;
         uint32_t get_uint32_symbol() const;
         nc_color get_color( om_vision_level, bool from_land_use_code = false ) const;
+
+        std::string get_tileset_id( om_vision_level vision ) const;
 
         // dir is only meaningful for rotatable, non-linear terrain.  If you
         // need an answer that also works for linear terrain, call

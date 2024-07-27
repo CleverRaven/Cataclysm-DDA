@@ -65,6 +65,7 @@ enum class TILE_CATEGORY {
     HIT_ENTITY,
     WEATHER,
     OVERMAP_TERRAIN,
+    OVERMAP_VISION_LEVEL,
     OVERMAP_WEATHER,
     MAP_EXTRA,
     OVERMAP_NOTE,
@@ -85,6 +86,7 @@ const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"hit_entity", TILE_CATEGORY::HIT_ENTITY},
     {"weather", TILE_CATEGORY::WEATHER},
     {"overmap_terrain", TILE_CATEGORY::OVERMAP_TERRAIN},
+    {"overmap_vision_level", TILE_CATEGORY::OVERMAP_VISION_LEVEL},
     {"overmap_weather", TILE_CATEGORY::OVERMAP_WEATHER},
     {"map_extra", TILE_CATEGORY::MAP_EXTRA},
     {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
@@ -716,8 +718,8 @@ class cata_tiles
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
-        std::string get_omt_id_rotation_and_subtile(
-            const tripoint_abs_omt &omp, int &rota, int &subtile );
+        std::pair<std::string, bool> get_omt_id_rotation_and_subtile( const tripoint_abs_omt &omp,
+                int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report_map( const maptype &tiletypemap, TILE_CATEGORY category,
