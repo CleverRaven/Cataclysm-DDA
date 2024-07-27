@@ -361,12 +361,7 @@
     "min_range": 5,
     "max_range": 5,
     "//": "this list is intended to contain all monsters that can be described as a mosquito.",
-    "targeted_monster_ids": [
-      "mon_mosquito_small",
-      "mon_mosquito_giant",
-      "mon_mosquito_mega",
-      "mon_mosquito_larva"
-    ]
+    "targeted_monster_ids": [ "mon_mosquito_small", "mon_mosquito_giant", "mon_mosquito_mega", "mon_mosquito_larva" ]
   },
   {
     "id": "dream_drainer_maker_real",
