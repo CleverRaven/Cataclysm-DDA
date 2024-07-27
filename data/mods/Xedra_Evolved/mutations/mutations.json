@@ -710,7 +710,7 @@
     "id": "BLOOD_DRINKER",
     "name": { "str": "Fully fueled by the Blood" },
     "points": 0,
-    "description": "You have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
+    "description": "By reaching the final stage of vampirism, you have freed yourself from your mundane needs.  The only sustenance you need now is blood.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

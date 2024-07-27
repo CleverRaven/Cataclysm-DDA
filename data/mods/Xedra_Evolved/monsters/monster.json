@@ -323,7 +323,6 @@
     "flags": [
       "SEES",
       "SMELLS",
-      "STUMBLES",
       "FLIES",
       "HIT_AND_RUN",
       "PATH_AVOID_FIRE",
@@ -347,7 +346,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_speed", "min_level": 5 },
         "allow_no_target": true,
-        "cooldown": 30,
+        "cooldown": 15,
         "monster_message": "%1$s buzzes loudly as its speed increases."
       },
       {
@@ -355,7 +354,7 @@
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_armor", "min_level": 5 },
         "allow_no_target": true,
-        "cooldown": 30,
+        "cooldown": 20,
         "monster_message": "%1$s's shell hardens as you prepare to attack it."
       },
       {
@@ -369,7 +368,7 @@
         "id": "mon_dream_drainer_bash",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_bash", "min_level": 5 },
-        "cooldown": 50,
+        "cooldown": 20,
         "monster_message": "%1$s hits you with one of its legs with tremendous force."
       },
       { "type": "leap", "cooldown": 10, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 }
@@ -379,7 +378,7 @@
     "id": "mon_luna_attuned_revenant",
     "type": "MONSTER",
     "name": { "str": "Luna-Attuned Revenant" },
-    "description": "Nearly seven feet tall and whip thin, this grotesque mockery of a March Lord is wrapped in fiery moonlight.  Its eyes stare at you as the heart you granted it pulses with power.",
+    "description": "Nearly seven feet tall and whip thin, this grotesque mockery of a March Lord is wrapped in fiery moonlight.  Moonlight courses its veins as the heart you granted it pulses with power.  Its face is struck in a grimace of pain and its eyes shine with endless hatred directed at you, the one responsible for its current state of agony.",
     "default_faction": "changeling",
     "bodytype": "human",
     "species": [ "ZOMBIE" ],
@@ -416,22 +415,27 @@
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
+      "ALL_SEEING",
       "SUNDEATH"
     ],
     "special_attacks": [
+      {
+        "id": "smash",
+        "throw_strength": 96,
+        "condition": "u_is_outside"
+      },
       {
         "id": "mon_luna_attuned_revenant_spear",
         "type": "spell",
         "spell_data": { "id": "mon_dream_drainer_spear", "min_level": 5 },
         "condition": "u_is_outside",
-        "cooldown": 30,
+        "cooldown": 20,
         "monster_message": "%1$s points a finger at you, and a projectile suddenly appears from it!"
       },
       {
         "id": "mon_luna_attuned_revenant_beam",
         "type": "spell",
-        "spell_data": { "id": "mon_luna_attuned_revenant_beam" },
-        "allow_no_target": true,
+        "spell_data": { "id": "mon_luna_attuned_revenant_beam", "min_level": 1 },
         "condition": "u_is_outside",
         "cooldown": 30,
         "monster_message": "A ray of moonlight bursts from %1$s!"
@@ -439,7 +443,7 @@
       {
         "type": "spell",
         "id": "mon_luna_attuned_revenant_moon_withdrawal",
-        "spell_data": { "id": "mon_luna_attuned_revenant_moon_withdrawal", "hit_self": true },
+        "spell_data": { "id": "mon_luna_attuned_revenant_moon_withdrawal", "min_level": 1, "hit_self": true },
       "allow_no_target": true,
       "condition": { "not": "u_is_outside" },
       "monster_message": "Without the moonlight shining on it, %1$s is weakened!",
@@ -447,14 +451,13 @@
     },
     {
       "type": "spell",
-      "id": "mon_luna_attuned_revenant_beam",
-      "spell_data": { "id": "mon_luna_attuned_revenant_beam" },
-    "allow_no_target": true,
+      "id": "mon_luna_attuned_revenant_lash_out",
+      "spell_data": { "id": "mon_luna_attuned_revenant_lash_out", "min_level": 1 },
     "condition": { "not": "u_is_outside" },
     "monster_message": "%1$s lashes out as it attempts to be exposed to the moonlight again!",
     "cooldown": 5
   }
-    ]
+]
     
   },
   {

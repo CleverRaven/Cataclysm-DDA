@@ -1932,12 +1932,19 @@
   {
     "id": "effect_moon_withdrawal",
     "type": "effect_type",
-    "max_duration": "5 s",
+    "max_duration": "11 s",
     "name": [ "Moon-starved" ],
-    "base_mods": { "speed_mod": [ -100 ] },
     "desc": [ "Weakens the Luna-attuned revenant if they are out of the moonlight.  This is a bug if you have it." ],
     "rating": "bad",
     "show_intensity": false,
-    "show_in_info": true
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "add": -130 }
+        ]
+      }
+    ]
   }
 ]

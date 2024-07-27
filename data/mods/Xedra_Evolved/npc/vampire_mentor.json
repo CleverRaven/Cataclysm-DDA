@@ -151,6 +151,11 @@
         "condition": { "not": { "u_has_effect": "vampire_virus" } },
         "topic": "TALK_VAMPIRE_MENTOR_BECOME_VAMPIRE"
       },
+      {
+        "text": "You already made made me as strong as a vampire can be.  See you.",
+        "condition": { "u_has_trait": "BLOOD_DRINKER" },
+        "topic": "TALK_DONE"
+      },
       { "text": "Maybe later.  Bye.", "topic": "TALK_DONE" }
     ]
   },

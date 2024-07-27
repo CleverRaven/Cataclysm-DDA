@@ -30,7 +30,7 @@
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] }, { "math": [ "u_vitamin('drank_fae_blood')", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] }, { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -1222,39 +1222,81 @@
     "type": "effect_on_condition",
     "id": "eoc_vampire_blood_to_kcal",
     "//": "Check if the vampire is underweight or lower for their size category.  If yes, consume some blood to increase their calories.  Conversion rate of 1 blood vitamin to 5 calories, in 500 calories chunks.",
-    "recurrence": [ "1 h", "1 h" ],
+    "//2": "95000 Kcal is within the normal range for a medium-sized character for both short and tall.  This value is then multiplied or divided to account for the player's size category.  The following EOCs are listed according to the code's check order.",
+    "recurrence": [ "50 m", "70 m" ],
     "condition": { "u_has_trait": "BLOOD_DRINKER" },
     "deactivate_condition": { "not": { "u_has_trait": "BLOOD_DRINKER" } },
-    "effect": [ {
-      "run_eocs": {
-        "id": "eoc_vampire_blood_to_kcal_check_convert",
-        "//": "100000 Kcal is within the normal range for a medium-sized character",
-        "effect": [ 
-          { "math": [ "u_calories_needed", "=", "100000" ] },
-          { "math": [ "u_size", "=", "u_val('size')" ] },
+      "effect": [
+        { "math": [ "u_calories_needed", "=", "95000" ] },
+          { "run_eocs": [
+            {
+              "id": "eoc_vampire_blood_to_kcal_check_size_tiny",
+              "condition": { "u_has_flag": "TINY" },
+              "effect": [
+                { "math": [ "u_calories_needed", "/=", "8" ] },
+                { "run_eocs": "eoc_vampire_blood_to_kcal_convert" }
+              ],
+              "false_effect": [
+                {
+                  "run_eocs": [ "eoc_vampire_blood_to_kcal_check_size_small" ]
+                }
+              ]
+        }
+      ]
+
+    }
+  ]
+},
+{
+  "type": "effect_on_condition",
+  "id": "eoc_vampire_blood_to_kcal_check_size_small",
+  "condition": { "u_has_flag": "SMALL" },
+    "effect": [
+      { "math": [ "u_calories_needed", "/=", "3" ] },
+      { "run_eocs": "eoc_vampire_blood_to_kcal_convert" }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [ "eoc_vampire_blood_to_kcal_check_size_large" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vampire_blood_to_kcal_check_size_large",
+    "condition": { "u_has_flag": "LARGE" },
+      "effect": [
+        { "math": [ "u_calories_needed", "*=", "1.5" ] },
+        { "run_eocs": "eoc_vampire_blood_to_kcal_convert" }
+      ],
+      "false_effect": [
+        {
+          "run_eocs": [ "eoc_vampire_blood_to_kcal_check_size_huge" ]
+        }
+      ]
+    },
+    {
+      "type": "effect_on_condition",
+      "id": "eoc_vampire_blood_to_kcal_check_size_huge",
+      "condition": { "u_has_flag": "HUGE" },
+        "effect": [
+          { "math": [ "u_calories_needed", "*=", "2" ] },
+          { "run_eocs": "eoc_vampire_blood_to_kcal_convert" }
+        ],
+        "false_effect": [
           {
-            "switch": { "math": [ "u_size" ] },
-            "cases": [
-              { "case": 1, "effect": [ { "math": [ "u_calories_needed", "/=", "4" ] } ] },
-              { "case": 2, "effect": [ { "math": [ "u_calories_needed", "/=", "2" ] } ] },
-              { "case": 3, "effect": [  ] },
-              { "case": 4, "effect": [ { "math": [ "u_calories_needed", "*=", "1.5" ] } ] },
-              { "case": 5, "effect": [ { "math": [ "u_calories_needed", "*=", "3" ] } ] }
-            ]
-          },
-          { "run_eocs":{
-            "id": "eoc_vampire_blood_to_kcal_convert",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "0" ] },
-            "effect": [ 
+            "run_eocs": [ "eoc_vampire_blood_to_kcal_convert" ]
+          }
+        ]
+      },
+      {
+        "type": "effect_on_condition",
+        "id": "eoc_vampire_blood_to_kcal_convert",
+        "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin')", ">", "500" ] }, { "math": [ "u_calories()", "<", "u_calories_needed" ] } ] },
+          "effect": [
             { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
             { "math": [ "u_calories()", "+=", "500" ] },
             { "u_message": "Some of your stolen blood is consumed by your body, making it a little less gaunt.", "type": "good" }
-          ] 
-          }
+          ]
         }
-        ]
-      }
-    }
-]
-}
 ]
