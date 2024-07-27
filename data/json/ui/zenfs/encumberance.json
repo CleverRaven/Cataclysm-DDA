@@ -20,7 +20,7 @@
     "symbols": "·−=≡≣",
     "fill": "bucket",
     "colors": [ "c_green", "c_light_gray", "c_yellow", "c_light_red", "c_red" ],
-    "breaks": [ 0, 10, 40, 70],
+    "breaks": [ 0, 10, 40, 70 ],
     "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
   },
   {
